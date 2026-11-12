@@ -1,0 +1,55 @@
+{
+  "status": "EXACT_AUTOMATIC_OWNING_DDL_INSTALLS_IN_POSTGRESQL_17_6",
+  "prior_first_error": "syntax error at or near \"$\" at character 6447",
+  "previous_ddl": {
+    "bytes": 18316,
+    "sha256": "35b7d6faea4cda007a8969e87abe335e795a539f8351ebb2c447d90e0a9f6d52"
+  },
+  "new_ddl": {
+    "bytes": 18318,
+    "sha256": "7b8fddbd548b9895232747a4d3ac02270facbe7e47e4c4b82c3f9a5ba6079f24"
+  },
+  "parsed_statements": 18,
+  "parsed_plpgsql": [
+    "cp7_sku_conversion.cost_accounting_root_v5",
+    "cp7_sku_conversion.cost_accounting_unit_v5",
+    "cp7_sku_conversion.automatic_enter_v5",
+    "cp7_sku_conversion.automatic_cost_root_v5",
+    "cp7_sku_conversion.automatic_cost_unit_v5",
+    "cp7_sku_conversion.automatic_assert_native_v5",
+    "cp7_sku_conversion.automatic_leave_v5"
+  ],
+  "actual_functions": {
+    "cp7_sku_conversion.automatic_valid_v5()": {
+      "definition": {
+        "bytes": 2369,
+        "sha256": "c7366933a6bcf9b70859e28fd625fbe5988b28cb49f4c5febdeef4c8e3080db8"
+      },
+      "config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "owner": "postgres",
+      "security_definer": true,
+      "application_roles_cannot_execute": true
+    },
+    "cp7_sku_conversion.automatic_enter_v5(uuid,text,uuid)": {
+      "definition": {
+        "bytes": 2741,
+        "sha256": "37c945673bcb5fc3643d6bdaf0f7f9bae58c354bcc7f077ed78bff6fc29921a9"
+      },
+      "config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "owner": "postgres",
+      "security_definer": true,
+      "application_roles_cannot_execute": true
+    }
+  },
+  "restored": true,
+  "schema_dependencies_modeled": true,
+  "check_function_bodies_disabled_on_install": true,
+  "actual_ERP_cases": 0,
+  "production_go": false
+}

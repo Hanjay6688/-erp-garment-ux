@@ -1,0 +1,74 @@
+{
+  "status": "PASS_EXACT_SUPPLIER_READERS_TWO_POSTGRESQL_SESSIONS",
+  "postgres": "17.6",
+  "cases": {
+    "original": {
+      "detail_v1": {
+        "definition": {
+          "bytes": 2004,
+          "sha256": "584cd566c7127e2d7a8238dc3a1afcac7b28f6c0b50c3ed76c70232f44f41ef0"
+        },
+        "writer_committed_while_reader_waited": true,
+        "transaction_abort_kept_before": true,
+        "read_matched_before": false,
+        "next_read_matched_reversal": true
+      },
+      "child_detail_v1": {
+        "definition": {
+          "bytes": 2408,
+          "sha256": "9af02f8f8e9793eaec73a13781f9dd14e4dc4787ebc6168133e4ee3f6f2b5345"
+        },
+        "writer_committed_while_reader_waited": true,
+        "transaction_abort_kept_before": true,
+        "read_matched_before": false,
+        "next_read_matched_reversal": true
+      },
+      "review_v1": {
+        "definition": {
+          "bytes": 1983,
+          "sha256": "c7bd52da9afddf20374b60b6526fa4249df40e7957a363ed6378d01399a01bd3"
+        },
+        "writer_committed_while_reader_waited": true,
+        "transaction_abort_kept_before": true,
+        "read_matched_before": false,
+        "next_read_matched_reversal": true
+      }
+    },
+    "stable": {
+      "detail_v1": {
+        "definition": {
+          "bytes": 2011,
+          "sha256": "13f738895362473a26f736bda709f8aedb3a717957ae04967f5a955c01ce5c19"
+        },
+        "writer_committed_while_reader_waited": true,
+        "transaction_abort_kept_before": true,
+        "read_matched_before": true,
+        "next_read_matched_reversal": true
+      },
+      "child_detail_v1": {
+        "definition": {
+          "bytes": 2415,
+          "sha256": "86373e564e8771d45d8ab0a2f00057256cf157bf567b3dd3fc10824d9f6d9174"
+        },
+        "writer_committed_while_reader_waited": true,
+        "transaction_abort_kept_before": true,
+        "read_matched_before": true,
+        "next_read_matched_reversal": true
+      },
+      "review_v1": {
+        "definition": {
+          "bytes": 1990,
+          "sha256": "e6d780a5eb351f8aedef098878d73cce7d8d72fe07233c01be24ab57b15f3ec2"
+        },
+        "writer_committed_while_reader_waited": true,
+        "transaction_abort_kept_before": true,
+        "read_matched_before": true,
+        "next_read_matched_reversal": true
+      }
+    }
+  },
+  "original_definitions_restored": true,
+  "fixture_auth_and_ap": true,
+  "actual_ERP_cases": 0,
+  "fixture_cluster_removed": true
+}

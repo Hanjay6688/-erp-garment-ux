@@ -1,0 +1,42 @@
+{
+  "head": "3f2a7748c7cfde2881b19dac853fef82e49b6885",
+  "tree": "c7c53dd3678459ad6bd18f63a9fa8d9521eca140",
+  "run_id": 43158542850,
+  "job_id": 130984047828,
+  "attempt": 1,
+  "conclusion": "failure",
+  "artifact_id": 13919701197,
+  "archive": {
+    "bytes": 1731575,
+    "sha256": "8614e42069a7a14b9e2fd3a79b08598d9d4c6207c44b5f72c0f03459d8dff1d1",
+    "members": 137
+  },
+  "all_member_crc_verified": true,
+  "first_failed_step": {
+    "name": "Run current-parent money automatic Native25 and real browser2 once with owning restoration",
+    "status": "completed",
+    "conclusion": "failure",
+    "number": 78,
+    "started_at": "2026-11-12T05:14:07Z",
+    "completed_at": "2026-11-12T05:57:29Z"
+  },
+  "first_case_error": null,
+  "main_error_pin": {
+    "bytes": 173,
+    "sha256": "39a1f3f46881a6c83b0a2f088bef8e053f1a24a74a701fbe3b088bc6bb1e0735"
+  },
+  "cleanup": true,
+  "actual_outer_restore": true,
+  "actual_worker_reaped": true,
+  "first_error": "syntax error at or near \"$\"",
+  "actual_Native_cases": 0,
+  "actual_browser_cases": 0,
+  "package": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "backup_tables": 407
+}

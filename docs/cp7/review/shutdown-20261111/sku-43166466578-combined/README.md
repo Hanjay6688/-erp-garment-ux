@@ -1,0 +1,11 @@
+# Kualifikasi SKU gabungan 12 November 2026
+
+Run 43158542850 berhenti saat memasang SQL otomatis. Arsip GitHub 13919701197 berisi error pembatas dollar quote, nol kasus Native atau browser, dan pemulihan penuh 407 tabel. PostgreSQL 17.6 mereproduksi error dari SQL hasil pembentukan yang sama. SQL penerus mempertahankan kedua pembatas, mengubah pengaturan zona waktu dua fungsi, dan berhasil dipasang serta di-rollback pada skema fixture.
+
+Kandidat `af6e5710c0a3265daeb14c8ccd078ea82c99c482` memuat pembetulan pemasang, UTC untuk penangkapan riwayat biaya non-PO, pemeriksaan akun AP supplier, dan perhitungan hash yang lebih cepat. Pemeriksaan mencocokkan seluruh 14.730 berkas induk. Run 43166466578 menjalankan 13 skenario Native dan dua browser. Dua belas skenario E4EA yang tidak terdampak dapat dibawa setelah pemeriksaan kedua arsip dan pemulihan. [Run kandidat](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/43166466578/job/131009386319)
+
+`verify_combined_sku.py` memeriksa sumber dan tiga arsip terminal sesuai identitas run. Simpan `canonical.zip`, `run.json`, `job.json` dan `artifact.json` pada direktori terpisah untuk E4EA, 3f2a dan penerus. Gunakan modul pembaca arsip yang sudah tersimpan pada paket pemeriksa SKU dan Mandor. Keluaran pada hasil sukses membawa katalog aktual, bukti 13 kasus baru, 12 bukti yang dipakai ulang, dua browser dan pemulihan.
+
+Pemeriksaan sumber Global pada salinan lokal mencocokkan 223 jalur SKU, 14.881 berkas induk dan 23 berkas milik Global. Pemeriksaan otoritas menyandingkan 209 referensi dari sumber dengan proyeksi katalog E4EA untuk tiga pengaturan fungsi. Penerimaan masukan Global masih membutuhkan katalog aktual, sensus penulis, advisori, D1/E, pemulihan, dan otorisasi runtime yang berlaku.
+
+Replay supplier memasang tiga pembaca asli dan usulan `STABLE` pada PostgreSQL 17.6 dengan dua backend. Pembaca lama melihat hasil campuran saat pembalikan di-commit. Ketiga pembaca `STABLE` melihat keadaan awal pada pembacaan yang sedang berjalan dan keadaan terbalik pada pembacaan berikutnya. Kontrol rollback tetap melihat keadaan awal. Identitas dan sumber AP berasal dari fixture. Definisi asli dipulihkan dan database fixture dihapus. Verifikasi produk OW06 tetap membutuhkan Auth dan basis gabungan yang diterima.
