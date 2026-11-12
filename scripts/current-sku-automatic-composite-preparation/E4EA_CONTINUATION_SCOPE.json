@@ -1,0 +1,417 @@
+{
+  "contract": "cp7.sku.e4ea-automatic-continuation.v1",
+  "origin": {
+    "run_id": 43132617378,
+    "job_id": 130900171009,
+    "attempt": 1,
+    "head": "e4eaaecebad1f0ba11ab1542b5df89a6423a8a1e",
+    "conclusion": "failure",
+    "artifact_id": 13914600256,
+    "bytes": 96749933,
+    "sha256": "dd9e31355a0820d1650e438a8913c49450a10dbc342789ed94f3418c1be6363b",
+    "crc_members": 212,
+    "observed_pass": 21,
+    "verified_restore": true
+  },
+  "review": {
+    "run_id": 43156499832,
+    "job_id": 130977563367,
+    "attempt": 1,
+    "head": "3190098821e24a19bb0066e19c87879976d9db90",
+    "artifact_id": 13916251862,
+    "archive_sha256": "d601c883cbb31de1ece51b720f1b5a21f746d38b8fd9deb870a97a0db9760eed"
+  },
+  "postgres_replay": {
+    "run_id": 43155004386,
+    "job_id": 130972778819,
+    "head": "90cd19d776340039e4b2989f44d7cda966c4c31e",
+    "attempt": 1,
+    "scope": "two canonical context functions only"
+  },
+  "planned_case_ids": [
+    "SKU_MOVAVG_CANONICAL_FORWARD20_MANUAL_BACK35_TOTAL130",
+    "SKU_MOVAVG_EXACT_GROUP_REVERSE_COMPONENT_AND_VALUE_INVERSE",
+    "SKU_MOVAVG_ROOT_RECOST_FOLLOWS_REMAINING_LINEAGE_TOTAL150",
+    "SKU_MOVAVG_SALE_PARTIAL_RETURN_AND_EXACT_REVERSAL",
+    "SKU_MOVAVG_RESERVATION_INCLUDED_AND_LOCATION_ISOLATED",
+    "SKU_MOVAVG_FRACTIONAL_RETURNS_INTERLEAVE_RECOST_AND_EARLIER_INVERSE",
+    "SKU_MONEY_NATIVE_LEGACY_PHYSICAL_OPENING_LATE_INVOICE_CURRENT_INVERSE",
+    "SKU_MONEY_NATIVE_LEGACY_PHYSICAL_CONVERTED_LATE_INVOICE_CURRENT_INVERSE",
+    "SKU_MONEY_NATIVE_SOLD_LATE_INVOICE_PARTIAL_RETURN_AND_BOTH_INVERSES",
+    "SKU_MONEY_NATIVE_BASE_CENT_BEFORE_OPENING_LOT_TRANSFER",
+    "SKU_MONEY_NATIVE_BASE_CENT_BEFORE_CONVERTED_LOT_TRANSFER",
+    "SKU_MONEY_NATIVE_BASE_CENT_AFTER_CONVERTED_LOT_TRANSFER",
+    "SKU_MONEY_NATIVE_RECOVERY_UNDER_PHYSICAL_FIRST_CHILD_LIMIT",
+    "SKU_MONEY_NATIVE_RECOVERY_EQUAL_PHYSICAL_FIRST_CHILD_LIMIT",
+    "SKU_MONEY_NATIVE_RECOVERY_OVER_PHYSICAL_FIRST_CHILD_LIMIT_REFUSED",
+    "SKU_MONEY_NATIVE_LEGACY_OTHER_LOT_STALE_RETURNS_REPLAY_INVERSE",
+    "SKU_MONEY_NATIVE_TWO_CHILD_CURRENT_REVISION_POST_COST_AND_INVERSE",
+    "SKU_MONEY_NATIVE_SIGNED_RECOVERY_BEFORE_OPENING_LOT_THEN_NATIVE_ZERO",
+    "SKU_MONEY_NATIVE_SIGNED_RECOVERY_BEFORE_CONVERTED_LOT_THEN_NATIVE_ZERO",
+    "SKU_AUTOMATIC_NATIVE_REWORK_PENDING_AVERAGE_REPLAY_AND_PARENT_INVERSE",
+    "SKU_AUTOMATIC_NATIVE_REDYE_UNKNOWN_AVERAGE_REPLAY_AND_PARENT_INVERSE",
+    "SKU_AUTOMATIC_NATIVE_ZERO_GOOD_PARENT_HAS_NO_CONVERSION",
+    "SKU_AUTOMATIC_NATIVE_LATE_TARGET_REFUSAL_ROLLS_BACK_PARENT_AND_CHILD",
+    "SKU_AUTOMATIC_NATIVE_REWORK_PO_LATE_INVOICE_INVERSE_AND_NO_REVIVAL",
+    "SKU_AUTOMATIC_NATIVE_REDYE_PO_LATE_INVOICE_INVERSE_AND_NO_REVIVAL"
+  ],
+  "fresh_case_ids": [
+    "SKU_AUTOMATIC_NATIVE_REWORK_PENDING_AVERAGE_REPLAY_AND_PARENT_INVERSE",
+    "SKU_AUTOMATIC_NATIVE_REDYE_UNKNOWN_AVERAGE_REPLAY_AND_PARENT_INVERSE",
+    "SKU_AUTOMATIC_NATIVE_LATE_TARGET_REFUSAL_ROLLS_BACK_PARENT_AND_CHILD",
+    "SKU_AUTOMATIC_NATIVE_REWORK_PO_LATE_INVOICE_INVERSE_AND_NO_REVIVAL",
+    "SKU_AUTOMATIC_NATIVE_REDYE_PO_LATE_INVOICE_INVERSE_AND_NO_REVIVAL"
+  ],
+  "retained_case_ids": [
+    "SKU_MOVAVG_CANONICAL_FORWARD20_MANUAL_BACK35_TOTAL130",
+    "SKU_MOVAVG_EXACT_GROUP_REVERSE_COMPONENT_AND_VALUE_INVERSE",
+    "SKU_MOVAVG_ROOT_RECOST_FOLLOWS_REMAINING_LINEAGE_TOTAL150",
+    "SKU_MOVAVG_SALE_PARTIAL_RETURN_AND_EXACT_REVERSAL",
+    "SKU_MOVAVG_RESERVATION_INCLUDED_AND_LOCATION_ISOLATED",
+    "SKU_MOVAVG_FRACTIONAL_RETURNS_INTERLEAVE_RECOST_AND_EARLIER_INVERSE",
+    "SKU_MONEY_NATIVE_LEGACY_PHYSICAL_OPENING_LATE_INVOICE_CURRENT_INVERSE",
+    "SKU_MONEY_NATIVE_LEGACY_PHYSICAL_CONVERTED_LATE_INVOICE_CURRENT_INVERSE",
+    "SKU_MONEY_NATIVE_SOLD_LATE_INVOICE_PARTIAL_RETURN_AND_BOTH_INVERSES",
+    "SKU_MONEY_NATIVE_BASE_CENT_BEFORE_OPENING_LOT_TRANSFER",
+    "SKU_MONEY_NATIVE_BASE_CENT_BEFORE_CONVERTED_LOT_TRANSFER",
+    "SKU_MONEY_NATIVE_BASE_CENT_AFTER_CONVERTED_LOT_TRANSFER",
+    "SKU_MONEY_NATIVE_RECOVERY_UNDER_PHYSICAL_FIRST_CHILD_LIMIT",
+    "SKU_MONEY_NATIVE_RECOVERY_EQUAL_PHYSICAL_FIRST_CHILD_LIMIT",
+    "SKU_MONEY_NATIVE_RECOVERY_OVER_PHYSICAL_FIRST_CHILD_LIMIT_REFUSED",
+    "SKU_MONEY_NATIVE_LEGACY_OTHER_LOT_STALE_RETURNS_REPLAY_INVERSE",
+    "SKU_MONEY_NATIVE_TWO_CHILD_CURRENT_REVISION_POST_COST_AND_INVERSE",
+    "SKU_MONEY_NATIVE_SIGNED_RECOVERY_BEFORE_OPENING_LOT_THEN_NATIVE_ZERO",
+    "SKU_MONEY_NATIVE_SIGNED_RECOVERY_BEFORE_CONVERTED_LOT_THEN_NATIVE_ZERO",
+    "SKU_AUTOMATIC_NATIVE_ZERO_GOOD_PARENT_HAS_NO_CONVERSION"
+  ],
+  "original_case_receipts": {
+    "SKU_AUTOMATIC_NATIVE_LATE_TARGET_REFUSAL_ROLLS_BACK_PARENT_AND_CHILD": {
+      "bytes": 7385,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/057bcb1b65676e23275bca6e5fd4c0aae5fcdfbaaa39e17121fd21458911d36c.jsonl",
+      "sha256": "60c49e3d75b8783aca483329d4d2204e22f752098064b31302d8ab5d6adf534c",
+      "status": "PASS"
+    },
+    "SKU_AUTOMATIC_NATIVE_REDYE_PO_LATE_INVOICE_INVERSE_AND_NO_REVIVAL": {
+      "bytes": 6372,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/2a4bc20b7f1b25861f97bd557c6538a71a040d2266f4227f42603f8c63cad581.jsonl",
+      "sha256": "65333524b70392d2d55361a2153b54a4fa82e1cd0c3ef3e84c38730b6b079608",
+      "status": "INCOMPLETE"
+    },
+    "SKU_AUTOMATIC_NATIVE_REDYE_UNKNOWN_AVERAGE_REPLAY_AND_PARENT_INVERSE": {
+      "bytes": 6357,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/299956dff235146635963710ea13882175ebb2812c36a9ffb7df35e34347aa68.jsonl",
+      "sha256": "403229a6804bb322b0e26675bd21bacd99d2d1da7573810e2e81ab717a8c5e7f",
+      "status": "INCOMPLETE"
+    },
+    "SKU_AUTOMATIC_NATIVE_REWORK_PENDING_AVERAGE_REPLAY_AND_PARENT_INVERSE": {
+      "bytes": 3956,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/cb040202872edc1b3998da82abef8e07c9e13ca1b543805ce397cd41a27ad71c.jsonl",
+      "sha256": "0cac453fe8986695fb179692e6decbd5ded88395b369e9eda8ecb5376149f37c",
+      "status": "INCOMPLETE"
+    },
+    "SKU_AUTOMATIC_NATIVE_REWORK_PO_LATE_INVOICE_INVERSE_AND_NO_REVIVAL": {
+      "bytes": 6365,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/fcd44742f2a97d0f385b56b3e22d994c3bccb3dac6dc2dd4bd609cfea01ee5da.jsonl",
+      "sha256": "3b304e8ab5e3dfb6b28ec237538f1d9a76e1588c67869b9e34f39a52ba53a500",
+      "status": "INCOMPLETE"
+    },
+    "SKU_AUTOMATIC_NATIVE_ZERO_GOOD_PARENT_HAS_NO_CONVERSION": {
+      "bytes": 3027,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/51d662f6ccc51a70c10d870b1c9565a241a80e04523e611bb06bdc4da49a016c.jsonl",
+      "sha256": "384623bce922e4496fb4df2d06d1425372d99ac9e8c09fe0978a7bf657e78002",
+      "status": "PASS"
+    },
+    "SKU_MONEY_NATIVE_BASE_CENT_AFTER_CONVERTED_LOT_TRANSFER": {
+      "bytes": 3118,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/44fb808beaab623506457297a8882d7ce4ec1a05b24b63fc80fda428187e4f5d.jsonl",
+      "sha256": "10b619a0422b0bcb6b812a24ff3fba9f699b87e54329a11c00ae5d41df97fb7c",
+      "status": "PASS"
+    },
+    "SKU_MONEY_NATIVE_BASE_CENT_BEFORE_CONVERTED_LOT_TRANSFER": {
+      "bytes": 3118,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/807b48d67226f9a30a261509b5ec76a5ec284de6915d1bd0243f7702dd92dacf.jsonl",
+      "sha256": "a5a3ae99c38622ad145d8efdeace0abe1ef656f806dfff147d0fe1bdfa22c083",
+      "status": "PASS"
+    },
+    "SKU_MONEY_NATIVE_BASE_CENT_BEFORE_OPENING_LOT_TRANSFER": {
+      "bytes": 3112,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/9ae552a4ce056c676b01b4d22ebbe505b6fbe5d54367ad023e8cfbb2bd2f43c2.jsonl",
+      "sha256": "af48a918dc9b5260702c6136a7cec3ffd732ccc1e226feda90b961c2a7730875",
+      "status": "PASS"
+    },
+    "SKU_MONEY_NATIVE_LEGACY_OTHER_LOT_STALE_RETURNS_REPLAY_INVERSE": {
+      "bytes": 4045,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/71647b05daf81e9fe3392f2d9e4d052c5b5e1b0facb27651398db7cba16a84ba.jsonl",
+      "sha256": "8b797e9f51422d12dd5b5c43fcd51db197555c4da4635ad875e25777886c91bd",
+      "status": "PASS"
+    },
+    "SKU_MONEY_NATIVE_LEGACY_PHYSICAL_CONVERTED_LATE_INVOICE_CURRENT_INVERSE": {
+      "bytes": 5271,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/1c4df0c635932bf3eb17cd5b4a25f78b5960f8880e05031777c5bedc94a4fee6.jsonl",
+      "sha256": "24d9145a22d8badebda33f4dc49036c33e80b2670bc165866c874a634d666395",
+      "status": "PASS"
+    },
+    "SKU_MONEY_NATIVE_LEGACY_PHYSICAL_OPENING_LATE_INVOICE_CURRENT_INVERSE": {
+      "bytes": 5263,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/6b776c20505b086c43d0fc29ab7a957a9b8eb8bae40a2010d8b4080a60f3689f.jsonl",
+      "sha256": "9b77a894d5182c85a8154fc1c0b8d577728ec318472e008155fbb86e44a7de1c",
+      "status": "PASS"
+    },
+    "SKU_MONEY_NATIVE_RECOVERY_EQUAL_PHYSICAL_FIRST_CHILD_LIMIT": {
+      "bytes": 3493,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/484815ef071cdff27220652d6ef7b1ee5f9480bfe5bfdef67777d806000bcf7d.jsonl",
+      "sha256": "523e0c4278c26a44ef1c050b109f7ab4aba72f1af54771cdf55879e66e7bd5ef",
+      "status": "PASS"
+    },
+    "SKU_MONEY_NATIVE_RECOVERY_OVER_PHYSICAL_FIRST_CHILD_LIMIT_REFUSED": {
+      "bytes": 3636,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/825ce4fb32e7a66cd337835f03aaffa073b00c1703ef62376151d07557e50c36.jsonl",
+      "sha256": "e01b2198e5f58d21fe81fe8f8d546326018377df7655465605c969594340b133",
+      "status": "PASS"
+    },
+    "SKU_MONEY_NATIVE_RECOVERY_UNDER_PHYSICAL_FIRST_CHILD_LIMIT": {
+      "bytes": 3492,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/b5662480d1c993d3b43babe37867a34b76b7566971aca295c9ae4a28bdab9267.jsonl",
+      "sha256": "8bd59c4edea3a3ea057a265d6ebca60a0ccae60d64cc66a6ae60fac5ea9def3b",
+      "status": "PASS"
+    },
+    "SKU_MONEY_NATIVE_SIGNED_RECOVERY_BEFORE_CONVERTED_LOT_THEN_NATIVE_ZERO": {
+      "bytes": 3673,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/27340d633e2b7651640ed4d8c516dec33c7258622d03b527fb85a0a1eb729e3d.jsonl",
+      "sha256": "d01315972268959e2d0bb88a7ad5321debf4ffd1a69549f0e423ba7d3e13c1a0",
+      "status": "PASS"
+    },
+    "SKU_MONEY_NATIVE_SIGNED_RECOVERY_BEFORE_OPENING_LOT_THEN_NATIVE_ZERO": {
+      "bytes": 3667,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/c37c577b46f0aff8b5f3e885483167bfb3252463342f4e5bc05b48d423d32693.jsonl",
+      "sha256": "af9572656a28f6bcc084a03cb086d7d3e6159a503cbe50bc688ab93d7b43327d",
+      "status": "PASS"
+    },
+    "SKU_MONEY_NATIVE_SOLD_LATE_INVOICE_PARTIAL_RETURN_AND_BOTH_INVERSES": {
+      "bytes": 3250,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/592d8aba9fc7eec16512037c52168386cf04efa14a24988690c78eff61ca6005.jsonl",
+      "sha256": "1cd1709147c6c840fc97bc2b45d903887a2e138c36a6803aa63e506127872661",
+      "status": "PASS"
+    },
+    "SKU_MONEY_NATIVE_TWO_CHILD_CURRENT_REVISION_POST_COST_AND_INVERSE": {
+      "bytes": 3161,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/4d96f7869df6e9dcd2eae96d3bf176b0dd6f6b6d986f56457f08e3017c3fa760.jsonl",
+      "sha256": "3df3847fef5c4ca91aa6d22d2e95b6d05058490c947ca614272b8645d4625036",
+      "status": "PASS"
+    },
+    "SKU_MOVAVG_CANONICAL_FORWARD20_MANUAL_BACK35_TOTAL130": {
+      "bytes": 3663,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/b0b3255c4919f196318e89f11ce2b476f7efaaa4a4954f3bb513953ac38d20c0.jsonl",
+      "sha256": "e656e0245f53fe35025b5d4296cc3f0c0a1c8571d4789295fbdf777d8093df30",
+      "status": "PASS"
+    },
+    "SKU_MOVAVG_EXACT_GROUP_REVERSE_COMPONENT_AND_VALUE_INVERSE": {
+      "bytes": 3305,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/ed8a52d8cb085872b9b49261d223a1a6230293e214a555c2c061f15ea8f9a546.jsonl",
+      "sha256": "44b5b12b3d28467e49c07cb0bb9bd0f5aa9f68413ead4f003e8d3eebcabef252",
+      "status": "PASS"
+    },
+    "SKU_MOVAVG_FRACTIONAL_RETURNS_INTERLEAVE_RECOST_AND_EARLIER_INVERSE": {
+      "bytes": 4379,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/aa13857db4f4a43a1b769d1178dde9b6fc7ebac26aa80335afcdab9f96b41bb0.jsonl",
+      "sha256": "9dcd5615db00f476b9807c00193cc5bccf1e0b1d082a436820473d38267e4225",
+      "status": "PASS"
+    },
+    "SKU_MOVAVG_RESERVATION_INCLUDED_AND_LOCATION_ISOLATED": {
+      "bytes": 3391,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/643de0eb970ad50bffa291646a95e4921c29747f3261dabd26f749e9c593db71.jsonl",
+      "sha256": "2fb71abfb5d648554d17f6ea8fafbb39348b8200c57621f53bcab892b1894132",
+      "status": "PASS"
+    },
+    "SKU_MOVAVG_ROOT_RECOST_FOLLOWS_REMAINING_LINEAGE_TOTAL150": {
+      "bytes": 3169,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/fda585e3f85a65949073b796f682fc8e5178755130edaba78a18c1256148d0c3.jsonl",
+      "sha256": "2196671264855f88f236666a18c0820d87df641f658853f9b7fbcc84c71ac17d",
+      "status": "PASS"
+    },
+    "SKU_MOVAVG_SALE_PARTIAL_RETURN_AND_EXACT_REVERSAL": {
+      "bytes": 3282,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/5e7059f05bd4749d86fef799b747ffd5617eb6dddd317655b674ea2d6807629f.jsonl",
+      "sha256": "124cdd1766515bae9bd44e7a118fd8e2dbab6c6ce7d9a37d3758eafccbbeba30",
+      "status": "PASS"
+    }
+  },
+  "expected_fixed_catalogue_group_pins": {
+    "aggregates": {
+      "bytes": 2,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "casts": {
+      "bytes": 11147,
+      "sha256": "bec25256a4f07fe46e7ceaccacbbc69073b7dc2af948cf6e55c5e0132ac5a1b3"
+    },
+    "columns": {
+      "bytes": 1344498,
+      "sha256": "6f082492410883a27e88f5bb428e4727df93d1e1d5f8bfa73b645229bc80aac7"
+    },
+    "constraints": {
+      "bytes": 935196,
+      "sha256": "31c27f891bc384f9aa71d8a18e6dd3f574b3c75a5851a9e0aa680fb0f8679b1d"
+    },
+    "database_authority": {
+      "bytes": 522,
+      "sha256": "e601be75f5e0e1223d062dce4c65f3677c0a2deacbaa778eb970c3a2f16e7224"
+    },
+    "default_privileges": {
+      "bytes": 16825,
+      "sha256": "118135c1a7f27b4c415f31af99c5824c9e846c5ab6514c40b7c85183300afb90"
+    },
+    "enums": {
+      "bytes": 1766,
+      "sha256": "1e93c7d4452abdd0abc0e1a86c3646aafaf5b5fb54916bce19479f822ef7dcb8"
+    },
+    "event_triggers": {
+      "bytes": 685,
+      "sha256": "240e67c7e08e495eeb8d1f9dc82e51018b3ee455fc12722e5e6cb18d674d06d2"
+    },
+    "extensions": {
+      "bytes": 360,
+      "sha256": "8f4f7c252b906e44c87c44680eba2e566d5c27be4c72b17ba41c220801005eae"
+    },
+    "functions": {
+      "bytes": 8582197,
+      "sha256": "595b53eed8208e9673ec4f437ff2a952e7452347702844323c1a8e12b9698808"
+    },
+    "indexes": {
+      "bytes": 327034,
+      "sha256": "de282215c0aad9c2bab49e40fd1ae224766ab8313cbb7ed563cfd10d6ada15c0"
+    },
+    "inheritance": {
+      "bytes": 1106,
+      "sha256": "d94db152c8063877f7120ee72e748fb96d31915a91f7db949db958c0e2418f22"
+    },
+    "languages": {
+      "bytes": 371,
+      "sha256": "8e4a3c7700c45441bb481cc2ec3d79efa5cfed37e4fd84823cb40d7bb45b8b68"
+    },
+    "memberships": {
+      "bytes": 1870,
+      "sha256": "f3aba944b1484aeb26cf12f9252582ef743b03ca40b2f389184ce019ecf419ef"
+    },
+    "operators": {
+      "bytes": 185490,
+      "sha256": "b21be61dfe322af62bd56bfd08775f161cc77aa31b5fdfec1e4dddca4b030043"
+    },
+    "policies": {
+      "bytes": 67504,
+      "sha256": "400a42fd02bd5e6088e6e5d950c38723415937574a95a5c6a90b168da9fb2d86"
+    },
+    "relations": {
+      "bytes": 1346126,
+      "sha256": "2ed8ccc1141fa46b78596854ef412563a6a0f64fc9b73b29acb9c6537f6a53c5"
+    },
+    "roles": {
+      "bytes": 12891,
+      "sha256": "08daf87c1b26fee3f939d9781e6c2e736c7f5ab6f14bffbe0eafcafb1ab9ad12"
+    },
+    "rules": {
+      "bytes": 86201,
+      "sha256": "c8b627891fc58481e54b538e4754736f04efe3f3f11036e83ec9366484aedc39"
+    },
+    "schemas": {
+      "bytes": 29934,
+      "sha256": "1d6437ab33317d2e63b657a84a8034d7fb602854b151b0e1ee42528dcd7c6eaf"
+    },
+    "sequence_ownership": {
+      "bytes": 981,
+      "sha256": "27da4f99930f9c04cd99951267c76f854600827ff6a3890a906c7e93b4e0f4a2"
+    },
+    "sequences": {
+      "bytes": 1370,
+      "sha256": "21aa0bb0c35b8bde2b070338e1c2ebeacf5be8b3470748c773b24d0cb75a1d46"
+    },
+    "triggers": {
+      "bytes": 1842994,
+      "sha256": "c37bb55fff5a143f638d4729b640d588cbd695d37bf948bca8a763f2fd287e96"
+    },
+    "type_implementation": {
+      "bytes": 440291,
+      "sha256": "696c294204d191e08c2e4ce5d4acbb58579c8ca9a8e220effd3f47f96262f077"
+    },
+    "types": {
+      "bytes": 216862,
+      "sha256": "6284a94feaf1f67a3983ea79cb52df52a5b3a6bb4ede8ec8c9c06c0dea37a7d2"
+    }
+  },
+  "independently_captured_prior_catalogue_differences": {
+    "columns": [
+      "realtime.messages_2026_11_10:binary_payload",
+      "realtime.messages_2026_11_10:event",
+      "realtime.messages_2026_11_10:extension",
+      "realtime.messages_2026_11_10:id",
+      "realtime.messages_2026_11_10:inserted_at",
+      "realtime.messages_2026_11_10:payload",
+      "realtime.messages_2026_11_10:private",
+      "realtime.messages_2026_11_10:topic",
+      "realtime.messages_2026_11_10:updated_at",
+      "realtime.messages_2026_11_10_inserted_at_topic_idx:inserted_at",
+      "realtime.messages_2026_11_10_inserted_at_topic_idx:topic",
+      "realtime.messages_2026_11_10_pkey:id",
+      "realtime.messages_2026_11_10_pkey:inserted_at",
+      "realtime.messages_2026_11_15:binary_payload",
+      "realtime.messages_2026_11_15:event",
+      "realtime.messages_2026_11_15:extension",
+      "realtime.messages_2026_11_15:id",
+      "realtime.messages_2026_11_15:inserted_at",
+      "realtime.messages_2026_11_15:payload",
+      "realtime.messages_2026_11_15:private",
+      "realtime.messages_2026_11_15:topic",
+      "realtime.messages_2026_11_15:updated_at",
+      "realtime.messages_2026_11_15_inserted_at_topic_idx:inserted_at",
+      "realtime.messages_2026_11_15_inserted_at_topic_idx:topic",
+      "realtime.messages_2026_11_15_pkey:id",
+      "realtime.messages_2026_11_15_pkey:inserted_at"
+    ],
+    "constraints": [
+      "realtime.messages_2026_11_10:messages_2026_11_10_pkey",
+      "realtime.messages_2026_11_10:messages_payload_exclusive",
+      "realtime.messages_2026_11_15:messages_2026_11_15_pkey",
+      "realtime.messages_2026_11_15:messages_payload_exclusive"
+    ],
+    "functions": [
+      "cp7_credit.assert_source_native_trigger_census_v1()"
+    ],
+    "indexes": [
+      "realtime.messages_2026_11_10_inserted_at_topic_idx",
+      "realtime.messages_2026_11_10_pkey",
+      "realtime.messages_2026_11_15_inserted_at_topic_idx",
+      "realtime.messages_2026_11_15_pkey"
+    ],
+    "inheritance": [
+      "realtime.messages_2026_11_10:1",
+      "realtime.messages_2026_11_10_inserted_at_topic_idx:1",
+      "realtime.messages_2026_11_10_pkey:1",
+      "realtime.messages_2026_11_15:1",
+      "realtime.messages_2026_11_15_inserted_at_topic_idx:1",
+      "realtime.messages_2026_11_15_pkey:1"
+    ],
+    "relations": [
+      "realtime.messages_2026_11_10",
+      "realtime.messages_2026_11_10_inserted_at_topic_idx",
+      "realtime.messages_2026_11_10_pkey",
+      "realtime.messages_2026_11_15",
+      "realtime.messages_2026_11_15_inserted_at_topic_idx",
+      "realtime.messages_2026_11_15_pkey"
+    ],
+    "type_implementation": [
+      "realtime.messages_2026_11_10",
+      "realtime.messages_2026_11_10[]",
+      "realtime.messages_2026_11_15",
+      "realtime.messages_2026_11_15[]"
+    ],
+    "types": [
+      "realtime.messages_2026_11_10",
+      "realtime.messages_2026_11_10[]",
+      "realtime.messages_2026_11_15",
+      "realtime.messages_2026_11_15[]"
+    ]
+  },
+  "no_same_run_native25_claim": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

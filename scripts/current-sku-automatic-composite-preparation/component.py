@@ -21,7 +21,7 @@ def load(name, path):
     return module
 
 
-def derive(raw):
+def derive(raw, *, focused=False):
     retained = RETAINED.read_bytes()
     if dict(bytes=len(retained), sha256=sha256(retained).hexdigest()) != RETAINED_PIN:
         raise ValueError('SKU_AUTOMATIC_EXACT_CURRENT_MONEY_COMPONENT_DERIVER_REQUIRED')
@@ -44,6 +44,13 @@ def derive(raw):
          "    report.update(status='PASS',actual_Auth_browser=True,actual_business_cases=len(business.IDS)+2,\n"
          "                  qualification_scope='NATIVE25_AND_CURRENT_BROWSER2')"),
     )
+    if focused:
+        bind = '    business,preflight=_NATIVE_SUITE.bind(business,preflight,product,prefix)'
+        routes += (
+            (bind, bind + '\n    business=_CONTINUATION.select(business,_FOCUS)'),
+            ("qualification_scope='NATIVE25_AND_CURRENT_BROWSER2'",
+             "qualification_scope='FRESH_AUTOMATIC5_AND_CURRENT_BROWSER2'"),
+        )
     after = before
     for old, new in routes:
         if after.count(old) != 1 or new in after:
@@ -61,7 +68,7 @@ def derive(raw):
                        added_upstream_native_callbacks=6, actual_ERP_cases=0, production_go=False)
 
 
-def load_prepared(bridge, product, parent_raw, money_raw, plan_raw, scheduler_quiet, *, case_output=None):
+def load_prepared(bridge, product, parent_raw, money_raw, plan_raw, scheduler_quiet, *, case_output=None, focus=None):
     bridge.admission.require_ready()  # Before caller, receipt, file, Git or ERP inspection.
     bridge.admission.inputs(parent_raw, money_raw, plan_raw)
     bridge.source_manifest()
@@ -70,12 +77,15 @@ def load_prepared(bridge, product, parent_raw, money_raw, plan_raw, scheduler_qu
     path = money_bridge.FROZEN_SKU / ORIGINAL
     if not path.is_file() or path.is_symlink():
         raise ValueError('SKU_AUTOMATIC_EXACT_FROZEN_NATIVE_MONEY_RUNNER_REQUIRED')
-    source, proof = derive(path.read_bytes())
+    source, proof = derive(path.read_bytes(), focused=focus is not None)
     module = ModuleType('current_automatic_exact_native25_component')
     module.__file__ = str(HERE / 'component.py')
     module._CURRENT_MONEY_ASSEMBLY = product
     module._FROZEN_SKU = money_bridge.FROZEN_SKU
     module._NATIVE_SUITE = load('automatic_complete_native25_suite', HERE / 'native_suite.py')
+    if focus is not None:
+        module._CONTINUATION = load('automatic_exact_e4ea_continuation', HERE / 'continuation.py')
+        module._FOCUS = focus
     ids = (tuple(money_bridge.prepared_sources()[0]['native_case_ids']) + module._NATIVE_SUITE.native.IDS
            + module._NATIVE_SUITE.invoices.IDS)
     if tuple(json.loads(plan_raw)['case_ids']) != ids:

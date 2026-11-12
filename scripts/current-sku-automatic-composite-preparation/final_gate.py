@@ -68,27 +68,37 @@ def validate_preflight(p, part, value):
         invoices=dict(original_invoice_helper_shapes=4, actual_ERP_cases=0)), 'AUTOMATIC_COMPLETE_NATURAL_CALLER_SHAPES')
 
 
-def derive(raw):
+def derive(raw, *, focused=False):
     if admission.pin(raw) != RETAINED_PIN:
         raise ValueError('AUTOMATIC_EXACT_RETAINED_COMPLETE_GATE_SOURCE_REQUIRED')
     text = raw.decode()
-    for before, after, count in ROUTES:
+    focus = {
+        'actual_Native_cases=25': 'actual_Native_cases=5',
+        'actual_business_cases=27': 'actual_business_cases=7',
+        "counts={'PASS':25}": "counts={'PASS':5}",
+        "qualification_scope='NATIVE25_AND_CURRENT_BROWSER2'":
+            "qualification_scope='FRESH_AUTOMATIC5_AND_CURRENT_BROWSER2'",
+        "qualification_scope='CURRENT_PARENT_SKU_MONEY_AUTOMATIC_NATIVE25_BROWSER2_ONLY'":
+            "qualification_scope='CURRENT_PARENT_SKU_MONEY_AUTOMATIC_CONTINUATION_BROWSER2'",
+    } if focused else {}
+    routes = tuple((before, focus.get(after, after), count) for before, after, count in ROUTES)
+    for before, after, count in routes:
         if text.count(before) != count or after in text:
             raise ValueError('AUTOMATIC_EXACT_GATE_CASE_METADATA_ROUTE_REQUIRED')
         text = text.replace(before, after)
     recovered = text
-    for before, after, _ in reversed(ROUTES):
+    for before, after, _ in reversed(routes):
         recovered = recovered.replace(after, before)
     if recovered.encode() != raw:
         raise ValueError('AUTOMATIC_COMPLETE_RETAINED_GATE_NOT_RECOVERED')
-    return text, dict(retained=RETAINED_PIN, metadata_expression_routes=sum(row[2] for row in ROUTES),
+    return text, dict(retained=RETAINED_PIN, metadata_expression_routes=sum(row[2] for row in routes),
                       retained_source_recovered_exactly=True, Auth_HTTP_and_race_counts_still_zero=True,
                       two_fresh_current_browser_originals_required=True,
                       complete_all5_recovery_and_worker_lifecycle_assertions_preserved=True, actual_ERP_cases=0)
 
 
-def validator():
-    text, proof = derive(RETAINED.read_bytes())
+def validator(*, focused=False):
+    text, proof = derive(RETAINED.read_bytes(), focused=focused)
     code = runtime.report_io.function_code(text, str(RETAINED) + '::automatic-case-metadata', 'validate')
     namespace = dict(component=component, money_gate=SimpleNamespace(validate_preflight=validate_preflight), re=re,
                      MAIN=MAIN, NATIVE=NATIVE, PREFLIGHT=PREFLIGHT, SUPERVISION=SUPERVISION)
@@ -99,13 +109,13 @@ def typed_reader():
     return load('automatic_final_exact_typed_original_reader', ROOT / 'scripts/current-s03-sku-s05-composite-qualification/parents.py')
 
 
-def validate(p, docs, head, ids):
-    check, _ = validator()
+def validate(p, docs, head, ids, *, focused=False):
+    check, _ = validator(focused=focused)
     result = check(p, docs, head, ids)
     p.exact(docs[PREFLIGHT]['source'], docs[MAIN]['source_declaration']['complete_combined_sources'],
             'AUTOMATIC_PREFLIGHT_EXACT_CURRENT_COMBINED_SOURCE_GRAPH')
     part = docs[MAIN]['committed'][component.CASE]
-    p.fields(part, dict(actual_browser_cases=2, actual_business_cases=27, real_Auth_browser_claim=True),
+    p.fields(part, dict(actual_browser_cases=2, actual_business_cases=7 if focused else 27, real_Auth_browser_claim=True),
              'AUTOMATIC_COMPONENT_ACTUAL_BROWSER2_AND_NATIVE25_COUNTS')
     result['current_browser2'] = browser_gate.validate(p, docs[BROWSER], part, head, docs[MAIN]['source_declaration'])
     return result
@@ -129,7 +139,10 @@ def gate(directory, head):
             raise ValueError('AUTOMATIC_ORIGINAL_PACKET_SYMLINK_REFUSED')
         raw[name] = path.read_bytes()
     docs = {name: p.strict(value) for name, value in raw.items()}
-    result = validate(p, docs, head, ids)
+    continuation = runtime.continuation
+    focus = continuation.admitted(plan_raw) if continuation.SCOPE.exists() else None
+    tested_ids = focus['fresh_case_ids'] if focus is not None else ids
+    result = validate(p, docs, head, tested_ids, focused=focus is not None)
     refs = docs[MAIN]['committed'][component.CASE]['strict_group_originals']
     originals = [row for row in refs if row['name'] == NATIVE]
     if len(originals) != 1:
@@ -147,7 +160,25 @@ def gate(directory, head):
         with engine.inherited_admission.parent_scope():
             sources = engine.admitted()
     p.exact(docs[MAIN]['source_declaration'], sources, 'AUTOMATIC_COMPLETE_NATURAL_SOURCE_GRAPH_NOT_PROJECTED')
-    return dict(status='CURRENT_MANDOR_PARENT_MONEY_AUTOMATIC_NATIVE25_BROWSER2_AND_ALL5_PASS', head=head, **result,
+    status = 'CURRENT_MANDOR_PARENT_MONEY_AUTOMATIC_NATIVE25_BROWSER2_AND_ALL5_PASS'
+    if focus is not None:
+        path = directory / 'SKU_GLOBAL_PARENT_ACTUAL_FULL25.json'
+        if not path.is_file() or any(item.is_symlink() for item in (path, *path.parents)):
+            raise ValueError('SKU_E4EA_CONTINUATION_EXACT_ACTUAL_CATALOGUE_ORIGINAL_REQUIRED')
+        raw_catalogue = path.read_bytes()
+        capture = part['Global_parent_catalogue']
+        p.fields(capture, dict(status='ACTUAL_FULL25_SKU_CATALOGUE_OBSERVED', head=head,
+                               run_id=result['run_id'], attempt=1),
+                 'SKU_E4EA_CONTINUATION_SAME_ACTUAL_CATALOGUE_OWNER')
+        p.exact(admission.pin(raw_catalogue), {key: capture['original'][key] for key in ('bytes', 'sha256')},
+                'SKU_E4EA_CONTINUATION_EXACT_ACTUAL_CATALOGUE_BYTES')
+        result['continuation'] = dict(origin=focus['origin'], fresh_case_ids=tested_ids,
+                                      retained_case_ids=focus['retained_case_ids'],
+                                      scope=continuation.SCOPE_PIN,
+                                      catalogue=continuation.catalogue_comparison(json.loads(raw_catalogue), focus),
+                                      cumulative_acceptance_pending=True)
+        status = 'CURRENT_MANDOR_PARENT_MONEY_AUTOMATIC_FRESH5_BROWSER2_AND_ALL5_PASS'
+    return dict(status=status, head=head, **result,
                 accepted_sources=receipt, parent_root=admission.pin(parent_raw), money_source_preflight=admission.pin(money_raw),
                 automatic_source=reference['automatic_source'], complete_native_plan=admission.pin(plan_raw),
                 originals={name: admission.pin(value) for name, value in raw.items()},

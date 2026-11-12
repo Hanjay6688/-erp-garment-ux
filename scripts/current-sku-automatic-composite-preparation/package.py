@@ -237,10 +237,12 @@ def bind_install_authority(product, install_afui, as_admin, observe=nullcontext)
                 _sku_verify_installed=scoped(product.verify))
 
 
-def derive(raw):
+def derive(raw, *, focused=False):
     original, prior = load('automatic_retained_whole_money_engine', RETAINED).derive(raw)
     io = load('automatic_complete_package_report_IO', HERE / 'report_io.py')
     text, output = io.derive_packet(original, 'money19')
+    scope = ("'CURRENT_PARENT_SKU_MONEY_AUTOMATIC_CONTINUATION_BROWSER2'" if focused
+             else "'CURRENT_PARENT_SKU_MONEY_AUTOMATIC_NATIVE25_BROWSER2_ONLY'")
     replacements = (
         ("'ACTUAL_CURRENT_MANDOR_AND_MOVING_PARENT_INSTALL',product.parent().install,cur",
          "'ACTUAL_CURRENT_MANDOR_MOVING_AND_MONEY_PARENT_INSTALL',_sku_install_parent,cur"),
@@ -252,7 +254,7 @@ def derive(raw):
          "'SECOND_FINANCE_DELTA',_sku_install_delta,cur,prior"),
         ("report['complete_installed_verification']=product.verify(cur,STATE)",
          "report['complete_installed_verification']=_sku_verify_installed(cur,STATE)"),
-        ("'CURRENT_PARENT_SKU_MONEY_NATIVE19_ONLY'", "'CURRENT_PARENT_SKU_MONEY_AUTOMATIC_NATIVE25_BROWSER2_ONLY'"),
+        ("'CURRENT_PARENT_SKU_MONEY_NATIVE19_ONLY'", scope),
         ("report['actual_browser_cases']=0", "report['actual_browser_cases']=cases[runner.CASE]['actual_browser_cases']"),
         ("report['actual_business_cases']=cases[runner.CASE]['actual_Native_cases']",
          "report['actual_business_cases']=cases[runner.CASE]['actual_Native_cases']+cases[runner.CASE]['actual_browser_cases']\n"
