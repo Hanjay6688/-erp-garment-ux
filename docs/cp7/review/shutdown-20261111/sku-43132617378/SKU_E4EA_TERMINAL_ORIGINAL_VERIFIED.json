@@ -1,0 +1,395 @@
+{
+  "actual_browser": 0,
+  "actual_native_incomplete": 4,
+  "actual_native_pass": 21,
+  "artifact": {
+    "bytes": 96749933,
+    "id": 13914600256,
+    "name": "cp7-sku-failure-43132617378-1",
+    "sha256": "dd9e31355a0820d1650e438a8913c49450a10dbc342789ed94f3418c1be6363b"
+  },
+  "backup_checks": {
+    "catalog_explained": true,
+    "data_identical": true,
+    "engine_answer_present": true,
+    "engine_equal": true,
+    "restore_errors_only_pg_cron": true
+  },
+  "crc_members": 212,
+  "formal_cp7": "5/16",
+  "independent_acceptance": false,
+  "job": {
+    "completed_at": "2026-11-12T03:56:44Z",
+    "conclusion": "failure",
+    "id": 130900171009,
+    "status": "completed",
+    "steps": [
+      {
+        "completed_at": "2026-11-12T01:24:37Z",
+        "conclusion": "success",
+        "name": "Provision isolated rollback authority",
+        "number": 76,
+        "started_at": "2026-11-12T01:24:37Z",
+        "status": "completed"
+      },
+      {
+        "completed_at": "2026-11-12T01:24:41Z",
+        "conclusion": "success",
+        "name": "Clone the aligned AB state for install",
+        "number": 77,
+        "started_at": "2026-11-12T01:24:37Z",
+        "status": "completed"
+      },
+      {
+        "completed_at": "2026-11-12T03:56:12Z",
+        "conclusion": "failure",
+        "name": "Run current-parent money automatic Native25 and real browser2 once with owning restoration",
+        "number": 78,
+        "started_at": "2026-11-12T01:24:41Z",
+        "status": "completed"
+      },
+      {
+        "completed_at": "2026-11-12T03:56:12Z",
+        "conclusion": "success",
+        "name": "Retain exact clone comparison outputs after source and runtime checks",
+        "number": 79,
+        "started_at": "2026-11-12T03:56:12Z",
+        "status": "completed"
+      },
+      {
+        "completed_at": "2026-11-12T03:56:17Z",
+        "conclusion": "success",
+        "name": "Retain exact writer-CWD SKU cost full census even on failure",
+        "number": 80,
+        "started_at": "2026-11-12T03:56:12Z",
+        "status": "completed"
+      },
+      {
+        "completed_at": "2026-11-12T03:56:17Z",
+        "conclusion": "success",
+        "name": "Retain every new or changed output in all four frozen trees even on failure",
+        "number": 81,
+        "started_at": "2026-11-12T03:56:17Z",
+        "status": "completed"
+      },
+      {
+        "completed_at": "2026-11-12T03:56:18Z",
+        "conclusion": "success",
+        "name": "Retain bounded hashes while complete Original files stay in the artifact",
+        "number": 82,
+        "started_at": "2026-11-12T03:56:17Z",
+        "status": "completed"
+      },
+      {
+        "completed_at": "2026-11-12T03:56:27Z",
+        "conclusion": "success",
+        "name": "Remove disposable database",
+        "number": 83,
+        "started_at": "2026-11-12T03:56:18Z",
+        "status": "completed"
+      },
+      {
+        "completed_at": "2026-11-12T03:56:42Z",
+        "conclusion": "success",
+        "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "number": 84,
+        "started_at": "2026-11-12T03:56:27Z",
+        "status": "completed"
+      }
+    ]
+  },
+  "observed_results": [
+    {
+      "bytes": 3663,
+      "case": "SKU_MOVAVG_CANONICAL_FORWARD20_MANUAL_BACK35_TOTAL130",
+      "log_line": 9851,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/b0b3255c4919f196318e89f11ce2b476f7efaaa4a4954f3bb513953ac38d20c0.jsonl",
+      "sha256": "e656e0245f53fe35025b5d4296cc3f0c0a1c8571d4789295fbdf777d8093df30",
+      "status": "PASS"
+    },
+    {
+      "bytes": 3305,
+      "case": "SKU_MOVAVG_EXACT_GROUP_REVERSE_COMPONENT_AND_VALUE_INVERSE",
+      "log_line": 9852,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/ed8a52d8cb085872b9b49261d223a1a6230293e214a555c2c061f15ea8f9a546.jsonl",
+      "sha256": "44b5b12b3d28467e49c07cb0bb9bd0f5aa9f68413ead4f003e8d3eebcabef252",
+      "status": "PASS"
+    },
+    {
+      "bytes": 3169,
+      "case": "SKU_MOVAVG_ROOT_RECOST_FOLLOWS_REMAINING_LINEAGE_TOTAL150",
+      "log_line": 9853,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/fda585e3f85a65949073b796f682fc8e5178755130edaba78a18c1256148d0c3.jsonl",
+      "sha256": "2196671264855f88f236666a18c0820d87df641f658853f9b7fbcc84c71ac17d",
+      "status": "PASS"
+    },
+    {
+      "bytes": 3282,
+      "case": "SKU_MOVAVG_SALE_PARTIAL_RETURN_AND_EXACT_REVERSAL",
+      "log_line": 9854,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/5e7059f05bd4749d86fef799b747ffd5617eb6dddd317655b674ea2d6807629f.jsonl",
+      "sha256": "124cdd1766515bae9bd44e7a118fd8e2dbab6c6ce7d9a37d3758eafccbbeba30",
+      "status": "PASS"
+    },
+    {
+      "bytes": 3391,
+      "case": "SKU_MOVAVG_RESERVATION_INCLUDED_AND_LOCATION_ISOLATED",
+      "log_line": 9855,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/643de0eb970ad50bffa291646a95e4921c29747f3261dabd26f749e9c593db71.jsonl",
+      "sha256": "2fb71abfb5d648554d17f6ea8fafbb39348b8200c57621f53bcab892b1894132",
+      "status": "PASS"
+    },
+    {
+      "bytes": 4379,
+      "case": "SKU_MOVAVG_FRACTIONAL_RETURNS_INTERLEAVE_RECOST_AND_EARLIER_INVERSE",
+      "log_line": 9856,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/aa13857db4f4a43a1b769d1178dde9b6fc7ebac26aa80335afcdab9f96b41bb0.jsonl",
+      "sha256": "9dcd5615db00f476b9807c00193cc5bccf1e0b1d082a436820473d38267e4225",
+      "status": "PASS"
+    },
+    {
+      "bytes": 5263,
+      "case": "SKU_MONEY_NATIVE_LEGACY_PHYSICAL_OPENING_LATE_INVOICE_CURRENT_INVERSE",
+      "log_line": 9857,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/6b776c20505b086c43d0fc29ab7a957a9b8eb8bae40a2010d8b4080a60f3689f.jsonl",
+      "sha256": "9b77a894d5182c85a8154fc1c0b8d577728ec318472e008155fbb86e44a7de1c",
+      "status": "PASS"
+    },
+    {
+      "bytes": 5271,
+      "case": "SKU_MONEY_NATIVE_LEGACY_PHYSICAL_CONVERTED_LATE_INVOICE_CURRENT_INVERSE",
+      "log_line": 9858,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/1c4df0c635932bf3eb17cd5b4a25f78b5960f8880e05031777c5bedc94a4fee6.jsonl",
+      "sha256": "24d9145a22d8badebda33f4dc49036c33e80b2670bc165866c874a634d666395",
+      "status": "PASS"
+    },
+    {
+      "bytes": 3250,
+      "case": "SKU_MONEY_NATIVE_SOLD_LATE_INVOICE_PARTIAL_RETURN_AND_BOTH_INVERSES",
+      "log_line": 9859,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/592d8aba9fc7eec16512037c52168386cf04efa14a24988690c78eff61ca6005.jsonl",
+      "sha256": "1cd1709147c6c840fc97bc2b45d903887a2e138c36a6803aa63e506127872661",
+      "status": "PASS"
+    },
+    {
+      "bytes": 3112,
+      "case": "SKU_MONEY_NATIVE_BASE_CENT_BEFORE_OPENING_LOT_TRANSFER",
+      "log_line": 9860,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/9ae552a4ce056c676b01b4d22ebbe505b6fbe5d54367ad023e8cfbb2bd2f43c2.jsonl",
+      "sha256": "af48a918dc9b5260702c6136a7cec3ffd732ccc1e226feda90b961c2a7730875",
+      "status": "PASS"
+    },
+    {
+      "bytes": 3118,
+      "case": "SKU_MONEY_NATIVE_BASE_CENT_BEFORE_CONVERTED_LOT_TRANSFER",
+      "log_line": 9861,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/807b48d67226f9a30a261509b5ec76a5ec284de6915d1bd0243f7702dd92dacf.jsonl",
+      "sha256": "a5a3ae99c38622ad145d8efdeace0abe1ef656f806dfff147d0fe1bdfa22c083",
+      "status": "PASS"
+    },
+    {
+      "bytes": 3118,
+      "case": "SKU_MONEY_NATIVE_BASE_CENT_AFTER_CONVERTED_LOT_TRANSFER",
+      "log_line": 9862,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/44fb808beaab623506457297a8882d7ce4ec1a05b24b63fc80fda428187e4f5d.jsonl",
+      "sha256": "10b619a0422b0bcb6b812a24ff3fba9f699b87e54329a11c00ae5d41df97fb7c",
+      "status": "PASS"
+    },
+    {
+      "bytes": 3492,
+      "case": "SKU_MONEY_NATIVE_RECOVERY_UNDER_PHYSICAL_FIRST_CHILD_LIMIT",
+      "log_line": 9863,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/b5662480d1c993d3b43babe37867a34b76b7566971aca295c9ae4a28bdab9267.jsonl",
+      "sha256": "8bd59c4edea3a3ea057a265d6ebca60a0ccae60d64cc66a6ae60fac5ea9def3b",
+      "status": "PASS"
+    },
+    {
+      "bytes": 3493,
+      "case": "SKU_MONEY_NATIVE_RECOVERY_EQUAL_PHYSICAL_FIRST_CHILD_LIMIT",
+      "log_line": 9864,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/484815ef071cdff27220652d6ef7b1ee5f9480bfe5bfdef67777d806000bcf7d.jsonl",
+      "sha256": "523e0c4278c26a44ef1c050b109f7ab4aba72f1af54771cdf55879e66e7bd5ef",
+      "status": "PASS"
+    },
+    {
+      "bytes": 3636,
+      "case": "SKU_MONEY_NATIVE_RECOVERY_OVER_PHYSICAL_FIRST_CHILD_LIMIT_REFUSED",
+      "log_line": 9865,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/825ce4fb32e7a66cd337835f03aaffa073b00c1703ef62376151d07557e50c36.jsonl",
+      "sha256": "e01b2198e5f58d21fe81fe8f8d546326018377df7655465605c969594340b133",
+      "status": "PASS"
+    },
+    {
+      "bytes": 4045,
+      "case": "SKU_MONEY_NATIVE_LEGACY_OTHER_LOT_STALE_RETURNS_REPLAY_INVERSE",
+      "log_line": 9866,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/71647b05daf81e9fe3392f2d9e4d052c5b5e1b0facb27651398db7cba16a84ba.jsonl",
+      "sha256": "8b797e9f51422d12dd5b5c43fcd51db197555c4da4635ad875e25777886c91bd",
+      "status": "PASS"
+    },
+    {
+      "bytes": 3161,
+      "case": "SKU_MONEY_NATIVE_TWO_CHILD_CURRENT_REVISION_POST_COST_AND_INVERSE",
+      "log_line": 9867,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/4d96f7869df6e9dcd2eae96d3bf176b0dd6f6b6d986f56457f08e3017c3fa760.jsonl",
+      "sha256": "3df3847fef5c4ca91aa6d22d2e95b6d05058490c947ca614272b8645d4625036",
+      "status": "PASS"
+    },
+    {
+      "bytes": 3667,
+      "case": "SKU_MONEY_NATIVE_SIGNED_RECOVERY_BEFORE_OPENING_LOT_THEN_NATIVE_ZERO",
+      "log_line": 9868,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/c37c577b46f0aff8b5f3e885483167bfb3252463342f4e5bc05b48d423d32693.jsonl",
+      "sha256": "af9572656a28f6bcc084a03cb086d7d3e6159a503cbe50bc688ab93d7b43327d",
+      "status": "PASS"
+    },
+    {
+      "bytes": 3673,
+      "case": "SKU_MONEY_NATIVE_SIGNED_RECOVERY_BEFORE_CONVERTED_LOT_THEN_NATIVE_ZERO",
+      "log_line": 9869,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/27340d633e2b7651640ed4d8c516dec33c7258622d03b527fb85a0a1eb729e3d.jsonl",
+      "sha256": "d01315972268959e2d0bb88a7ad5321debf4ffd1a69549f0e423ba7d3e13c1a0",
+      "status": "PASS"
+    },
+    {
+      "bytes": 3956,
+      "case": "SKU_AUTOMATIC_NATIVE_REWORK_PENDING_AVERAGE_REPLAY_AND_PARENT_INVERSE",
+      "error_stack_sha256": "bc73e41331e2a1a85e27afbbfa40f7368e26f476c3f8c3b535cf22b2b2d09861",
+      "first_error": "CP7_SKU_POOL_HPP_UNKNOWN: seluruh komponen ekonomi termasuk reservasi harus diketahui",
+      "log_line": 9870,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/cb040202872edc1b3998da82abef8e07c9e13ca1b543805ce397cd41a27ad71c.jsonl",
+      "sha256": "0cac453fe8986695fb179692e6decbd5ded88395b369e9eda8ecb5376149f37c",
+      "status": "INCOMPLETE"
+    },
+    {
+      "bytes": 6357,
+      "case": "SKU_AUTOMATIC_NATIVE_REDYE_UNKNOWN_AVERAGE_REPLAY_AND_PARENT_INVERSE",
+      "error_stack_sha256": "b29a07ad6868ff5519745a16246493844203134fe67baad2194d86aeef54abd4",
+      "first_error": "CP7_SKU_POOL_HPP_UNKNOWN: seluruh komponen ekonomi termasuk reservasi harus diketahui",
+      "log_line": 9871,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/299956dff235146635963710ea13882175ebb2812c36a9ffb7df35e34347aa68.jsonl",
+      "sha256": "403229a6804bb322b0e26675bd21bacd99d2d1da7573810e2e81ab717a8c5e7f",
+      "status": "INCOMPLETE"
+    },
+    {
+      "bytes": 3027,
+      "case": "SKU_AUTOMATIC_NATIVE_ZERO_GOOD_PARENT_HAS_NO_CONVERSION",
+      "log_line": 9872,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/51d662f6ccc51a70c10d870b1c9565a241a80e04523e611bb06bdc4da49a016c.jsonl",
+      "sha256": "384623bce922e4496fb4df2d06d1425372d99ac9e8c09fe0978a7bf657e78002",
+      "status": "PASS"
+    },
+    {
+      "bytes": 7385,
+      "case": "SKU_AUTOMATIC_NATIVE_LATE_TARGET_REFUSAL_ROLLS_BACK_PARENT_AND_CHILD",
+      "log_line": 9873,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/057bcb1b65676e23275bca6e5fd4c0aae5fcdfbaaa39e17121fd21458911d36c.jsonl",
+      "sha256": "60c49e3d75b8783aca483329d4d2204e22f752098064b31302d8ab5d6adf534c",
+      "status": "PASS"
+    },
+    {
+      "bytes": 6365,
+      "case": "SKU_AUTOMATIC_NATIVE_REWORK_PO_LATE_INVOICE_INVERSE_AND_NO_REVIVAL",
+      "error_stack_sha256": "b29a07ad6868ff5519745a16246493844203134fe67baad2194d86aeef54abd4",
+      "first_error": "CP7_SKU_POOL_HPP_UNKNOWN: seluruh komponen ekonomi termasuk reservasi harus diketahui",
+      "log_line": 9874,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/fcd44742f2a97d0f385b56b3e22d994c3bccb3dac6dc2dd4bd609cfea01ee5da.jsonl",
+      "sha256": "3b304e8ab5e3dfb6b28ec237538f1d9a76e1588c67869b9e34f39a52ba53a500",
+      "status": "INCOMPLETE"
+    },
+    {
+      "bytes": 6372,
+      "case": "SKU_AUTOMATIC_NATIVE_REDYE_PO_LATE_INVOICE_INVERSE_AND_NO_REVIVAL",
+      "error_stack_sha256": "b29a07ad6868ff5519745a16246493844203134fe67baad2194d86aeef54abd4",
+      "first_error": "CP7_SKU_POOL_HPP_UNKNOWN: seluruh komponen ekonomi termasuk reservasi harus diketahui",
+      "log_line": 9875,
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/2a4bc20b7f1b25861f97bd557c6538a71a040d2266f4227f42603f8c63cad581.jsonl",
+      "sha256": "65333524b70392d2d55361a2153b54a4fa82e1cd0c3ef3e84c38730b6b079608",
+      "status": "INCOMPLETE"
+    }
+  ],
+  "package_gates": {
+    "backup_restore_drill": true,
+    "installed": true,
+    "primary_unchanged": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "production_go": false,
+  "recovered_complete_pre_native_database_snapshot": false,
+  "restore": {
+    "advisor_gate": true,
+    "baseline_advisors_equal": true,
+    "baseline_full22_all_rows_all_sequences_equal": true,
+    "cp6_restored": true,
+    "restore_raw_public_equal": true
+  },
+  "restore_components": {
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_platform_auth_schema_acl": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "retained_dumps": {
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385610,
+      "sha256": "1571ebcd5a095ac493594fbee7d5bde06c5d0d5e240d48da2dcc279ba1249af4"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385610,
+      "sha256": "1571ebcd5a095ac493594fbee7d5bde06c5d0d5e240d48da2dcc279ba1249af4"
+    }
+  },
+  "run": {
+    "attempt": 1,
+    "conclusion": "failure",
+    "head": "e4eaaecebad1f0ba11ab1542b5df89a6423a8a1e",
+    "id": 43132617378,
+    "started_at": "2026-11-12T01:10:21Z",
+    "status": "completed",
+    "tree": "ead4c59721d1fc1dc608a9f803dbaf2a076abbdd"
+  },
+  "status": "FAILED_NATIVE21_OF25_BROWSER0_FULL_RESTORE",
+  "verified_originals": {
+    "CP7_SKU_CURRENT_PARENT_MONEY_AUTOMATIC_QUALIFICATION.json": {
+      "bytes": 9129347,
+      "sha256": "9b1a27e112d5b44b4f56e325978caea9db852ab008492b90d955df8ab5ffc368"
+    },
+    "SKU_CURRENT_PARENT_MONEY_AUTOMATIC_RUNTIME_SUPERVISION.json": {
+      "bytes": 584,
+      "sha256": "1e608de4ba0df2e878002428ae8efd947b7c5483885cc64983354c5b24df9b9c"
+    },
+    "SKU_GLOBAL_PARENT_ACTUAL_FULL25.json": {
+      "bytes": 16048163,
+      "sha256": "5ff582717522b766c12024c1bf3299066475f14a3c6021a3543f378f829e0c07"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 1470,
+      "sha256": "1961bf05d1983bd805068b97f83032c99419e06dbbe58b72fe3a22f294bb93d5"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360440,
+      "sha256": "08e084fbba02e225322d205485263f3733d325c6b912c49cf5aca246897d6146"
+    }
+  },
+  "worker": {
+    "actual_case_credit": 0,
+    "artifact_reserve_seconds": 600,
+    "deadline_reached": false,
+    "elapsed_seconds": 9089.787,
+    "external_signal": null,
+    "github_run_attempt": "1",
+    "github_run_id": "43132617378",
+    "job_budget_seconds": 21600,
+    "orphaned_child": false,
+    "process_group_empty": true,
+    "process_tree_empty": true,
+    "production_go": false,
+    "qualification_commit": "e4eaaecebad1f0ba11ab1542b5df89a6423a8a1e",
+    "recovery_reserve_seconds": 1200,
+    "signals": [],
+    "status": "INCOMPLETE",
+    "work_budget_seconds": 19800,
+    "worker_exit": 1,
+    "worker_pid": 22356
+  }
+}
