@@ -1,0 +1,153 @@
+{
+  "classification": "EXISTING_PYTHON_PREFLIGHT_SQL_PROTOCOL_REPLAY_NOT_DATABASE",
+  "status": "FAIL",
+  "cases": [
+    {
+      "id": "missing",
+      "expected": "REFUSED",
+      "actual": "PASS",
+      "errors": [],
+      "mapping_read": false,
+      "read_only_protocol": true,
+      "all_five_actor_checks_preserved": true,
+      "status": "FAIL"
+    },
+    {
+      "id": "inactive",
+      "expected": "REFUSED",
+      "actual": "PASS",
+      "errors": [],
+      "mapping_read": false,
+      "read_only_protocol": true,
+      "all_five_actor_checks_preserved": true,
+      "status": "FAIL"
+    },
+    {
+      "id": "nonpostable",
+      "expected": "REFUSED",
+      "actual": "PASS",
+      "errors": [],
+      "mapping_read": false,
+      "read_only_protocol": true,
+      "all_five_actor_checks_preserved": true,
+      "status": "FAIL"
+    },
+    {
+      "id": "dangling",
+      "expected": "REFUSED",
+      "actual": "PASS",
+      "errors": [],
+      "mapping_read": false,
+      "read_only_protocol": true,
+      "all_five_actor_checks_preserved": true,
+      "status": "FAIL"
+    },
+    {
+      "id": "duplicate",
+      "expected": "REFUSED",
+      "actual": "PASS",
+      "errors": [],
+      "mapping_read": false,
+      "read_only_protocol": true,
+      "all_five_actor_checks_preserved": true,
+      "status": "FAIL"
+    },
+    {
+      "id": "valid",
+      "expected": "PASS",
+      "actual": "PASS",
+      "errors": [],
+      "mapping_read": false,
+      "read_only_protocol": true,
+      "all_five_actor_checks_preserved": true,
+      "status": "PASS"
+    },
+    {
+      "id": "permission",
+      "expected": "REFUSED",
+      "actual": "REFUSED",
+      "errors": [
+        "ACTOR_PERMISSION:accessory_operator:warehouse.accessory.view"
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "actor_error",
+      "expected": "REFUSED",
+      "actual": "REFUSED",
+      "errors": [
+        "ACTOR_CHECK_REFUSED:conversion_and_owner_native"
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "census_change",
+      "expected": "REFUSED",
+      "actual": "REFUSED",
+      "errors": [
+        "READ_ONLY_PREFLIGHT_CHANGED_CATALOG_ROWS_OR_SEQUENCES"
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "unexpected_account_read_error",
+      "expected": "PROPAGATED",
+      "actual": "PASS",
+      "status": "FAIL"
+    },
+    {
+      "id": "final_gate_omitted",
+      "expected": "REFUSED",
+      "actual": "ACCEPTED",
+      "status": "FAIL"
+    },
+    {
+      "id": "final_gate_empty",
+      "expected": "REFUSED",
+      "actual": "ACCEPTED",
+      "status": "FAIL"
+    },
+    {
+      "id": "final_gate_false",
+      "expected": "REFUSED",
+      "actual": "ACCEPTED",
+      "status": "FAIL"
+    },
+    {
+      "id": "final_gate_extra",
+      "expected": "REFUSED",
+      "actual": "ACCEPTED",
+      "status": "FAIL"
+    }
+  ],
+  "source": {
+    "native_preflight.py": {
+      "bytes": 7005,
+      "sha256": "c989857d6317386c6b9bf9433a81e7ff0f62ac8d6753ddadd7a965a41e5af83c"
+    },
+    "final_gate.py": {
+      "bytes": 9911,
+      "sha256": "0113c31acb3b993c1bfe2e0bce1ccdf384d76553d48aacd138f2055ac70a8f14"
+    }
+  },
+  "retained": {
+    "native_preflight.py": {
+      "bytes": 8157,
+      "sha256": "eb15f3a0471370cc003ba5677233bdd0bf731e84ac59f4e11e5833a8929a0f77"
+    },
+    "test_native_preflight.py": {
+      "bytes": 8921,
+      "sha256": "66c5246c4e70ce6539b7120adbf26524fc914ed813151c4ecf5049697f25f290"
+    },
+    "money_gate_support.py": {
+      "bytes": 4666,
+      "sha256": "44b23a9d96980929caa4d6fa501f8e82ae384122a66bcad3915611fcf94b2cb5"
+    }
+  },
+  "actual_SQL_executed": 0,
+  "actual_ERP_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "database_changes": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

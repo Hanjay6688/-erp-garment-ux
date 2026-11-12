@@ -1,0 +1,140 @@
+{
+  "global_source": {
+    "head": "c9248b8770ec8cfe0f7e2f2fd8da26c141ea67c5",
+    "tree": "9b440dd1785344fdafa5d2d702a6dd8f1ee08622",
+    "recovered_from_verified_A_pack": true,
+    "admission_pin": {
+      "bytes": 1739,
+      "sha256": "e77645273331e4f13def8bbd830127fab1673c95e198796e789784dbfaa218fe"
+    },
+    "closed_gates": {
+      "PARENT_HEAD": null,
+      "PARENT_TREE": null,
+      "PARENT_ROOT_RECEIPT": null,
+      "PARENT_RUN": null,
+      "PARENT_JOB": null,
+      "PARENT_ROOT_CONTRACT": null,
+      "INPUT_PROFILE_PIN": null,
+      "RUNTIME_ENTRY": null
+    }
+  },
+  "current_SKU": {
+    "head": "e4eaaecebad1f0ba11ab1542b5df89a6423a8a1e",
+    "run": 43132617378,
+    "job": 130900171009,
+    "last_observed_status": "in_progress",
+    "terminal_original_available": false
+  },
+  "reused_A_authority_review": "https://github.com/Hanjay6688/-erp-garment-ux/blob/efea94b835a08c971681d3288e2bc12c64a580b1/docs/cp7/review/shutdown-20261111/sku-43132617378/A165_ACTUAL_AUTHORITY_DIAGNOSTIC.json",
+  "historical_diagnostic_only": {
+    "source_head": "a1652a808f5f9e7a5bcc3fe0ea0feb081075adc3",
+    "accounts": {
+      "4100": [
+        [
+          true,
+          true,
+          "REVENUE"
+        ]
+      ],
+      "5100": [
+        [
+          true,
+          true,
+          "EXPENSE"
+        ]
+      ]
+    },
+    "mappings": {
+      "MATERIAL_INVENTORY": [
+        [
+          true,
+          true
+        ]
+      ],
+      "FG_INVENTORY": [
+        [
+          true,
+          true
+        ]
+      ],
+      "COGS": [
+        [
+          true,
+          true
+        ]
+      ],
+      "WIP": [
+        [
+          true,
+          true
+        ]
+      ],
+      "OTHER_INCOME": [
+        [
+          true,
+          true
+        ]
+      ],
+      "OTHER_EXPENSE": [
+        [
+          true,
+          true
+        ]
+      ],
+      "AR_CUSTOMER": [
+        [
+          true,
+          true
+        ]
+      ],
+      "SALES_REVENUE": [
+        [
+          true,
+          true
+        ]
+      ]
+    },
+    "PCS": [
+      [
+        "PCS"
+      ]
+    ],
+    "location": [
+      true,
+      "FG_WAREHOUSE"
+    ],
+    "master": [
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "closed_through": [
+      [
+        "2026-08-31"
+      ]
+    ],
+    "observed_WIB": "2026-11-12T07:11:01.626268+07:00",
+    "opening_day": "2026-11-08",
+    "material_receipt_day": "2026-11-06",
+    "historical_actor_failure": [
+      "ACTOR_CHECK_REFUSED:conversion_and_owner_native",
+      "ACTOR_CHECK_REFUSED:accessory_operator",
+      "ACTOR_CHECK_REFUSED:sales_owner"
+    ],
+    "replacement_actor_source": "E4EA ordinary_actor_access; A PG17.6 replay is reused, actual current result pending"
+  },
+  "status": "BLOCKED_FOR_CURRENT_RUNTIME",
+  "missing": [
+    "Terminal accepted E4EA Native25 + browser2 originals and complete recovery/all-five gates.",
+    "A-selected successor Global source with exact backend SHA/tree and reviewed full25/writer/authority/advisor inputs.",
+    "Separate database with the complete combined installed layers; the A165 retained clone is base T3, not a ready combined database.",
+    "Current ordinary actor permissions, all required active/postable accounts (including AP_SUPPLIER), master/unit/location/date checks on that separate database.",
+    "For QC report INCLUDED: posted cost Rp288 for 8 PCS, WIP/FG mapping, OWNER finance.reports.view, and report period containing QC economic date."
+  ],
+  "no_dates_or_clock_changed": true,
+  "actual_ERP_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

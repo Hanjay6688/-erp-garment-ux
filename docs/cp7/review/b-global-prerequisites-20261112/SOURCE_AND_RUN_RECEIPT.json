@@ -1,0 +1,142 @@
+{
+  "base_head": "e4eaaecebad1f0ba11ab1542b5df89a6423a8a1e",
+  "base_tree": "ead4c59721d1fc1dc608a9f803dbaf2a076abbdd",
+  "delivery_parent": "0568c7fcde1be77444c3156f4b965f7f33404573",
+  "delivery_changes_are_documentation_and_proposed_patch_only": true,
+  "retained_head": "f1674ae84739f577571d68415beabfca3f3b832b",
+  "source_files": {
+    "native_preflight.py": {
+      "before": {
+        "bytes": 7005,
+        "sha256": "c989857d6317386c6b9bf9433a81e7ff0f62ac8d6753ddadd7a965a41e5af83c"
+      },
+      "proposed": {
+        "bytes": 7544,
+        "sha256": "9176fd21f484c0a99af0373a1341a041b32f9dbf6b83be7fd7c89b6ff05c2ff3"
+      }
+    },
+    "final_gate.py": {
+      "before": {
+        "bytes": 9911,
+        "sha256": "0113c31acb3b993c1bfe2e0bce1ccdf384d76553d48aacd138f2055ac70a8f14"
+      },
+      "proposed": {
+        "bytes": 10100,
+        "sha256": "97ed1259fe5b8fe5f32616d2b9fcaecb32710f456c42083e3beebdfa93384a10"
+      }
+    },
+    "test_final_gate.py": {
+      "before": {
+        "bytes": 14884,
+        "sha256": "fc7fe719a9f0cbf66460d2d133a2a39bc1c7347bb2535360b6a3665e3521d856"
+      },
+      "proposed": {
+        "bytes": 15322,
+        "sha256": "f47565b6df59aa33f0819e05d56ca7f7b4c3957a14d6af91c7ab11bace04e5ba"
+      }
+    },
+    "SOURCE.json": {
+      "before": {
+        "bytes": 59292,
+        "sha256": "f5114412460d1051e1ad318b5f5a2128e0baca12475c3e37be61ebc13836c087"
+      },
+      "proposed": {
+        "bytes": 59293,
+        "sha256": "f9b2438bce91d683a2a70f313c4455bc76b573d9cfa3379b26c8e679276fc223"
+      }
+    }
+  },
+  "unchanged_other_manifest_pins": 93,
+  "first_failure_scope": "MODELLED_PREFLIGHT_FALSE_PASS_NOT_ERP_FAILURE",
+  "controls": {
+    "total": 14,
+    "before_failures": 10,
+    "after_failures": 0
+  },
+  "diagnostic_origin": {
+    "head": "a1652a808f5f9e7a5bcc3fe0ea0feb081075adc3",
+    "run": 43105533441,
+    "job": 130807755829,
+    "artifact": 13902367418,
+    "zip_sha256": "b92b23d962ab2f91fffcbdf30403140c3dbd11ff89a160c573ac64e12c1abecd",
+    "member": "SKU_GLOBAL_PARENT_ACTUAL_FULL25.json",
+    "member_pin": {
+      "bytes": 16048163,
+      "sha256": "a90c17fc625cfca373da74c588c165b26fafde21d3b51a1b62228c582ab6677f"
+    },
+    "credit": "DIAGNOSTIC_ONLY_NO_SKU_ACCEPTANCE",
+    "native_dependencies": {
+      "erp.post_material_purchase(uuid)": {
+        "pin": {
+          "bytes": 3949,
+          "sha256": "17547ee019fca617bf67100d9b3b899b96781a2fa62cc47c57bb2dbafe358082"
+        },
+        "definition": "CREATE OR REPLACE FUNCTION erp.post_material_purchase(p_purchase_id uuid)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'erp', 'public'\nAS $function$\ndeclare\n  h erp.material_purchase_headers%rowtype;\n  r record;\n  rr record;\n  v_roll_count integer;\n  v_roll_qty numeric(18,6);\n  v_bad_rolls integer;\n  v_total numeric(24,6):=0;\nbegin\n  perform erp.require_internal();\n  select * into h from erp.material_purchase_headers where id=p_purchase_id for update;\n  if h.id is null or h.status<>'DRAFT' then raise exception 'Purchase must be DRAFT'; end if;\n  if h.supplier_id is null then raise exception 'Material purchase supplier is required'; end if;\n  if h.location_id is null then raise exception 'Purchase location is required'; end if;\n  if not exists(select 1 from erp.locations l where l.id=h.location_id and l.is_active=true and l.location_type='RAW_MATERIAL_WAREHOUSE') then raise exception 'Material purchase location must be an active raw-material warehouse'; end if;\n  if not exists(select 1 from erp.material_purchase_items where purchase_id=h.id) then raise exception 'Material purchase has no lines'; end if;\n\n  for r in select mpi.*,m.material_type from erp.material_purchase_items mpi join erp.materials m on m.id=mpi.material_id where mpi.purchase_id=p_purchase_id order by mpi.id loop\n    select count(*),coalesce(sum(original_qty),0),count(*) filter(where material_id<>r.material_id or supplier_id is distinct from h.supplier_id)\n      into v_roll_count,v_roll_qty,v_bad_rolls from erp.material_rolls where purchase_item_id=r.id;\n    if r.material_type='FABRIC' then\n      if v_roll_count=0 then raise exception 'Native FABRIC purchase item % must have roll records before posting',r.id; end if;\n      if v_bad_rolls>0 then raise exception 'Fabric roll material/supplier does not match purchase item/header'; end if;\n      if abs(v_roll_qty-r.qty)>0.000001 then raise exception 'Fabric purchase item % qty % does not equal sum of its rolls %',r.id,r.qty,v_roll_qty; end if;\n    elsif v_roll_count>0 then\n      raise exception 'Only FABRIC purchase items may have material rolls';\n    end if;\n\n    if v_roll_count>0 then\n      for rr in select * from erp.material_rolls where purchase_item_id=r.id order by roll_number,id loop\n        insert into erp.material_stock_movements(material_id,roll_id,location_id,movement_type,qty_signed,input_unit_cost,unit_cost_snapshot,source_type,source_id,physical_at,system_created_at,created_by)\n        values(r.material_id,rr.id,h.location_id,'PURCHASE',rr.original_qty,r.unit_price,r.unit_price,'MATERIAL_PURCHASE_ROLL',rr.id,h.physical_at,clock_timestamp(),erp.current_app_user_id());\n      end loop;\n    else\n      insert into erp.material_stock_movements(material_id,location_id,movement_type,qty_signed,input_unit_cost,unit_cost_snapshot,source_type,source_id,physical_at,system_created_at,created_by)\n      values(r.material_id,h.location_id,'PURCHASE',r.qty,r.unit_price,r.unit_price,'MATERIAL_PURCHASE_ITEM',r.id,h.physical_at,clock_timestamp(),erp.current_app_user_id());\n    end if;\n    v_total:=v_total+r.line_total;\n  end loop;\n\n  for r in select distinct material_id from erp.material_purchase_items where purchase_id=p_purchase_id loop perform erp.recalculate_material_cost(r.material_id); end loop;\n  if v_total>0 then\n    perform erp.post_journal('MATERIAL_PURCHASE',h.id,erp._cp3_business_date(h.physical_at),'Material purchase '||h.purchase_number,jsonb_build_array(\n      jsonb_build_object('mapping_key','MATERIAL_INVENTORY','debit',round(v_total,2),'credit',0),\n      jsonb_build_object('mapping_key','AP_SUPPLIER','debit',0,'credit',round(v_total,2))));\n  end if;\n  update erp.material_purchase_headers set status='POSTED' where id=p_purchase_id;\n  insert into erp.audit_logs(entity_type,entity_id,action,changed_by,change_reason) values('material_purchase_headers',p_purchase_id,'POST',erp.current_app_user_id(),'Purchase posted');\nend;\n$function$\n"
+      },
+      "erp.account_id(text)": {
+        "pin": {
+          "bytes": 451,
+          "sha256": "f062aed68e292c44220f8fe4de5b90ed49e9881cb94bb784920be771c4bc650d"
+        },
+        "definition": "CREATE OR REPLACE FUNCTION erp.account_id(p_mapping_key text)\n RETURNS uuid\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'erp', 'public'\nAS $function$ DECLARE v_id uuid; BEGIN PERFORM erp.require_internal();SELECT account_id INTO v_id FROM erp.accounting_account_mappings WHERE mapping_key=p_mapping_key; IF v_id IS NULL THEN RAISE EXCEPTION 'Accounting mapping % is not configured',p_mapping_key; END IF;RETURN v_id;END; $function$\n"
+      }
+    }
+  },
+  "verification": {
+    "python_sources_compile": true,
+    "patch_applies_to_exact_E4EA": true,
+    "cpu_patch_then_supplier_patch_applies": true,
+    "new_database_connections": 0,
+    "new_CI_runs": 0,
+    "changed_Native_SQL": 0,
+    "changed_permissions": 0,
+    "changed_case_amounts": 0,
+    "changed_case_dates": 0,
+    "additional_account_SELECTs": 1,
+    "additional_state_captures": 0
+  },
+  "limits": [
+    "SQL protocol doubles execute the real Python preflight and exact validation function, not PostgreSQL.",
+    "The entire final_gate.py runtime and full SKU/browser suite were not run.",
+    "No claim that AP_SUPPLIER is missing on A active database.",
+    "A integrates on a successor source; the E4EA running or terminal artifact keeps its original validator.",
+    "The existing B digest proposal is separate; both patch applications and four pins were checked together."
+  ],
+  "actual_ERP_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "artifacts": {
+    "COMBINED_PATCH_CHECK.json": {
+      "bytes": 586,
+      "sha256": "785e8836894b7db77f107d61def70a76b92bc4a065091796c6bf7e3c8462c184"
+    },
+    "FIRST_FAILURE.json": {
+      "bytes": 3757,
+      "sha256": "c2329c535feb683eaca3bcc6d6e474655d2e8380e86d9e342817344157e9d34f"
+    },
+    "GLOBAL_PREREQUISITES.json": {
+      "bytes": 3572,
+      "sha256": "d56937001fcd5a6f2a3c2b1bfd107a8a7eef3e58648dcc45d19eb3d0cbabfb24"
+    },
+    "HANDOFF.md": {
+      "bytes": 7792,
+      "sha256": "8e989fe730088d4ef96a19c2a9d0211e458ebbc76204bf2dfe01cc60593b1b7f"
+    },
+    "PROPOSED_RESULT.json": {
+      "bytes": 4119,
+      "sha256": "04c571e72806775a79ab1e048c8074aed2224cfe992d837db205ee56aaa6432d"
+    },
+    "RETAINED_EVIDENCE_REVIEW.json": {
+      "bytes": 20197,
+      "sha256": "e32bb9b5e9c35f7270f1b27fba0917336b4097c8f4038a8a6354548873cc8e1f"
+    },
+    "SUPPLIER_ACCOUNT_PREFLIGHT.patch": {
+      "bytes": 5714,
+      "sha256": "4eb1d49e257baea84a780b6f406a405c668506cadbc50b485761fbc374635ea6"
+    },
+    "replay_supplier_preflight.py": {
+      "bytes": 9306,
+      "sha256": "642208d0561123292d45a2066b5bcc8a310bd73baa3d6db89b39573b1f865dbb"
+    }
+  }
+}

@@ -1,0 +1,163 @@
+{
+  "classification": "EXISTING_PYTHON_PREFLIGHT_SQL_PROTOCOL_REPLAY_NOT_DATABASE",
+  "status": "PASS",
+  "cases": [
+    {
+      "id": "missing",
+      "expected": "REFUSED",
+      "actual": "REFUSED",
+      "errors": [
+        "ACTIVE_POSTABLE_ACCOUNT_MAPPING_REQUIRED:AP_SUPPLIER"
+      ],
+      "mapping_read": true,
+      "read_only_protocol": true,
+      "all_five_actor_checks_preserved": true,
+      "status": "PASS"
+    },
+    {
+      "id": "inactive",
+      "expected": "REFUSED",
+      "actual": "REFUSED",
+      "errors": [
+        "ACTIVE_POSTABLE_ACCOUNT_MAPPING_REQUIRED:AP_SUPPLIER"
+      ],
+      "mapping_read": true,
+      "read_only_protocol": true,
+      "all_five_actor_checks_preserved": true,
+      "status": "PASS"
+    },
+    {
+      "id": "nonpostable",
+      "expected": "REFUSED",
+      "actual": "REFUSED",
+      "errors": [
+        "ACTIVE_POSTABLE_ACCOUNT_MAPPING_REQUIRED:AP_SUPPLIER"
+      ],
+      "mapping_read": true,
+      "read_only_protocol": true,
+      "all_five_actor_checks_preserved": true,
+      "status": "PASS"
+    },
+    {
+      "id": "dangling",
+      "expected": "REFUSED",
+      "actual": "REFUSED",
+      "errors": [
+        "ACTIVE_POSTABLE_ACCOUNT_MAPPING_REQUIRED:AP_SUPPLIER"
+      ],
+      "mapping_read": true,
+      "read_only_protocol": true,
+      "all_five_actor_checks_preserved": true,
+      "status": "PASS"
+    },
+    {
+      "id": "duplicate",
+      "expected": "REFUSED",
+      "actual": "REFUSED",
+      "errors": [
+        "ACTIVE_POSTABLE_ACCOUNT_MAPPING_REQUIRED:AP_SUPPLIER"
+      ],
+      "mapping_read": true,
+      "read_only_protocol": true,
+      "all_five_actor_checks_preserved": true,
+      "status": "PASS"
+    },
+    {
+      "id": "valid",
+      "expected": "PASS",
+      "actual": "PASS",
+      "errors": [],
+      "mapping_read": true,
+      "read_only_protocol": true,
+      "all_five_actor_checks_preserved": true,
+      "status": "PASS"
+    },
+    {
+      "id": "permission",
+      "expected": "REFUSED",
+      "actual": "REFUSED",
+      "errors": [
+        "ACTOR_PERMISSION:accessory_operator:warehouse.accessory.view"
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "actor_error",
+      "expected": "REFUSED",
+      "actual": "REFUSED",
+      "errors": [
+        "ACTOR_CHECK_REFUSED:conversion_and_owner_native"
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "census_change",
+      "expected": "REFUSED",
+      "actual": "REFUSED",
+      "errors": [
+        "READ_ONLY_PREFLIGHT_CHANGED_CATALOG_ROWS_OR_SEQUENCES"
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "unexpected_account_read_error",
+      "expected": "PROPAGATED",
+      "actual": "PROPAGATED",
+      "status": "PASS"
+    },
+    {
+      "id": "final_gate_omitted",
+      "expected": "REFUSED",
+      "actual": "REFUSED",
+      "status": "PASS"
+    },
+    {
+      "id": "final_gate_empty",
+      "expected": "REFUSED",
+      "actual": "REFUSED",
+      "status": "PASS"
+    },
+    {
+      "id": "final_gate_false",
+      "expected": "REFUSED",
+      "actual": "REFUSED",
+      "status": "PASS"
+    },
+    {
+      "id": "final_gate_extra",
+      "expected": "REFUSED",
+      "actual": "REFUSED",
+      "status": "PASS"
+    }
+  ],
+  "source": {
+    "native_preflight.py": {
+      "bytes": 7544,
+      "sha256": "9176fd21f484c0a99af0373a1341a041b32f9dbf6b83be7fd7c89b6ff05c2ff3"
+    },
+    "final_gate.py": {
+      "bytes": 10100,
+      "sha256": "97ed1259fe5b8fe5f32616d2b9fcaecb32710f456c42083e3beebdfa93384a10"
+    }
+  },
+  "retained": {
+    "native_preflight.py": {
+      "bytes": 8157,
+      "sha256": "eb15f3a0471370cc003ba5677233bdd0bf731e84ac59f4e11e5833a8929a0f77"
+    },
+    "test_native_preflight.py": {
+      "bytes": 8921,
+      "sha256": "66c5246c4e70ce6539b7120adbf26524fc914ed813151c4ecf5049697f25f290"
+    },
+    "money_gate_support.py": {
+      "bytes": 4666,
+      "sha256": "44b23a9d96980929caa4d6fa501f8e82ae384122a66bcad3915611fcf94b2cb5"
+    }
+  },
+  "actual_SQL_executed": 0,
+  "actual_ERP_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "database_changes": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

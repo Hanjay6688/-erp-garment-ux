@@ -1,0 +1,538 @@
+{
+  "original_packages": [
+    {
+      "label": "supplier_predecessor",
+      "head": "38abb879f71b108d388a6221e307337b93e29ccf",
+      "run": 37168713930,
+      "job": 111337050623,
+      "gzip": {
+        "bytes": 43732,
+        "sha256": "82ce68f817a3591615e305f4bfab9c60975b471ba0c7390ffb6a7f1c7a31ebed"
+      },
+      "root_members": {
+        "ALIGNED_CHAIN.json": {
+          "bytes": 17286,
+          "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+        },
+        "CP7_SUPPLIER_PAYMENT_CORRECTION.json": {
+          "bytes": 382511,
+          "sha256": "bd282a51fc9702e050152c1dd398da2e84572f806055fbe21b0b7730ee7d6b24"
+        },
+        "T3_BACKUP_RESTORE_DRILL.json": {
+          "bytes": 10524,
+          "sha256": "9fc70d3d66e3d6dc370cabd9a0c5e1e70a521f45633a2594efdc3332df62d305"
+        },
+        "T3_PACKAGE_FILES_INSTALL.json": {
+          "bytes": 1806,
+          "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+        },
+        "T3_PACKAGE_INSTALL.json": {
+          "bytes": 360429,
+          "sha256": "65a7f749a6da66a4fd5ecebad6d8dc4cf73827401a46386174bbff3302c65fe4"
+        }
+      },
+      "status": "PASS",
+      "cases": 23,
+      "groups": {
+        "native": {
+          "counts": {
+            "PASS": 14
+          },
+          "planned_ids": [
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_EXACT_CENTS",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_LARGE_CENTS",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_FULLY_PAID",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_NEW_ACCOUNT",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_MICROSECONDS",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_DATE_MOVE",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_YEAR_364",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_FINAL_POST_FAILURE",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_STALE_FOREIGN",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_CURRENT_PERMISSIONS",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_CLOSED_FIELDS_INACTIVE",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_REPLAY_RESTORE",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_IMMUTABLE_HISTORY_SOURCE",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_CLOSED_BOOKS"
+          ],
+          "final": {
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_EXACT_CENTS": "PASS",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_LARGE_CENTS": "PASS",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_FULLY_PAID": "PASS",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_NEW_ACCOUNT": "PASS",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_MICROSECONDS": "PASS",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_DATE_MOVE": "PASS",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_YEAR_364": "PASS",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_FINAL_POST_FAILURE": "PASS",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_STALE_FOREIGN": "PASS",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_CURRENT_PERMISSIONS": "PASS",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_CLOSED_FIELDS_INACTIVE": "PASS",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_REPLAY_RESTORE": "PASS",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_IMMUTABLE_HISTORY_SOURCE": "PASS",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_CLOSED_BOOKS": "PASS"
+          },
+          "database_remaining": null
+        },
+        "races": {
+          "counts": {
+            "PASS": 4
+          },
+          "planned_ids": [
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_RACE_SAME_UUID",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_RACE_COMPETING",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_RACE_AUTH_RETIRE",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_RACE_BANK_RETIRE"
+          ],
+          "final": null,
+          "database_remaining": 0
+        },
+        "http": {
+          "counts": {
+            "PASS": 3
+          },
+          "planned_ids": [
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_HTTP_ATOMIC_REPLAY",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_HTTP_YEAR_364",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_HTTP_CURRENT_RETIRE"
+          ],
+          "final": null,
+          "database_remaining": 0
+        },
+        "browser": {
+          "counts": {
+            "PASS": 2
+          },
+          "planned_ids": [
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_BROWSER_DESKTOP",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_BROWSER_MOBILE"
+          ],
+          "final": null,
+          "database_remaining": 0
+        }
+      },
+      "cp6_restored": true,
+      "restore_components": {
+        "erp_platform_auth_schema_acl": true,
+        "public_catalog_and_rows": true,
+        "erp_public_auth_function_definitions_owners_acls": true
+      },
+      "advisor_gate": true,
+      "additional_current_ERP_credit": 0,
+      "classification": "RETAINED_ORIGINALS_VERIFIED_IN_ORIGINAL_SCOPE",
+      "note": "Supplier successor replaces the same 23 predecessor cases, not 46 distinct cases."
+    },
+    {
+      "label": "supplier_successor",
+      "head": "43265e22b723073680a7b3b2acaf698770f8cf14",
+      "run": 37170190982,
+      "job": 111341422710,
+      "gzip": {
+        "bytes": 43864,
+        "sha256": "1230ebc084ca24fcf27d0499431c39a73fd5ca553896dbe8aef9992c4cc43c33"
+      },
+      "root_members": {
+        "ALIGNED_CHAIN.json": {
+          "bytes": 17286,
+          "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+        },
+        "CP7_SUPPLIER_PAYMENT_CORRECTION.json": {
+          "bytes": 382837,
+          "sha256": "01e713738fa14d7b7d48c0315b6bc119d7f25a05cf56fd1269e6634aff01c5cb"
+        },
+        "T3_BACKUP_RESTORE_DRILL.json": {
+          "bytes": 10524,
+          "sha256": "562b6eeca7548d72ef065cd7a00426b101861e2b22db452bcf28f8715a7253c2"
+        },
+        "T3_PACKAGE_FILES_INSTALL.json": {
+          "bytes": 1806,
+          "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+        },
+        "T3_PACKAGE_INSTALL.json": {
+          "bytes": 360429,
+          "sha256": "450c27a880f0b78c05f433831560a626173a2f4104718a046f4e39b511cae50f"
+        }
+      },
+      "status": "PASS",
+      "cases": 23,
+      "groups": {
+        "native": {
+          "counts": {
+            "PASS": 14
+          },
+          "planned_ids": [
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_EXACT_CENTS",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_LARGE_CENTS",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_FULLY_PAID",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_NEW_ACCOUNT",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_MICROSECONDS",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_DATE_MOVE",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_YEAR_364",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_FINAL_POST_FAILURE",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_STALE_FOREIGN",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_CURRENT_PERMISSIONS",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_CLOSED_FIELDS_INACTIVE",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_REPLAY_RESTORE",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_IMMUTABLE_HISTORY_SOURCE",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_CLOSED_BOOKS"
+          ],
+          "final": {
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_EXACT_CENTS": "PASS",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_LARGE_CENTS": "PASS",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_FULLY_PAID": "PASS",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_NEW_ACCOUNT": "PASS",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_MICROSECONDS": "PASS",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_DATE_MOVE": "PASS",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_YEAR_364": "PASS",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_FINAL_POST_FAILURE": "PASS",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_STALE_FOREIGN": "PASS",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_CURRENT_PERMISSIONS": "PASS",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_CLOSED_FIELDS_INACTIVE": "PASS",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_REPLAY_RESTORE": "PASS",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_IMMUTABLE_HISTORY_SOURCE": "PASS",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_CLOSED_BOOKS": "PASS"
+          },
+          "database_remaining": null
+        },
+        "races": {
+          "counts": {
+            "PASS": 4
+          },
+          "planned_ids": [
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_RACE_SAME_UUID",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_RACE_COMPETING",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_RACE_AUTH_RETIRE",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_RACE_BANK_RETIRE"
+          ],
+          "final": null,
+          "database_remaining": 0
+        },
+        "http": {
+          "counts": {
+            "PASS": 3
+          },
+          "planned_ids": [
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_HTTP_ATOMIC_REPLAY",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_HTTP_YEAR_364",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_HTTP_CURRENT_RETIRE"
+          ],
+          "final": null,
+          "database_remaining": 0
+        },
+        "browser": {
+          "counts": {
+            "PASS": 2
+          },
+          "planned_ids": [
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_BROWSER_DESKTOP",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_BROWSER_MOBILE"
+          ],
+          "final": null,
+          "database_remaining": 0
+        }
+      },
+      "cp6_restored": true,
+      "restore_components": {
+        "erp_platform_auth_schema_acl": true,
+        "public_catalog_and_rows": true,
+        "erp_public_auth_function_definitions_owners_acls": true
+      },
+      "advisor_gate": true,
+      "additional_current_ERP_credit": 0,
+      "classification": "RETAINED_ORIGINALS_VERIFIED_IN_ORIGINAL_SCOPE",
+      "note": "Supplier successor replaces the same 23 predecessor cases, not 46 distinct cases."
+    },
+    {
+      "label": "cash",
+      "head": "d0b41469a131bf03a4e39de2a728f4ecf42278df",
+      "run": 37160834877,
+      "job": 111313742675,
+      "gzip": {
+        "bytes": 36830,
+        "sha256": "78fd96ff793370ad69bd47b79a002c1b70b25d7e0d62c870e1c031145f614ace"
+      },
+      "root_members": {
+        "ALIGNED_CHAIN.json": {
+          "bytes": 17286,
+          "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+        },
+        "CP7_F03_CASH.json": {
+          "bytes": 299034,
+          "sha256": "59d56d59388f56629aa6639ece0a70c5b76571e929284a01a63c8af6790cb78f"
+        },
+        "T3_BACKUP_RESTORE_DRILL.json": {
+          "bytes": 10524,
+          "sha256": "8271290d7f2a2e74b33c99e71e5f21b1ab471fcdc15d1849ae5707bcadd5ad99"
+        },
+        "T3_PACKAGE_FILES_INSTALL.json": {
+          "bytes": 1806,
+          "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+        },
+        "T3_PACKAGE_INSTALL.json": {
+          "bytes": 360423,
+          "sha256": "9f6beabfb777e232a9b2e937f274b0c6435c97b5fbc817235ed0419493c23bf5"
+        }
+      },
+      "status": "PASS",
+      "cases": 21,
+      "groups": {
+        "native": {
+          "counts": {
+            "PASS": 3
+          },
+          "planned_ids": [
+            "F03_CASH_O14_COMPLETE_33_SOURCE_PAGES",
+            "F03_CASH_E13_LINKED_NATIVE_INVERSE_DATES",
+            "F03_CASH_CURRENT_AUTHORITY_NO_WRITE"
+          ],
+          "final": {
+            "F03_CASH_O14_COMPLETE_33_SOURCE_PAGES": "PASS",
+            "F03_CASH_E13_LINKED_NATIVE_INVERSE_DATES": "PASS",
+            "F03_CASH_CURRENT_AUTHORITY_NO_WRITE": "PASS"
+          },
+          "database_remaining": null
+        },
+        "http": {
+          "counts": {
+            "PASS": 1
+          },
+          "planned_ids": [
+            "F03_CASH_REAL_HTTP_COMPLETE_SOURCE_AUTH"
+          ],
+          "final": null,
+          "database_remaining": 0
+        },
+        "journal_native": {
+          "counts": {
+            "PASS": 6
+          },
+          "planned_ids": [
+            "F03_JOURNAL_PAGES",
+            "F03_JOURNAL_COMPLETE_DETAIL",
+            "F03_JOURNAL_INVERSE_DATES",
+            "F03_JOURNAL_QUERY",
+            "F03_JOURNAL_EXACT_LARGE",
+            "F03_JOURNAL_CURRENT_ACCESS_PRIVATE"
+          ],
+          "final": {
+            "F03_JOURNAL_PAGES": "PASS",
+            "F03_JOURNAL_COMPLETE_DETAIL": "PASS",
+            "F03_JOURNAL_INVERSE_DATES": "PASS",
+            "F03_JOURNAL_QUERY": "PASS",
+            "F03_JOURNAL_EXACT_LARGE": "PASS",
+            "F03_JOURNAL_CURRENT_ACCESS_PRIVATE": "PASS"
+          },
+          "database_remaining": null
+        },
+        "journal_http": {
+          "counts": {
+            "PASS": 1
+          },
+          "planned_ids": [
+            "F03_JOURNAL_REAL_HTTP"
+          ],
+          "final": null,
+          "database_remaining": 0
+        },
+        "browser": {
+          "counts": {
+            "PASS": 10
+          },
+          "planned_ids": [
+            "F03_CASH_BROWSER_DESKTOP",
+            "F03_CASH_BROWSER_MOBILE_CURRENT_AUTH",
+            "F03_REPORT_DATES_BROWSER_DESKTOP",
+            "F03_REPORT_DATES_BROWSER_MOBILE",
+            "F03_FINANCE_OVERVIEW_BROWSER_DESKTOP",
+            "F03_FINANCE_OVERVIEW_BROWSER_MOBILE",
+            "F03_RECEIVABLES_BROWSER_DESKTOP",
+            "F03_RECEIVABLES_BROWSER_MOBILE",
+            "F03_JOURNAL_BROWSER_DESKTOP",
+            "F03_JOURNAL_BROWSER_MOBILE_CURRENT_AUTH"
+          ],
+          "final": null,
+          "database_remaining": 0
+        }
+      },
+      "cp6_restored": true,
+      "restore_components": {
+        "erp_platform_auth_schema_acl": true,
+        "all_public_catalog_members_and_row_hashes": true,
+        "erp_public_auth_function_definitions_owners_acls": true
+      },
+      "advisor_gate": true,
+      "additional_current_ERP_credit": 0,
+      "classification": "RETAINED_ORIGINALS_VERIFIED_IN_ORIGINAL_SCOPE",
+      "note": "21 cases include read-only cash, journal and 10 browser journeys, not 21 cash transactions."
+    }
+  ],
+  "verified_root_members": 15,
+  "unique_historical_cases": 44,
+  "new_ERP_cases": 0,
+  "current_source_comparison": {
+    "supplier_correction": {
+      "prior": "38abb879f71b108d388a6221e307337b93e29ccf",
+      "current": "e4eaaecebad1f0ba11ab1542b5df89a6423a8a1e",
+      "files": [
+        {
+          "path": "scripts/cp7-src/invoices/payment-correction.sql",
+          "prior": "fd84a744c0b08dc113fd74ec1b40c252cae84a85",
+          "current": "1c05c9259bcb33e4d8afd61102c09c51a0177ffd",
+          "equal": false
+        },
+        {
+          "path": "scripts/cp7_supplier_payment_correction_bundle.py",
+          "prior": "fd1e7c89a0d4250d77a813096c505424974a5be1",
+          "current": "fd1e7c89a0d4250d77a813096c505424974a5be1",
+          "equal": true
+        },
+        {
+          "path": "scripts/cp7_supplier_payment_correction_cases.py",
+          "prior": "1a84cb69394ac0732dbd2def9fdb28b2e6ac9aa7",
+          "current": "6d81bc1a69983fb4578a596207a82e8299416005",
+          "equal": false
+        },
+        {
+          "path": "scripts/cp7_supplier_payment_correction_browser.mjs",
+          "prior": "356f2db41e74562df02229f2b821ed5ced79c656",
+          "current": "4c3c8ac2b4ae8f6bb00ec432bfa25b8f7f014eb3",
+          "equal": false
+        },
+        {
+          "path": "src/SupplierPaymentCorrectionPanel.tsx",
+          "prior": "9e108d1032f3422a77313e84a7912bf199db48e4",
+          "current": "7257552799e8d3e6b19c0ed461d88f3efc1092c8",
+          "equal": false
+        },
+        {
+          "path": "src/supplierPaymentCorrectionContract.ts",
+          "prior": "ab44a6787a020806f0104e126dd3cac9e88619b1",
+          "current": "ab44a6787a020806f0104e126dd3cac9e88619b1",
+          "equal": true
+        },
+        {
+          "path": "src/App.tsx",
+          "prior": "2b8b03c316a457d6b42e3bfc255b95687676c06c",
+          "current": "9975f3a3c60605e0be83611bd5aefae66feb7fec",
+          "equal": false
+        },
+        {
+          "path": "src/initial-import.css",
+          "prior": "587e680e9148b4893c15a1a12f2526b1b4ca675e",
+          "current": "0dc9949c6bfd6eb96f3c358b2a88edc12eba606c",
+          "equal": false
+        }
+      ]
+    },
+    "cash": {
+      "prior": "7022148fdd84b92de967fa182b5e69609e7570c5",
+      "current": "e4eaaecebad1f0ba11ab1542b5df89a6423a8a1e",
+      "files": [
+        {
+          "path": "scripts/cp7_f03_cash_cases.py",
+          "prior": "994553583861ea6d06b2fa5250614864218592aa",
+          "current": "994553583861ea6d06b2fa5250614864218592aa",
+          "equal": true
+        },
+        {
+          "path": "scripts/cp7_f03_cash_browser.mjs",
+          "prior": "c829aabae03ffd3cefb2e04251a905b9a9f6eed5",
+          "current": "8812e898b162d913ab05334be8bfdb863b1afb91",
+          "equal": false
+        },
+        {
+          "path": "scripts/cp7_f03_cash_browser_fixture.py",
+          "prior": "794607a1b7ab1f5bf5d5eb204781a22e822bac08",
+          "current": "17eb33db6666821808ce8c375882697a2ddac36f",
+          "equal": false
+        },
+        {
+          "path": "src/ConnectedCashLedgerPage.tsx",
+          "prior": "ed1c079a0227ba592c29262851056bd7a00c33e1",
+          "current": "3d4786d5c64db4f519f91b6f4740f4c48cc9ab71",
+          "equal": false
+        },
+        {
+          "path": "src/App.tsx",
+          "prior": "2b8b03c316a457d6b42e3bfc255b95687676c06c",
+          "current": "9975f3a3c60605e0be83611bd5aefae66feb7fec",
+          "equal": false
+        },
+        {
+          "path": "src/initial-import.css",
+          "prior": "587e680e9148b4893c15a1a12f2526b1b4ca675e",
+          "current": "0dc9949c6bfd6eb96f3c358b2a88edc12eba606c",
+          "equal": false
+        }
+      ]
+    },
+    "supplier_correction_successor": {
+      "prior": "43265e22b723073680a7b3b2acaf698770f8cf14",
+      "current": "e4eaaecebad1f0ba11ab1542b5df89a6423a8a1e",
+      "files": [
+        {
+          "path": "scripts/cp7-src/invoices/payment-correction.sql",
+          "prior": "32721e106de0f75d6452d071e14858477ca4cd06",
+          "current": "1c05c9259bcb33e4d8afd61102c09c51a0177ffd",
+          "equal": false
+        },
+        {
+          "path": "scripts/cp7_supplier_payment_correction_bundle.py",
+          "prior": "fd1e7c89a0d4250d77a813096c505424974a5be1",
+          "current": "fd1e7c89a0d4250d77a813096c505424974a5be1",
+          "equal": true
+        },
+        {
+          "path": "scripts/cp7_supplier_payment_correction_cases.py",
+          "prior": "5f8d60c79ed6a8a26df6d93018b9f0e5f77540b0",
+          "current": "6d81bc1a69983fb4578a596207a82e8299416005",
+          "equal": false
+        },
+        {
+          "path": "scripts/cp7_supplier_payment_correction_browser.mjs",
+          "prior": "356f2db41e74562df02229f2b821ed5ced79c656",
+          "current": "4c3c8ac2b4ae8f6bb00ec432bfa25b8f7f014eb3",
+          "equal": false
+        },
+        {
+          "path": "src/SupplierPaymentCorrectionPanel.tsx",
+          "prior": "9e108d1032f3422a77313e84a7912bf199db48e4",
+          "current": "7257552799e8d3e6b19c0ed461d88f3efc1092c8",
+          "equal": false
+        },
+        {
+          "path": "src/supplierPaymentCorrectionContract.ts",
+          "prior": "ab44a6787a020806f0104e126dd3cac9e88619b1",
+          "current": "ab44a6787a020806f0104e126dd3cac9e88619b1",
+          "equal": true
+        },
+        {
+          "path": "src/App.tsx",
+          "prior": "2b8b03c316a457d6b42e3bfc255b95687676c06c",
+          "current": "9975f3a3c60605e0be83611bd5aefae66feb7fec",
+          "equal": false
+        },
+        {
+          "path": "src/initial-import.css",
+          "prior": "587e680e9148b4893c15a1a12f2526b1b4ca675e",
+          "current": "0dc9949c6bfd6eb96f3c358b2a88edc12eba606c",
+          "equal": false
+        }
+      ]
+    }
+  },
+  "exclusions": [
+    {
+      "path": "docs/cp7/evidence/supplier-payment-correction/qualified38-e05/RECEIPT.json",
+      "actual_label": "CP7_F03_E05_INSTALLMENTS",
+      "supplier_payment_correction_credit": 0,
+      "reason": "This receipt is for a different suite; use qualified23-38 / qualified23-432 for supplier correction."
+    },
+    {
+      "path": "scripts/cp7_accessory_nonpayable/FREE3_PARENT_ROOT_ACTUAL_INTAKE.json",
+      "actual_scope": "FREE_DATE_NATIVE3 prerequisite",
+      "new_AFUI_credit": 0
+    }
+  ],
+  "accepted_current_parent_still_required": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

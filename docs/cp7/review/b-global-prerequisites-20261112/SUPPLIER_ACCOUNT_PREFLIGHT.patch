@@ -1,0 +1,98 @@
+--- a/scripts/current-sku-automatic-composite-preparation/native_preflight.py
++++ b/scripts/current-sku-automatic-composite-preparation/native_preflight.py
+@@ -21,6 +21,7 @@
+     'upstream_completion_owner': FUNCTIONS[:2],
+     'supplier_invoice_owner': FUNCTIONS[2:4],
+ }
++SUPPLIER_ACCOUNT_MAPPINGS = ('AP_SUPPLIER',)
+ RETAINED_MONEY_PREFLIGHT_PIN = (
+     8157, 'eb15f3a0471370cc003ba5677233bdd0bf731e84ac59f4e11e5833a8929a0f77',
+ )
+@@ -72,6 +73,12 @@
+     errors = list(original['errors'])
+     business.f.admin(cur)
+     before = business.n.capture(cur)
++    supplier_mappings = {key: cur.execute(
++        'select a.is_active,a.is_postable from erp.accounting_account_mappings m '
++        'left join erp.chart_accounts a on a.id=m.account_id where m.mapping_key=%s',
++        (key,)).fetchall() for key in SUPPLIER_ACCOUNT_MAPPINGS}
++    errors.extend('ACTIVE_POSTABLE_ACCOUNT_MAPPING_REQUIRED:' + key
++                  for key, rows in supplier_mappings.items() if rows != [(True, True)])
+     available = {sig: cur.execute('select to_regprocedure(%s) is not null', (sig,)).fetchone()[0] for sig in FUNCTIONS}
+     errors.extend('AUTOMATIC_MISSING_FUNCTION:' + sig for sig, found in available.items() if not found)
+     bindings = {}
+@@ -115,6 +122,7 @@
+     if not unchanged:
+         errors.append('AUTOMATIC_READ_ONLY_PREREQUISITES_CHANGED_CURRENT_BOUNDARY')
+     return dict(status='PASS' if not errors else 'REFUSED', errors=errors, retained_money19=original,
++                supplier_account_mappings=supplier_mappings,
+                 automatic_functions=available, automatic_actors=actors, natural_callers=bindings,
+                 all_prerequisites_checked_before_first_case=True, source=product.sources(),
+                 all22_rows_and_all_sequences_unchanged=unchanged, actual_ERP_cases=0, production_go=False)
+--- a/scripts/current-sku-automatic-composite-preparation/final_gate.py
++++ b/scripts/current-sku-automatic-composite-preparation/final_gate.py
+@@ -49,6 +49,8 @@
+              'AUTOMATIC_BATCH_PREFLIGHT_AND_UNCHANGED_CURRENT_BOUNDARY')
+     # Validate the exact nested retained Original, without relabeling it.
+     money_gate.validate_preflight(p, dict(part, native_prerequisites=value['retained_money19']), value['retained_money19'])
++    p.exact(value['supplier_account_mappings'], {key: [[True, True]] for key in prerequisites.SUPPLIER_ACCOUNT_MAPPINGS},
++            'AUTOMATIC_ACTIVE_POSTABLE_SUPPLIER_ACCOUNT_MAPPINGS')
+     p.exact(value['automatic_functions'], {name: True for name in prerequisites.FUNCTIONS}, 'AUTOMATIC_ALL_SIX_NATIVE_FUNCTIONS')
+     p.exact(set(value['automatic_actors']), set(prerequisites.ACTOR_FUNCTIONS), 'AUTOMATIC_BOTH_REAL_NATIVE_ACTORS')
+     for name, signatures in prerequisites.ACTOR_FUNCTIONS.items():
+--- a/scripts/current-sku-automatic-composite-preparation/test_final_gate.py
++++ b/scripts/current-sku-automatic-composite-preparation/test_final_gate.py
+@@ -37,6 +37,7 @@
+                 qualification_scope='NATIVE25_AND_CURRENT_BROWSER2')
+     declaration = dict(explicit_source_protocol_model_only=True)
+     automatic = dict(status='PASS', errors=[], retained_money19=docs[subject.PREFLIGHT],
++                     supplier_account_mappings={key: [[True, True]] for key in subject.prerequisites.SUPPLIER_ACCOUNT_MAPPINGS},
+                      automatic_functions={name: True for name in subject.prerequisites.FUNCTIONS},
+                      automatic_actors={name: dict(role='OWNER', database_role=['authenticated', 'authenticated'],
+                         permission_source='public.erp_get_my_access_v1()',
+@@ -143,6 +144,10 @@
+     def test_batch_preflight_cannot_omit_an_actor_function_permission_or_natural_caller(self):
+         p, original, ids = model25()
+         mutations = [
++            lambda d: d.pop('supplier_account_mappings'),
++            lambda d: d['supplier_account_mappings'].pop('AP_SUPPLIER'),
++            lambda d: d['supplier_account_mappings'].update(AP_SUPPLIER=[[False, True]]),
++            lambda d: d['supplier_account_mappings'].update(UNREVIEWED=[[True, True]]),
+             lambda d: d.update(all22_rows_and_all_sequences_unchanged=False),
+             lambda d: d.update(all_prerequisites_checked_before_first_case=False),
+             lambda d: d['automatic_actors'].pop('upstream_completion_owner'),
+--- a/scripts/current-sku-automatic-composite-preparation/SOURCE.json
++++ b/scripts/current-sku-automatic-composite-preparation/SOURCE.json
+@@ -293,8 +293,8 @@
+       "sha256": "331b22b007bd637edaeae4f5cbece3eb15933bfffdf2bc034b833ca6ce5c8b45"
+     },
+     "final_gate.py": {
+-      "bytes": 9911,
+-      "sha256": "0113c31acb3b993c1bfe2e0bce1ccdf384d76553d48aacd138f2055ac70a8f14"
++      "bytes": 10100,
++      "sha256": "97ed1259fe5b8fe5f32616d2b9fcaecb32710f456c42083e3beebdfa93384a10"
+     },
+     "global_parent_catalogue.py": {
+       "bytes": 4180,
+@@ -317,8 +317,8 @@
+       "sha256": "bb4df7df9f42aa9155b1b12f801650561661a77127b91fb2d360b9df8be039eb"
+     },
+     "native_preflight.py": {
+-      "bytes": 7005,
+-      "sha256": "c989857d6317386c6b9bf9433a81e7ff0f62ac8d6753ddadd7a965a41e5af83c"
++      "bytes": 7544,
++      "sha256": "9176fd21f484c0a99af0373a1341a041b32f9dbf6b83be7fd7c89b6ff05c2ff3"
+     },
+     "native_suite.py": {
+       "bytes": 1817,
+@@ -417,8 +417,8 @@
+       "sha256": "b3158c223cecded0b8a72211088c4c0fc198af9c9407fcff0a4806b3d651fec9"
+     },
+     "test_final_gate.py": {
+-      "bytes": 14884,
+-      "sha256": "fc7fe719a9f0cbf66460d2d133a2a39bc1c7347bb2535360b6a3665e3521d856"
++      "bytes": 15322,
++      "sha256": "f47565b6df59aa33f0819e05d56ca7f7b4c3957a14d6af91c7ab11bace04e5ba"
+     },
+     "test_harness_scope.py": {
+       "bytes": 4653,

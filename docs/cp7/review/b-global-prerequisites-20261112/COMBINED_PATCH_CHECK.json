@@ -1,0 +1,29 @@
+{
+  "operations": [
+    {
+      "patch": "SKU_STATE_DIGEST_V1_CPU.patch",
+      "option": "--check",
+      "exit_code": 0,
+      "stderr": ""
+    },
+    {
+      "patch": "SKU_STATE_DIGEST_V1_CPU.patch",
+      "option": "--apply",
+      "exit_code": 0,
+      "stderr": ""
+    },
+    {
+      "patch": "SUPPLIER_ACCOUNT_PREFLIGHT.patch",
+      "option": "--check",
+      "exit_code": 0,
+      "stderr": ""
+    },
+    {
+      "patch": "SUPPLIER_ACCOUNT_PREFLIGHT.patch",
+      "option": "--apply",
+      "exit_code": 0,
+      "stderr": ""
+    }
+  ],
+  "all_four_changed_pins_match": true
+}
