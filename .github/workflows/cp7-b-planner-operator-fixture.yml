@@ -48,25 +48,12 @@ jobs:
           node-version: '22'
       - name: Install exact candidate dependencies
         run: npm ci --ignore-scripts --no-audit --no-fund
-      - name: Build the exact candidate App
+      - name: Record exact candidate App inputs
         run: |
           mkdir -p b-operator-proof
           git rev-parse HEAD HEAD:src | tee b-operator-proof/BUILD_SOURCE.txt
           test "$(git rev-parse HEAD:src)" = f817f1f3ae0e53c679fdcf1a404fa0602d6bafbd
           sha256sum package-lock.json vite.config.ts index.html | tee -a b-operator-proof/BUILD_SOURCE.txt
-          npm run build:cp6-disposable 2>&1 | tee b-operator-proof/BUILD_BASELINE.log
-      - name: Install pinned Chromium
-        run: node_modules/.bin/playwright install --with-deps --only-shell chromium 2>&1 | tee b-operator-proof/CHROMIUM_INSTALL.log
-      # Planner on this unchanged source passed in run 43210650647.
-      - name: Preserve first operator observations on the original App
-        run: |
-          export NODE_OPTIONS='--import ./tests/browser/support/cp7-json-fixtures.mjs'
-          set +e
-          node_modules/.bin/playwright test --config playwright.cp7-b-operator.config.ts --grep 'BS/Laundry' 2>&1 | tee b-operator-proof/OPERATOR_BEFORE.log
-          result=${PIPESTATUS[0]}
-          set -e
-          echo "$result" > b-operator-proof/OPERATOR_BEFORE.exit
-          if [[ -d test-results/cp7-b-operator ]]; then mv test-results/cp7-b-operator b-operator-proof/operator-before; fi
       - name: Apply the operator UI proposal in this checkout
         run: |
           patch=docs/cp7/review/b-planner-bs-laundry-20261112/OPERATOR_UI.patch
@@ -76,16 +63,19 @@ jobs:
           git diff --name-only | tee b-operator-proof/PATCH_PATHS.txt
           sha256sum "$patch" src/ConnectedBsResolutionPage.tsx src/ConnectedLaundryPage.tsx src/connected-laundry-qc.css | tee b-operator-proof/PATCHED_SOURCE.txt
           npm run build:cp6-disposable 2>&1 | tee b-operator-proof/BUILD_PATCHED.log
-      - name: Exercise the operator UI proposal on the same fixture
+      - name: Install pinned Chromium
+        run: node_modules/.bin/playwright install --with-deps --only-shell chromium 2>&1 | tee b-operator-proof/CHROMIUM_INSTALL.log
+      # Planner passed in run 43210650647 and Laundry passed with this patch in 43211906751.
+      - name: Exercise the BS note save and reopen journey
         run: |
           export NODE_OPTIONS='--import ./tests/browser/support/cp7-json-fixtures.mjs'
           set +e
-          node_modules/.bin/playwright test --config playwright.cp7-b-operator.config.ts --grep 'BS/Laundry' 2>&1 | tee b-operator-proof/OPERATOR_AFTER.log
+          node_modules/.bin/playwright test --config playwright.cp7-b-operator.config.ts --grep 'readable reject causes' 2>&1 | tee b-operator-proof/OPERATOR_AFTER.log
           result=${PIPESTATUS[0]}
           set -e
           echo "$result" > b-operator-proof/OPERATOR_AFTER.exit
           if [[ -d test-results/cp7-b-operator ]]; then mv test-results/cp7-b-operator b-operator-proof/operator-after; fi
-      - name: Require corrected operator journeys to pass
+      - name: Require the BS journey to pass on desktop and mobile
         run: test "$(cat b-operator-proof/OPERATOR_AFTER.exit)" = 0
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()

@@ -1,0 +1,23 @@
+{
+  "run": 43211906751,
+  "job": 131161386815,
+  "head": "0be22c7928753fce2f80ac7464136d93be2fb86d",
+  "tree": "5beb3aebf8591c4e913ae7bf0945452363de6d3b",
+  "artifact": 13939959758,
+  "archive_sha256": "bf90c05a97e9c7b23724b0f8e304642bb752448e0150fb320a0f7959fa2fb1b7",
+  "archive_bytes": 5108769,
+  "crc_members": 40,
+  "runner_conclusion": "failure",
+  "patch_sha256": "4797f068a7bf7f971b61404a48d33667420c22dcbaf3c79ecfeac21f32c63450",
+  "operator_before": { "passed": 0, "failed": 4, "path": "operator-before/results.json" },
+  "operator_after": { "passed": 2, "failed": 2, "path": "operator-after/results.json" },
+  "laundry": { "desktop": "PASS", "mobile": "PASS", "requested_widths": [1440, 390, 320, 768], "document_width_768_before": 790, "document_width_768_after": 768 },
+  "bs_reopen": {
+    "desktop": "FAIL",
+    "mobile": "FAIL",
+    "first_patched_failure": "The exact getByLabel selector stopped matching the populated textarea after refresh.",
+    "error_context": "operator-after/artifacts/cp7-b-operator-BS-Laundry--51dac-ds-the-saved-free-text-note-mobile/error-context.md",
+    "observed": "The accessibility snapshot contains row version 5, the saved long note in the case detail and the populated textbox named CATATAN KASUS."
+  },
+  "successor_scope": "Locate the reopened note by its accessible textbox role and run only BS on the identical product patch."
+}
