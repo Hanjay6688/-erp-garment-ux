@@ -21,6 +21,7 @@ ACTOR_FUNCTIONS = {
     'upstream_completion_owner': FUNCTIONS[:2],
     'supplier_invoice_owner': FUNCTIONS[2:4],
 }
+SUPPLIER_ACCOUNT_MAPPINGS = ('AP_SUPPLIER',)
 RETAINED_MONEY_PREFLIGHT_PIN = (
     8157, 'eb15f3a0471370cc003ba5677233bdd0bf731e84ac59f4e11e5833a8929a0f77',
 )
@@ -72,6 +73,12 @@ def check(cur, today, business, retained, product, native, invoices):
     errors = list(original['errors'])
     business.f.admin(cur)
     before = business.n.capture(cur)
+    supplier_mappings = {key: cur.execute(
+        'select a.is_active,a.is_postable from erp.accounting_account_mappings m '
+        'left join erp.chart_accounts a on a.id=m.account_id where m.mapping_key=%s',
+        (key,)).fetchall() for key in SUPPLIER_ACCOUNT_MAPPINGS}
+    errors.extend('ACTIVE_POSTABLE_ACCOUNT_MAPPING_REQUIRED:' + key
+                  for key, rows in supplier_mappings.items() if rows != [(True, True)])
     available = {sig: cur.execute('select to_regprocedure(%s) is not null', (sig,)).fetchone()[0] for sig in FUNCTIONS}
     errors.extend('AUTOMATIC_MISSING_FUNCTION:' + sig for sig, found in available.items() if not found)
     bindings = {}
@@ -115,6 +122,7 @@ def check(cur, today, business, retained, product, native, invoices):
     if not unchanged:
         errors.append('AUTOMATIC_READ_ONLY_PREREQUISITES_CHANGED_CURRENT_BOUNDARY')
     return dict(status='PASS' if not errors else 'REFUSED', errors=errors, retained_money19=original,
+                supplier_account_mappings=supplier_mappings,
                 automatic_functions=available, automatic_actors=actors, natural_callers=bindings,
                 all_prerequisites_checked_before_first_case=True, source=product.sources(),
                 all22_rows_and_all_sequences_unchanged=unchanged, actual_ERP_cases=0, production_go=False)

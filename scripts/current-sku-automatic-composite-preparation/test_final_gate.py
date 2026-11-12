@@ -37,6 +37,7 @@ def model25():
                 qualification_scope='NATIVE25_AND_CURRENT_BROWSER2')
     declaration = dict(explicit_source_protocol_model_only=True)
     automatic = dict(status='PASS', errors=[], retained_money19=docs[subject.PREFLIGHT],
+                     supplier_account_mappings={key: [[True, True]] for key in subject.prerequisites.SUPPLIER_ACCOUNT_MAPPINGS},
                      automatic_functions={name: True for name in subject.prerequisites.FUNCTIONS},
                      automatic_actors={name: dict(role='OWNER', database_role=['authenticated', 'authenticated'],
                         permission_source='public.erp_get_my_access_v1()',
@@ -143,6 +144,10 @@ class Native25GateProtocol(unittest.TestCase):
     def test_batch_preflight_cannot_omit_an_actor_function_permission_or_natural_caller(self):
         p, original, ids = model25()
         mutations = [
+            lambda d: d.pop('supplier_account_mappings'),
+            lambda d: d['supplier_account_mappings'].pop('AP_SUPPLIER'),
+            lambda d: d['supplier_account_mappings'].update(AP_SUPPLIER=[[False, True]]),
+            lambda d: d['supplier_account_mappings'].update(UNREVIEWED=[[True, True]]),
             lambda d: d.update(all22_rows_and_all_sequences_unchanged=False),
             lambda d: d.update(all_prerequisites_checked_before_first_case=False),
             lambda d: d['automatic_actors'].pop('upstream_completion_owner'),

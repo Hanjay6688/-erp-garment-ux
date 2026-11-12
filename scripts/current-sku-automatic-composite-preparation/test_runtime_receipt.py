@@ -16,7 +16,42 @@ import sys
 import unittest
 
 import checkpoint
+import context_timezone
+import continuation
 import runtime_receipt
+
+
+class CandidateSourceControls(unittest.TestCase):
+    def test_frozen_context_changes_only_function_settings(self):
+        directory = Path(context_timezone.__file__).resolve().parent
+        source = json.loads((directory / 'SOURCE_REFERENCE.json').read_bytes())
+        tree = source['automatic_source']['tree']
+        original = subprocess.check_output([
+            'git', '-C', str(directory.parents[1]), 'show',
+            tree + ':scripts/cp7_sku_automatic_pending/context.sql',
+        ]).decode()
+        repaired = context_timezone.repair_context(original)
+        old = "set search_path=''as $$"
+        new = "set search_path='' set \"TimeZone\" to 'UTC' as $$"
+        self.assertEqual(repaired.count(new), 2)
+        self.assertEqual(repaired.replace(new, old), original)
+
+    def test_continuation_runs_all_thirteen_affected_cases_in_order(self):
+        directory = Path(continuation.__file__).resolve().parent
+        scope = continuation.admitted((directory / 'PREPARED_NATIVE25_PLAN.json').read_bytes())
+        ids = tuple(scope['planned_case_ids'])
+        callbacks = [(case, lambda key=case: dict(case=key, status='PASS')) for case in ids]
+        original = SimpleNamespace(IDS=ids, cases=lambda _cursor, _today: callbacks)
+        selected = continuation.select(original, scope)
+        cursor = SimpleNamespace(execute=lambda _sql: SimpleNamespace(fetchone=lambda: ('Asia/Jakarta',)))
+        observed = [callback() for _, callback in selected.cases(cursor, None)]
+        self.assertEqual(len(observed), 13)
+        self.assertEqual([row['case'] for row in observed], scope['fresh_case_ids'])
+        self.assertEqual({row['case'] for row in observed if row.get('caller_timezone') == 'Asia/Jakarta'},
+                         set(scope['non_po_affected_case_ids']))
+        cursor.execute = lambda _sql: SimpleNamespace(fetchone=lambda: ('UTC',))
+        with self.assertRaisesRegex(ValueError, 'SKU_NON_PO_WIB_SESSION_REQUIRED'):
+            selected.cases(cursor, None)[0][1]()
 
 
 class RuntimeReceiptControls(unittest.TestCase):

@@ -49,7 +49,7 @@ def derive(raw, *, focused=False):
         routes += (
             (bind, bind + '\n    business=_CONTINUATION.select(business,_FOCUS)'),
             ("qualification_scope='NATIVE25_AND_CURRENT_BROWSER2'",
-             "qualification_scope='FRESH_AUTOMATIC5_AND_CURRENT_BROWSER2'"),
+             "qualification_scope='FRESH_SKU13_AND_CURRENT_BROWSER2'"),
         )
     after = before
     for old, new in routes:

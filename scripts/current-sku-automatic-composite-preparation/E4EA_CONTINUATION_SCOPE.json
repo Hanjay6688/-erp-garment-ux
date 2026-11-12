@@ -1,5 +1,5 @@
 {
-  "contract": "cp7.sku.e4ea-automatic-continuation.v1",
+  "contract": "cp7.sku.e4ea-combined-timezone-scope.v1",
   "origin": {
     "run_id": 43132617378,
     "job_id": 130900171009,
@@ -56,6 +56,14 @@
     "SKU_AUTOMATIC_NATIVE_REDYE_PO_LATE_INVOICE_INVERSE_AND_NO_REVIVAL"
   ],
   "fresh_case_ids": [
+    "SKU_MONEY_NATIVE_LEGACY_PHYSICAL_OPENING_LATE_INVOICE_CURRENT_INVERSE",
+    "SKU_MONEY_NATIVE_LEGACY_PHYSICAL_CONVERTED_LATE_INVOICE_CURRENT_INVERSE",
+    "SKU_MONEY_NATIVE_SOLD_LATE_INVOICE_PARTIAL_RETURN_AND_BOTH_INVERSES",
+    "SKU_MONEY_NATIVE_RECOVERY_UNDER_PHYSICAL_FIRST_CHILD_LIMIT",
+    "SKU_MONEY_NATIVE_RECOVERY_EQUAL_PHYSICAL_FIRST_CHILD_LIMIT",
+    "SKU_MONEY_NATIVE_TWO_CHILD_CURRENT_REVISION_POST_COST_AND_INVERSE",
+    "SKU_MONEY_NATIVE_SIGNED_RECOVERY_BEFORE_OPENING_LOT_THEN_NATIVE_ZERO",
+    "SKU_MONEY_NATIVE_SIGNED_RECOVERY_BEFORE_CONVERTED_LOT_THEN_NATIVE_ZERO",
     "SKU_AUTOMATIC_NATIVE_REWORK_PENDING_AVERAGE_REPLAY_AND_PARENT_INVERSE",
     "SKU_AUTOMATIC_NATIVE_REDYE_UNKNOWN_AVERAGE_REPLAY_AND_PARENT_INVERSE",
     "SKU_AUTOMATIC_NATIVE_LATE_TARGET_REFUSAL_ROLLS_BACK_PARENT_AND_CHILD",
@@ -69,19 +77,11 @@
     "SKU_MOVAVG_SALE_PARTIAL_RETURN_AND_EXACT_REVERSAL",
     "SKU_MOVAVG_RESERVATION_INCLUDED_AND_LOCATION_ISOLATED",
     "SKU_MOVAVG_FRACTIONAL_RETURNS_INTERLEAVE_RECOST_AND_EARLIER_INVERSE",
-    "SKU_MONEY_NATIVE_LEGACY_PHYSICAL_OPENING_LATE_INVOICE_CURRENT_INVERSE",
-    "SKU_MONEY_NATIVE_LEGACY_PHYSICAL_CONVERTED_LATE_INVOICE_CURRENT_INVERSE",
-    "SKU_MONEY_NATIVE_SOLD_LATE_INVOICE_PARTIAL_RETURN_AND_BOTH_INVERSES",
     "SKU_MONEY_NATIVE_BASE_CENT_BEFORE_OPENING_LOT_TRANSFER",
     "SKU_MONEY_NATIVE_BASE_CENT_BEFORE_CONVERTED_LOT_TRANSFER",
     "SKU_MONEY_NATIVE_BASE_CENT_AFTER_CONVERTED_LOT_TRANSFER",
-    "SKU_MONEY_NATIVE_RECOVERY_UNDER_PHYSICAL_FIRST_CHILD_LIMIT",
-    "SKU_MONEY_NATIVE_RECOVERY_EQUAL_PHYSICAL_FIRST_CHILD_LIMIT",
     "SKU_MONEY_NATIVE_RECOVERY_OVER_PHYSICAL_FIRST_CHILD_LIMIT_REFUSED",
     "SKU_MONEY_NATIVE_LEGACY_OTHER_LOT_STALE_RETURNS_REPLAY_INVERSE",
-    "SKU_MONEY_NATIVE_TWO_CHILD_CURRENT_REVISION_POST_COST_AND_INVERSE",
-    "SKU_MONEY_NATIVE_SIGNED_RECOVERY_BEFORE_OPENING_LOT_THEN_NATIVE_ZERO",
-    "SKU_MONEY_NATIVE_SIGNED_RECOVERY_BEFORE_CONVERTED_LOT_THEN_NATIVE_ZERO",
     "SKU_AUTOMATIC_NATIVE_ZERO_GOOD_PARENT_HAS_NO_CONVERSION"
   ],
   "original_case_receipts": {
@@ -274,8 +274,8 @@
       "sha256": "8f4f7c252b906e44c87c44680eba2e566d5c27be4c72b17ba41c220801005eae"
     },
     "functions": {
-      "bytes": 8582197,
-      "sha256": "595b53eed8208e9673ec4f437ff2a952e7452347702844323c1a8e12b9698808"
+      "bytes": 8582240,
+      "sha256": "9c4382b37bfa3827acbd38974e430098a089b8770a7300934c06bad5b20dce0b"
     },
     "indexes": {
       "bytes": 327034,
@@ -413,5 +413,71 @@
   },
   "no_same_run_native25_claim": true,
   "production_go": false,
-  "independent_acceptance": false
+  "independent_acceptance": false,
+  "caller_timezone": "Asia/Jakarta",
+  "non_po_affected_case_ids": [
+    "SKU_MONEY_NATIVE_LEGACY_PHYSICAL_OPENING_LATE_INVOICE_CURRENT_INVERSE",
+    "SKU_MONEY_NATIVE_LEGACY_PHYSICAL_CONVERTED_LATE_INVOICE_CURRENT_INVERSE",
+    "SKU_MONEY_NATIVE_SOLD_LATE_INVOICE_PARTIAL_RETURN_AND_BOTH_INVERSES",
+    "SKU_MONEY_NATIVE_RECOVERY_UNDER_PHYSICAL_FIRST_CHILD_LIMIT",
+    "SKU_MONEY_NATIVE_RECOVERY_EQUAL_PHYSICAL_FIRST_CHILD_LIMIT",
+    "SKU_MONEY_NATIVE_TWO_CHILD_CURRENT_REVISION_POST_COST_AND_INVERSE",
+    "SKU_MONEY_NATIVE_SIGNED_RECOVERY_BEFORE_OPENING_LOT_THEN_NATIVE_ZERO",
+    "SKU_MONEY_NATIVE_SIGNED_RECOVERY_BEFORE_CONVERTED_LOT_THEN_NATIVE_ZERO"
+  ],
+  "intervening_install_failure": {
+    "head": "3f2a7748c7cfde2881b19dac853fef82e49b6885",
+    "tree": "c7c53dd3678459ad6bd18f63a9fa8d9521eca140",
+    "run_id": 43158542850,
+    "job_id": 130984047828,
+    "attempt": 1,
+    "conclusion": "failure",
+    "artifact_id": 13919701197,
+    "archive": {
+      "bytes": 1731575,
+      "sha256": "8614e42069a7a14b9e2fd3a79b08598d9d4c6207c44b5f72c0f03459d8dff1d1",
+      "members": 137
+    },
+    "all_member_crc_verified": true,
+    "first_failed_step": {
+      "name": "Run current-parent money automatic Native25 and real browser2 once with owning restoration",
+      "status": "completed",
+      "conclusion": "failure",
+      "number": 78,
+      "started_at": "2026-11-12T05:14:07Z",
+      "completed_at": "2026-11-12T05:57:29Z"
+    },
+    "first_case_error": null,
+    "main_error_pin": {
+      "bytes": 173,
+      "sha256": "39a1f3f46881a6c83b0a2f088bef8e053f1a24a74a701fbe3b088bc6bb1e0735"
+    },
+    "cleanup": true,
+    "actual_outer_restore": true,
+    "actual_worker_reaped": true,
+    "first_error": "syntax error at or near \"$\"",
+    "actual_Native_cases": 0,
+    "actual_browser_cases": 0,
+    "package": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "backup_tables": 407
+  },
+  "non_po_scope": {
+    "bytes": 16020,
+    "sha256": "255850a7c34687e46ca22544aed499b0a0b7364f095ba759ed8c226ac55b8552"
+  },
+  "non_po_source": {
+    "path": "scripts/current-sku-automatic-composite-preparation/cost_source_timezone.py",
+    "bytes": 2753,
+    "sha256": "c747f1980099a1cf81e9ff5817dc54a56cc8be8b8d1978de4a8680e9dbe1b4bd"
+  },
+  "exact_ddl_reproduction": {
+    "bytes": 1751,
+    "sha256": "de19521be9ff8edb37df97ee22897488e6080e0cb231c1369d82a2f9bc62c130"
+  }
 }

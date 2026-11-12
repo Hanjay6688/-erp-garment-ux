@@ -156,6 +156,8 @@ def load_prepared(bridge, parent, money_module, automatic_module, parent_raw, mo
     for owner in (money, product):
         owner.prepared = module_scope.bind_money_preparation(owner.prepared, financial_delta)
     non_po_rounding.bind(money)
+    cost_timezone = load('sku_cost_source_timezone', HERE / 'cost_source_timezone.py')
+    money.prepared = cost_timezone.bind(money.prepared)
     timezone = load('automatic_context_timezone', HERE / 'context_timezone.py')
     product.prepared = timezone.bind(product.prepared)
     return product

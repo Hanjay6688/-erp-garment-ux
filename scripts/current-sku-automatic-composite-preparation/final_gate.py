@@ -49,6 +49,8 @@ def validate_preflight(p, part, value):
              'AUTOMATIC_BATCH_PREFLIGHT_AND_UNCHANGED_CURRENT_BOUNDARY')
     # Validate the exact nested retained Original, without relabeling it.
     money_gate.validate_preflight(p, dict(part, native_prerequisites=value['retained_money19']), value['retained_money19'])
+    p.exact(value['supplier_account_mappings'], {key: [[True, True]] for key in prerequisites.SUPPLIER_ACCOUNT_MAPPINGS},
+            'AUTOMATIC_ACTIVE_POSTABLE_SUPPLIER_ACCOUNT_MAPPINGS')
     p.exact(value['automatic_functions'], {name: True for name in prerequisites.FUNCTIONS}, 'AUTOMATIC_ALL_SIX_NATIVE_FUNCTIONS')
     p.exact(set(value['automatic_actors']), set(prerequisites.ACTOR_FUNCTIONS), 'AUTOMATIC_BOTH_REAL_NATIVE_ACTORS')
     for name, signatures in prerequisites.ACTOR_FUNCTIONS.items():
@@ -73,11 +75,11 @@ def derive(raw, *, focused=False):
         raise ValueError('AUTOMATIC_EXACT_RETAINED_COMPLETE_GATE_SOURCE_REQUIRED')
     text = raw.decode()
     focus = {
-        'actual_Native_cases=25': 'actual_Native_cases=5',
-        'actual_business_cases=27': 'actual_business_cases=7',
-        "counts={'PASS':25}": "counts={'PASS':5}",
+        'actual_Native_cases=25': 'actual_Native_cases=13',
+        'actual_business_cases=27': 'actual_business_cases=15',
+        "counts={'PASS':25}": "counts={'PASS':13}",
         "qualification_scope='NATIVE25_AND_CURRENT_BROWSER2'":
-            "qualification_scope='FRESH_AUTOMATIC5_AND_CURRENT_BROWSER2'",
+            "qualification_scope='FRESH_SKU13_AND_CURRENT_BROWSER2'",
         "qualification_scope='CURRENT_PARENT_SKU_MONEY_AUTOMATIC_NATIVE25_BROWSER2_ONLY'":
             "qualification_scope='CURRENT_PARENT_SKU_MONEY_AUTOMATIC_CONTINUATION_BROWSER2'",
     } if focused else {}
@@ -115,7 +117,7 @@ def validate(p, docs, head, ids, *, focused=False):
     p.exact(docs[PREFLIGHT]['source'], docs[MAIN]['source_declaration']['complete_combined_sources'],
             'AUTOMATIC_PREFLIGHT_EXACT_CURRENT_COMBINED_SOURCE_GRAPH')
     part = docs[MAIN]['committed'][component.CASE]
-    p.fields(part, dict(actual_browser_cases=2, actual_business_cases=7 if focused else 27, real_Auth_browser_claim=True),
+    p.fields(part, dict(actual_browser_cases=2, actual_business_cases=15 if focused else 27, real_Auth_browser_claim=True),
              'AUTOMATIC_COMPONENT_ACTUAL_BROWSER2_AND_NATIVE25_COUNTS')
     result['current_browser2'] = browser_gate.validate(p, docs[BROWSER], part, head, docs[MAIN]['source_declaration'])
     return result
@@ -162,6 +164,9 @@ def gate(directory, head):
     p.exact(docs[MAIN]['source_declaration'], sources, 'AUTOMATIC_COMPLETE_NATURAL_SOURCE_GRAPH_NOT_PROJECTED')
     status = 'CURRENT_MANDOR_PARENT_MONEY_AUTOMATIC_NATIVE25_BROWSER2_AND_ALL5_PASS'
     if focus is not None:
+        for case in focus['non_po_affected_case_ids']:
+            p.fields(docs[NATIVE]['cases'][case], dict(caller_timezone=continuation.CALLER_TIMEZONE),
+                     'SKU_NON_PO_ACTUAL_WIB_NATIVE_CASE_REQUIRED:' + case)
         path = directory / 'SKU_GLOBAL_PARENT_ACTUAL_FULL25.json'
         if not path.is_file() or any(item.is_symlink() for item in (path, *path.parents)):
             raise ValueError('SKU_E4EA_CONTINUATION_EXACT_ACTUAL_CATALOGUE_ORIGINAL_REQUIRED')
@@ -177,7 +182,7 @@ def gate(directory, head):
                                       scope=continuation.SCOPE_PIN,
                                       catalogue=continuation.catalogue_comparison(json.loads(raw_catalogue), focus),
                                       cumulative_acceptance_pending=True)
-        status = 'CURRENT_MANDOR_PARENT_MONEY_AUTOMATIC_FRESH5_BROWSER2_AND_ALL5_PASS'
+        status = 'CURRENT_MANDOR_PARENT_MONEY_AUTOMATIC_FRESH13_BROWSER2_AND_ALL5_PASS'
     return dict(status=status, head=head, **result,
                 accepted_sources=receipt, parent_root=admission.pin(parent_raw), money_source_preflight=admission.pin(money_raw),
                 automatic_source=reference['automatic_source'], complete_native_plan=admission.pin(plan_raw),
