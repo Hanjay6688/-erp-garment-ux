@@ -114,11 +114,18 @@ const isMobile = (info: TestInfo) => info.project.name === 'mobile'
 const plannerRole = (info: TestInfo): Role => isMobile(info) ? 'ADMIN' : 'OWNER'
 
 async function screenshot(page: Page, info: TestInfo, name: string) {
-  const size = await page.evaluate(() => ({ viewport: window.innerWidth, document: document.documentElement.scrollWidth }))
+  const size = await page.evaluate(() => {
+    const viewport = window.innerWidth
+    const documentWidth = document.documentElement.scrollWidth
+    const overflowing = documentWidth > viewport ? Array.from(document.querySelectorAll('.page-wrap *'))
+      .filter(element => element.getBoundingClientRect().right > viewport + 1)
+      .slice(0, 10).map(element => ({ tag: element.tagName, class: element.getAttribute('class'),
+        right: Math.round(element.getBoundingClientRect().right) })) : []
+    return { viewport, document: documentWidth, overflowing }
+  })
   await info.attach(`${name}-width`, { body: JSON.stringify(size), contentType: 'application/json' })
   const path = info.outputPath(`${name}.png`)
-  await page.screenshot({ path, fullPage: true, animations: 'disabled' })
-  await info.attach(name, { path, contentType: 'image/png' })
+  await page.screenshot({ path, fullPage: true, animations: 'disabled', scale: 'css' })
   expect.soft(size.viewport).toBe(page.viewportSize()?.width)
   expect.soft(size.document).toBeLessThanOrEqual(page.viewportSize()!.width)
 }
@@ -286,7 +293,7 @@ test('Planner refuses automatic access outside the owner/admin permission set', 
 })
 
 const operatorRights = ['dashboard.view', 'production.bs_rework.view', 'production.bs_rework.create',
-  'production.laundry.view', 'production.laundry.post']
+  'production.laundry.view', 'production.laundry.post', 'master.pattern.view']
 const bsWorkspaceRpc = 'erp_get_bs_resolution_workspace_v1'
 const classifyRpc = 'erp_save_bs_resolution_action_v1'
 const vendor = { id: '00000000-0000-4000-8000-000000000001', code: 'LDR-A', name: 'Laundry A' }
@@ -325,6 +332,7 @@ test('BS/Laundry shows readable reject causes and reloads the saved free-text no
   const row = { ...commonCase, id: 'case-reject-1', case_key: 'BS:case-reject-1', kind: 'BS', number: 'BS-OPERATOR-01',
     accessory_bom: { state: 'UNAVAILABLE', bom_version_id: null, default_policy: 'SERVER_ENTITLEMENT_V2619B', available_qty_pcs: 1, items: [] } }
   const mock = await mockApp(context, { role: plannerRole(info), rights: operatorRights, resolve: call => {
+    if (call.name === 'erp_list_patterns_v1') return { body: [] }
     if (call.name === bsWorkspaceRpc) return { body: bsWorkspace(call, [row]) }
     if (call.name === classifyRpc && call.args.p_action === 'CLASSIFY_BS' && call.args.p_expected_version === row.row_version) {
       const p = call.args.p_payload
@@ -342,13 +350,15 @@ test('BS/Laundry shows readable reject causes and reloads the saved free-text no
     await page.getByText('Klasifikasi & tanggung jawab', { exact: true }).click()
   }
   await openCase()
-  const cause = page.getByLabel('SUMBER PENYEBAB', { exact: true })
-  expect.soft(await cause.locator('option').allTextContents()).toEqual(['Belum diketahui', 'Jahit', 'Laundry'])
+  const cause = page.getByRole('combobox', { name: 'SUMBER PENYEBAB', exact: true })
+  await expect(cause).toBeVisible()
+  await expect(cause.locator('option')).toHaveCount(3)
+  await expect.soft(cause.locator('option')).toHaveText(['Belum diketahui', 'Jahit', 'Laundry'], { timeout: 1000 })
   expect(await cause.locator('option').evaluateAll(options => options.map(o => (o as HTMLOptionElement).value)))
     .toEqual(['UNKNOWN', 'SEWING', 'LAUNDRY'])
   await screenshot(page, info, 'bs-cause-category')
   await cause.selectOption('LAUNDRY')
-  await page.getByLabel('VENDOR TANGGUNG JAWAB', { exact: true }).selectOption(vendor.id)
+  await page.getByRole('combobox', { name: 'VENDOR TANGGUNG JAWAB', exact: true }).selectOption(vendor.id)
   await page.getByLabel('CATATAN KASUS', { exact: true }).fill(note)
   await page.getByLabel('ALASAN PERUBAHAN · WAJIB', { exact: true }).fill('Pemeriksaan reject bersama operator')
   await page.getByRole('button', { name: 'Simpan klasifikasi', exact: true }).click()
@@ -364,6 +374,7 @@ test('BS/Laundry shows readable reject causes and reloads the saved free-text no
   await expect(cause).toHaveValue('LAUNDRY')
   await expect(page.getByLabel('CATATAN KASUS', { exact: true })).toHaveValue(note)
   await expect(page.locator('.cbsr-case-note')).toHaveText(note)
+  await expect.soft(page.locator('.cbsr-lineage')).toContainText('Laundry · Laundry A', { timeout: 1000 })
   expect(mock.calls.filter(c => c.name === classifyRpc)).toHaveLength(1)
   await screenshot(page, info, 'bs-note-reopened')
   if (isMobile(info)) {
@@ -408,6 +419,7 @@ test('BS/Laundry identifies all sizes of a partial return and opens its damage c
     notes: `1 PCS BS dari penerimaan ${receipt.number}, surat kirim ${source.number}. Pemeriksaan klaim masih terbuka.`,
     next_action: 'SETTLE_OR_CLOSE' }
   const mock = await mockApp(context, { role: plannerRole(info), rights: operatorRights, resolve: call => {
+    if (call.name === 'erp_list_patterns_v1') return { body: [] }
     if (call.name === 'erp_get_laundry_qc_workspace_v1' && call.args.p_scope === 'LAUNDRY') return { body: { ...base, deliveries: [delivery] } }
     if (call.name === bsWorkspaceRpc) return { body: bsWorkspace(call, [claim]) }
     return undefined

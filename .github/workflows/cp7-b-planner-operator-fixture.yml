@@ -57,15 +57,7 @@ jobs:
           npm run build:cp6-disposable 2>&1 | tee b-operator-proof/BUILD_BASELINE.log
       - name: Install pinned Chromium
         run: node_modules/.bin/playwright install --with-deps --only-shell chromium 2>&1 | tee b-operator-proof/CHROMIUM_INSTALL.log
-      - name: Exercise Planner on the candidate before changing any UI
-        run: |
-          export NODE_OPTIONS='--import ./tests/browser/support/cp7-json-fixtures.mjs'
-          set +e
-          node_modules/.bin/playwright test --config playwright.cp7-b-operator.config.ts --grep Planner 2>&1 | tee b-operator-proof/PLANNER.log
-          result=${PIPESTATUS[0]}
-          set -e
-          echo "$result" > b-operator-proof/PLANNER.exit
-          if [[ -d test-results/cp7-b-operator ]]; then mv test-results/cp7-b-operator b-operator-proof/planner; fi
+      # Planner on this unchanged source passed in run 43210650647.
       - name: Preserve first operator observations on the original App
         run: |
           export NODE_OPTIONS='--import ./tests/browser/support/cp7-json-fixtures.mjs'
@@ -82,7 +74,7 @@ jobs:
           git apply "$patch"
           git diff --check
           git diff --name-only | tee b-operator-proof/PATCH_PATHS.txt
-          sha256sum "$patch" src/ConnectedBsResolutionPage.tsx src/ConnectedLaundryPage.tsx | tee b-operator-proof/PATCHED_SOURCE.txt
+          sha256sum "$patch" src/ConnectedBsResolutionPage.tsx src/ConnectedLaundryPage.tsx src/connected-laundry-qc.css | tee b-operator-proof/PATCHED_SOURCE.txt
           npm run build:cp6-disposable 2>&1 | tee b-operator-proof/BUILD_PATCHED.log
       - name: Exercise the operator UI proposal on the same fixture
         run: |
@@ -93,10 +85,8 @@ jobs:
           set -e
           echo "$result" > b-operator-proof/OPERATOR_AFTER.exit
           if [[ -d test-results/cp7-b-operator ]]; then mv test-results/cp7-b-operator b-operator-proof/operator-after; fi
-      - name: Require Planner and corrected operator journeys to pass
-        run: |
-          test "$(cat b-operator-proof/PLANNER.exit)" = 0
-          test "$(cat b-operator-proof/OPERATOR_AFTER.exit)" = 0
+      - name: Require corrected operator journeys to pass
+        run: test "$(cat b-operator-proof/OPERATOR_AFTER.exit)" = 0
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:

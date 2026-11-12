@@ -1,0 +1,21 @@
+{
+  "run": 43210650647,
+  "job": 131157068674,
+  "head": "f941e07628f75a7224147abd83e6a3068bef86bd",
+  "tree": "7b5068ea36bb5aa0bb8a1ed743924216518c943e",
+  "app_source": "ae0df1ef17b4d84478d50a2a144cf0382d662ad0",
+  "artifact": 13939889711,
+  "archive_sha256": "737759a92ad3f13095419807d1f87799aaa96d0b0d9dafbb214d35ddb9e09447",
+  "archive_bytes": 32424780,
+  "crc_members": 79,
+  "runner_conclusion": "failure",
+  "planner_fixture": { "passed": 10, "failed": 0, "path": "planner/results.json" },
+  "operator_before": { "passed": 0, "failed": 4, "path": "operator-before/results.json" },
+  "operator_after": { "passed": 0, "failed": 4, "path": "operator-after/results.json" },
+  "operator_findings": [
+    "The BS cause options were present in the accessibility snapshot. The driver read options before an accessible combobox was located.",
+    "The partial-return flow reached the linked damage claim. The fixture lacked the Master Pola read response.",
+    "The document width reached 790 px in the 768 px Laundry return viewport."
+  ],
+  "successor_scope": "Exercise the two operator cases with the corrected fixture and tablet layout. Preserve the Planner results from this attempt."
+}

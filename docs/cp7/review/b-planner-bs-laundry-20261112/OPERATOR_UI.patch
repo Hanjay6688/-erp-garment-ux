@@ -1,5 +1,5 @@
 diff --git a/src/ConnectedBsResolutionPage.tsx b/src/ConnectedBsResolutionPage.tsx
-index 9902f1c..200af09 100644
+index 9902f1c..f070d06 100644
 --- a/src/ConnectedBsResolutionPage.tsx
 +++ b/src/ConnectedBsResolutionPage.tsx
 @@ -51,6 +51,11 @@ const qty = (value: string) => parseQuantityInput(value) ?? Number.NaN
@@ -23,12 +23,18 @@ index 9902f1c..200af09 100644
        {cause === 'SEWING' ? <label><span>MANDOR TANGGUNG JAWAB</span><select value={contractorId} onChange={(event) => setContractorId(event.target.value)}><option value="">Pilih Mandor…</option>{workspace.lookups.contractors.map((item) => <option value={item.id} key={item.id}>{item.code} · {item.name}</option>)}</select></label> : cause === 'LAUNDRY' ? <label><span>VENDOR TANGGUNG JAWAB</span><select value={vendorId} onChange={(event) => setVendorId(event.target.value)}><option value="">Pilih Laundry…</option>{workspace.lookups.vendors.map((item) => <option value={item.id} key={item.id}>{item.code} · {item.name}</option>)}</select></label> : null}
        <label className="wide"><span>CATATAN KASUS</span><textarea value={notes} onChange={(event) => setNotes(event.target.value)}/></label>
        <label className="wide"><span>ALASAN PERUBAHAN · WAJIB</span><input value={reason} onChange={(event) => setReason(event.target.value)} placeholder="Dasar hasil pemeriksaan fisik"/></label>
-@@ -356,7 +361,7 @@ function CaseDetail({ row, workspace, canCreate, canPost, canReverse, ownerAdmin
+@@ -353,10 +358,13 @@ function CaseDetail({ row, workspace, canCreate, canPost, canReverse, ownerAdmin
+   canReverse: boolean; ownerAdmin: boolean; onAction: RunAction; sourceReworkId: string | null
+ }) {
+   const [reverseReason, setReverseReason] = useState('')
++  const responsibleParty = row.contractor_name ?? row.vendor_name
++  const causeLabel = bsCauses.find(({ value }) => value === row.cause_source)?.label ?? row.cause_source
++  const sourceLabel = row.kind === 'BS' ? [causeLabel, responsibleParty].filter(Boolean).join(' · ') : responsibleParty ?? row.cause_source
    return <main className="cbsr-detail" data-case-id={row.id}><header><div><span>{row.kind === 'BS' ? 'BARANG BS' : 'LAUNDRY CLAIM'} · ROW VERSION {row.row_version}</span><h2>{row.number}</h2><p>{row.po_number ?? 'Tanpa PO'} · {row.model_name ?? row.product_name ?? 'Identitas produk belum lengkap'}</p></div><em className={row.is_closed ? 'closed' : row.status === 'ON_HOLD' ? 'hold' : 'active'}>{statusLabel(row.status)}</em></header>
      <section className="cbsr-truth"><ShieldCheck/><div><small>POLA · SNAPSHOT SUMBER</small><strong>{bsPatternLabel(row)}</strong></div></section>
      <section className="cbsr-facts"><span><small>QTY KASUS</small><strong>{row.qty_pcs} pcs</strong></span><span><small>RESOLVED</small><strong>{row.resolved_qty} pcs</strong></span><span><small>REWORK AKTIF</small><strong>{row.active_rework_qty} pcs</strong></span><span><small>TERSEDIA</small><strong>{row.available_qty} pcs</strong></span></section>
 -    <section className="cbsr-lineage"><span><small>POTONGAN</small><strong>{row.group_number ?? 'Tidak terlacak'}</strong></span><span><small>SUMBER / PIHAK</small><strong>{row.contractor_name ?? row.vendor_name ?? row.cause_source}</strong></span><span><small>WAKTU FISIK</small><strong>{new Date(row.opened_at).toLocaleString('id-ID')}</strong></span><span><small>REFERENSI</small><strong>{row.legacy_reference ?? row.laundry_delivery_id ?? row.sku ?? '—'}</strong></span></section>
-+    <section className="cbsr-lineage"><span><small>POTONGAN</small><strong>{row.group_number ?? 'Tidak terlacak'}</strong></span><span><small>SUMBER / PIHAK</small><strong>{row.kind === 'BS' ? [bsCauses.find(({ value }) => value === row.cause_source)?.label ?? row.cause_source, row.contractor_name ?? row.vendor_name].filter(Boolean).join(' · ') : row.vendor_name ?? row.cause_source}</strong></span><span><small>WAKTU FISIK</small><strong>{new Date(row.opened_at).toLocaleString('id-ID')}</strong></span><span><small>REFERENSI</small><strong>{row.legacy_reference ?? row.laundry_delivery_id ?? row.sku ?? '—'}</strong></span></section>
++    <section className="cbsr-lineage"><span><small>POTONGAN</small><strong>{row.group_number ?? 'Tidak terlacak'}</strong></span><span><small>SUMBER / PIHAK</small><strong>{sourceLabel}</strong></span><span><small>WAKTU FISIK</small><strong>{new Date(row.opened_at).toLocaleString('id-ID')}</strong></span><span><small>REFERENSI</small><strong>{row.legacy_reference ?? row.laundry_delivery_id ?? row.sku ?? '—'}</strong></span></section>
      {row.notes ? <p className="cbsr-case-note"><FileWarning/>{row.notes}</p> : null}
      {row.kind === 'BS' ? <ClassificationPanel key={`classification-${row.id}-${row.row_version}`} row={row} workspace={workspace} canCreate={canCreate} onAction={onAction}/> : null}
      {row.kind === 'BS' ? <BsActionPanel key={`actions-${row.id}-${row.row_version}`} row={row} workspace={workspace} canCreate={canCreate} canPost={canPost} canReverse={canReverse} ownerAdmin={ownerAdmin} onAction={onAction}/> : <ClaimActionPanel key={`claim-${row.id}-${row.row_version}`} row={row} canCreate={canCreate} canPost={canPost} canReverse={canReverse} ownerAdmin={ownerAdmin} onAction={onAction}/>}
@@ -72,3 +78,24 @@ index c2822b9..1fca344 100644
      <div className="clq-impact"><ShieldCheck/><span><strong>{total} pcs kembali · tarif {rate ? money(rate.rate_per_pcs) : 'belum tersedia untuk waktu ini'}</strong><small>Server mengecek tarif lagi, memisahkan Good ke antrean QC dan BS ke kasus BS, lalu memperbarui biaya, HPP, jurnal, dan laporan sekaligus.</small></span></div>
      {invalidQuantity || over || bsInvalidProduct ? <div className="clq-warning"><AlertTriangle/><span>{invalidQuantity ? 'Good dan BS harus bilangan bulat pcs. Input mentah tidak diubah; tombol simpan tetap terkunci.' : over ? 'Good + BS melebihi jumlah yang belum kembali pada salah satu ukuran.' : 'Setiap Laundry-BS wajib punya SKU aktif pada waktu fisik dengan model dan ukuran yang sama.'}</span></div> : null}
      <label className="clq-confirm"><input type="checkbox" checked={confirmed} disabled={actionLocked} onChange={(event) => setConfirmed(event.target.checked)}/><span>Saya sudah menghitung fisik per ukuran; Good dan BS benar, sisanya memang belum kembali.</span></label>
+diff --git a/src/connected-laundry-qc.css b/src/connected-laundry-qc.css
+index c46e2cc..c871ad9 100644
+--- a/src/connected-laundry-qc.css
++++ b/src/connected-laundry-qc.css
+@@ -915,6 +915,16 @@
+   }
+ }
+ 
++@media (min-width: 721px) and (max-width: 900px) {
++  .clq-tabs:not(.qc) {
++    grid-template-columns: repeat(5, minmax(0, 1fr));
++  }
++
++  .clq-tabs:not(.qc) label {
++    grid-column: 1 / -1;
++  }
++}
++
+ @media (max-width: 720px) {
+   .clq-hero {
+     align-items: flex-start;
