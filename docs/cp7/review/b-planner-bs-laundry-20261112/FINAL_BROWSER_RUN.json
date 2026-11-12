@@ -1,0 +1,36 @@
+{
+  "run": 43212478566,
+  "job": 131163327456,
+  "attempt": 1,
+  "head": "38a977437be1007a9b90122bf00389d30be9e836",
+  "tree": "0b8779d98bd1d0a58d946b8c8299f6adf9891a24",
+  "runner_conclusion": "success",
+  "app_base": "ae0df1ef17b4d84478d50a2a144cf0382d662ad0",
+  "app_base_tree": "b8f534ba09226311c6eb83b967732dd7545db6ea",
+  "app_src_tree": "f817f1f3ae0e53c679fdcf1a404fa0602d6bafbd",
+  "current_a_source_compared": "beda75853d9cb698ec912639002b3e4bd1ec52cf",
+  "current_a_tree_compared": "108f843ddaa96571436e7f54f8cd9770612ae6cd",
+  "patch_sha256": "4797f068a7bf7f971b61404a48d33667420c22dcbaf3c79ecfeac21f32c63450",
+  "postimage_sha256": {
+    "src/ConnectedBsResolutionPage.tsx": "fd3c0c7d37347abf49f94faa87c4c06569e950d1ce419d214a57379cc60d6094",
+    "src/ConnectedLaundryPage.tsx": "c8024ab1d818c05e8e57638d29fa7bda9af5b677d4830057a8f1cb6425de500b",
+    "src/connected-laundry-qc.css": "4d62ade8abd1ed9cbedcb1b7ab953ccc7c5ec8dc5f07a40830d35c33b822481a"
+  },
+  "artifact": 13942381406,
+  "archive_sha256": "5325d9b40103ea3455a926e6584018a50a911f2e0937af473842f6290aa72c91",
+  "archive_bytes": 1779616,
+  "crc_members": 14,
+  "browser": "Chrome Headless Shell 151.0.7922.34, Playwright Chromium v1234",
+  "test_mode": "DISPOSABLE_TEST_BROWSER_FIXTURE",
+  "result_path": "operator-after/results.json",
+  "duration_ms": 8271.58,
+  "cases": [
+    { "project": "desktop", "role": "OWNER", "width_px": [1440], "status": "PASS", "classification_writes": 1 },
+    { "project": "mobile", "role": "ADMIN", "width_px": [390, 320, 768], "status": "PASS", "classification_writes": 1 }
+  ],
+  "retained_scoped_results": [
+    { "scope": "Planner browser on original App", "run": 43210650647, "artifact": 13939889711, "passed": 10, "failed": 0 },
+    { "scope": "Laundry partial return and linked claim with identical patch", "run": 43211906751, "artifact": 13939959758, "passed": 2, "failed": 0 }
+  ],
+  "actual_combined_auth_or_database_cases": 0
+}
