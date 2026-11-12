@@ -52,8 +52,9 @@ def admitted(plan_raw):
 
 
 def run_in_wib(cursor, callback):
-    # The owning Native runner already sets WIB within the transaction.
-    before, = cursor.execute("select current_setting('TimeZone')").fetchone()
+    # The baseline snapshot sets UTC before the owning case savepoint.
+    # The savepoint rollback also restores this transaction-local setting.
+    before, = cursor.execute("select set_config('TimeZone', %s, true)", (CALLER_TIMEZONE,)).fetchone()
     require(before == CALLER_TIMEZONE, 'SKU_NON_PO_WIB_SESSION_REQUIRED')
     result = callback()
     after, = cursor.execute("select current_setting('TimeZone')").fetchone()

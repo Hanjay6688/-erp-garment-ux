@@ -64,18 +64,38 @@ class CandidateSourceControls(unittest.TestCase):
         directory = Path(continuation.__file__).resolve().parent
         scope = continuation.admitted((directory / 'PREPARED_NATIVE25_PLAN.json').read_bytes())
         ids = tuple(scope['planned_case_ids'])
-        callbacks = [(case, lambda key=case: dict(case=key, status='PASS')) for case in ids]
+        affected = set(scope['non_po_affected_case_ids'])
+
+        def execute(statement, params=None):
+            if statement == "select set_config('TimeZone', %s, true)":
+                self.assertEqual(params, ('Asia/Jakarta',))
+                cursor.timezone, = params
+            else:
+                self.assertEqual(statement, "select current_setting('TimeZone')")
+            return SimpleNamespace(fetchone=lambda: (cursor.timezone,))
+
+        def run_case(key):
+            self.assertEqual(cursor.timezone, 'Asia/Jakarta' if key in affected else 'UTC')
+            return dict(case=key, status='PASS')
+
+        cursor = SimpleNamespace(execute=execute, timezone='UTC')
+        callbacks = [(case, lambda key=case: run_case(key)) for case in ids]
         original = SimpleNamespace(IDS=ids, cases=lambda _cursor, _today: callbacks)
         selected = continuation.select(original, scope)
-        cursor = SimpleNamespace(execute=lambda _sql: SimpleNamespace(fetchone=lambda: ('Asia/Jakarta',)))
-        observed = [callback() for _, callback in selected.cases(cursor, None)]
+        observed = []
+        for _, callback in selected.cases(cursor, None):
+            cursor.timezone = 'UTC'  # The owning snapshot sets UTC before each case.
+            observed.append(callback())
         self.assertEqual(len(observed), 13)
         self.assertEqual([row['case'] for row in observed], scope['fresh_case_ids'])
-        self.assertEqual({row['case'] for row in observed if row.get('caller_timezone') == 'Asia/Jakarta'},
-                         set(scope['non_po_affected_case_ids']))
-        cursor.execute = lambda _sql: SimpleNamespace(fetchone=lambda: ('UTC',))
-        with self.assertRaisesRegex(ValueError, 'SKU_NON_PO_WIB_SESSION_REQUIRED'):
-            selected.cases(cursor, None)[0][1]()
+        self.assertEqual({row['case'] for row in observed if row.get('caller_timezone') == 'Asia/Jakarta'}, affected)
+
+        def change_timezone():
+            cursor.timezone = 'UTC'
+            return dict(status='PASS')
+
+        with self.assertRaisesRegex(ValueError, 'SKU_NON_PO_WIB_CALLER_CHANGED_DURING_CASE'):
+            continuation.run_in_wib(cursor, change_timezone)
 
 
 class RuntimeReceiptControls(unittest.TestCase):
