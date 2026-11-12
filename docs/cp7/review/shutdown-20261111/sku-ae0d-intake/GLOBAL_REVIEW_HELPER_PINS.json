@@ -1,0 +1,19 @@
+{
+  "afui/verify_native_original.py": "6e94e29a3381d307e40977bd5641384b91788132",
+  "afui/verify_terminal_original.py": "02f535c4fe30afc2172e4f18a11cbb7af40b0b80",
+  "global/reviewed-sku-shutdown-successor/compare_sku_catalogue.py": "ae94766b420bd3264bfd3c8281874d96543c1d0a",
+  "global/reviewed-sku-shutdown-successor/derive_global_sku_fence.py": "61f9882d64e2a19931c6400e07f2b2c9cb9f05ce",
+  "global/reviewed-sku-shutdown-successor/prepare_combined_sku_scope.py": "a3017f062d4b5dec05f4a77031fc263be25da356",
+  "global/reviewed-sku-shutdown-successor/prepare_global_sku_source.py": "9588a3227da5b372fc74c465a7e20b807d49c7c5",
+  "global/reviewed-sku-shutdown-successor/prepare_non_po_followup.py": "e995d0f41d34fcaf6906935c3533c69d614cfb2e",
+  "global/reviewed-sku-shutdown-successor/review_combined_global_authority.py": "ddf3b8cda7e911268f0df2da2c2c6f270860734c",
+  "global/reviewed-sku-shutdown-successor/review_native_authority.py": "957a373535add034fc4c5c459c69f08d31369cde",
+  "global/reviewed-sku-shutdown-successor/review_sku_hpp_authority.py": "1da234a8c2a9fa7308398d4a4046613b1539e25c",
+  "global/reviewed-sku-shutdown-successor/review_writer_delta.py": "a48f6138ae61547b35409679e9f08c7f2b1f7fab",
+  "global/reviewed-sku-shutdown-successor/reviewed_sku_source.py": "c2081550072da23ab4ecfa252c0d8c3956c5ef2e",
+  "global/reviewed-sku-shutdown-successor/verify_combined_sku.py": "1112e5877433e3feeb17b4933f23137fc6e5b961",
+  "global/reviewed-sku-shutdown-successor/verify_cost_capture_successor.py": "d66f50bbdda48f4b4b99356aedf38a02fa7c0304",
+  "global/reviewed-sku-shutdown-successor/verify_focused_sku.py": "7dcd4e6395e4716178ac4f089300dfa59d04f9b5",
+  "global/reviewed-sku-shutdown-successor/verify_terminal_sku.py": "af9331e818fbfc0d31c9b924265a23c9f8bb2dec",
+  "global/reviewed-sku-shutdown-successor/verify_wib_successor.py": "90af754186e2dfb95637ab57be1f715030453001"
+}
