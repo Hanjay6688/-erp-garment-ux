@@ -15,7 +15,6 @@ concurrency:
   cancel-in-progress: false
 jobs:
   p21:
-    if: ${{ false }}
     name: Actual Mandor parent, full money and automatic Native25; complete restoration
     runs-on: ubuntu-24.04
     timeout-minutes: 360
@@ -730,7 +729,7 @@ jobs:
         path: auditor/cp6-proof/t3
         retention-days: 30
         if-no-files-found: error
-    if: github.ref == 'refs/heads/astra-a/sku-current-parent-money-automatic-native25-20261105'
+    if: ${{ false }}
   automatic-context-timezone-replay:
     name: Exact E4EA timezone refusal and correction in PostgreSQL 17.6
     if: ${{ github.event_name == 'push' }}
