@@ -1,0 +1,35 @@
+{
+  "sparse_checkout": {
+    "bytes": 1185,
+    "sha256": "c08a82cf1447b251c5643faf02740dba03dde1d1dde55370a459bae0d5dfdfe2",
+    "first_error": [
+      "src/ConnectedErpSettingsPage.dom.test.tsx(11,26): error TS2307: Cannot find module '../scripts/cp7_accessory_nonpayable/LOCAL_SETTINGS_CONTROLS.json' or its corresponding type declarations.",
+      "error TS18003: No inputs were found in config file '/workspace/scratch/b6947bc7a657/b-cp7/tsconfig.contracts.json'. Specified 'include' paths were '[\"contracts/cp7/**/*.ts\"]' and 'exclude' paths were '[]'."
+    ],
+    "app_journeys_executed": 0
+  },
+  "fixture_esm": {
+    "bytes": 692,
+    "sha256": "977d603dc946583c059cc7577a8f160fd97ef72fb1a4a72ac00cb09e60f58968",
+    "first_error": [
+      "TypeError: Module \"file:///workspace/scratch/b6947bc7a657/b-cp7/tests/fixtures/initialAnalysisReadyActual.json\" needs an import attribute of \"type: json\""
+    ],
+    "app_journeys_executed": 0
+  },
+  "filter": {
+    "bytes": 507,
+    "sha256": "a4250df75fc756793fe6aafbc04a8dfbd4a58dd718a6aaacf29afcb05d18f4c9",
+    "first_error": [
+      "Error: No tests found"
+    ],
+    "app_journeys_executed": 0
+  },
+  "chromium_system": {
+    "bytes": 27787,
+    "sha256": "ab7edff582ee579d8a4b412a0357d5a8dfdafc19fdf966ee96de7d5d948fe2b1",
+    "first_error": [
+      "[pid=78][err] [78:78:1112/181546.038125:FATAL:chrome/browser/process_singleton_posix.cc:297] Check failed: . socket() failed: Operation not permitted (1)"
+    ],
+    "app_journeys_executed": 0
+  }
+}

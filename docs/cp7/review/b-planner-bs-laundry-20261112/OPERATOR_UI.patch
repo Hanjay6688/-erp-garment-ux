@@ -1,0 +1,74 @@
+diff --git a/src/ConnectedBsResolutionPage.tsx b/src/ConnectedBsResolutionPage.tsx
+index 9902f1c..200af09 100644
+--- a/src/ConnectedBsResolutionPage.tsx
++++ b/src/ConnectedBsResolutionPage.tsx
+@@ -51,6 +51,11 @@ const qty = (value: string) => parseQuantityInput(value) ?? Number.NaN
+ const showQty = (value: number) => Number.isFinite(value) ? String(value) : '—'
+ const money = (value: number) => `Rp${value.toLocaleString('id-ID', { maximumFractionDigits: 2 })}`
+ const statusLabel = (status: string) => status.replaceAll('_', ' ')
++const bsCauses = [
++  { value: 'UNKNOWN', label: 'Belum diketahui' },
++  { value: 'SEWING', label: 'Jahit' },
++  { value: 'LAUNDRY', label: 'Laundry' },
++] as const
+ 
+ function CreateManualBs({ workspace, canSubmit, onClose, onAction, feedback }: {
+   workspace: BsResolutionWorkspace; canSubmit: boolean; onClose: () => void; onAction: RunAction; feedback: ReactNode
+@@ -189,7 +194,7 @@ function ClassificationPanel({ row, workspace, canCreate, onAction }: {
+   const validOwner = cause === 'UNKNOWN' || (cause === 'SEWING' ? contractorId : vendorId)
+   return <details className="cbsr-fold"><summary><span><UserRound/> Klasifikasi & tanggung jawab</span><ChevronRight/></summary><div className="cbsr-fold-body">
+     <div className="cbsr-form-grid compact">
+-      <label><span>SUMBER PENYEBAB</span><select value={cause} disabled={!canCreate || row.status === 'ON_HOLD' || row.is_closed} onChange={(event) => setCause(event.target.value)}><option>UNKNOWN</option><option>SEWING</option><option>LAUNDRY</option></select></label>
++      <label><span>SUMBER PENYEBAB</span><select value={cause} disabled={!canCreate || row.status === 'ON_HOLD' || row.is_closed} onChange={(event) => setCause(event.target.value)}>{bsCauses.map(({ value, label }) => <option key={value} value={value}>{label}</option>)}</select></label>
+       {cause === 'SEWING' ? <label><span>MANDOR TANGGUNG JAWAB</span><select value={contractorId} onChange={(event) => setContractorId(event.target.value)}><option value="">Pilih Mandor…</option>{workspace.lookups.contractors.map((item) => <option value={item.id} key={item.id}>{item.code} · {item.name}</option>)}</select></label> : cause === 'LAUNDRY' ? <label><span>VENDOR TANGGUNG JAWAB</span><select value={vendorId} onChange={(event) => setVendorId(event.target.value)}><option value="">Pilih Laundry…</option>{workspace.lookups.vendors.map((item) => <option value={item.id} key={item.id}>{item.code} · {item.name}</option>)}</select></label> : null}
+       <label className="wide"><span>CATATAN KASUS</span><textarea value={notes} onChange={(event) => setNotes(event.target.value)}/></label>
+       <label className="wide"><span>ALASAN PERUBAHAN · WAJIB</span><input value={reason} onChange={(event) => setReason(event.target.value)} placeholder="Dasar hasil pemeriksaan fisik"/></label>
+@@ -356,7 +361,7 @@ function CaseDetail({ row, workspace, canCreate, canPost, canReverse, ownerAdmin
+   return <main className="cbsr-detail" data-case-id={row.id}><header><div><span>{row.kind === 'BS' ? 'BARANG BS' : 'LAUNDRY CLAIM'} · ROW VERSION {row.row_version}</span><h2>{row.number}</h2><p>{row.po_number ?? 'Tanpa PO'} · {row.model_name ?? row.product_name ?? 'Identitas produk belum lengkap'}</p></div><em className={row.is_closed ? 'closed' : row.status === 'ON_HOLD' ? 'hold' : 'active'}>{statusLabel(row.status)}</em></header>
+     <section className="cbsr-truth"><ShieldCheck/><div><small>POLA · SNAPSHOT SUMBER</small><strong>{bsPatternLabel(row)}</strong></div></section>
+     <section className="cbsr-facts"><span><small>QTY KASUS</small><strong>{row.qty_pcs} pcs</strong></span><span><small>RESOLVED</small><strong>{row.resolved_qty} pcs</strong></span><span><small>REWORK AKTIF</small><strong>{row.active_rework_qty} pcs</strong></span><span><small>TERSEDIA</small><strong>{row.available_qty} pcs</strong></span></section>
+-    <section className="cbsr-lineage"><span><small>POTONGAN</small><strong>{row.group_number ?? 'Tidak terlacak'}</strong></span><span><small>SUMBER / PIHAK</small><strong>{row.contractor_name ?? row.vendor_name ?? row.cause_source}</strong></span><span><small>WAKTU FISIK</small><strong>{new Date(row.opened_at).toLocaleString('id-ID')}</strong></span><span><small>REFERENSI</small><strong>{row.legacy_reference ?? row.laundry_delivery_id ?? row.sku ?? '—'}</strong></span></section>
++    <section className="cbsr-lineage"><span><small>POTONGAN</small><strong>{row.group_number ?? 'Tidak terlacak'}</strong></span><span><small>SUMBER / PIHAK</small><strong>{row.kind === 'BS' ? [bsCauses.find(({ value }) => value === row.cause_source)?.label ?? row.cause_source, row.contractor_name ?? row.vendor_name].filter(Boolean).join(' · ') : row.vendor_name ?? row.cause_source}</strong></span><span><small>WAKTU FISIK</small><strong>{new Date(row.opened_at).toLocaleString('id-ID')}</strong></span><span><small>REFERENSI</small><strong>{row.legacy_reference ?? row.laundry_delivery_id ?? row.sku ?? '—'}</strong></span></section>
+     {row.notes ? <p className="cbsr-case-note"><FileWarning/>{row.notes}</p> : null}
+     {row.kind === 'BS' ? <ClassificationPanel key={`classification-${row.id}-${row.row_version}`} row={row} workspace={workspace} canCreate={canCreate} onAction={onAction}/> : null}
+     {row.kind === 'BS' ? <BsActionPanel key={`actions-${row.id}-${row.row_version}`} row={row} workspace={workspace} canCreate={canCreate} canPost={canPost} canReverse={canReverse} ownerAdmin={ownerAdmin} onAction={onAction}/> : <ClaimActionPanel key={`claim-${row.id}-${row.row_version}`} row={row} canCreate={canCreate} canPost={canPost} canReverse={canReverse} ownerAdmin={ownerAdmin} onAction={onAction}/>}
+diff --git a/src/ConnectedLaundryPage.tsx b/src/ConnectedLaundryPage.tsx
+index c2822b9..1fca344 100644
+--- a/src/ConnectedLaundryPage.tsx
++++ b/src/ConnectedLaundryPage.tsx
+@@ -278,12 +278,29 @@ function ReturnLaundryForm({ workspace, writerLocked, canPost, onAction, searchP
+       <label><span>WAKTU FISIK KEMBALI · WIB</span><input aria-label="WAKTU FISIK KEMBALI" type="datetime-local" value={physicalAt} disabled={actionLocked} onChange={(event) => { setPhysicalAt(event.target.value); setProducts({}); setResolvedProducts({}); setConfirmed(false) }}/><small>Wajib diisi operator · {CP6_BUSINESS_TIME_LABEL}. Ganti waktu akan mengosongkan SKU BS.</small></label>
+       <label className="wide"><span>BUKTI / ALASAN PENERIMAAN</span><input aria-label="ALASAN / BUKTI PENERIMAAN" value={reason} disabled={actionLocked} onChange={(event) => { setReason(event.target.value); setConfirmed(false) }} placeholder="Contoh: jumlah dihitung bersama vendor dan surat jalan cocok"/></label>
+     </div>
+-    {delivery ? <div className="clq-return-editor"><header><div><strong>{delivery.delivery_number} · {delivery.vendor_name}</strong><small>{delivery.model_code} · {delivery.group_number} · Batch {delivery.batch_no}</small></div><em>{delivery.physical_outstanding_qty_pcs} pcs belum kembali</em></header>{delivery.sizes.filter((row) => row.outstanding_qty_pcs > 0).map((row) => {
+-      const key = row.delivery_batch_size_line_id
+-      const goodQty = quantity(good[key] ?? '0')
+-      const bsQty = quantity(bs[key] ?? '0')
+-      return <article key={key}><div><b>Ukuran {row.size_code}</b><small>Dikirim {row.qty_sent_pcs} · sudah kembali {row.good_returned_qty_pcs + row.bs_returned_qty_pcs} · belum kembali {row.outstanding_qty_pcs}</small></div><label><span>GOOD</span><input aria-label={`Good kembali size ${row.size_code}`} inputMode="numeric" disabled={actionLocked} value={good[key] ?? '0'} onChange={(event) => { setGood((current) => ({ ...current, [key]: event.target.value })); setConfirmed(false) }}/></label><label><span>BS LAUNDRY</span><input aria-label={`BS Laundry size ${row.size_code}`} inputMode="numeric" disabled={actionLocked} value={bs[key] ?? '0'} onChange={(event) => { setBs((current) => ({ ...current, [key]: event.target.value })); setConfirmed(false) }}/></label><LaundryBsProductSelector sourceId={key} modelId={delivery.model_id} sizeId={row.size_id} sizeCode={row.size_code} physicalIso={physicalIso} disabled={actionLocked || bsQty === 0} value={products[key] ?? ''} catalog={productCatalog} searchProducts={searchProducts} onResolved={(found) => setResolvedProducts((current) => ({ ...current, ...Object.fromEntries(found.map((product) => [product.id, product])) }))} onChange={(productId) => { setProducts((current) => ({ ...current, [key]: productId })); setConfirmed(false) }}/><strong className={goodQty + bsQty > row.outstanding_qty_pcs ? 'bad' : ''}>Belum kembali {Math.max(0, row.outstanding_qty_pcs - goodQty - bsQty)}</strong></article>
+-    })}</div> : <div className="clq-empty"><PackageCheck/><strong>Pilih surat kirim yang kembali</strong><small>Penerimaan boleh sebagian; jumlah yang belum kembali tetap tercatat dan tidak ditimpa.</small></div>}
++    {delivery ? <div className="clq-return-editor">
++      <header>
++        <div>
++          <strong>{delivery.delivery_number} · {delivery.vendor_name}</strong>
++          <small>{delivery.po_number} · {delivery.model_code} · {delivery.group_number} · Batch {delivery.batch_no}</small>
++        </div>
++        <em>{delivery.physical_outstanding_qty_pcs} pcs belum kembali</em>
++      </header>
++      {delivery.sizes.map((row) => {
++        const key = row.delivery_batch_size_line_id
++        const summary = <div><b>Ukuran {row.size_code}</b><small>Dikirim {row.qty_sent_pcs} · sudah kembali {row.good_returned_qty_pcs + row.bs_returned_qty_pcs} · belum kembali {row.outstanding_qty_pcs}</small></div>
++        if (row.outstanding_qty_pcs === 0) return <article key={key}>{summary}<strong>Semua sudah kembali</strong></article>
++        const goodQty = quantity(good[key] ?? '0')
++        const bsQty = quantity(bs[key] ?? '0')
++        return <article key={key}>
++          {summary}
++          <label><span>GOOD</span><input aria-label={`Good kembali size ${row.size_code}`} inputMode="numeric" disabled={actionLocked} value={good[key] ?? '0'} onChange={(event) => { setGood((current) => ({ ...current, [key]: event.target.value })); setConfirmed(false) }}/></label>
++          <label><span>BS LAUNDRY</span><input aria-label={`BS Laundry size ${row.size_code}`} inputMode="numeric" disabled={actionLocked} value={bs[key] ?? '0'} onChange={(event) => { setBs((current) => ({ ...current, [key]: event.target.value })); setConfirmed(false) }}/></label>
++          <LaundryBsProductSelector sourceId={key} modelId={delivery.model_id} sizeId={row.size_id} sizeCode={row.size_code} physicalIso={physicalIso} disabled={actionLocked || bsQty === 0} value={products[key] ?? ''} catalog={productCatalog} searchProducts={searchProducts} onResolved={(found) => setResolvedProducts((current) => ({ ...current, ...Object.fromEntries(found.map((product) => [product.id, product])) }))} onChange={(productId) => { setProducts((current) => ({ ...current, [key]: productId })); setConfirmed(false) }}/>
++          <strong className={goodQty + bsQty > row.outstanding_qty_pcs ? 'bad' : ''}>Belum kembali {Math.max(0, row.outstanding_qty_pcs - goodQty - bsQty)}</strong>
++        </article>
++      })}
++    </div> : <div className="clq-empty"><PackageCheck/><strong>Pilih surat kirim yang kembali</strong><small>Penerimaan boleh sebagian; jumlah yang belum kembali tetap tercatat dan tidak ditimpa.</small></div>}
+     <div className="clq-impact"><ShieldCheck/><span><strong>{total} pcs kembali · tarif {rate ? money(rate.rate_per_pcs) : 'belum tersedia untuk waktu ini'}</strong><small>Server mengecek tarif lagi, memisahkan Good ke antrean QC dan BS ke kasus BS, lalu memperbarui biaya, HPP, jurnal, dan laporan sekaligus.</small></span></div>
+     {invalidQuantity || over || bsInvalidProduct ? <div className="clq-warning"><AlertTriangle/><span>{invalidQuantity ? 'Good dan BS harus bilangan bulat pcs. Input mentah tidak diubah; tombol simpan tetap terkunci.' : over ? 'Good + BS melebihi jumlah yang belum kembali pada salah satu ukuran.' : 'Setiap Laundry-BS wajib punya SKU aktif pada waktu fisik dengan model dan ukuran yang sama.'}</span></div> : null}
+     <label className="clq-confirm"><input type="checkbox" checked={confirmed} disabled={actionLocked} onChange={(event) => setConfirmed(event.target.checked)}/><span>Saya sudah menghitung fisik per ukuran; Good dan BS benar, sisanya memang belum kembali.</span></label>
