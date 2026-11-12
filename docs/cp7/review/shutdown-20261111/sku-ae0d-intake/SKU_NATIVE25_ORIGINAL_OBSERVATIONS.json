@@ -1,0 +1,532 @@
+{
+  "status": "SKU_NATIVE25_ORIGINAL_OBSERVATIONS_REVIEWED",
+  "source_scope": {
+    "bytes": 22999,
+    "sha256": "91a74eeda82feace3cfdc27488841306edb05ff40311c38cda6201af7215a760"
+  },
+  "original_e4ea": {
+    "head": "e4eaaecebad1f0ba11ab1542b5df89a6423a8a1e",
+    "tree": "ead4c59721d1fc1dc608a9f803dbaf2a076abbdd",
+    "run_id": 43132617378,
+    "job_id": 130900171009,
+    "attempt": 1,
+    "conclusion": "failure",
+    "artifact_id": 13914600256,
+    "archive": {
+      "bytes": 96749933,
+      "sha256": "dd9e31355a0820d1650e438a8913c49450a10dbc342789ed94f3418c1be6363b",
+      "members": 212
+    },
+    "all_member_crc_verified": true,
+    "first_failed_step": {
+      "name": "Run current-parent money automatic Native25 and real browser2 once with owning restoration",
+      "status": "completed",
+      "conclusion": "failure",
+      "number": 78,
+      "started_at": "2026-11-12T01:24:41Z",
+      "completed_at": "2026-11-12T03:56:12Z"
+    },
+    "first_case_error": {
+      "case": "SKU_AUTOMATIC_NATIVE_REWORK_PENDING_AVERAGE_REPLAY_AND_PARENT_INVERSE",
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/cb040202872edc1b3998da82abef8e07c9e13ca1b543805ce397cd41a27ad71c.jsonl",
+      "message": "CP7_SKU_POOL_HPP_UNKNOWN: seluruh komponen ekonomi termasuk reservasi harus diketahui"
+    },
+    "main_error_pin": {
+      "bytes": 109952,
+      "sha256": "70c921aedee47b8b74a75bb231b151e21e66ec0fe4dd48c4b7532119e4e0cf19"
+    },
+    "cleanup": true,
+    "actual_outer_restore": true,
+    "actual_worker_reaped": true
+  },
+  "original_ae0d": {
+    "head": "ae0df1ef17b4d84478d50a2a144cf0382d662ad0",
+    "tree": "b8f534ba09226311c6eb83b967732dd7545db6ea",
+    "run_id": 43187520935,
+    "job_id": 131078326983,
+    "attempt": 1,
+    "conclusion": "failure",
+    "artifact_id": 13940756296,
+    "archive": {
+      "bytes": 87993330,
+      "sha256": "a47ee57b6a36cf68eaff78dc24aa30cbe5b07f1279502795c0b827f53fc43754",
+      "members": 186
+    },
+    "all_member_crc_verified": true,
+    "first_failed_step": {
+      "name": "Run current-parent money automatic Native25 and real browser2 once with owning restoration",
+      "status": "completed",
+      "conclusion": "failure",
+      "number": 78,
+      "started_at": "2026-11-12T09:14:12Z",
+      "completed_at": "2026-11-12T11:19:46Z"
+    },
+    "first_case_error": null,
+    "main_error_pin": {
+      "bytes": 120,
+      "sha256": "402442eb2514b0cef07a955bf5009f4f9339b1d1d094463d3ba18b087f5a88f9"
+    },
+    "cleanup": true,
+    "actual_outer_restore": true,
+    "actual_worker_reaped": true
+  },
+  "retained_e4ea": {
+    "SKU_MOVAVG_CANONICAL_FORWARD20_MANUAL_BACK35_TOTAL130": {
+      "status": "PASS",
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/b0b3255c4919f196318e89f11ce2b476f7efaaa4a4954f3bb513953ac38d20c0.jsonl",
+      "bytes": 3663,
+      "sha256": "e656e0245f53fe35025b5d4296cc3f0c0a1c8571d4789295fbdf777d8093df30",
+      "business_day": "2026-11-12",
+      "sequence_original": {
+        "member": "SKU_CURRENT_PARENT_MONEY_AUTOMATIC_FROZEN_EXECUTION/qualified-sku-money/SKU27_SEQUENCE_PREFIX_SKU_MOVAVG_CANONICAL_FORWARD20_MANUAL_BACK35_TOTAL130_fb16ed182ef1427c9010f0ff5d1f6955.json",
+        "bytes": 2653,
+        "sha256": "4fbb47d9650b2948c417672c9f2f9086437a47863ee853906452ba8bc76dc947"
+      }
+    },
+    "SKU_MOVAVG_EXACT_GROUP_REVERSE_COMPONENT_AND_VALUE_INVERSE": {
+      "status": "PASS",
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/ed8a52d8cb085872b9b49261d223a1a6230293e214a555c2c061f15ea8f9a546.jsonl",
+      "bytes": 3305,
+      "sha256": "44b5b12b3d28467e49c07cb0bb9bd0f5aa9f68413ead4f003e8d3eebcabef252",
+      "business_day": "2026-11-12",
+      "sequence_original": {
+        "member": "SKU_CURRENT_PARENT_MONEY_AUTOMATIC_FROZEN_EXECUTION/qualified-sku-money/SKU27_SEQUENCE_PREFIX_SKU_MOVAVG_EXACT_GROUP_REVERSE_COMPONENT_AND_VALUE_INVERSE_d439841b3a26463497fc49b23a039427.json",
+        "bytes": 2658,
+        "sha256": "11123fccacbc89fd8408b6242fd1900349188bf70b995fa0f134da7cce648433"
+      }
+    },
+    "SKU_MOVAVG_ROOT_RECOST_FOLLOWS_REMAINING_LINEAGE_TOTAL150": {
+      "status": "PASS",
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/fda585e3f85a65949073b796f682fc8e5178755130edaba78a18c1256148d0c3.jsonl",
+      "bytes": 3169,
+      "sha256": "2196671264855f88f236666a18c0820d87df641f658853f9b7fbcc84c71ac17d",
+      "business_day": "2026-11-12",
+      "sequence_original": {
+        "member": "SKU_CURRENT_PARENT_MONEY_AUTOMATIC_FROZEN_EXECUTION/qualified-sku-money/SKU27_SEQUENCE_PREFIX_SKU_MOVAVG_ROOT_RECOST_FOLLOWS_REMAINING_LINEAGE_TOTAL150_7a8cbdfb947b4794a6d7eeeacee5e0d1.json",
+        "bytes": 2658,
+        "sha256": "daf81e77f215b52066fe399f2c507793e320dfabbcda5bd46bab2023246118c7"
+      }
+    },
+    "SKU_MOVAVG_SALE_PARTIAL_RETURN_AND_EXACT_REVERSAL": {
+      "status": "PASS",
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/5e7059f05bd4749d86fef799b747ffd5617eb6dddd317655b674ea2d6807629f.jsonl",
+      "bytes": 3282,
+      "sha256": "124cdd1766515bae9bd44e7a118fd8e2dbab6c6ce7d9a37d3758eafccbbeba30",
+      "business_day": "2026-11-12",
+      "sequence_original": {
+        "member": "SKU_CURRENT_PARENT_MONEY_AUTOMATIC_FROZEN_EXECUTION/qualified-sku-money/SKU27_SEQUENCE_PREFIX_SKU_MOVAVG_SALE_PARTIAL_RETURN_AND_EXACT_REVERSAL_0f82b7bfb70f4481846dc5de2f4ba354.json",
+        "bytes": 2650,
+        "sha256": "133a93729575428da95270727b4e032fe3bfb2af395f17df5a29e1968a3d556a"
+      }
+    },
+    "SKU_MOVAVG_RESERVATION_INCLUDED_AND_LOCATION_ISOLATED": {
+      "status": "PASS",
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/643de0eb970ad50bffa291646a95e4921c29747f3261dabd26f749e9c593db71.jsonl",
+      "bytes": 3391,
+      "sha256": "2fb71abfb5d648554d17f6ea8fafbb39348b8200c57621f53bcab892b1894132",
+      "business_day": "2026-11-12",
+      "sequence_original": {
+        "member": "SKU_CURRENT_PARENT_MONEY_AUTOMATIC_FROZEN_EXECUTION/qualified-sku-money/SKU27_SEQUENCE_PREFIX_SKU_MOVAVG_RESERVATION_INCLUDED_AND_LOCATION_ISOLATED_e1f039fed151472f81680800836fe93a.json",
+        "bytes": 2654,
+        "sha256": "40d51a5ca3c35e54b2dc49441504803904f42be79735b0c792bdf5ab5db15bb4"
+      }
+    },
+    "SKU_MOVAVG_FRACTIONAL_RETURNS_INTERLEAVE_RECOST_AND_EARLIER_INVERSE": {
+      "status": "PASS",
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/aa13857db4f4a43a1b769d1178dde9b6fc7ebac26aa80335afcdab9f96b41bb0.jsonl",
+      "bytes": 4379,
+      "sha256": "9dcd5615db00f476b9807c00193cc5bccf1e0b1d082a436820473d38267e4225",
+      "business_day": "2026-11-12",
+      "sequence_original": {
+        "member": "SKU_CURRENT_PARENT_MONEY_AUTOMATIC_FROZEN_EXECUTION/qualified-sku-money/SKU27_SEQUENCE_PREFIX_SKU_MOVAVG_FRACTIONAL_RETURNS_INTERLEAVE_RECOST_AND_EARLIER_INVERSE_65bf30fa1b1f42f8ba14566cecc93dfe.json",
+        "bytes": 2668,
+        "sha256": "ffe4b69903d8592dc1bc10a5849bc3269a22158cf713b5f0655eebd68ea190aa"
+      }
+    },
+    "SKU_MONEY_NATIVE_BASE_CENT_BEFORE_OPENING_LOT_TRANSFER": {
+      "status": "PASS",
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/9ae552a4ce056c676b01b4d22ebbe505b6fbe5d54367ad023e8cfbb2bd2f43c2.jsonl",
+      "bytes": 3112,
+      "sha256": "af48a918dc9b5260702c6136a7cec3ffd732ccc1e226feda90b961c2a7730875",
+      "business_day": "2026-11-12",
+      "sequence_original": {
+        "member": "SKU_CURRENT_PARENT_MONEY_AUTOMATIC_FROZEN_EXECUTION/qualified-sku-money/SKU27_SEQUENCE_PREFIX_SKU_MONEY_NATIVE_BASE_CENT_BEFORE_OPENING_LOT_TRANSFER_3b21756f84d74783b398d2ba0cdcd445.json",
+        "bytes": 2659,
+        "sha256": "0dfae48ad6e68f0aa8d65e82c0256bde7c14b904e2638249f035978a03d3c13d"
+      }
+    },
+    "SKU_MONEY_NATIVE_BASE_CENT_BEFORE_CONVERTED_LOT_TRANSFER": {
+      "status": "PASS",
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/807b48d67226f9a30a261509b5ec76a5ec284de6915d1bd0243f7702dd92dacf.jsonl",
+      "bytes": 3118,
+      "sha256": "a5a3ae99c38622ad145d8efdeace0abe1ef656f806dfff147d0fe1bdfa22c083",
+      "business_day": "2026-11-12",
+      "sequence_original": {
+        "member": "SKU_CURRENT_PARENT_MONEY_AUTOMATIC_FROZEN_EXECUTION/qualified-sku-money/SKU27_SEQUENCE_PREFIX_SKU_MONEY_NATIVE_BASE_CENT_BEFORE_CONVERTED_LOT_TRANSFER_5e4d982c928845b8817e2875705fd6c2.json",
+        "bytes": 2661,
+        "sha256": "8d07e08064a01c12895127e526e7749c2dd3d24190280c88b818510315c11848"
+      }
+    },
+    "SKU_MONEY_NATIVE_BASE_CENT_AFTER_CONVERTED_LOT_TRANSFER": {
+      "status": "PASS",
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/44fb808beaab623506457297a8882d7ce4ec1a05b24b63fc80fda428187e4f5d.jsonl",
+      "bytes": 3118,
+      "sha256": "10b619a0422b0bcb6b812a24ff3fba9f699b87e54329a11c00ae5d41df97fb7c",
+      "business_day": "2026-11-12",
+      "sequence_original": {
+        "member": "SKU_CURRENT_PARENT_MONEY_AUTOMATIC_FROZEN_EXECUTION/qualified-sku-money/SKU27_SEQUENCE_PREFIX_SKU_MONEY_NATIVE_BASE_CENT_AFTER_CONVERTED_LOT_TRANSFER_b4fb7e5fea79464d9b3e92f6b95caee4.json",
+        "bytes": 2660,
+        "sha256": "08dd40fc0b915502c803e3047f92ae4c55eb3e091c471951dc0a51b5d6be5e0a"
+      }
+    },
+    "SKU_MONEY_NATIVE_RECOVERY_OVER_PHYSICAL_FIRST_CHILD_LIMIT_REFUSED": {
+      "status": "PASS",
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/825ce4fb32e7a66cd337835f03aaffa073b00c1703ef62376151d07557e50c36.jsonl",
+      "bytes": 3636,
+      "sha256": "e01b2198e5f58d21fe81fe8f8d546326018377df7655465605c969594340b133",
+      "business_day": "2026-11-12",
+      "sequence_original": {
+        "member": "SKU_CURRENT_PARENT_MONEY_AUTOMATIC_FROZEN_EXECUTION/qualified-sku-money/SKU27_SEQUENCE_PREFIX_SKU_MONEY_NATIVE_RECOVERY_OVER_PHYSICAL_FIRST_CHILD_LIMIT_REFUSED_a47d926fbcda43d688dd214135d5d5b5.json",
+        "bytes": 2670,
+        "sha256": "46201d7ffd87a162b99c063617fb7166f68ef8e33d5de334d895a8fa6e9783e4"
+      }
+    },
+    "SKU_MONEY_NATIVE_LEGACY_OTHER_LOT_STALE_RETURNS_REPLAY_INVERSE": {
+      "status": "PASS",
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/71647b05daf81e9fe3392f2d9e4d052c5b5e1b0facb27651398db7cba16a84ba.jsonl",
+      "bytes": 4045,
+      "sha256": "8b797e9f51422d12dd5b5c43fcd51db197555c4da4635ad875e25777886c91bd",
+      "business_day": "2026-11-12",
+      "sequence_original": {
+        "member": "SKU_CURRENT_PARENT_MONEY_AUTOMATIC_FROZEN_EXECUTION/qualified-sku-money/SKU27_SEQUENCE_PREFIX_SKU_MONEY_NATIVE_LEGACY_OTHER_LOT_STALE_RETURNS_REPLAY_INVERSE_c6d962df99364342b9c11080195e8841.json",
+        "bytes": 2667,
+        "sha256": "1772ab8cfa200cb13d378557bb884353383093446d2c6d1044f39e7fae1c9c0b"
+      }
+    },
+    "SKU_AUTOMATIC_NATIVE_ZERO_GOOD_PARENT_HAS_NO_CONVERSION": {
+      "status": "PASS",
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/51d662f6ccc51a70c10d870b1c9565a241a80e04523e611bb06bdc4da49a016c.jsonl",
+      "bytes": 3027,
+      "sha256": "384623bce922e4496fb4df2d06d1425372d99ac9e8c09fe0978a7bf657e78002",
+      "business_day": "2026-11-12",
+      "sequence_original": {
+        "member": "SKU_CURRENT_PARENT_MONEY_AUTOMATIC_FROZEN_EXECUTION/qualified-sku-money/SKU27_SEQUENCE_PREFIX_SKU_AUTOMATIC_NATIVE_ZERO_GOOD_PARENT_HAS_NO_CONVERSION_d1aee2bfd7124c62a5584f895fc9a1ae.json",
+        "bytes": 2660,
+        "sha256": "99813c11269d979ac1cefb75141963e66b42b71398934c30bba7c9d1d8081480"
+      }
+    }
+  },
+  "observed_ae0d": {
+    "SKU_MONEY_NATIVE_LEGACY_PHYSICAL_OPENING_LATE_INVOICE_CURRENT_INVERSE": {
+      "status": "PASS",
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/6b776c20505b086c43d0fc29ab7a957a9b8eb8bae40a2010d8b4080a60f3689f.jsonl",
+      "bytes": 5296,
+      "sha256": "fd1beb4afa2261f42d5c70b83336f8bceec46e572af6ebbc9f3834eb77576858",
+      "business_day": "2026-11-12",
+      "sequence_original": {
+        "member": "SKU_CURRENT_PARENT_MONEY_AUTOMATIC_FROZEN_EXECUTION/qualified-sku-money/SKU27_SEQUENCE_PREFIX_SKU_MONEY_NATIVE_LEGACY_PHYSICAL_OPENING_LATE_INVOICE_CURRENT_INVERSE_20e9cab73fad4cd1acdb9b7daef5f15d.json",
+        "bytes": 2670,
+        "sha256": "0047c456c61383e4fffb7e56cd237486d3211e279ef7a0b8a2ff97581734daba"
+      },
+      "caller_timezone": "Asia/Jakarta"
+    },
+    "SKU_MONEY_NATIVE_LEGACY_PHYSICAL_CONVERTED_LATE_INVOICE_CURRENT_INVERSE": {
+      "status": "PASS",
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/1c4df0c635932bf3eb17cd5b4a25f78b5960f8880e05031777c5bedc94a4fee6.jsonl",
+      "bytes": 5302,
+      "sha256": "5b63f1799100e7e2ebaa04e9b3be29268379803a20758d29b1e4c92e1c086c6b",
+      "business_day": "2026-11-12",
+      "sequence_original": {
+        "member": "SKU_CURRENT_PARENT_MONEY_AUTOMATIC_FROZEN_EXECUTION/qualified-sku-money/SKU27_SEQUENCE_PREFIX_SKU_MONEY_NATIVE_LEGACY_PHYSICAL_CONVERTED_LATE_INVOICE_CURRENT_INVERSE_dccd49c2b18d4628b0833dfe601f7d52.json",
+        "bytes": 2672,
+        "sha256": "3bfbaa1762ed368238891ee7ccfc85b1194a909d85a5db5538bf61df5048dd89"
+      },
+      "caller_timezone": "Asia/Jakarta"
+    },
+    "SKU_MONEY_NATIVE_SOLD_LATE_INVOICE_PARTIAL_RETURN_AND_BOTH_INVERSES": {
+      "status": "PASS",
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/592d8aba9fc7eec16512037c52168386cf04efa14a24988690c78eff61ca6005.jsonl",
+      "bytes": 3279,
+      "sha256": "485f82dc961c7c82130cabf4084c9618011b27ccdcf290e35aa1a316bebab99c",
+      "business_day": "2026-11-12",
+      "sequence_original": {
+        "member": "SKU_CURRENT_PARENT_MONEY_AUTOMATIC_FROZEN_EXECUTION/qualified-sku-money/SKU27_SEQUENCE_PREFIX_SKU_MONEY_NATIVE_SOLD_LATE_INVOICE_PARTIAL_RETURN_AND_BOTH_INVERSES_8b5c4b54d19c47e9a8972e8c0c0477eb.json",
+        "bytes": 2668,
+        "sha256": "6559666ea87c9cec0571c0568ae8adefaab3f7ad4552675638fbe486e70120ef"
+      },
+      "caller_timezone": "Asia/Jakarta"
+    },
+    "SKU_MONEY_NATIVE_RECOVERY_UNDER_PHYSICAL_FIRST_CHILD_LIMIT": {
+      "status": "PASS",
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/b5662480d1c993d3b43babe37867a34b76b7566971aca295c9ae4a28bdab9267.jsonl",
+      "bytes": 3519,
+      "sha256": "0b65d2ff4e0a5ce53d0d908fecc11d50d1fef82faef04bca7e42177b99d1bb2a",
+      "business_day": "2026-11-12",
+      "sequence_original": {
+        "member": "SKU_CURRENT_PARENT_MONEY_AUTOMATIC_FROZEN_EXECUTION/qualified-sku-money/SKU27_SEQUENCE_PREFIX_SKU_MONEY_NATIVE_RECOVERY_UNDER_PHYSICAL_FIRST_CHILD_LIMIT_502283a8d1014b4bb4d52a048465a95d.json",
+        "bytes": 2659,
+        "sha256": "52100218d816026d88c0a3f9d988bd1fca3ece1b0d3e8ee9a8b3bc7913aedef7"
+      },
+      "caller_timezone": "Asia/Jakarta"
+    },
+    "SKU_MONEY_NATIVE_RECOVERY_EQUAL_PHYSICAL_FIRST_CHILD_LIMIT": {
+      "status": "PASS",
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/484815ef071cdff27220652d6ef7b1ee5f9480bfe5bfdef67777d806000bcf7d.jsonl",
+      "bytes": 3520,
+      "sha256": "1bb71314e5689fd5bb3c3cc8fbd87067b3328835ce64aab9291d151d3d6d334f",
+      "business_day": "2026-11-12",
+      "sequence_original": {
+        "member": "SKU_CURRENT_PARENT_MONEY_AUTOMATIC_FROZEN_EXECUTION/qualified-sku-money/SKU27_SEQUENCE_PREFIX_SKU_MONEY_NATIVE_RECOVERY_EQUAL_PHYSICAL_FIRST_CHILD_LIMIT_e4e20c395aa24ae8a48f7e3bc1398823.json",
+        "bytes": 2659,
+        "sha256": "11cc0e19afd6026f95c280f9a79d470665d344c151a668d3e60605fff4ba6015"
+      },
+      "caller_timezone": "Asia/Jakarta"
+    },
+    "SKU_MONEY_NATIVE_TWO_CHILD_CURRENT_REVISION_POST_COST_AND_INVERSE": {
+      "status": "PASS",
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/4d96f7869df6e9dcd2eae96d3bf176b0dd6f6b6d986f56457f08e3017c3fa760.jsonl",
+      "bytes": 3190,
+      "sha256": "12b68656b40b85417ed04597bb694d8f046f4388c5ce5bf2c0d240d493f2afd9",
+      "business_day": "2026-11-12",
+      "sequence_original": {
+        "member": "SKU_CURRENT_PARENT_MONEY_AUTOMATIC_FROZEN_EXECUTION/qualified-sku-money/SKU27_SEQUENCE_PREFIX_SKU_MONEY_NATIVE_TWO_CHILD_CURRENT_REVISION_POST_COST_AND_INVERSE_1550544a423f4f79820a1444d57aa705.json",
+        "bytes": 2667,
+        "sha256": "d7013f375dc5249d07da8226757a03fe6ffe194c788d2049be42703b5192d4fe"
+      },
+      "caller_timezone": "Asia/Jakarta"
+    },
+    "SKU_MONEY_NATIVE_SIGNED_RECOVERY_BEFORE_OPENING_LOT_THEN_NATIVE_ZERO": {
+      "status": "PASS",
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/c37c577b46f0aff8b5f3e885483167bfb3252463342f4e5bc05b48d423d32693.jsonl",
+      "bytes": 3698,
+      "sha256": "a59c78eebbf84c06a69a882e4754613d8867aa6e5fcf85102f06b66715fb5be9",
+      "business_day": "2026-11-12",
+      "sequence_original": {
+        "member": "SKU_CURRENT_PARENT_MONEY_AUTOMATIC_FROZEN_EXECUTION/qualified-sku-money/SKU27_SEQUENCE_PREFIX_SKU_MONEY_NATIVE_SIGNED_RECOVERY_BEFORE_OPENING_LOT_THEN_NATIVE_ZERO_b4a864dd933d4227929d12dae98c657d.json",
+        "bytes": 2671,
+        "sha256": "3d0b456808c7d6018abcef777d4ecf879d2edb5c6876cbdad157dd41343bf366"
+      },
+      "caller_timezone": "Asia/Jakarta"
+    },
+    "SKU_MONEY_NATIVE_SIGNED_RECOVERY_BEFORE_CONVERTED_LOT_THEN_NATIVE_ZERO": {
+      "status": "PASS",
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/27340d633e2b7651640ed4d8c516dec33c7258622d03b527fb85a0a1eb729e3d.jsonl",
+      "bytes": 3704,
+      "sha256": "50bea7c76138d58205971e8ee367e9c273b1883496d39491a6ffe34eacbaed94",
+      "business_day": "2026-11-12",
+      "sequence_original": {
+        "member": "SKU_CURRENT_PARENT_MONEY_AUTOMATIC_FROZEN_EXECUTION/qualified-sku-money/SKU27_SEQUENCE_PREFIX_SKU_MONEY_NATIVE_SIGNED_RECOVERY_BEFORE_CONVERTED_LOT_THEN_NATIVE_ZERO_bbb88575669c4be484c50237d073520b.json",
+        "bytes": 2673,
+        "sha256": "566611246f7a34176f4898224061966e5dc9aba9240145b2db0648a08c300d47"
+      },
+      "caller_timezone": "Asia/Jakarta"
+    },
+    "SKU_AUTOMATIC_NATIVE_REWORK_PENDING_AVERAGE_REPLAY_AND_PARENT_INVERSE": {
+      "status": "PASS",
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/cb040202872edc1b3998da82abef8e07c9e13ca1b543805ce397cd41a27ad71c.jsonl",
+      "bytes": 3863,
+      "sha256": "55d672dc4a3beb39c383d89db755db915934c493869cf9676bb06565e7caa4ec",
+      "business_day": "2026-11-12",
+      "sequence_original": {
+        "member": "SKU_CURRENT_PARENT_MONEY_AUTOMATIC_FROZEN_EXECUTION/qualified-sku-money/SKU27_SEQUENCE_PREFIX_SKU_AUTOMATIC_NATIVE_REWORK_PENDING_AVERAGE_REPLAY_AND_PARENT_INVERSE_836a5423aba646608bc0f69a86439335.json",
+        "bytes": 2672,
+        "sha256": "455d4c70b6aab092de6694836f35f66b6095c2cc0183bbf75624b981d157602c"
+      }
+    },
+    "SKU_AUTOMATIC_NATIVE_REDYE_UNKNOWN_AVERAGE_REPLAY_AND_PARENT_INVERSE": {
+      "status": "PASS",
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/299956dff235146635963710ea13882175ebb2812c36a9ffb7df35e34347aa68.jsonl",
+      "bytes": 3860,
+      "sha256": "93e6d243958172af8523636d3babfbd49f264077e0fb12483f554b36665f8202",
+      "business_day": "2026-11-12",
+      "sequence_original": {
+        "member": "SKU_CURRENT_PARENT_MONEY_AUTOMATIC_FROZEN_EXECUTION/qualified-sku-money/SKU27_SEQUENCE_PREFIX_SKU_AUTOMATIC_NATIVE_REDYE_UNKNOWN_AVERAGE_REPLAY_AND_PARENT_INVERSE_8430b5c0b03b4328964bd627719f9047.json",
+        "bytes": 2671,
+        "sha256": "7f2462433de260cdd12ebb0ba550ff5509d8c83ff3983ceeb8162a6cf534674d"
+      }
+    },
+    "SKU_AUTOMATIC_NATIVE_LATE_TARGET_REFUSAL_ROLLS_BACK_PARENT_AND_CHILD": {
+      "status": "PASS",
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/057bcb1b65676e23275bca6e5fd4c0aae5fcdfbaaa39e17121fd21458911d36c.jsonl",
+      "bytes": 6280,
+      "sha256": "76b3a0b7764b9b351f5fd2f4ac17eba18c259f9920e19c01a49c783987002b87",
+      "business_day": "2026-11-12",
+      "sequence_original": {
+        "member": "SKU_CURRENT_PARENT_MONEY_AUTOMATIC_FROZEN_EXECUTION/qualified-sku-money/SKU27_SEQUENCE_PREFIX_SKU_AUTOMATIC_NATIVE_LATE_TARGET_REFUSAL_ROLLS_BACK_PARENT_AND_CHILD_d552d16e718f4b9aadbaca0e9ffb5219.json",
+        "bytes": 2671,
+        "sha256": "3eceba369ba3c4743c7feec1f2c1817f257b213b4d88028f0be65a46097dce2a"
+      }
+    },
+    "SKU_AUTOMATIC_NATIVE_REWORK_PO_LATE_INVOICE_INVERSE_AND_NO_REVIVAL": {
+      "status": "PASS",
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/fcd44742f2a97d0f385b56b3e22d994c3bccb3dac6dc2dd4bd609cfea01ee5da.jsonl",
+      "bytes": 7618,
+      "sha256": "18ca076475c7067510b3e32a7cba2187f65a02904524a8f49e8247ce358cb205",
+      "business_day": "2026-11-12",
+      "sequence_original": {
+        "member": "SKU_CURRENT_PARENT_MONEY_AUTOMATIC_FROZEN_EXECUTION/qualified-sku-money/SKU27_SEQUENCE_PREFIX_SKU_AUTOMATIC_NATIVE_REWORK_PO_LATE_INVOICE_INVERSE_AND_NO_REVIVAL_f19571ec7f024543892bbd9c848071b9.json",
+        "bytes": 2668,
+        "sha256": "71bcde7ab669e48a7bd369478a414ad6387c3c06bbc1b70aa295fcd5ca3a77a6"
+      }
+    },
+    "SKU_AUTOMATIC_NATIVE_REDYE_PO_LATE_INVOICE_INVERSE_AND_NO_REVIVAL": {
+      "status": "PASS",
+      "original": "SKU_AUTOMATIC_CASE_STDOUT/2a4bc20b7f1b25861f97bd557c6538a71a040d2266f4227f42603f8c63cad581.jsonl",
+      "bytes": 7617,
+      "sha256": "5d8d0a970ac9be8fc68806523a8cc02302608dd1fc1d3631b758ec5fd49b23e4",
+      "business_day": "2026-11-12",
+      "sequence_original": {
+        "member": "SKU_CURRENT_PARENT_MONEY_AUTOMATIC_FROZEN_EXECUTION/qualified-sku-money/SKU27_SEQUENCE_PREFIX_SKU_AUTOMATIC_NATIVE_REDYE_PO_LATE_INVOICE_INVERSE_AND_NO_REVIVAL_5cc0b25512e641c99f66fb81499a2091.json",
+        "bytes": 2668,
+        "sha256": "445c0e5cc58bf30164e07db86c159c07df2fa7af054cca9a6799514404048502"
+      }
+    }
+  },
+  "observed_native_passes": 25,
+  "observed_browser_passes": 0,
+  "qualification_credit": 0,
+  "actual_first_failure": "('SKU_MONEY_UNATTRIBUTED_SEQUENCE_BEFORE_CASE', 'SKU_MONEY_NATIVE_LEGACY_PHYSICAL_OPENING_LATE_INVOICE_CURRENT_INVERSE')",
+  "current_archive_restore_tables": 407,
+  "native_sequence_review": {
+    "observed_pre_case_gap": {
+      "sequence:erp.audit_logs_id_seq": {
+        "before": [
+          "1",
+          false
+        ],
+        "after": [
+          "222",
+          true
+        ]
+      }
+    },
+    "case_links": 13,
+    "last_case_matches_post_group": true,
+    "sequence_count": 15,
+    "setup_attribution_required": true,
+    "clone_audit_anchor_e4ea": {
+      "clone": [
+        "1",
+        false
+      ],
+      "before_first_case": [
+        "222",
+        true
+      ]
+    },
+    "clone_audit_anchor_ae0d": {
+      "clone": [
+        "1",
+        false
+      ],
+      "before_first_case": [
+        "222",
+        true
+      ]
+    }
+  },
+  "original_browser_prerequisites": {
+    "original": {
+      "name": "SKU_CURRENT_PARENT_MONEY_AUTOMATIC_BROWSER_PREREQUISITES.json",
+      "bytes": 1686,
+      "sha256": "76f1c4a764cda6831550b822b86d4f624d2f7b8b83aba6835e7085c2aa9d1762"
+    },
+    "candidate_build": "PASS",
+    "candidate_browser_module_import": "PASS",
+    "offline_browser_setup_observations": 4,
+    "actual_business_browser_cases": 0
+  },
+  "actual_diagnostic_full25": {
+    "original": {
+      "name": "SKU_GLOBAL_PARENT_ACTUAL_FULL25.json",
+      "bytes": 16048295,
+      "sha256": "5ea19bbff9b9e8a93829cc7b6778d75258f48db038f71d600057af69aa17e642"
+    },
+    "fingerprint": {
+      "contract": "cp7.global-catalogue-fingerprint.v1",
+      "groups": 25,
+      "sha256": "3b7c2a53c95978816c6322abc02c62656ab9246ca06606e2000d501d7492af71",
+      "counts": {
+        "aggregates": 0,
+        "casts": 229,
+        "columns": 10359,
+        "constraints": 4081,
+        "database_authority": 1,
+        "default_privileges": 27,
+        "enums": 46,
+        "event_triggers": 6,
+        "extensions": 5,
+        "functions": 3105,
+        "indexes": 1695,
+        "inheritance": 15,
+        "languages": 4,
+        "memberships": 28,
+        "operators": 799,
+        "policies": 463,
+        "relations": 2510,
+        "roles": 92,
+        "rules": 54,
+        "schemas": 140,
+        "sequence_ownership": 13,
+        "sequences": 15,
+        "triggers": 5799,
+        "type_implementation": 1626,
+        "types": 1626
+      }
+    },
+    "exact_query_sources": {
+      "composition.py": {
+        "bytes": 21891,
+        "sha256": "aa5139dcc0a87445e4fbecd1af0aca9cdf70b9e53b5a6be523aebe86d38029e4"
+      },
+      "catalogue_profile.py": {
+        "bytes": 4607,
+        "sha256": "e34234eab2e4c36f8c63742a504569f954957241c0cbc679e9b420d12218b19e"
+      }
+    }
+  },
+  "catalogue_equivalence": {
+    "status": "ALL25_EQUAL_EXCEPT_OW04_DATABASE_LOCAL_SEAL",
+    "actual_catalogue": {
+      "bytes": 16048295,
+      "sha256": "5ea19bbff9b9e8a93829cc7b6778d75258f48db038f71d600057af69aa17e642"
+    },
+    "original_guard_definition": {
+      "bytes": 6051,
+      "sha256": "64928dfe3c76b42ec6e1a9f21ff58b7b9094f66f1f418fc3f06c972c34b5135b"
+    },
+    "actual_guard_definition": {
+      "bytes": 6051,
+      "sha256": "832b4e02685566f4ba66e37ea700919991fa5b2759f532e40c3f8864f90b9c77"
+    },
+    "observed_runtime_literal": "8b1899969a97deead9808710adbd355a111f49049cb1f7979fec973bc9e0ab93",
+    "reference_runtime_literal": "82f1dd67ca37c3c09ebac5b7f9a13a061647ba92f367e0e10561058301b437c0",
+    "normalized_functions": {
+      "bytes": 8582240,
+      "sha256": "9c4382b37bfa3827acbd38974e430098a089b8770a7300934c06bad5b20dce0b"
+    },
+    "live_guard_verification_for_global_pending": true,
+    "production_go": false
+  },
+  "mandor_root": {
+    "bytes": 19149,
+    "sha256": "87f9c26be35fb84288189162c6ed18edc9d12f9648901ef36a41c85a168e7670"
+  },
+  "mandor_cumulative_decision": {
+    "bytes": 16346,
+    "sha256": "26a885207634cd91aa57e6746e92852d1ffa8092cf4df3b6da389c2f929927c0"
+  },
+  "pending": {
+    "setup_sequence_attribution": true,
+    "final_candidate_equivalence": true,
+    "committed_used_inverse": true,
+    "browser_cases": [
+      "SKU_CURRENT_MOVAVG_DESKTOP_REAL_AUTH_PAIR_VALUE_RECOVERY_INVERSE",
+      "SKU_CURRENT_MOVAVG_MOBILE390_REAL_AUTH_PAIR_VALUE_GUARDS_INVERSE"
+    ],
+    "full_five_gates_and_outer_restore": true
+  },
+  "global_admitted": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

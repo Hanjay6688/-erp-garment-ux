@@ -1,0 +1,59 @@
+diff --git a/scripts/current-sku-automatic-composite-preparation/test_browser_access.py b/scripts/current-sku-automatic-composite-preparation/test_browser_access.py
+index 0619d2543..0ceb0c599 100644
+--- a/scripts/current-sku-automatic-composite-preparation/test_browser_access.py
++++ b/scripts/current-sku-automatic-composite-preparation/test_browser_access.py
+@@ -13,7 +13,9 @@ access = importlib.util.module_from_spec(spec);spec.loader.exec_module(access)
+ 
+ class BrowserAccessControls(unittest.TestCase):
+     def test_real_closed_inputs_precede_copy_product_or_mode_inspection(self):
+-        with patch.object(Path, 'read_bytes', side_effect=AssertionError('File inspected')), \
++        closed = dict.fromkeys(access.entry.admission.GATES)
++        with patch.multiple(access.entry.admission, **closed), \
++                patch.object(Path, 'read_bytes', side_effect=AssertionError('File inspected')), \
+                 patch.object(access.entry, 'load', side_effect=AssertionError('Copy mode inspected')):
+             with self.assertRaisesRegex(ValueError, 'FULL_NATIVE_LIFECYCLE_PENDING'):
+                 access.run(object(), object(), object(), {})
+@@ -21,6 +23,8 @@ class BrowserAccessControls(unittest.TestCase):
+                 with access.copy_scope(object(), object(), object()):self.fail('Unadmitted copy entered')
+ 
+     def test_native_only_plan_cannot_silently_activate_browser_copies(self):
++        admission = access.entry.admission
++        original_gates = {name: getattr(admission, name) for name in admission.GATES}
+         current = json.loads(access.entry.PLAN_FILE.read_bytes())
+         current.pop('required_browser_case_ids');current.pop('fresh_real_Auth_browser_required')
+         native_only = json.dumps(current).encode()
+@@ -34,7 +38,7 @@ class BrowserAccessControls(unittest.TestCase):
+         with patch.object(access.entry, 'actual_inputs', return_value=values), \
+                 patch.dict(os.environ, GITHUB_REF=access.entry.BRANCH):
+             self.assertEqual(access.actual_inputs(), values)
+-        self.assertTrue(all(getattr(access.entry.admission, key) is None for key in access.entry.admission.GATES))
++        self.assertEqual({name: getattr(admission, name) for name in admission.GATES}, original_gates)
+ 
+ 
+ if __name__ == '__main__':unittest.main()
+diff --git a/scripts/current-sku-automatic-composite-preparation/test_browser_binding.py b/scripts/current-sku-automatic-composite-preparation/test_browser_binding.py
+index 9d4c8cc1c..4071b2ecd 100644
+--- a/scripts/current-sku-automatic-composite-preparation/test_browser_binding.py
++++ b/scripts/current-sku-automatic-composite-preparation/test_browser_binding.py
+@@ -1,5 +1,5 @@
+ """Closed binding and full source/output controls; no actual Root or ERP."""
+-from contextlib import chdir
++from contextlib import ExitStack, chdir
+ from decimal import Decimal
+ from hashlib import sha256
+ from pathlib import Path
+@@ -102,8 +102,12 @@ class BrowserBindingControls(unittest.TestCase):
+     def test_real_closed_gates_precede_every_source_or_fixture_entry(self):
+         source = load('current_browser_source_control', HERE / 'browser_source.py')
+         fixture = load('current_browser_fixture_control', HERE / 'browser_fixture.py')
+-        with patch.object(Path, 'is_file', side_effect=AssertionError('Frozen input inspected')), \
+-                patch.object(binding.subprocess, 'check_output', side_effect=AssertionError('Git inspected')):
++        with ExitStack() as stack:
++            for subject in (binding, source.binding, fixture.binding):
++                admission = subject.entry.admission
++                stack.enter_context(patch.multiple(admission, **dict.fromkeys(admission.GATES)))
++            stack.enter_context(patch.object(Path, 'is_file', side_effect=AssertionError('Frozen input inspected')))
++            stack.enter_context(patch.object(binding.subprocess, 'check_output', side_effect=AssertionError('Git inspected')))
+             for call in (source.check, fixture.main, lambda: binding.fixture(object())):
+                 with self.subTest(call=call), self.assertRaisesRegex(ValueError, 'FULL_NATIVE_LIFECYCLE_PENDING'):
+                     call()
