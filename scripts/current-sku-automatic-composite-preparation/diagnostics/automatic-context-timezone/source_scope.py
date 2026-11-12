@@ -62,14 +62,17 @@ def retained_cases(original):
     native = next(iter(main["committed"].values()))["native"]
     assert native["planned_case_ids"] == plan and native["complete_boundary_restored"] is True
     results = {}
-    for case in plan:
-        name = "SKU_AUTOMATIC_CASE_STDOUT/" + hashlib.sha256(case.encode()).hexdigest() + ".jsonl"
+    for name in original.namelist():
+        if not name.startswith("SKU_AUTOMATIC_CASE_STDOUT/") or not name.endswith(".jsonl"):
+            continue
         raw = original.read(name)
         row, = map(json.loads, raw.splitlines())
-        assert row["case"] == case and row["status"] == native["cases"][case]["status"]
+        case = row["case"]
+        assert case in plan and case not in results and row["status"] == native["cases"][case]["status"]
         assert row["full_boundary_restored"] is True and row["public_schema_unchanged"] is True
         assert row["session_leaks"] == {"advisory_locks": 0, "advisory_lock_keys": [], "other_sessions": []}
         results[case] = dict(status=row["status"], original=name, **pin(raw))
+    assert set(results) == set(plan) and len(results) == len(plan)
     fresh = [case for case in plan if results[case]["status"] == "INCOMPLETE" or case == EXACT_CONTEXT_CASE]
     kept = [case for case in plan if case not in fresh]
     assert len(fresh) == 5 and len(kept) == 20
@@ -141,7 +144,7 @@ def verify_adapter(source, actual):
     compile((OWNER / "assembly.py").read_bytes(), "assembly.py", "exec")
     return {"frozen_head": AUTO_HEAD, "frozen_tree": AUTO_TREE, "patched_ddl": expected["derived_ddl"],
             "changed_catalogue_function_rows": sorted(rows), "no_acl_change": True,
-            "stale_source_controls_refused": 2}
+            "stale_source_controls_refused": 2, "current_function_profiles": rows}
 
 
 def main():
@@ -156,13 +159,21 @@ def main():
     snapshots = changed_rows(prior, actual)
     related = [sig for sig, row in actual["functions"]
                if re.search(r"to_jsonb\([a-zA-Z_]\w*\)\s*(?:=|<>|is\s+(?:not\s+)?distinct\s+from)", row[0], re.I)]
+    adapter = verify_adapter(auto_source, actual)
+    functions = adapter.pop("current_function_profiles")
+    expected = dict(actual, functions=[[signature, functions.get(signature, row)] for signature, row in actual["functions"]])
+    groups = {group: pin(json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode())
+              for group, value in expected.items()}
     out = {
         "status": "E4EA_REPAIR_SOURCE_AND_CASE_SCOPE_VERIFIED",
+        "expected_fixed_catalogue_group_pins": groups,
+        "prior_offline_failure": {"run": 43156241010, "job": 130976733213, "log_line": 794,
+                                  "cause": "A guessed ZIP filename rather than the original case member ID."},
         "actual_erp_cases": 0,
         "original_scope": scope,
         "same_product_a165_vs_e4ea_catalogue_differences": snapshots,
         "row_json_comparison_source_review": related,
-        "adapter": verify_adapter(auto_source, actual),
+        "adapter": adapter,
     }
     destination.mkdir(parents=True, exist_ok=True)
     (destination / "E4EA_SOURCE_SCOPE_PREFLIGHT.json").write_text(json.dumps(out, sort_keys=True, indent=2) + "\n")
