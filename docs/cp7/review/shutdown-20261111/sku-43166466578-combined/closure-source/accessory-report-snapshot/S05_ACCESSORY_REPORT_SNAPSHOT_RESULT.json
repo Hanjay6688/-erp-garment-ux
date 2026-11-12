@@ -1,0 +1,75 @@
+{
+  "actual_ERP_business_cases": 0,
+  "candidate_mutated": false,
+  "exact_fixture_all22_and_data_rollback": true,
+  "exact_workspace_and_Auth_wrapper": true,
+  "modelled_report_and_actor": true,
+  "observations": {
+    "original": {
+      "concurrent_page": {
+        "next_offset": null,
+        "rows": [
+          "C-26"
+        ],
+        "selected": null,
+        "total": 25,
+        "used_qty": null
+      },
+      "concurrent_report": {
+        "selected": "C-01",
+        "used_qty": 8
+      },
+      "next_page": {
+        "next_offset": null,
+        "rows": [
+          "C-26"
+        ],
+        "selected": null,
+        "total": 26,
+        "used_qty": null
+      },
+      "permission_revocation_refused": true,
+      "permission_snapshot_change_refused": true,
+      "rollback_page_equal": true
+    },
+    "snapshot": {
+      "concurrent_page": {
+        "next_offset": null,
+        "rows": [],
+        "selected": null,
+        "total": 25,
+        "used_qty": null
+      },
+      "concurrent_report": {
+        "selected": "C-01",
+        "used_qty": 7
+      },
+      "next_page": {
+        "next_offset": null,
+        "rows": [
+          "C-26"
+        ],
+        "selected": null,
+        "total": 26,
+        "used_qty": null
+      },
+      "permission_revocation_refused": true,
+      "permission_snapshot_change_refused": true,
+      "rollback_page_equal": true
+    }
+  },
+  "original": {
+    "bytes": 4198,
+    "sha256": "20e943ec3f712f8f972cf72c7dc3dfbf5b45fc02fb05cf45da565cc3dcdb7746"
+  },
+  "patch": {
+    "bytes": 4961,
+    "sha256": "1474115fbf74db4c2dcf80fc3542c7200d3ff56271fd775912fea85f24ba7713"
+  },
+  "production_go": false,
+  "raw_catalogue": {
+    "bytes": 16048295,
+    "sha256": "7e1ba214f634afd822a7ef29e7a5731690aceb8d5afd7fb0f62f22fbd3ac0e55"
+  },
+  "status": "S05_ACTUAL_WORKSPACE_RACES_REPRODUCED_AND_FIXED_IN_FIXTURE"
+}
