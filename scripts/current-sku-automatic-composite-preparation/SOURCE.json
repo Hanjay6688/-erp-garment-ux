@@ -317,8 +317,8 @@
       "sha256": "bb4df7df9f42aa9155b1b12f801650561661a77127b91fb2d360b9df8be039eb"
     },
     "native_preflight.py": {
-      "bytes": 5261,
-      "sha256": "0e6e5f9bb253679939eab2dab010f24a0c681167658301b30a1c355805bfb2d2"
+      "bytes": 7005,
+      "sha256": "c989857d6317386c6b9bf9433a81e7ff0f62ac8d6753ddadd7a965a41e5af83c"
     },
     "native_suite.py": {
       "bytes": 1817,
