@@ -1,0 +1,264 @@
+diff --git a/scripts/current-sku-automatic-composite-preparation/SOURCE.json b/scripts/current-sku-automatic-composite-preparation/SOURCE.json
+index 952461cd5..0a279dbfe 100644
+--- a/scripts/current-sku-automatic-composite-preparation/SOURCE.json
++++ b/scripts/current-sku-automatic-composite-preparation/SOURCE.json
+@@ -420,12 +420,12 @@
+       "sha256": "7a3ad363fab256adb673b80bef5ef7428dc2f506669cdd3a339d0c9721833805"
+     },
+     "test_browser_access.py": {
+-      "bytes": 2280,
+-      "sha256": "02db4e74d6a3d37851b03583b23f7304ce2b892f51bfdde514d17ad9896d9580"
++      "bytes": 2526,
++      "sha256": "49956efe6ac992049846b07f477fc4f341279bf56e3e3153ce1b82dd2b603915"
+     },
+     "test_browser_binding.py": {
+-      "bytes": 10945,
+-      "sha256": "e07f6b653fd6ecd7fbc0236e2837911476581de1e03f8a59b5a7de15e4ded8a1"
++      "bytes": 11244,
++      "sha256": "753b7d96f5dc69b667d1547dc1d32046f75dabd88f612a6e8ae64214f31c9970"
+     },
+     "test_browser_deadline.py": {
+       "bytes": 4992,
+@@ -452,16 +452,16 @@
+       "sha256": "2317655641a89bf2b0c9367521e248838e69795cbbb754547b6b3a2b822ad8d8"
+     },
+     "test_cumulative_runtime.py": {
+-      "bytes": 5556,
+-      "sha256": "c009bd4d8066ca0b20dd20da7132c1707e3ea97c4ccb12f19d1df9eb6c87b377"
++      "bytes": 5645,
++      "sha256": "40b01b68a40f1af6fd8ebfe550029b2052ad52e92533271e0abfc6b06242ff96"
+     },
+     "test_cumulative_source.py": {
+-      "bytes": 4958,
+-      "sha256": "69bbabc1deae6b4b28baa8236532ebd090eefa7a019fb3d4ba87eea9bd927269"
++      "bytes": 5293,
++      "sha256": "30671fa7418b848b0eebac37d1b06592e5dab70f855e2e68909ac1f6060ea6ae"
+     },
+     "test_current_parent.py": {
+-      "bytes": 4929,
+-      "sha256": "f6094ccb178b704346c95195928ca1019406d5466599230669e972d287958555"
++      "bytes": 5496,
++      "sha256": "71e44de6c2f8b7d6d207a5520a18325af8fb567a1d92b55fcfc1f3dfc37c534d"
+     },
+     "test_execution.py": {
+       "bytes": 18597,
+@@ -504,12 +504,12 @@
+       "sha256": "287238076270ed87d5cfa11c7d8ad796441f253309655f4f73f4169d9381c5a1"
+     },
+     "test_source_intake.py": {
+-      "bytes": 2732,
+-      "sha256": "045a13190a3c5587c971ed8cd905f027f0cfe2af1d0e40cd5e9df6d9a93e7a84"
++      "bytes": 2967,
++      "sha256": "b37dca0b8e1484d6ae04d22f92698015b3f0fce0be9989a1723cf7e35f653407"
+     },
+     "test_ui_admission.py": {
+-      "bytes": 3141,
+-      "sha256": "02aa262de0884a89e97c517103f8e7333ffacde1ce66f8edc575ed627bc60a4f"
++      "bytes": 3255,
++      "sha256": "d2711e2b85c795426eaa59f8ddc16f72bde0cbfbf7181efedd0d33b8ac6bb627"
+     },
+     "workflow.py": {
+       "bytes": 15805,
+diff --git a/scripts/current-sku-automatic-composite-preparation/test_browser_access.py b/scripts/current-sku-automatic-composite-preparation/test_browser_access.py
+index 0619d2543..0ceb0c599 100644
+--- a/scripts/current-sku-automatic-composite-preparation/test_browser_access.py
++++ b/scripts/current-sku-automatic-composite-preparation/test_browser_access.py
+@@ -13,7 +13,9 @@ access = importlib.util.module_from_spec(spec);spec.loader.exec_module(access)
+ 
+ class BrowserAccessControls(unittest.TestCase):
+     def test_real_closed_inputs_precede_copy_product_or_mode_inspection(self):
+-        with patch.object(Path, 'read_bytes', side_effect=AssertionError('File inspected')), \
++        closed = dict.fromkeys(access.entry.admission.GATES)
++        with patch.multiple(access.entry.admission, **closed), \
++                patch.object(Path, 'read_bytes', side_effect=AssertionError('File inspected')), \
+                 patch.object(access.entry, 'load', side_effect=AssertionError('Copy mode inspected')):
+             with self.assertRaisesRegex(ValueError, 'FULL_NATIVE_LIFECYCLE_PENDING'):
+                 access.run(object(), object(), object(), {})
+@@ -21,6 +23,8 @@ class BrowserAccessControls(unittest.TestCase):
+                 with access.copy_scope(object(), object(), object()):self.fail('Unadmitted copy entered')
+ 
+     def test_native_only_plan_cannot_silently_activate_browser_copies(self):
++        admission = access.entry.admission
++        original_gates = {name: getattr(admission, name) for name in admission.GATES}
+         current = json.loads(access.entry.PLAN_FILE.read_bytes())
+         current.pop('required_browser_case_ids');current.pop('fresh_real_Auth_browser_required')
+         native_only = json.dumps(current).encode()
+@@ -34,7 +38,7 @@ class BrowserAccessControls(unittest.TestCase):
+         with patch.object(access.entry, 'actual_inputs', return_value=values), \
+                 patch.dict(os.environ, GITHUB_REF=access.entry.BRANCH):
+             self.assertEqual(access.actual_inputs(), values)
+-        self.assertTrue(all(getattr(access.entry.admission, key) is None for key in access.entry.admission.GATES))
++        self.assertEqual({name: getattr(admission, name) for name in admission.GATES}, original_gates)
+ 
+ 
+ if __name__ == '__main__':unittest.main()
+diff --git a/scripts/current-sku-automatic-composite-preparation/test_browser_binding.py b/scripts/current-sku-automatic-composite-preparation/test_browser_binding.py
+index 9d4c8cc1c..4071b2ecd 100644
+--- a/scripts/current-sku-automatic-composite-preparation/test_browser_binding.py
++++ b/scripts/current-sku-automatic-composite-preparation/test_browser_binding.py
+@@ -1,5 +1,5 @@
+ """Closed binding and full source/output controls; no actual Root or ERP."""
+-from contextlib import chdir
++from contextlib import ExitStack, chdir
+ from decimal import Decimal
+ from hashlib import sha256
+ from pathlib import Path
+@@ -102,8 +102,12 @@ class BrowserBindingControls(unittest.TestCase):
+     def test_real_closed_gates_precede_every_source_or_fixture_entry(self):
+         source = load('current_browser_source_control', HERE / 'browser_source.py')
+         fixture = load('current_browser_fixture_control', HERE / 'browser_fixture.py')
+-        with patch.object(Path, 'is_file', side_effect=AssertionError('Frozen input inspected')), \
+-                patch.object(binding.subprocess, 'check_output', side_effect=AssertionError('Git inspected')):
++        with ExitStack() as stack:
++            for subject in (binding, source.binding, fixture.binding):
++                admission = subject.entry.admission
++                stack.enter_context(patch.multiple(admission, **dict.fromkeys(admission.GATES)))
++            stack.enter_context(patch.object(Path, 'is_file', side_effect=AssertionError('Frozen input inspected')))
++            stack.enter_context(patch.object(binding.subprocess, 'check_output', side_effect=AssertionError('Git inspected')))
+             for call in (source.check, fixture.main, lambda: binding.fixture(object())):
+                 with self.subTest(call=call), self.assertRaisesRegex(ValueError, 'FULL_NATIVE_LIFECYCLE_PENDING'):
+                     call()
+diff --git a/scripts/current-sku-automatic-composite-preparation/test_cumulative_runtime.py b/scripts/current-sku-automatic-composite-preparation/test_cumulative_runtime.py
+index 636e8c177..689a26b59 100644
+--- a/scripts/current-sku-automatic-composite-preparation/test_cumulative_runtime.py
++++ b/scripts/current-sku-automatic-composite-preparation/test_cumulative_runtime.py
+@@ -57,6 +57,7 @@ class CumulativeRuntimeControls(unittest.TestCase):
+         gates = money_binding.admission
+         for name in (None, *gates.GATES):
+             with self.subTest(gate=name), ExitStack() as stack:
++                stack.enter_context(patch.multiple(gates, **dict.fromkeys(gates.GATES)))
+                 if name:
+                     stack.enter_context(patch.object(gates, name, self.decision['bindings'][name]))
+                 stack.enter_context(patch.object(current, 'regular', side_effect=AssertionError('read before admission')))
+diff --git a/scripts/current-sku-automatic-composite-preparation/test_cumulative_source.py b/scripts/current-sku-automatic-composite-preparation/test_cumulative_source.py
+index 0752b4666..037a086b5 100644
+--- a/scripts/current-sku-automatic-composite-preparation/test_cumulative_source.py
++++ b/scripts/current-sku-automatic-composite-preparation/test_cumulative_source.py
+@@ -20,7 +20,8 @@ class CumulativePhysicalSource(unittest.TestCase):
+         original = Path.read_bytes
+         def read(path):
+             return json.dumps(value).encode() if value is not None and path == self.map_path else original(path)
+-        with patch.object(Path, 'read_bytes', read):
++        gates = fence.assembly.admission
++        with patch.multiple(gates, **dict.fromkeys(gates.GATES)), patch.object(Path, 'read_bytes', read):
+             return current.check(fence, self.baseline)
+ 
+     def test_complete_physical_source_uses_actual_backend_and_browser_fix(self):
+@@ -72,7 +73,7 @@ class CumulativePhysicalSource(unittest.TestCase):
+                 return raw + b'\n' if path == fence.ROOT / name else raw
+             with self.subTest(name=name), patch.object(Path, 'read_bytes', read), \
+                     self.assertRaisesRegex(ValueError, 'EVERY_PHYSICAL_SOURCE_BYTE'):
+-                current.check(fence, self.baseline)
++                self.evaluate()
+ 
+     def test_omitted_published_evidence_is_refused(self):
+         value = copy.deepcopy(self.mapping)
+@@ -81,7 +82,9 @@ class CumulativePhysicalSource(unittest.TestCase):
+             self.evaluate(value)
+ 
+     def test_source_route_rejects_runtime_before_any_source_read(self):
+-        with patch.object(Path, 'read_bytes', side_effect=AssertionError('source read')):
++        gates = fence.assembly.admission
++        with patch.multiple(gates, **dict.fromkeys(gates.GATES)), \
++                patch.object(Path, 'read_bytes', side_effect=AssertionError('source read')):
+             with self.assertRaisesRegex(ValueError, 'SOURCE_CANNOT_OPEN_RUNTIME'):
+                 fence.check(runtime=True, cumulative=True)
+             for name in fence.assembly.admission.GATES:
+@@ -92,9 +95,11 @@ class CumulativePhysicalSource(unittest.TestCase):
+     def test_full_fence_rejects_an_absent_unchanged_parent_file(self):
+         missing = fence.ROOT / 'src/App.tsx'
+         original = Path.is_file
++        manifest = json.loads((fence.HERE / 'SOURCE.json').read_bytes())
++        runtime = manifest['active_workflow_added']
+         with patch.object(Path, 'is_file', lambda path: False if path == missing else original(path)):
+             with self.assertRaisesRegex(ValueError, 'FULL_PARENT_MATERIALIZATION'):
+-                fence.check(cumulative=True)
++                fence.check(runtime=runtime, cumulative=not runtime)
+ 
+ 
+ if __name__ == '__main__':
+diff --git a/scripts/current-sku-automatic-composite-preparation/test_current_parent.py b/scripts/current-sku-automatic-composite-preparation/test_current_parent.py
+index c9ed329b2..601d4bce5 100644
+--- a/scripts/current-sku-automatic-composite-preparation/test_current_parent.py
++++ b/scripts/current-sku-automatic-composite-preparation/test_current_parent.py
+@@ -15,7 +15,14 @@ class CurrentPreparedParent(unittest.TestCase):
+         cls.baseline = fence.entries('3fd1bdb763a6d22a5aa455f5aea3a853b9782e4d')
+ 
+     def test_complete_current_prepared_parent_is_admitted_without_a_Root(self):
+-        result = fence.pending_mandor(self.value, self.baseline)
++        with TemporaryDirectory() as directory:
++            root = Path(directory)
++            for name in self.value['files']:
++                path = root / name
++                path.parent.mkdir(parents=True, exist_ok=True)
++                path.write_bytes(fence.assembly.git('show', self.value['head'] + ':' + name))
++            with patch.object(fence, 'ROOT', root):
++                result = fence.pending_mandor(self.value, self.baseline)
+         self.assertEqual(len(result), 92)
+         self.assertEqual(result, {name: row['after'] for name, row in self.value['files'].items()})
+         self.assertIsNone(self.value['actual_Root'])
+@@ -48,14 +55,16 @@ class CurrentPreparedParent(unittest.TestCase):
+     def test_whole_fence_rejects_a_changed_current_parent_source_byte(self):
+         target = fence.ROOT / 'scripts/cp7_accessory_nonpayable/progress.py'
+         original = Path.read_bytes
++        manifest = json.loads((fence.HERE / 'SOURCE.json').read_bytes())
+ 
+         def changed(path):
+             raw = original(path)
+             return raw + b'\n' if path == target else raw
+ 
+         with patch.object(Path, 'read_bytes', changed), self.assertRaisesRegex(
+-                ValueError, 'CURRENT_MANDOR_EVERY_SOURCE_BYTE_REQUIRED:scripts/cp7_accessory_nonpayable/progress.py'):
+-            fence.check()
++                ValueError, '(?:CURRENT_MANDOR_EVERY_SOURCE_BYTE|CUMULATIVE_EVERY_PHYSICAL_SOURCE_BYTE)'
++                            '_REQUIRED:scripts/cp7_accessory_nonpayable/progress.py'):
++            fence.check(runtime=manifest['active_workflow_added'])
+ 
+ 
+     def test_runtime_runner_outputs_are_data_only(self):
+diff --git a/scripts/current-sku-automatic-composite-preparation/test_source_intake.py b/scripts/current-sku-automatic-composite-preparation/test_source_intake.py
+index ed29abd3d..e3ea03afd 100644
+--- a/scripts/current-sku-automatic-composite-preparation/test_source_intake.py
++++ b/scripts/current-sku-automatic-composite-preparation/test_source_intake.py
+@@ -11,6 +11,10 @@ spec.loader.exec_module(intake)
+ 
+ 
+ class SourceIntakeControls(unittest.TestCase):
++    def setUp(self):
++        gates = intake.entry.admission
++        self.enterContext(patch.multiple(gates, **dict.fromkeys(gates.GATES)))
++
+     def test_all_five_financial_gates_must_remain_closed_before_any_input_read(self):
+         gates = intake.entry.admission
+         for name in gates.GATES:
+@@ -37,7 +41,8 @@ class SourceIntakeControls(unittest.TestCase):
+         binding = intake.entry.money_binding
+         def refused():
+             raise ValueError('EXPLICIT_SOURCE_VALIDATOR_REFUSED')
+-        with patch.object(binding, 'load', side_effect=AssertionError('Retained source inspected')):
++        with patch.multiple(binding.admission, **dict.fromkeys(binding.admission.GATES)), \
++                patch.object(binding, 'load', side_effect=AssertionError('Retained source inspected')):
+             with self.assertRaisesRegex(ValueError, 'EXPLICIT_SOURCE_VALIDATOR_REFUSED'):
+                 binding._private_bridge(object(), object(), refused)
+             with self.assertRaisesRegex(ValueError, 'FULL_NATIVE_LIFECYCLE_PENDING'):
+diff --git a/scripts/current-sku-automatic-composite-preparation/test_ui_admission.py b/scripts/current-sku-automatic-composite-preparation/test_ui_admission.py
+index 29c08c556..cf8ed5ab6 100644
+--- a/scripts/current-sku-automatic-composite-preparation/test_ui_admission.py
++++ b/scripts/current-sku-automatic-composite-preparation/test_ui_admission.py
+@@ -55,6 +55,7 @@ class SelectiveUIAdmission(unittest.TestCase):
+         target = fence.ROOT / 'src/App.tsx'
+         self.assertTrue(target.is_file())
+         original = Path.read_bytes
++        manifest = json.loads((fence.HERE / 'SOURCE.json').read_bytes())
+ 
+         def changed(path):
+             raw = original(path)
+@@ -62,7 +63,7 @@ class SelectiveUIAdmission(unittest.TestCase):
+ 
+         with patch.object(Path, 'read_bytes', changed), self.assertRaisesRegex(
+                 ValueError, 'UNDECLARED_CURRENT_PARENT_CHANGE:src/App.tsx'):
+-            fence.check()
++            fence.check(runtime=manifest['active_workflow_added'])
+ 
+ 
+ if __name__ == '__main__':
