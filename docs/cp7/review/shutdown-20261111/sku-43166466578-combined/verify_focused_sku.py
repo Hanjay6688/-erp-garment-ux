@@ -168,7 +168,8 @@ def retained_origin(scope, archive, run, job, artifact):
     return receipt, reports[PREFLIGHT], kept
 
 
-def current_result(scope, shared, origin, current, *, scope_pin=SCOPE_PIN, expected_status=FOCUSED_STATUS):
+def current_result(scope, shared, origin, current, *, scope_pin=SCOPE_PIN, expected_status=FOCUSED_STATUS,
+                   review_catalogue=None):
     old_receipt, old_preflight, retained = origin
     receipt, reports, pins, rows, raw, done = current
     if receipt['conclusion'] != 'success':
@@ -225,11 +226,18 @@ def current_result(scope, shared, origin, current, *, scope_pin=SCOPE_PIN, expec
                          receipt['head'], receipt['run_id'])
     groups = {name: pin(json.dumps(group, sort_keys=True, separators=(',', ':'), ensure_ascii=False).encode())
               for name, group in strict(raw).items()}
-    require(groups == scope['expected_fixed_catalogue_group_pins'], 'SKU_ACTUAL_FULL25_DIFFERS_FROM_REVIEWED_REPAIR')
+    expected_groups = scope['expected_fixed_catalogue_group_pins']
+    differing_groups = sorted(name for name in groups if groups[name] != expected_groups[name])
+    exact = not differing_groups
+    catalogue_equivalence = None
+    if not exact:
+        require(review_catalogue is not None, 'SKU_ACTUAL_FULL25_DIFFERS_FROM_REVIEWED_REPAIR')
+        catalogue_equivalence = review_catalogue(raw, scope, groups)
     fields(gate['continuation'], dict(origin=scope['origin'], scope=scope_pin, fresh_case_ids=list(fresh),
                                     retained_case_ids=list(retained), cumulative_acceptance_pending=True),
            'SKU_EXACT_CUMULATIVE_SCOPE_BINDING')
-    fields(gate['continuation']['catalogue'], dict(actual=groups, differing_groups=[], exact_expected_groups=True),
+    fields(gate['continuation']['catalogue'], dict(actual=groups, differing_groups=differing_groups,
+                                                 exact_expected_groups=exact),
            'SKU_GATE_ACTUAL_FULL25_GROUPS')
     receipt.update(status='SKU_CUMULATIVE_ORIGINALS_VERIFIED', actual_case_credit=business_count,
                    retained_Native_cases=len(retained), covered_Native_cases=len(retained) + len(fresh), actual_all_five=True,
@@ -237,6 +245,8 @@ def current_result(scope, shared, origin, current, *, scope_pin=SCOPE_PIN, expec
                    fresh_browser_ids=sorted(browser), actual_full25=observed, scope=scope_pin,
                    mandor_root=shared[PARENT], mandor_cumulative_decision=shared[MANDOR_DECISION],
                    production_go=False, independent_acceptance=False, complete_global_input_review=False)
+    if catalogue_equivalence is not None:
+        receipt['catalogue_equivalence'] = catalogue_equivalence
     return receipt, raw
 
 

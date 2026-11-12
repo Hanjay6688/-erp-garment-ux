@@ -1,0 +1,9 @@
+# Perbaikan zona waktu pengujian SKU
+
+Run 43174323175 membuktikan pemasangan, pembalikan sebelum dipakai, pemasangan ulang, dan lima skenario Automatic. Delapan skenario non-PO berhenti di awal callback dengan `SKU_NON_PO_WIB_SESSION_REQUIRED`. Dua browser menunggu hasil Native. Worker selesai dan pemulihan 407 tabel lulus. Original 13927899180 berukuran 20.962.392 byte, SHA-256 `d2e642810bcc8424b48e685e2c498cff4e3db2edd4c279d9e588d033b938a535`, dan CRC 170 anggota lulus. [Run pertama](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/43174323175/job/131034780958)
+
+Runner 090b menjalankan `boundary.snapshot(cur)` sebelum `SAVEPOINT auditor_case`. Pembaca data untuk snapshot menjalankan `SET LOCAL timezone='UTC'`. Driver pada `ae0df1ef17b4d84478d50a2a144cf0382d662ad0` menetapkan WIB tepat sebelum delapan callback. Perubahan lokal berada di dalam savepoint yang dipulihkan runner. Tes regresi memulai tiap kasus dari UTC, mengecek WIB di dalam callback terkait, dan menolak perubahan zona waktu yang tidak diharapkan. Tiga file berubah. Run 43187520935 mulai 15.59 WIB pada paket 13 Native dan dua browser. [Run perbaikan](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/43187520935/job/131078326983)
+
+Katalog diagnostik 882f hanya berbeda dari proyeksi pada literal SHA-256 yang dihitung dari OID instalasi di `cp7_credit.assert_source_native_trigger_census_v1()`. Pemeriksa penerus mempertahankan katalog mentah dan menguji kesetaraan 25 kelompok dengan satu penggantian literal untuk perbandingan. Definisi di luar literal, metadata 19 kolom dan ACL tetap diperiksa. Validasi guard langsung di clone uji Global masih diperlukan sebelum masukan Global diterima. Pemeriksa penerus disiapkan untuk Original terminal.
+
+Empat fase pemasangan dan pembalikan pada 882f tercatat 57,84 menit. Fase yang sama pada E4EA tercatat 113,68 menit. [Log E4EA](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/43132617378/job/130900171009)
