@@ -1,0 +1,13 @@
+{
+  "catalogue_rows": 3105,
+  "new_definition": {
+    "bytes": 1581,
+    "sha256": "44aba20d060d3a7eed11f7118c3cffa9289ec9306511e9ed3fb15ea8eaa28ae2"
+  },
+  "new_source": {
+    "bytes": 8974,
+    "sha256": "062c1dc395f2fa73a1ed7c4f3489e4368feb831410a2e906dc6703f44d7ba264"
+  },
+  "stale_controls_refused": 3,
+  "status": "EXACT_ONE_DDL_AND_FUNCTION_ROW_TIMEZONE_ADAPTER_PASS"
+}

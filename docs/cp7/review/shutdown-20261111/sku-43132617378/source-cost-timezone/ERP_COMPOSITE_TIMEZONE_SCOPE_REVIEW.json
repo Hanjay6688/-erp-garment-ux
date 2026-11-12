@@ -1,0 +1,461 @@
+{
+  "actual_new_erp_business_cases": 0,
+  "current_running_candidate": {
+    "changed_source_cost_cases_selected": false,
+    "head": "3f2a7748c7cfde2881b19dac853fef82e49b6885",
+    "proposed_fix_included": false,
+    "run_id": 43158542850
+  },
+  "impacted_old_sku_passes": [
+    "SKU_MONEY_NATIVE_LEGACY_PHYSICAL_OPENING_LATE_INVOICE_CURRENT_INVERSE",
+    "SKU_MONEY_NATIVE_LEGACY_PHYSICAL_CONVERTED_LATE_INVOICE_CURRENT_INVERSE",
+    "SKU_MONEY_NATIVE_SOLD_LATE_INVOICE_PARTIAL_RETURN_AND_BOTH_INVERSES",
+    "SKU_MONEY_NATIVE_RECOVERY_UNDER_PHYSICAL_FIRST_CHILD_LIMIT",
+    "SKU_MONEY_NATIVE_RECOVERY_EQUAL_PHYSICAL_FIRST_CHILD_LIMIT",
+    "SKU_MONEY_NATIVE_TWO_CHILD_CURRENT_REVISION_POST_COST_AND_INVERSE",
+    "SKU_MONEY_NATIVE_SIGNED_RECOVERY_BEFORE_OPENING_LOT_THEN_NATIVE_ZERO",
+    "SKU_MONEY_NATIVE_SIGNED_RECOVERY_BEFORE_CONVERTED_LOT_THEN_NATIVE_ZERO"
+  ],
+  "impacted_qualification_candidates": 8,
+  "independent_acceptance": false,
+  "original": {
+    "attempt": 1,
+    "bytes": 16048163,
+    "function_count": 3105,
+    "head": "e4eaaecebad1f0ba11ab1542b5df89a6423a8a1e",
+    "job_id": 130900171009,
+    "run_id": 43132617378,
+    "sha256": "5ff582717522b766c12024c1bf3299066475f14a3c6021a3543f378f829e0c07"
+  },
+  "production_go": false,
+  "review": {
+    "authenticated_static_paths_without_local_utc": [
+      [
+        "public.erp_cp7_correct_receipt_v1(jsonb,uuid,text)",
+        "cp7_receipt_fix.command(jsonb,uuid,text)",
+        "erp._recalculate_material_cost_core(uuid,timestamp with time zone,boolean)",
+        "erp.sync_material_cost_revaluation(uuid)",
+        "erp.be_sync_material_cost_v1(uuid)",
+        "erp.be_reconcile_cost_document_v1(uuid,date)"
+      ],
+      [
+        "public.erp_save_cutting_group_before_sewing_v2(jsonb,uuid,bigint)",
+        "erp.save_cutting_group_before_sewing_v2(jsonb,uuid,bigint)",
+        "erp.post_cutting_material_issue(uuid,uuid)",
+        "erp.recalculate_material_cost(uuid)",
+        "erp._recalculate_material_cost_core(uuid,timestamp with time zone,boolean)",
+        "erp.sync_material_cost_revaluation(uuid)",
+        "erp.be_sync_material_cost_v1(uuid)",
+        "erp.be_reconcile_cost_document_v1(uuid,date)"
+      ],
+      [
+        "public.erp_cp7_save_materials_v1(text,jsonb,uuid,text)",
+        "cp7_material.command(text,jsonb,uuid,text)",
+        "erp.post_material_transfer_v2(uuid,uuid,bigint,text)",
+        "erp.recalculate_material_cost(uuid)",
+        "erp._recalculate_material_cost_core(uuid,timestamp with time zone,boolean)",
+        "erp.sync_material_cost_revaluation(uuid)",
+        "erp.be_sync_material_cost_v1(uuid)",
+        "erp.be_reconcile_cost_document_v1(uuid,date)"
+      ],
+      [
+        "public.erp_save_initial_import_action_v1(text,jsonb,uuid)",
+        "erp.save_initial_import_action_v1(text,jsonb,uuid)",
+        "erp.post_opening_balance(uuid)",
+        "erp.recalculate_material_cost(uuid)",
+        "erp._recalculate_material_cost_core(uuid,timestamp with time zone,boolean)",
+        "erp.sync_material_cost_revaluation(uuid)",
+        "erp.be_sync_material_cost_v1(uuid)",
+        "erp.be_reconcile_cost_document_v1(uuid,date)"
+      ],
+      [
+        "public.erp_cp7_reopen_cutting_v1(jsonb,uuid,text)",
+        "cp7_cutting_correction.command(jsonb,uuid,text)",
+        "erp.reverse_cutting_material_flow_before_sewing_v2(uuid,text,uuid,bigint)",
+        "erp.recalculate_material_cost(uuid)",
+        "erp._recalculate_material_cost_core(uuid,timestamp with time zone,boolean)",
+        "erp.sync_material_cost_revaluation(uuid)",
+        "erp.be_sync_material_cost_v1(uuid)",
+        "erp.be_reconcile_cost_document_v1(uuid,date)"
+      ],
+      [
+        "public.erp_cp7_save_material_count_v1(text,jsonb,uuid,text)",
+        "cp7_material.count_command(text,jsonb,uuid,text)",
+        "erp.post_material_adjustment_v2(uuid,uuid,bigint,text)",
+        "erp.post_material_adjustment(uuid)",
+        "erp.recalculate_material_cost(uuid)",
+        "erp._recalculate_material_cost_core(uuid,timestamp with time zone,boolean)",
+        "erp.sync_material_cost_revaluation(uuid)",
+        "erp.be_sync_material_cost_v1(uuid)",
+        "erp.be_reconcile_cost_document_v1(uuid,date)"
+      ],
+      [
+        "public.erp_cp7_save_procurement_v1(text,jsonb,uuid,text)",
+        "cp7_procurement.command(text,jsonb,uuid,text)",
+        "erp.post_material_purchase_v2(uuid,uuid,bigint,text)",
+        "erp.post_material_purchase(uuid)",
+        "erp.recalculate_material_cost(uuid)",
+        "erp._recalculate_material_cost_core(uuid,timestamp with time zone,boolean)",
+        "erp.sync_material_cost_revaluation(uuid)",
+        "erp.be_sync_material_cost_v1(uuid)",
+        "erp.be_reconcile_cost_document_v1(uuid,date)"
+      ],
+      [
+        "public.erp_cp7_save_purchase_invoice_v1(text,jsonb,uuid,text)",
+        "cp7_invoice.command(text,jsonb,uuid,text)",
+        "erp.finalize_material_purchase_invoice_v2(jsonb,uuid,bigint)",
+        "erp.post_material_supplier_invoice(uuid)",
+        "erp.refresh_material_purchase_item_cost(uuid)",
+        "erp.recalculate_material_cost(uuid)",
+        "erp._recalculate_material_cost_core(uuid,timestamp with time zone,boolean)",
+        "erp.sync_material_cost_revaluation(uuid)",
+        "erp.be_sync_material_cost_v1(uuid)",
+        "erp.be_reconcile_cost_document_v1(uuid,date)"
+      ],
+      [
+        "public.erp_cp7_save_supplier_return_v1(text,jsonb,uuid,text)",
+        "cp7_supplier_return.command(text,jsonb,uuid,text)",
+        "erp.post_material_supplier_return_v2(uuid,uuid,bigint,text)",
+        "erp.post_material_supplier_return(uuid)",
+        "erp.refresh_material_purchase_item_cost(uuid)",
+        "erp.recalculate_material_cost(uuid)",
+        "erp._recalculate_material_cost_core(uuid,timestamp with time zone,boolean)",
+        "erp.sync_material_cost_revaluation(uuid)",
+        "erp.be_sync_material_cost_v1(uuid)",
+        "erp.be_reconcile_cost_document_v1(uuid,date)"
+      ]
+    ],
+    "inverse_already_utc_caller": {
+      "definition_sha256": "a13ab9ae4b7808459400f605743ee01ad4bdce0920292286ac3d430756270042",
+      "execute_grants": [
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ],
+      "owner": "postgres",
+      "settings": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "signature": "cp7_sku_conversion.reverse_valuation_v2(uuid)"
+    },
+    "pairs": [
+      {
+        "consumer": {
+          "definition_sha256": "2e4ee2e2fb01819bc2e3f61486a121528edd2a77a6b59546b005460cb0e930ea",
+          "execute_grants": [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ],
+          "owner": "postgres",
+          "settings": [
+            "search_path=\"\"",
+            "TimeZone=UTC"
+          ],
+          "signature": "cp7_credit.drain_consumer_closed_v1()"
+        },
+        "finding": "Both composite rows serialized in the same trigger function",
+        "producer": {
+          "definition_sha256": "2e4ee2e2fb01819bc2e3f61486a121528edd2a77a6b59546b005460cb0e930ea",
+          "execute_grants": [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ],
+          "owner": "postgres",
+          "settings": [
+            "search_path=\"\"",
+            "TimeZone=UTC"
+          ],
+          "signature": "cp7_credit.drain_consumer_closed_v1()"
+        }
+      },
+      {
+        "consumer": {
+          "definition_sha256": "36e5a8c561379cdeb7019a535bb41d21f3f9607a6b4ce75551de43ca8f28cfd9",
+          "execute_grants": [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ],
+          "owner": "postgres",
+          "settings": [
+            "search_path=\"\"",
+            "TimeZone=UTC"
+          ],
+          "signature": "cp7_credit.payment_replacement_admitted_v1(uuid,numeric,numeric,numeric)"
+        },
+        "finding": "Both normalize UTC when producing and comparing replacement_draft",
+        "producer": {
+          "definition_sha256": "4f94b0e53f52944142bfb060dad66bccf91496b0db38879ab398a8f7f41999a2",
+          "execute_grants": [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ],
+          "owner": "postgres",
+          "settings": [
+            "search_path=\"\"",
+            "TimeZone=UTC"
+          ],
+          "signature": "cp7_credit.payment_native_enter_v1(text,uuid)"
+        }
+      },
+      {
+        "consumer": {
+          "definition_sha256": "60b0992efd5b45a3799ef5c506540139daf50deb3510562a503ab1c9de7b47c7",
+          "execute_grants": [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ],
+          "owner": "postgres",
+          "settings": [
+            "search_path=\"\"",
+            "TimeZone=UTC"
+          ],
+          "signature": "cp7_credit_note_carry_de.materialize_v1(uuid)"
+        },
+        "finding": "Both normalize UTC when producing and comparing incoming event facts",
+        "producer": {
+          "definition_sha256": "3455dcf5ffefb021ed771b882e32282662cbccd440c515b5e99407fb768cfc6d",
+          "execute_grants": [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ],
+          "owner": "postgres",
+          "settings": [
+            "search_path=\"\"",
+            "TimeZone=UTC"
+          ],
+          "signature": "cp7_credit_note_carry_de.basis_v1(uuid)"
+        }
+      },
+      {
+        "consumer": {
+          "definition_sha256": "fe1afe2958c0582d3d858f7d567af3f1dc619cc97af92137527fe41665cab502",
+          "execute_grants": [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ],
+          "owner": "postgres",
+          "settings": [
+            "search_path=\"\""
+          ],
+          "signature": "cp7_sku_conversion.automatic_valid_v5()"
+        },
+        "finding": "Current owning 3f2a fixes both; actual preimage E4EA inherited the caller zone",
+        "producer": {
+          "definition_sha256": "114ea066e9db7ff770b733f65f8087fafe3703a18aa39089b84df564eebe8cdc",
+          "execute_grants": [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ],
+          "owner": "postgres",
+          "settings": [
+            "search_path=\"\""
+          ],
+          "signature": "cp7_sku_conversion.automatic_enter_v5(uuid,text,uuid)"
+        }
+      },
+      {
+        "consumer": {
+          "definition_sha256": "0005f4184ba2a0d3c8a51f8d8c3237c4740d3d9e902edbb6e483505a7defde32",
+          "execute_grants": [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ],
+          "owner": "postgres",
+          "settings": [
+            "search_path=\"\"",
+            "TimeZone=UTC"
+          ],
+          "signature": "cp7_sku_conversion.rebalance_cost_source_v3(uuid,date,jsonb,numeric)"
+        },
+        "finding": "Independent historical cost event mismatch reproduced; proposed capture UTC",
+        "producer": {
+          "definition_sha256": "d34b88ae943c49c5061d1c2116e9fc337dfbada17a81fcc5f5933fbe8627a02c",
+          "execute_grants": [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ],
+          "owner": "postgres",
+          "settings": [
+            "search_path=\"\""
+          ],
+          "signature": "cp7_sku_conversion.capture_cost_source_v3(uuid)"
+        }
+      },
+      {
+        "consumer": {
+          "definition_sha256": "3c37472bacdc2d0cc280d736f833f423f242d151a4c50f3cc316b9f85039b353",
+          "execute_grants": [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ],
+          "owner": "postgres",
+          "settings": [
+            "search_path=\"\"",
+            "TimeZone=UTC"
+          ],
+          "signature": "cp7_sku_conversion.rebalance_group_inverse_v3(uuid,jsonb)"
+        },
+        "finding": "Both paths enter through private reverse_valuation_v2 with function-local UTC",
+        "producer": {
+          "definition_sha256": "231d3bfcebd420ef5c56c2469633aeed178ebc293100c1e420e93f5ced653ff4",
+          "execute_grants": [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ],
+          "owner": "postgres",
+          "settings": [
+            "search_path=\"\""
+          ],
+          "signature": "cp7_sku_conversion.capture_group_inverse_v3(uuid)"
+        }
+      },
+      {
+        "consumer": {
+          "definition_sha256": "28e99fccaace242254ab86092c4512dd8c8259f011f3d54da0f13dd9e04360d1",
+          "execute_grants": [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ],
+          "owner": "postgres",
+          "settings": [
+            "search_path=\"\"",
+            "TimeZone=UTC"
+          ],
+          "signature": "erp.pocket_fabric_checks_v1()"
+        },
+        "finding": "Both normalize UTC for posted header comparison",
+        "producer": {
+          "definition_sha256": "0dd2af605ab7fe49466b8a4541bd6ad20448114da264dc5a445a9661019f6766",
+          "execute_grants": [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ],
+          "owner": "postgres",
+          "settings": [
+            "search_path=\"\"",
+            "TimeZone=UTC",
+            "DateStyle=ISO, YMD"
+          ],
+          "signature": "erp.save_pocket_fabric_action_v1(text,jsonb,uuid)"
+        }
+      },
+      {
+        "consumer": {
+          "definition_sha256": "498c5b7a179ae30fe2835823cd2d3f53cf258853fb6354bbb309a4e5f08eaaef",
+          "execute_grants": [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ],
+          "owner": "postgres",
+          "settings": [
+            "search_path=\"\"",
+            "TimeZone=UTC"
+          ],
+          "signature": "erp.pocket_period_checks_v1()"
+        },
+        "finding": "Both normalize UTC for persisted source snapshot comparison",
+        "producer": {
+          "definition_sha256": "7fcef76c916d6688aaf5db86f8e97054166837589de4c1a6c33c8f3a6559850c",
+          "execute_grants": [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ],
+          "owner": "postgres",
+          "settings": [
+            "search_path=\"\"",
+            "TimeZone=UTC",
+            "DateStyle=ISO, YMD"
+          ],
+          "signature": "erp.save_pocket_period_action_v1(text,jsonb,uuid)"
+        }
+      }
+    ],
+    "reachable_functions": 74,
+    "scope": "Observed SQL call graph and the reviewed row JSON comparisons"
+  },
+  "status": "ACTUAL_FULL25_ROW_JSON_TIMEZONE_CALL_PATHS_REVIEWED",
+  "targeted_followup": {
+    "adapter": {
+      "bytes": 378,
+      "sha256": "9ccbd57cd1c2f948171671dc1a35f1e1aed035977d7d3ecffb3ca1587efb95b2"
+    },
+    "exact_product_writers_preserved": true,
+    "frozen_money_head": "f1674ae84739f577571d68415beabfca3f3b832b",
+    "frozen_money_source_blob": "664f1c49673bf5a6eab9ebf2bc6550054cbfbdd2",
+    "frozen_money_tree": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "no_new_role_grants": true,
+    "prepared_only": true,
+    "replay": {
+      "bytes": 5485,
+      "sha256": "908b30fed7b2bc7ff146f2925cfb4772a766b39a38d82fc579b75f988eec2c8b"
+    }
+  }
+}

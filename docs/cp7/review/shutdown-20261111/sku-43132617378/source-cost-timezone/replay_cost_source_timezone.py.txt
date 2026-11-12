@@ -1,0 +1,272 @@
+"""Replay the actual non-PO source-cost snapshot boundary on a local PostgreSQL fixture."""
+import argparse
+from hashlib import file_digest, sha256
+import json
+from pathlib import Path
+from zipfile import ZipFile
+
+from single_postgres import SinglePostgres
+
+
+CATALOGUE = "SKU_GLOBAL_PARENT_ACTUAL_FULL25.json"
+CATALOGUE_SHA = "5ff582717522b766c12024c1bf3299066475f14a3c6021a3543f378f829e0c07"
+ORIGINAL_SHA = "dd9e31355a0820d1650e438a8913c49450a10dbc342789ed94f3418c1be6363b"
+CAPTURE = "cp7_sku_conversion.capture_cost_source_v3(uuid)"
+REBALANCE = "cp7_sku_conversion.rebalance_cost_source_v3(uuid,date,jsonb,numeric)"
+RECONCILE = "erp.be_reconcile_cost_document_v1(uuid,date)"
+EVENTS = "erp.be_conversion_cost_events_v1"
+FIXTURE_TABLES = (
+    "erp.be_conversion_cost_sources_v1(document_id uuid, conversion_id uuid, kind text)",
+    "erp.product_conversions(id uuid, status text, to_product_id uuid)",
+    "erp.fg_lots(id uuid, po_id uuid)",
+    "erp.be_conversion_sources_v1(conversion_id uuid, source_lot_id uuid)",
+    "erp.be_execution_context_v1(backend_pid integer, transaction_id bigint, request_id uuid)",
+    "erp.bc_adjustment_purposes_v1(document_id uuid, adjustment_id uuid, account_id uuid)",
+    "erp.bc_documents_v1(id uuid, status text)",
+    "fixture.journals(id uuid, source text, event uuid, economic_date date, lines jsonb)",
+)
+DOCUMENT = "00000000-0000-4000-8000-000000000001"
+ADJUSTMENT = "00000000-0000-4000-8000-000000000002"
+PRODUCT = "00000000-0000-4000-8000-000000000003"
+CONVERSION = "00000000-0000-4000-8000-000000000004"
+LOT = "00000000-0000-4000-8000-000000000005"
+ACCOUNT = "00000000-0000-4000-8000-000000000006"
+INITIAL_EVENT = "00000000-0000-4000-8000-000000000007"
+INITIAL_JOURNAL = "00000000-0000-4000-8000-000000000008"
+DAY = "2026-11-12"
+ZONES = ("UTC", "Asia/Jakarta", "America/Los_Angeles")
+
+
+def pin(raw):
+    return dict(bytes=len(raw), sha256=sha256(raw).hexdigest())
+
+
+def function_pin(pg, name):
+    size, digest = pg.execute(
+        "SELECT octet_length(raw), encode(sha256(convert_to(raw,'UTF8')),'hex') "
+        "FROM (SELECT pg_get_functiondef(%s::regprocedure) AS raw) f",
+        (name,),
+    ).fetchone()
+    return dict(bytes=size, sha256=digest)
+
+
+def require(condition, reason):
+    if not condition:
+        raise AssertionError(reason)
+
+
+def load_original(path):
+    with path.open("rb") as stream:
+        require(file_digest(stream, "sha256").hexdigest() == ORIGINAL_SHA, "Wrong E4EA archive")
+    with ZipFile(path) as bundle:
+        require(bundle.testzip() is None, "Invalid E4EA member CRC")
+        raw = bundle.read(CATALOGUE)
+    require(sha256(raw).hexdigest() == CATALOGUE_SHA, "Wrong E4EA catalogue")
+    return json.loads(raw)
+
+
+def event_ddl(catalogue):
+    columns = sorted(
+        (row for key, row in catalogue["columns"] if key.startswith(EVENTS + ":")),
+        key=lambda row: row[1],
+    )
+    require(len(columns) == 9 and columns[7][0:3] == ["created_at", 8, "timestamp with time zone"],
+            "Expected exact source event row shape")
+    specs = [
+        f'"{name}" {data_type}' + (" NOT NULL" if required else "")
+        + (f" DEFAULT {row[-1]}" if row[-1] is not None else "")
+        for row in columns
+        for name, _, data_type, required in [row[:4]]
+    ]
+    return f"CREATE TABLE {EVENTS} (" + ", ".join(specs) + ")"
+
+
+def prepare(pg, catalogue, originals):
+    for schema in ("erp", "cp7_sku_conversion", "fixture"):
+        pg.command("CREATE SCHEMA " + schema)
+    pg.command(event_ddl(catalogue))
+    for ddl in FIXTURE_TABLES:
+        pg.command("CREATE TABLE " + ddl)
+    readers = (
+        "CREATE FUNCTION erp.require_internal() RETURNS void LANGUAGE plpgsql AS $$BEGIN "
+        "IF current_user <> 'postgres' THEN RAISE EXCEPTION 'fixture internal only'; END IF; END$$",
+        "CREATE FUNCTION erp.be_in_context_v1() RETURNS boolean LANGUAGE sql AS "
+        "$$SELECT EXISTS(SELECT 1 FROM erp.be_execution_context_v1 WHERE backend_pid=pg_backend_pid() "
+        "AND transaction_id=txid_current())$$",
+        "CREATE FUNCTION erp.current_app_user_id() RETURNS uuid LANGUAGE sql AS $$SELECT NULL::uuid$$",
+        "CREATE FUNCTION erp._cp6_material_adjustment_revaluation_state(uuid) RETURNS jsonb LANGUAGE sql AS "
+        "$$SELECT jsonb_build_object('current_value', -13.07)$$",
+        "CREATE FUNCTION cp7_sku_conversion.cost_source_products_v3(uuid) RETURNS uuid[] LANGUAGE sql AS "
+        f"$$SELECT ARRAY['{PRODUCT}'::uuid]$$",
+        "CREATE FUNCTION cp7_sku_conversion.cost_document_money_state_v3(uuid) RETURNS jsonb LANGUAGE sql AS "
+        f"$$SELECT coalesce(jsonb_agg(to_jsonb(e) ORDER BY id), '[]'::jsonb) FROM {EVENTS} e WHERE document_id=$1$$",
+        "CREATE FUNCTION erp.assert_non_po_product_hpp_target_book_v2620f(uuid) RETURNS void LANGUAGE plpgsql AS "
+        "$$BEGIN RETURN; END$$",
+        "CREATE FUNCTION erp.be_nonpo_prepare_transfers_v1(date) RETURNS void LANGUAGE plpgsql AS $$BEGIN RETURN; END$$",
+        "CREATE FUNCTION erp.be_nonpo_sync_all_v1(date,text,uuid,text) RETURNS void LANGUAGE plpgsql AS $$BEGIN RETURN; END$$",
+        "CREATE FUNCTION erp.post_journal(text,uuid,date,text,jsonb) RETURNS uuid LANGUAGE sql AS "
+        "$$INSERT INTO fixture.journals VALUES (gen_random_uuid(), $1, $2, $3, $5) RETURNING id$$",
+        "CREATE FUNCTION cp7_sku_conversion.reprice_document_money_v3(uuid,date,jsonb,jsonb,numeric) "
+        "RETURNS void LANGUAGE plpgsql AS $$BEGIN "
+        f"IF EXISTS (SELECT 1 FROM jsonb_array_elements($3) p JOIN {EVENTS} e ON (p->>'id')::uuid=e.id "
+        "WHERE p IS DISTINCT FROM to_jsonb(e)) THEN RAISE EXCEPTION 'fixture nested snapshot changed'; END IF; END$$",
+    )
+    for ddl in readers:
+        pg.command(ddl)
+    for variant in ("targets", "book"):
+        pg.command(
+            f"CREATE FUNCTION erp.compute_non_po_product_hpp_{variant}_v2620f(uuid) "
+            f"RETURNS TABLE(hpp_total_cost numeric, fixture_row_shape boolean) LANGUAGE sql AS $$"
+            f"SELECT coalesce(sum(target_amount-previous_amount),0), true FROM {EVENTS}$$"
+        )
+    for key in (CAPTURE, REBALANCE, RECONCILE):
+        pg.command(originals[key])
+        pg.command("REVOKE ALL ON FUNCTION " + key + " FROM PUBLIC")
+        require(function_pin(pg, key) == pin(originals[key].encode()),
+                "Installed function differs from actual E4EA: " + key)
+    seeds = (
+        ("erp.be_conversion_cost_sources_v1", (DOCUMENT, CONVERSION, "USAGE")),
+        ("erp.product_conversions", (CONVERSION, "POSTED", PRODUCT)),
+        ("erp.fg_lots", (LOT, None)),
+        ("erp.be_conversion_sources_v1", (CONVERSION, LOT)),
+        ("erp.bc_adjustment_purposes_v1", (DOCUMENT, ADJUSTMENT, ACCOUNT)),
+        ("erp.bc_documents_v1", (DOCUMENT, "POSTED")),
+        (EVENTS, (INITIAL_EVENT, DOCUMENT, ADJUSTMENT, 0, 12.05, INITIAL_JOURNAL, DAY,
+                  "2026-11-12 01:02:03+00", None)),
+    )
+    for table, values in seeds:
+        pg.execute(f"INSERT INTO {table} VALUES (" + ", ".join(["%s"] * len(values)) + ")", values)
+
+
+def state(pg):
+    return pg.execute(
+        "SELECT jsonb_build_object('events', (SELECT count(*) FROM " + EVENTS + "), "
+        "'value', (SELECT coalesce(sum(target_amount-previous_amount),0) FROM " + EVENTS + "), "
+        "'journals', (SELECT count(*) FROM fixture.journals), "
+        "'contexts', (SELECT count(*) FROM erp.be_execution_context_v1))"
+    ).fetchone()[0]
+
+
+def fixture_rows(pg):
+    names = (EVENTS, *(ddl.split("(", 1)[0] for ddl in FIXTURE_TABLES))
+    return {
+        table: pg.execute(
+            f"SELECT coalesce(jsonb_agg(to_jsonb(r) ORDER BY to_jsonb(r)::text),'[]'::jsonb) FROM {table} r"
+        ).fetchone()[0]
+        for table in names
+    }
+
+
+def reconcile(pg):
+    pg.execute("SELECT erp.be_reconcile_cost_document_v1(%s::uuid,%s::date)", (DOCUMENT, DAY))
+
+
+def replay(pg, zone, should_fail, *, clear_prior=False):
+    baseline = fixture_rows(pg)
+    with pg.transaction(force_rollback=True):
+        pg.execute("SET LOCAL TIME ZONE %s", (zone,))
+        if clear_prior:
+            pg.command("DELETE FROM " + EVENTS)
+        pre = state(pg)
+        pre_rows = fixture_rows(pg)
+        old_snapshot = pg.execute("SELECT cp7_sku_conversion.capture_cost_source_v3(%s::uuid)", (DOCUMENT,)).fetchone()[0]
+        try:
+            with pg.transaction():
+                reconcile(pg)
+        except Exception as error:
+            require(should_fail and str(error) == "CP7_SKU_COST_SOURCE_HISTORY_CHANGED",
+                    f"Unexpected {zone} reconciliation error: {error}")
+            require(fixture_rows(pg) == pre_rows, f"{zone} failure retained writes")
+            result = dict(status="ORIGINAL_REFUSAL_REPRODUCED", error=str(error),
+                          sqlstate=error.sqlstate, after=state(pg))
+        else:
+            require(not should_fail, f"{zone} old function unexpectedly passed")
+            first = state(pg)
+            require(first == dict(events=pre["events"] + 1, value=13.07, journals=1, contexts=0),
+                    f"{zone} money/event total differs: {first}")
+            line = pg.execute("SELECT lines FROM fixture.journals").fetchone()[0]
+            delta = 13.07 if clear_prior else 1.02
+            require(line == [
+                dict(mapping_key="FG_INVENTORY", po_id=None, product_id=PRODUCT, debit=delta, credit=0),
+                dict(account_id=ACCOUNT, debit=0, credit=delta),
+            ], f"{zone} expected journal amounts")
+            if not clear_prior:
+                first_rows = fixture_rows(pg)
+                reconcile(pg)
+                require(fixture_rows(pg) == first_rows, f"{zone} reapplication changed state")
+            result = dict(status="PASS", after=first, journal_lines=line, idempotent_checked=not clear_prior)
+        require(pg.execute("SHOW TimeZone").fetchone() == (zone,), "Caller TimeZone changed")
+        result["captured_existing_created_at"] = [row["created_at"] for row in old_snapshot["cost_events"]]
+    require(fixture_rows(pg) == baseline, "Fixture rollback changed persisted rows")
+    return result
+
+
+def genuine_mutation_is_refused(pg):
+    baseline = fixture_rows(pg)
+    with pg.transaction(force_rollback=True):
+        pg.command("SET LOCAL TIME ZONE 'Asia/Jakarta'")
+        try:
+            with pg.transaction():
+                pg.execute(
+                    "SELECT set_config('fixture.snapshot', cp7_sku_conversion.capture_cost_source_v3(%s)::text, true)",
+                    (DOCUMENT,),
+                )
+                pg.command("UPDATE " + EVENTS + " SET created_at=created_at+interval '1 microsecond'")
+                pg.execute(
+                    "SELECT cp7_sku_conversion.rebalance_cost_source_v3(%s,%s,current_setting('fixture.snapshot')::jsonb,0)",
+                    (DOCUMENT, DAY),
+                )
+        except Exception as error:
+            require(str(error) == "CP7_SKU_COST_SOURCE_HISTORY_CHANGED", str(error))
+        else:
+            raise AssertionError("Real timestamp mutation admitted")
+    require(fixture_rows(pg) == baseline, "Mutation control changed the base")
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    for name in ("archive", "pg-bin", "output", "patch-output"):
+        parser.add_argument("--" + name, type=Path, required=True)
+    args = parser.parse_args()
+    catalogue = load_original(args.archive)
+    all_functions = dict(catalogue["functions"])
+    originals = {name: all_functions[name][0] for name in (CAPTURE, REBALANCE, RECONCILE)}
+    old = originals[CAPTURE]
+    anchor = " SET search_path TO ''\nAS $function$"
+    require(old.count(anchor) == 1, "Unexpected old capture function configuration")
+    fixed = old.replace(anchor, " SET search_path TO ''\n SET \"TimeZone\" TO 'UTC'\nAS $function$", 1)
+    with SinglePostgres(args.pg_bin) as pg:
+        require(pg.execute("SHOW server_version_num").fetchone() == ("170006",), "Need PostgreSQL 17.6")
+        prepare(pg, catalogue, originals)
+        old_results = {zone: replay(pg, zone, zone != "UTC") for zone in ZONES}
+        first_post = replay(pg, "Asia/Jakarta", False, clear_prior=True)
+        auth_sql = "SELECT to_jsonb(proacl), proowner FROM pg_proc WHERE oid=%s::regprocedure"
+        acl = pg.execute(auth_sql, (CAPTURE,)).fetchone()
+        pg.command(fixed)
+        require(pg.execute(auth_sql, (CAPTURE,)).fetchone() == acl, "Owner or ACL changed")
+        require(function_pin(pg, CAPTURE) == pin(fixed.encode()),
+                "Installed patch differs from reviewed TimeZone-only change")
+        fixed_results = {zone: replay(pg, zone, False) for zone in ZONES}
+        genuine_mutation_is_refused(pg)
+    require(not pg.directory.exists() and pg.process.returncode == 0, "Local cluster cleanup incomplete")
+    result = dict(
+        status="ACTUAL_SOURCE_COST_TIMEZONE_BOUNDARY_REPRODUCED_AND_REPAIRED",
+        PostgreSQL="17.6", original_sha256=ORIGINAL_SHA, actual_catalogue_sha256=CATALOGUE_SHA,
+        actual_function_definitions={name: pin(raw.encode()) for name, raw in originals.items()},
+        patch=dict(function=CAPTURE, before=pin(old.encode()), after=pin(fixed.encode()),
+                   configuration_only="TimeZone=UTC", owner_and_acl_equal=True),
+        original=old_results, original_first_post_without_history=first_post, repaired=fixed_results,
+        real_timestamp_mutation_refused=True, all_nine_fixture_tables_equal_after_each_rollback=True,
+        local_cluster_removed=True,
+        financial_readers_and_journal_sink_modeled=True, full_erp_business_case_credit=0,
+        production_go=False, independent_acceptance=False,
+    )
+    with args.output.open("x") as stream:
+        stream.write(json.dumps(result, sort_keys=True, indent=2) + "\n")
+    with args.patch_output.open("x") as stream:
+        stream.write(fixed)
+    print(json.dumps({key: result[key] for key in ("status", "original", "repaired", "patch")}, sort_keys=True))
+
+
+if __name__ == "__main__":
+    main()

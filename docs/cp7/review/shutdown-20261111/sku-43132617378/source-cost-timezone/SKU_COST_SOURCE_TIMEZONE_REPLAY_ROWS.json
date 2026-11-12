@@ -1,0 +1,205 @@
+{
+  "PostgreSQL": "17.6",
+  "actual_catalogue_sha256": "5ff582717522b766c12024c1bf3299066475f14a3c6021a3543f378f829e0c07",
+  "actual_function_definitions": {
+    "cp7_sku_conversion.capture_cost_source_v3(uuid)": {
+      "bytes": 1556,
+      "sha256": "d34b88ae943c49c5061d1c2116e9fc337dfbada17a81fcc5f5933fbe8627a02c"
+    },
+    "cp7_sku_conversion.rebalance_cost_source_v3(uuid,date,jsonb,numeric)": {
+      "bytes": 4224,
+      "sha256": "0005f4184ba2a0d3c8a51f8d8c3237c4740d3d9e902edbb6e483505a7defde32"
+    },
+    "erp.be_reconcile_cost_document_v1(uuid,date)": {
+      "bytes": 3340,
+      "sha256": "6d9673d3cf8c6c746fb39bc9fe437b0f272c27a357d77818e58d58bd0791fa8f"
+    }
+  },
+  "all_nine_fixture_tables_equal_after_each_rollback": true,
+  "financial_readers_and_journal_sink_modeled": true,
+  "full_erp_business_case_credit": 0,
+  "independent_acceptance": false,
+  "local_cluster_removed": true,
+  "original": {
+    "America/Los_Angeles": {
+      "after": {
+        "contexts": 0,
+        "events": 1,
+        "journals": 0,
+        "value": 12.05
+      },
+      "captured_existing_created_at": [
+        "2026-11-11T17:02:03-08:00"
+      ],
+      "error": "CP7_SKU_COST_SOURCE_HISTORY_CHANGED",
+      "sqlstate": "P0001",
+      "status": "ORIGINAL_REFUSAL_REPRODUCED"
+    },
+    "Asia/Jakarta": {
+      "after": {
+        "contexts": 0,
+        "events": 1,
+        "journals": 0,
+        "value": 12.05
+      },
+      "captured_existing_created_at": [
+        "2026-11-12T08:02:03+07:00"
+      ],
+      "error": "CP7_SKU_COST_SOURCE_HISTORY_CHANGED",
+      "sqlstate": "P0001",
+      "status": "ORIGINAL_REFUSAL_REPRODUCED"
+    },
+    "UTC": {
+      "after": {
+        "contexts": 0,
+        "events": 2,
+        "journals": 1,
+        "value": 13.07
+      },
+      "captured_existing_created_at": [
+        "2026-11-12T01:02:03+00:00"
+      ],
+      "idempotent_checked": true,
+      "journal_lines": [
+        {
+          "credit": 0,
+          "debit": 1.02,
+          "mapping_key": "FG_INVENTORY",
+          "po_id": null,
+          "product_id": "00000000-0000-4000-8000-000000000003"
+        },
+        {
+          "account_id": "00000000-0000-4000-8000-000000000006",
+          "credit": 1.02,
+          "debit": 0
+        }
+      ],
+      "status": "PASS"
+    }
+  },
+  "original_first_post_without_history": {
+    "after": {
+      "contexts": 0,
+      "events": 1,
+      "journals": 1,
+      "value": 13.07
+    },
+    "captured_existing_created_at": [],
+    "idempotent_checked": false,
+    "journal_lines": [
+      {
+        "credit": 0,
+        "debit": 13.07,
+        "mapping_key": "FG_INVENTORY",
+        "po_id": null,
+        "product_id": "00000000-0000-4000-8000-000000000003"
+      },
+      {
+        "account_id": "00000000-0000-4000-8000-000000000006",
+        "credit": 13.07,
+        "debit": 0
+      }
+    ],
+    "status": "PASS"
+  },
+  "original_sha256": "dd9e31355a0820d1650e438a8913c49450a10dbc342789ed94f3418c1be6363b",
+  "patch": {
+    "after": {
+      "bytes": 1581,
+      "sha256": "44aba20d060d3a7eed11f7118c3cffa9289ec9306511e9ed3fb15ea8eaa28ae2"
+    },
+    "before": {
+      "bytes": 1556,
+      "sha256": "d34b88ae943c49c5061d1c2116e9fc337dfbada17a81fcc5f5933fbe8627a02c"
+    },
+    "configuration_only": "TimeZone=UTC",
+    "function": "cp7_sku_conversion.capture_cost_source_v3(uuid)",
+    "owner_and_acl_equal": true
+  },
+  "production_go": false,
+  "real_timestamp_mutation_refused": true,
+  "repaired": {
+    "America/Los_Angeles": {
+      "after": {
+        "contexts": 0,
+        "events": 2,
+        "journals": 1,
+        "value": 13.07
+      },
+      "captured_existing_created_at": [
+        "2026-11-12T01:02:03+00:00"
+      ],
+      "idempotent_checked": true,
+      "journal_lines": [
+        {
+          "credit": 0,
+          "debit": 1.02,
+          "mapping_key": "FG_INVENTORY",
+          "po_id": null,
+          "product_id": "00000000-0000-4000-8000-000000000003"
+        },
+        {
+          "account_id": "00000000-0000-4000-8000-000000000006",
+          "credit": 1.02,
+          "debit": 0
+        }
+      ],
+      "status": "PASS"
+    },
+    "Asia/Jakarta": {
+      "after": {
+        "contexts": 0,
+        "events": 2,
+        "journals": 1,
+        "value": 13.07
+      },
+      "captured_existing_created_at": [
+        "2026-11-12T01:02:03+00:00"
+      ],
+      "idempotent_checked": true,
+      "journal_lines": [
+        {
+          "credit": 0,
+          "debit": 1.02,
+          "mapping_key": "FG_INVENTORY",
+          "po_id": null,
+          "product_id": "00000000-0000-4000-8000-000000000003"
+        },
+        {
+          "account_id": "00000000-0000-4000-8000-000000000006",
+          "credit": 1.02,
+          "debit": 0
+        }
+      ],
+      "status": "PASS"
+    },
+    "UTC": {
+      "after": {
+        "contexts": 0,
+        "events": 2,
+        "journals": 1,
+        "value": 13.07
+      },
+      "captured_existing_created_at": [
+        "2026-11-12T01:02:03+00:00"
+      ],
+      "idempotent_checked": true,
+      "journal_lines": [
+        {
+          "credit": 0,
+          "debit": 1.02,
+          "mapping_key": "FG_INVENTORY",
+          "po_id": null,
+          "product_id": "00000000-0000-4000-8000-000000000003"
+        },
+        {
+          "account_id": "00000000-0000-4000-8000-000000000006",
+          "credit": 1.02,
+          "debit": 0
+        }
+      ],
+      "status": "PASS"
+    }
+  },
+  "status": "ACTUAL_SOURCE_COST_TIMEZONE_BOUNDARY_REPRODUCED_AND_REPAIRED"
+}

@@ -1,0 +1,24 @@
+CREATE OR REPLACE FUNCTION cp7_sku_conversion.capture_cost_source_v3(p_document uuid)
+ RETURNS jsonb
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO ''
+ SET "TimeZone" TO 'UTC'
+AS $function$
+declare products uuid[];product uuid;proof jsonb:='[]';target jsonb;book jsonb;events jsonb;
+begin
+ perform erp.require_internal();perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));
+ products:=cp7_sku_conversion.cost_source_products_v3(p_document);
+ if cardinality(products)=0 then raise exception 'CP7_SKU_COST_SOURCE_SCOPE_EMPTY';end if;
+ foreach product in array products loop
+  -- Opposite unexplained discrepancies cannot cancel in a global sum.
+  perform erp.assert_non_po_product_hpp_target_book_v2620f(product);
+  select to_jsonb(t)into strict target from erp.compute_non_po_product_hpp_targets_v2620f(product)t;
+  select to_jsonb(b)into strict book from erp.compute_non_po_product_hpp_book_v2620f(product)b;
+  if target is distinct from book then raise exception 'CP7_SKU_COST_SOURCE_PRESTATE_NOT_EXACT';end if;
+  proof:=proof||jsonb_build_array(jsonb_build_object('product_id',product,'target',target,'book',book));
+ end loop;
+ select coalesce(jsonb_agg(to_jsonb(e)order by e.id),'[]')into events from erp.be_conversion_cost_events_v1 e where e.document_id=p_document;
+ return jsonb_build_object('cost_money_state',cp7_sku_conversion.cost_document_money_state_v3(p_document),'document_id',p_document,'products',to_jsonb(products),'before',proof,'cost_events',events,
+  'backend_pid',pg_backend_pid(),'transaction_id',txid_current());
+end $function$
