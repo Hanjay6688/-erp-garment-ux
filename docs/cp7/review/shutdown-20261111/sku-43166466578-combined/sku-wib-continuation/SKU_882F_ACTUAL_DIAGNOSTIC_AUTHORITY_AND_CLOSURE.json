@@ -1,0 +1,29 @@
+{
+  "all_group_runtime_admission": false,
+  "archive": 13927899180,
+  "authority_rows": {
+    "columns": 99,
+    "constraints": 14,
+    "functions": 48,
+    "indexes": 2,
+    "relations": 5,
+    "triggers": 33,
+    "type_implementation": 4,
+    "types": 4
+  },
+  "catalogue": {
+    "bytes": 16048295,
+    "sha256": "7e1ba214f634afd822a7ef29e7a5731690aceb8d5afd7fb0f62f22fbd3ac0e55"
+  },
+  "first_failure_preserved": true,
+  "formal_CP7": "5/16",
+  "global_advisors_D1E_and_recovery_pending": true,
+  "head": "882fdd376387f66e607cce62152eba9732654211",
+  "job_id": 131034780958,
+  "production_go": false,
+  "run_id": 43174323175,
+  "status": "ACTUAL_DIAGNOSTIC_CATALOGUE_EQUIVALENCE_ONLY",
+  "vendor_rows": 14,
+  "writer_B_code_pins": 21,
+  "writer_B_rows": 29
+}

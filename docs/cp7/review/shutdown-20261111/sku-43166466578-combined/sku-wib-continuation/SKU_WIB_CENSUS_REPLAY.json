@@ -1,0 +1,131 @@
+{
+  "active_candidate": "ae0df1ef17b4d84478d50a2a144cf0382d662ad0",
+  "active_driver": {
+    "bytes": 4491,
+    "sha256": "38800639c8cbf7bd5789380d7482b30e2037f77a5de8d44023a896647b81941c"
+  },
+  "actual_ERP_business_cases": 0,
+  "exact_source_scope": {
+    "bytes": 38661,
+    "sha256": "d282547c6a538157be86a573851a23b05b962debf34e6ad62c0526027647af64"
+  },
+  "guard": [
+    {
+      "expected_sha256": "9b8d0200c69c23df77d533c3cfdcfc8078657be353abf6beda60698c392d14da",
+      "normalized_row": {
+        "bytes": 6322,
+        "sha256": "e5f4006fea5c6e931f8919e7317fd2b6668b61498049b004da6a05dbd4227131"
+      },
+      "original_row": {
+        "bytes": 6322,
+        "sha256": "16a3fcb1c384c946e69ff8c963719ee03dd9ae2a53797d170d4d2e1ffb8124b2"
+      },
+      "signature": "cp7_credit.assert_source_native_trigger_census_v1()",
+      "status": "ACTUAL_INSTALLED_TRIGGER_CENSUS_VERIFIED"
+    },
+    {
+      "expected_sha256": "65fe33b1e238fd0071ad3ef69ea12d3d56aa5cf70febc3384caf5cf1ad151ad0",
+      "normalized_row": {
+        "bytes": 6322,
+        "sha256": "e5f4006fea5c6e931f8919e7317fd2b6668b61498049b004da6a05dbd4227131"
+      },
+      "original_row": {
+        "bytes": 6322,
+        "sha256": "aa8941aaaf7693c46daa82f3a65cde771267db7aecec91ed3ed35fac297b0a8f"
+      },
+      "signature": "cp7_credit.assert_source_native_trigger_census_v1()",
+      "status": "ACTUAL_INSTALLED_TRIGGER_CENSUS_VERIFIED"
+    }
+  ],
+  "modified_guard_body_and_unbound_proof_refused": true,
+  "production_go": false,
+  "rollback_after_every_control": true,
+  "runner": {
+    "active": {
+      "boundary_restore": true,
+      "caller_zones": {
+        "SKU_AUTOMATIC_NATIVE_LATE_TARGET_REFUSAL_ROLLS_BACK_PARENT_AND_CHILD": "UTC",
+        "SKU_AUTOMATIC_NATIVE_REDYE_PO_LATE_INVOICE_INVERSE_AND_NO_REVIVAL": "UTC",
+        "SKU_AUTOMATIC_NATIVE_REDYE_UNKNOWN_AVERAGE_REPLAY_AND_PARENT_INVERSE": "UTC",
+        "SKU_AUTOMATIC_NATIVE_REWORK_PENDING_AVERAGE_REPLAY_AND_PARENT_INVERSE": "UTC",
+        "SKU_AUTOMATIC_NATIVE_REWORK_PO_LATE_INVOICE_INVERSE_AND_NO_REVIVAL": "UTC",
+        "SKU_MONEY_NATIVE_LEGACY_PHYSICAL_CONVERTED_LATE_INVOICE_CURRENT_INVERSE": "Asia/Jakarta",
+        "SKU_MONEY_NATIVE_LEGACY_PHYSICAL_OPENING_LATE_INVOICE_CURRENT_INVERSE": "Asia/Jakarta",
+        "SKU_MONEY_NATIVE_RECOVERY_EQUAL_PHYSICAL_FIRST_CHILD_LIMIT": "Asia/Jakarta",
+        "SKU_MONEY_NATIVE_RECOVERY_UNDER_PHYSICAL_FIRST_CHILD_LIMIT": "Asia/Jakarta",
+        "SKU_MONEY_NATIVE_SIGNED_RECOVERY_BEFORE_CONVERTED_LOT_THEN_NATIVE_ZERO": "Asia/Jakarta",
+        "SKU_MONEY_NATIVE_SIGNED_RECOVERY_BEFORE_OPENING_LOT_THEN_NATIVE_ZERO": "Asia/Jakarta",
+        "SKU_MONEY_NATIVE_SOLD_LATE_INVOICE_PARTIAL_RETURN_AND_BOTH_INVERSES": "Asia/Jakarta",
+        "SKU_MONEY_NATIVE_TWO_CHILD_CURRENT_REVISION_POST_COST_AND_INVERSE": "Asia/Jakarta"
+      },
+      "counts": {
+        "PASS": 13
+      },
+      "strict_case_restore": true
+    },
+    "focused_preview": {
+      "boundary_restore": true,
+      "caller_zones": {
+        "SKU_MONEY_NATIVE_LEGACY_PHYSICAL_CONVERTED_LATE_INVOICE_CURRENT_INVERSE": "Asia/Jakarta",
+        "SKU_MONEY_NATIVE_LEGACY_PHYSICAL_OPENING_LATE_INVOICE_CURRENT_INVERSE": "Asia/Jakarta",
+        "SKU_MONEY_NATIVE_RECOVERY_EQUAL_PHYSICAL_FIRST_CHILD_LIMIT": "Asia/Jakarta",
+        "SKU_MONEY_NATIVE_RECOVERY_UNDER_PHYSICAL_FIRST_CHILD_LIMIT": "Asia/Jakarta",
+        "SKU_MONEY_NATIVE_SIGNED_RECOVERY_BEFORE_CONVERTED_LOT_THEN_NATIVE_ZERO": "Asia/Jakarta",
+        "SKU_MONEY_NATIVE_SIGNED_RECOVERY_BEFORE_OPENING_LOT_THEN_NATIVE_ZERO": "Asia/Jakarta",
+        "SKU_MONEY_NATIVE_SOLD_LATE_INVOICE_PARTIAL_RETURN_AND_BOTH_INVERSES": "Asia/Jakarta",
+        "SKU_MONEY_NATIVE_TWO_CHILD_CURRENT_REVISION_POST_COST_AND_INVERSE": "Asia/Jakarta"
+      },
+      "counts": {
+        "PASS": 8
+      },
+      "strict_case_restore": true
+    },
+    "original": {
+      "boundary_restore": true,
+      "caller_zones": {
+        "SKU_AUTOMATIC_NATIVE_LATE_TARGET_REFUSAL_ROLLS_BACK_PARENT_AND_CHILD": "UTC",
+        "SKU_AUTOMATIC_NATIVE_REDYE_PO_LATE_INVOICE_INVERSE_AND_NO_REVIVAL": "UTC",
+        "SKU_AUTOMATIC_NATIVE_REDYE_UNKNOWN_AVERAGE_REPLAY_AND_PARENT_INVERSE": "UTC",
+        "SKU_AUTOMATIC_NATIVE_REWORK_PENDING_AVERAGE_REPLAY_AND_PARENT_INVERSE": "UTC",
+        "SKU_AUTOMATIC_NATIVE_REWORK_PO_LATE_INVOICE_INVERSE_AND_NO_REVIVAL": "UTC"
+      },
+      "counts": {
+        "INCOMPLETE": 8,
+        "PASS": 5
+      },
+      "strict_case_restore": true
+    }
+  },
+  "source_pins": {
+    "actor.py": {
+      "blob": "98c87aef79bbbd20438efd778713d2dc51c58b98",
+      "sha256": "df478f5602b2e0471408b7cb827648354b7d1e28051fb85bc1289083e34871d9"
+    },
+    "boundary.py": {
+      "blob": "bf3690ab55310f9d07faf455295d59dd1488c7de",
+      "sha256": "7f4649e2ed0ab0ab948c65ebebbfa06b773e66f14bcac88a746143e372ea7b39"
+    },
+    "business_day.py": {
+      "blob": "5283e751de80d86a4ff68176252d3f4994885b38",
+      "sha256": "ec12307a50b0333abd1911f48cdd4ee24c31c432c28f2901d0df5a317d2341f8"
+    },
+    "inventory.py": {
+      "blob": "fc7a5fa84bd4260283d6336c620f50fb401486f9",
+      "sha256": "8c0715a2cfbcdd869e96c06f2bab3d40e5ce52d2dfa5b6480c9bf7bce1a6880f"
+    },
+    "period.py": {
+      "blob": "c4b2c0611f96cae7e30c7953c9e409ee879fb39b",
+      "sha256": "c4f977bfd6dd9da1b1eaf068bddf6fce37296d016d4ff9832aa987640682042b"
+    },
+    "runner.py": {
+      "blob": "b11c524ca48a262022c44ad4f865f2f297540b7c",
+      "sha256": "2c74439f7e919e2adb2484bc774bef4881e71237124f2e6b6dabdab141348ea7"
+    },
+    "sequence_prefix.py": {
+      "blob": "702270c6f6b0a0f25c32c562844999296351daf7",
+      "sha256": "1679d8abdc17c0cc906f026fd51a91510f5809e7323d6ef4dca32c05383f6c5d"
+    }
+  },
+  "stale_oid_and_disabled_trigger_refused": true,
+  "status": "TWO_EXACT_FAILURES_REPRODUCED_AND_REPAIRED_IN_LOCAL_FIXTURE"
+}
