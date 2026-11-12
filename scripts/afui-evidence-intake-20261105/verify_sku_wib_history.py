@@ -45,8 +45,8 @@ def git(repo, *arguments):
     return subprocess.check_output(['git', '-C', str(repo), *arguments], timeout=180)
 
 
-def api(path, accept='application/vnd.github+json'):
-    request = Request(API + path, headers={'Accept': accept, 'X-GitHub-Api-Version': '2022-11-28'})
+def api(path):
+    request = Request(API + path, headers={'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28'})
     request.add_unredirected_header('Authorization', 'Bearer ' + os.environ['GH_TOKEN'])
     return urlopen(request, timeout=60)
 
@@ -73,7 +73,7 @@ def archive(workspace, identity):
     root.mkdir()
     for label, value in (('run', run), ('job', job), ('artifact', artifact)):
         (root / f'{label}.json').write_text(json.dumps(value))
-    with api(f"actions/artifacts/{artifact['id']}/zip", 'application/octet-stream') as response:
+    with api(f"actions/artifacts/{artifact['id']}/zip") as response:
         if urlsplit(response.url).scheme != 'https':
             raise ValueError('Expected GitHub Actions archive over HTTPS')
         with (root / 'canonical.zip').open('xb') as output:
