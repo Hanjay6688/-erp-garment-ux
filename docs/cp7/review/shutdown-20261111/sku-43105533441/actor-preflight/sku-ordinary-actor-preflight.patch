@@ -1,0 +1,85 @@
+diff --git a/source/a165/native_preflight.py b/candidate/native_preflight.py
+index 88f74d4..8511d87 100644
+--- a/source/a165/native_preflight.py
++++ b/candidate/native_preflight.py
+@@ -1,4 +1,7 @@
+ """Read every retained and automatic prerequisite before any case starts."""
++from hashlib import sha256
++from pathlib import Path
++
+ 
+ FUNCTIONS = (
+     'public.erp_save_bs_resolution_action_v1(text,jsonb,uuid,bigint)',
+@@ -18,12 +21,54 @@ ACTOR_FUNCTIONS = {
+     'upstream_completion_owner': FUNCTIONS[:2],
+     'supplier_invoice_owner': FUNCTIONS[2:4],
+ }
++RETAINED_MONEY_PREFLIGHT_PIN = (
++    8157, 'eb15f3a0471370cc003ba5677233bdd0bf731e84ac59f4e11e5833a8929a0f77',
++)
++
++
++def ordinary_actor_access(cur):
++    role = cur.execute('select erp.current_app_role()::text').fetchone()[0]
++    database_role = cur.execute('select current_user,session_user').fetchone()
++    access = cur.execute('select public.erp_get_my_access_v1()').fetchone()[0]
++    profile = access.get('profile') if type(access) is dict else None
++    permissions = access.get('permissions') if type(access) is dict else None
++    if (type(profile) is not dict or access.get('allowed') is not True
++        or profile.get('role_code') != role or profile.get('is_active') is not True
++        or type(permissions) is not list or any(type(key) is not str for key in permissions)):
++        raise ValueError('SKU_EXACT_ORDINARY_ACTOR_ACCESS_SNAPSHOT_REQUIRED')
++    return role, database_role, permissions
++
++
++def retained_money_check(retained):
++    path = Path(retained.__file__)
++    if not path.is_file() or path.is_symlink():
++        raise ValueError('SKU_EXACT_FROZEN_MONEY_PREFLIGHT_REQUIRED')
++    raw = path.read_bytes()
++    if (len(raw), sha256(raw).hexdigest()) != RETAINED_MONEY_PREFLIGHT_PIN:
++        raise ValueError('SKU_EXACT_FROZEN_MONEY_PREFLIGHT_REQUIRED')
++    source = raw.decode()
++    routes = (
++        ("            permissions={key:cur.execute('select erp.has_permission(%s)',(key,)).fetchone()[0]for key in PERMISSIONS[name]}",
++         "            role,database_role,keys=ordinary_actor_access(cur)\n"
++         "            permissions={key:key in keys for key in PERMISSIONS[name]}"),
++        ("            actors[name]=dict(role=cur.execute('select erp.current_app_role()::text').fetchone()[0],\n"
++         "                database_role=cur.execute('select current_user,session_user').fetchone(),",
++         "            actors[name]=dict(role=role,database_role=database_role,\n"
++         "                permission_source='public.erp_get_my_access_v1()',"),
++    )
++    for old, new in routes:
++        if source.count(old) != 1 or new in source:
++            raise ValueError('SKU_EXACT_MONEY_PREFLIGHT_ACTOR_ROUTE_REQUIRED')
++        source = source.replace(old, new, 1)
++    namespace = {'ordinary_actor_access': ordinary_actor_access}
++    exec(compile(source, str(path) + '::ordinary_actor_access', 'exec', dont_inherit=True), namespace)
++    return namespace['check']
+ 
+ 
+ def check(cur, today, business, retained, product, native, invoices):
+     # The retained nineteen-way check already collects actors, permissions,
+     # fixture masters, locations, PCS, accounts, periods, dates and sources.
+-    original = retained.check(cur, today, business)
++    original = retained_money_check(retained)(cur, today, business)
+     errors = list(original['errors'])
+     business.f.admin(cur)
+     before = business.n.capture(cur)
+@@ -46,15 +91,7 @@ def check(cur, today, business, retained, product, native, invoices):
+         cur.execute('savepoint automatic_all_prerequisite_actor')
+         try:
+             select_actor()
+-            role = cur.execute('select erp.current_app_role()::text').fetchone()[0]
+-            database_role = cur.execute('select current_user,session_user').fetchone()
+-            access = cur.execute('select public.erp_get_my_access_v1()').fetchone()[0]
+-            profile = access.get('profile') if type(access) is dict else None
+-            permissions = access.get('permissions') if type(access) is dict else None
+-            if (type(profile) is not dict or access.get('allowed') is not True
+-                or profile.get('role_code') != role or profile.get('is_active') is not True
+-                or type(permissions) is not list or any(type(key) is not str for key in permissions)):
+-                raise ValueError('AUTOMATIC_EXACT_ORDINARY_ACTOR_ACCESS_SNAPSHOT_REQUIRED')
++            role, database_role, permissions = ordinary_actor_access(cur)
+             actor = dict(role=role, database_role=database_role, permission_source='public.erp_get_my_access_v1()',
+                          permissions={key: key in permissions for key in ACTOR_PERMISSIONS[name]},
+                          functions={sig: available[sig] and cur.execute(

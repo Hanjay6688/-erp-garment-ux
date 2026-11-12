@@ -1,0 +1,147 @@
+{
+  "status": "TERMINAL_FAILURE_WITH_VERIFIED_RESTORE",
+  "run_id": 43105533441,
+  "job_id": 130807755829,
+  "attempt": 1,
+  "head": "a1652a808f5f9e7a5bcc3fe0ea0feb081075adc3",
+  "tree": "a19981a709340c21495ea5546372d5bf989e190c",
+  "first_failure": {
+    "log_line": 9854,
+    "phase": "ISOLATED_DIAGNOSTICS",
+    "errors": [
+      "ACTOR_CHECK_REFUSED:conversion_and_owner_native",
+      "ACTOR_CHECK_REFUSED:accessory_operator",
+      "ACTOR_CHECK_REFUSED:sales_owner"
+    ],
+    "actors": {
+      "conversion_and_owner_native": {
+        "status": "REFUSED",
+        "error_type": "InsufficientPrivilege",
+        "sqlstate": "42501",
+        "error": "permission denied for function has_permission"
+      },
+      "accessory_operator": {
+        "status": "REFUSED",
+        "error_type": "InsufficientPrivilege",
+        "sqlstate": "42501",
+        "error": "permission denied for function has_permission"
+      },
+      "sales_owner": {
+        "status": "REFUSED",
+        "error_type": "InsufficientPrivilege",
+        "sqlstate": "42501",
+        "error": "permission denied for function has_permission"
+      }
+    }
+  },
+  "confirmed_automatic_actors": {
+    "upstream_completion_owner": {
+      "role": "OWNER",
+      "database_role": [
+        "authenticated",
+        "authenticated"
+      ],
+      "permission_source": "public.erp_get_my_access_v1()",
+      "permissions": {
+        "production.bs_rework.create": true,
+        "production.bs_rework.post": true,
+        "production.bs_rework.reverse": true,
+        "production.laundry.create": true,
+        "production.laundry.post": true,
+        "production.final_sku.post": true
+      },
+      "functions": {
+        "public.erp_save_bs_resolution_action_v1(text,jsonb,uuid,bigint)": true,
+        "public.erp_save_laundry_qc_action_v1(text,jsonb,uuid,bigint)": true
+      }
+    },
+    "supplier_invoice_owner": {
+      "role": "OWNER",
+      "database_role": [
+        "authenticated",
+        "authenticated"
+      ],
+      "permission_source": "public.erp_get_my_access_v1()",
+      "permissions": {
+        "warehouse.procurement.view": true,
+        "warehouse.procurement.post": true,
+        "warehouse.procurement.reverse": true,
+        "finance.ap.view": true
+      },
+      "functions": {
+        "public.erp_cp7_get_purchase_invoices_v1(uuid,integer,integer)": true,
+        "public.erp_cp7_save_purchase_invoice_v1(text,jsonb,uuid,text)": true
+      }
+    }
+  },
+  "native25_actual_cases": 0,
+  "browser_actual_cases": 0,
+  "worker": {
+    "status": "INCOMPLETE",
+    "deadline_reached": false,
+    "external_signal": null,
+    "orphaned_child": false,
+    "signals": [],
+    "worker_exit": 1,
+    "process_group_empty": true,
+    "process_tree_empty": true,
+    "actual_case_credit": 0,
+    "production_go": false,
+    "worker_pid": 23031,
+    "elapsed_seconds": 8153.649,
+    "job_budget_seconds": 21600,
+    "work_budget_seconds": 19800,
+    "recovery_reserve_seconds": 1200,
+    "artifact_reserve_seconds": 600,
+    "qualification_commit": "a1652a808f5f9e7a5bcc3fe0ea0feb081075adc3",
+    "github_run_id": "43105533441",
+    "github_run_attempt": "1"
+  },
+  "restore": {
+    "cp6_restored": true,
+    "all22_rows_sequences": true,
+    "components": {
+      "erp_platform_auth_schema_acl": true,
+      "all_public_catalog_members_and_row_hashes": true,
+      "erp_public_auth_function_definitions_owners_acls": true
+    },
+    "advisor_equal": true,
+    "backup_checks": {
+      "restore_errors_only_pg_cron": true,
+      "catalog_explained": true,
+      "data_identical": true,
+      "engine_answer_present": true,
+      "engine_equal": true
+    },
+    "backup_tables": 407,
+    "five_package_checks": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "github_cleanup": "success"
+  },
+  "original": {
+    "artifact_id": 13902367418,
+    "bytes": 3771340,
+    "sha256": "b92b23d962ab2f91fffcbdf30403140c3dbd11ff89a160c573ac64e12c1abecd",
+    "crc_members": 139,
+    "library_id": "libfile_fde3_f-baed29caaae081919ad559255ff310ea_3b0e0eac7dc08191b44c16f18a1e98fe"
+  },
+  "catalogue": {
+    "bytes": 16048163,
+    "sha256": "a90c17fc625cfca373da74c588c165b26fafde21d3b51a1b62228c582ab6677f",
+    "actual": true,
+    "admissible_global_parent": false
+  },
+  "database_continuation": {
+    "base_clone": {
+      "bytes": 5385619,
+      "sha256": "fe1ab17b39f70b34af0758c5e6d6c1929f57e717d3409095b07fd862681a7c40"
+    },
+    "ready_combined_backup_member_present": false
+  },
+  "qualified": false
+}

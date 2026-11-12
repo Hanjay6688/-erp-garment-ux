@@ -1,0 +1,129 @@
+{
+  "before_errors": [
+    "ACTOR_CHECK_REFUSED:conversion_and_owner_native",
+    "ACTOR_CHECK_REFUSED:accessory_operator",
+    "ACTOR_CHECK_REFUSED:sales_owner"
+  ],
+  "sqlstates": {
+    "conversion_and_owner_native": "42501",
+    "accessory_operator": "42501",
+    "sales_owner": "42501"
+  },
+  "after_status": "PASS",
+  "actors": {
+    "conversion_and_owner_native": {
+      "role": "OWNER",
+      "database_role": [
+        "authenticated",
+        "authenticated"
+      ],
+      "permission_source": "public.erp_get_my_access_v1()",
+      "permissions": {
+        "warehouse.brand_conversion.view": true,
+        "warehouse.brand_conversion.post": true,
+        "warehouse.brand_conversion.reverse": true,
+        "warehouse.stock.adjust": true,
+        "finance.hpp.view": true,
+        "finance.hpp.manage": true
+      },
+      "direct_call_capabilities": {
+        "public.erp_get_product_conversion_workspace_v1(jsonb)": true,
+        "public.erp_save_product_conversion_action_v1(text,jsonb,uuid)": true,
+        "public.erp_save_sku_action_v1(text,jsonb,uuid)": true,
+        "public.erp_cp7_get_fg_v1(jsonb)": true,
+        "public.erp_cp7_get_fg_ledger_v2(jsonb)": true,
+        "erp.post_opening_balance(uuid)": true,
+        "erp.save_sale_draft_v2(jsonb,uuid,bigint)": true,
+        "erp.cancel_sale_draft_v2(uuid,text,uuid,bigint)": true,
+        "erp.post_opening_hpp_correction(uuid,numeric,text,date)": true,
+        "erp.save_material_supplier_invoice_draft_v2(jsonb,uuid,bigint)": true,
+        "erp.post_material_supplier_invoice_v2(uuid,uuid,bigint,text)": true,
+        "erp.reverse_material_supplier_invoice_v2(uuid,text,uuid,bigint)": true
+      }
+    },
+    "accessory_operator": {
+      "role": "OWNER",
+      "database_role": [
+        "authenticated",
+        "authenticated"
+      ],
+      "permission_source": "public.erp_get_my_access_v1()",
+      "permissions": {
+        "warehouse.accessory.view": true,
+        "warehouse.stock.adjust": true,
+        "finance.hpp.manage": true
+      },
+      "direct_call_capabilities": {
+        "public.erp_get_accessory_service_workspace_v1(jsonb)": true,
+        "public.erp_save_accessory_service_action_v1(text,jsonb,uuid)": true,
+        "erp.save_material_purchase_draft_v2(jsonb,uuid,bigint)": true,
+        "erp.post_material_purchase_v2(uuid,uuid,bigint,text)": true
+      }
+    },
+    "sales_owner": {
+      "role": "OWNER",
+      "database_role": [
+        "authenticated",
+        "authenticated"
+      ],
+      "permission_source": "public.erp_get_my_access_v1()",
+      "permissions": {
+        "finance.ar.view": true,
+        "sales.invoice.view": true,
+        "sales.invoice.create": true,
+        "sales.invoice.post": true,
+        "sales.invoice.reverse": true,
+        "sales.return.view": true,
+        "sales.return.create": true,
+        "sales.return.post": true,
+        "sales.return.reverse": true
+      },
+      "direct_call_capabilities": {
+        "public.erp_cp7_get_sales_v1(jsonb)": true,
+        "public.erp_cp7_get_sales_returns_v1(jsonb)": true,
+        "public.erp_cp7_save_sale_v1(text,jsonb,uuid,text)": true
+      }
+    }
+  },
+  "controls": [
+    "actual_ADMIN_mapping:conversion_and_owner_native",
+    "actual_ADMIN_mapping:accessory_operator",
+    "actual_ADMIN_mapping:sales_owner",
+    "wrong_app_role:conversion_and_owner_native",
+    "wrong_app_role:accessory_operator",
+    "wrong_app_role:sales_owner",
+    "inactive_app_role",
+    "missing_app_user",
+    "wrong_database_role",
+    "inactive_required_permission",
+    "missing_required_EXECUTE"
+  ],
+  "admin_replay": {
+    "conversion_and_owner_native": {
+      "status": "REFUSED",
+      "errors": [
+        "ACTOR_PERMISSION:conversion_and_owner_native:warehouse.stock.adjust"
+      ]
+    },
+    "accessory_operator": {
+      "status": "REFUSED",
+      "errors": [
+        "ACTOR_PERMISSION:accessory_operator:warehouse.stock.adjust"
+      ]
+    },
+    "sales_owner": {
+      "status": "PASS",
+      "errors": []
+    }
+  },
+  "tested_function_definitions": 36,
+  "fixture_authority_rows_restored": true,
+  "native25_business_cases": 0,
+  "browser_cases": 0,
+  "postgres": "17.6",
+  "postgres_mode": "standalone_without_listener",
+  "combined_DB_fixture": false,
+  "hosted_database": false,
+  "archived_catalogue_sha256": "a90c17fc625cfca373da74c588c165b26fafde21d3b51a1b62228c582ab6677f",
+  "fixture_role_and_schema_cleanup": true
+}
