@@ -1,0 +1,122 @@
+{
+  "status": "A165_DIAGNOSTIC_OFFLINE_ACTUAL_DYNAMIC_WRITER_SOURCE_REVIEW",
+  "run_id": 43105533441,
+  "artifact_id": 13902367418,
+  "catalogue_sha256": "a90c17fc625cfca373da74c588c165b26fafde21d3b51a1b62228c582ab6677f",
+  "source_sha256": {
+    "erp._validate_migration_batch_base(uuid)": "9331605698ba9f1ab9073a4c7882fe5c49f023aff618b1be55f7868dfed2d0cd",
+    "erp.manage_initial_prepayment_v1(jsonb)": "710667215fad555f78f7828475a4af754eb803019471afa7731134d8776b09fe"
+  },
+  "migration": {
+    "templates": [
+      "select jsonb_populate_record(null::erp.%I,$1)",
+      "select jsonb_populate_record(null::erp.%I,$1)",
+      "select exists(select 1 from erp.%I where %I=$1)"
+    ],
+    "typed_read_relations": [
+      "erp.accessory_categories",
+      "erp.brands",
+      "erp.cash_accounts",
+      "erp.chart_accounts",
+      "erp.contractors",
+      "erp.customers",
+      "erp.laundry_vendors",
+      "erp.locations",
+      "erp.material_rolls",
+      "erp.materials",
+      "erp.opening_balance_items",
+      "erp.product_models",
+      "erp.production_orders",
+      "erp.products",
+      "erp.sizes",
+      "erp.suppliers"
+    ],
+    "lookup_columns": [
+      "erp.accessory_categories.category_code",
+      "erp.brands.brand_code",
+      "erp.cash_accounts.cash_account_code",
+      "erp.contractors.contractor_code",
+      "erp.customers.customer_code",
+      "erp.laundry_vendors.vendor_code",
+      "erp.locations.location_code",
+      "erp.materials.material_sku",
+      "erp.product_models.model_code",
+      "erp.sizes.size_code",
+      "erp.suppliers.supplier_code",
+      "erp.uom_definitions.unit_code"
+    ],
+    "direct_dynamic_dml": 0,
+    "retains_static_batch_updates": true
+  },
+  "prepayment": {
+    "templates": [
+      "select to_jsonb(p) from erp.%I p where id=$1 for update",
+      "select id from erp.%I where id=$1 for update",
+      "insert into erp.%I(id,%I,payment_number,payment_date,amount,cash_account_id,payment_method,notes,created_by) values($1,$2,$3,$4,$5,null,''OPENING_ADVANCE'',$6,erp.current_app_user_id()) returning to_jsonb(%I)-''status''",
+      "insert into erp.initial_import_prepayment_payments(payment_id,advance_id,%I,payment_snapshot) values($1,$2,$1,$3)",
+      "select erp.%I($1)",
+      "select erp.%I($1,$2)"
+    ],
+    "routes": {
+      "SUPPLIER": {
+        "table": "supplier_payments",
+        "parent": "material_purchase_headers",
+        "fk": "purchase_id",
+        "link": "supplier_payment_id",
+        "rpc": "supplier_payment",
+        "post": "erp.post_supplier_payment(uuid)",
+        "reverse": "erp.reverse_supplier_payment(uuid,text)",
+        "table_in_existing_lower_bound": false,
+        "parent_in_existing_lower_bound": true
+      },
+      "CUSTOMER": {
+        "table": "sales_payments",
+        "parent": "sales_headers",
+        "fk": "sale_id",
+        "link": "sales_payment_id",
+        "rpc": "sales_payment",
+        "post": "erp.post_sales_payment(uuid)",
+        "reverse": "erp.reverse_sales_payment(uuid,text)",
+        "table_in_existing_lower_bound": true,
+        "parent_in_existing_lower_bound": true
+      },
+      "VENDOR": {
+        "table": "vendor_payments",
+        "parent": "vendor_invoices",
+        "fk": "vendor_invoice_id",
+        "link": "vendor_payment_id",
+        "rpc": "vendor_payment",
+        "post": "erp.post_vendor_payment(uuid)",
+        "reverse": "erp.reverse_vendor_payment(uuid,text)",
+        "table_in_existing_lower_bound": false,
+        "parent_in_existing_lower_bound": true
+      },
+      "OPENING": {
+        "table": "opening_subledger_settlements",
+        "parent": "opening_subledger_balances",
+        "fk": "balance_id",
+        "link": "opening_settlement_id",
+        "rpc": "opening_subledger_settlement",
+        "post": "erp.post_opening_subledger_settlement(uuid)",
+        "reverse": "erp.reverse_opening_subledger_settlement(uuid,text)",
+        "table_in_existing_lower_bound": false,
+        "parent_in_existing_lower_bound": false
+      }
+    },
+    "selection_from_catalogued_party_and_opening": true,
+    "runtime_replay_required": true
+  },
+  "direct_permission": {
+    "functions_examined": 3105,
+    "qualified_direct_references": 138,
+    "authenticated_has_private_execute": false,
+    "authenticated_exposed_direct": [
+      "public.erp_get_laundry_history_v1(jsonb)",
+      "public.erp_get_supplier_credit_v1(jsonb)"
+    ],
+    "exposed_direct_with_missing_grant": []
+  },
+  "actual_ERP_cases": 0,
+  "runtime_admission": false,
+  "production_go": false
+}

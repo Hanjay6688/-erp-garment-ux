@@ -1,0 +1,73 @@
+{
+  "status": "E4EA_SOURCE_AND_READ_ONLY_ORIGINAL_PREPARATION",
+  "run_id": 43132617378,
+  "job_id": 130900171009,
+  "attempt": 1,
+  "candidate": "e4eaaecebad1f0ba11ab1542b5df89a6423a8a1e",
+  "tree": "ead4c59721d1fc1dc608a9f803dbaf2a076abbdd",
+  "source_comparison": {
+    "global_closed_head": "c9248b8770ec8cfe0f7e2f2fd8da26c141ea67c5",
+    "paths": 219,
+    "owning_delta_paths": 33,
+    "collisions": 0,
+    "source_only": true
+  },
+  "pre_database_original": {
+    "artifact": 13906925818,
+    "bytes": 22417,
+    "sha256": "fe8210b47c3ac0607b2d6931884cce2d68ffb6b52519a506c6d098563f952e69",
+    "crc_members": 1,
+    "inner_receipts_verified": 3,
+    "actual_case_credit": 0
+  },
+  "offline_proofs": {
+    "library_id": "libfile_fde3_f-4a296bcb77308191bb985d4cf432e5c8_3b0e0eac7dc08191b44c16f18a1e98fe",
+    "version": 0,
+    "bytes": 71834,
+    "sha256": "3c7c61ec52154a3a4385bbca16a39e127009b2c4ac5b12a37b8f1de36b3921e0",
+    "contents": {
+      "GLOBAL_E4EA_CLOSED_SOURCE_COMPARISON.json": {
+        "bytes": 73360,
+        "sha256": "06fe33c8212f8b800678d6a23d919e4b23ac3342299cacdd1cab03bdc621ea9f"
+      },
+      "A165_ACTUAL_FULL25_WRITER_DIAGNOSTIC.json": {
+        "bytes": 271064,
+        "sha256": "71a10da8f8c2b85709bff6c647618e095cab8aaa6f43e87ea9e327336331b8ca"
+      },
+      "SKU_43132617378_PRE_DB_ORIGINAL.zip": {
+        "bytes": 22417,
+        "sha256": "fe8210b47c3ac0607b2d6931884cce2d68ffb6b52519a506c6d098563f952e69"
+      },
+      "SKU_E4EA_PRE_DB_ORIGINAL_VERIFIED.json": {
+        "bytes": 1112,
+        "sha256": "e8728f5be81d4dd7736351a8163f585ceff97d9e9931f268928a69faf8ecf095"
+      }
+    }
+  },
+  "reader": {
+    "base_review_commit": "1a8998e0f486411923a1d6681c0d8e30e3a48aa6",
+    "base_stage_path": "docs/cp7/review/shutdown-20261111/sku-43105533441/read-only-stage",
+    "overlay_path": "docs/cp7/review/shutdown-20261111/sku-43132617378/read-only-stage",
+    "overlay_manifest": "READER_STAGE_LOCAL_PINS.json",
+    "final_files": 10,
+    "source_lineage": 15,
+    "tests_against_exact_owning_workflow": 3,
+    "prior_actual_failure_zip_crc": 139,
+    "active_run_refused": true,
+    "dispatch": false
+  },
+  "a165_diagnostic_only": {
+    "actual_functions": 3105,
+    "writer_body_reused": 2934,
+    "writer_body_parsed": 171,
+    "watched_static_baseline": 275,
+    "extra_relation_review": 5,
+    "static_candidates_before": 578,
+    "static_candidates_after": 592,
+    "actual_case_credit": 0,
+    "requires_final_catalogue_comparison": true
+  },
+  "global_runtime_admitted": false,
+  "production_go": false,
+  "formal_CP7": "5/16"
+}

@@ -1,0 +1,207 @@
+{
+  "status": "GLOBAL_DIAGNOSTIC_DYNAMIC_RELATION_EXPANSION",
+  "catalogue": {
+    "bytes": 16048163,
+    "sha256": "a90c17fc625cfca373da74c588c165b26fafde21d3b51a1b62228c582ab6677f"
+  },
+  "existing_lower_bound_watched": 275,
+  "actual_named_scope_to_review": [
+    "erp.migration_staging_rows",
+    "erp.opening_subledger_balances",
+    "erp.opening_subledger_settlements",
+    "erp.supplier_payments",
+    "erp.vendor_payments"
+  ],
+  "expanded_watched": 280,
+  "new_static_writer_candidates": [
+    "erp.bb_apply_labour_imports_v1(uuid)",
+    "erp.bb_validate_financial_imports_v1(uuid)",
+    "erp.bb_validate_labour_imports_v1(uuid)",
+    "erp.bb_validate_production_imports_v1(uuid)",
+    "erp.bb_validate_purchase_imports_v1(uuid)",
+    "erp.bb_validate_sales_imports_v1(uuid)",
+    "erp.bc_validate_imports_v1(uuid)",
+    "erp.bd_validate_imports_v1(uuid)",
+    "erp.be_validate_pocket_imports_v1(uuid)",
+    "erp.validate_initial_import_cost_origins_v1(uuid)",
+    "erp.validate_initial_import_financial_sources_v1(uuid)",
+    "erp.validate_initial_import_production_v1(uuid)",
+    "erp.validate_initial_import_receipts_v1(uuid)",
+    "erp.validate_initial_prepayments_v1(uuid)"
+  ],
+  "newly_watched_direct_writers": {
+    "cp7_installment.final_payment(uuid,numeric)": [
+      "erp.opening_subledger_balances"
+    ],
+    "cp7_installment.reopen_settlement(uuid,text)": [
+      "erp.opening_subledger_balances"
+    ],
+    "cp7_receipt_fix.replay_payment(uuid,jsonb,numeric,text,text)": [
+      "erp.supplier_payments"
+    ],
+    "cp7_supplier_payment_correction.apply(jsonb,uuid)": [
+      "erp.supplier_payments"
+    ],
+    "cp7_supplier_payment_create.apply(jsonb,uuid)": [
+      "erp.supplier_payments"
+    ],
+    "cp7_supplier_transfer.apply_v1(jsonb,uuid)": [
+      "erp.supplier_payments"
+    ],
+    "erp._validate_migration_batch_base(uuid)": [
+      "erp.migration_staging_rows"
+    ],
+    "erp.apply_initial_import_receipts_v1(uuid)": [
+      "erp.migration_staging_rows"
+    ],
+    "erp.apply_initial_prepayments_v1(uuid)": [
+      "erp.migration_staging_rows"
+    ],
+    "erp.apply_migration_master_rows(uuid)": [
+      "erp.migration_staging_rows"
+    ],
+    "erp.apply_migration_open_pos(uuid)": [
+      "erp.migration_staging_rows"
+    ],
+    "erp.bb_apply_financial_imports_v1(uuid)": [
+      "erp.migration_staging_rows"
+    ],
+    "erp.bb_apply_labour_imports_v1(uuid)": [
+      "erp.migration_staging_rows"
+    ],
+    "erp.bb_apply_production_imports_v1(uuid)": [
+      "erp.migration_staging_rows"
+    ],
+    "erp.bb_apply_purchase_imports_v1(uuid)": [
+      "erp.migration_staging_rows"
+    ],
+    "erp.bb_apply_sales_imports_v1(uuid)": [
+      "erp.migration_staging_rows"
+    ],
+    "erp.bb_manage_customer_credit_v1(jsonb,uuid)": [
+      "erp.opening_subledger_settlements"
+    ],
+    "erp.bb_manage_opening_settlement_v1(jsonb,uuid)": [
+      "erp.opening_subledger_settlements"
+    ],
+    "erp.bb_validate_financial_imports_v1(uuid)": [
+      "erp.migration_staging_rows"
+    ],
+    "erp.bb_validate_labour_imports_v1(uuid)": [
+      "erp.migration_staging_rows"
+    ],
+    "erp.bb_validate_production_imports_v1(uuid)": [
+      "erp.migration_staging_rows"
+    ],
+    "erp.bb_validate_purchase_imports_v1(uuid)": [
+      "erp.migration_staging_rows"
+    ],
+    "erp.bb_validate_sales_imports_v1(uuid)": [
+      "erp.migration_staging_rows"
+    ],
+    "erp.bc_apply_imports_v1(uuid)": [
+      "erp.migration_staging_rows"
+    ],
+    "erp.bc_credit_note_return_v1(jsonb,uuid)": [
+      "erp.opening_subledger_settlements"
+    ],
+    "erp.bc_validate_imports_v1(uuid)": [
+      "erp.migration_staging_rows"
+    ],
+    "erp.bd_apply_imports_v1(uuid)": [
+      "erp.migration_staging_rows"
+    ],
+    "erp.bd_apply_vendor_credit_v1(text,uuid,text,uuid,numeric,date,text,uuid)": [
+      "erp.opening_subledger_settlements",
+      "erp.vendor_payments"
+    ],
+    "erp.bd_pay_vendor_document_v1(jsonb,uuid)": [
+      "erp.vendor_payments"
+    ],
+    "erp.bd_validate_imports_v1(uuid)": [
+      "erp.migration_staging_rows"
+    ],
+    "erp.be_apply_pocket_imports_v1(uuid)": [
+      "erp.migration_staging_rows"
+    ],
+    "erp.be_validate_pocket_imports_v1(uuid)": [
+      "erp.migration_staging_rows"
+    ],
+    "erp.manage_initial_prepayment_v1(jsonb)": [
+      "erp.opening_subledger_settlements"
+    ],
+    "erp.post_opening_balance(uuid)": [
+      "erp.opening_subledger_balances"
+    ],
+    "erp.post_opening_financial_correction(uuid,numeric,text,date)": [
+      "erp.opening_subledger_balances"
+    ],
+    "erp.post_opening_subledger_settlement(uuid)": [
+      "erp.opening_subledger_balances",
+      "erp.opening_subledger_settlements"
+    ],
+    "erp.post_payroll_payment(uuid)": [
+      "erp.opening_subledger_balances"
+    ],
+    "erp.post_supplier_payment(uuid)": [
+      "erp.supplier_payments"
+    ],
+    "erp.post_vendor_payment(uuid)": [
+      "erp.vendor_payments"
+    ],
+    "erp.prepare_migration_opening_balance(uuid,text)": [
+      "erp.migration_staging_rows"
+    ],
+    "erp.reverse_opening_financial_correction(uuid,text)": [
+      "erp.opening_subledger_balances"
+    ],
+    "erp.reverse_opening_subledger_settlement(uuid,text)": [
+      "erp.opening_subledger_balances",
+      "erp.opening_subledger_settlements"
+    ],
+    "erp.reverse_paid_payroll(uuid,text)": [
+      "erp.opening_subledger_balances"
+    ],
+    "erp.reverse_supplier_payment(uuid,text)": [
+      "erp.supplier_payments"
+    ],
+    "erp.reverse_vendor_payment(uuid,text)": [
+      "erp.vendor_payments"
+    ],
+    "erp.save_initial_import_action_v1(text,jsonb,uuid)": [
+      "erp.migration_staging_rows"
+    ],
+    "erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)": [
+      "erp.migration_staging_rows"
+    ],
+    "erp.validate_initial_import_cost_origins_v1(uuid)": [
+      "erp.migration_staging_rows"
+    ],
+    "erp.validate_initial_import_financial_sources_v1(uuid)": [
+      "erp.migration_staging_rows"
+    ],
+    "erp.validate_initial_import_production_v1(uuid)": [
+      "erp.migration_staging_rows"
+    ],
+    "erp.validate_initial_import_receipts_v1(uuid)": [
+      "erp.migration_staging_rows"
+    ],
+    "erp.validate_initial_import_totals_v1(uuid)": [
+      "erp.migration_staging_rows"
+    ],
+    "erp.validate_initial_prepayments_v1(uuid)": [
+      "erp.migration_staging_rows"
+    ],
+    "erp.validate_migration_opening_stock_costs(uuid)": [
+      "erp.migration_staging_rows"
+    ]
+  },
+  "unresolved_static_candidates": [
+    "erp._validate_migration_batch_base(uuid)",
+    "erp.manage_initial_prepayment_v1(jsonb)"
+  ],
+  "missing_watched_relations": [],
+  "actual_ERP_cases": 0,
+  "runtime_admission": false,
+  "production_go": false
+}

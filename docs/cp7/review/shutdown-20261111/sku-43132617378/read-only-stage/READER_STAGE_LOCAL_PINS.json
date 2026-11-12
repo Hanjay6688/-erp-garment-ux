@@ -1,0 +1,62 @@
+{
+  "status": "READ_ONLY_RECEIPT_READER_STAGED_SOURCE_ONLY",
+  "candidate": "e4eaaecebad1f0ba11ab1542b5df89a6423a8a1e",
+  "tree": "ead4c59721d1fc1dc608a9f803dbaf2a076abbdd",
+  "run": 43132617378,
+  "job": 130900171009,
+  "attempt": 1,
+  "files": {
+    ".github/workflows/afui-evidence-intake-20261105.yml": {
+      "bytes": 1923,
+      "sha256": "af25fbdfab2e3daf0a0feaac9b6b13aa0621c3dda872701e2a2ccd905eb43501"
+    },
+    "scripts/afui-evidence-intake-20261105/sku-intake/afui/verify_native_original.py": {
+      "bytes": 10866,
+      "sha256": "7585a96d2bc72104113881992df6ef8dd308796c3d6663c20403b19fc56d0977"
+    },
+    "scripts/afui-evidence-intake-20261105/sku-intake/afui/verify_terminal_original.py": {
+      "bytes": 7718,
+      "sha256": "fa8491b9122ebf4145ecbfff1240ba560c3a26821ec0fca20469347701bc64c1"
+    },
+    "scripts/afui-evidence-intake-20261105/sku-intake/global/reviewed-sku-shutdown-successor/REVIEWED_980C_SUCCESSORS.json": {
+      "bytes": 15999,
+      "sha256": "066c4b9e09c2372e02b70405d0fb9d9b4accafeaaff1ebfec72025eb7dec955a"
+    },
+    "scripts/afui-evidence-intake-20261105/sku-intake/global/reviewed-sku-shutdown-successor/bind_reviewed_sku.py": {
+      "bytes": 2750,
+      "sha256": "b82566ac0810dc1b80bb8a0bab57170a9db6d87f414bcf2e5104f472685d0ccc"
+    },
+    "scripts/afui-evidence-intake-20261105/sku-intake/global/reviewed-sku-shutdown-successor/reviewed_sku_source.py": {
+      "bytes": 18741,
+      "sha256": "be44125180802dfcb910fd6b99edafe159c4a12a1f01f75cd3c23e94d6000bec"
+    },
+    "scripts/afui-evidence-intake-20261105/sku-intake/global/reviewed-sku-shutdown-successor/run_sku.py": {
+      "bytes": 2017,
+      "sha256": "50abebc4b91e4d0e51073063339d9e0c2343f34bd38e34f08ce7780fb5bf59b8"
+    },
+    "scripts/afui-evidence-intake-20261105/sku-intake/global/reviewed-sku-shutdown-successor/verify_sku_read_only.py": {
+      "bytes": 5750,
+      "sha256": "4edd63a28f795e018e1003751ae6b049cf6654eec63336c6e0bb910d2838ed9f"
+    },
+    "scripts/afui-evidence-intake-20261105/sku-intake/global/reviewed-sku-shutdown-successor/verify_terminal_sku.py": {
+      "bytes": 11814,
+      "sha256": "b7016fc03b76652622ee1d554f1bf28d661f6c740972278f819d1efe4aac6b22"
+    },
+    "scripts/afui-evidence-intake-20261105/sku-intake/read-only/retain.py": {
+      "bytes": 3226,
+      "sha256": "c9b8332f83c3ed5672f7cd3dc79f85f73e1bdd705ddbbe7b1670838d3b99eca5"
+    }
+  },
+  "lineage_commits": 15,
+  "reviewed_paths": 33,
+  "active_run_refused": true,
+  "prior_actual_failure": {
+    "run": 43105533441,
+    "verified_members": 139,
+    "restored": true,
+    "case_credit": 0
+  },
+  "qualifying_archive_present": false,
+  "read_permissions_only": true,
+  "production_go": false
+}

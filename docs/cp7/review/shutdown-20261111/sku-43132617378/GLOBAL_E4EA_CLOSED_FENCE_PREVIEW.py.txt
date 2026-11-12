@@ -1,0 +1,244 @@
+"""Exact additive Global preparation, with explicit sparse observation."""
+from hashlib import sha1, sha256
+from pathlib import Path
+import argparse
+import importlib.util
+import json
+
+HERE = Path(__file__).resolve().parent
+spec = importlib.util.spec_from_file_location('global_automatic_complete_source_fence', HERE / 'install_routes.py')
+install = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(install)
+ROOT, base = install.ROOT, install.base
+
+UI_HEAD = '1c66a74295eae2f09b7535619325e4d023942e19'
+UI_TREE = '587760d45b5026f27d19cf57adce92330fff3df3'
+UI_BEFORE = '601afd5adbb167991b018eb24688d5ecb8fb3173'
+UI_AFTER = '15dc4bde83e1ac74871f8d4aaf005e9e36445aeb'
+UI_PATHS = frozenset(('src/ConnectedInitialImportPage.tsx', 'src/ConnectedPocketFabricPage.tsx', 'src/initial-import.css'))
+BUILD_INPUTS = frozenset(('index.html', 'package-lock.json', 'package.json', 'tsconfig.app.json',
+                         'tsconfig.contracts.json', 'tsconfig.json', 'vite.config.ts'))
+
+SKU_HEAD = 'f8d204995c52a8acca76a8732c2111ee21924f27'
+SKU_TREE = '3fc3c8472754b28dd0b49e97decfab661765cae1'
+SKU_BASE = '5f099fa6852c9088ab46daa0f1079a0f6a1f3185'
+SKU_BASE_TREE = '3fd1bdb763a6d22a5aa455f5aea3a853b9782e4d'
+
+
+def entries(tree):
+    result = {}
+    for item in base.git('ls-tree', '-rz', tree).split(b'\0'):
+        if not item:
+            continue
+        metadata, name = item.split(b'\t', 1)
+        mode, kind, blob = metadata.decode().split()
+        base.require(kind == 'blob' and mode in ('100644', '100755'),
+                         'GLOBAL_AUTOMATIC_REGULAR_GIT_BLOB_REQUIRED')
+        result[name.decode()] = dict(mode=mode, blob=blob)
+    return result
+
+
+def selective_ui(value, parent, approved):
+    require = base.require
+    require(value['head'] == UI_HEAD and value['tree'] == UI_TREE
+            and value['before_src_tree'] == UI_BEFORE and value['after_src_tree'] == UI_AFTER,
+            'GLOBAL_AUTOMATIC_ONLY_EXACT_SELECTIVE_B_UI_SOURCE')
+    require(set(value['files']) == UI_PATHS and set(value['root_build_inputs']) == BUILD_INPUTS,
+            'GLOBAL_AUTOMATIC_ONLY_THREE_SELECTIVE_UI_PATHS_AND_COMPLETE_BUILD_INPUTS')
+    result = {}
+    for name, row in value['files'].items():
+        require(row['before'] == parent[name] and row['after'] == approved[name]
+                and row['before']['mode'] == row['after']['mode'] == '100644',
+                'GLOBAL_AUTOMATIC_EXACT_UI_BEFORE_AND_APPROVED_AFTER_BLOBS:' + name)
+        path = ROOT / name
+        require(path.is_file() and not path.is_symlink(), 'GLOBAL_AUTOMATIC_REGULAR_APPROVED_UI_FILE:' + name)
+        raw = path.read_bytes()
+        require(dict(bytes=len(raw), sha256=sha256(raw).hexdigest()) == row['pin']
+                and sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest() == row['after']['blob'],
+                'GLOBAL_AUTOMATIC_APPROVED_UI_EVERY_BYTE_REQUIRED:' + name)
+        result[name] = row['after']
+    for name, identity in value['root_build_inputs'].items():
+        require(identity == parent[name] == approved[name], 'GLOBAL_AUTOMATIC_UI_BUILD_INPUT_CHANGED:' + name)
+    return result
+
+
+def pending_sku(value, baseline):
+    """Copy the complete current prepared parent; grant no actual admission."""
+    require = base.require
+    require({key: value[key] for key in ('base_head', 'base_tree', 'head', 'tree')} ==
+            dict(base_head=SKU_BASE, base_tree=SKU_BASE_TREE, head=SKU_HEAD, tree=SKU_TREE)
+            and all(value[key] is None for key in ('actual_Root', 'actual_run', 'actual_job')),
+            'GLOBAL_AUTOMATIC_ONLY_EXACT_UNQUALIFIED_CURRENT_SKU_SOURCE')
+    require(base.git('rev-parse', SKU_HEAD + '^{tree}').decode().strip() == SKU_TREE
+            and base.git('rev-parse', SKU_BASE + '^{tree}').decode().strip() == SKU_BASE_TREE,
+            'GLOBAL_AUTOMATIC_CURRENT_SKU_IMMUTABLE_TREES_REQUIRED')
+    before, after = entries(SKU_BASE_TREE), entries(SKU_TREE)
+    paths = set(base.git('diff', '--name-only', SKU_BASE, SKU_HEAD, '--').decode().splitlines())
+    require(len(paths) == 209 and set(value['files']) == paths,
+            'GLOBAL_AUTOMATIC_COMPLETE_CURRENT_SKU_PATHS_REQUIRED')
+    return sku_rows(value, baseline, before, after)
+
+
+SKU_ROOT_NAME = 'SKU25_PARENT_ROOT_ACTUAL_INTAKE.json'
+SKU_OWNING_PATHS = frozenset(('.github/workflows/cp7-sku-current-parent-money-automatic-native25.yml', 'scripts/current-sku-automatic-composite-preparation/SOURCE.json', 'scripts/current-sku-automatic-composite-preparation/admission.py', 'scripts/current-sku-automatic-composite-preparation/advisor_review.py', 'scripts/current-sku-automatic-composite-preparation/assembly.py', 'scripts/current-sku-automatic-composite-preparation/browser.mjs', 'scripts/current-sku-automatic-composite-preparation/browser_deadline.py', 'scripts/current-sku-automatic-composite-preparation/browser_prepare.py', 'scripts/current-sku-automatic-composite-preparation/browser_source.py', 'scripts/current-sku-automatic-composite-preparation/check_source.py', 'scripts/current-sku-automatic-composite-preparation/checkpoint.py', 'scripts/current-sku-automatic-composite-preparation/execution.py', 'scripts/current-sku-automatic-composite-preparation/module_scope.py', 'scripts/current-sku-automatic-composite-preparation/moving_diagnostics.py', 'scripts/current-sku-automatic-composite-preparation/native_preflight.py', 'scripts/current-sku-automatic-composite-preparation/non_po_rounding.py', 'scripts/current-sku-automatic-composite-preparation/package.py', 'scripts/current-sku-automatic-composite-preparation/qualification.py', 'scripts/current-sku-automatic-composite-preparation/run_window.py', 'scripts/current-sku-automatic-composite-preparation/runtime_receipt.py', 'scripts/current-sku-automatic-composite-preparation/sku-current-parent-money-automatic-native25-83.workflow.yml.txt', 'scripts/current-sku-automatic-composite-preparation/test_advisor_model.mjs', 'scripts/current-sku-automatic-composite-preparation/test_advisor_review.py', 'scripts/current-sku-automatic-composite-preparation/test_browser_deadline.py', 'scripts/current-sku-automatic-composite-preparation/test_browser_runtime.py', 'scripts/current-sku-automatic-composite-preparation/test_checkpoint.py', 'scripts/current-sku-automatic-composite-preparation/test_current_parent.py', 'scripts/current-sku-automatic-composite-preparation/test_execution.py', 'scripts/current-sku-automatic-composite-preparation/test_final_gate.py', 'scripts/current-sku-automatic-composite-preparation/test_qualification.py', 'scripts/current-sku-automatic-composite-preparation/test_run_window.py', 'scripts/current-sku-automatic-composite-preparation/test_runtime_receipt.py', 'scripts/current-sku-automatic-composite-preparation/workflow.py'))
+SKU_REVIEWED_LINEAGE = (('f8d204995c52a8acca76a8732c2111ee21924f27', '3fc3c8472754b28dd0b49e97decfab661765cae1'), ('82b03bbac619cd37912af58942dbf326b833f57e', 'f20f430dd46914d5500a72013e2cde4902cb44ca'), ('79dfe1806a9780e87abb9456ec8b21350123e7f6', '6cacc17bcb38571e009413786a020a418dac8c8b'), ('69124742b7f312290ead868ee8b0bc0e94b25479', '2022f6f708b9237ebfefbcc8bf28383662c84a9f'), ('e8dba546e81299b0b8d17c1ae99b178c9ff95986', '8e758fa6728cab3b6dd80df4440e9293adca8a44'), ('6aebc5888d164203ba7934b322b3edaf67ee36bd', '82ca481ecb272d82ec2e88ac5e5fac594e8ff2c0'), ('32590613a08e176536d9a19b3843f6a72f4479b4', '262811e77e1a305a9d54baa9374e27df06793d10'), ('6a087cec56aed0e0e4bec4ea8ba2132d573e8f7e', '6c6332527098c4cfff58fb65f4dc679c3082400d'), ('87c60856783395e0aa25af97b7f839538b4e2c0d', '522f3da33a5654e9b8c9dcab0a4887464e5bc033'), ('6b3d69a707c040a8770b7548fb4e041f1dc0b394', 'd7671173c03228f2c3049826ff4dd8b3efc5e675'), ('980c22890cda4ced9aaecfc37390da77d5718e00', 'e49d13044d4304525c8a73da3fee3dfbc81cff51'), ('554fecef4ee18c424fc5adb2d0996cc811e1b1ac', 'c7c8631f470fe148f437f2604dd0a3a7c817eae2'), ('d08032a28b9f00d0ee70a6f98c6b7d0f5b770c4a', 'a80a212694fc6b67d23e2dcdd9e648b4eea78541'), ('a1652a808f5f9e7a5bcc3fe0ea0feb081075adc3', 'a19981a709340c21495ea5546372d5bf989e190c'), ('e4eaaecebad1f0ba11ab1542b5df89a6423a8a1e', 'ead4c59721d1fc1dc608a9f803dbaf2a076abbdd'))
+SKU_REVIEWED_ACTUAL_HEAD = 'e4eaaecebad1f0ba11ab1542b5df89a6423a8a1e'
+SKU_REVIEWED_ACTUAL_TREE = 'ead4c59721d1fc1dc608a9f803dbaf2a076abbdd'
+
+
+def reviewed_sku(value, baseline):
+    require = base.require
+    path = HERE / SKU_ROOT_NAME
+    require(path.is_file() and not path.is_symlink(), 'GLOBAL_VERIFIED_SKU_ROOT_REGULAR_FILE_REQUIRED')
+    raw = path.read_bytes()
+    root = json.loads(raw)
+    require(root.get('status') == 'ROOT_VERIFIED_CURRENT_SKU_NATIVE25_BROWSER2_ALL5'
+            and root.get('actual_business_cases') == 27 and root.get('actual_Native_cases') == 25
+            and root.get('actual_browser_cases') == 2 and root.get('package_all_five') is True
+            and root.get('actual_outer_restore') is True and root.get('prior_runs_aggregated') is False
+            and root.get('production_go') is False and root.get('independent_acceptance') is False
+            and root.get('complete_global_input_review') is False,
+            'GLOBAL_VERIFIED_SKU_ROOT_REQUIRED')
+    for name, key in (('MANDOR17_PARENT_ROOT_ACTUAL_INTAKE.json', 'mandor_root'),
+                      ('CUMULATIVE_RUNTIME_BINDING.json', 'mandor_cumulative_decision')):
+        parent = ROOT / 'scripts/current-sku-automatic-composite-preparation' / name
+        require(parent.is_file() and not parent.is_symlink(), 'GLOBAL_CUMULATIVE_MANDOR_REGULAR_INPUT_REQUIRED')
+        parent_raw = parent.read_bytes()
+        require(root.get(key) == dict(bytes=len(parent_raw), sha256=sha256(parent_raw).hexdigest()),
+                'GLOBAL_CUMULATIVE_MANDOR_ORIGINAL_BINDING_CHANGED')
+    require(root.get('mandor_evidence_mode') == 'CUMULATIVE_15_PLUS_2',
+            'GLOBAL_EXPLICIT_CUMULATIVE_MANDOR_MODE_REQUIRED')
+    require((value['base_head'], value['base_tree']) == (SKU_BASE, SKU_BASE_TREE)
+            and (root['head'], root['tree']) == (SKU_REVIEWED_ACTUAL_HEAD, SKU_REVIEWED_ACTUAL_TREE)
+            and (value['head'], value['tree'], value['actual_run'], value['actual_job'])
+                == (root['head'], root['tree'], root['run_id'], root['job_id'])
+            and all(type(root[k]) is int and root[k] > 0 for k in ('run_id', 'job_id', 'artifact_id'))
+            and value['actual_Root'] == dict(bytes=len(raw), sha256=sha256(raw).hexdigest())
+            and value['actual_full25_catalogue'] == root['global_parent_catalogue']['original']
+            and root['global_parent_catalogue']['fingerprint']['groups'] == 25,
+            'GLOBAL_SKU_SOURCE_MUST_MATCH_ACTUAL_ROOT_AND_CATALOGUE')
+    reviewed = value['reviewed_owning_source']
+    head, tree = root['head'], root['tree']
+    require(set(reviewed) == {'head', 'tree', 'run_id', 'job_id', 'parents', 'files'}
+            and all(reviewed[key] == root[key] for key in ('head', 'tree', 'run_id', 'job_id'))
+            and reviewed['parents'] == [SKU_REVIEWED_LINEAGE[-2][0]]
+            and set(reviewed['files']) == SKU_OWNING_PATHS,
+            'GLOBAL_EXACT_REVIEWED_SKU_SOURCE_REQUIRED')
+    git = base.git
+    refs = [commit + '^{tree}' for commit, _ in SKU_REVIEWED_LINEAGE]
+    trees = [source_tree for _, source_tree in SKU_REVIEWED_LINEAGE]
+    require(git('rev-parse', SKU_BASE + '^{tree}', *refs).decode().splitlines() == [SKU_BASE_TREE, *trees],
+            'GLOBAL_VERIFIED_SKU_ANCESTRY_OR_TREE_CHANGED')
+    for (previous, _), (commit, _) in zip(SKU_REVIEWED_LINEAGE, SKU_REVIEWED_LINEAGE[1:]):
+        require(git('rev-list', '--parents', '-n', '1', commit).decode().split() == [commit, previous],
+                'GLOBAL_VERIFIED_SKU_ANCESTRY_OR_TREE_CHANGED')
+    before, closed, after = (entries(t) for t in (SKU_BASE_TREE, trees[0], tree))
+    changed = {name for name in closed.keys() | after.keys() if closed.get(name) != after.get(name)}
+    require(changed == SKU_OWNING_PATHS and len(changed) == 33, 'GLOBAL_EXACT_SKU_OWNING_DELTA_REQUIRED')
+    for name in sorted(changed):
+        old, new = closed.get(name), after.get(name)
+        require(new is not None and new['mode'] == '100644'
+                and (old is None or old['mode'] == '100644'),
+                'GLOBAL_EXACT_REGULAR_SKU_OWNING_SOURCE_REQUIRED:' + name)
+        expected = dict(old_mode=old['mode'] if old else '000000', new_mode=new['mode'],
+                        before=old['blob'] if old else '0' * 40, after=new['blob'],
+                        status='M' if old else 'A')
+        require(reviewed['files'][name] == expected, 'GLOBAL_REVIEWED_SKU_OWNING_BLOB_CHANGED:' + name)
+    paths = {name for name in before.keys() | after.keys() if before.get(name) != after.get(name)}
+    prepared = {name for name in before.keys() | closed.keys() if before.get(name) != closed.get(name)}
+    require(len(prepared) == 209 and len(paths) == 219
+            and paths == set(value['files']) == prepared | changed,
+            'GLOBAL_COMPLETE_VERIFIED_SKU_SOURCE_PATHS_REQUIRED')
+    return sku_rows(value, baseline, before, after)
+
+
+def sku_rows(value, baseline, before, after):
+    require = base.require
+    result = {}
+    for name, row in value['files'].items():
+        require(row['before'] == before.get(name) == baseline.get(name)
+                and name in after and row['after'] == after[name],
+                'GLOBAL_AUTOMATIC_CURRENT_SKU_EXACT_BEFORE_AND_AFTER:' + name)
+        path = ROOT / name
+        require(path.is_file() and not path.is_symlink(),
+                'GLOBAL_AUTOMATIC_CURRENT_SKU_REGULAR_SOURCE_REQUIRED:' + name)
+        raw = path.read_bytes()
+        require(dict(bytes=len(raw), sha256=sha256(raw).hexdigest()) == row['pin']
+                and sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest() == row['after']['blob'],
+                'GLOBAL_AUTOMATIC_CURRENT_SKU_EVERY_SOURCE_BYTE_REQUIRED:' + name)
+        result[name] = row['after']
+    return result
+
+
+def check(*, observe_sparse=False):
+    manifest = install.check_sources()
+    reference = json.loads((HERE / 'SOURCE_REFERENCE.json').read_bytes())
+    source = reference['parent_global']
+    base.require(source == dict(head='864067967095990d0711803af4c2bc763d8dfd84',
+                                tree='22f1d06e6e9de6a28f26873314676b9d77ba5399'), 'GLOBAL_AUTOMATIC_EXACT_PREPARED_PARENT_REQUIRED')
+    base.require(base.git('rev-parse', source['head'] + '^{tree}').decode().strip() == source['tree'],
+                 'GLOBAL_AUTOMATIC_PARENT_TREE_CHANGED')
+    base.require(base.git('rev-parse', UI_HEAD + '^{tree}').decode().strip() == UI_TREE
+                 and base.git('rev-parse', source['head'] + ':src').decode().strip() == UI_BEFORE
+                 and base.git('rev-parse', UI_HEAD + ':src').decode().strip() == UI_AFTER,
+                 'GLOBAL_AUTOMATIC_COMPLETE_APPROVED_UI_TREE_IDENTITIES_REQUIRED')
+    selected = selective_ui(manifest['selective_B_UI'], entries(source['tree']), entries(UI_TREE))
+    expected = entries(source['tree'])
+    bound = manifest.get('reviewed_current_SKU_source')
+    if bound is None:
+        current_sku = pending_sku(manifest['pending_current_SKU_preparation'], expected)
+        report = dict(exact_current_SKU_preparation_paths=len(current_sku), pending_current_SKU_head=SKU_HEAD)
+    else:
+        base.require(not observe_sparse, 'GLOBAL_VERIFIED_SKU_REQUIRES_COMPLETE_SOURCE')
+        current_sku = reviewed_sku(bound, expected)
+        report = dict(exact_verified_SKU_source_paths=len(current_sku), verified_SKU_head=bound['head'])
+    base.require(all(current_sku[name] == identity for name, identity in selected.items()),
+                 'GLOBAL_AUTOMATIC_SELECTED_UI_MUST_MATCH_CURRENT_SKU')
+    expected.update(current_sku)
+    parent = set()
+    absent = []
+    checked = 0
+    for name, identity in expected.items():
+        parent.add(name)
+        path = ROOT / name
+        base.require(not path.is_symlink(), 'GLOBAL_AUTOMATIC_REGULAR_PARENT_BLOB_REQUIRED:' + name)
+        if not path.is_file():
+            absent.append(name)
+            continue
+        raw = path.read_bytes()
+        expected_blob = identity['blob']
+        base.require(sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest() == expected_blob,
+                     'GLOBAL_AUTOMATIC_UNDECLARED_PARENT_CHANGE:' + name)
+        checked += 1
+    base.require(observe_sparse or not absent, 'GLOBAL_AUTOMATIC_FULL_RUNTIME_PARENT_MATERIALIZATION_REQUIRED')
+    actual = {name.decode() for name in base.git('ls-files', '-z', '--cached', '--others', '--exclude-standard').split(b'\0') if name}
+    own = set(manifest['files']) | {str((HERE / 'SOURCE.json').relative_to(ROOT))}
+    base.require(actual == parent | own and all(name.startswith(str(HERE.relative_to(ROOT)) + '/') for name in own),
+                 'GLOBAL_AUTOMATIC_SINGLE_EXACT_ADDITIVE_NAMESPACE_REQUIRED')
+    base.require(manifest.get('active_workflow_added') is False, 'GLOBAL_CLOSED_WORKFLOW_REQUIRED')
+    if bound is not None:
+        base.require('.github/workflows/cp7-sku-current-parent-money-automatic-native25.yml' in current_sku, 'GLOBAL_EXACT_SKU_WORKFLOW_SOURCE_REQUIRED')
+    base.require(all(getattr(install.admission, name) is None for name in install.GATES),
+                 'GLOBAL_AUTOMATIC_ALL_EIGHT_ADMISSION_GATES_MUST_STAY_CLOSED')
+    _, proof = install.routes.derive()
+    base.require(proof['derived_helpers'] == manifest['derived_helpers'], 'GLOBAL_AUTOMATIC_DECLARED_HELPERS_CHANGED')
+    return dict(status=('GLOBAL_AUTOMATIC_VERIFIED_SKU_SOURCE_REVIEW_NOT_RUNTIME' if bound else
+                        'GLOBAL_AUTOMATIC_EXACT_SOURCE_PREPARATION_NOT_RUNTIME'), parent=source,
+                parent_blob_identities=len(parent), materialized_parent_files_checked=checked,
+                absent_sparse_parent_files=len(absent), full_runtime_materialization_required=bool(absent),
+                own_source_paths=len(own), new_complete_rowsets=2, new_typed_identity_edges=8,
+                existing_nineteen_authority_references_and_inspector_unchanged=True,
+                relation_lower_bound_only=len(install.callbacks.requirements()['required_relation_lower_bound']),
+                actual_complete_catalogue_and_all_writer_review_still_required=True,
+                whole_parent_unchanged=False, exact_approved_B_UI_files=3,
+                complete_approved_UI_src_tree=UI_AFTER,
+                all_other_parent_sources_and_build_inputs_unchanged=True,
+                **report, actual_current_SKU_Root_adopted=False,
+                actual_ERP_cases=0, runtime_admission=False, production_go=False, independent_acceptance=False)
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--observe-sparse', action='store_true')
+    args = parser.parse_args()
+    print(json.dumps(check(observe_sparse=args.observe_sparse), sort_keys=True))
