@@ -1,0 +1,30 @@
+{
+  "status": "SKU_882F_GLOBAL_INTAKE_GUARDS_VERIFIED",
+  "candidate": {
+    "id": 43174323175,
+    "job_id": 131034780958,
+    "head_sha": "882fdd376387f66e607cce62152eba9732654211",
+    "tree": "f73ca6844d8a7facda5fc8526a43da697d72417a"
+  },
+  "scope": {
+    "bytes": 22999,
+    "sha256": "91a74eeda82feace3cfdc27488841306edb05ff40311c38cda6201af7215a760"
+  },
+  "authority_rows_matched": 209,
+  "original_prerequisites": {
+    "bytes": 4233,
+    "sha256": "f1d2603c8a2878cb223102e15a06cd754ea636b411c134ff67c46349b0a20205"
+  },
+  "controls": {
+    "actual_pre_db_checkpoint": "GLOBAL_COMBINED_VERIFIED_SKU_ORIGINAL_REQUIRED:status",
+    "actual_af6e_failed_receipt": "GLOBAL_COMBINED_VERIFIED_SKU_ORIGINAL_REQUIRED:status",
+    "previous_head_control": "GLOBAL_COMBINED_VERIFIED_SKU_ORIGINAL_REQUIRED:head",
+    "omitted_af6e_failure_control": "GLOBAL_COMBINED_VERIFIED_SKU_ORIGINAL_REQUIRED:retained_install_failures",
+    "missing_restore_control": "GLOBAL_COMBINED_VERIFIED_SKU_ORIGINAL_REQUIRED:actual_outer_restore",
+    "missing_actual_root_control": "GLOBAL_COMBINED_SKU_ROOT_REQUIRED:status"
+  },
+  "actual_terminal_original": false,
+  "complete_global_input_review": false,
+  "production_go": false,
+  "runtime_admission": false
+}

@@ -1,0 +1,32 @@
+{
+  "status": "PRE_DB_ARCHIVE_VERIFIED",
+  "head": "882fdd376387f66e607cce62152eba9732654211",
+  "tree": "f73ca6844d8a7facda5fc8526a43da697d72417a",
+  "run_id": 43174323175,
+  "job_id": 131034780958,
+  "attempt": 1,
+  "artifact_id": 13923533239,
+  "archive": {
+    "bytes": 22396,
+    "sha256": "2e56eef952648c9da990f8199710a642fe15d6eef3a1ed7457cf805551129e53",
+    "members": 1
+  },
+  "all_member_crc_verified": true,
+  "admission_receipts": {
+    "SKU_CURRENT_MANDOR17_ORIGINAL_ADMISSION.json": {
+      "bytes": 92223,
+      "sha256": "a4370e62dafccc0baaeecb10caa3f6e83371304f5f393c583b713832ce7d9dd4"
+    },
+    "SKU_CURRENT_PARENT_MONEY_AUTOMATIC_BROWSER_PREREQUISITES.json": {
+      "bytes": 1686,
+      "sha256": "76f1c4a764cda6831550b822b86d4f624d2f7b8b83aba6835e7085c2aa9d1762"
+    },
+    "SKU_CURRENT_PARENT_MONEY_AUTOMATIC_PREREQUISITE_FILES.json": {
+      "bytes": 134856,
+      "sha256": "f52d5df6fa36f89c901ba029bda899c1da7fb16914407b830e6b33fff29c9207"
+    }
+  },
+  "actual_case_credit": 0,
+  "restoration_verified": false,
+  "terminal": false
+}

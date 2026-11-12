@@ -1,0 +1,119 @@
+{
+  "status": "SKU_882F_TERMINAL_READER_PREREQUISITES_VERIFIED",
+  "identity": {
+    "id": 43174323175,
+    "job_id": 131034780958,
+    "head_sha": "882fdd376387f66e607cce62152eba9732654211",
+    "tree": "f73ca6844d8a7facda5fc8526a43da697d72417a"
+  },
+  "scope": {
+    "bytes": 22999,
+    "sha256": "91a74eeda82feace3cfdc27488841306edb05ff40311c38cda6201af7215a760"
+  },
+  "retained_native": [
+    "SKU_MOVAVG_CANONICAL_FORWARD20_MANUAL_BACK35_TOTAL130",
+    "SKU_MOVAVG_EXACT_GROUP_REVERSE_COMPONENT_AND_VALUE_INVERSE",
+    "SKU_MOVAVG_ROOT_RECOST_FOLLOWS_REMAINING_LINEAGE_TOTAL150",
+    "SKU_MOVAVG_SALE_PARTIAL_RETURN_AND_EXACT_REVERSAL",
+    "SKU_MOVAVG_RESERVATION_INCLUDED_AND_LOCATION_ISOLATED",
+    "SKU_MOVAVG_FRACTIONAL_RETURNS_INTERLEAVE_RECOST_AND_EARLIER_INVERSE",
+    "SKU_MONEY_NATIVE_BASE_CENT_BEFORE_OPENING_LOT_TRANSFER",
+    "SKU_MONEY_NATIVE_BASE_CENT_BEFORE_CONVERTED_LOT_TRANSFER",
+    "SKU_MONEY_NATIVE_BASE_CENT_AFTER_CONVERTED_LOT_TRANSFER",
+    "SKU_MONEY_NATIVE_RECOVERY_OVER_PHYSICAL_FIRST_CHILD_LIMIT_REFUSED",
+    "SKU_MONEY_NATIVE_LEGACY_OTHER_LOT_STALE_RETURNS_REPLAY_INVERSE",
+    "SKU_AUTOMATIC_NATIVE_ZERO_GOOD_PARENT_HAS_NO_CONVERSION"
+  ],
+  "mandor": {
+    "mode": "CUMULATIVE_15_PLUS_2",
+    "decision": {
+      "bytes": 16346,
+      "sha256": "26a885207634cd91aa57e6746e92852d1ffa8092cf4df3b6da389c2f929927c0"
+    },
+    "original_failed_run_preserved": true,
+    "parent_case_count": 17,
+    "actual_new_SKU_cases": 0,
+    "production_go": false
+  },
+  "intervening": [
+    {
+      "head": "3f2a7748c7cfde2881b19dac853fef82e49b6885",
+      "tree": "c7c53dd3678459ad6bd18f63a9fa8d9521eca140",
+      "run_id": 43158542850,
+      "job_id": 130984047828,
+      "attempt": 1,
+      "conclusion": "failure",
+      "artifact_id": 13919701197,
+      "archive": {
+        "bytes": 1731575,
+        "sha256": "8614e42069a7a14b9e2fd3a79b08598d9d4c6207c44b5f72c0f03459d8dff1d1",
+        "members": 137
+      },
+      "all_member_crc_verified": true,
+      "first_failed_step": {
+        "name": "Run current-parent money automatic Native25 and real browser2 once with owning restoration",
+        "status": "completed",
+        "conclusion": "failure",
+        "number": 78,
+        "started_at": "2026-11-12T05:14:07Z",
+        "completed_at": "2026-11-12T05:57:29Z"
+      },
+      "first_case_error": null,
+      "main_error_pin": {
+        "bytes": 173,
+        "sha256": "39a1f3f46881a6c83b0a2f088bef8e053f1a24a74a701fbe3b088bc6bb1e0735"
+      },
+      "cleanup": true,
+      "actual_outer_restore": true,
+      "actual_worker_reaped": true,
+      "first_error": "syntax error at or near \"$\"",
+      "actual_Native_cases": 0,
+      "actual_browser_cases": 0,
+      "package": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "backup_tables": 407
+    },
+    {
+      "head": "af6e5710c0a3265daeb14c8ccd078ea82c99c482",
+      "tree": "41aa56dc3247e7a802e8b2f48d55e15ff933954b",
+      "run_id": 43166466578,
+      "job_id": 131009386319,
+      "attempt": 1,
+      "conclusion": "failure",
+      "artifact_id": 13922802413,
+      "archive": {
+        "bytes": 1731796,
+        "sha256": "933e95e1709b2e1ec4e5423d233035a8b0cf4b441a6c5d15d93a4e7c76df56ca",
+        "members": 137
+      },
+      "all_member_crc_verified": true,
+      "first_failed_step": {
+        "name": "Run current-parent money automatic Native25 and real browser2 once with owning restoration",
+        "status": "completed",
+        "conclusion": "failure",
+        "number": 78,
+        "started_at": "2026-11-12T06:26:25Z",
+        "completed_at": "2026-11-12T07:04:57Z"
+      },
+      "main_error_pin": {
+        "bytes": 98,
+        "sha256": "f15b1849eec043bc2af93fc29eb3bdab83bbad28b5a65bf991eeab7f581de02c"
+      },
+      "first_case_error": null,
+      "first_reported_error": [
+        "SKU_MONEY_EXACT_CATALOG_ADDITION_CHANGED:functions:cp7_sku_conversion.capture_cost_source_v3(uuid)"
+      ],
+      "cleanup": true,
+      "actual_outer_restore": true,
+      "actual_worker_reaped": true,
+      "actual_case_credit": 0
+    }
+  ],
+  "actual_new_cases": 0,
+  "current_terminal": false
+}

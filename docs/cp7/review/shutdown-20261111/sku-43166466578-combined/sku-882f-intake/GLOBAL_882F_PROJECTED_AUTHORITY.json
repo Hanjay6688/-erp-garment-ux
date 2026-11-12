@@ -1,0 +1,29 @@
+{
+  "compared_rows": {
+    "columns": 99,
+    "constraints": 14,
+    "functions": 48,
+    "indexes": 2,
+    "relations": 5,
+    "triggers": 33,
+    "type_implementation": 4,
+    "types": 4
+  },
+  "problems": [],
+  "status": "GLOBAL_COMBINED_AUTHORITY_ROWS_MATCH",
+  "reviewed_functions": [
+    "cp7_sku_conversion.automatic_valid_v5()",
+    "cp7_sku_conversion.automatic_enter_v5(uuid,text,uuid)",
+    "cp7_sku_conversion.capture_cost_source_v3(uuid)"
+  ],
+  "candidate": "882fdd376387f66e607cce62152eba9732654211",
+  "catalogue": {
+    "bytes": 15454614,
+    "sha256": "875de0857636fca298da2156c7e0c7de0a32df6e8bada3c5bddf1ffd8f7be4ff"
+  },
+  "actual_terminal_original": false,
+  "actual_new_erp_cases": 0,
+  "complete_global_input_review": false,
+  "runtime_admission": false,
+  "production_go": false
+}

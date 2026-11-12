@@ -9,7 +9,7 @@ from compare_sku_catalogue import checked_catalogue
 from prepare_combined_sku_scope import FIXES
 from prepare_non_po_followup import NEW, OLD, SIGNATURE
 from review_native_authority import ROUTES, compare, load_source, references
-from verify_combined_sku import CANDIDATE, SCOPE_PIN, source_review
+from verify_cost_capture_successor import CANDIDATE, SCOPE_PIN, source_review
 from verify_focused_sku import ORIGIN
 from verify_terminal_sku import CATALOGUE, catalogue, fields, pin, require, strict
 
@@ -18,7 +18,7 @@ SETTING_BEFORE = " SET search_path TO ''\nAS $function$"
 SETTING_AFTER = " SET search_path TO ''\n SET \"TimeZone\" TO 'UTC'\nAS $function$"
 SOURCE_PINS = {
     'context_timezone.py': 'd5727277f393ca5bf673d9d5dfaf695af045945e285030d66ace2354b0217f44',
-    'cost_source_timezone.py': 'c747f1980099a1cf81e9ff5817dc54a56cc8be8b8d1978de4a8680e9dbe1b4bd',
+    'cost_source_timezone.py': '71e7eadb126f7128c06961f31df8b548b2bdf249779f19e97959f8511e59cc90',
 }
 
 
@@ -58,7 +58,9 @@ def actual_inputs(path, scope):
                     job_id=CANDIDATE['job_id'], attempt=1, scope=SCOPE_PIN)
     fields(receipt, dict(status='SKU_CUMULATIVE_ORIGINALS_VERIFIED', **identity, conclusion='success',
                          actual_case_credit=15, actual_all_five=True, actual_outer_restore=True,
-                         actual_worker_reaped=True, all_member_crc_verified=True, cleanup=True, root_pin=pin(root_raw)),
+                         actual_worker_reaped=True, all_member_crc_verified=True, cleanup=True, root_pin=pin(root_raw),
+                         retained_install_failures=[scope['intervening_install_failure'],
+                                                    scope['intervening_cost_capture_install_failure']]),
            'GLOBAL_COMBINED_VERIFIED_SKU_ORIGINAL_REQUIRED')
     fields(root, dict(status='ROOT_VERIFIED_CURRENT_SKU_CUMULATIVE_NATIVE25_BROWSER2_ALL5', **identity,
                       covered_Native_cases=25, actual_Native_cases=13, retained_Native_cases=12, actual_browser_cases=2,
