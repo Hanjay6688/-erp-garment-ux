@@ -1,0 +1,350 @@
+{
+  "a165_original_catalogue": {
+    "bytes": 16048163,
+    "sha256": "a90c17fc625cfca373da74c588c165b26fafde21d3b51a1b62228c582ab6677f"
+  },
+  "actual_candidate_full25_required": true,
+  "client_path_snapshot": {
+    "src/App.tsx": {
+      "current": "9975f3a3c60605e0be83611bd5aefae66feb7fec",
+      "expected": "9975f3a3c60605e0be83611bd5aefae66feb7fec"
+    },
+    "src/ConnectedCashLedgerPage.tsx": {
+      "current": "3d4786d5c64db4f519f91b6f4740f4c48cc9ab71",
+      "expected": "3d4786d5c64db4f519f91b6f4740f4c48cc9ab71"
+    },
+    "src/ConnectedFgStockPage.tsx": {
+      "current": "0239ab0ef63a68ce51aacdbaaa757ad1fc084a11",
+      "expected": "0239ab0ef63a68ce51aacdbaaa757ad1fc084a11"
+    },
+    "src/ConnectedInitialImportPage.tsx": {
+      "current": "21bda9a5c52a46f256b0dad872b8a0e87eaec7fc",
+      "expected": "21bda9a5c52a46f256b0dad872b8a0e87eaec7fc"
+    },
+    "src/ConnectedJournalPage.tsx": {
+      "current": "98a0e6182b9065cb2e275a1044c35e464ed46f96",
+      "expected": "98a0e6182b9065cb2e275a1044c35e464ed46f96"
+    },
+    "src/ConnectedLaundryPage.tsx": {
+      "current": "c2822b989a576fb0a85a728e7e108c3f07c63e8b",
+      "expected": "c2822b989a576fb0a85a728e7e108c3f07c63e8b"
+    },
+    "src/ConnectedQcFinalPage.tsx": {
+      "current": "a0208b2811f0591d8cb34deb6d8e1d9a9d16ad75",
+      "expected": "a0208b2811f0591d8cb34deb6d8e1d9a9d16ad75"
+    },
+    "src/LaundryBdPanel.tsx": {
+      "current": "ff839b8604aae69d0aaffc2c294f922897da6c00",
+      "expected": "ff839b8604aae69d0aaffc2c294f922897da6c00"
+    },
+    "src/MobilePrimaryNavigation.tsx": {
+      "current": "b2710dd204b400a28a028c46128e8e1f84250614",
+      "expected": "b2710dd204b400a28a028c46128e8e1f84250614"
+    },
+    "src/connected-laundry-qc.css": {
+      "current": "c46e2cc1d5c009087a825fa1abcff09928021c5e",
+      "expected": "c46e2cc1d5c009087a825fa1abcff09928021c5e"
+    },
+    "src/fgContract.ts": {
+      "current": "44499361a106bd6d6800f3c5cc6f968ec60bb653",
+      "expected": "44499361a106bd6d6800f3c5cc6f968ec60bb653"
+    },
+    "src/initial-import.css": {
+      "current": "0dc9949c6bfd6eb96f3c358b2a88edc12eba606c",
+      "expected": "0dc9949c6bfd6eb96f3c358b2a88edc12eba606c"
+    },
+    "src/laundryBd.ts": {
+      "current": "2c351886c62ba34d97c55f0d96facceceb395213",
+      "expected": "2c351886c62ba34d97c55f0d96facceceb395213"
+    },
+    "src/laundryQcModel.ts": {
+      "current": "78e5a31d355852e99df850e92410b52fcf204971",
+      "expected": "78e5a31d355852e99df850e92410b52fcf204971"
+    },
+    "src/main.tsx": {
+      "current": "3da1e6669220e4542cd29464a30ffba4600b3dac",
+      "expected": "3da1e6669220e4542cd29464a30ffba4600b3dac"
+    },
+    "src/productionRecovery.ts": {
+      "current": "df4602586038139e212107d7f5dc831d55e6ffd4",
+      "expected": "df4602586038139e212107d7f5dc831d55e6ffd4"
+    },
+    "src/styles.css": {
+      "current": "b477b114561db08a450790e6eb93831a95c9b876",
+      "expected": "b477b114561db08a450790e6eb93831a95c9b876"
+    },
+    "src/theme.css": {
+      "current": "28be042ab358a74fcef51dcc83097b7c9b5c491c",
+      "expected": "28be042ab358a74fcef51dcc83097b7c9b5c491c"
+    },
+    "src/transactionSource.ts": {
+      "current": "7b1556d2ead2f1b200965439595cfc3a1dccda64",
+      "expected": "7b1556d2ead2f1b200965439595cfc3a1dccda64"
+    }
+  },
+  "direct_source": {
+    "scripts/cp7_vendor_receivable/__init__.py": {
+      "current": "842e159781f9879a7863569d141d08c911dfed3b",
+      "expected": "842e159781f9879a7863569d141d08c911dfed3b"
+    },
+    "scripts/cp7_vendor_receivable/composition.py": {
+      "current": "daa89f946d7ed7edf04c1960c99f345087c22f93",
+      "expected": "daa89f946d7ed7edf04c1960c99f345087c22f93"
+    },
+    "scripts/cp7_vendor_receivable/native_delta.py": {
+      "current": "db2204f5ee745e4a74da935daaf2550203e48299",
+      "expected": "db2204f5ee745e4a74da935daaf2550203e48299"
+    },
+    "scripts/cp7_vendor_receivable/receivable.sql": {
+      "current": "5c5802381382cd7030a3723003ca4da345f03556",
+      "expected": "5c5802381382cd7030a3723003ca4da345f03556"
+    },
+    "src/LaundryBdPanel.tsx": {
+      "current": "ff839b8604aae69d0aaffc2c294f922897da6c00",
+      "expected": "ff839b8604aae69d0aaffc2c294f922897da6c00"
+    },
+    "src/LaundryVendorReceivable.dom.test.tsx": {
+      "current": "2f1799f69986c2973cbf5e350a09b6fcf706ea2f",
+      "expected": "2f1799f69986c2973cbf5e350a09b6fcf706ea2f"
+    },
+    "src/initial-import.css": {
+      "current": "0dc9949c6bfd6eb96f3c358b2a88edc12eba606c",
+      "expected": "0dc9949c6bfd6eb96f3c358b2a88edc12eba606c"
+    },
+    "src/laundryBd.test.ts": {
+      "current": "3a90a68fe783e691c51c944423c7a0d7451f8ec3",
+      "expected": "3a90a68fe783e691c51c944423c7a0d7451f8ec3"
+    },
+    "src/laundryBd.ts": {
+      "current": "2c351886c62ba34d97c55f0d96facceceb395213",
+      "expected": "2c351886c62ba34d97c55f0d96facceceb395213"
+    },
+    "src/productionRecovery.ts": {
+      "current": "df4602586038139e212107d7f5dc831d55e6ffd4",
+      "expected": "df4602586038139e212107d7f5dc831d55e6ffd4"
+    }
+  },
+  "e4ea_original_catalogue": {
+    "bytes": 16048163,
+    "sha256": "5ff582717522b766c12024c1bf3299066475f14a3c6021a3543f378f829e0c07"
+  },
+  "formal_CP7": "5/16",
+  "function_rows": {
+    "cp7_vendor_receivable.accounts_v1()": {
+      "a165_ASCII_JSON": {
+        "bytes": 539,
+        "sha256": "ddfae7f7db0575b3b339e6daee3395b8bd54cae6a75474489e28bc9b456dff3e"
+      },
+      "e4ea_UTF8_JSON": {
+        "bytes": 539,
+        "sha256": "ddfae7f7db0575b3b339e6daee3395b8bd54cae6a75474489e28bc9b456dff3e"
+      },
+      "exact": true,
+      "owner": "postgres"
+    },
+    "cp7_vendor_receivable.application_lines_v1(text,uuid,uuid,numeric)": {
+      "a165_ASCII_JSON": {
+        "bytes": 1187,
+        "sha256": "8792c2834077ac61ea14f0d7c6c81b6ec37f2f66c2c8009aa76ff2559eb7a481"
+      },
+      "e4ea_UTF8_JSON": {
+        "bytes": 1187,
+        "sha256": "8792c2834077ac61ea14f0d7c6c81b6ec37f2f66c2c8009aa76ff2559eb7a481"
+      },
+      "exact": true,
+      "owner": "postgres"
+    },
+    "cp7_vendor_receivable.augment_v1(uuid,jsonb)": {
+      "a165_ASCII_JSON": {
+        "bytes": 3293,
+        "sha256": "332527129d78d63bfaa8310ae39ea884297fddb09c3159257e24b5846f2fd7f5"
+      },
+      "e4ea_UTF8_JSON": {
+        "bytes": 3293,
+        "sha256": "332527129d78d63bfaa8310ae39ea884297fddb09c3159257e24b5846f2fd7f5"
+      },
+      "exact": true,
+      "owner": "postgres"
+    },
+    "cp7_vendor_receivable.check_dates_v1(uuid)": {
+      "a165_ASCII_JSON": {
+        "bytes": 1612,
+        "sha256": "bdc239d557047796ab23d34651b31a3ab43fab19851115877d308c39e795e61f"
+      },
+      "e4ea_UTF8_JSON": {
+        "bytes": 1612,
+        "sha256": "bdc239d557047796ab23d34651b31a3ab43fab19851115877d308c39e795e61f"
+      },
+      "exact": true,
+      "owner": "postgres"
+    },
+    "cp7_vendor_receivable.eligible_v1(uuid)": {
+      "a165_ASCII_JSON": {
+        "bytes": 1542,
+        "sha256": "7cd5928a75ca792f216f740d04cbdd5a0e740bd2667ac6d4e83b359779026405"
+      },
+      "e4ea_UTF8_JSON": {
+        "bytes": 1542,
+        "sha256": "7cd5928a75ca792f216f740d04cbdd5a0e740bd2667ac6d4e83b359779026405"
+      },
+      "exact": true,
+      "owner": "postgres"
+    },
+    "cp7_vendor_receivable.immutable_v1()": {
+      "a165_ASCII_JSON": {
+        "bytes": 376,
+        "sha256": "db949dd5dd29501f77be9946d9e6363a3431c26e521a2c7b94a3584e7ffc9c8c"
+      },
+      "e4ea_UTF8_JSON": {
+        "bytes": 376,
+        "sha256": "db949dd5dd29501f77be9946d9e6363a3431c26e521a2c7b94a3584e7ffc9c8c"
+      },
+      "exact": true,
+      "owner": "postgres"
+    },
+    "cp7_vendor_receivable.opening_lines_v1(uuid,jsonb)": {
+      "a165_ASCII_JSON": {
+        "bytes": 889,
+        "sha256": "18803a7d72ffee19fc30a399b066904dbc4f09ba709104083fa9919a0238e067"
+      },
+      "e4ea_UTF8_JSON": {
+        "bytes": 889,
+        "sha256": "18803a7d72ffee19fc30a399b066904dbc4f09ba709104083fa9919a0238e067"
+      },
+      "exact": true,
+      "owner": "postgres"
+    },
+    "cp7_vendor_receivable.prove_v1(uuid)": {
+      "a165_ASCII_JSON": {
+        "bytes": 4126,
+        "sha256": "af07b1e292b9b8b6886f0b89d22c694df02f83d1a171302202a1a9f78c1e851a"
+      },
+      "e4ea_UTF8_JSON": {
+        "bytes": 4126,
+        "sha256": "af07b1e292b9b8b6886f0b89d22c694df02f83d1a171302202a1a9f78c1e851a"
+      },
+      "exact": true,
+      "owner": "postgres"
+    },
+    "cp7_vendor_receivable.refund_v1(jsonb,uuid)": {
+      "a165_ASCII_JSON": {
+        "bytes": 3043,
+        "sha256": "a3754f9288ae0c31153dc4bf09a89be3fb4a5c608ceb9052c6ae565a000fd003"
+      },
+      "e4ea_UTF8_JSON": {
+        "bytes": 3040,
+        "sha256": "ea0fc944f336005925c2025c637edd15a09eb051eab6b34248dac31f05cf905a"
+      },
+      "exact": true,
+      "owner": "postgres"
+    },
+    "cp7_vendor_receivable.refunded_v1(text,uuid)": {
+      "a165_ASCII_JSON": {
+        "bytes": 644,
+        "sha256": "2cf4c39db2563e829a118ac41fd5bfd1375043cf3feacd48d4a4d291a92e9b1a"
+      },
+      "e4ea_UTF8_JSON": {
+        "bytes": 644,
+        "sha256": "2cf4c39db2563e829a118ac41fd5bfd1375043cf3feacd48d4a4d291a92e9b1a"
+      },
+      "exact": true,
+      "owner": "postgres"
+    },
+    "cp7_vendor_receivable.register_v1(uuid,uuid)": {
+      "a165_ASCII_JSON": {
+        "bytes": 1333,
+        "sha256": "f32055614c9f02cc95e61715a3e9f05e4f908e8ce2ff382a7bc4466b794cadd8"
+      },
+      "e4ea_UTF8_JSON": {
+        "bytes": 1333,
+        "sha256": "f32055614c9f02cc95e61715a3e9f05e4f908e8ce2ff382a7bc4466b794cadd8"
+      },
+      "exact": true,
+      "owner": "postgres"
+    },
+    "cp7_vendor_receivable.reverse_refund_v1(jsonb,uuid)": {
+      "a165_ASCII_JSON": {
+        "bytes": 1803,
+        "sha256": "40134fbac6b182b1603e8b0198d73c981bd5a61a630398a86733ba615b6deee8"
+      },
+      "e4ea_UTF8_JSON": {
+        "bytes": 1800,
+        "sha256": "9f5717bfd4290cb08451b3d0da233b43fe6974487ad9dd028ee27fe5cbfc6c06"
+      },
+      "exact": true,
+      "owner": "postgres"
+    },
+    "erp.bd_apply_vendor_credit_v1(text,uuid,text,uuid,numeric,date,text,uuid)": {
+      "a165_ASCII_JSON": {
+        "bytes": 7949,
+        "sha256": "12040b71b055b9ad5b2d9a42bf15e43f184918fb75d55a10feffcd6fd1f15aa7"
+      },
+      "e4ea_UTF8_JSON": {
+        "bytes": 7949,
+        "sha256": "12040b71b055b9ad5b2d9a42bf15e43f184918fb75d55a10feffcd6fd1f15aa7"
+      },
+      "exact": true,
+      "owner": "postgres"
+    },
+    "erp.bd_post_invoice_v1(jsonb,uuid)": {
+      "a165_ASCII_JSON": {
+        "bytes": 22808,
+        "sha256": "4ef9d5cba61b611e73e426044ef7bace470d72b4741ae162c43f7d32a51d691c"
+      },
+      "e4ea_UTF8_JSON": {
+        "bytes": 22808,
+        "sha256": "4ef9d5cba61b611e73e426044ef7bace470d72b4741ae162c43f7d32a51d691c"
+      },
+      "exact": true,
+      "owner": "postgres"
+    }
+  },
+  "head": "882fdd376387f66e607cce62152eba9732654211",
+  "independent_acceptance": false,
+  "new_Auth_or_native_cases": 0,
+  "postglobal_preimage": {
+    "src/ConnectedAccessoryIssuePage.dom.test.tsx": {
+      "current": "e1cc0a6411428af3bafbe5d2d18b6682753fe875",
+      "expected": "e1cc0a6411428af3bafbe5d2d18b6682753fe875"
+    },
+    "src/ConnectedCashLedgerPage.dom.test.tsx": {
+      "current": "cd3c2e065087500bf6f449631ba7ff376b0301c4",
+      "expected": "cd3c2e065087500bf6f449631ba7ff376b0301c4"
+    },
+    "src/ConnectedCashLedgerPage.tsx": {
+      "current": "3d4786d5c64db4f519f91b6f4740f4c48cc9ab71",
+      "expected": "3d4786d5c64db4f519f91b6f4740f4c48cc9ab71"
+    },
+    "src/SupplierTransferPanel.dom.test.tsx": {
+      "current": "ed6a7154e5ae285becd61f4a0689ab1c8b3d8dbc",
+      "expected": "ed6a7154e5ae285becd61f4a0689ab1c8b3d8dbc"
+    },
+    "src/accessoryIssue.ts": {
+      "current": "bc35c5fef2c48ed1a6659d8c1675f1ebb0b97a1f",
+      "expected": "bc35c5fef2c48ed1a6659d8c1675f1ebb0b97a1f"
+    },
+    "src/financeAnalysisContract.ts": {
+      "current": "60f17b2d830ed58bc5265083985e86647dff362e",
+      "expected": "60f17b2d830ed58bc5265083985e86647dff362e"
+    },
+    "src/supplierTransferContract.ts": {
+      "current": "c9f6b15ebf14cc88fc829a1bbbcea3ced1a568cf",
+      "expected": "c9f6b15ebf14cc88fc829a1bbbcea3ced1a568cf"
+    }
+  },
+  "production_go": false,
+  "scope": {
+    "cp6_return_race": "Retain both original actual races and existing first failed result. SKU moving-average sales effects warrant checking affected guards and journal effects against current catalogue and existing SKU evidence.",
+    "ow08_browser": "Retain original route, authorization and business results in original scope. Recheck affected current shell/paint. FG valuation and moving-average source changed, so validate relevant FG inverse behavior using actual current runtime.",
+    "retained_original_scope": "2 CP6 return-reverse races, 11 OW08 vendor backend cases, 2 vendor money Auth/browser and 6 OW08 source Auth/browser",
+    "vendor_backend": "Four direct runtime files are exact. Check current installed definitions, grants, writer and affected shared money effects against actual qualified full25 before cumulative acceptance.",
+    "vendor_client": "Laundry panel and domain source are exact. Production recovery registry differs only in two added domains and one unrelated SKU operation. Shared CSS, shell and navigation require current verification for affected journeys."
+  },
+  "source_receipt_commit": "6a8fc55f23ee06ca7e62cfe7af550ea33df05d09",
+  "status": "OW08_882F_SCOPED_EVIDENCE_REBIND",
+  "tree": "f73ca6844d8a7facda5fc8526a43da697d72417a",
+  "unicode_escape_only": [
+    "cp7_vendor_receivable.refund_v1(jsonb,uuid)",
+    "cp7_vendor_receivable.reverse_refund_v1(jsonb,uuid)"
+  ]
+}
