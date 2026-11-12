@@ -10,6 +10,9 @@ ROOT = HERE.parents[1]
 IDS = ('SKU_CURRENT_MOVAVG_DESKTOP_REAL_AUTH_PAIR_VALUE_RECOVERY_INVERSE',
        'SKU_CURRENT_MOVAVG_MOBILE390_REAL_AUTH_PAIR_VALUE_GUARDS_INVERSE')
 LABEL = 'SKU_CURRENT_PARENT_MONEY_AUTOMATIC_BROWSER2'
+# The desktop journey includes a 365-second source check and 15 fixture
+# commands capped at 485 seconds each. Allow UI time within the owning job.
+BROWSER_CASE_TIMEOUT_MS = 135 * 60 * 1000
 
 
 def require(value, message):
@@ -24,6 +27,20 @@ def actual_inputs(entry):
             'CURRENT_SKU_BROWSER_EXPLICIT_COMPLETE_PLAN_ADOPTION_REQUIRED')
     require(os.environ.get('GITHUB_REF') == entry.BRANCH, 'CURRENT_SKU_BROWSER_SINGLE_OWNING_BRANCH_REQUIRED')
     return originals
+
+
+@contextmanager
+def browser_case_timeout():
+    key = 'AUDITOR_BROWSER_CASE_TIMEOUT_MS'
+    previous = os.environ.get(key)
+    os.environ[key] = str(BROWSER_CASE_TIMEOUT_MS)
+    try:
+        yield
+    finally:
+        if previous is None:
+            os.environ.pop(key, None)
+        else:
+            os.environ[key] = previous
 
 
 @contextmanager
@@ -65,7 +82,8 @@ def run(entry, product, state, verify, report):
     with copy_scope(entry, modes, product, state) as copies, case_output.scope(modes, 'copies'):
         report['current_browser_copy_authority'] = copies
         report['current_browser_journey_derivation'] = proof
-        actual = modes.run_browser(HERE / 'browser.mjs', verify, 'sku_current_money_automatic_browser2')
+        with browser_case_timeout():
+            actual = modes.run_browser(HERE / 'browser.mjs', verify, 'sku_current_money_automatic_browser2')
     helper = entry.report_io.complete_originals()
     target = ROOT / 'cp6-proof/t3' / (LABEL + '.json');target.parent.mkdir(parents=True, exist_ok=True)
     retained = helper.save_sorted(target, actual, 'CURRENT_SKU_FIRST_COMPLETE_BROWSER_ORIGINAL_CONFLICT')

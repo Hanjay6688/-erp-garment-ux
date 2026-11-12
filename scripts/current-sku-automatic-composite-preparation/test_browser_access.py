@@ -8,6 +8,7 @@ import importlib
 import importlib.util
 import json
 import os
+import re
 import sys
 import unittest
 
@@ -25,7 +26,33 @@ entry = load('current_browser_owner_control', 'qualification.py')
 access = load('current_browser_copy_control', 'browser_access.py')
 
 
+def load_tests(loader, tests, pattern):
+    # The owning workflow runs this suite before creating its database.
+    from test_current_parent import RuntimeRunnerOutputs
+
+    tests.addTests(loader.loadTestsFromTestCase(RuntimeRunnerOutputs))
+    return tests
+
+
 class BrowserAccessControls(unittest.TestCase):
+    def test_sku_browser_budget_covers_child_commands_and_restores_environment(self):
+        key = 'AUDITOR_BROWSER_CASE_TIMEOUT_MS'
+        script = (HERE / 'browser.mjs').read_text()
+        constants = re.search(r'^const SOURCE_ADMISSION_TIMEOUT_MS=(\d+),NATIVE_OPERATION_TIMEOUT_MS=(\d+),'
+                              r'FIXTURE_CLEANUP_TIMEOUT_MS=(\d+)$', script, re.MULTILINE)
+        self.assertIsNotNone(constants)
+        source, operation, cleanup = map(int, constants.groups())
+        self.assertGreater(access.BROWSER_CASE_TIMEOUT_MS, source + cleanup + 15 * (source + operation + cleanup))
+        with patch.dict(os.environ, {key: '2700000'}):
+            with access.browser_case_timeout():
+                self.assertEqual(os.environ[key], str(access.BROWSER_CASE_TIMEOUT_MS))
+            self.assertEqual(os.environ[key], '2700000')
+            os.environ.pop(key)
+            with self.assertRaisesRegex(RuntimeError, 'case exit'), access.browser_case_timeout():
+                self.assertEqual(os.environ[key], str(access.BROWSER_CASE_TIMEOUT_MS))
+                raise RuntimeError('case exit')
+            self.assertNotIn(key, os.environ)
+
     def test_real_closed_inputs_precede_copy_product_or_mode_inspection(self):
         gates = dict.fromkeys(entry.admission.GATES)
         with patch.multiple(entry.admission, **gates), \

@@ -58,6 +58,7 @@ class CurrentPreparedParent(unittest.TestCase):
             fence.check()
 
 
+class RuntimeRunnerOutputs(unittest.TestCase):
     def test_runtime_runner_outputs_are_data_only(self):
         with TemporaryDirectory() as directory:
             root = Path(directory)
@@ -72,12 +73,20 @@ class CurrentPreparedParent(unittest.TestCase):
                 'cp6-proof/t3/SKU_CURRENT_PARENT_MONEY_AUTOMATIC_MODEL.json',
                 'cp6-proof/t3/FREE3_PARENT_ORIGINAL_ADMISSION.json',
                 'cp6-proof/t3/SKU_CURRENT_MANDOR17_ORIGINAL_ADMISSION.json',
+                'cp6-proof/t3/CP7_SKU_CURRENT_PARENT_MONEY_AUTOMATIC_NATIVE25.json',
+                'cp6-proof/t3/CP7_SKU_CURRENT_PARENT_MONEY_AUTOMATIC_NATIVE25_PREFLIGHT.json',
+                'cp6-proof/t3/CP7_SKU_CURRENT_PARENT_MONEY_AUTOMATIC_QUALIFICATION.json',
+                'cp6-proof/t3/SKU_GLOBAL_PARENT_ACTUAL_FULL25.json',
             }
             blocked = {
                 'cp6-proof/t3/SKU_CURRENT_PARENT_MONEY_AUTOMATIC_MODEL.py',
                 'cp6-proof/t3/FREE3_OTHER_ORIGINAL_ADMISSION.json',
                 'cp6-proof/t3/SKU_CURRENT_MANDOR18_ORIGINAL_ADMISSION.json',
                 'cp6-proof/t3/nested/FREE3_PARENT_ORIGINAL_ADMISSION.json',
+                'cp6-proof/t3/CP7_SKU_CURRENT_PARENT_MONEY_AUTOMATIC_NATIVE25_other.json',
+                'cp6-proof/t3/SKU_GLOBAL_PARENT_ACTUAL_FULL25.json.gz',
+                'cp6-proof/t3/nested/SKU_GLOBAL_PARENT_ACTUAL_FULL25.json',
+                'cp6-proof/CP7_SKU_CURRENT_PARENT_MONEY_AUTOMATIC_QUALIFICATION.json',
             }
             for name in accepted | blocked:
                 report = root / name

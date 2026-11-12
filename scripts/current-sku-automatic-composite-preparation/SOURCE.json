@@ -225,8 +225,8 @@
       "sha256": "b5ecf79cffde7e17dfe2cba945fdf9b379dba54080fa29ce5fe6cf284c5a00b1"
     },
     "browser_access.py": {
-      "bytes": 5187,
-      "sha256": "4fa96675b99106f0680536666fb4b944783dca5efeab4b8b0135346e8c670a03"
+      "bytes": 5750,
+      "sha256": "3bf1c0e38140d81b6ed98b1ceedc0d676b778b02620c43d9f9e58faddca38d4b"
     },
     "browser_binding.py": {
       "bytes": 12679,
@@ -289,8 +289,8 @@
       "sha256": "9da7405db5de328514943e0dd7aff58066dc3897c5f99e73f9530070796ac7a1"
     },
     "check_source.py": {
-      "bytes": 16761,
-      "sha256": "ba8ed36a20010b2e55d3b12f678f7753c25e28f06782435b5cfa4bbb899f5c32"
+      "bytes": 17101,
+      "sha256": "2cbae1739c92e77e8343aa6667331fcbe2c319e53712109624798455c698f612"
     },
     "checkpoint.py": {
       "bytes": 9738,
@@ -433,8 +433,8 @@
       "sha256": "7a3ad363fab256adb673b80bef5ef7428dc2f506669cdd3a339d0c9721833805"
     },
     "test_browser_access.py": {
-      "bytes": 8798,
-      "sha256": "b43e594af2b230702a828e70645e77ec25d4d2173ce1ef73dfba151770fac382"
+      "bytes": 10234,
+      "sha256": "ca7d5ee678e17a2d98dccf224a4fc74905c548cd3fd9f79fd44706e5362c58e8"
     },
     "test_browser_binding.py": {
       "bytes": 10945,
@@ -477,8 +477,8 @@
       "sha256": "69bbabc1deae6b4b28baa8236532ebd090eefa7a019fb3d4ba87eea9bd927269"
     },
     "test_current_parent.py": {
-      "bytes": 4929,
-      "sha256": "f6094ccb178b704346c95195928ca1019406d5466599230669e972d287958555"
+      "bytes": 5641,
+      "sha256": "b1abb84d4a9767a30150cb6a3650a1af645697b95a19ab90dd1e779c4034be41"
     },
     "test_execution.py": {
       "bytes": 18597,
@@ -1799,5 +1799,14 @@
   },
   "selective_UI_source_admission_prepared": true,
   "separate_browser_source_and_Native_deadlines_prepared": true,
-  "source_intake_control_methods": 4
+  "source_intake_control_methods": 4,
+  "browser_post_native_source_repair": {
+    "first_failure_run": 43268110609,
+    "first_failure_artifact": 13978529422,
+    "exact_owned_report_names_admitted": 4,
+    "host_case_timeout_ms": 8100000,
+    "pre_database_regression_suite": "test_browser_access.py",
+    "actual_ERP_cases": 0,
+    "actual_browser_cases": 0
+  }
 }

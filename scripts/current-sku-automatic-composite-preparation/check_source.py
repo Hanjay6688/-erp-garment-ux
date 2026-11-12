@@ -44,6 +44,12 @@ SKU_PARENT_PROOF_FILES = frozenset((
     SKU_PROOF_ROOT + 'FREE3_PARENT_ORIGINAL_ADMISSION.json',
     SKU_PROOF_ROOT + 'SKU_CURRENT_MANDOR17_ORIGINAL_ADMISSION.json',
 ))
+SKU_RUNTIME_PROOF_FILES = frozenset(SKU_PROOF_ROOT + name for name in (
+    'CP7_SKU_CURRENT_PARENT_MONEY_AUTOMATIC_NATIVE25.json',
+    'CP7_SKU_CURRENT_PARENT_MONEY_AUTOMATIC_NATIVE25_PREFLIGHT.json',
+    'CP7_SKU_CURRENT_PARENT_MONEY_AUTOMATIC_QUALIFICATION.json',
+    'SKU_GLOBAL_PARENT_ACTUAL_FULL25.json',
+))
 SKU_RUNNER_OUTPUT = re.compile(
     r'(?:SKU(?:25|29|_AUTOMATIC|_CURRENT_PARENT_MONEY_AUTOMATIC)_[A-Za-z0-9_]+'
     r'\.(?:json(?:\.gz)?|png)|SKU_AUTOMATIC_CASE_STDOUT/[a-f0-9]{64}\.jsonl)'
@@ -58,7 +64,7 @@ def runner_inputs(root, names):
     spec.loader.exec_module(inherited)
     accepted = inherited.runner_inputs(root, names, browser_receipt=SKU_BROWSER_PREREQUISITES)
     for name in sorted(names - accepted):
-        if name not in SKU_PARENT_PROOF_FILES and not (
+        if name not in SKU_PARENT_PROOF_FILES | SKU_RUNTIME_PROOF_FILES and not (
                 name.startswith(SKU_PROOF_ROOT) and SKU_RUNNER_OUTPUT.fullmatch(name.removeprefix(SKU_PROOF_ROOT))):
             continue
         path = root / name
