@@ -1,0 +1,200 @@
+{
+  "status": "THREE_EXACT_SUPPLIER_PAYMENT_COUNT_PAGE_RACES_FIXED_IN_FIXTURE",
+  "proof": {
+    "cp7_invoice.payment_workspace(uuid,text,integer,uuid)": {
+      "original": {
+        "first": {
+          "total": "25",
+          "rows": [],
+          "offset": 25,
+          "next_offset": null
+        },
+        "during": {
+          "total": "25",
+          "rows": [
+            "PAY-26"
+          ],
+          "offset": 25,
+          "next_offset": null
+        },
+        "next": {
+          "total": "26",
+          "rows": [
+            "PAY-26"
+          ],
+          "offset": 25,
+          "next_offset": null
+        },
+        "rollback_kept_page": true,
+        "auth_change_refused": true
+      },
+      "one_statement": {
+        "first": {
+          "total": "25",
+          "rows": [],
+          "offset": 25,
+          "next_offset": null
+        },
+        "during": {
+          "total": "25",
+          "rows": [],
+          "offset": 25,
+          "next_offset": null
+        },
+        "next": {
+          "total": "26",
+          "rows": [
+            "PAY-26"
+          ],
+          "offset": 25,
+          "next_offset": null
+        },
+        "rollback_kept_page": true,
+        "auth_change_refused": true
+      }
+    },
+    "cp7_supplier_payment_create.workspace(jsonb)": {
+      "original": {
+        "first": {
+          "total": "25",
+          "rows": [],
+          "offset": 25,
+          "next_offset": null
+        },
+        "during": {
+          "total": "25",
+          "rows": [
+            "BANK-26"
+          ],
+          "offset": 25,
+          "next_offset": null
+        },
+        "next": {
+          "total": "26",
+          "rows": [
+            "BANK-26"
+          ],
+          "offset": 25,
+          "next_offset": null
+        },
+        "rollback_kept_page": true,
+        "auth_change_refused": true
+      },
+      "one_statement": {
+        "first": {
+          "total": "25",
+          "rows": [],
+          "offset": 25,
+          "next_offset": null
+        },
+        "during": {
+          "total": "25",
+          "rows": [],
+          "offset": 25,
+          "next_offset": null
+        },
+        "next": {
+          "total": "26",
+          "rows": [
+            "BANK-26"
+          ],
+          "offset": 25,
+          "next_offset": null
+        },
+        "rollback_kept_page": true,
+        "auth_change_refused": true
+      }
+    },
+    "cp7_supplier_payment_correction.workspace(jsonb)": {
+      "original": {
+        "first": {
+          "total": "25",
+          "rows": [],
+          "offset": 25,
+          "next_offset": null
+        },
+        "during": {
+          "total": "25",
+          "rows": [
+            "BANK-26"
+          ],
+          "offset": 25,
+          "next_offset": null
+        },
+        "next": {
+          "total": "26",
+          "rows": [
+            "BANK-26"
+          ],
+          "offset": 25,
+          "next_offset": null
+        },
+        "rollback_kept_page": true,
+        "auth_change_refused": true
+      },
+      "one_statement": {
+        "first": {
+          "total": "25",
+          "rows": [],
+          "offset": 25,
+          "next_offset": null
+        },
+        "during": {
+          "total": "25",
+          "rows": [],
+          "offset": 25,
+          "next_offset": null
+        },
+        "next": {
+          "total": "26",
+          "rows": [
+            "BANK-26"
+          ],
+          "offset": 25,
+          "next_offset": null
+        },
+        "rollback_kept_page": true,
+        "auth_change_refused": true
+      }
+    }
+  },
+  "catalogue_sha256": "5ff582717522b766c12024c1bf3299066475f14a3c6021a3543f378f829e0c07",
+  "source_before": {
+    "cp7_invoice.payment_workspace(uuid,text,integer,uuid)": {
+      "bytes": 2369,
+      "sha256": "8b5206fd8f68d85936169541f068ffcebee7462763d7c91833a99b7cac040986"
+    },
+    "cp7_supplier_payment_create.workspace(jsonb)": {
+      "bytes": 2488,
+      "sha256": "2f25cb212d8e6e0c016be427f70170893cc8c5e3cff9e048f9ed89e37e543805"
+    },
+    "cp7_supplier_payment_correction.workspace(jsonb)": {
+      "bytes": 4238,
+      "sha256": "eae25e82f76d907438d8b847d2599dea80ea9cdf2b8faef8270a8473b4336da8"
+    }
+  },
+  "source_after": {
+    "cp7_invoice.payment_workspace(uuid,text,integer,uuid)": {
+      "bytes": 2368,
+      "sha256": "e60615d5b4ab573392736133cc1cb05434db17a270d79491f6d793f9293355ea"
+    },
+    "cp7_supplier_payment_create.workspace(jsonb)": {
+      "bytes": 2370,
+      "sha256": "602493015076b408fcbdd079a7de33d113e14fcb1cfb7f93dcb24fcae95e9cb4"
+    },
+    "cp7_supplier_payment_correction.workspace(jsonb)": {
+      "bytes": 4120,
+      "sha256": "261b869b7fc8a2142415bdc787cd0dc63650a5e5d58771e1e0f9a20774d36a1a"
+    }
+  },
+  "patch": {
+    "bytes": 8861,
+    "sha256": "8b7d0721df49261bdc248d770c8fcad4705a75390af2f836fc073f4a1b92878c"
+  },
+  "exact_catalogue_and_data_rollback": true,
+  "unchanged_attributes_under_fixture_owners": true,
+  "fixture_AP_and_authorization": true,
+  "actual_ERP_cases": 0,
+  "production_go": false,
+  "runtime_admission": false
+}

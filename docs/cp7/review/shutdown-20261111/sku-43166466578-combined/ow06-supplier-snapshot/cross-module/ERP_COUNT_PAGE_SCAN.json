@@ -1,0 +1,144 @@
+{
+  "status": "ACTUAL_ERP_CATALOGUE_SEPARATE_COUNT_PAGE_SCAN",
+  "source_archive": "canonical.zip",
+  "catalogue_sha256": "5ff582717522b766c12024c1bf3299066475f14a3c6021a3543f378f829e0c07",
+  "all_function_rows": 3105,
+  "counts": {
+    "erp_visible_function_rows": 2976,
+    "volatile_plpgsql_count_and_offset_candidates": 24,
+    "candidate_functions_parsed": 24
+  },
+  "candidates": [
+    {
+      "signature": "cp7_accessory_standard_report.workspace(date,date,uuid,uuid,text,integer,integer)",
+      "count_line": 12,
+      "page_line": 13,
+      "shared_relations": [
+        "erp.contractors"
+      ],
+      "function_sha256": "20e943ec3f712f8f972cf72c7dc3dfbf5b45fc02fb05cf45da565cc3dcdb7746"
+    },
+    {
+      "signature": "cp7_cutting_correction.finish_list(text,integer)",
+      "count_line": 7,
+      "page_line": 8,
+      "shared_relations": [
+        "erp.production_orders"
+      ],
+      "function_sha256": "e2b9aebbd327e816351ce6d9df37755a38ae98c726aeea1ebe57938f293f4970"
+    },
+    {
+      "signature": "cp7_fabric_native.workspace(jsonb)",
+      "count_line": 16,
+      "page_line": 18,
+      "shared_relations": [
+        "erp.materials"
+      ],
+      "function_sha256": "57fadf71bde386e8b8c058063bfca807ddc99eb7b1092f6e363d6a79dbf19d0d"
+    },
+    {
+      "signature": "cp7_fabric_native.workspace(jsonb)",
+      "count_line": 22,
+      "page_line": 23,
+      "shared_relations": [
+        "erp.production_patterns"
+      ],
+      "function_sha256": "57fadf71bde386e8b8c058063bfca807ddc99eb7b1092f6e363d6a79dbf19d0d"
+    },
+    {
+      "signature": "cp7_invoice.payment_workspace(uuid,text,integer,uuid)",
+      "count_line": 14,
+      "page_line": 15,
+      "shared_relations": [
+        "erp.supplier_payments"
+      ],
+      "function_sha256": "8b5206fd8f68d85936169541f068ffcebee7462763d7c91833a99b7cac040986"
+    },
+    {
+      "signature": "cp7_plan_native.options(jsonb)",
+      "count_line": 15,
+      "page_line": 16,
+      "shared_relations": [
+        "erp.production_orders"
+      ],
+      "function_sha256": "cbdff788eed270b33be563a9da7b718ac5acb18759182bcd51715db1c5fbba92"
+    },
+    {
+      "signature": "cp7_plan_native.options(jsonb)",
+      "count_line": 17,
+      "page_line": 18,
+      "shared_relations": [
+        "erp.production_patterns"
+      ],
+      "function_sha256": "cbdff788eed270b33be563a9da7b718ac5acb18759182bcd51715db1c5fbba92"
+    },
+    {
+      "signature": "cp7_plan_native.options_v2(jsonb)",
+      "count_line": 18,
+      "page_line": 19,
+      "shared_relations": [
+        "erp.production_orders"
+      ],
+      "function_sha256": "7b10480ba5134268bee4b11c333581d4b51833604a2287ed10e91a30cdb8529d"
+    },
+    {
+      "signature": "cp7_plan_native.options_v2(jsonb)",
+      "count_line": 20,
+      "page_line": 21,
+      "shared_relations": [
+        "erp.production_patterns"
+      ],
+      "function_sha256": "7b10480ba5134268bee4b11c333581d4b51833604a2287ed10e91a30cdb8529d"
+    },
+    {
+      "signature": "cp7_reminder_native.staged_conditions_read(jsonb)",
+      "count_line": 16,
+      "page_line": 18,
+      "shared_relations": [
+        "cp7_reminder_native.staged_conditions"
+      ],
+      "function_sha256": "07231c6fc6b8302bc90c309ea11fa4a554ae51700782f4cdd51aeb7038762e1f"
+    },
+    {
+      "signature": "cp7_stock_formula.material_workspace(jsonb)",
+      "count_line": 13,
+      "page_line": 17,
+      "shared_relations": [
+        "cp7_stock_formula.material_evaluations"
+      ],
+      "function_sha256": "bb1a6159734b4946e23f5b335d7e40942da04a9a4f5c3b0203726b69bfe74c56"
+    },
+    {
+      "signature": "cp7_supplier_payment_correction.workspace(jsonb)",
+      "count_line": 24,
+      "page_line": 26,
+      "shared_relations": [
+        "erp.cash_accounts",
+        "erp.chart_accounts"
+      ],
+      "function_sha256": "eae25e82f76d907438d8b847d2599dea80ea9cdf2b8faef8270a8473b4336da8"
+    },
+    {
+      "signature": "cp7_supplier_payment_create.workspace(jsonb)",
+      "count_line": 14,
+      "page_line": 16,
+      "shared_relations": [
+        "erp.cash_accounts",
+        "erp.chart_accounts"
+      ],
+      "function_sha256": "2f25cb212d8e6e0c016be427f70170893cc8c5e3cff9e048f9ed89e37e543805"
+    },
+    {
+      "signature": "cp7_supplier_transfer.workspace_v1(jsonb)",
+      "count_line": 32,
+      "page_line": 33,
+      "shared_relations": [
+        "cp7_supplier_transfer.transfers_v1"
+      ],
+      "function_sha256": "a4e8fbe7e18b0d7d34f5c864097dfd7579c06b4c50491325d07479b68b0758d5"
+    }
+  ],
+  "unparsed": [],
+  "read_only": true,
+  "actual_erp_cases": 0
+}
