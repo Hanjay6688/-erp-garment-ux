@@ -1,0 +1,146 @@
+{
+  "status": "SKU_MONEY_AND_AUTOMATIC_OWNING_INSTALL_VERIFY_INVERSE_PASS",
+  "postgres": "17.6",
+  "head": "882fdd376387f66e607cce62152eba9732654211",
+  "first_failure": "SKU_MONEY_EXACT_CATALOG_ADDITION_CHANGED:functions:cp7_sku_conversion.capture_cost_source_v3(uuid)",
+  "money": {
+    "status": "SKU_COST_MONEY_EXACT_SOURCE_ALL22",
+    "new_tables": 9,
+    "new_private_functions": 32,
+    "replacement_functions": 30,
+    "actual_ERP_cases": 0,
+    "formal_acceptance_unchanged": true,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "automatic": {
+    "status": "SKU_AUTOMATIC_PENDING_EXACT_SOURCE_ALL22",
+    "new_tables": 2,
+    "new_private_functions": 10,
+    "replacement_functions": 9,
+    "actual_ERP_cases": 0,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "auto_restore": {
+    "status": "SKU_AUTOMATIC_PENDING_EXACT_PREUSE_DELTA_RESTORE",
+    "used_guard_before_DDL": true,
+    "parent_verified": {
+      "status": "SKU_COST_MONEY_EXACT_SOURCE_ALL22",
+      "new_tables": 9,
+      "new_private_functions": 32,
+      "replacement_functions": 30,
+      "actual_ERP_cases": 0,
+      "formal_acceptance_unchanged": true,
+      "production_go": false,
+      "independent_acceptance": false
+    }
+  },
+  "money_restore": {
+    "status": "SKU_COST_MONEY_EXACT_PREUSE_DELTA_RESTORE",
+    "used_guard_before_DDL": true,
+    "parent_verified": {
+      "fixture_catalogue_and_data_exact": true
+    }
+  },
+  "catalogue_groups_restored": 22,
+  "data_and_sequences_restored": 31,
+  "money_ddl": {
+    "bytes": 86374,
+    "sha256": "7e26cc355f7120041a43156dde61690539e9cc3426811a992a0d03eda4a310c7"
+  },
+  "automatic_ddl": {
+    "bytes": 18318,
+    "sha256": "7b8fddbd548b9895232747a4d3ac02270facbe7e47e4c4b82c3f9a5ba6079f24"
+  },
+  "repaired_capture": {
+    "definition": {
+      "bytes": 1581,
+      "sha256": "44aba20d060d3a7eed11f7118c3cffa9289ec9306511e9ed3fb15ea8eaa28ae2"
+    },
+    "config": [
+      "search_path=\"\"",
+      "TimeZone=UTC"
+    ],
+    "acl": [
+      [
+        "postgres",
+        "postgres",
+        "EXECUTE",
+        false
+      ]
+    ]
+  },
+  "repaired_automatic": {
+    "cp7_sku_conversion.automatic_valid_v5()": {
+      "definition": {
+        "bytes": 2369,
+        "sha256": "c7366933a6bcf9b70859e28fd625fbe5988b28cb49f4c5febdeef4c8e3080db8"
+      },
+      "config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "acl": [
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    },
+    "cp7_sku_conversion.automatic_enter_v5(uuid,text,uuid)": {
+      "definition": {
+        "bytes": 2741,
+        "sha256": "37c945673bcb5fc3643d6bdaf0f7f9bae58c354bcc7f077ed78bff6fc29921a9"
+      },
+      "config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "acl": [
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    }
+  },
+  "controls": [
+    "AUTOMATIC_ACTUAL_ALL22_CHANGED",
+    "SKU_AUTOMATIC_PENDING_AFTER_USE_REQUIRES_FULL_BACKUP_RESTORE",
+    "SKU_MONEY_ACTUAL_ALL22_CHANGED",
+    "SKU_COST_MONEY_AFTER_USE_REQUIRES_FULL_BACKUP_RESTORE"
+  ],
+  "dependency_tables": [
+    "cp7_sku_conversion.groups_v1",
+    "erp.bc_documents_v1",
+    "erp.be_conversion_cost_sources_v1",
+    "erp.be_conversion_sources_v1",
+    "erp.be_rework_targets_v1",
+    "erp.fg_lots",
+    "erp.hpp_versions",
+    "erp.journal_entries",
+    "erp.locations",
+    "erp.opening_lot_hpp_gl_state",
+    "erp.po_hpp_gl_state",
+    "erp.product_conversions",
+    "erp.production_orders",
+    "erp.products",
+    "erp.rework_orders",
+    "erp.sale_stock_allocations",
+    "erp.sales_headers",
+    "erp.sales_return_items",
+    "erp.sales_returns"
+  ],
+  "exact_existing_functions": 32,
+  "modeled_dependency_tables": true,
+  "outer_predecessor_installed": false,
+  "check_function_bodies_enabled": false,
+  "actual_ERP_cases": 0,
+  "runtime_admission": false,
+  "production_go": false
+}

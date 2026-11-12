@@ -1,0 +1,7 @@
+# Uji pemasang Money dan Automatic SKU 882f
+
+PostgreSQL 17.6 terpisah menjalankan metode asli install_delta, verify, dan rollback_delta_preuse pada pemasang Money dan Automatic. SQL Money yang gagal pada af6e mereproduksi error katalog yang sama. Kandidat 882f memasang sembilan tabel Money dan dua tabel Automatic. Seluruh 22 kelompok katalog serta 31 tabel atau sequence fixture kembali persis. Empat kontrol menolak perubahan ACL, kehilangan UTC, dan penghapusan setelah data berubah.
+
+Fixture memuat identitas dependensi minimal dan 32 definisi fungsi asli. Pemeriksaan body PostgreSQL dimatikan karena fixture tidak memuat seluruh skema ERP. Uji ini mencakup pemasangan, metadata, ACL dan inverse kedua delta. ERP transaksi, Auth, pemasang induk dan pemulihan kualifikasi aktual masih mengikuti Original terminal.
+
+Untuk reproduksi, letakkan skrip di direktori uji. Pulihkan tiap sumber menurut ref dan hash blob pada SKU_882F_OWNING_SOURCE_INVENTORY.json ke direktori frozen, candidate atau previous sesuai entri. Ambil CP7_SKU_MANAGED_RECOVERY_NATIVE27.json dari Original 13031164777 setelah SHA-256 dan CRC diperiksa. Sediakan psycopg serta loopback_postgres.py dari direktori review satu tingkat di atas pada PYTHONPATH bersama frozen/scripts. Jalankan replay_sku_owning_install.py dengan direktori bin PostgreSQL 17.6 sebagai argumen. Program membuat dan menghentikan PostgreSQL loopback sementara.

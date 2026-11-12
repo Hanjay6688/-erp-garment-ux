@@ -1,0 +1,464 @@
+[
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_ow04_restore_bundle.py",
+    "sha": "f022dedc4a35d8938de92cb69aeed805d41e14eb"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/CATALOG_ADDITIONS.json",
+    "sha": "986a5fe4958b8a8dcd3b184ab0319f8a965746e0"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/README.md",
+    "sha": "47dffb75de3b92355994c57bb2c19c517a20175d"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/SOURCE.json",
+    "sha": "8dae5549246dd2cf3c24b40ac74b17f4bedf8f95"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/base_cent_cases.mjs.inc",
+    "sha": "1d30288b82104ed469b8db53fb75a620a3912666"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/base_forward_cases.mjs.inc",
+    "sha": "7a79e906277b4d70e4de21bf181393523c24460f"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/base_money.sql",
+    "sha": "b859f086ac3fc85de4fccf80bcf17f26f91f8d74"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/base_money_cases.mjs.inc",
+    "sha": "c298e69a1562189cb0861211474c781f24f085d4"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/base_money_delta.py",
+    "sha": "41ddf5a4e039ffcf092ad1a1ea992583673fd5c6"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/base_money_fixture.mjs.inc",
+    "sha": "8839436af58ae3dcb1eac1a790d76924a61ce7ed"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/base_money_followup_cases.mjs.inc",
+    "sha": "cd3efe4a067d3b817a27fefd951b0169c83904b8"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/catalog_additions.py",
+    "sha": "2b6fe0eb813a8639d9876564af820c41db734d10"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/cent_inverse_counterexamples.mjs.inc",
+    "sha": "729412c2bac8254503539ddfbd6581d612f21c75"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/cent_ownership.py",
+    "sha": "3d64b41c4ee039e4941e20902b93641bf72604c5"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/chain_cases.mjs.inc",
+    "sha": "84384654e2df1148601951746e8a255f4bccbc21"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/chain_repair_checks.mjs.inc",
+    "sha": "ed75250c38fc27178d21d3825d918ac76b2ac98b"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/composition.py",
+    "sha": "e2842bb17bd372527bdba51132f75997842ae971"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/cost_cases.mjs.inc",
+    "sha": "aad2eec675418981129f873b936b0f2488978e51"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/costs.sql",
+    "sha": "e8cbb55432c6965dc82625d814e55872735dddad"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/financial_delta.py",
+    "sha": "0c026d58dad4812cfa35ecbb54a95cfb1225a220"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/inverse_cases.mjs.inc",
+    "sha": "4a8350e3d727ecc890f99e9a25a1fbc7bd50e529"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/inverse_rebalance.sql",
+    "sha": "64bf892db6a96ba3e0ecc963bb70603cfebadf76"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/legacy.sql",
+    "sha": "f1e051c3dbe3faf373964f13800a1eaec5b6ac0b"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/legacy_cases.mjs.inc",
+    "sha": "c28e5824e138c14c1e590f07cdd80d3d291d546e"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/legacy_delta.py",
+    "sha": "445b83b22bbbd6adb05397152598a8a1f5fe8fb4"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/legacy_followup_cases.mjs.inc",
+    "sha": "5d192ee27c0b4d18781ae35c18862a132f4cc4ef"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/legacy_model_setup.mjs.inc",
+    "sha": "9ffce58773b3acc569a0b35b712c10ebdb10677a"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/money.sql",
+    "sha": "ac22f343cebd3fc9ae4482ecfb9bb6fb53584aad"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/money_cases.mjs.inc",
+    "sha": "3fcc9508c9f898d5c17ee41f928f23c985c42e9c"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/money_credit_cases.mjs.inc",
+    "sha": "649500f4badc72cae368a93d07d44daeae2d1422"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/money_delta.py",
+    "sha": "51cafe003fde9ce02e4eb523715642eda63564aa"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/money_history_case.mjs.inc",
+    "sha": "692333696b66b4d26b6338b18f73ed55686cc9c2"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/oracle.py",
+    "sha": "894d093c04854abdcd86cdd017aab545b19db1e7"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/prepare_catalog.py",
+    "sha": "7a333ba6db28b6754216cf8a8e9cd58e6412078b"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/prepare_legacy_model.py",
+    "sha": "a22bf535c20f0db533db463154c0e8640c4b1286"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/prepare_model.py",
+    "sha": "31ffe1d06e0203cea7992d9ae4b9c862e41ef4a0"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/prepared_product.py",
+    "sha": "7916a3203af6c5f233008e87b72ce223741a5c00"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/private_inverse_delta.py",
+    "sha": "3301383482483241d984fe8b8ecf89f51ea36f12"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/profile_catalog.mjs",
+    "sha": "a2eaa70e32771df0c2f4a9a70f57ed67ef1406ba"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/source_delta.py",
+    "sha": "9b6c8f129b342e1d72d587ccd8006876aff9f2f7"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/source_rebalance.sql",
+    "sha": "664f1c49673bf5a6eab9ebf2bc6550054cbfbdd2"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/test_catalog_transition.py",
+    "sha": "13173aa129b24d0eb0431f2546eaeb46400a4042"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/test_cent_ownership.py",
+    "sha": "f22347c44ab8d6d013dc5df3190bea30efa2761a"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/test_oracle.py",
+    "sha": "6340d7c747fad89b906370147e8b6d130d2f385b"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_cost_components/valuation_delta.py",
+    "sha": "2e06b0c190c77e00285ebcc3f009a3e7f67d458f"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_moving_average/CATALOG_ADDITIONS.json",
+    "sha": "6ebb6fc2d6563d90c73c0be42dbe858004836c7e"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_moving_average/consumer_delta.py",
+    "sha": "66e87e779d2501f34c8714441c0d363d3c548ba7"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_moving_average/credit_delta.py",
+    "sha": "f9b2de9bb901c5dbc631bfc8b83115ae20e45f91"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_moving_average/private_delta.py",
+    "sha": "4f4e6d60f80e3b647abad0c696db905eea32de0c"
+  },
+  {
+    "dest": "frozen",
+    "ref": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "path": "scripts/cp7_sku_moving_average/valuation.sql",
+    "sha": "4af5bc7510579bd5adc718100943dd46965f7860"
+  },
+  {
+    "dest": "frozen",
+    "ref": "14de92a9d9c321cad0a513de28c164b4ba12de77",
+    "path": "scripts/cp7_sku_automatic_pending/CATALOG_ADDITIONS.json",
+    "sha": "83a3d5b8a3363e2c63df83d76b0485c85bf7d71a"
+  },
+  {
+    "dest": "frozen",
+    "ref": "14de92a9d9c321cad0a513de28c164b4ba12de77",
+    "path": "scripts/cp7_sku_automatic_pending/README.md",
+    "sha": "2a2fbad5b3e3a2cdba3203ada34b4d2bd4fcca55"
+  },
+  {
+    "dest": "frozen",
+    "ref": "14de92a9d9c321cad0a513de28c164b4ba12de77",
+    "path": "scripts/cp7_sku_automatic_pending/SOURCE.json",
+    "sha": "2f794cdeb788dfbc894b8de2f9565e7a7e75b198"
+  },
+  {
+    "dest": "frozen",
+    "ref": "14de92a9d9c321cad0a513de28c164b4ba12de77",
+    "path": "scripts/cp7_sku_automatic_pending/catalog_additions.py",
+    "sha": "bf2c76e10fe49942db90e04d43a9375dd645a8c5"
+  },
+  {
+    "dest": "frozen",
+    "ref": "14de92a9d9c321cad0a513de28c164b4ba12de77",
+    "path": "scripts/cp7_sku_automatic_pending/composition.py",
+    "sha": "51748a650ecef2c6e19e516f0866444083bb9550"
+  },
+  {
+    "dest": "frozen",
+    "ref": "14de92a9d9c321cad0a513de28c164b4ba12de77",
+    "path": "scripts/cp7_sku_automatic_pending/context.sql",
+    "sha": "811a9442d92e72177f5b0a2558c3e188f79e03ab"
+  },
+  {
+    "dest": "frozen",
+    "ref": "14de92a9d9c321cad0a513de28c164b4ba12de77",
+    "path": "scripts/cp7_sku_automatic_pending/derivation.py",
+    "sha": "3119b94f4d431b1604f77db6917a04de5b590402"
+  },
+  {
+    "dest": "frozen",
+    "ref": "14de92a9d9c321cad0a513de28c164b4ba12de77",
+    "path": "scripts/cp7_sku_automatic_pending/installation_product.py",
+    "sha": "df7991026052c9f8b584754af7c5d2c4ff8f41dc"
+  },
+  {
+    "dest": "frozen",
+    "ref": "14de92a9d9c321cad0a513de28c164b4ba12de77",
+    "path": "scripts/cp7_sku_automatic_pending/model_cases.mjs.inc",
+    "sha": "6059b006c806de2a79aabdbd824025c6fb055327"
+  },
+  {
+    "dest": "frozen",
+    "ref": "14de92a9d9c321cad0a513de28c164b4ba12de77",
+    "path": "scripts/cp7_sku_automatic_pending/model_providers.sql",
+    "sha": "02947c244e28ec51542a377156851134ef497165"
+  },
+  {
+    "dest": "frozen",
+    "ref": "14de92a9d9c321cad0a513de28c164b4ba12de77",
+    "path": "scripts/cp7_sku_automatic_pending/prepare_catalog.py",
+    "sha": "73bda012edd71fc09f84816e0e60dc8342939744"
+  },
+  {
+    "dest": "frozen",
+    "ref": "14de92a9d9c321cad0a513de28c164b4ba12de77",
+    "path": "scripts/cp7_sku_automatic_pending/prepare_model.py",
+    "sha": "4e2debf7484ceb03b15a5b1f46804d3670b2fd97"
+  },
+  {
+    "dest": "frozen",
+    "ref": "14de92a9d9c321cad0a513de28c164b4ba12de77",
+    "path": "scripts/cp7_sku_automatic_pending/prepared_product.py",
+    "sha": "9ebf8ac6130171c2559220cf1c71cb810dc63b28"
+  },
+  {
+    "dest": "frozen",
+    "ref": "14de92a9d9c321cad0a513de28c164b4ba12de77",
+    "path": "scripts/cp7_sku_automatic_pending/profile_catalog.mjs",
+    "sha": "5de10a109c66c80a9a0c604a54d052ee508ac482"
+  },
+  {
+    "dest": "frozen",
+    "ref": "14de92a9d9c321cad0a513de28c164b4ba12de77",
+    "path": "scripts/cp7_sku_automatic_pending/test_installation.py",
+    "sha": "38a7c8bb8a2adee77cd23c51806cbf5b0177c7ab"
+  },
+  {
+    "dest": "frozen",
+    "ref": "14de92a9d9c321cad0a513de28c164b4ba12de77",
+    "path": "scripts/cp7_sku_pending_accounting/README.md",
+    "sha": "65227c68f22c64505855ce4cb8bddcc934b4f3c4"
+  },
+  {
+    "dest": "frozen",
+    "ref": "14de92a9d9c321cad0a513de28c164b4ba12de77",
+    "path": "scripts/cp7_sku_pending_accounting/SOURCE.json",
+    "sha": "19975ecbc9b0dae707f72bc1bc39b1cc4abd5bdd"
+  },
+  {
+    "dest": "frozen",
+    "ref": "14de92a9d9c321cad0a513de28c164b4ba12de77",
+    "path": "scripts/cp7_sku_pending_accounting/derivation.py",
+    "sha": "41a7bf6bc4453bf001c789bf4dc53bf8cd266251"
+  },
+  {
+    "dest": "frozen",
+    "ref": "14de92a9d9c321cad0a513de28c164b4ba12de77",
+    "path": "scripts/cp7_sku_pending_accounting/prepare_model.py",
+    "sha": "a1d20321ba1ab69e33dbd5bc8baf0fa373aef04f"
+  },
+  {
+    "dest": "frozen",
+    "ref": "14de92a9d9c321cad0a513de28c164b4ba12de77",
+    "path": "scripts/cp7_sku_pending_accounting/test_readers.mjs",
+    "sha": "7bbba4db881030a8bb1ad8061d40d240079d8c91"
+  },
+  {
+    "dest": "frozen",
+    "ref": "882fdd376387f66e607cce62152eba9732654211",
+    "path": "scripts/cp7_consumer_owning_install.py",
+    "sha": "f3f8080f2093a80de572587fbbf698fc6ad115e5"
+  },
+  {
+    "dest": "frozen",
+    "ref": "882fdd376387f66e607cce62152eba9732654211",
+    "path": "scripts/cp7_customer_credit/consumer/composition.py",
+    "sha": "53920dcb647d93cafa3df4d51a36c4ee8f36a2e9"
+  },
+  {
+    "dest": "candidate",
+    "ref": "882fdd376387f66e607cce62152eba9732654211",
+    "path": "scripts/current-sku-automatic-composite-preparation/context_timezone.py",
+    "sha": "31ef902f47f421ce969ec8ca064f2e980663280a"
+  },
+  {
+    "dest": "candidate",
+    "ref": "882fdd376387f66e607cce62152eba9732654211",
+    "path": "scripts/current-sku-automatic-composite-preparation/cost_source_timezone.py",
+    "sha": "4e298a18087e01cc5e661ac536364bdedf0e2df3"
+  },
+  {
+    "dest": "candidate",
+    "ref": "882fdd376387f66e607cce62152eba9732654211",
+    "path": "scripts/current-sku-automatic-composite-preparation/module_scope.py",
+    "sha": "583768c6b3471fc3a45a9c018d7dcae36e76c660"
+  },
+  {
+    "dest": "candidate",
+    "ref": "882fdd376387f66e607cce62152eba9732654211",
+    "path": "scripts/current-sku-automatic-composite-preparation/non_po_rounding.py",
+    "sha": "2a98184e5a766754640f72aad683cd27c47c2132"
+  },
+  {
+    "dest": "previous",
+    "ref": "af6e5710c0a3265daeb14c8ccd078ea82c99c482",
+    "path": "scripts/current-sku-automatic-composite-preparation/cost_source_timezone.py",
+    "sha": "453aa24c2e8fe8de2b2fb0f1942971a07b0280fb"
+  }
+]
