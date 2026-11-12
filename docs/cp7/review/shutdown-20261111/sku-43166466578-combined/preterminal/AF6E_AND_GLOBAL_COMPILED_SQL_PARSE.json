@@ -1,0 +1,261 @@
+{
+  "actual_ERP_cases": 0,
+  "actual_SQL_executed": 0,
+  "counts": {
+    "files": 27,
+    "plpgsql_bodies": 106,
+    "sql_bodies": 22,
+    "statements": 350
+  },
+  "diagnostics": {},
+  "files": {
+    "CP6 AW actual generated installer": {
+      "body_errors": [],
+      "bytes": 58426,
+      "plpgsql_bodies": 9,
+      "sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 5,
+      "statements": 44
+    },
+    "CP6 AX actual generated installer": {
+      "body_errors": [],
+      "bytes": 43377,
+      "plpgsql_bodies": 11,
+      "sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 2,
+      "statements": 47
+    },
+    "CP7 frozen analysis rendered capsule": {
+      "body_errors": [],
+      "bytes": 17732,
+      "plpgsql_bodies": 8,
+      "sha256": "3d54d6623ce56686773bbfd1f8f5c033c0c7ac8ceb41b412f807cc148f89bb26",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 3,
+      "statements": 35
+    },
+    "Global adapted cp7_credit.source_request_enter_v1(text,jsonb,uuid,text)": {
+      "body_errors": [],
+      "bytes": 10663,
+      "plpgsql_bodies": 1,
+      "sha256": "de840f2e48d3195822cd4908b3d9332762fbc9388e62d76fb7ee1c1cebff779a",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "statements": 1
+    },
+    "Global adapted cp7_credit.source_request_finish_v1(uuid)": {
+      "body_errors": [],
+      "bytes": 2276,
+      "plpgsql_bodies": 1,
+      "sha256": "e25ab50812136fd48a920c0a4cc396f41ebd72d38a7ab0e47fadbe10c9cc480c",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "statements": 1
+    },
+    "Global adapted cp7_credit_correction_de.finish_v1(jsonb)": {
+      "body_errors": [],
+      "bytes": 1640,
+      "plpgsql_bodies": 1,
+      "sha256": "90cd9a1bf2dc494c8ae9effd2f38378a2dba125ab7637d65bbbdfbafcbc4f904",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "statements": 1
+    },
+    "Global adapted cp7_credit_correction_de.prepare_v1(jsonb,uuid,text,jsonb)": {
+      "body_errors": [],
+      "bytes": 4734,
+      "plpgsql_bodies": 1,
+      "sha256": "b8b4d5d4d7fe32375eb4d68ce8606094a7a91319f4eec8c43f5a11c84acad3c7",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "statements": 1
+    },
+    "Global adapted cp7_credit_correction_de.quote_v1(jsonb)": {
+      "body_errors": [],
+      "bytes": 12853,
+      "plpgsql_bodies": 1,
+      "sha256": "a5b80cf1ef7f20988894a3037deb10a26d908ac336674e5c03a2e5116edc9984",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "statements": 1
+    },
+    "Global adapted cp7_credit_note_carry_de.basis_v1(uuid)": {
+      "body_errors": [],
+      "bytes": 4612,
+      "plpgsql_bodies": 1,
+      "sha256": "7efd016c9f3f8668b8afe226bacf0530a8068f42b444d752d991f87ef9338a4c",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "statements": 1
+    },
+    "Global adapted cp7_credit_note_carry_de.finish_v1(jsonb)": {
+      "body_errors": [],
+      "bytes": 1529,
+      "plpgsql_bodies": 1,
+      "sha256": "9a620dfe35419b09e124406a6e6ddc423d38a8dbc4bcb5b61c1a8b58c61fe901",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "statements": 1
+    },
+    "Global adapted cp7_credit_note_carry_de.prepare_v1(jsonb,uuid,text,uuid,jsonb)": {
+      "body_errors": [],
+      "bytes": 5376,
+      "plpgsql_bodies": 1,
+      "sha256": "aac43833749bb55f705e28e8e2eb6f6f8aa42ad108633733f3db97dd977a4b21",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "statements": 1
+    },
+    "Global catalogue_fingerprint.sql": {
+      "body_errors": [],
+      "bytes": 17577,
+      "plpgsql_bodies": 0,
+      "sha256": "fc69e7ca90289dc9f43b03ee1d1f84bc1a84b35fc71704004f9c0c615a6016f1",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 1,
+      "statements": 3
+    },
+    "Global derived_lock.sql": {
+      "body_errors": [],
+      "bytes": 7673,
+      "plpgsql_bodies": 1,
+      "sha256": "60e37137fdeba6c86ac3ad7cda6537d5ffc17d5f449962cbb30ef59b13ce58dc",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "statements": 3
+    },
+    "Global derived_review.sql": {
+      "body_errors": [],
+      "bytes": 2873,
+      "plpgsql_bodies": 2,
+      "sha256": "e454af7216b64c1e6989eb204e59e4314e078e5a5c44ad8a0532dba6d83ed543",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "statements": 5
+    },
+    "Global graph_helpers/authority.sql": {
+      "body_errors": [],
+      "bytes": 62241,
+      "plpgsql_bodies": 0,
+      "sha256": "9685a0a6ca3d714197e17a5fc61c71297520fb2c3c26248d2f857311f057c4bb",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 1,
+      "statements": 3
+    },
+    "Global graph_helpers/capture.sql": {
+      "body_errors": [],
+      "bytes": 8016,
+      "plpgsql_bodies": 0,
+      "sha256": "90a03cbbd430f317c2e18c7e7f13743370e617756d2d2b1fe06179b2af3003cf",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 1,
+      "statements": 3
+    },
+    "Global graph_helpers/inspect.sql": {
+      "body_errors": [],
+      "bytes": 9510,
+      "plpgsql_bodies": 1,
+      "sha256": "8f9461ce31e9973969040ae16029241253eb2ce1e0fde9ebba160db32b6cd782",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "statements": 3
+    },
+    "Global graph_helpers/scope.sql": {
+      "body_errors": [],
+      "bytes": 10246,
+      "plpgsql_bodies": 1,
+      "sha256": "c24434d8ab62fd7b92ba1dc0706ee1d35ac06864700cc3ceeec36cf90fad1575",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "statements": 3
+    },
+    "Global platform_catalog_fence.sql": {
+      "body_errors": [],
+      "bytes": 2863,
+      "plpgsql_bodies": 3,
+      "sha256": "b44bd4a94a898afca0dc9360f14a595c2dcef1cc55a2a18347ebb6b84924e90e",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "statements": 10
+    },
+    "Global platform_relation_fence.sql": {
+      "body_errors": [],
+      "bytes": 5321,
+      "plpgsql_bodies": 2,
+      "sha256": "792388496fc4d3dc46305a44aa986ec0594d33aaef9f65094fafaba898a0fd40",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "statements": 6
+    },
+    "Global schema.sql": {
+      "body_errors": [],
+      "bytes": 1906,
+      "plpgsql_bodies": 1,
+      "sha256": "9cbb6f3c9d167e77c80e6c1047e4e497cf03bf10b7f59e839465a2c6cdaa56bd",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "statements": 9
+    },
+    "Global semantic_authority.sql": {
+      "body_errors": [],
+      "bytes": 3251,
+      "plpgsql_bodies": 1,
+      "sha256": "698a36a0b096f68d5b337c603f8c007ae648557ee78995b69cd0996af36020d6",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "statements": 3
+    },
+    "Global work_scope.sql": {
+      "body_errors": [],
+      "bytes": 10641,
+      "plpgsql_bodies": 4,
+      "sha256": "fd379bef9aac477d77a5d7aa74a7d7ed32f9217f38d95a9af9f6c9e9f7b5505c",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "statements": 18
+    },
+    "Mandor admitted owning installer body": {
+      "body_errors": [],
+      "bytes": 69519,
+      "plpgsql_bodies": 13,
+      "sha256": "63ddc3aa2b6fa37bf57bbbaa83938140bcfe3a1ed42cb40ccd4fcffe57558d0f",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 1,
+      "statements": 48
+    },
+    "P02 diagnostic bound snapshot query": {
+      "body_errors": [],
+      "bytes": 7680,
+      "plpgsql_bodies": 0,
+      "sha256": "1a263e5faa4a6dafe8d668971116f27723a1d77b3e319096ecbbdc069c09aab0",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "statements": 1
+    },
+    "SKU automatic final derived DDL": {
+      "body_errors": [],
+      "bytes": 18318,
+      "plpgsql_bodies": 7,
+      "sha256": "7b8fddbd548b9895232747a4d3ac02270facbe7e47e4c4b82c3f9a5ba6079f24",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 3,
+      "statements": 18
+    },
+    "SKU money final derived DDL": {
+      "body_errors": [],
+      "bytes": 86374,
+      "plpgsql_bodies": 34,
+      "sha256": "1d2894bd4e298e0af332119bface60b15b4b4412ab2c00675a9958fcdc64ee16",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 5,
+      "statements": 80
+    }
+  },
+  "global_base": "c9248b8770ec8cfe0f7e2f2fd8da26c141ea67c5",
+  "global_staged_delta_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "previous_sku_syntax_error_reproduced": true,
+  "source": "af6e5710c0a3265daeb14c8ccd078ea82c99c482",
+  "tree": "41aa56dc3247e7a802e8b2f48d55e15ff933954b"
+}

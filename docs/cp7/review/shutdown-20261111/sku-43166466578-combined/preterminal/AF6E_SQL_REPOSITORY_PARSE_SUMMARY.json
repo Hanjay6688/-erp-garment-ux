@@ -1,0 +1,594 @@
+{
+  "actual_ERP_cases": 0,
+  "actual_SQL_executed": 0,
+  "body_diagnostics_classification": {
+    "catalogue_dependent_rowtype_assignments": 15,
+    "unrendered_capsule_placeholder": 1
+  },
+  "counts": {
+    "body_errors": 14,
+    "files": 757,
+    "plpgsql_bodies": 5243,
+    "sql_bodies": 1625,
+    "sql_error": 26,
+    "statements": 17840
+  },
+  "diagnostics": {
+    "scripts/cp6_aw_engine.sql": {
+      "body_errors": [],
+      "bytes": 25002,
+      "plpgsql_bodies": 0,
+      "psql_lines": [],
+      "sha256": "dd59dbb3d9686fbc35930fe003a9b7567bb894a8f7405435a426b1caa0aeb550",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "sql_error": "syntax error at or near \"CREATE\", at index 22901",
+      "statements": 0
+    },
+    "scripts/cp6_ax_functions.sql": {
+      "body_errors": [],
+      "bytes": 26115,
+      "plpgsql_bodies": 0,
+      "psql_lines": [],
+      "sha256": "1522b37976f7a13bc3035d94ac33e63f11e7f73761c15b04117868e0416e2389",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "sql_error": "syntax error at or near \"CREATE\", at index 730",
+      "statements": 0
+    },
+    "scripts/cp7-src/alerts/alerts.sql": {
+      "body_errors": [
+        {
+          "error": "\"r.next_offset\" is not a known variable",
+          "language": "plpgsql",
+          "name": "cp7_alert_native.analysis_unit"
+        }
+      ],
+      "bytes": 113523,
+      "plpgsql_bodies": 44,
+      "sha256": "219adb738c65aa56301b4befd266e76da29f0c46db3dba2cc9b97ee4fb214410",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 25,
+      "statements": 123
+    },
+    "scripts/cp7-src/cutting-yield/observations.sql": {
+      "body_errors": [
+        {
+          "error": "\"run.id\" is not a known variable",
+          "language": "plpgsql",
+          "name": "cp7_cutting_observations.command"
+        }
+      ],
+      "bytes": 13554,
+      "plpgsql_bodies": 3,
+      "sha256": "357b29b28b69d63150377fff1dd70c6c00c8917c13c9da36939cca1bccc551c0",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 3,
+      "statements": 30
+    },
+    "scripts/cp7-src/planning/proof-runner.sql": {
+      "body_errors": [
+        {
+          "error": "\"r.pass\" is not a known variable",
+          "language": "plpgsql",
+          "name": "cp7_proof_runner.prove_next"
+        }
+      ],
+      "bytes": 9782,
+      "plpgsql_bodies": 3,
+      "sha256": "b5ea881bb85a196f847b7d3d9188e8ba83943c8e8c8cc2a18adf9e12ba4c3b54",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 1,
+      "statements": 11
+    },
+    "scripts/cp7-src/snapshot/capture_probe.sql": {
+      "body_errors": [],
+      "bytes": 7680,
+      "plpgsql_bodies": 0,
+      "psql_lines": [],
+      "sha256": "b10b77ffe46290fabaff90f5d2609ccb56255c2b65c018c327442d207f7e6647",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "sql_error": "syntax error at or near \"%\", at index 423",
+      "statements": 0
+    },
+    "scripts/cp7_frozen_analysis_v2/capsule.template.sql": {
+      "body_errors": [
+        {
+          "error": "syntax error at or near \"@@\"",
+          "language": "plpgsql",
+          "name": "cp7_frozen_analysis_v2.admit"
+        }
+      ],
+      "bytes": 13175,
+      "plpgsql_bodies": 8,
+      "sha256": "5010b2646821e6a292a775eeda593ef290ec3fb789287e6ecff52ee0aa07ddc9",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 3,
+      "statements": 13
+    },
+    "scripts/cp7_reorder_reader_stage/cache.sql": {
+      "body_errors": [
+        {
+          "error": "\"cached.threshold_captured_at\" is not a known variable",
+          "language": "plpgsql",
+          "name": "cp7_reorder_reader.snapshot"
+        }
+      ],
+      "bytes": 5624,
+      "plpgsql_bodies": 2,
+      "sha256": "0e4ed8511ee5b2e23e4ad2a344d76eba38bde2fb9c7e5d30aae0897455bf9e52",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "statements": 18
+    },
+    "scripts/current-finance-check-reuse-diagnostic/original-snapshot-body.sql": {
+      "body_errors": [],
+      "bytes": 11582,
+      "plpgsql_bodies": 0,
+      "psql_lines": [],
+      "sha256": "d8d46c707d7c8edd8500f4366c42a9b055513b8e5f842b6808489c276dfbd4d3",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "sql_error": "syntax error at or near \"numeric\", at index 20",
+      "statements": 0
+    },
+    "scripts/current-finance-reader-diagnostic/original-opening-hpp-body.sql": {
+      "body_errors": [],
+      "bytes": 1544,
+      "plpgsql_bodies": 0,
+      "psql_lines": [],
+      "sha256": "d82bdae08187b2121b7a777e0b3973f292318b195a148762f3ba5998407bf48a",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "sql_error": "syntax error at or near \"erp\", at index 13",
+      "statements": 0
+    },
+    "scripts/current-mandor-afui-preparation/review_adapter/FOCUSED_INSTALLER.sql": {
+      "body_errors": [],
+      "bytes": 69556,
+      "plpgsql_bodies": 0,
+      "psql_lines": [
+        1
+      ],
+      "sha256": "d85ed5728c2a5b5269d12988994a4c5388dc7d60d9e41fd6bc52cd980528ece4",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "sql_error": "syntax error at or near \"\\\", at index 0",
+      "statements": 0
+    },
+    "supabase/dev/cp6_bb_t1_family.sql": {
+      "body_errors": [
+        {
+          "error": "\"h.cutting_group_id\" is not a known variable",
+          "language": "plpgsql",
+          "name": "erp.post_work_completion"
+        }
+      ],
+      "bytes": 460459,
+      "plpgsql_bodies": 85,
+      "sha256": "a423268697f9290d7278bd98a364f9207562769c277d036ccf1c31902bbdf142",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 37,
+      "statements": 212
+    },
+    "supabase/migrations/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql": {
+      "body_errors": [
+        {
+          "error": "\"h.cutting_group_id\" is not a known variable",
+          "language": "plpgsql",
+          "name": "erp.post_work_completion"
+        }
+      ],
+      "bytes": 685655,
+      "plpgsql_bodies": 120,
+      "sha256": "7b5690a2eddf618833d352dc75eb95aa1ef4dbcfb25d39b30374b733d33dadbc",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 1,
+      "statements": 303
+    },
+    "supabase/migrations/20260923045944_erp_v2_6_20au_cp6_controlled_product_lifecycle.sql": {
+      "body_errors": [
+        {
+          "error": "\"n.sku\" is not a known variable",
+          "language": "plpgsql",
+          "name": "erp.edit_product_identity_effective"
+        },
+        {
+          "error": "\"n.effective_to\" is not a known variable",
+          "language": "plpgsql",
+          "name": "erp.cancel_product_identity_successor"
+        }
+      ],
+      "bytes": 89599,
+      "plpgsql_bodies": 27,
+      "sha256": "593b06092c2d47e03644afb1b7b5aef46c1442a56613f853a151b78ef738f2c2",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "statements": 46
+    },
+    "supabase/migrations/20260923110000_erp_v2_6_20av_cp6_identity_new_stock_cutoff.sql": {
+      "body_errors": [
+        {
+          "error": "\"n.sku\" is not a known variable",
+          "language": "plpgsql",
+          "name": "erp.edit_product_identity_effective"
+        }
+      ],
+      "bytes": 98993,
+      "plpgsql_bodies": 29,
+      "sha256": "193e84efac8ead7cab681071e40070e1f9249f82cec1b7972f0576e8df25a2dc",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 1,
+      "statements": 53
+    },
+    "supabase/release/cp6-t3-src/20260925020000_erp_v2_6_20bb_cp6_open_cutover_states.sql": {
+      "body_errors": [
+        {
+          "error": "\"h.cutting_group_id\" is not a known variable",
+          "language": "plpgsql",
+          "name": "erp.post_work_completion"
+        }
+      ],
+      "bytes": 503118,
+      "plpgsql_bodies": 97,
+      "sha256": "966939292e04f0cbfbbf113f7ec831e4a448958f6e6861fc0eb16bc31a5fcab1",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 37,
+      "statements": 236
+    },
+    "supabase/release/cp6-t3/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql": {
+      "body_errors": [
+        {
+          "error": "\"h.cutting_group_id\" is not a known variable",
+          "language": "plpgsql",
+          "name": "erp.post_work_completion"
+        }
+      ],
+      "bytes": 685457,
+      "plpgsql_bodies": 120,
+      "sha256": "871fb32b1d4a1e7f9aedfef684b0f2c766092732c38552620eb394061f6240d1",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 1,
+      "statements": 303
+    },
+    "supabase/release/cp6-t3/20260923045944_erp_v2_6_20au_cp6_controlled_product_lifecycle.sql": {
+      "body_errors": [
+        {
+          "error": "\"n.sku\" is not a known variable",
+          "language": "plpgsql",
+          "name": "erp.edit_product_identity_effective"
+        },
+        {
+          "error": "\"n.effective_to\" is not a known variable",
+          "language": "plpgsql",
+          "name": "erp.cancel_product_identity_successor"
+        }
+      ],
+      "bytes": 89599,
+      "plpgsql_bodies": 27,
+      "sha256": "7d6265f081125499cb1813fe3f24c3b203363252727b5dcdfc7f74e311b85481",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "statements": 46
+    },
+    "supabase/release/cp6-t3/20260923110000_erp_v2_6_20av_cp6_identity_new_stock_cutoff.sql": {
+      "body_errors": [
+        {
+          "error": "\"n.sku\" is not a known variable",
+          "language": "plpgsql",
+          "name": "erp.edit_product_identity_effective"
+        }
+      ],
+      "bytes": 98993,
+      "plpgsql_bodies": 29,
+      "sha256": "c63a1fe3bf76dfc396921e07f57eb043e3bb864425b3289a9546bf66e08169a5",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 1,
+      "statements": 53
+    },
+    "supabase/release/cp6-t3/20260925020000_erp_v2_6_20bb_cp6_open_cutover_states.sql": {
+      "body_errors": [
+        {
+          "error": "\"h.cutting_group_id\" is not a known variable",
+          "language": "plpgsql",
+          "name": "erp.post_work_completion"
+        }
+      ],
+      "bytes": 503124,
+      "plpgsql_bodies": 97,
+      "sha256": "ed95f1e84a8a924a830de9362ff890769875d01671b4e83c77208daf23a8df34",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 37,
+      "statements": 236
+    },
+    "supabase/tests/access_pattern_wip_control_rollback.sql": {
+      "body_errors": [],
+      "bytes": 39651,
+      "plpgsql_bodies": 0,
+      "psql_lines": [
+        3,
+        11
+      ],
+      "sha256": "d120a7859a02b85559212adbf8c83d1dd4e3e4f586a117f528cd49fd55197e9e",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "sql_error": "syntax error at or near \"\\\", at index 149",
+      "statements": 0
+    },
+    "supabase/tests/attendance_hpp_r3_full_schema_rollback.sql": {
+      "body_errors": [],
+      "bytes": 14337,
+      "plpgsql_bodies": 0,
+      "psql_lines": [
+        2,
+        10
+      ],
+      "sha256": "a1b2007d4facd5bf2dc363c5af7e5ef80daa0139705ebd45f2bdba47b3425d52",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "sql_error": "syntax error at or near \"\\\", at index 86",
+      "statements": 0
+    },
+    "supabase/tests/attendance_hpp_r3_validator_benchmark_rollback.sql": {
+      "body_errors": [],
+      "bytes": 5990,
+      "plpgsql_bodies": 0,
+      "psql_lines": [
+        2
+      ],
+      "sha256": "d360c0281f4712d9498f9fc6e833d4ab5d5a2f3fa2991e403763a93583914cb2",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "sql_error": "syntax error at or near \"\\\", at index 73",
+      "statements": 0
+    },
+    "supabase/tests/attendance_hpp_r4_full_schema_rollback.sql": {
+      "body_errors": [],
+      "bytes": 30719,
+      "plpgsql_bodies": 0,
+      "psql_lines": [
+        2,
+        10
+      ],
+      "sha256": "2a8cb945e8fb0462033a21b0668aa698cfe347eef2997139345217c028680636",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "sql_error": "syntax error at or near \"\\\", at index 86",
+      "statements": 0
+    },
+    "supabase/tests/cp3_r3_full_schema_race_seed.sql": {
+      "body_errors": [],
+      "bytes": 1706,
+      "plpgsql_bodies": 0,
+      "psql_lines": [
+        2,
+        4
+      ],
+      "sha256": "7da5decf6066d1a3587de8967f4179b4994d895c3afd9206b26a8d23e4f323a4",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "sql_error": "syntax error at or near \"\\\", at index 85",
+      "statements": 0
+    },
+    "supabase/tests/cp3_r3_full_schema_seed.sql": {
+      "body_errors": [],
+      "bytes": 15314,
+      "plpgsql_bodies": 0,
+      "psql_lines": [
+        2
+      ],
+      "sha256": "e2c17320074e2dcadc4d69cbc1b4be5f7ea78708715cf9681dbe9b6a797f8edf",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "sql_error": "syntax error at or near \"\\\", at index 89",
+      "statements": 0
+    },
+    "supabase/tests/cp3_r4_full_schema_race_seed.sql": {
+      "body_errors": [],
+      "bytes": 1668,
+      "plpgsql_bodies": 0,
+      "psql_lines": [
+        2,
+        4
+      ],
+      "sha256": "aa1dd7e03accce1427c605ab5a90f8d5b1326c93811ee90e8ea7f3705349c6f7",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "sql_error": "syntax error at or near \"\\\", at index 85",
+      "statements": 0
+    },
+    "supabase/tests/cp3_r4_full_schema_seed.sql": {
+      "body_errors": [],
+      "bytes": 10915,
+      "plpgsql_bodies": 0,
+      "psql_lines": [
+        2,
+        3
+      ],
+      "sha256": "0780eef40eba951060921559c6d015cabbaa29e056a6196413ced7b9f5238b43",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "sql_error": "syntax error at or near \"\\\", at index 89",
+      "statements": 0
+    },
+    "supabase/tests/cp45_pattern_assignment_immutability_rollback.sql": {
+      "body_errors": [],
+      "bytes": 14683,
+      "plpgsql_bodies": 0,
+      "psql_lines": [
+        3,
+        11,
+        279
+      ],
+      "sha256": "a793fb36c1ab91dbaeca215db9d5175848d68774ce570332df07360ba2402c4b",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "sql_error": "syntax error at or near \"\\\", at index 131",
+      "statements": 0
+    },
+    "supabase/tests/cp4_hpp_route_auth_rollback.sql": {
+      "body_errors": [],
+      "bytes": 21916,
+      "plpgsql_bodies": 0,
+      "psql_lines": [
+        3,
+        11
+      ],
+      "sha256": "eca6b325f2bb188adac4d2739e9f129e01e0d203c12284e4c827fb58b7098a86",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "sql_error": "syntax error at or near \"\\\", at index 172",
+      "statements": 0
+    },
+    "supabase/tests/cp5_bs_resolution_recovery_rollback.sql": {
+      "body_errors": [],
+      "bytes": 47207,
+      "plpgsql_bodies": 0,
+      "psql_lines": [
+        3,
+        11
+      ],
+      "sha256": "01f08634191c8df006d372eeb02e6815f444cb5517ec13b9350c28705ef9d5cc",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "sql_error": "syntax error at or near \"\\\", at index 138",
+      "statements": 0
+    },
+    "supabase/tests/cp5_rework_accessory_lineage_rollback.sql": {
+      "body_errors": [],
+      "bytes": 25854,
+      "plpgsql_bodies": 0,
+      "psql_lines": [
+        3,
+        11
+      ],
+      "sha256": "493776d96578526330db6c2f0aaf595424937ea2b980d19ccfe00efb06d3ed6e",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "sql_error": "syntax error at or near \"\\\", at index 158",
+      "statements": 0
+    },
+    "supabase/tests/cp6_laundry_qc_concurrency_seed.sql": {
+      "body_errors": [],
+      "bytes": 19123,
+      "plpgsql_bodies": 0,
+      "psql_lines": [
+        4
+      ],
+      "sha256": "83a5853b35471708bb01cef232042593a6e68878dfeef90d34620584b04c0156",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "sql_error": "syntax error at or near \"\\\", at index 230",
+      "statements": 0
+    },
+    "supabase/tests/cp6_laundry_qc_fg_authoritative_rollback.sql": {
+      "body_errors": [],
+      "bytes": 114336,
+      "plpgsql_bodies": 0,
+      "psql_lines": [
+        4,
+        12
+      ],
+      "sha256": "f7f79615b1a3b707f4ea744b91773e4399f0eaafde0be3ea8fa5cd0ae38c4dbc",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "sql_error": "syntax error at or near \"\\\", at index 196",
+      "statements": 0
+    },
+    "supabase/tests/cp6_reversal_concurrency_seed.sql": {
+      "body_errors": [],
+      "bytes": 7825,
+      "plpgsql_bodies": 0,
+      "psql_lines": [
+        3
+      ],
+      "sha256": "2738266b5e4bb15fd7f17855ce19fc5dedc8c55e281895fc0622173221671953",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "sql_error": "syntax error at or near \"\\\", at index 154",
+      "statements": 0
+    },
+    "supabase/tests/cp6_v2620d_reaudit_business_closure_rollback.sql": {
+      "body_errors": [],
+      "bytes": 40170,
+      "plpgsql_bodies": 0,
+      "psql_lines": [
+        4
+      ],
+      "sha256": "1a0e9a7774857529e84291bdc9c4b5fbb2f4bb93464527d738de66304d293076",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "sql_error": "syntax error at or near \"\\\", at index 221",
+      "statements": 0
+    },
+    "supabase/tests/cp6_workspace_scale_rollback.sql": {
+      "body_errors": [],
+      "bytes": 20070,
+      "plpgsql_bodies": 0,
+      "psql_lines": [
+        4
+      ],
+      "sha256": "b21deee0da2a2b162ecc895fe00a2160ff4ff090dabb3b942b4b342936399cd0",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "sql_error": "syntax error at or near \"\\\", at index 219",
+      "statements": 0
+    },
+    "supabase/tests/cutting_bridge_boundary_fingerprint.sql": {
+      "body_errors": [],
+      "bytes": 3380,
+      "plpgsql_bodies": 0,
+      "psql_lines": [
+        1
+      ],
+      "sha256": "5b4005a9d164ed51a87d3cfc0d20144bd8560b10d725e1f45892fd493e92f5ff",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "sql_error": "syntax error at or near \"\\\", at index 0",
+      "statements": 0
+    },
+    "supabase/tests/cutting_bridge_persistence_pickup_wip_rollback.sql": {
+      "body_errors": [],
+      "bytes": 28265,
+      "plpgsql_bodies": 0,
+      "psql_lines": [
+        3,
+        11
+      ],
+      "sha256": "f1b5bb04874d86fff8b867780a1d1aa2997371152576ab82b9dfbbfacacedf77",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "sql_error": "syntax error at or near \"\\\", at index 167",
+      "statements": 0
+    },
+    "supabase/tests/fixtures/erp_enteng_cp45a_external_application_triggers.sql": {
+      "body_errors": [],
+      "bytes": 204,
+      "plpgsql_bodies": 0,
+      "psql_lines": [
+        1
+      ],
+      "sha256": "b029bb64454d48883b0bd88f931e8084891d305593312e0ccc8963c6c2730c57",
+      "single_dollar_body_lines": [],
+      "sql_bodies": 0,
+      "sql_error": "syntax error at or near \"\\\", at index 0",
+      "statements": 0
+    }
+  },
+  "full_local_audit": {
+    "bytes": 264319,
+    "sha256": "838475d61f68543965cdc0e39323a14b56a2c247a15cab6d99ee6d2862279c6e"
+  },
+  "parser": "v7.20",
+  "same_single_dollar_body_regression_found": false,
+  "scope": "Tracked SQL in scripts, supabase, and .github at exact af6e tree",
+  "source": "af6e5710c0a3265daeb14c8ccd078ea82c99c482",
+  "source_tree": "41aa56dc3247e7a802e8b2f48d55e15ff933954b",
+  "syntax_classification": {
+    "driver_bound_query": 1,
+    "partial_diagnostic_bodies": 2,
+    "psql_scripts_with_meta_commands": 21,
+    "raw_builder_inputs": 2
+  }
+}

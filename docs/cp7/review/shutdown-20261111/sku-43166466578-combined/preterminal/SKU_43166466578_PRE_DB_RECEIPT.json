@@ -1,0 +1,38 @@
+{
+  "status": "VERIFIED_DIAGNOSTIC_SOURCE_CHECKPOINT",
+  "artifact_id": 13920697453,
+  "archive": {
+    "bytes": 22421,
+    "sha256": "fbb0f377d289ca520748ce3208a3074ea37ad93723eee4ee00eed6331b2259d9"
+  },
+  "name": "cp7-sku-admission-checkpoint-43166466578-1",
+  "crc_members": 1,
+  "checkpoint_original": {
+    "bytes": 245633,
+    "sha256": "3c27e8d53c705dc80ff3f52f69521f6a71f7180af7622bf741fc2a567f73b469"
+  },
+  "source_tree": "41aa56dc3247e7a802e8b2f48d55e15ff933954b",
+  "identity": {
+    "GITHUB_REPOSITORY": "Hanjay6688/-erp-garment-ux",
+    "GITHUB_RUN_ATTEMPT": "1",
+    "GITHUB_RUN_ID": "43166466578",
+    "GITHUB_SHA": "af6e5710c0a3265daeb14c8ccd078ea82c99c482"
+  },
+  "admission_receipts": {
+    "SKU_CURRENT_MANDOR17_ORIGINAL_ADMISSION.json": {
+      "bytes": 92223,
+      "sha256": "a4370e62dafccc0baaeecb10caa3f6e83371304f5f393c583b713832ce7d9dd4"
+    },
+    "SKU_CURRENT_PARENT_MONEY_AUTOMATIC_BROWSER_PREREQUISITES.json": {
+      "bytes": 1686,
+      "sha256": "76f1c4a764cda6831550b822b86d4f624d2f7b8b83aba6835e7085c2aa9d1762"
+    },
+    "SKU_CURRENT_PARENT_MONEY_AUTOMATIC_PREREQUISITE_FILES.json": {
+      "bytes": 134856,
+      "sha256": "9ffa640d2334eba7e462248f7aa85f8d215f71cc79e2736c366f259c82d22942"
+    }
+  },
+  "actual_case_credit": 0,
+  "restoration_verified": false,
+  "terminal_archive": false
+}
