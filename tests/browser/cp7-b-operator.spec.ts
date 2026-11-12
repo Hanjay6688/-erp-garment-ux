@@ -7,7 +7,7 @@ import { laundryQcInputFixture } from '../fixtures/laundryQcInput'
 
 // Full disposable App, with the same form-login pattern as CP5/CP6 browser
 // contract tests. Every API response is served locally from test fixtures.
-const appOrigin = 'http://127.0.0.1:4178'
+const appOrigin = 'http://127.0.0.1:4176'
 const apiOrigin = 'http://127.0.0.1:54328'
 const at = '2026-11-12T05:00:00Z'
 const appUserId = 'c6b00000-0000-4000-8000-000000000002'
@@ -20,12 +20,16 @@ const readPage = 'erp_cp7_read_staged_analysis_page_v1'
 type Call = { name: string; args: Record<string, any> }
 type Reply = { body: unknown; status?: number }
 type Role = 'OWNER' | 'ADMIN' | 'STAFF'
+type Transport = { calls: Call[]; unexpected: string[]; pageErrors: string[]; consoleErrors: string[] }
+const transports = new WeakMap<BrowserContext, Transport>()
 
 async function mockApp(context: BrowserContext, config: {
   role: Role; actor?: string; rights?: string[]; resolve: (call: Call) => Reply | undefined
 }) {
   const actor = config.actor ?? initialReady.actor
   const calls: Call[] = [], unexpected: string[] = [], pageErrors: string[] = [], consoleErrors: string[] = []
+  const transport = { calls, unexpected, pageErrors, consoleErrors }
+  transports.set(context, transport)
   const encode = (value: unknown) => Buffer.from(JSON.stringify(value)).toString('base64url')
   const expires = Math.floor(Date.now() / 1000) + 3600
   const token = `${encode({ alg: 'HS256', typ: 'JWT' })}.${encode({ sub: actor, aud: 'authenticated', role: 'authenticated', exp: expires })}.cp7-fixture-signature`
@@ -50,13 +54,13 @@ async function mockApp(context: BrowserContext, config: {
   context.on('page', watch)
   await context.route('**/*', async route => {
     const request = route.request(), url = new URL(request.url())
-    if (url.origin === appOrigin) return route.continue()
+    if (url.origin === appOrigin && ['GET', 'HEAD'].includes(request.method())) return route.continue()
     if (url.origin !== apiOrigin) {
       unexpected.push(`${request.method()} ${url.origin}${url.pathname}`)
       return route.abort('blockedbyclient')
     }
     const headers = { 'access-control-allow-origin': appOrigin,
-      'access-control-allow-headers': 'authorization,apikey,content-type,x-client-info,x-supabase-api-version,accept-profile,content-profile',
+      'access-control-allow-headers': request.headers()['access-control-request-headers'] ?? '*',
       'access-control-allow-methods': 'GET,POST,OPTIONS' }
     if (request.method() === 'OPTIONS') return route.fulfill({ status: 204, headers })
     const send = (body: unknown, status = 200) => route.fulfill({ status, headers, json: body })
@@ -76,8 +80,15 @@ async function mockApp(context: BrowserContext, config: {
     unexpected.push(`${request.method()} ${url.pathname}`)
     return send({ message: 'RPC fixture tidak dideklarasikan.' }, 404)
   })
-  return { calls, unexpected, pageErrors, consoleErrors }
+  return transport
 }
+
+test.afterEach(async ({ context }, info) => {
+  const transport = transports.get(context)
+  if (transport && info.status !== 'passed') {
+    await info.attach('transport-at-failure', { body: JSON.stringify(transport, null, 2), contentType: 'application/json' })
+  }
+})
 
 async function signIn(page: Page) {
   await page.goto('/')
@@ -184,12 +195,17 @@ test('Planner passes the selected incomplete product root to the target form', a
 test('Planner opens running and completed results under the same server job across closing and refresh', async ({ page, context }, info) => {
   const id = '00000000-0000-4000-8000-000000000095'
   const result = await stagedRun({ targets: 1, requestId: id })
+  const label = result.original.product_labels[0]
+  const [rootId, sizeId] = label.target_key.split(':')
+  const readiness = { ...initialReady.readiness, candidates: [{ root_id: rootId, product_id: rootId,
+    size_id: sizeId, sku: label.sku, product_name: label.product_name, profile_ready: true }] }
   let state: 'READY' | 'RUNNING' | 'DONE' = 'READY'
   let created = 0
   const job = () => result.job(state === 'DONE' ? 'DONE' : 'RUNNING', state === 'DONE' ? {} : {
-    worker_active: true, server_runner: { active: true, last_tick_at: result.reference.captured_at },
+    targets_done_in_stage: 0, worker_active: true,
+    server_runner: { active: true, last_tick_at: result.reference.captured_at },
   })
-  const status = () => ({ ...initialReady, actor: result.actor, query: result.query, state,
+  const status = () => ({ ...initialReady, actor: result.actor, query: result.query, state, readiness,
     ...(state === 'READY' ? {} : { job_query: result.query, job_semantic_hash: initialReady.semantic_hash, job: job() }) })
   const mock = await mockApp(context, { role: plannerRole(info), actor: result.actor, resolve: call => {
     if (call.name === initialRpc) {
@@ -220,7 +236,8 @@ test('Planner opens running and completed results under the same server job acro
     const row = reopened.locator('[data-analysis-target]')
     await expect(row).toHaveCount(1)
     await expect(row).toContainText('TEST')
-    await expect(row).toContainText(/belum diketahui|belum tersedia/i)
+    await expect(row.locator('td[data-label="Stok fisik"]')).toHaveText('76 PCS')
+    await expect(row.locator('td[data-label="Produksi baru layak"]')).toContainText(/belum diketahui|belum tersedia/i)
     await expect(reopened.getByText('Halaman 1 dari 1', { exact: true })).toBeVisible()
     return row.innerText()
   }
@@ -243,7 +260,7 @@ test('Planner shows a failed job and does not start another one', async ({ page,
   const run = await stagedRun({ targets: 1, requestId: id })
   const mock = await mockApp(context, { role: plannerRole(info), actor: run.actor, resolve: call => call.name === initialRpc
     ? { body: { ...initialReady, actor: run.actor, query: run.query, state: 'FAILED',
-      job: run.job('FAILED'), job_query: run.query, job_semantic_hash: initialReady.semantic_hash } } : stockRpc(call) })
+      job: run.job('FAILED', { targets_done_in_stage: 0 }), job_query: run.query, job_semantic_hash: initialReady.semantic_hash } } : stockRpc(call) })
   await signIn(page)
   await openPlanner(page)
   await expect(initialPanel(page).getByRole('alert')).toContainText('Permintaan gagal tidak diulang otomatis.')

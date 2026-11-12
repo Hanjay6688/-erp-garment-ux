@@ -1,0 +1,14 @@
+{
+  "run": 43208745905,
+  "job": 131150505979,
+  "head": "dce76f781091cf8f89b49d3c17043c6e63acad06",
+  "artifact": 13941030902,
+  "archive_sha256": "efab5bdc773f5c8eee93fb12362a3e70f6961029cc56c5811df5c4f17ff65a12",
+  "archive_bytes": 1024451,
+  "crc_members": 51,
+  "case_journeys_reached": 0,
+  "first_error": "DISPOSABLE_BUILD_REQUIRED",
+  "error_context_path": "planner/artifacts/cp7-b-operator-Planner-ope-4dbdb-here-are-no-active-products-desktop/error-context.md",
+  "cause": "B preview port 4178 differed from the exact 127.0.0.1:4176 origin required by src/config/runtime.ts.",
+  "fix": "Use the configured test origin in Vite preview, Playwright baseURL and fixture routing. Preserve the runtime guard."
+}

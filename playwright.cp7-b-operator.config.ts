@@ -8,7 +8,10 @@ export default defineConfig({
   reporter: [['line'], ['json', { outputFile: 'test-results/cp7-b-operator/results.json' }]],
   use: {
     ...shellConfig.use,
-    baseURL: 'http://127.0.0.1:4178',
+    baseURL: 'http://127.0.0.1:4176',
+    actionTimeout: 6000,
+    navigationTimeout: 10000,
+    serviceWorkers: 'block',
     trace: 'off',
   },
   projects: [
@@ -16,8 +19,8 @@ export default defineConfig({
     { name: 'mobile', use: { ...devices['Pixel 7'], viewport: { width: 390, height: 844 }, timezoneId: 'America/Los_Angeles' } },
   ],
   webServer: {
-    command: 'npm run preview -- --host 127.0.0.1 --port 4178 --strictPort --outDir cp6-ui-build',
-    url: 'http://127.0.0.1:4178',
+    command: 'npm run preview -- --host 127.0.0.1 --port 4176 --strictPort --outDir cp6-ui-build',
+    url: 'http://127.0.0.1:4176',
     reuseExistingServer: false,
     timeout: 15_000,
   },

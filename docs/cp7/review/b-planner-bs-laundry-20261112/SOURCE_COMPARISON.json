@@ -1,0 +1,136 @@
+{
+  "candidate": "ae0df1ef17b4d84478d50a2a144cf0382d662ad0",
+  "tree": "b8f534ba09226311c6eb83b967732dd7545db6ea",
+  "src_tree": "f817f1f3ae0e53c679fdcf1a404fa0602d6bafbd",
+  "fixtures": {
+    "package-lock.json": {
+      "bytes": 125971,
+      "sha256": "3f52c1eb326b53129977e78e7c95b14e0d0bebd8c8229e0cab96e88c85d88195"
+    },
+    "vite.config.ts": {
+      "bytes": 1032,
+      "sha256": "ccc90fa4b08f58f0658fb9acd4eb6f77abb3affdb4fc79e9bd170ffa8745f355"
+    },
+    "index.html": {
+      "bytes": 494,
+      "sha256": "0b691bb5a504fc7d89130bffd4d0590a42828c363f9db21c1f1d2798833ff9e8"
+    },
+    "tests/fixtures/initialAnalysisReadyActual.json": {
+      "bytes": 1053,
+      "sha256": "6263f27576edc30bed580c027299b1b51eca3e9ab33745d1d9024c2ba957a2f7"
+    },
+    "tests/fixtures/nativeAnalysisPages.ts": {
+      "bytes": 11340,
+      "sha256": "5537e6ecbdeb6cf4ddad31e05743438c839ce5c08d2ee27d3ebe97c59e3258e7"
+    },
+    "tests/fixtures/nativeAnalysisStandin.json": {
+      "bytes": 445175,
+      "sha256": "c0b15bdb620ddffb5bedb80f85528052b619ebb16366d87243f338d6a878aef0"
+    },
+    "tests/fixtures/nativePlanningProfile.ts": {
+      "bytes": 3467,
+      "sha256": "3a29b282e472f1aae99dd7076a52c8d665d2009f9c8209da2d941ae23011e0a1"
+    },
+    "tests/fixtures/laundryQcInput.ts": {
+      "bytes": 3571,
+      "sha256": "2e9d36a6f1874401b7d5718cc832b830f4fb99e358d7177a576b6d0ed7b99948"
+    }
+  },
+  "historical_ow13a": {
+    "historical": "d9918e4b62a7427e9e5b977b227608109967462c",
+    "candidate": "ae0df1ef17b4d84478d50a2a144cf0382d662ad0",
+    "files": [
+      {
+        "path": "src/App.tsx",
+        "prior": "d6244f85a98aa87dac50fa2384bf16195b5b6a28",
+        "candidate": "9975f3a3c60605e0be83611bd5aefae66feb7fec",
+        "equal": false
+      },
+      {
+        "path": "src/ConnectedFgStockPage.tsx",
+        "prior": "5dd5ccdbb357bb90fc134e17a4e8c3413fef3cd2",
+        "candidate": "0239ab0ef63a68ce51aacdbaaa757ad1fc084a11",
+        "equal": false
+      },
+      {
+        "path": "src/NativeDemandHistoryPanel.tsx",
+        "prior": "693394d8738d7913416698c039f3fa71a38dfc92",
+        "candidate": "4189c0176e6d84e22454696e9834942463ecccd7",
+        "equal": false
+      },
+      {
+        "path": "src/NativeInitialAnalysisPanel.tsx",
+        "prior": "ad60ab2c0dfff49f29f03fd883cafa7f32d39c3a",
+        "candidate": "ad60ab2c0dfff49f29f03fd883cafa7f32d39c3a",
+        "equal": true
+      },
+      {
+        "path": "src/nativeInitialAnalysis.ts",
+        "prior": "4298449b7e7ad402a3aa45cfeb9725ddd6e4709e",
+        "candidate": "4298449b7e7ad402a3aa45cfeb9725ddd6e4709e",
+        "equal": true
+      },
+      {
+        "path": "src/NativePlanningProfilePanel.tsx",
+        "prior": "4bd0e00d63ab080829a2df692d6eecb38c6038b4",
+        "candidate": "be951eebab831048126bcdb71c725d6a3564f605",
+        "equal": false
+      },
+      {
+        "path": "src/nativePlanningProfile.ts",
+        "prior": "0a1da12fd177c6ec36636366ffb18c214453c9c5",
+        "candidate": "d384b4d3ca4733822753a73123b91c7d5b9f42c0",
+        "equal": false
+      },
+      {
+        "path": "src/NativeAnalysisPanel.tsx",
+        "prior": "3cd551986fa68d19df135fe04a08a211949ac194",
+        "candidate": "e484b1691c14e00def0a891e703194986c3906ac",
+        "equal": false
+      },
+      {
+        "path": "src/nativeStagedJob.ts",
+        "prior": "849b9720d0ade5a9212aa55367d9dea27a254c3b",
+        "candidate": "3f9a54ad489cff5fd2065020f530ef8b3733a707",
+        "equal": false
+      },
+      {
+        "path": "src/nativeAnalysisPages.ts",
+        "prior": "d668311c59454914c7579512d8d0e7191da39e46",
+        "candidate": "5e58122ef4341209918a399c31c215dba748707e",
+        "equal": false
+      },
+      {
+        "path": "src/auth/AuthProvider.tsx",
+        "prior": "0aced13739efc4228c03e7b9b5a2a5b0d8144c8f",
+        "candidate": "0aced13739efc4228c03e7b9b5a2a5b0d8144c8f",
+        "equal": true
+      },
+      {
+        "path": "scripts/cp7_initial_analysis_stage/initial.sql",
+        "prior": "0c12e253a6fd3bb617ad1a079d6d0e40539d3e99",
+        "candidate": "0c12e253a6fd3bb617ad1a079d6d0e40539d3e99",
+        "equal": true
+      },
+      {
+        "path": "scripts/cp7_ow13a_initial_browser.mjs",
+        "prior": "8b4edcb840e9af8926a16793c9c07fc7a8a1a0ec",
+        "candidate": "8b4edcb840e9af8926a16793c9c07fc7a8a1a0ec",
+        "equal": true
+      },
+      {
+        "path": "scripts/cp7_ow13a_initial_browser_fixture.py",
+        "prior": "d0de927964a2d8131903ada4cbd527407db96914",
+        "candidate": "d0de927964a2d8131903ada4cbd527407db96914",
+        "equal": true
+      },
+      {
+        "path": "tests/fixtures/initialAnalysisReadyActual.json",
+        "prior": "8fee7681c071d79e0a587addc43b3cc0f7136bef",
+        "candidate": "8fee7681c071d79e0a587addc43b3cc0f7136bef",
+        "equal": true
+      }
+    ]
+  },
+  "reused_scope": "Initial SQL, client contract, panel and original runner when identical. Current host, profile and result driver need focused comparison."
+}
