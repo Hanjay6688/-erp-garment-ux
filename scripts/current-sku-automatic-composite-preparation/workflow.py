@@ -142,6 +142,8 @@ def derive(raw=None):
                  'python -B -m unittest discover -s ' + NS + ' -p test_runtime_receipt.py\n'
                  'python -B -m unittest discover -s ' + NS + ' -p test_run_window.py\n'
                  'python -B -m unittest discover -s ' + NS + ' -p test_setup_sequences.py\n'
+                 'python -B -m unittest discover -s ' + NS + ' -p test_browser_access.py\n'
+                 'python -B -m unittest discover -s ' + NS + ' -p test_browser_census.py\n'
                  'python -B ' + NS + 'checkpoint.py --source . '
                  '--output "$RUNNER_TEMP/cp7-source-checkpoint/CP7_DIAGNOSTIC_CHECKPOINT.json"\n'),
         {'name': 'Persist diagnostic checkpoint before long runtime',

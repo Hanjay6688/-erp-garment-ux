@@ -2,14 +2,11 @@
 from contextlib import contextmanager
 from pathlib import Path
 from types import SimpleNamespace
-import importlib.util
 import json
 import os
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
-spec = importlib.util.spec_from_file_location('current_browser_copy_owning_entry', HERE / 'qualification.py')
-entry = importlib.util.module_from_spec(spec);spec.loader.exec_module(entry)
 IDS = ('SKU_CURRENT_MOVAVG_DESKTOP_REAL_AUTH_PAIR_VALUE_RECOVERY_INVERSE',
        'SKU_CURRENT_MOVAVG_MOBILE390_REAL_AUTH_PAIR_VALUE_GUARDS_INVERSE')
 LABEL = 'SKU_CURRENT_PARENT_MONEY_AUTOMATIC_BROWSER2'
@@ -20,7 +17,7 @@ def require(value, message):
         raise ValueError(message)
 
 
-def actual_inputs():
+def actual_inputs(entry):
     originals = entry.actual_inputs()
     plan = json.loads(originals[2])
     require(plan.get('required_browser_case_ids') == list(IDS) and plan.get('fresh_real_Auth_browser_required') is True,
@@ -30,8 +27,8 @@ def actual_inputs():
 
 
 @contextmanager
-def copy_scope(modes, product, state):
-    originals = actual_inputs()
+def copy_scope(entry, modes, product, state):
+    originals = actual_inputs(entry)
     require(Path(product.__file__).resolve() == entry.assembly.FROZEN_AUTO / 'scripts/cp7_sku_automatic_pending/composition.py',
             'CURRENT_SKU_BROWSER_COMPLETE_CURRENT_PRODUCT_REQUIRED')
     with entry.inherited_scope():
@@ -48,11 +45,11 @@ def copy_scope(modes, product, state):
         facade = SimpleNamespace(parent_raw=afui_raw, runtime=product.runtime, verify=product.verify)
         with parent.copy_scope(modes, facade, state) as copies:
             yield copies
-        require(actual_inputs() == originals, 'CURRENT_SKU_BROWSER_ACTUAL_INPUTS_CHANGED')
+        require(actual_inputs(entry) == originals, 'CURRENT_SKU_BROWSER_ACTUAL_INPUTS_CHANGED')
 
 
-def run(product, state, verify, report):
-    actual_inputs()
+def run(entry, product, state, verify, report):
+    actual_inputs(entry)
     source = entry.load('current_browser_complete_journey_derivation', HERE / 'browser_prepare.py')
     text, proof = source.derive()
     require((HERE / 'browser.mjs').read_bytes() == text.encode(), 'CURRENT_SKU_EXACT_REAL_BROWSER_JOURNEYS_REQUIRED')
@@ -65,7 +62,7 @@ def run(product, state, verify, report):
     modes.AUDITOR = ROOT
     browser_gate = entry.load('current_browser_complete_current_original_gate', HERE / 'browser_gate.py')
     case_output = entry.complete_case_output()
-    with copy_scope(modes, product, state) as copies, case_output.scope(modes, 'copies'):
+    with copy_scope(entry, modes, product, state) as copies, case_output.scope(modes, 'copies'):
         report['current_browser_copy_authority'] = copies
         report['current_browser_journey_derivation'] = proof
         actual = modes.run_browser(HERE / 'browser.mjs', verify, 'sku_current_money_automatic_browser2')

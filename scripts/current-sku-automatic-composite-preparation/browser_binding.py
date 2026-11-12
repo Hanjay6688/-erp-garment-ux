@@ -16,6 +16,8 @@ import sys
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
+PAIR_CENSUS_TABLES = tuple('cp7_sku_conversion.' + name for name in
+                          ('pairs_v1', 'pair_events_v1', 'groups_v1', 'members_v1', 'execution_v1'))
 
 
 def load(name, path):
@@ -85,6 +87,30 @@ def derive_fixture(raw):
                       actual_browser_cases=0)
 
 
+def derive_census(text):
+    before = "    assert len(rows)==22 and all(table in data for table in product.TABLES),'SKU29_FULL_CURRENT_CENSUS_REQUIRED'"
+    after = '    _BROWSER_REQUIRE_COMPLETE_CENSUS(rows, data)'
+    require(text.count(before) == 1 and after not in text, 'CURRENT_SKU_EXACT_CENSUS_PRODUCT_TABLES_ROUTE_REQUIRED')
+    revised = text.replace(before, after, 1)
+    require(revised.count(after) == 1 and revised.replace(after, before, 1) == text,
+            'CURRENT_SKU_EXACT_CENSUS_ASSERTION_INVERSE_REQUIRED')
+    compile(revised, 'current_complete_browser_census', 'exec', dont_inherit=True)
+    return revised, dict(retained=entry.admission.pin(text.encode()), derived=entry.admission.pin(revised.encode()),
+                         exact_assertion_routes=1, previous_source_recovered=True,
+                         pair_product_table_scope=PAIR_CENSUS_TABLES,
+                         current_data_and_sequences_closed_over_actual_catalogue=True)
+
+
+def require_complete_census(rows, data, pair_tables):
+    require(len(rows) == 22 and type(rows.get('relations')) is dict,
+            'SKU29_FULL_CURRENT_CENSUS_REQUIRED')
+    relations = rows['relations']
+    tables = {name for name, row in relations.items() if row[1] in ('r', 'p', 'm')}
+    sequences = {'sequence:' + name for name, row in relations.items() if row[1] == 'S'}
+    require(tuple(pair_tables) == PAIR_CENSUS_TABLES and set(pair_tables) <= tables
+            and set(data) == tables | sequences, 'SKU29_FULL_CURRENT_CENSUS_REQUIRED')
+
+
 def pretty_originals(original):
     # The complete IO primitive normally uses compact sorted JSON. This old
     # browser census used indent=2; preserve that exact encoder contract while
@@ -141,6 +167,7 @@ def fixture(product):
             'CURRENT_SKU_BROWSER_ACTUAL_COMPLETE_AUTOMATIC_PRODUCT_REQUIRED')
     root, deriver, raw, native_text = fixture_sources()
     text, proof = derive_fixture(raw.encode())
+    text, census_proof = derive_census(text)
     module = ModuleType('current_SKU_complete_Native_browser_fixture')
     module.__file__ = str(root / 'scripts/current-sku-managed-recovery-native27-qualification/browser_fixture.py')
     module._COMPLETE_IO = pretty_originals(entry.report_io.complete_originals())
@@ -158,13 +185,21 @@ def fixture(product):
         require(callable(actual) and actual.__code__ == expected and actual.__globals__ is module.f.__dict__,
                 'CURRENT_SKU_ACTUAL_UNCHANGED_NATIVE_FIXTURE_FUNCTION_REQUIRED:' + name)
     helpers = {name: native_helper_origin(getattr(module.f, name), name) for name in ('be', 'bf')}
+    pair_tables = module.product.TABLES
+    require(type(pair_tables) is tuple and pair_tables == PAIR_CENSUS_TABLES,
+            'CURRENT_SKU_EXACT_RETAINED_PAIR_CENSUS_TABLES_REQUIRED')
+    # The complete current product supplies the readers. The original pair
+    # product supplies its table contract, including execution history.
+    def require_census(rows, data):
+        require_complete_census(rows, data, pair_tables)
     # The fixture process runs from writer, but the browser gate and upload own auditor's proof directory.
-    current = entry.money_binding.private_module(module, dict(product=product, _BROWSER_PROOF_ROOT=ROOT))
+    current = entry.money_binding.private_module(module, dict(product=product, _BROWSER_PROOF_ROOT=ROOT,
+                                                              _BROWSER_REQUIRE_COMPLETE_CENSUS=require_census))
     original = current.observe
     current.observe = lambda cur, value, label: observer.observe(original, cur, value, label)
     require(current.main.__globals__ is current.__dict__ and current.census.__globals__ is current.__dict__,
             'CURRENT_SKU_BROWSER_MAIN_AND_FULL_CENSUS_CURRENT_PRODUCT_BINDING_REQUIRED')
-    return current, dict(proof, actual_native_constructor=preflight.PINS['fixture'],
+    return current, dict(proof, complete_current_census_route=census_proof, actual_native_constructor=preflight.PINS['fixture'],
                          exact_browser_constructor_checkout='qualified-mandor-parent',
                          money_location_aware_constructor_unchanged=True,
                          actual_Native_function_code_identities_checked=len(functions),

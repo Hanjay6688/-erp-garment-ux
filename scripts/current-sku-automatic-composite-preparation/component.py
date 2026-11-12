@@ -43,7 +43,7 @@ def derive(raw, *, focused=False):
         ("physical_FIFO_preserved=True,economic_valuation='SKU_LOCATION_GRADE_MOVING_AVERAGE_WITH_SOURCE_CENTS')",
          "physical_FIFO_preserved=True,economic_valuation='SKU_LOCATION_GRADE_MOVING_AVERAGE_WITH_SOURCE_CENTS')\n"
          "    report['status']='INCOMPLETE'\n"
-         "    _BROWSER_ACCESS.run(product,state,verify,report)\n"
+         "    _BROWSER_RUN(product,state,verify,report)\n"
          "    report.update(status='PASS',actual_Auth_browser=True,actual_business_cases=len(business.IDS)+2,\n"
          "                  qualification_scope='NATIVE25_AND_CURRENT_BROWSER2')"),
     )
@@ -71,7 +71,8 @@ def derive(raw, *, focused=False):
                        added_upstream_native_callbacks=6, actual_ERP_cases=0, production_go=False)
 
 
-def load_prepared(bridge, product, parent_raw, money_raw, plan_raw, scheduler_quiet, *, case_output=None, focus=None):
+def load_prepared(bridge, product, parent_raw, money_raw, plan_raw, scheduler_quiet, *,
+                  case_output=None, browser_run=None, focus=None):
     bridge.admission.require_ready()  # Before caller, receipt, file, Git or ERP inspection.
     bridge.admission.inputs(parent_raw, money_raw, plan_raw)
     bridge.source_manifest()
@@ -99,7 +100,9 @@ def load_prepared(bridge, product, parent_raw, money_raw, plan_raw, scheduler_qu
         raise ValueError('SKU_AUTOMATIC_COMPLETE_CASE_OUTPUT_BINDING_REQUIRED')
     module._CASE_OUTPUT = case_output
     module._SETUP_SEQUENCES = load('automatic_native_setup_sequences', HERE / 'setup_sequences.py')
-    module._BROWSER_ACCESS = load('automatic_current_real_browser_copy', HERE / 'browser_access.py')
+    if not callable(browser_run):
+        raise ValueError('SKU_AUTOMATIC_OWNING_BROWSER_RUNNER_REQUIRED')
+    module._BROWSER_RUN = browser_run
     exec(compile(source, module.__file__ + '::complete_native25', 'exec', dont_inherit=True), module.__dict__)
     if module.ROOT != ROOT or module.LABEL != LABEL:
         raise ValueError('SKU_AUTOMATIC_EXACT_OWNING_NATIVE_OUTPUT_NAMESPACE_REQUIRED')

@@ -54,7 +54,7 @@ class Native25Preparation(unittest.TestCase):
         self.assertIn('_SETUP_SEQUENCES.scope(native,business,prefix,before,report,_SETUP_READER) as setup,', after)
         self.assertIn("chain=setup['prefix']['after']", after)
         self.assertIn('_COMPLETE_ORIGINALS.copy_exact(original,destination/name,', after)
-        self.assertIn("report['status']='INCOMPLETE'\n    _BROWSER_ACCESS.run(product,state,verify,report)", after)
+        self.assertIn("report['status']='INCOMPLETE'\n    _BROWSER_RUN(product,state,verify,report)", after)
         self.assertNotIn('raw=original.read_bytes();(destination/name).write_bytes(raw)', after)
         with self.assertRaisesRegex(ValueError, 'EXACT_NINETEEN_COMPONENT'):
             self.component.derive(raw + b'\n')

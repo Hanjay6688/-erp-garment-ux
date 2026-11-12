@@ -3,8 +3,8 @@
   "Native_lifecycle_case_plan_prepared_not_admitted": true,
   "active_workflow_added": true,
   "active_workflow_source": {
-    "bytes": 39166,
-    "sha256": "25ed98be28202ec935a1a8c7ab5124ac3211ac81489d3b063ce9fc8a5efa85b2"
+    "bytes": 39426,
+    "sha256": "03e3d898c5efb5e32830ab7d2fffe35a158e08b164329840f44217beb9991567"
   },
   "actual_Auth_HTTP_cases": 0,
   "actual_ERP_cases": 0,
@@ -29,10 +29,23 @@
     "source_seconds": 360
   },
   "browser_binding_journey_control_methods": 4,
-  "browser_copy_controls": 2,
+  "browser_copy_controls": 3,
   "browser_observer_controls": 3,
   "browser_package_prerequisites_actual_runtime": false,
   "browser_package_prerequisites_prepared": true,
+  "browser_runtime_failure_repair": {
+    "actual_ERP_cases": 0,
+    "actual_browser_cases": 0,
+    "catalogue_decoder_foreign_binding_refusal_unchanged": true,
+    "first_failure_artifact": 13948730801,
+    "first_failure_run": 43211990138,
+    "retained_pair_and_complete_current_census_required": true,
+    "same_live_owning_entry_for_copy_scope": true,
+    "source_controls_before_database": [
+      "test_browser_access.py",
+      "test_browser_census.py"
+    ]
+  },
   "browser_value_Node_controls": 8,
   "byte_keyed_readonly_catalogue_decode_prepared": true,
   "callback_SQL_statements_type_checked": 35,
@@ -212,12 +225,12 @@
       "sha256": "b5ecf79cffde7e17dfe2cba945fdf9b379dba54080fa29ce5fe6cf284c5a00b1"
     },
     "browser_access.py": {
-      "bytes": 5355,
-      "sha256": "2b4cc3b07caffccf8bc7bc65ff476d1cdfd6c89c46ca3babdc667e900dd4e052"
+      "bytes": 5187,
+      "sha256": "4fa96675b99106f0680536666fb4b944783dca5efeab4b8b0135346e8c670a03"
     },
     "browser_binding.py": {
-      "bytes": 10357,
-      "sha256": "559bd52931c12f8a70e5e268ccbb4c979d3907cf570d1cbdccaf56aa33fa7003"
+      "bytes": 12679,
+      "sha256": "8055c12ec4b4f094dc7e8acaf19126e6cb8898ecc8e95cc5108344bf1ca1b154"
     },
     "browser_deadline.py": {
       "bytes": 1090,
@@ -284,8 +297,8 @@
       "sha256": "f64abf4a0b33973e580bc769f9462ee7af2629ab4fb7413d3ed721e6436a8454"
     },
     "component.py": {
-      "bytes": 7046,
-      "sha256": "469c57bb92ba06f3d325f2311c0c13c960074fcd139c3e61bef244dedcb79f28"
+      "bytes": 7119,
+      "sha256": "eb8f6c49f69979e28fe3d0a1cc71caebc72c2a6598eb899d0350b69637b1f4fb"
     },
     "context_timezone.py": {
       "bytes": 4038,
@@ -372,8 +385,8 @@
       "sha256": "5535ce276253d5ce6f10157cc825e75499ef2e2cf6b225dac3213317e6cb1966"
     },
     "qualification.py": {
-      "bytes": 14431,
-      "sha256": "b3118a69280da4efbbbec21cef9ea2a35e9915779a21a7e4409dcdd8e97f0f25"
+      "bytes": 15029,
+      "sha256": "86e8934708f8d349c585fae98cbd8c7b96caf84a40654f437e6744ca12f7a68d"
     },
     "report_io.py": {
       "bytes": 6464,
@@ -396,8 +409,8 @@
       "sha256": "5016e69666b3a0eb75f123ca693107156fcf977f6b4654e45cd585dfcf97a9a9"
     },
     "sku-current-parent-money-automatic-native25-83.workflow.yml.txt": {
-      "bytes": 39166,
-      "sha256": "25ed98be28202ec935a1a8c7ab5124ac3211ac81489d3b063ce9fc8a5efa85b2"
+      "bytes": 39426,
+      "sha256": "03e3d898c5efb5e32830ab7d2fffe35a158e08b164329840f44217beb9991567"
     },
     "sku-current-parent-money-automatic-native25.workflow.yml.txt": {
       "bytes": 34009,
@@ -420,12 +433,16 @@
       "sha256": "7a3ad363fab256adb673b80bef5ef7428dc2f506669cdd3a339d0c9721833805"
     },
     "test_browser_access.py": {
-      "bytes": 2280,
-      "sha256": "02db4e74d6a3d37851b03583b23f7304ce2b892f51bfdde514d17ad9896d9580"
+      "bytes": 8798,
+      "sha256": "b43e594af2b230702a828e70645e77ec25d4d2173ce1ef73dfba151770fac382"
     },
     "test_browser_binding.py": {
       "bytes": 10945,
       "sha256": "e07f6b653fd6ecd7fbc0236e2837911476581de1e03f8a59b5a7de15e4ded8a1"
+    },
+    "test_browser_census.py": {
+      "bytes": 9100,
+      "sha256": "2e1faef69116d5a1ea606964b6b8bd48b7c07ae730365371d055dfbfbf128fca"
     },
     "test_browser_deadline.py": {
       "bytes": 4992,
@@ -476,8 +493,8 @@
       "sha256": "41f73a354e164d5d85e8ff8a4a6c5f345a8ca766baf50df964a07d487d4a82f5"
     },
     "test_native25.py": {
-      "bytes": 8141,
-      "sha256": "6d5c6d16ca08cec0931beb2ba839f25c1cc1dc3b6b1df7f3c7a82e8f63b1cd6f"
+      "bytes": 8134,
+      "sha256": "be7a4153c892191e069f8542c368ecce9142e9857849f2575a73a3e472c42ad8"
     },
     "test_native_sql.mjs": {
       "bytes": 2949,
@@ -512,8 +529,8 @@
       "sha256": "02aa262de0884a89e97c517103f8e7333ffacde1ce66f8edc575ed627bc60a4f"
     },
     "workflow.py": {
-      "bytes": 15805,
-      "sha256": "70ab4914d6b37bc338bb1ffb7a44c60bfe736210f6f3defb739f3961b4e32f8b"
+      "bytes": 15989,
+      "sha256": "3d9993149b20c2b2bc2c766f9576e5ff6f9f43e753b0ff513d532ef563f6206d"
     }
   },
   "fresh_Auth_HTTP_races_browser_and_full_runtime_pending": true,

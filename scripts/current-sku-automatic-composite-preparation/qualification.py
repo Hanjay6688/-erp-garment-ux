@@ -4,6 +4,7 @@ This stage executes no ERP work on import. A source check never substitutes
 for a genuine parent Root, financial execution or complete outer restoration.
 """
 from contextlib import contextmanager
+from functools import partial
 from pathlib import Path
 from types import ModuleType, SimpleNamespace
 import argparse
@@ -150,8 +151,14 @@ def runtime():
                 exec(compile(text, engine.__file__ + '::current-automatic-native25', 'exec', dont_inherit=True), engine.__dict__)
                 engine.product = product
                 case_output = complete_case_output()
+                browser_access = load('automatic_current_real_browser_copy', HERE / 'browser_access.py')
+                browser_entry = SimpleNamespace(
+                    actual_inputs=actual_inputs, BRANCH=BRANCH, assembly=assembly, load=load,
+                    inherited_scope=inherited_scope, FROZEN_PARENT=FROZEN_PARENT, FROZEN_AFUI=FROZEN_AFUI,
+                    complete_case_output=complete_case_output, report_io=report_io)
                 engine.runner, component_proof = component.load_prepared(assembly, product, parent_raw, money_raw, plan_raw,
-                                                                         inherited.runner.scheduler_quiet, case_output=case_output, focus=focus)
+                                                                         inherited.runner.scheduler_quiet, case_output=case_output, focus=focus,
+                                                                         browser_run=partial(browser_access.run, browser_entry))
                 global_catalogue = load('automatic_Global_parent_catalogue', HERE / 'global_parent_catalogue.py')
                 engine.runner.exercise = global_catalogue.bind(engine.runner.exercise, report_io.complete_originals())
                 engine.current_advisor = authority.bind(inherited.current_advisor, FROZEN_PARENT)
