@@ -1,0 +1,311 @@
+diff --git a/scripts/current-sku-automatic-composite-preparation/SOURCE.json b/scripts/current-sku-automatic-composite-preparation/SOURCE.json
+index 63d37caa..2fc904d0 100644
+--- a/scripts/current-sku-automatic-composite-preparation/SOURCE.json
++++ b/scripts/current-sku-automatic-composite-preparation/SOURCE.json
+@@ -189,8 +189,8 @@
+       "sha256": "f95d7be158f86a644111105dfd12a2a45581be015dc381f3cfa598c89ce802f8"
+     },
+     "assembly.py": {
+-      "bytes": 8637,
+-      "sha256": "4ec3cd701e9be064f68e0bfabc8765944b247a71cfab58d6c76b34a2ed455384"
++      "bytes": 8780,
++      "sha256": "f4e9c075cb02b5df03738ce145abaa7c55d8ed350239e4c449e1b534af480dad"
+     },
+     "browser.mjs": {
+       "bytes": 23288,
+@@ -280,6 +280,10 @@
+       "bytes": 3225,
+       "sha256": "b18fe43ee8a0fef1d4c1d9c93edc14be71217f76f6650d867f32cc87e2c5bd06"
+     },
++    "cost_source_timezone.py": {
++      "bytes": 2753,
++      "sha256": "c747f1980099a1cf81e9ff5817dc54a56cc8be8b8d1978de4a8680e9dbe1b4bd"
++    },
+     "cumulative_fetch.py": {
+       "bytes": 5970,
+       "sha256": "eca67d651a71023844f00fbb0843027c4bbc5822ad97751f7120bddbb628a87b"
+@@ -305,8 +309,8 @@
+       "sha256": "331b22b007bd637edaeae4f5cbece3eb15933bfffdf2bc034b833ca6ce5c8b45"
+     },
+     "final_gate.py": {
+-      "bytes": 12190,
+-      "sha256": "e522b4e3b0ebc25503fdc47570752d823681e6dbe24eb3b78e2334a84fb63e5a"
++      "bytes": 12379,
++      "sha256": "d47f8e1c890326e27010d204ceab9a9e7fc056c17b424fb4e39d1f16d6016d3f"
+     },
+     "global_parent_catalogue.py": {
+       "bytes": 4180,
+@@ -333,8 +337,8 @@
+       "sha256": "bb4df7df9f42aa9155b1b12f801650561661a77127b91fb2d360b9df8be039eb"
+     },
+     "native_preflight.py": {
+-      "bytes": 7005,
+-      "sha256": "c989857d6317386c6b9bf9433a81e7ff0f62ac8d6753ddadd7a965a41e5af83c"
++      "bytes": 7544,
++      "sha256": "9176fd21f484c0a99af0373a1341a041b32f9dbf6b83be7fd7c89b6ff05c2ff3"
+     },
+     "native_suite.py": {
+       "bytes": 1817,
+@@ -345,8 +349,8 @@
+       "sha256": "ac1424fcc242dfcd05e823111316724d7b671ad313e3603f7196f32cb24846d6"
+     },
+     "package.py": {
+-      "bytes": 13757,
+-      "sha256": "039622d8e9db7739a07baf155785898a9aadc61d04b13a75faf811412fe02635"
++      "bytes": 14239,
++      "sha256": "0f81933b4990a2e47c604dceb7fbe14ea5b7db3ef963de29665e2687b8e307cb"
+     },
+     "prepare_native_sql.py": {
+       "bytes": 4284,
+@@ -445,8 +449,8 @@
+       "sha256": "b3158c223cecded0b8a72211088c4c0fc198af9c9407fcff0a4806b3d651fec9"
+     },
+     "test_final_gate.py": {
+-      "bytes": 14884,
+-      "sha256": "fc7fe719a9f0cbf66460d2d133a2a39bc1c7347bb2535360b6a3665e3521d856"
++      "bytes": 15322,
++      "sha256": "f47565b6df59aa33f0819e05d56ca7f7b4c3957a14d6af91c7ab11bace04e5ba"
+     },
+     "test_harness_scope.py": {
+       "bytes": 4653,
+diff --git a/scripts/current-sku-automatic-composite-preparation/assembly.py b/scripts/current-sku-automatic-composite-preparation/assembly.py
+index e46f278c..7afa1dfe 100644
+--- a/scripts/current-sku-automatic-composite-preparation/assembly.py
++++ b/scripts/current-sku-automatic-composite-preparation/assembly.py
+@@ -156,6 +156,8 @@ def load_prepared(bridge, parent, money_module, automatic_module, parent_raw, mo
+     for owner in (money, product):
+         owner.prepared = module_scope.bind_money_preparation(owner.prepared, financial_delta)
+     non_po_rounding.bind(money)
++    cost_timezone = load('sku_cost_source_timezone', HERE / 'cost_source_timezone.py')
++    money.prepared = cost_timezone.bind(money.prepared)
+     timezone = load('automatic_context_timezone', HERE / 'context_timezone.py')
+     product.prepared = timezone.bind(product.prepared)
+     return product
+diff --git a/scripts/current-sku-automatic-composite-preparation/cost_source_timezone.py b/scripts/current-sku-automatic-composite-preparation/cost_source_timezone.py
+new file mode 100644
+index 00000000..453aa24c
+--- /dev/null
++++ b/scripts/current-sku-automatic-composite-preparation/cost_source_timezone.py
+@@ -0,0 +1,58 @@
++"""Canonicalize the private non-PO cost capture beside its UTC recheck."""
++
++from hashlib import sha256
++
++SIGNATURE = "cp7_sku_conversion.capture_cost_source_v3(uuid)"
++DONOR = {"bytes": 8954, "sha256": "7a9ab4a887fe92b82eeb003989418b5ab4da57607fccefc365b2f2445bade765"}
++OLD_DEFINITION = {"bytes": 1556, "sha256": "d34b88ae943c49c5061d1c2116e9fc337dfbada17a81fcc5f5933fbe8627a02c"}
++NEW_DEFINITION = {"bytes": 1581, "sha256": "44aba20d060d3a7eed11f7118c3cffa9289ec9306511e9ed3fb15ea8eaa28ae2"}
++DDL_BEFORE = (
++    "create function cp7_sku_conversion.capture_cost_source_v3(p_document uuid)returns jsonb\n"
++    "language plpgsql volatile security definer set search_path=''as $$"
++)
++DDL_AFTER = DDL_BEFORE.replace("set search_path=''as", "set search_path='' set timezone='UTC' as")
++DEFINITION_BEFORE = " SET search_path TO ''\nAS $function$"
++DEFINITION_AFTER = " SET search_path TO ''\n SET \"TimeZone\" TO 'UTC'\nAS $function$"
++
++
++def pin(text):
++    raw = text.encode()
++    return {"bytes": len(raw), "sha256": sha256(raw).hexdigest()}
++
++
++def replace_exact(value, before, after):
++    if value.count(before) != 1 or after in value:
++        raise ValueError("SKU_SOURCE_COST_TIMEZONE_EXACT_PREIMAGE_REQUIRED")
++    return value.replace(before, after, 1)
++
++
++def adapt(product, profile):
++    ddl = product["ddl"]
++    if (product["source_files"].get("source_rebalance.sql") != DONOR
++            or profile["source_files"] != product["source_files"]
++            or profile["derived_ddl"] != pin(ddl)):
++        raise ValueError("SKU_SOURCE_COST_TIMEZONE_EXACT_FROZEN_DDL_REQUIRED")
++    functions = dict(profile["groups"]["functions"])
++    original = functions[SIGNATURE]
++    if (len(original) != 19 or pin(original[0]) != OLD_DEFINITION
++            or original[1] != "postgres" or original[4] is not True
++            or original[12] != ['search_path=""']
++            or original[18] != [["postgres", "postgres", "EXECUTE", False]]):
++        raise ValueError("SKU_SOURCE_COST_TIMEZONE_EXACT_PRIVATE_PROFILE_REQUIRED")
++    changed = list(original)
++    changed[0] = replace_exact(original[0], DEFINITION_BEFORE, DEFINITION_AFTER)
++    if pin(changed[0]) != NEW_DEFINITION:
++        raise ValueError("SKU_SOURCE_COST_TIMEZONE_EXACT_REPLAY_POSTIMAGE_REQUIRED")
++    changed[12] = original[12] + ["TimeZone=UTC"]
++    functions[SIGNATURE] = changed
++    revised = replace_exact(ddl, DDL_BEFORE, DDL_AFTER)
++    groups = dict(profile["groups"], functions=functions)
++    return dict(product, ddl=revised), dict(profile, derived_ddl=pin(revised), groups=groups)
++
++
++def bind(prepare):
++    def prepared(before, prior):
++        product, profile, tables = prepare(before, prior)
++        product, profile = adapt(product, profile)
++        return product, profile, tables
++    return prepared
+diff --git a/scripts/current-sku-automatic-composite-preparation/final_gate.py b/scripts/current-sku-automatic-composite-preparation/final_gate.py
+index 523eb2c0..2941e740 100644
+--- a/scripts/current-sku-automatic-composite-preparation/final_gate.py
++++ b/scripts/current-sku-automatic-composite-preparation/final_gate.py
+@@ -49,6 +49,8 @@ def validate_preflight(p, part, value):
+              'AUTOMATIC_BATCH_PREFLIGHT_AND_UNCHANGED_CURRENT_BOUNDARY')
+     # Validate the exact nested retained Original, without relabeling it.
+     money_gate.validate_preflight(p, dict(part, native_prerequisites=value['retained_money19']), value['retained_money19'])
++    p.exact(value['supplier_account_mappings'], {key: [[True, True]] for key in prerequisites.SUPPLIER_ACCOUNT_MAPPINGS},
++            'AUTOMATIC_ACTIVE_POSTABLE_SUPPLIER_ACCOUNT_MAPPINGS')
+     p.exact(value['automatic_functions'], {name: True for name in prerequisites.FUNCTIONS}, 'AUTOMATIC_ALL_SIX_NATIVE_FUNCTIONS')
+     p.exact(set(value['automatic_actors']), set(prerequisites.ACTOR_FUNCTIONS), 'AUTOMATIC_BOTH_REAL_NATIVE_ACTORS')
+     for name, signatures in prerequisites.ACTOR_FUNCTIONS.items():
+diff --git a/scripts/current-sku-automatic-composite-preparation/native_preflight.py b/scripts/current-sku-automatic-composite-preparation/native_preflight.py
+index 8511d875..1f6121b4 100644
+--- a/scripts/current-sku-automatic-composite-preparation/native_preflight.py
++++ b/scripts/current-sku-automatic-composite-preparation/native_preflight.py
+@@ -21,6 +21,7 @@ ACTOR_FUNCTIONS = {
+     'upstream_completion_owner': FUNCTIONS[:2],
+     'supplier_invoice_owner': FUNCTIONS[2:4],
+ }
++SUPPLIER_ACCOUNT_MAPPINGS = ('AP_SUPPLIER',)
+ RETAINED_MONEY_PREFLIGHT_PIN = (
+     8157, 'eb15f3a0471370cc003ba5677233bdd0bf731e84ac59f4e11e5833a8929a0f77',
+ )
+@@ -72,6 +73,12 @@ def check(cur, today, business, retained, product, native, invoices):
+     errors = list(original['errors'])
+     business.f.admin(cur)
+     before = business.n.capture(cur)
++    supplier_mappings = {key: cur.execute(
++        'select a.is_active,a.is_postable from erp.accounting_account_mappings m '
++        'left join erp.chart_accounts a on a.id=m.account_id where m.mapping_key=%s',
++        (key,)).fetchall() for key in SUPPLIER_ACCOUNT_MAPPINGS}
++    errors.extend('ACTIVE_POSTABLE_ACCOUNT_MAPPING_REQUIRED:' + key
++                  for key, rows in supplier_mappings.items() if rows != [(True, True)])
+     available = {sig: cur.execute('select to_regprocedure(%s) is not null', (sig,)).fetchone()[0] for sig in FUNCTIONS}
+     errors.extend('AUTOMATIC_MISSING_FUNCTION:' + sig for sig, found in available.items() if not found)
+     bindings = {}
+@@ -115,6 +122,7 @@ def check(cur, today, business, retained, product, native, invoices):
+     if not unchanged:
+         errors.append('AUTOMATIC_READ_ONLY_PREREQUISITES_CHANGED_CURRENT_BOUNDARY')
+     return dict(status='PASS' if not errors else 'REFUSED', errors=errors, retained_money19=original,
++                supplier_account_mappings=supplier_mappings,
+                 automatic_functions=available, automatic_actors=actors, natural_callers=bindings,
+                 all_prerequisites_checked_before_first_case=True, source=product.sources(),
+                 all22_rows_and_all_sequences_unchanged=unchanged, actual_ERP_cases=0, production_go=False)
+diff --git a/scripts/current-sku-automatic-composite-preparation/package.py b/scripts/current-sku-automatic-composite-preparation/package.py
+index 2553d95c..5f9fc3cc 100644
+--- a/scripts/current-sku-automatic-composite-preparation/package.py
++++ b/scripts/current-sku-automatic-composite-preparation/package.py
+@@ -10,6 +10,7 @@ from uuid import UUID
+ import json
+ from json.encoder import encode_basestring
+ import math
++from operator import itemgetter
+ 
+ HERE = Path(__file__).resolve().parent
+ ROOT = HERE.parents[1]
+@@ -74,14 +75,14 @@ def state_digest(value):
+     digest = sha256()
+     encoder = json.JSONEncoder(ensure_ascii=False, separators=(',', ':'), allow_nan=False)
+     pending = bytearray()
++    emit = pending.extend
+     strings = {}
++    integers = {}
+     string_bytes = 0
+ 
+-    def emit(raw):
+-        pending.extend(raw)
+-        if len(pending) >= 64 * 1024:
+-            digest.update(pending)
+-            pending.clear()
++    def flush():
++        digest.update(pending)
++        pending.clear()
+ 
+     def encoded(item):
+         return encoder.encode(state_value(item)).encode()
+@@ -95,7 +96,8 @@ def state_digest(value):
+                 raw = b'["str",' + encode_basestring(item).encode() + b']'
+                 # Catalogue copies repeat identifiers and function bodies.
+                 # Cache only immutable text, with both count and byte limits.
+-                if len(strings) < 8192 and string_bytes + len(raw) <= 24 * 1024 * 1024:
++                # Allow enough keys for a full catalogue's repeated scalars.
++                if len(strings) < 65536 and string_bytes + len(raw) <= 24 * 1024 * 1024:
+                     strings[item] = raw
+                     string_bytes += len(raw)
+             return raw
+@@ -104,19 +106,30 @@ def state_digest(value):
+         if kind is bool:
+             return b'["bool",true]' if item else b'["bool",false]'
+         if kind is int:
+-            return b'["int","' + str(item).encode('ascii') + b'"]'
++            raw = integers.get(item)
++            if raw is None:
++                raw = b'["int","' + str(item).encode('ascii') + b'"]'
++                if len(integers) < 2048 and len(raw) <= 64:
++                    integers[item] = raw
++            return raw
+         return encoded(item)
+ 
+-    containers = (dict, MappingProxyType, list, tuple, set, frozenset)
++    container_type_ids = {id(kind) for kind in (dict, MappingProxyType, list, tuple, set, frozenset)}
++    key_order = itemgetter(0)
+ 
+     def write(item):
++        # Flush at value boundaries so punctuation need not check the buffer.
++        if len(pending) >= 64 * 1024:
++            flush()
+         kind = type(item)
+         if kind in (dict, MappingProxyType):
+             emit(b'["' + kind.__name__.encode() + b'",[')
+             keys = [(scalar(key), key) for key in item]
+-            keys.sort(key=lambda row: row[0])
++            keys.sort(key=key_order)
+             for index, (raw_key, key) in enumerate(keys):
+-                emit((b',[' if index else b'[') + raw_key + b',')
++                emit(b',[' if index else b'[')
++                emit(raw_key)
++                emit(b',')
+                 write(item[key])
+                 emit(b']')
+             emit(b']]')
+@@ -124,7 +137,7 @@ def state_digest(value):
+             # Catalogue rows are short scalar lists. Encode those in one
+             # pass while keeping the enclosing catalogue streaming.
+             prefix = b'["' + kind.__name__.encode() + b'",['
+-            if len(item) <= 64 and all(type(member) not in containers for member in item):
++            if len(item) <= 64 and container_type_ids.isdisjoint(map(id, map(type, item))):
+                 emit(prefix + b','.join(map(scalar, item)) + b']]')
+                 return
+             emit(prefix)
+@@ -145,7 +158,7 @@ def state_digest(value):
+     emit(b'["cp7.complete-postgres-parent-state.v1",')
+     write(value)
+     emit(b']')
+-    digest.update(pending)
++    flush()
+     return digest.hexdigest()
+ 
+ 
+diff --git a/scripts/current-sku-automatic-composite-preparation/test_final_gate.py b/scripts/current-sku-automatic-composite-preparation/test_final_gate.py
+index 9b3862bb..154588c5 100644
+--- a/scripts/current-sku-automatic-composite-preparation/test_final_gate.py
++++ b/scripts/current-sku-automatic-composite-preparation/test_final_gate.py
+@@ -37,6 +37,7 @@ def model25():
+                 qualification_scope='NATIVE25_AND_CURRENT_BROWSER2')
+     declaration = dict(explicit_source_protocol_model_only=True)
+     automatic = dict(status='PASS', errors=[], retained_money19=docs[subject.PREFLIGHT],
++                     supplier_account_mappings={key: [[True, True]] for key in subject.prerequisites.SUPPLIER_ACCOUNT_MAPPINGS},
+                      automatic_functions={name: True for name in subject.prerequisites.FUNCTIONS},
+                      automatic_actors={name: dict(role='OWNER', database_role=['authenticated', 'authenticated'],
+                         permission_source='public.erp_get_my_access_v1()',
+@@ -143,6 +144,10 @@ class Native25GateProtocol(unittest.TestCase):
+     def test_batch_preflight_cannot_omit_an_actor_function_permission_or_natural_caller(self):
+         p, original, ids = model25()
+         mutations = [
++            lambda d: d.pop('supplier_account_mappings'),
++            lambda d: d['supplier_account_mappings'].pop('AP_SUPPLIER'),
++            lambda d: d['supplier_account_mappings'].update(AP_SUPPLIER=[[False, True]]),
++            lambda d: d['supplier_account_mappings'].update(UNREVIEWED=[[True, True]]),
+             lambda d: d.update(all22_rows_and_all_sequences_unchanged=False),
+             lambda d: d.update(all_prerequisites_checked_before_first_case=False),
+             lambda d: d['automatic_actors'].pop('upstream_completion_owner'),

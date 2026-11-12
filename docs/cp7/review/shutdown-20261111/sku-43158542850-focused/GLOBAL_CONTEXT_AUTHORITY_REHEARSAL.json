@@ -1,0 +1,69 @@
+{
+  "status": "GLOBAL_CONTEXT_REFERENCE_REHEARSAL_PASS",
+  "original_catalogue": {
+    "bytes": 16048163,
+    "sha256": "5ff582717522b766c12024c1bf3299066475f14a3c6021a3543f378f829e0c07"
+  },
+  "original_groups": 25,
+  "exact_checked_automatic_function_rows": 19,
+  "changed_functions": {
+    "cp7_sku_conversion.automatic_valid_v5()": {
+      "definition": {
+        "bytes": 2369,
+        "sha256": "c7366933a6bcf9b70859e28fd625fbe5988b28cb49f4c5febdeef4c8e3080db8"
+      },
+      "config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "other_17_fields_exact": true
+    },
+    "cp7_sku_conversion.automatic_enter_v5(uuid,text,uuid)": {
+      "definition": {
+        "bytes": 2741,
+        "sha256": "37c945673bcb5fc3643d6bdaf0f7f9bae58c354bcc7f077ed78bff6fc29921a9"
+      },
+      "config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "other_17_fields_exact": true
+    }
+  },
+  "full25_expected_groups_matched": 25,
+  "negative_controls": [
+    {
+      "control": "old_profile_on_fixed_context",
+      "first_error": "GLOBAL_AUTOMATIC_CURRENT_FULL19_FUNCTION_REQUIRED:cp7_sku_conversion.automatic_valid_v5()"
+    },
+    {
+      "control": "fixed_profile_on_old_context",
+      "first_error": "GLOBAL_AUTOMATIC_CURRENT_FULL19_FUNCTION_REQUIRED:cp7_sku_conversion.automatic_valid_v5()"
+    },
+    {
+      "control": "changed_function_attribute_0",
+      "first_error": "GLOBAL_AUTOMATIC_CURRENT_FULL19_FUNCTION_REQUIRED:cp7_sku_conversion.automatic_valid_v5()"
+    },
+    {
+      "control": "changed_function_attribute_1",
+      "first_error": "GLOBAL_AUTOMATIC_CURRENT_FULL19_FUNCTION_REQUIRED:cp7_sku_conversion.automatic_valid_v5()"
+    },
+    {
+      "control": "changed_function_attribute_4",
+      "first_error": "GLOBAL_AUTOMATIC_CURRENT_FULL19_FUNCTION_REQUIRED:cp7_sku_conversion.automatic_valid_v5()"
+    },
+    {
+      "control": "changed_function_attribute_12",
+      "first_error": "GLOBAL_AUTOMATIC_CURRENT_FULL19_FUNCTION_REQUIRED:cp7_sku_conversion.automatic_valid_v5()"
+    },
+    {
+      "control": "changed_function_attribute_18",
+      "first_error": "GLOBAL_AUTOMATIC_CURRENT_FULL19_FUNCTION_REQUIRED:cp7_sku_conversion.automatic_valid_v5()"
+    }
+  ],
+  "classification": "Closed Global source and actual E4EA original with only reviewed postimages replayed offline",
+  "actual_ERP_cases": 0,
+  "actual_current_catalogue": false,
+  "runtime_admission": false,
+  "production_go": false
+}

@@ -1,0 +1,17 @@
+{
+  "status": "FOCUSED_SKU_SOURCE_COMPATIBLE_WITH_CLOSED_GLOBAL",
+  "global_head": "c9248b8770ec8cfe0f7e2f2fd8da26c141ea67c5",
+  "global_tree": "9b440dd1785344fdafa5d2d702a6dd8f1ee08622",
+  "sku_head": "3f2a7748c7cfde2881b19dac853fef82e49b6885",
+  "sku_tree": "c7c53dd3678459ad6bd18f63a9fa8d9521eca140",
+  "total_sku_paths": 222,
+  "previous_closed_paths": 209,
+  "collisions": [],
+  "actual_erp_case_credit": 0,
+  "global_runtime_admitted": false,
+  "production_go": false,
+  "complete_path_map_pin": {
+    "bytes": 53487,
+    "sha256": "e6f848ca1aa0717e3ac8fe9e4955c21f650f2e3ac249cf0e016ce2aad88d5e18"
+  }
+}

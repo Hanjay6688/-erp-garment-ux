@@ -1,0 +1,430 @@
+{
+  "status": "REVIEW_ONLY_REBASED_B_SOURCE_CONTROLS_PASS",
+  "source_head": "3f2a7748c7cfde2881b19dac853fef82e49b6885",
+  "supplier_before": {
+    "status": "FAIL",
+    "cases": [
+      {
+        "id": "missing",
+        "expected": "REFUSED",
+        "actual": "PASS",
+        "errors": [],
+        "mapping_read": false,
+        "read_only_protocol": true,
+        "all_five_actor_checks_preserved": true,
+        "status": "FAIL"
+      },
+      {
+        "id": "inactive",
+        "expected": "REFUSED",
+        "actual": "PASS",
+        "errors": [],
+        "mapping_read": false,
+        "read_only_protocol": true,
+        "all_five_actor_checks_preserved": true,
+        "status": "FAIL"
+      },
+      {
+        "id": "nonpostable",
+        "expected": "REFUSED",
+        "actual": "PASS",
+        "errors": [],
+        "mapping_read": false,
+        "read_only_protocol": true,
+        "all_five_actor_checks_preserved": true,
+        "status": "FAIL"
+      },
+      {
+        "id": "dangling",
+        "expected": "REFUSED",
+        "actual": "PASS",
+        "errors": [],
+        "mapping_read": false,
+        "read_only_protocol": true,
+        "all_five_actor_checks_preserved": true,
+        "status": "FAIL"
+      },
+      {
+        "id": "duplicate",
+        "expected": "REFUSED",
+        "actual": "PASS",
+        "errors": [],
+        "mapping_read": false,
+        "read_only_protocol": true,
+        "all_five_actor_checks_preserved": true,
+        "status": "FAIL"
+      },
+      {
+        "id": "valid",
+        "expected": "PASS",
+        "actual": "PASS",
+        "errors": [],
+        "mapping_read": false,
+        "read_only_protocol": true,
+        "all_five_actor_checks_preserved": true,
+        "status": "PASS"
+      },
+      {
+        "id": "permission",
+        "expected": "REFUSED",
+        "actual": "REFUSED",
+        "errors": [
+          "ACTOR_PERMISSION:accessory_operator:warehouse.accessory.view"
+        ],
+        "status": "PASS"
+      },
+      {
+        "id": "actor_error",
+        "expected": "REFUSED",
+        "actual": "REFUSED",
+        "errors": [
+          "ACTOR_CHECK_REFUSED:conversion_and_owner_native"
+        ],
+        "status": "PASS"
+      },
+      {
+        "id": "census_change",
+        "expected": "REFUSED",
+        "actual": "REFUSED",
+        "errors": [
+          "READ_ONLY_PREFLIGHT_CHANGED_CATALOG_ROWS_OR_SEQUENCES"
+        ],
+        "status": "PASS"
+      },
+      {
+        "id": "unexpected_account_read_error",
+        "expected": "PROPAGATED",
+        "actual": "PASS",
+        "status": "FAIL"
+      },
+      {
+        "id": "final_gate_omitted",
+        "expected": "REFUSED",
+        "actual": "ACCEPTED",
+        "status": "FAIL"
+      },
+      {
+        "id": "final_gate_empty",
+        "expected": "REFUSED",
+        "actual": "ACCEPTED",
+        "status": "FAIL"
+      },
+      {
+        "id": "final_gate_false",
+        "expected": "REFUSED",
+        "actual": "ACCEPTED",
+        "status": "FAIL"
+      },
+      {
+        "id": "final_gate_extra",
+        "expected": "REFUSED",
+        "actual": "ACCEPTED",
+        "status": "FAIL"
+      }
+    ],
+    "actual_ERP_cases": 0
+  },
+  "supplier_after": {
+    "status": "PASS",
+    "cases": [
+      {
+        "id": "missing",
+        "expected": "REFUSED",
+        "actual": "REFUSED",
+        "errors": [
+          "ACTIVE_POSTABLE_ACCOUNT_MAPPING_REQUIRED:AP_SUPPLIER"
+        ],
+        "mapping_read": true,
+        "read_only_protocol": true,
+        "all_five_actor_checks_preserved": true,
+        "status": "PASS"
+      },
+      {
+        "id": "inactive",
+        "expected": "REFUSED",
+        "actual": "REFUSED",
+        "errors": [
+          "ACTIVE_POSTABLE_ACCOUNT_MAPPING_REQUIRED:AP_SUPPLIER"
+        ],
+        "mapping_read": true,
+        "read_only_protocol": true,
+        "all_five_actor_checks_preserved": true,
+        "status": "PASS"
+      },
+      {
+        "id": "nonpostable",
+        "expected": "REFUSED",
+        "actual": "REFUSED",
+        "errors": [
+          "ACTIVE_POSTABLE_ACCOUNT_MAPPING_REQUIRED:AP_SUPPLIER"
+        ],
+        "mapping_read": true,
+        "read_only_protocol": true,
+        "all_five_actor_checks_preserved": true,
+        "status": "PASS"
+      },
+      {
+        "id": "dangling",
+        "expected": "REFUSED",
+        "actual": "REFUSED",
+        "errors": [
+          "ACTIVE_POSTABLE_ACCOUNT_MAPPING_REQUIRED:AP_SUPPLIER"
+        ],
+        "mapping_read": true,
+        "read_only_protocol": true,
+        "all_five_actor_checks_preserved": true,
+        "status": "PASS"
+      },
+      {
+        "id": "duplicate",
+        "expected": "REFUSED",
+        "actual": "REFUSED",
+        "errors": [
+          "ACTIVE_POSTABLE_ACCOUNT_MAPPING_REQUIRED:AP_SUPPLIER"
+        ],
+        "mapping_read": true,
+        "read_only_protocol": true,
+        "all_five_actor_checks_preserved": true,
+        "status": "PASS"
+      },
+      {
+        "id": "valid",
+        "expected": "PASS",
+        "actual": "PASS",
+        "errors": [],
+        "mapping_read": true,
+        "read_only_protocol": true,
+        "all_five_actor_checks_preserved": true,
+        "status": "PASS"
+      },
+      {
+        "id": "permission",
+        "expected": "REFUSED",
+        "actual": "REFUSED",
+        "errors": [
+          "ACTOR_PERMISSION:accessory_operator:warehouse.accessory.view"
+        ],
+        "status": "PASS"
+      },
+      {
+        "id": "actor_error",
+        "expected": "REFUSED",
+        "actual": "REFUSED",
+        "errors": [
+          "ACTOR_CHECK_REFUSED:conversion_and_owner_native"
+        ],
+        "status": "PASS"
+      },
+      {
+        "id": "census_change",
+        "expected": "REFUSED",
+        "actual": "REFUSED",
+        "errors": [
+          "READ_ONLY_PREFLIGHT_CHANGED_CATALOG_ROWS_OR_SEQUENCES"
+        ],
+        "status": "PASS"
+      },
+      {
+        "id": "unexpected_account_read_error",
+        "expected": "PROPAGATED",
+        "actual": "PROPAGATED",
+        "status": "PASS"
+      },
+      {
+        "id": "final_gate_omitted",
+        "expected": "REFUSED",
+        "actual": "REFUSED",
+        "status": "PASS"
+      },
+      {
+        "id": "final_gate_empty",
+        "expected": "REFUSED",
+        "actual": "REFUSED",
+        "status": "PASS"
+      },
+      {
+        "id": "final_gate_false",
+        "expected": "REFUSED",
+        "actual": "REFUSED",
+        "status": "PASS"
+      },
+      {
+        "id": "final_gate_extra",
+        "expected": "REFUSED",
+        "actual": "REFUSED",
+        "status": "PASS"
+      }
+    ],
+    "actual_ERP_cases": 0
+  },
+  "digest": {
+    "status": "BYTE_IDENTICAL_ON_E4EA_ORIGINAL_CATALOGUE_REPLAY",
+    "matched": 9,
+    "control": {
+      "byte_preimages": {
+        "all_types_and_flush": {
+          "bytes": 213868,
+          "sha256": "968e36d2559658135455cb7f845d5339a7e25dbb2d517f13d040d9a1545c1806"
+        },
+        "cache_capacity_and_repeat": {
+          "bytes": 1405094,
+          "sha256": "50568473a31792c8682958bad0882a6ceb04c76be02e628574ae52261a5f2000"
+        },
+        "changed_nested_state": {
+          "bytes": 213868,
+          "sha256": "0ca8330ffaaa95616b2a44534bae8c9ad1477e6211d2f8122f79b310193fe26d"
+        }
+      },
+      "refusals_unchanged": [
+        [
+          "TypeError",
+          "SKU_STATE_UNSUPPORTED_VALUE:object"
+        ],
+        [
+          "TypeError",
+          "SKU_STATE_UNSUPPORTED_VALUE:float"
+        ],
+        [
+          "TypeError",
+          "SKU_STATE_UNSUPPORTED_VALUE:Decimal"
+        ],
+        [
+          "TypeError",
+          "SKU_STATE_UNSUPPORTED_VALUE:object"
+        ],
+        [
+          "UnicodeEncodeError",
+          "'utf-8' codec can't encode character '\\ud800' in position 1: surrogates not allowed"
+        ]
+      ]
+    },
+    "timing_scope": "Local replay envelopes made from actual archived catalogue and backup report",
+    "cpu_seconds_before": 6.449217,
+    "cpu_seconds_after": 4.819721,
+    "data": [
+      {
+        "binding": "current_mandor_moving_for_money",
+        "baseline": {
+          "wall_s": 0.703325,
+          "cpu_s": 0.702376,
+          "sha256": "b9fab6aab0d1e6c2ab4085d5ec5b5b5f72428cbf40226d6203ab8efe677cec17"
+        },
+        "candidate": {
+          "wall_s": 0.512858,
+          "cpu_s": 0.512702,
+          "sha256": "b9fab6aab0d1e6c2ab4085d5ec5b5b5f72428cbf40226d6203ab8efe677cec17"
+        }
+      },
+      {
+        "binding": "current_mandor_moving_money",
+        "candidate": {
+          "wall_s": 0.510859,
+          "cpu_s": 0.510623,
+          "sha256": "38491a3125e497ab5d5a07f581825b3f91df667bd4271a004d95698f558b8b6a"
+        },
+        "baseline": {
+          "wall_s": 0.717588,
+          "cpu_s": 0.715229,
+          "sha256": "38491a3125e497ab5d5a07f581825b3f91df667bd4271a004d95698f558b8b6a"
+        }
+      },
+      {
+        "binding": "automatic_on_current_mandor_money",
+        "baseline": {
+          "wall_s": 0.761245,
+          "cpu_s": 0.761239,
+          "sha256": "50001cef838e90eaa3dede71b15c0a94e22b61e92194413566be2afb3c603575"
+        },
+        "candidate": {
+          "wall_s": 0.530278,
+          "cpu_s": 0.530103,
+          "sha256": "50001cef838e90eaa3dede71b15c0a94e22b61e92194413566be2afb3c603575"
+        }
+      },
+      {
+        "binding": "current_mandor_moving_for_money",
+        "candidate": {
+          "wall_s": 0.504763,
+          "cpu_s": 0.504778,
+          "sha256": "b9fab6aab0d1e6c2ab4085d5ec5b5b5f72428cbf40226d6203ab8efe677cec17"
+        },
+        "baseline": {
+          "wall_s": 0.685816,
+          "cpu_s": 0.68491,
+          "sha256": "b9fab6aab0d1e6c2ab4085d5ec5b5b5f72428cbf40226d6203ab8efe677cec17"
+        }
+      },
+      {
+        "binding": "current_mandor_moving_money",
+        "baseline": {
+          "wall_s": 0.680904,
+          "cpu_s": 0.680901,
+          "sha256": "38491a3125e497ab5d5a07f581825b3f91df667bd4271a004d95698f558b8b6a"
+        },
+        "candidate": {
+          "wall_s": 0.519819,
+          "cpu_s": 0.519825,
+          "sha256": "38491a3125e497ab5d5a07f581825b3f91df667bd4271a004d95698f558b8b6a"
+        }
+      },
+      {
+        "binding": "automatic_on_current_mandor_money",
+        "candidate": {
+          "wall_s": 0.626679,
+          "cpu_s": 0.620446,
+          "sha256": "50001cef838e90eaa3dede71b15c0a94e22b61e92194413566be2afb3c603575"
+        },
+        "baseline": {
+          "wall_s": 0.712201,
+          "cpu_s": 0.712143,
+          "sha256": "50001cef838e90eaa3dede71b15c0a94e22b61e92194413566be2afb3c603575"
+        }
+      },
+      {
+        "binding": "current_mandor_moving_for_money",
+        "baseline": {
+          "wall_s": 0.696362,
+          "cpu_s": 0.696357,
+          "sha256": "b9fab6aab0d1e6c2ab4085d5ec5b5b5f72428cbf40226d6203ab8efe677cec17"
+        },
+        "candidate": {
+          "wall_s": 0.554814,
+          "cpu_s": 0.550601,
+          "sha256": "b9fab6aab0d1e6c2ab4085d5ec5b5b5f72428cbf40226d6203ab8efe677cec17"
+        }
+      },
+      {
+        "binding": "current_mandor_moving_money",
+        "candidate": {
+          "wall_s": 0.522931,
+          "cpu_s": 0.522936,
+          "sha256": "38491a3125e497ab5d5a07f581825b3f91df667bd4271a004d95698f558b8b6a"
+        },
+        "baseline": {
+          "wall_s": 0.759635,
+          "cpu_s": 0.759629,
+          "sha256": "38491a3125e497ab5d5a07f581825b3f91df667bd4271a004d95698f558b8b6a"
+        }
+      },
+      {
+        "binding": "automatic_on_current_mandor_money",
+        "baseline": {
+          "wall_s": 0.739438,
+          "cpu_s": 0.736433,
+          "sha256": "50001cef838e90eaa3dede71b15c0a94e22b61e92194413566be2afb3c603575"
+        },
+        "candidate": {
+          "wall_s": 0.547723,
+          "cpu_s": 0.547707,
+          "sha256": "50001cef838e90eaa3dede71b15c0a94e22b61e92194413566be2afb3c603575"
+        }
+      }
+    ],
+    "actual_new_ERP_cases": 0
+  },
+  "existing_binding_and_install_controls": 6,
+  "existing_supplier_gate_control": 1,
+  "verified_manifest_pins": 4,
+  "new_actual_ERP_cases": 0,
+  "active_candidate_changed": false
+}
