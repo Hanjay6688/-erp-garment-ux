@@ -1,0 +1,75 @@
+{
+  "compared_rows": {
+    "columns": 99,
+    "constraints": 14,
+    "functions": 47,
+    "indexes": 2,
+    "relations": 5,
+    "triggers": 33,
+    "type_implementation": 4,
+    "types": 4
+  },
+  "problems": [],
+  "status": "A165_ACTUAL_PRE_NATIVE_DIAGNOSTIC_AUTHORITY_COMPARISON",
+  "observed_run_id": 43105533441,
+  "job_id": 130807755829,
+  "artifact_id": 13902367418,
+  "catalogue": {
+    "bytes": 16048163,
+    "sha256": "a90c17fc625cfca373da74c588c165b26fafde21d3b51a1b62228c582ab6677f"
+  },
+  "source_references": {
+    "automatic-profile.json": {
+      "bytes": 128694,
+      "sha256": "07824d6732540348590440bca3c8f8aef9a2b58cdcb8af9dc43c964723b0303a"
+    },
+    "consumer_delta.py": {
+      "bytes": 23341,
+      "sha256": "958dd155969a85c75ed78b5d9bb4853f7c262739b91fc8bcdcdb3fff1fa6fa8a"
+    },
+    "credit_delta.py": {
+      "bytes": 15550,
+      "sha256": "40db04666d22bd619cdba2a7e3e44b848ca55d8d73cf880f3ead7a9f1cf74945"
+    },
+    "graph-authority.json": {
+      "bytes": 71436,
+      "sha256": "193194184cdbfde1753677ad486d7010ada8ed9e6198f9a19e57c4b8587e3d78"
+    },
+    "money-profile.json": {
+      "bytes": 692916,
+      "sha256": "330dc07c6d48e9a1599b84cd9e169fb4a74eddb5b45772873f0e30f8f4c06b31"
+    },
+    "native-owners.json": {
+      "bytes": 81635,
+      "sha256": "c1e4a5c076a6d451aa85cba68f3f985fa84c12a2d81a77f63d84914ab25fd6b9"
+    },
+    "native-scope.json": {
+      "bytes": 20187,
+      "sha256": "382fa9cda10c71b8649834211c3d78f6edcfb81a337999556d2b3b93dc9cbef3"
+    },
+    "native-source.json": {
+      "bytes": 8656,
+      "sha256": "9dcdfea2fde027d54f2ef2888ca2d07154a89b072da458ef893cdcea5e652e09"
+    },
+    "non_po_rounding.py": {
+      "bytes": 4768,
+      "sha256": "ac1424fcc242dfcd05e823111316724d7b671ad313e3603f7196f32cb24846d6"
+    },
+    "sku-consumer-reference.json": {
+      "bytes": 110869,
+      "sha256": "858b3230c69665e6ea6058418f212f7e55a24db4f4ca617d7f6376c683066ef4"
+    }
+  },
+  "exact_money_transition_functions": [
+    "erp.compute_non_po_product_hpp_targets_v2620f(uuid)",
+    "erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)"
+  ],
+  "exact_rounding_only_body_change": [
+    "cp7_credit.initial_hpp_targets_v1(uuid,uuid,jsonb,boolean)",
+    "erp.compute_non_po_product_hpp_targets_v2620f(uuid)"
+  ],
+  "actual_ERP_cases": 0,
+  "final_SKU_catalogue_comparison_required": true,
+  "runtime_admission": false,
+  "production_go": false
+}

@@ -1,0 +1,45 @@
+{
+  "status": "GLOBAL_EXACT_CLOSED_SOURCE_RECOVERY_AND_B_RECONCILIATION",
+  "recovered_closed_source": {
+    "status": "GLOBAL_C924_EXACT_SOURCE_RECOVERY_PACK_VERIFIED",
+    "head": "c9248b8770ec8cfe0f7e2f2fd8da26c141ea67c5",
+    "tree": "9b440dd1785344fdafa5d2d702a6dd8f1ee08622",
+    "sku_base_tree": "3fd1bdb763a6d22a5aa455f5aea3a853b9782e4d",
+    "packed_objects": 2127,
+    "global_metadata_paths": 14890,
+    "base_metadata_paths": 14665,
+    "physical_sources": 232,
+    "pack": {
+      "bytes": 1290885,
+      "sha256": "4fe23d7ef657810b5a39987c26544ab075f6cb168331af8efb96316377086349"
+    },
+    "source_manifest": {
+      "bytes": 63000,
+      "sha256": "22d6441aa6d2d79f4339d9f63d99b83166f46b6c4f8caeb52483f1e2dd8ad614"
+    },
+    "independent_fresh_repo_verified": true,
+    "actual_ERP_cases": 0,
+    "global_runtime_admitted": false,
+    "production_go": false,
+    "zip": {
+      "bytes": 1269664,
+      "sha256": "3c785ef1f52294edfb2def4d403b536b0609a36b2da25b9af3127c93414f4537",
+      "id": "libfile_fde3_f-efd1c3b7e32c819189b700fc251dedc3_3b0e0eac7dc08191b44c16f18a1e98fe",
+      "version": 0,
+      "crc_members": 3
+    }
+  },
+  "B_source_pins": {
+    "candidate": "e4eaaecebad1f0ba11ab1542b5df89a6423a8a1e",
+    "source_commit": "52b6cf93dd85bc76a713e29beb5ae6d91247f9c7",
+    "live_checked": 14,
+    "mismatch": [],
+    "actual_ERP_cases": 0
+  },
+  "acceptance_limit": {
+    "actual_ERP_cases": 0,
+    "global_runtime_admission": false,
+    "production_go": false,
+    "formal_CP7": "5/16"
+  }
+}
