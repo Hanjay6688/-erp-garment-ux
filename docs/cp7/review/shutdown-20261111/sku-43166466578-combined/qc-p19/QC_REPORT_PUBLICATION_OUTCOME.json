@@ -1,0 +1,114 @@
+{
+  "status": "QC_AB_P19_INCLUDED_REVISIONS_AND_ARCHIVE_VERIFIED",
+  "before": {
+    "ledger": {
+      "COGS": "0",
+      "FG_INVENTORY": "0",
+      "WIP": "288.00"
+    },
+    "progress": [
+      8,
+      0,
+      8
+    ],
+    "owner_report": {
+      "WIP": "2047.0",
+      "FG_INVENTORY": "0.0",
+      "COGS": "0.0"
+    },
+    "confidence": "READY",
+    "active_postable_account_mappings": {
+      "COGS": true,
+      "FG_INVENTORY": true,
+      "WIP": true
+    },
+    "current_hpp": [],
+    "report_actuals": {
+      "revision": "1",
+      "report_hash": "60ac250643cb6e8c80fb0421f7fbb70c974d5e1241587090603a1a735a682619",
+      "finance_source_hash": "b35fa9e257144c742542bfee3a9e3f3599c0488dd3bf2e885c4b35f47f03aae0",
+      "actual_stock_pcs": "0",
+      "finance_dates": {
+        "to": "2026-11-12",
+        "from": "2026-11-10",
+        "as_of": "2026-11-12"
+      },
+      "stages": [
+        "ACTUALS",
+        "SECTION",
+        "FRESHNESS",
+        "SUMMARY"
+      ],
+      "same_owner_report": true,
+      "freshness": "NO_RECORDED_CHANGE"
+    }
+  },
+  "after": {
+    "ledger": {
+      "COGS": "0",
+      "FG_INVENTORY": "108.00",
+      "WIP": "180.00"
+    },
+    "progress": [
+      8,
+      3,
+      5
+    ],
+    "owner_report": {
+      "WIP": "1939.0",
+      "FG_INVENTORY": "108.0",
+      "COGS": "0.0"
+    },
+    "confidence": "READY",
+    "active_postable_account_mappings": {
+      "COGS": true,
+      "FG_INVENTORY": true,
+      "WIP": true
+    },
+    "current_hpp": [
+      [
+        3,
+        "36.000000",
+        "108.000000"
+      ]
+    ],
+    "report_actuals": {
+      "revision": "2",
+      "report_hash": "959716e9bd4b9af5dc7d76c6944b7244ecdcd63f6c55797dc7be0098bd564a2a",
+      "finance_source_hash": "a05344f45e1d06f9ea4d1a8b4556c0d450e9d92cade3ef7fa19c9666ecd71e69",
+      "actual_stock_pcs": "3",
+      "finance_dates": {
+        "to": "2026-11-12",
+        "from": "2026-11-10",
+        "as_of": "2026-11-12"
+      },
+      "stages": [
+        "ACTUALS",
+        "SECTION",
+        "FRESHNESS",
+        "SUMMARY"
+      ],
+      "same_owner_report": true,
+      "freshness": "CHANGES_RECORDED",
+      "archive_unchanged": true,
+      "archive_refused_after_finance_permission_removed": true
+    }
+  },
+  "owner_report_delta": {
+    "WIP": "-108.0",
+    "FG_INVENTORY": "108.0",
+    "COGS": "0.0"
+  },
+  "purchase_qty": 8,
+  "actual_invoice_unit": 29,
+  "existing_laundry_unit": 7,
+  "report_period": {
+    "from_date": "2026-11-10",
+    "through_date": "2026-11-12",
+    "as_of": "2026-11-12"
+  },
+  "actual_current_combined_candidate_cases": 0,
+  "publications": 2,
+  "fixture_analysis_target": true,
+  "rollback_restored": true
+}

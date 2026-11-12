@@ -1,0 +1,32 @@
+{
+  "status": "SKU_THREE_TIMEZONE_CHANGES_PRESERVE_GLOBAL_WRITER_PROJECTION",
+  "original_catalogue": {
+    "bytes": 16048163,
+    "sha256": "5ff582717522b766c12024c1bf3299066475f14a3c6021a3543f378f829e0c07"
+  },
+  "projected_catalogue": {
+    "bytes": 15454614,
+    "sha256": "875de0857636fca298da2156c7e0c7de0a32df6e8bada3c5bddf1ffd8f7be4ff"
+  },
+  "changed_settings": [
+    "cp7_sku_conversion.automatic_valid_v5()",
+    "cp7_sku_conversion.automatic_enter_v5(uuid,text,uuid)",
+    "cp7_sku_conversion.capture_cost_source_v3(uuid)"
+  ],
+  "relations_watched": 280,
+  "current_functions": 3105,
+  "transitive_writer_candidates": 592,
+  "reused_exact_body_facts": 2934,
+  "parsed_bodies": 171,
+  "mandor_receipt_writers": {
+    "cp7_note_zero_effect.finish_v1(jsonb,jsonb)": [
+      "cp7_note_zero_effect.receipts"
+    ],
+    "cp7_note_zero_effect.prepare_v1(jsonb,uuid,text,uuid,jsonb)": [
+      "cp7_note_zero_effect.preparations"
+    ]
+  },
+  "actual_terminal_original": false,
+  "complete_global_input_review": false,
+  "runtime_admission": false
+}
