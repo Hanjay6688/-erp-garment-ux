@@ -750,6 +750,11 @@ jobs:
           --header "Accept: application/vnd.github+json" \
           "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/actions/artifacts/13914600256/zip" \
           --output "$RUNNER_TEMP/e4ea-original.zip"
+        curl --fail --silent --show-error --location --proto '=https' --max-time 60 \
+          --header "Authorization: Bearer $ORIGINAL_ACTION_TOKEN" \
+          --header "Accept: application/vnd.github+json" \
+          "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/actions/artifacts/13914684054/zip" \
+          --output "$RUNNER_TEMP/e4ea-previous-diagnostic.zip"
     - name: Replay only the automatic context and pool guard on a disposable standalone cluster
       run: |
         set -euo pipefail
@@ -781,14 +786,14 @@ jobs:
         PY
         export LD_LIBRARY_PATH="$replay_base/package/native/lib"
         "$replay_base/package/native/bin/initdb" -D "$replay_base/db" -U postgres --no-locale --encoding=UTF8 --auth=trust
-        python3 -B "scripts/current-sku-automatic-composite-preparation/diagnostics/automatic-context-timezone/replay.py" "$RUNNER_TEMP/e4ea-original.zip" \
+        python3 -B "scripts/current-sku-automatic-composite-preparation/diagnostics/automatic-context-timezone/replay.py" "$RUNNER_TEMP/e4ea-original.zip" "$RUNNER_TEMP/e4ea-previous-diagnostic.zip" \
           "$replay_base/package/native/bin" "$replay_base/db" "$RUNNER_TEMP/e4ea-timezone-receipt"
     - name: Remove the diagnostic database and original copy
       if: ${{ always() }}
       run: |
         set -euo pipefail
         rm -rf -- "$RUNNER_TEMP/e4ea-timezone"
-        rm -f -- "$RUNNER_TEMP/e4ea-original.zip"
+        rm -f -- "$RUNNER_TEMP/e4ea-original.zip" "$RUNNER_TEMP/e4ea-previous-diagnostic.zip"
         test ! -e "$RUNNER_TEMP/e4ea-timezone" && test ! -e "$RUNNER_TEMP/e4ea-original.zip"
     - name: Preserve the scoped replay receipt
       if: ${{ always() }}

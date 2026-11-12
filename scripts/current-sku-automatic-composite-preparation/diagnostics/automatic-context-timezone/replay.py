@@ -5,6 +5,8 @@ import json
 import os
 from pathlib import Path
 import re
+import shlex
+import shutil
 import subprocess
 import sys
 from zipfile import ZipFile
@@ -92,17 +94,47 @@ def sql_for(catalogue: dict) -> tuple[str, dict]:
 
 
 def main() -> None:
-    archive, bin_path, cluster, out = map(Path, sys.argv[1:])
+    archive, previous, bin_path, cluster, out = map(Path, sys.argv[1:])
     out.mkdir(parents=True, exist_ok=True)
+    assert previous.stat().st_size == 6804
+    assert digest(previous.read_bytes()) == "8deb601d7889712207512cd2ae444104483c9b9d222127386049d8b9ebdb0994"
+    with ZipFile(previous) as failed:
+        assert failed.testzip() is None
+        names = [n for n in failed.namelist() if n.endswith("POSTGRES_TIMEZONE_REPLAY.log")]
+        assert len(names) == 1
+        old_trace = failed.read(names[0]).decode()
+    old_errors = [line for line in old_trace.splitlines() if re.search(r"\b(?:ERROR|FATAL|PANIC):", line)]
+    assert old_errors
+    first = old_errors[0][:500]
+    print("PREVIOUS_DIAGNOSTIC_FIRST_ERROR", first, flush=True)
+    (out / "PREVIOUS_DIAGNOSTIC_FIRST_ERROR.json").write_text(json.dumps({
+        "run": 43154446319, "job": 130970992870, "artifact": 13914684054,
+        "first_error": first, "complete_log_sha256": digest(old_trace.encode()),
+    }, indent=2) + "\n")
     sql, facts = sql_for(read_original(archive))
-    run = subprocess.run(
-        [str(bin_path / "postgres"), "--single", "-j", "-D", str(cluster), "postgres"],
-        input=sql, text=True, encoding="utf-8", capture_output=True, timeout=120,
-    )
+    sock = cluster.parent / "socket"
+    sock.mkdir(mode=0o700)
+    ctl = str(bin_path / "pg_ctl")
+    psql = bin_path / "psql"
+    psql_command = str(psql) if psql.is_file() else shutil.which("psql")
+    if not psql_command:
+        raise RuntimeError("PostgreSQL client unavailable on the disposable runner")
+    subprocess.run([ctl, "-D", str(cluster), "-w", "-l", str(cluster.parent / "server.log"),
+                    "-o", "-h '' -k " + shlex.quote(str(sock)), "start"],
+                   check=True, timeout=45, capture_output=True, text=True)
+    try:
+        run = subprocess.run(
+            [psql_command, "-X", "-qAt", "-v", "ON_ERROR_STOP=1",
+             "-h", str(sock), "-U", "postgres", "-d", "postgres", "-f", "-"],
+            input=sql, text=True, encoding="utf-8", capture_output=True, timeout=120,
+        )
+    finally:
+        subprocess.run([ctl, "-D", str(cluster), "-w", "-m", "immediate", "stop"],
+                       check=True, timeout=45, capture_output=True, text=True)
     trace = run.stdout + "\n" + run.stderr
     (out / "POSTGRES_TIMEZONE_REPLAY.log").write_text(trace)
     if run.returncode != 0 or re.search(r"(?:^|\s)(?:ERROR|FATAL|PANIC):", trace):
-        raise RuntimeError(trace[-5000:])
+        raise RuntimeError(trace[:5000])
     lines = trace.splitlines()
     old = [line.split("CP7_TZ_REPLAY_OLD_REFUSAL:", 1)[1].strip() for line in lines
            if "NOTICE:" in line and "CP7_TZ_REPLAY_OLD_REFUSAL:" in line]
@@ -111,7 +143,7 @@ def main() -> None:
     assert old == ["REWORK_SKU", "REDYE_SKU"], old
     assert set(fixed) == {mode + ":" + zone for mode in old
                           for zone in ("UTC", "Asia/Jakarta", "America/Los_Angeles")}
-    assert len(fixed) == 6 and 'receipt = "CP7_TZ_REPLAY_CLEAN"' in trace, trace[-1500:]
+    assert len(fixed) == 6 and 'CP7_TZ_REPLAY_CLEAN' in run.stdout.splitlines(), trace[-1500:]
     version = subprocess.check_output([str(bin_path / "postgres"), "--version"], text=True).strip()
     assert version == "postgres (PostgreSQL) 17.6", version
     result = {
@@ -133,6 +165,8 @@ def main() -> None:
         "controls": ["scope", "changed rework and target", "manual refusal",
                      "missing numeric value", "non-PO pending cost", "reverse", "caller timezone"],
         "boundaries": "Exact captured function bodies and table row types with scoped local fixtures and modeled valuation readers.",
+        "prior_replay_first_error": first,
+        "transport": "psql over a private local Unix socket; no TCP listener",
         "new_erp_cases": 0,
         "restored": True,
         **facts,
