@@ -731,75 +731,50 @@ jobs:
         if-no-files-found: error
     if: ${{ false }}
   automatic-context-timezone-replay:
-    name: Exact E4EA timezone refusal and correction in PostgreSQL 17.6
+    name: Check the exact SKU repair and preserved case scope before runtime
     if: ${{ github.event_name == 'push' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
-    - name: Check out the diagnostic candidate
+    - name: Check out the source review candidate and its frozen inputs
       uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       with:
         persist-credentials: false
-    - name: Download the canonical failed E4EA Original
+        fetch-depth: 0
+    - name: Read the two exact SKU Originals
       env:
         ORIGINAL_ACTION_TOKEN: ${{ github.token }}
       run: |
         set -euo pipefail
-        curl --fail --silent --show-error --location --proto '=https' --max-time 150 --retry 2 \
-          --header "Authorization: Bearer $ORIGINAL_ACTION_TOKEN" \
-          --header "Accept: application/vnd.github+json" \
-          "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/actions/artifacts/13914600256/zip" \
-          --output "$RUNNER_TEMP/e4ea-original.zip"
-        curl --fail --silent --show-error --location --proto '=https' --max-time 60 \
-          --header "Authorization: Bearer $ORIGINAL_ACTION_TOKEN" \
-          --header "Accept: application/vnd.github+json" \
-          "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/actions/artifacts/13914684054/zip" \
-          --output "$RUNNER_TEMP/e4ea-previous-diagnostic.zip"
-    - name: Replay only the automatic context and pool guard on a disposable standalone cluster
+        fetch_original() {
+          curl --fail --silent --show-error --location --proto '=https' --max-time 180 --retry 2 \
+            --header "Authorization: Bearer $ORIGINAL_ACTION_TOKEN" \
+            --header "Accept: application/vnd.github+json" \
+            "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/actions/artifacts/$1/zip" \
+            --output "$RUNNER_TEMP/$2"
+        }
+        fetch_original 13914600256 e4ea-original.zip
+        fetch_original 13902367418 a165-original.zip
+    - name: Verify the narrow source adapter and all original case boundaries offline
       run: |
         set -euo pipefail
-        replay_base="$RUNNER_TEMP/e4ea-timezone"
-        mkdir -p "$replay_base"
-        npm pack @embedded-postgres/linux-x64@17.6.0-beta.15 --ignore-scripts --pack-destination "$replay_base" --fetch-timeout=30000 --fetch-retries=1 --loglevel=error
-        python3 - "$replay_base" <<'PY'
-        import base64
-        import hashlib
-        import json
-        import os
-        from pathlib import Path
-        import sys
-        import tarfile
-        root = Path(sys.argv[1]).resolve()
-        package = root / "embedded-postgres-linux-x64-17.6.0-beta.15.tgz"
-        with package.open("rb") as stream:
-            integrity = base64.b64encode(hashlib.file_digest(stream, "sha512").digest()).decode()
-        assert integrity == "f04/oSB35rc2SB4WbJLvUGeh8eNnnwbsIkLXLf86Bi43vOc7H07Znx1zROwpi08mGkUFmNrpAcXyL4Yu8YRgMw=="
-        with tarfile.open(package) as archive:
-            archive.extractall(root, filter="data")
-        base = root / "package"
-        for row in json.loads((base / "native/pg-symlinks.json").read_text()):
-            target = (base / row["target"]).resolve()
-            source = (base / row["source"]).resolve()
-            assert target.is_relative_to(base / "native") and source.is_relative_to(base / "native")
-            if not target.exists() and not target.is_symlink():
-                target.symlink_to(os.path.relpath(source, target.parent))
-        PY
-        export LD_LIBRARY_PATH="$replay_base/package/native/lib"
-        "$replay_base/package/native/bin/initdb" -D "$replay_base/db" -U postgres --no-locale --encoding=UTF8 --auth=trust
-        python3 -B "scripts/current-sku-automatic-composite-preparation/diagnostics/automatic-context-timezone/replay.py" "$RUNNER_TEMP/e4ea-original.zip" "$RUNNER_TEMP/e4ea-previous-diagnostic.zip" \
-          "$replay_base/package/native/bin" "$replay_base/db" "$RUNNER_TEMP/e4ea-timezone-receipt"
-    - name: Remove the diagnostic database and original copy
+        git worktree add --detach "$RUNNER_TEMP/automatic-frozen" 9b1b0fcc9fbf477634619f07d4628d5be3a1b634
+        python3 -B "scripts/current-sku-automatic-composite-preparation/diagnostics/automatic-context-timezone/source_scope.py" \
+          "$RUNNER_TEMP/e4ea-original.zip" "$RUNNER_TEMP/a165-original.zip" \
+          "$RUNNER_TEMP/automatic-frozen" "$RUNNER_TEMP/e4ea-source-scope"
+    - name: Remove the temporary original copies and frozen checkout
       if: ${{ always() }}
       run: |
         set -euo pipefail
-        rm -rf -- "$RUNNER_TEMP/e4ea-timezone"
-        rm -f -- "$RUNNER_TEMP/e4ea-original.zip" "$RUNNER_TEMP/e4ea-previous-diagnostic.zip"
-        test ! -e "$RUNNER_TEMP/e4ea-timezone" && test ! -e "$RUNNER_TEMP/e4ea-original.zip"
-    - name: Preserve the scoped replay receipt
+        if test -d "$RUNNER_TEMP/automatic-frozen"; then
+          git worktree remove "$RUNNER_TEMP/automatic-frozen"
+        fi
+        rm -f -- "$RUNNER_TEMP/e4ea-original.zip" "$RUNNER_TEMP/a165-original.zip"
+    - name: Preserve the source and scope receipt
       if: ${{ always() }}
       uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       with:
-        name: cp7-sku-e4ea-automatic-timezone-diagnostic-${{ github.run_id }}-${{ github.run_attempt }}
-        path: ${{ runner.temp }}/e4ea-timezone-receipt/
+        name: cp7-sku-e4ea-source-scope-${{ github.run_id }}-${{ github.run_attempt }}
+        path: ${{ runner.temp }}/e4ea-source-scope/
         if-no-files-found: ignore
         retention-days: 14
