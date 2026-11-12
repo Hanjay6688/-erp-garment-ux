@@ -1,0 +1,220 @@
+{
+  "status": "TARGETED_OLD_REFUSAL_REPRODUCED_AND_TWO_FUNCTION_CONFIGURATION_REPAIR_PASSED",
+  "prior_full_qualification": "FAILED_NATIVE21_OF25_BROWSER0_FULL_RESTORE",
+  "prior_test_attempts": [
+    {
+      "run": 43154283696,
+      "head": "f9752758987b987bc8e331b858344e242cd9413d",
+      "first_failure": "Two p21 job conditions in YAML",
+      "runner_jobs": 0
+    },
+    {
+      "run": 43154446319,
+      "job": 130970992870,
+      "head": "6e0db6af373659b83740549d21c3fc8b7d2f42eb",
+      "artifact": 13914684054,
+      "bytes": 6804,
+      "sha256": "8deb601d7889712207512cd2ae444104483c9b9d222127386049d8b9ebdb0994",
+      "first_failure": "2026-11-12 04:23:43.303 UTC [2392] ERROR:  unterminated dollar-quoted string at or near \"$function$",
+      "original_verified_by_successor": true
+    }
+  ],
+  "replay": {
+    "run": 43155004386,
+    "head": "90cd19d776340039e4b2989f44d7cda966c4c31e",
+    "attempt": 1,
+    "job": 130972778819,
+    "status": "success",
+    "completed_at": "2026-11-12T04:28:55Z",
+    "owning_job": "skipped",
+    "log_line": 266,
+    "artifact": {
+      "id": 13916090346,
+      "node_id": "MDg6QXJ0aWZhY3QxMzkxNjA5MDM0Ng==",
+      "name": "cp7-sku-e4ea-automatic-timezone-diagnostic-43155004386-1",
+      "size_in_bytes": 2426,
+      "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/13916090346",
+      "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/13916090346/zip",
+      "expired": false,
+      "digest": "sha256:40d0fbc2894d0ce754144107501ba4da37c81385b5e1219ff8b864277303c8d9",
+      "created_at": "2026-11-12T04:28:53Z",
+      "updated_at": "2026-11-12T04:28:53Z",
+      "expires_at": "2026-11-26T04:28:52Z",
+      "workflow_run": {
+        "id": 43155004386,
+        "repository_id": 1348063690,
+        "head_repository_id": 1348063690,
+        "head_branch": "astra-a/sku-current-parent-money-automatic-native25-20261105",
+        "head_sha": "90cd19d776340039e4b2989f44d7cda966c4c31e"
+      }
+    },
+    "receipt": {
+      "actual_catalogue_sha256": "5ff582717522b766c12024c1bf3299066475f14a3c6021a3543f378f829e0c07",
+      "actual_functions": {
+        "cp7_sku_conversion.automatic_assert_native_v5(uuid,text,uuid,jsonb)": {
+          "acl": [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ],
+          "owner": "postgres",
+          "sha256": "84bca38df6d43f183f605fee336bcfc79d8efe3f5da238b8494d4d926f23c127"
+        },
+        "cp7_sku_conversion.automatic_enter_v5(uuid,text,uuid)": {
+          "acl": [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ],
+          "owner": "postgres",
+          "sha256": "114ea066e9db7ff770b733f65f8087fafe3703a18aa39089b84df564eebe8cdc"
+        },
+        "cp7_sku_conversion.automatic_scope_v5(uuid,uuid,text)": {
+          "acl": [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ],
+          "owner": "postgres",
+          "sha256": "a9ac3a8388c73dd56ed7463083d5360415969e1868a2a12b0915ea52007c390f"
+        },
+        "cp7_sku_conversion.automatic_valid_v5()": {
+          "acl": [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ],
+          "owner": "postgres",
+          "sha256": "fe1afe2958c0582d3d858f7d567af3f1dc619cc97af92137527fe41665cab502"
+        },
+        "cp7_sku_conversion.pool_quote_v2(uuid,uuid,text)": {
+          "acl": [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ],
+          "owner": "postgres",
+          "sha256": "593c2ad8acdac3909539123d9f18d442feab7a7fd765fe8752a815c6d4684c47"
+        },
+        "erp.require_internal()": {
+          "acl": [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ],
+            [
+              "service_role",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ],
+          "owner": "postgres",
+          "sha256": "b58efa7f7637ad3dd8262b233de4e12a65b9398188d7b78e9096497d551a3666"
+        }
+      },
+      "actual_tz_readers": [
+        "cp7_cutting_inputs.build_values(jsonb,jsonb)",
+        "cp7_cutting_inputs.command(jsonb,uuid,boolean)",
+        "cp7_cutting_inputs.workspace(uuid)",
+        "cp7_cutting_learning.evaluate(jsonb,jsonb)",
+        "cp7_cutting_observations.command(jsonb,uuid,boolean)",
+        "cp7_cutting_yield.build(jsonb,timestamp with time zone)",
+        "cp7_initial_analysis.current(boolean)",
+        "cp7_model_native.build(jsonb)",
+        "cp7_model_registry_adapter.assess(jsonb,jsonb,jsonb)",
+        "cp7_sku_conversion.pool_quote_v2(uuid,uuid,text)",
+        "cp7_sku_conversion.post_conversion_money_v3(uuid)"
+      ],
+      "boundaries": "Exact captured function bodies and table row types with scoped local fixtures and modeled valuation readers.",
+      "candidate_functions": {
+        "cp7_sku_conversion.automatic_enter_v5(uuid,text,uuid)": "37c945673bcb5fc3643d6bdaf0f7f9bae58c354bcc7f077ed78bff6fc29921a9",
+        "cp7_sku_conversion.automatic_valid_v5()": "c7366933a6bcf9b70859e28fd625fbe5988b28cb49f4c5febdeef4c8e3080db8"
+      },
+      "controls": [
+        "scope",
+        "changed rework and target",
+        "manual refusal",
+        "missing numeric value",
+        "non-PO pending cost",
+        "reverse",
+        "caller timezone"
+      ],
+      "diagnostic_attempt": "1",
+      "diagnostic_head": "90cd19d776340039e4b2989f44d7cda966c4c31e",
+      "diagnostic_run": "43155004386",
+      "fixed_modes_and_zones": [
+        "REWORK_SKU:UTC",
+        "REWORK_SKU:Asia/Jakarta",
+        "REWORK_SKU:America/Los_Angeles",
+        "REDYE_SKU:UTC",
+        "REDYE_SKU:Asia/Jakarta",
+        "REDYE_SKU:America/Los_Angeles"
+      ],
+      "new_erp_cases": 0,
+      "old_reproductions": [
+        "REWORK_SKU",
+        "REDYE_SKU"
+      ],
+      "original_archive_bytes": 96749933,
+      "original_archive_sha256": "dd9e31355a0820d1650e438a8913c49450a10dbc342789ed94f3418c1be6363b",
+      "original_artifact": 13914600256,
+      "original_attempt": 1,
+      "original_job": 130900171009,
+      "original_run": 43132617378,
+      "postgres_version": "postgres (PostgreSQL) 17.6",
+      "prior_replay_first_error": "2026-11-12 04:23:43.303 UTC [2392] ERROR:  unterminated dollar-quoted string at or near \"$function$",
+      "qualification_head_of_original": "e4eaaecebad1f0ba11ab1542b5df89a6423a8a1e",
+      "restored": true,
+      "status": "TARGETED_TIMEZONE_REPLAY_PASS",
+      "table_row_type_count": 16,
+      "transport": "psql over a private local Unix socket; no TCP listener"
+    }
+  },
+  "proposed_source": {
+    "context_before": {
+      "bytes": 13857,
+      "sha256": "67141e2dcbf2c57082a2b6b415100a5583facdd81a43baab031bbe29a6355d5a"
+    },
+    "context_after": {
+      "bytes": 13905,
+      "sha256": "4cc5d0dc774de6f6c685bb234361eaeb9c6c114bf25155584dc062e6bf6e6da5"
+    },
+    "owning_assembly": {
+      "bytes": 8637,
+      "sha256": "4ec3cd701e9be064f68e0bfabc8765944b247a71cfab58d6c76b34a2ed455384"
+    },
+    "adapter": {
+      "bytes": 4115,
+      "sha256": "6f88447f2fa6d613655ef93b1f1035de6ab50809fde687e146251b5848783995"
+    }
+  },
+  "continuation": {
+    "old_natives_observed_pass": 21,
+    "review_keep_19_money_and_zero_good": 20,
+    "rerun_four_refusals_and_late_target": 5,
+    "remaining_fresh_auth_browser": 2,
+    "current_source_and_fixture_equivalence_still_required": true,
+    "complete_current_pre_native_database_backup_available": false,
+    "full_qualification_started": false
+  },
+  "formal_status": "5/16",
+  "estafet_library_version": 667
+}
