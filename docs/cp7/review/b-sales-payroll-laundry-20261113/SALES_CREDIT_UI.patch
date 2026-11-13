@@ -1,0 +1,550 @@
+diff --git a/src/ConnectedSalesPage.tsx b/src/ConnectedSalesPage.tsx
+index 5381059..4469dbb 100644
+--- a/src/ConnectedSalesPage.tsx
++++ b/src/ConnectedSalesPage.tsx
+@@ -26,6 +26,7 @@ import {parsePaymentCorrectionOutcome} from './salesPaymentCorrectionContract'
+ import {parseReturnCorrectionOutcome} from './salesReturnCorrectionContract'
+ import {parseSettlementOutcome,type RecoveryPayload as ReturnSettlementPayload} from './salesReturnSettlementContract'
+ import {useRetainedFormInput} from './useRetainedFormInput'
++import type {NoteCreditBasis} from './salesCorrectionCreditContract'
+ import './procurement-connected.css'
+ const labels:Record<SalesStatus,string>={DRAFT:'Draft · stok dipesan',POSTED:'Belum lunas',PARTIAL_PAID:'Dibayar sebagian',PAID:'Lunas',CANCELLED:'Draft dibatalkan',REVERSED:'Penjualan dibatalkan'}
+ const money=(v:string)=>`Rp${numberText(v)}`
+@@ -43,7 +44,7 @@ function Workspace({view,initialSaleId,focus}:{view:View;initialSaleId:string|nu
+  const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime]),finance=identity.permissions.includes('finance.ar.view')
+  const mutation=useProductionMutation('SALES'),{beginRead,currentReadTicket,finishRead,isReadCurrent,run,reconcile,invalidate}=mutation
+  const [data,setData]=useState<SalesRead|null>(null),[busy,setBusy]=useState(false),[error,setError]=useState(''),[q,setQ]=useState(''),[status,setStatus]=useState('')
+- const [draft,setDraft]=useState<{initial:NonNullable<SalesRead['detail']>|null;key:string;correction?:boolean}|null>(null)
++ const [draft,setDraft]=useState<{initial:NonNullable<SalesRead['detail']>|null;key:string;correction?:boolean;creditBasis?:NoteCreditBasis}|null>(null)
+  const [history,setHistory]=useState<NoteCorrectionWorkspace|null>(null),[historyBusy,setHistoryBusy]=useState(false)
+  const openedFocus=useRef(false)
+  const [cash,setCash]=useState<{source:NonNullable<SalesRead['detail']>;key:string}|null>(null)
+@@ -85,16 +86,22 @@ function Workspace({view,initialSaleId,focus}:{view:View;initialSaleId:string|nu
+  const canCash=finance&&identity.permissions.includes('sales.payment.view')
+  const cashStale=!!cash&&(!d||d.id!==cash.source.id||d.row_version!==cash.source.row_version||d.review_token!==cash.source.review_token)
+  const stale=!!draft?.initial&&(!d||d.id!==draft.initial.id||d.row_version!==draft.initial.row_version||d.review_token!==draft.initial.review_token||(draft.correction?!['POSTED','PARTIAL_PAID','PAID'].includes(d.status):d.status!=='DRAFT'))
+- async function loadHistory(){
++ async function loadHistory(openEdit=false){
+   if(!d||!canCorrect||locked)return
+   const ticket=currentReadTicket();if(!ticket)return
+   const source=d.id,s=++historySequence.current,parent=sequence.current;setHistory(null);setHistoryBusy(true);setError('')
+   try{const r=await client.rpc('erp_cp7_get_note_correction_v2',{p_sale:source});if(s!==historySequence.current||parent!==sequence.current||!isReadCurrent(ticket))return;if(r.error)throw r.error
+    const h=parseNoteCorrectionWorkspace(r.data,source);if(h.current_sale_id===source&&(h.current.detail?.row_version!==d.row_version||h.current.detail?.review_token!==d.review_token))throw Error('Nota berubah. Muat ulang dan periksa nota terbaru.');setHistory(h)
++   if(openEdit&&h.current_sale_id===source)setDraft({initial:d,key:crypto.randomUUID(),correction:true,creditBasis:h.credit_carry})
+   }catch(e){if(s===historySequence.current&&parent===sequence.current&&isReadCurrent(ticket)){setHistory(null);setData(null);invalidate();setError(normalizeClientError(e).message)}}finally{if(s===historySequence.current)setHistoryBusy(false)}
+  }
+  const actionLocked=locked||!!draft||!!cash||!!returns||!!chain||!!credit||!!credit
+  const nonzero=(value:string|undefined)=>value!==undefined&&!/^0+(?:\.0+)?$/.test(value)
++ const openNoteCorrection=()=>{
++  if(!d||actionLocked)return
++  if(nonzero(f?.paid_total)){void loadHistory(true);return}
++  setDraft({initial:d,key:crypto.randomUUID(),correction:true})
++ }
+  const deleteSteps:TransactionDependencyStep[]=d&&canReverseSale?[
+   ...(nonzero(f?.paid_total)?[{key:'PAYMENTS',message:`Pembayaran ${d.number} masih aktif. Buka daftar pembayaran lalu batalkan pembayaran yang tercatat.`,buttonLabel:`Buka pembayaran ${d.number}`,onOpen:canCash?()=>setCash({source:d,key:crypto.randomUUID()}):undefined,disabled:actionLocked}]:[]),
+   ...(nonzero(d.returned_qty)?[{key:'RETURNS',message:`Retur ${d.number} masih aktif. Buka daftar retur lalu batalkan retur yang tercatat; periksa pemakaian barang atau refund yang menghalanginya.`,buttonLabel:`Buka retur ${d.number}`,onOpen:canReturn?()=>setReturns({source:d,key:crypto.randomUUID()}):undefined,disabled:actionLocked}]:[]),
+@@ -106,7 +113,7 @@ function Workspace({view,initialSaleId,focus}:{view:View;initialSaleId:string|nu
+   {canCreate?<button className="primary-btn" disabled={locked||!!draft||!!cash||!!returns||!!chain||!!credit||!!credit} onClick={()=>setDraft({initial:null,key:crypto.randomUUID()})}>Buat invoice</button>:null}
+   <ProductionRecoveryNotice recovery={mutation} onReconcile={()=>reconcile(handlers)} className="panel"/>
+   {error?<p className="panel" role="alert">{error}</p>:null}{busy?<p role="status">Memuat invoice…</p>:null}
+-  {draft?<SalesDraftPanel key={draft.key} initial={draft.initial} correction={draft.correction} readFence={mutation} locked={locked} stale={stale} onClose={()=>setDraft(null)} onSave={(action,document,version)=>{if(!locked&&!stale)void run(draft.correction?'CORRECT':action,{document,expected_version:version},null,handlers)}}/>:null}
++  {draft?<SalesDraftPanel key={draft.key} initial={draft.initial} correction={draft.correction} creditBasis={draft.creditBasis} readFence={mutation} locked={locked} stale={stale} onClose={()=>setDraft(null)} onSave={(action,document,version)=>{if(!locked&&!stale)void run(draft.correction?'CORRECT':action,{document,expected_version:version},null,handlers)}}/>:null}
+   {cash?<SalesPaymentPanel key={cash.key} source={cash.source} locked={locked} stale={cashStale} onClose={()=>setCash(null)} onSave={(action,document,version)=>{if(!locked&&!cashStale)void run(action,{document,expected_version:version},null,handlers)}}/>:null}
+   {returns?<SalesReturnPanel key={returns.key} source={returns.source} locked={locked} stale={returnStale} inputs={returnInputs} readFence={mutation} correctedFocus={returnTarget?.sale_id===returns.source.id?returnTarget:null} onInvalid={invalidReturn} settlement={{pendingEnvelope:Boolean(mutation.pending)||mutation.externalMutationBlocked||mutation.corruptedEnvelope,onInvalid:invalidSettlement,onIntent:payload=>{if(!locked&&!returnStale&&payload.document.sale_id===returns.source.id&&payload.expected_version===returns.source.row_version&&payload.document.review_token===returns.source.review_token)void run('RETURN_SETTLEMENT',payload,null,handlers)}}} onClose={()=>setReturns(null)} onSave={(action,document,version)=>{if(!locked&&!returnStale)void run(action,{document,expected_version:version},null,handlers)}}/>:null}
+   {chain?<SalesChainReversalPanel key={chain.key} source={chain.source} locked={locked} stale={chainStale} readFence={mutation} onInvalid={invalidReturn} onClose={()=>setChain(null)} onSave={(document,version)=>{if(!locked&&!chainStale)void run('SALE_CHAIN_REVERSE',{document,expected_version:version},null,handlers)}}/>:null}
+@@ -122,7 +129,7 @@ function Workspace({view,initialSaleId,focus}:{view:View;initialSaleId:string|nu
+    <div className="eyebrow">{labels[d.status]}</div><h2>{d.number}</h2><p>{d.customer_name} · {d.location_name??'Lokasi belum tercatat'}</p><p>{formatCp6WibDateTime(d.physical_at)}{d.due_date?` · jatuh tempo ${d.due_date}`:''}</p>
+    {(d.status==='DRAFT'&&(canEdit||canCancel)||canReverseSale&&['POSTED','PARTIAL_PAID','PAID'].includes(d.status))?<div className="transaction-tools" aria-label={`Edit atau hapus ${d.number}`}><strong>Tindakan transaksi</strong>
+     {d.status==='DRAFT'&&canEdit?<button disabled={actionLocked} onClick={()=>setDraft({initial:d,key:crypto.randomUUID()})}><Pencil aria-hidden="true"/>Edit draft invoice</button>:null}
+-    {canCorrect&&['POSTED','PARTIAL_PAID','PAID'].includes(d.status)?<button className="primary-btn" title="Edit jumlah, harga dan isi nota" disabled={actionLocked} onClick={()=>setDraft({initial:d,key:crypto.randomUUID(),correction:true})}><Pencil aria-hidden="true"/>Benerin nota</button>:null}
++    {canCorrect&&['POSTED','PARTIAL_PAID','PAID'].includes(d.status)?<button className="primary-btn" title="Edit jumlah, harga dan isi nota" disabled={actionLocked} onClick={openNoteCorrection}><Pencil aria-hidden="true"/>Benerin nota</button>:null}
+     {(d.status==='DRAFT'?canCancel:canReverseSale)?<button type="button" disabled={actionLocked} onClick={()=>{reverseReview.current?.scrollIntoView?.({block:'center',behavior:'smooth'});reverseReview.current?.querySelector<HTMLInputElement>('input:not([type=checkbox])')?.focus()}}><Trash2 aria-hidden="true"/>Hapus / batalkan invoice</button>:null}
+    </div>:null}
+    <TransactionDependencyNotice documentNumber={d.number} steps={deleteSteps}/>
+@@ -136,7 +143,11 @@ function Workspace({view,initialSaleId,focus}:{view:View;initialSaleId:string|nu
+    {d.notes?<p>{d.notes}</p>:null}
+    {canCorrect&&d.status!=='DRAFT'&&d.status!=='CANCELLED'?<button disabled={locked||!!draft||!!cash||!!returns||!!chain||!!credit||!!credit} onClick={()=>void loadHistory()}>Riwayat pembetulan nota</button>:null}
+    {historyBusy?<p role="status">Memuat riwayat pembetulan…</p>:null}
+-   {history?<section className="cproc-review" aria-label="Riwayat pembetulan nota"><h3>Nota {history.original_note_number}</h3>{history.history.length===0?<p>Belum pernah dibetulkan.</p>:history.history.map(h=><article key={h.revision_id}><strong>Pembetulan {h.revision}</strong><p>{h.reason}</p><p>Dibetulkan oleh {h.actor_display_name??`pengguna ${h.actor_id}`} <small>· nama profil saat ini</small></p><small>Kejadian {formatCp6WibDateTime(h.effective_at)} · dibetulkan {formatCp6WibDateTime(h.recorded_at)}</small></article>)}{history.current_sale_id!==d.id?<button disabled={locked||!!draft||!!cash||!!returns||!!chain||!!credit||!!credit} onClick={()=>{requested.current.sale_id=history.current_sale_id;void load()}}>Buka nota yang berlaku</button>:<p>Yang tampil adalah nota yang berlaku saat ini.</p>}</section>:null}
++   {history?<section className="cproc-review" aria-label="Riwayat pembetulan nota"><h3>Nota {history.original_note_number}</h3>{history.history.length===0?<p>Belum pernah dibetulkan.</p>:history.history.map(h=><article key={h.revision_id}><strong>Pembetulan {h.revision}</strong><p>{h.reason}</p><p>Dibetulkan oleh {h.actor_display_name??`pengguna ${h.actor_id}`} <small>· nama profil saat ini</small></p><small>Kejadian {formatCp6WibDateTime(h.effective_at)} · dibetulkan {formatCp6WibDateTime(h.recorded_at)}</small></article>)}{history.current_sale_id!==d.id?<button disabled={actionLocked} onClick={()=>{requested.current.sale_id=history.current_sale_id;void load()}}>Buka nota yang berlaku</button>:<p>Yang tampil adalah nota yang berlaku saat ini.</p>}
++    {history.credit_carry&&<><p>Saldo kredit terpakai {money(history.credit_carry.transfer_amount)} · nilai minimum nota pengganti {money(history.credit_carry.minimum_replacement_net)}.</p>
++     {history.credit_carry.consumers.map(event=><p key={event.event_id}>Riwayat kredit {event.event_id} · {money(event.amount)} · transaksi {event.economic_date} · buku {event.transaction_date}.</p>)}
++    </>}
++   </section>:null}
+    {d.items.map(i=><article className="cproc-item" key={i.id}><h3>{i.commercial_sku} · {i.size_code}</h3><p>{i.product_name} · {i.brand_name} · {numberText(i.qty_pcs)} PCS</p>{i.financial?<p>{money(i.financial.unit_price)} per PCS · potongan {money(i.financial.discount)} · jumlah <strong>{money(i.financial.line_total)}</strong></p>:null}<small>SKU fisik {i.product_sku}. Kelompok invoice mengikuti tanggal transaksi.</small>{i.notes?<p>{i.notes}</p>:null}</article>)}
+    {d.status==='DRAFT'&&(canPost||canCancel)?<div ref={reverseReview} className="cproc-review"><label>Catatan tindakan<input aria-label="Catatan tindakan invoice" maxLength={1000} disabled={locked} value={reason} onChange={e=>{setReason(e.target.value);setReviewed(false)}}/></label><label className="cproc-check"><input type="checkbox" aria-label="Invoice sudah diperiksa" disabled={locked} checked={reviewed} onChange={e=>setReviewed(e.target.checked)}/>Pelanggan, barang, harga, dan tanggal sudah saya periksa.</label><p>Pengesahan mencatat penjualan dan piutang. Pembatalan draft mengembalikan barang yang dipesan ke stok siap jual.</p>{canPost?<button className="primary-btn" disabled={locked||!!draft||!!cash||!!returns||!!chain||!!credit||!reviewed||reason.trim().length<5} onClick={()=>write('POST')}>Sahkan invoice</button>:null}{canCancel?<button disabled={locked||!!draft||!!cash||!!returns||!!chain||!!credit||!reviewed||reason.trim().length<5} onClick={()=>write('CANCEL')}>Batalkan draft invoice</button>:null}</div>:null}
+    {canReverseSale&&['POSTED','PARTIAL_PAID','PAID'].includes(d.status)?<div ref={reverseReview} className="cproc-review"><h3>Batalkan seluruh penjualan</h3><p>Untuk memperbaiki jumlah atau harga, pilih Benerin nota. Pembatalan seluruh penjualan membalik penjualan, piutang, stok, dan HPP. Pembayaran dan retur aktif dapat dibatalkan satu per satu, atau melalui pembatalan rantai sekaligus.</p><label>Alasan pembatalan<input aria-label="Alasan pembatalan penjualan" value={reason} maxLength={1000} disabled={locked} onChange={e=>{setReason(e.target.value);setReviewed(false)}}/></label><label className="cproc-check"><input type="checkbox" aria-label="Pembatalan penjualan sudah diperiksa" disabled={locked} checked={reviewed} onChange={e=>setReviewed(e.target.checked)}/>Invoice dan alasan pembatalan sudah saya periksa.</label><button disabled={actionLocked||deleteSteps.length>0||!reviewed||reason.trim().length<5} onClick={()=>write('SALE_REVERSE')}>Batalkan penjualan tercatat</button>{canChain?<button type="button" disabled={actionLocked} onClick={()=>setChain({source:d,key:crypto.randomUUID()})}>Periksa pembatalan rantai</button>:null}</div>:null}
+diff --git a/src/CustomerCreditPanel.tsx b/src/CustomerCreditPanel.tsx
+index 690cf8f..780adb2 100644
+--- a/src/CustomerCreditPanel.tsx
++++ b/src/CustomerCreditPanel.tsx
+@@ -170,6 +170,7 @@ export default function CustomerCreditPanel(props:Props) {
+       <p>{formatCp6WibDateTime(checked.review.physical_at)} · tanggal transaksi {checked.review.economic_date} · tanggal buku {checked.review.transaction_date}</p>
+       <p>Saldo sesudah transaksi ini: <strong>{money(checked.review.available_credit_after)}</strong></p>
+       {targetCurrent?<p>Invoice tujuan {target!.number}</p>:null}{cashCurrent?<p>Rekening {cash!.name}</p>:null}
++      {checked.review.target_assignment?<p>Kredit tercatat pada nota yang berlaku {checked.review.target_assignment.current_number}.</p>:null}
+       <label className="cproc-check"><input type="checkbox" aria-label="Transaksi kredit sudah diperiksa" checked={confirmed} disabled={disabled} onChange={e=>setConfirmed(e.target.checked)}/>Nominal, sumber saldo, tujuan, dan waktu transaksi sudah saya periksa.</label>
+       <button type="button" className="primary-btn" disabled={disabled||!confirmed||!inputReady} onClick={save}>Simpan transaksi kredit</button>
+     </section>:null}
+diff --git a/src/SalesDraftPanel.tsx b/src/SalesDraftPanel.tsx
+index ff4a978..bd88ac4 100644
+--- a/src/SalesDraftPanel.tsx
++++ b/src/SalesDraftPanel.tsx
+@@ -10,6 +10,7 @@ import type {Json} from './types/database.preconnect'
+ import {dozensText,seriesTotal,splitSeriesDozens} from './sales/seriesDozens'
+ import MandorShopBuyerPicker from './MandorShopBuyerPicker'
+ import {salesBuyerCurrent,type BuyerFence,type SalesBuyerChoice} from './mandorShopSalesContract'
++import {noteCarryReview,type NoteCreditBasis} from './salesCorrectionCreditContract'
+ type Detail=NonNullable<SalesRead['detail']>
+ type Line={key:string;product_id:string;sku:string;series:string;size:string;qty:string;price:string;discount:string;notes:string|null;dozens:string;pieces:string;available:string|null}
+ type SeriesInput={dozens:string;pieces:string;message:string}
+@@ -22,7 +23,7 @@ const seriesKey=(brand:string,sku:string)=>`${sku} · ${brand}`
+ const seriesGroups=(lines:Line[])=>{const groups=new Map<string,{line:Line;index:number}[]>();lines.forEach((line,index)=>groups.set(line.series,[...(groups.get(line.series)??[]),{line,index}]));return [...groups.entries()]}
+ type Form={customer:SalesCustomerOption|null;location:{id:string;name:string}|null;number:string;at:string;originalAt:string|null;due:string;terms:string;notes:string;reason:string;lines:Line[]}
+ type Kind='CUSTOMER'|'STOCK'
+-export default function SalesDraftPanel({initial,locked,stale,onSave,onClose,correction=false,readFence}:{initial:Detail|null;locked:boolean;stale:boolean;correction?:boolean;readFence?:BuyerFence;onSave:(action:'CREATE'|'EDIT',document:Json,version:string|null)=>void;onClose:()=>void}){
++export default function SalesDraftPanel({initial,locked,stale,onSave,onClose,correction=false,creditBasis,readFence}:{initial:Detail|null;locked:boolean;stale:boolean;correction?:boolean;creditBasis?:NoteCreditBasis;readFence?:BuyerFence;onSave:(action:'CREATE'|'EDIT',document:Json,version:string|null)=>void;onClose:()=>void}){
+  const {runtime}=useAuth();if(!isConnectedRuntime(runtime))throw Error('Sesi penjualan belum siap.')
+  const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime])
+  const [form,setForm]=useState<Form>(()=>({customer:initial?{id:initial.customer_id,code:'',name:initial.customer_name}:null,location:initial?.location_id?{id:initial.location_id,name:initial.location_name??''}:null,number:initial?.number??'',at:cp6WibDateTimeInput(initial?.physical_at),originalAt:initial?.physical_at??null,due:initial?.due_date??'',terms:initial?.payment_terms??'',notes:initial?.notes??'',reason:'',lines:initial?.items.map(i=>({key:i.id,product_id:i.product_id,sku:i.product_sku,series:seriesKey(i.brand_name,i.commercial_sku),size:i.size_code,qty:i.qty_pcs,price:i.financial?.unit_price??'',discount:i.financial?.discount??'',notes:i.notes,dozens:'',pieces:'',available:null}))??[]}))
+@@ -67,10 +68,14 @@ export default function SalesDraftPanel({initial,locked,stale,onSave,onClose,cor
+  }
+  const amounts=form.lines.map(l=>salesLineTotal(l.qty,l.price,l.discount)),buyerValid=correction?!!form.customer:salesBuyerCurrent(buyer,readFence)&&(buyer.category==='MANDOR'?!!buyer.mandor:!!form.customer),valid=!!at&&buyerValid&&!!form.location&&form.number.trim().length>0&&form.reason.trim().length>=5&&form.lines.length>0&&form.lines.length<=100&&amounts.every(a=>a!==null)&&!seriesBusy
+  const total=form.lines.length>0&&amounts.every(a=>a!==null)?amounts.reduce((n,a)=>n+BigInt(a!.replace('.','')),0n):null
++ const priceOnly=!creditBasis||!!initial&&form.lines.length===initial.items.length&&form.lines.every(line=>
++  initial.items.some(item=>item.id===line.key&&item.product_id===line.product_id&&item.qty_pcs===salesQtyInput(line.qty)))
++ const carryReview=creditBasis&&priceOnly&&total!==null?noteCarryReview(creditBasis,total):null
++ const creditReady=!creditBasis||carryReview!==null
+  const blocked=locked||stale
+  function save(){
+-  if(!valid||blocked||!reviewed)return
+-  onSave(initial?'EDIT':'CREATE',{...(initial?{sale_id:initial.id,review_token:initial.review_token!}:{}),...(correction&&initial?{item_lineage:form.lines.map(l=>initial.items.some(i=>i.id===l.key)?l.key:null)}:{}),sale_number:form.number.trim(),customer_id:!correction&&buyer.category==='MANDOR'?buyer.mandor!.customer_id:form.customer!.id,...(!correction&&buyer.category==='MANDOR'?{mandor_buyer:{contractor_id:buyer.mandor!.contractor_id,review_token:buyer.mandor!.review_token}}:{}),source_location_id:form.location!.id,sale_date:at!,due_date:form.due||null,payment_terms:form.terms||null,notes:form.notes||null,change_reason:form.reason.trim(),items:form.lines.map(l=>({product_id:l.product_id,qty_pcs:salesQtyInput(l.qty)!,unit_price_snapshot:salesMoneyInput(l.price)!,discount_amount:salesMoneyInput(l.discount)!,notes:l.notes}))},initial?.row_version??null)
++  if(!valid||blocked||!reviewed||!creditReady)return
++  onSave(initial?'EDIT':'CREATE',{...(initial?{sale_id:initial.id,review_token:initial.review_token!}:{}),...(correction&&initial?{item_lineage:form.lines.map(l=>initial.items.some(i=>i.id===l.key)?l.key:null)}:{}),...(carryReview?{credit_carry_review:carryReview}:{}),sale_number:form.number.trim(),customer_id:!correction&&buyer.category==='MANDOR'?buyer.mandor!.customer_id:form.customer!.id,...(!correction&&buyer.category==='MANDOR'?{mandor_buyer:{contractor_id:buyer.mandor!.contractor_id,review_token:buyer.mandor!.review_token}}:{}),source_location_id:form.location!.id,sale_date:at!,due_date:form.due||null,payment_terms:form.terms||null,notes:form.notes||null,change_reason:form.reason.trim(),items:form.lines.map(l=>({product_id:l.product_id,qty_pcs:salesQtyInput(l.qty)!,unit_price_snapshot:salesMoneyInput(l.price)!,discount_amount:salesMoneyInput(l.discount)!,notes:l.notes}))},initial?.row_version??null)
+  }
+  const picker=(kind:Kind)=>{const candidate=options[kind],o=candidate&&at&&Date.parse(candidate.physical_at)===Date.parse(at)&&candidate.location_id===(kind==='STOCK'?location:null)?candidate:undefined;return <section className="cproc-line" aria-label={kind==='CUSTOMER'?'Pilih pelanggan invoice':'Pilih barang invoice'}>
+   <div className="cproc-inline"><label>{kind==='CUSTOMER'?'Cari pelanggan':'Cari SKU, ukuran, atau gudang'}<input aria-label={kind==='CUSTOMER'?'Cari pelanggan draft':'Cari barang draft'} value={query[kind]} maxLength={120} onChange={e=>setQuery(v=>({...v,[kind]:e.target.value}))} onKeyDown={e=>{if(e.key==='Enter'){e.preventDefault();void search(kind)}}}/></label><button type="button" disabled={loading[kind]||!at} onClick={()=>void search(kind)}>{kind==='CUSTOMER'?'Cari pelanggan draft':'Cari barang draft'}</button></div>
+@@ -87,27 +92,35 @@ export default function SalesDraftPanel({initial,locked,stale,onSave,onClose,cor
+   <fieldset disabled={blocked}><div className="cproc-grid"><label>Nomor invoice<input aria-label="Nomor draft invoice" readOnly={correction} required maxLength={60} value={form.number} onChange={e=>update({number:e.target.value})}/></label><label>Waktu invoice · WIB<input type="datetime-local" aria-label="Waktu draft invoice WIB" readOnly={correction} required value={form.at} onChange={e=>update({at:e.target.value})}/></label><label>Jatuh tempo<input type="date" aria-label="Jatuh tempo draft invoice" value={form.due} onChange={e=>update({due:e.target.value})}/></label><label>Syarat pembayaran<input aria-label="Syarat pembayaran draft" maxLength={100} value={form.terms} onChange={e=>update({terms:e.target.value})}/></label></div>
+    {!correction?<MandorShopBuyerPicker action={initial?'EDIT':'CREATE'} initialCustomer={initial?.customer_id??null} choice={buyer} onChange={changeBuyer} locked={blocked} readFence={readFence}/>:null}
+    {!correction&&buyer.category==='TOKO'&&buyer.ready?picker('CUSTOMER'):null}<p>Pembeli terpilih: <strong>{!correction&&buyer.category==='MANDOR'?buyer.mandor?.name??'Belum dipilih':form.customer?.name??'Belum dipilih'}</strong></p>
+-   {picker('STOCK')}<p>Gudang invoice: <strong>{form.location?.name??'Pilih barang untuk menentukan gudang'}</strong>. Stok tersedia saat ini menjadi referensi; penyimpanan memeriksa stok pada tanggal transaksi.</p>
++   {!creditBasis&&picker('STOCK')}<p>Gudang invoice: <strong>{form.location?.name??'Pilih barang untuk menentukan gudang'}</strong>. Stok tersedia saat ini menjadi referensi; penyimpanan memeriksa stok pada tanggal transaksi.</p>
+    {seriesGroups(form.lines).map(([series,members])=>{const lines=members.map(m=>m.line),total=seriesTotal(lines.map(l=>l.qty)),input=seriesInput[series]??{dozens:'',pieces:'',message:''};return <section className="cproc-line cproc-series" key={series} aria-label={`Seri ${series}`}>
+     <h3>Seri {series} · {lines.length} ukuran ({lines.map(l=>l.size).join('/')})</h3>
+     <p className="cproc-series-total">{total===null?'Isi jumlah semua ukuran untuk melihat total lusin seri ini.':`Total seri: ${dozensText(total)} (${total} PCS)`}</p>
+     {/* As in the UX demo: the sizes of one series side by side, PCS per size with the stock under it. */}
+     <div className="cproc-size-grid">{members.map(({line:l,index:i})=>{const over=l.available!==null&&salesQtyInput(l.qty)&&BigInt(l.qty.trim())>BigInt(l.available);return <article className={over?'cproc-size-cell over':'cproc-size-cell'} key={l.key}>
+-     <span className="cproc-sr">{l.sku} · </span><label><span>Ukuran {l.size}</span><input aria-label={`Jumlah invoice ${i+1}`} inputMode="numeric" value={l.qty} onFocus={e=>e.currentTarget.select()} onChange={e=>editLine(l.key,{qty:e.target.value})}/></label>
++     <span className="cproc-sr">{l.sku} · </span><label><span>Ukuran {l.size}</span><input aria-label={`Jumlah invoice ${i+1}`} inputMode="numeric" value={l.qty} readOnly={Boolean(creditBasis)} onFocus={e=>e.currentTarget.select()} onChange={e=>editLine(l.key,{qty:e.target.value})}/></label>
+      {l.available!==null?<small>stok {numberText(l.available)} PCS{over?' · melebihi stok':''}</small>:null}
+     </article>})}</div>
+-    <div className="cproc-inline cproc-series-dozens"><label>Lusin seri<input aria-label={`Lusin seri ${series}`} inputMode="numeric" value={input.dozens} onChange={e=>editSeries(series,{dozens:e.target.value,message:''})} onKeyDown={e=>{if(e.key==='Enter'){e.preventDefault();splitSeries(series,lines.length)}}}/></label><label>Sisa potong seri<input aria-label={`Sisa potong seri ${series}`} inputMode="numeric" value={input.pieces} onChange={e=>editSeries(series,{pieces:e.target.value,message:''})}/></label><button type="button" onClick={()=>splitSeries(series,lines.length)}>Bagi rata ke {lines.length} ukuran seri {series}</button></div>
++    {!creditBasis&&<div className="cproc-inline cproc-series-dozens"><label>Lusin seri<input aria-label={`Lusin seri ${series}`} inputMode="numeric" value={input.dozens} onChange={e=>editSeries(series,{dozens:e.target.value,message:''})} onKeyDown={e=>{if(e.key==='Enter'){e.preventDefault();splitSeries(series,lines.length)}}}/></label><label>Sisa potong seri<input aria-label={`Sisa potong seri ${series}`} inputMode="numeric" value={input.pieces} onChange={e=>editSeries(series,{pieces:e.target.value,message:''})}/></label><button type="button" onClick={()=>splitSeries(series,lines.length)}>Bagi rata ke {lines.length} ukuran seri {series}</button></div>}
+     {input.message?<p role="alert">{input.message}</p>:null}
+     <div className="cproc-size-prices"><div className="cproc-size-prices-head" aria-hidden="true"><span>Ukuran</span><span>Harga per PCS</span><span>Potongan baris</span><span className="cproc-wide-only">Catatan barang</span></div>{members.map(({line:l,index:i})=><div className="cproc-size-price" key={l.key}>
+      <strong>{l.size}</strong><input aria-label={`Harga invoice ${i+1}`} placeholder="Harga per PCS" inputMode="decimal" value={l.price} onChange={e=>editLine(l.key,{price:e.target.value})}/><input aria-label={`Potongan invoice ${i+1}`} placeholder="Potongan" inputMode="decimal" value={l.discount} onChange={e=>editLine(l.key,{discount:e.target.value})}/>
+      <input className="cproc-size-note" aria-label={`Catatan barang invoice ${i+1}`} placeholder="Catatan barang (boleh kosong)" maxLength={4000} value={l.notes??''} onChange={e=>editLine(l.key,{notes:e.target.value||null})}/>
+-     <span className="cproc-size-amount">Jumlah baris {amounts[i]===null?'belum valid':`Rp${numberText(amounts[i]!)}`}</span><button type="button" onClick={()=>{const lines=form.lines.filter(x=>x.key!==l.key);update({lines,location:lines.length||correction?form.location:null})}}>Hapus barang {i+1}</button>
++     <span className="cproc-size-amount">Jumlah baris {amounts[i]===null?'belum valid':`Rp${numberText(amounts[i]!)}`}</span>{!creditBasis&&<button type="button" onClick={()=>{const lines=form.lines.filter(x=>x.key!==l.key);update({lines,location:lines.length||correction?form.location:null})}}>Hapus barang {i+1}</button>}
+     </div>)}</div>
+-    <details><summary>Isi dengan lusin + PCS</summary>{members.map(({line:l,index:i})=><div className="cproc-inline" key={l.key}><strong>{l.size}</strong><label>Lusin<input aria-label={`Lusin invoice ${i+1}`} inputMode="numeric" value={l.dozens} onChange={e=>editLine(l.key,{dozens:e.target.value})}/></label><label>Sisa PCS<input aria-label={`Sisa PCS invoice ${i+1}`} inputMode="numeric" value={l.pieces} onChange={e=>editLine(l.key,{pieces:e.target.value})}/></label><button type="button" disabled={!/^[0-9]{1,7}$/.test(l.dozens)||!/^[0-9]{1,2}$/.test(l.pieces)||Number(l.pieces)>11||BigInt(l.dozens||0)*12n+BigInt(l.pieces||0)===0n} onClick={()=>editLine(l.key,{qty:String(BigInt(l.dozens)*12n+BigInt(l.pieces))})}>Terapkan lusin baris {i+1}</button></div>)}</details>
++    {!creditBasis&&<details><summary>Isi dengan lusin + PCS</summary>{members.map(({line:l,index:i})=><div className="cproc-inline" key={l.key}><strong>{l.size}</strong><label>Lusin<input aria-label={`Lusin invoice ${i+1}`} inputMode="numeric" value={l.dozens} onChange={e=>editLine(l.key,{dozens:e.target.value})}/></label><label>Sisa PCS<input aria-label={`Sisa PCS invoice ${i+1}`} inputMode="numeric" value={l.pieces} onChange={e=>editLine(l.key,{pieces:e.target.value})}/></label><button type="button" disabled={!/^[0-9]{1,7}$/.test(l.dozens)||!/^[0-9]{1,2}$/.test(l.pieces)||Number(l.pieces)>11||BigInt(l.dozens||0)*12n+BigInt(l.pieces||0)===0n} onClick={()=>editLine(l.key,{qty:String(BigInt(l.dozens)*12n+BigInt(l.pieces))})}>Terapkan lusin baris {i+1}</button></div>)}</details>}
+    </section>})}
+    <label>Catatan invoice<input aria-label="Catatan draft invoice" maxLength={4000} value={form.notes} onChange={e=>update({notes:e.target.value})}/></label><label>Alasan penyimpanan<input aria-label="Alasan simpan invoice" required minLength={5} maxLength={1000} value={form.reason} onChange={e=>update({reason:e.target.value})}/></label>
+    <div className="cproc-total"><span>{correction?'Nilai nota setelah dibetulkan':'Nilai draft'}</span><strong>{total===null?'Belum lengkap':`Rp${numberText(`${total/100n}.${String(total%100n).padStart(2,'0')}`)}`}</strong><p>{correction?'Pembetulan memperbarui nota, stok, piutang dan HPP bersama. Periode keuangan yang ditutup tetap dilindungi.':'Menyimpan draft memesan stok siap jual. Piutang belum dibukukan sampai invoice disahkan.'}</p></div>
+-   <label className="cproc-check"><input type="checkbox" aria-label={correction?'Pembetulan nota sudah diperiksa':'Draft invoice sudah diperiksa'} checked={reviewed} disabled={!!seriesBusy} onChange={e=>setReviewed(e.target.checked)}/>Pelanggan, tanggal, jumlah, harga, dan potongan sudah saya periksa.</label><button className="primary-btn" disabled={!valid||!reviewed}>{correction?'Simpan pembetulan nota':'Simpan draft invoice'}</button>
++   {creditBasis&&<section className="cproc-review" aria-label="Saldo kredit pada pembetulan nota">
++    <h3>Saldo kredit pada nota pengganti</h3>
++    <p>Saldo yang sudah dipakai Rp{numberText(creditBasis.transfer_amount)}. Nilai minimum nota pengganti Rp{numberText(creditBasis.minimum_replacement_net)}.</p>
++    <p>Pembetulan ini memakai barang dan jumlah asli. Kredit yang memenuhi syarat ikut ke nota pengganti.</p>
++    {carryReview&&<p>Sisa tagihan setelah kredit Rp{numberText(carryReview.remaining_amount)}. Server memeriksa kembali saldo dan sumber sebelum menyimpan.</p>}
++    {!creditReady&&total!==null&&creditBasis.issues.length===0&&<p role="alert">Nilai nota ini belum memenuhi syarat untuk membawa saldo kredit. Periksa kembali nilai pengganti.</p>}
++    {creditBasis.issues.map(code=><p key={code} role="alert">Kredit pada nota ini perlu diperiksa admin. Kode {code}.</p>)}
++   </section>}
++   <label className="cproc-check"><input type="checkbox" aria-label={correction?'Pembetulan nota sudah diperiksa':'Draft invoice sudah diperiksa'} checked={reviewed} disabled={!!seriesBusy||!creditReady} onChange={e=>setReviewed(e.target.checked)}/>Pelanggan, tanggal, jumlah, harga, dan potongan sudah saya periksa.</label><button className="primary-btn" disabled={!valid||!reviewed||!creditReady}>{correction?'Simpan pembetulan nota':'Simpan draft invoice'}</button>
+   </fieldset>
+  </form>
+ }
+diff --git a/src/SalesReturnCorrectionPanel.tsx b/src/SalesReturnCorrectionPanel.tsx
+index 30849c9..bc85bd5 100644
+--- a/src/SalesReturnCorrectionPanel.tsx
++++ b/src/SalesReturnCorrectionPanel.tsx
+@@ -12,6 +12,7 @@ import {parseReturnCorrectionWorkspace,returnCorrectionCents,type ReturnCorrecti
+ import {useRetainedInput,type RetainedFormInput} from './useRetainedFormInput'
+ import type {useProductionMutation} from './useProductionMutation'
+ import TransactionSourceLink from './TransactionSourceNavigation'
++import type {ReturnCreditReview} from './salesCorrectionCreditContract'
+ import type {Json} from './types/database.preconnect'
+ type Recovery=ReturnType<typeof useProductionMutation>
+ type Source=NonNullable<SalesRead['detail']>
+@@ -23,13 +24,16 @@ export default function SalesReturnCorrectionPanel({source,returnId,number,initi
+  const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime]),seq=useRef(0),query=useRef({q:'',offset:0}),loaded=useRef(false),dataTicket=useRef<ReturnType<Recovery['currentReadTicket']>>(null)
+  const {currentReadTicket,isReadCurrent}=readFence,key=`return.${source.id}.${returnId}.`,parentKey=JSON.stringify([source.id,source.row_version,source.review_token,returnId]),parent=useRef(parentKey);parent.current=parentKey
+  const [data,setData]=useState<ReturnCorrectionWorkspace|null>(null),[busy,setBusy]=useState(false),[error,setError]=useState(''),[edit,setEdit]=useState(initialEdit),[review,setReview]=useState(false)
++ const [creditQuote,setCreditQuote]=useState<{key:string;value:ReturnCreditReview}|null>(null),[quoteBusy,setQuoteBusy]=useState(false),[quoteError,setQuoteError]=useState('')
++ const quoteSequence=useRef(0)
++ const retireQuote=useCallback(()=>{++quoteSequence.current;setCreditQuote(null);setQuoteBusy(false);setQuoteError('');setReview(false)},[])
+  const [lines,setLines]=useRetainedInput<OwnLine[]>(inputs,key+'lines',[]),[at,setAt]=useRetainedInput(inputs,key+'at',''),[timeEdited,setTimeEdited]=useRetainedInput(inputs,key+'timeEdited',false),[restoredAt,setRestoredAt]=useRetainedInput<string|null>(inputs,key+'restoredAt',null),[notes,setNotes]=useRetainedInput(inputs,key+'notes',''),[reason,setReason]=useRetainedInput(inputs,key+'reason','')
+  const [search,setSearch]=useState(''),[locationSearch,setLocationSearch]=useState(''),[destination,setDestination]=useState<string|null>(null)
+  const facts=useRef({token:'',allocations:new Map<string,ReturnCorrectionAllocation>()})
+  const ownInitialized=useRef(Object.hasOwn(inputs,key+'lines'))
+  const prefill=useCallback((d:ReturnCorrectionDocument)=>{setLines(d.items.map(i=>({key:crypto.randomUUID(),allocation_id:i.allocation_id,location_id:i.location_id,qty:i.qty_pcs,grade:i.quality_grade,refund:i.refund_amount,notes:i.notes??''})));setAt(cp6WibDateTimeInput(d.physical_at));setTimeEdited(false);setRestoredAt(null);setNotes(d.notes??'');setReason('');setReview(false)},[setLines,setAt,setTimeEdited,setRestoredAt,setNotes,setReason])
+  const load=useCallback(async()=>{
+-  const n=++seq.current,ticket=currentReadTicket(),capture=parentKey,requested={...query.current};dataTicket.current=null;setData(null);setBusy(false);setError('');setReview(false)
++  const n=++seq.current,ticket=currentReadTicket(),capture=parentKey,requested={...query.current};dataTicket.current=null;setData(null);setBusy(false);setError('');retireQuote()
+   if(!ticket){setError('Muat ulang invoice sebelum membuka pembetulan retur.');return}setBusy(true)
+   try{const r=await client.rpc('erp_cp7_get_sales_return_correction_v1',{p_query:{sale_id:source.id,return_id:returnId,...requested,limit:25}})
+    if(n!==seq.current||parent.current!==capture||!isReadCurrent(ticket))return;if(r.error)throw r.error
+@@ -39,8 +43,8 @@ export default function SalesReturnCorrectionPanel({source,returnId,number,initi
+    for(const a of [...next.current_allocations,...next.allocations.rows])facts.current.allocations.set(a.allocation_id,a)
+    dataTicket.current=ticket;setData(next);if(!loaded.current){if(!ownInitialized.current)prefill(next.document);loaded.current=true}
+   }catch(e){if(n===seq.current&&isReadCurrent(ticket)&&parent.current===capture){const message=normalizeClientError(e).message;setData(null);setReview(false);setError(message);onInvalid(message)}}finally{if(n===seq.current)setBusy(false)}
+- },[client,currentReadTicket,isReadCurrent,onInvalid,parentKey,source,returnId,prefill])
+- useEffect(()=>{void load();return()=>{++seq.current}},[load])
++ },[client,currentReadTicket,isReadCurrent,onInvalid,parentKey,source,returnId,prefill,retireQuote])
++ useEffect(()=>{void load();return()=>{++seq.current;++quoteSequence.current}},[load])
+  const factsCurrent=dataTicket.current!==null&&isReadCurrent(dataTicket.current)
+  const disabled=locked||stale||busy||!data||!locations||!factsCurrent,canCorrect=!!data?.can_correct&&['OWNER','ADMIN'].includes(identity.profile.role)&&['sales.return.create','sales.return.post','sales.return.reverse','finance.hpp.view'].every(p=>identity.permissions.includes(p))
+  const original=data?.document,physical=timeEdited?cp6WibPhysicalTimeToIso(at):restoredAt??original?.physical_at??null
+@@ -51,12 +55,39 @@ export default function SalesReturnCorrectionPanel({source,returnId,number,initi
+  const replacementLines=lines.map(l=>({allocation_id:l.allocation_id,location_id:l.location_id,qty_pcs:salesQtyInput(l.qty)??l.qty,quality_grade:l.grade,refund_amount:salesCashAmount(l.refund)??l.refund,notes:l.notes||null}))
+  const normalized=(v:{allocation_id:string;location_id:string;qty_pcs:string;quality_grade:string;refund_amount:string;notes:string|null}[])=>JSON.stringify([...v].sort((a,b)=>a.allocation_id.localeCompare(b.allocation_id)).map(i=>({...i,refund_amount:salesCashAmount(i.refund_amount)===null?i.refund_amount:salesCashCents(i.refund_amount).toString()})))
+  const changed=!!original&&(physical!==original.physical_at||(notes||null)!==original.notes||normalized(replacementLines)!==normalized(original.items.map(i=>({allocation_id:i.allocation_id,location_id:i.location_id,qty_pcs:i.qty_pcs,quality_grade:i.quality_grade,refund_amount:i.refund_amount,notes:i.notes}))))
+- const valid=!disabled&&canCorrect&&changed&&validLines&&physical!==null&&total!==null&&maxRefund!==null&&returnCorrectionCents(total)<=maxRefund&&reason.trim().length>=5&&review
++ const baseValid=!disabled&&canCorrect&&changed&&validLines&&physical!==null&&total!==null&&reason.trim().length>=5
++ const proposed={replacement:{physical_at:physical!,notes:notes||null,items:replacementLines},change_reason:reason.trim()}
++ const proposalKey=JSON.stringify([parentKey,data?.return_review_token,proposed])
++ const activeProposal=useRef<string|null>(null);activeProposal.current=disabled?null:proposalKey
++ const quote=!disabled&&creditQuote?.key===proposalKey?creditQuote.value:null
++ const credit=data?.credit_correction
++ const valid=baseValid&&review&&(credit?quote?.state==='READY':maxRefund!==null&&returnCorrectionCents(total!)<=maxRefund)
++ const reviewCredit=async()=>{
++  const ticket=dataTicket.current
++  if(!baseValid||!credit||quoteBusy||!ticket||!isReadCurrent(ticket))return
++  const n=++quoteSequence.current;setQuoteBusy(true);setCreditQuote(null);setQuoteError('');setReview(false)
++  const current=()=>n===quoteSequence.current&&activeProposal.current===proposalKey&&isReadCurrent(ticket)
++  try{
++   const r=await client.rpc('erp_cp7_get_sales_return_correction_v1',{p_query:{sale_id:source.id,return_id:returnId,...query.current,limit:25,proposed}})
++   if(!current())return
++   if(r.error)throw r.error
++   const next=parseReturnCorrectionWorkspace(r.data,source,returnId,query.current.offset)
++   if(!next.can_correct||next.return_review_token!==data.return_review_token||!next.credit_correction||next.credit_correction.state==='REVIEW_REQUIRED')
++    throw Error('Sumber saldo kredit berubah. Muat ulang pembetulan retur dan periksa kembali.')
++   setCreditQuote({key:proposalKey,value:next.credit_correction})
++  }catch(e){if(current()){
++   const problem=normalizeClientError(e)
++   if(problem.code==='FORBIDDEN'||problem.code==='AUTH_REQUIRED'){setData(null);onInvalid(problem.message)}
++   else setQuoteError(problem.message)
++  }}
++  finally{if(n===quoteSequence.current)setQuoteBusy(false)}
++ }
+  const save=()=>{if(!valid||!data||!source.review_token||!dataTicket.current||!isReadCurrent(dataTicket.current))return;const ticket=currentReadTicket();if(!ticket||!isReadCurrent(ticket))return
+-  onSave('RETURN_CORRECT',{sale_id:source.id,return_id:returnId,review_token:source.review_token,return_review_token:data.return_review_token,change_reason:reason.trim(),replacement:{physical_at:physical!,notes:notes||null,items:replacementLines}},source.row_version)
++  onSave('RETURN_CORRECT',{sale_id:source.id,return_id:returnId,review_token:source.review_token,return_review_token:data.return_review_token,...proposed,
++   ...(credit?{credit_review_token:quote!.review_token}: {})},source.row_version)
+  }
+- const update=(id:string,change:Partial<OwnLine>)=>{setLines(old=>old.map(l=>l.key===id?{...l,...change}:l));setReview(false)}
+- const restore=()=>{if(disabled||!canCorrect||!data?.previous)return;prefill(data.previous.document);setRestoredAt(data.previous.document.physical_at);setEdit(true)}
++ const update=(id:string,change:Partial<OwnLine>)=>{setLines(old=>old.map(l=>l.key===id?{...l,...change}:l));retireQuote()}
++ const restore=()=>{if(disabled||!canCorrect||!data?.previous)return;retireQuote();prefill(data.previous.document);setRestoredAt(data.previous.document.physical_at);setEdit(true)}
+  return <section className="panel" aria-label="Pembetulan retur tercatat">
+   <div className="cproc-heading"><div><h3>{edit?'Edit retur':'Perubahan retur'} {number}</h3><p>Invoice {source.number}</p></div><button disabled={locked} onClick={onClose}>Tutup pembetulan retur</button></div>
+   <button disabled={locked||stale||busy} onClick={()=>void load()}>Muat ulang pembetulan retur</button>
+@@ -67,7 +98,7 @@ export default function SalesReturnCorrectionPanel({source,returnId,number,initi
+    {data.next?<section aria-label="Retur pengganti"><h4>Retur pengganti</h4><TransactionSourceLink sourceType="SALES_RETURN" sourceId={data.next.document.id} disabled={disabled} label={`Buka retur pengganti ${data.next.document.number}`}/><p>{data.next.link.reason}</p></section>:null}
+    {!edit&&canCorrect?<button disabled={disabled} onClick={()=>setEdit(true)}>Edit retur tercatat</button>:null}
+   </>:null}
+-  {edit&&data&&canCorrect?<form aria-label="Edit retur pelanggan" onSubmit={e=>{e.preventDefault();save()}} onChange={()=>setReview(false)}><fieldset disabled={disabled}>
++  {edit&&data&&canCorrect?<form aria-label="Edit retur pelanggan" onSubmit={e=>{e.preventDefault();save()}} onChange={retireQuote}><fieldset disabled={disabled}>
+    <label>Waktu barang kembali · WIB<input type="datetime-local" aria-label="Waktu pembetulan retur WIB" value={at} onChange={e=>{setAt(e.target.value);setTimeEdited(true);setRestoredAt(null)}}/></label>
+    <label>Catatan retur<textarea aria-label="Catatan pembetulan retur" maxLength={2000} value={notes} onChange={e=>setNotes(e.target.value)}/></label>
+    <div className="cproc-search"><label>Cari gudang penerima<input aria-label="Cari gudang pembetulan retur" maxLength={120} value={locationSearch} onChange={e=>setLocationSearch(e.target.value)}/></label><button type="button" onClick={()=>onLocationSearch(locationSearch.trim())}>Cari gudang pembetulan retur</button></div>
+@@ -75,12 +106,29 @@ export default function SalesReturnCorrectionPanel({source,returnId,number,initi
+    {lines.map((l,n)=>{const a=facts.current.allocations.get(l.allocation_id),known=original?.items.find(i=>i.allocation_id===l.allocation_id)??data.previous?.document.items.find(i=>i.allocation_id===l.allocation_id),locationName=locations?.page.rows.find(x=>x.id===l.location_id)?.name??(known?.location_id===l.location_id?known.location_name:null)
+     return <article className="cproc-item" key={l.key}><h4>{a?.product_sku??known?.product_sku??'Alokasi belum dimuat'} · lot {a?.lot_number??known?.lot_number??'belum dimuat'}</h4>{a?<p>Maksimum pengganti {formatReceiptDecimal(a.replacement_capacity)} PCS setelah retur lain.</p>:<p role="alert">Cari SKU atau lot untuk memuat alokasi baris ini sebelum menyimpan.</p>}
+      <div className="cproc-grid"><label>Jumlah PCS<input aria-label={`Jumlah pembetulan retur ${n+1}`} inputMode="numeric" value={l.qty} onChange={e=>update(l.key,{qty:e.target.value})}/></label><label>Nilai retur<input aria-label={`Nilai pembetulan retur ${n+1}`} inputMode="decimal" value={l.refund} onChange={e=>update(l.key,{refund:e.target.value})}/></label><label>Grade<select aria-label={`Grade pembetulan retur ${n+1}`} value={l.grade} onChange={e=>update(l.key,{grade:e.target.value as OwnLine['grade']})}><option value="GRADE_A">Grade A</option><option value="GRADE_B">Grade B</option><option value="HOLD">Ditahan (Hold)</option></select></label></div>
+-     <p>Gudang penerima: {locationName??'pilihan gudang belum dimuat'}</p><button type="button" disabled={!destination} onClick={()=>update(l.key,{location_id:destination!})}>Gunakan gudang pilihan untuk baris {n+1}</button><label>Catatan baris<input aria-label={`Catatan baris pembetulan retur ${n+1}`} maxLength={2000} value={l.notes} onChange={e=>update(l.key,{notes:e.target.value})}/></label><button type="button" onClick={()=>{setLines(old=>old.filter(x=>x.key!==l.key));setReview(false)}}>Hapus baris pembetulan {n+1}</button>
++     <p>Gudang penerima: {locationName??'pilihan gudang belum dimuat'}</p><button type="button" disabled={!destination} onClick={()=>update(l.key,{location_id:destination!})}>Gunakan gudang pilihan untuk baris {n+1}</button><label>Catatan baris<input aria-label={`Catatan baris pembetulan retur ${n+1}`} maxLength={2000} value={l.notes} onChange={e=>update(l.key,{notes:e.target.value})}/></label><button type="button" onClick={()=>{setLines(old=>old.filter(x=>x.key!==l.key));retireQuote()}}>Hapus baris pembetulan {n+1}</button>
+     </article>
+    })}
+    <div className="cproc-search"><label>Cari SKU atau lot asal<input aria-label="Cari alokasi pembetulan retur" maxLength={120} value={search} onChange={e=>setSearch(e.target.value)}/></label><button type="button" onClick={()=>{query.current={q:search.trim(),offset:0};void load()}}>Cari alokasi pembetulan retur</button></div>
+-   <section aria-label="Alokasi pengganti retur">{data.allocations.rows.map(a=><button type="button" key={a.allocation_id} disabled={lines.length>=100||lines.some(l=>l.allocation_id===a.allocation_id)||!destination} onClick={()=>{setLines(old=>[...old,{key:crypto.randomUUID(),allocation_id:a.allocation_id,location_id:destination!,qty:'',grade:'GRADE_A',refund:'',notes:''}]);setReview(false)}}>Tambah {a.product_sku} · lot {a.lot_number}</button>)}<div className="cproc-pagination"><span>Total {data.allocations.total} alokasi</span><button type="button" disabled={data.allocations.offset===0} onClick={()=>{query.current.offset=Math.max(0,data.allocations.offset-25);void load()}}>Alokasi pembetulan sebelumnya</button><button type="button" disabled={data.allocations.next_offset===null} onClick={()=>{query.current.offset=data.allocations.next_offset??0;void load()}}>Alokasi pembetulan berikutnya</button></div></section>
+-   <p>Total retur pengganti: {total===null?'periksa nilai baris':money(total)}</p><label>Alasan pembetulan<input aria-label="Alasan pembetulan retur" maxLength={1000} value={reason} onChange={e=>setReason(e.target.value)}/></label><label><input type="checkbox" aria-label="Pembetulan retur sudah diperiksa" checked={review} onChange={e=>{e.stopPropagation();setReview(e.target.checked)}}/>Jumlah, gudang, grade, tanggal, dan nilai retur sudah diperiksa.</label><button className="primary-btn" disabled={!valid}>Simpan pembetulan retur</button>
++   <section aria-label="Alokasi pengganti retur">{data.allocations.rows.map(a=><button type="button" key={a.allocation_id} disabled={lines.length>=100||lines.some(l=>l.allocation_id===a.allocation_id)||!destination} onClick={()=>{setLines(old=>[...old,{key:crypto.randomUUID(),allocation_id:a.allocation_id,location_id:destination!,qty:'',grade:'GRADE_A',refund:'',notes:''}]);retireQuote()}}>Tambah {a.product_sku} · lot {a.lot_number}</button>)}<div className="cproc-pagination"><span>Total {data.allocations.total} alokasi</span><button type="button" disabled={data.allocations.offset===0} onClick={()=>{query.current.offset=Math.max(0,data.allocations.offset-25);void load()}}>Alokasi pembetulan sebelumnya</button><button type="button" disabled={data.allocations.next_offset===null} onClick={()=>{query.current.offset=data.allocations.next_offset??0;void load()}}>Alokasi pembetulan berikutnya</button></div></section>
++   <p>Total retur pengganti: {total===null?'periksa nilai baris':money(total)}</p><label>Alasan pembetulan<input aria-label="Alasan pembetulan retur" maxLength={1000} value={reason} onChange={e=>setReason(e.target.value)}/></label>
++   {credit&&!disabled&&<section className="cproc-review" aria-label="Dampak pembetulan pada saldo kredit">
++    <h4>Dampak pada saldo kredit</h4>
++    <p>Periksa saldo dan transaksi yang masih aktif sebelum menyimpan pembetulan.</p>
++    <button type="button" disabled={!baseValid||quoteBusy} onClick={()=>void reviewCredit()}>Periksa dampak saldo kredit</button>
++    {quoteBusy&&<p role="status">Memeriksa saldo kredit…</p>}
++    {quoteError&&<p role="alert">{quoteError}</p>}
++    {quote&&<><p>Saldo sekarang {money(quote.before_available!)} · Perubahan {money(quote.credit_delta!)} · Saldo setelah pembetulan {money(quote.after_available!)}.</p>
++     {quote.issues.includes('UNDO_ACTIVE_CONSUMERS_FIRST')&&<p role="alert">Batalkan transaksi kredit aktif yang terkait dahulu. Tutup panel retur, buka Saldo kredit pelanggan pada invoice asal, lalu periksa riwayat kredit. Muat ulang pembetulan sesudah pembatalan.</p>}
++     {quote.issues.filter(code=>code!=='UNDO_ACTIVE_CONSUMERS_FIRST').map(code=><p key={code} role="alert">Pembetulan ini tertahan. Periksa perubahan atau hubungi admin dengan kode {code}.</p>)}
++    </>}
++    {(quote??credit).active_consumers.map(event=><article className="cproc-item" key={event.event_id}>
++     <strong>{event.event_kind==='APPLY'?'Pemakaian saldo kredit':'Pengembalian uang'} · {money(event.amount)}</strong>
++     <p>Referensi transaksi {event.event_id}</p>
++     {event.target_sale_id&&<TransactionSourceLink sourceType="SALE" sourceId={event.target_sale_id} disabled={disabled} label="Buka invoice pemakaian saldo"/>}
++    </article>)}
++   </section>}
++   <label><input type="checkbox" aria-label="Pembetulan retur sudah diperiksa" checked={review} disabled={Boolean(credit)&&quote?.state!=='READY'} onChange={e=>{e.stopPropagation();setReview(e.target.checked)}}/>Jumlah, gudang, grade, tanggal, dan nilai retur sudah diperiksa.</label><button className="primary-btn" disabled={!valid}>Simpan pembetulan retur</button>
+   </fieldset></form>:null}
+  </section>
+ }
+diff --git a/src/customerCreditContract.ts b/src/customerCreditContract.ts
+index b646d72..71f34ed 100644
+--- a/src/customerCreditContract.ts
++++ b/src/customerCreditContract.ts
+@@ -15,10 +15,14 @@ export type CreditSelection = {
+   target_sale_id: string|null; target_root_sale_id: string|null; target_current_leaf_id: string|null
+   cash_account_id: string|null; restores_event_id: string|null; amount: string
+ }
++type TargetAssignment = {
++  contract_version: 'cp7.note-credit-target-assignment.v1'; root_sale_id: string; historical_target_id: string
++  current_sale_id: string; current_number: string; revision_id: string; original_event_id: string|null; proof_sha256: string
++}
+ export type CreditReview = {
+   contract_version: 'cp7.customer-credit-review.v1'; read_only: true; selection: CreditSelection
+   physical_at: string; economic_date: string; transaction_date: string; book_basis: {[key:string]: Json}
+-  available_credit_after: string; expected_versions: Record<string,string>; quote_sha256: string
++  available_credit_after: string; expected_versions: Record<string,string>; quote_sha256: string; target_assignment?: TargetAssignment
+ }
+ export type CreditRecovery = {document: CreditCommand; review: CreditReview}
+ export type CreditCohort = {id:string;return_id:string;return_number:string;available_credit:string;credit_account:{id:string;code:string;name:string}}
+@@ -112,7 +116,8 @@ export function parseCreditPayload(value:unknown,command=false):CreditPayload|Cr
+ }
+ 
+ export function parseCreditReview(value:unknown,payload:CreditPayload,context?:{source:CreditSource;original?:CreditEvent;target?:CreditTarget}):CreditReview {
+-  const p=parseCreditPayload(payload),r=closed(value,['contract_version','read_only','selection','physical_at','economic_date','transaction_date','book_basis','available_credit_after','expected_versions','quote_sha256'])
++  const extended=Boolean(value&&typeof value==='object'&&Object.hasOwn(value,'target_assignment'))
++  const p=parseCreditPayload(payload),r=closed(value,['contract_version','read_only','selection','physical_at','economic_date','transaction_date','book_basis','available_credit_after','expected_versions','quote_sha256',...(extended?['target_assignment']:[])])
+   const s=closed(r.selection,['action','event_kind','cohort_id','customer_id','source_sale_id','source_root_sale_id','source_current_leaf_id',
+     'target_sale_id','target_root_sale_id','target_current_leaf_id','cash_account_id','restores_event_id','amount'])
+   const map=versions(r.expected_versions)
+@@ -124,8 +129,19 @@ export function parseCreditReview(value:unknown,payload:CreditPayload,context?:{
+   for(const key of ['target_sale_id','target_root_sale_id','target_current_leaf_id','cash_account_id','restores_event_id'])if(s[key]!==null && !uuid(s[key]))fail()
+   if(s.source_sale_id!==s.source_root_sale_id || s.source_sale_id!==s.source_current_leaf_id || !version(map[String(s.source_sale_id)])
+     || (s.event_kind==='APPLY')!==(s.target_sale_id!==null) || (s.event_kind==='REFUND')!==(s.cash_account_id!==null)
+-    || s.target_sale_id===s.source_sale_id || s.target_root_sale_id!==s.target_sale_id || s.target_current_leaf_id!==s.target_sale_id
++    || s.target_sale_id===s.source_sale_id || s.target_current_leaf_id!==s.target_sale_id
+     || s.target_sale_id!==null && !version(map[String(s.target_sale_id)]) || s.restores_event_id!==p.restores_event_id)fail()
++  let historicalTarget=s.target_sale_id
++  if(extended) {
++    const a=closed(r.target_assignment,['contract_version','root_sale_id','historical_target_id','current_sale_id','current_number','revision_id','original_event_id','proof_sha256'])
++    if(a.contract_version!=='cp7.note-credit-target-assignment.v1'||s.event_kind!=='APPLY'
++      || !uuid(a.root_sale_id)||a.root_sale_id!==s.target_root_sale_id||a.root_sale_id===s.source_sale_id
++      || !uuid(a.current_sale_id)||a.current_sale_id!==s.target_sale_id||a.current_sale_id===a.root_sale_id
++      || !uuid(a.historical_target_id)||!label(a.current_number)||!uuid(a.revision_id)||!hash(a.proof_sha256)
++      || a.original_event_id!==p.restores_event_id
++      || (p.action==='UNDO'?a.historical_target_id!==a.root_sale_id&&a.historical_target_id!==a.current_sale_id:a.historical_target_id!==a.current_sale_id))fail()
++    historicalTarget=a.historical_target_id
++  } else if(s.target_root_sale_id!==s.target_sale_id)fail()
+   if(p.action==='UNDO') {if(creditCents(s.amount)>=0n)fail()}
+   else if(s.event_kind!==p.action || s.cohort_id!==p.cohort_id || s.target_sale_id!==p.target_sale_id || s.cash_account_id!==p.cash_account_id || s.amount!==p.amount)fail()
+   if(!r.book_basis || typeof r.book_basis!=='object' || Array.isArray(r.book_basis) || (r.book_basis as Record<string,unknown>).selected_book_date!==r.transaction_date)fail()
+@@ -134,7 +150,7 @@ export function parseCreditReview(value:unknown,payload:CreditPayload,context?:{
+     if(s.source_sale_id!==source.id || s.customer_id!==source.customer_id || map[source.id]!==source.row_version)fail()
+     if(p.action==='UNDO' && (!original || original.id!==p.restores_event_id || original.restores_event_id!==null || original.undone_by!==null
+       || s.cohort_id!==original.cohort_id || s.event_kind!==original.kind || creditCents(s.amount)!==-creditCents(original.amount)
+-      || s.target_sale_id!==original.target_sale_id || s.cash_account_id!==original.cash_account_id))fail()
++      || historicalTarget!==original.target_sale_id || s.cash_account_id!==original.cash_account_id))fail()
+     if(p.action==='APPLY' && (!target || target.id!==p.target_sale_id || target.customer_id!==source.customer_id || map[target.id]!==target.row_version))fail()
+   }
+   return r as unknown as CreditReview
+diff --git a/src/noteCorrectionContract.ts b/src/noteCorrectionContract.ts
+index ea3fbc0..3db9c57 100644
+--- a/src/noteCorrectionContract.ts
++++ b/src/noteCorrectionContract.ts
+@@ -1,4 +1,5 @@
+ import {parseSalesRead,type SalesRead} from './salesReadContract'
++import {parseNoteCreditBasis,type NoteCreditBasis} from './salesCorrectionCreditContract'
+ const fail=():never=>{throw Error('Pembetulan nota belum cocok dengan sumber yang diperiksa. Muat ulang nota.')}
+ const object=(v:unknown)=>{if(!v||typeof v!=='object'||Array.isArray(v))return fail();return v as Record<string,unknown>}
+ const id=(v:unknown):v is string=>typeof v==='string'&&/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(v)
+@@ -11,9 +12,9 @@ function instantMicros(v:unknown):bigint|null{
+ const at=(v:unknown):v is string=>instantMicros(v)!==null
+ function closed(v:unknown,keys:string[]){const r=object(v);if(keys.some(k=>!(k in r))||Object.keys(r).some(k=>!keys.includes(k)))fail();return r}
+ export type NoteCorrectionHistory={revision_id:string;revision:string;previous_sale_id:string;replacement_sale_id:string;effective_at:string;recorded_at:string;reason:string;actor_id:string;actor_display_name:string|null;actor_name_basis:'CURRENT_PROFILE'}
+-export type NoteCorrectionWorkspace={contract_version:'cp7.note-correction-workspace.v2';read_at:string;root_sale_id:string;current_sale_id:string;history:NoteCorrectionHistory[];current:SalesRead;original_note_number:string;production_go:false}
++export type NoteCorrectionWorkspace={contract_version:'cp7.note-correction-workspace.v2';read_at:string;root_sale_id:string;current_sale_id:string;history:NoteCorrectionHistory[];current:SalesRead;original_note_number:string;production_go:false;credit_carry?:NoteCreditBasis}
+ export function parseNoteCorrectionWorkspace(v:unknown,requested:string):NoteCorrectionWorkspace{
+- const r=closed(v,['contract_version','read_at','root_sale_id','current_sale_id','history','current','original_note_number','production_go'])
++ const r=closed(v,['contract_version','read_at','root_sale_id','current_sale_id','history','current','original_note_number','production_go',...(v&&typeof v==='object'&&Object.hasOwn(v,'credit_carry')?['credit_carry']:[])])
+  if(r.contract_version!=='cp7.note-correction-workspace.v2'||!at(r.read_at)||!id(r.root_sale_id)||!id(r.current_sale_id)||!Array.isArray(r.history)||typeof r.original_note_number!=='string'||r.production_go!==false)return fail()
+  let previous=r.root_sale_id;const seen=new Set<string>([previous]);let revision=0n
+  for(const value of r.history){
+@@ -23,7 +24,8 @@ export function parseNoteCorrectionWorkspace(v:unknown,requested:string):NoteCor
+  }
+  if(previous!==r.current_sale_id||!seen.has(requested))return fail()
+  const current=parseSalesRead(r.current,true);if(current.detail?.id!==r.current_sale_id)return fail()
+- return {...r,current}as NoteCorrectionWorkspace
++ const result={...r,current}as NoteCorrectionWorkspace
++ return Object.hasOwn(r,'credit_carry')?{...result,credit_carry:parseNoteCreditBasis(r.credit_carry,current.detail,r.root_sale_id)}:result
+ }
+ export function parseNoteCorrectionOutcome(v:unknown,request:string,source:string,effectiveAt:string){
+  const r=closed(v,['contract_version','kind','action','request_id','root_sale_id','previous_sale_id','sale_id','revision_id','revision','effective_at'])
+diff --git a/src/salesCorrectionCreditContract.ts b/src/salesCorrectionCreditContract.ts
+new file mode 100644
+index 0000000..3728fe9
+--- /dev/null
++++ b/src/salesCorrectionCreditContract.ts
+@@ -0,0 +1,120 @@
++import { creditCents } from './customerCreditContract'
++import type { SalesRead } from './salesReadContract'
++
++type ActiveConsumer = {
++  event_id: string
++  event_kind: 'APPLY' | 'REFUND'
++  amount: string
++  target_sale_id: string | null
++}
++
++export type ReturnCreditReview = {
++  state: 'REVIEW_REQUIRED' | 'READY' | 'REFUSE'
++  review_token: string | null
++  credit_delta: string | null
++  before_available: string | null
++  after_available: string | null
++  issues: string[]
++  active_consumers: ActiveConsumer[]
++}
++
++type CarryConsumer = {
++  event_id: string
++  amount: string
++  historical_target_id: string
++  economic_date: string
++  transaction_date: string
++}
++export type NoteCreditBasis = {
++  basis_sha256: string
++  transfer_amount: string
++  minimum_replacement_net: string
++  issues: string[]
++  consumers: CarryConsumer[]
++}
++
++const fail = (): never => { throw new Error('Rincian saldo kredit pembetulan belum lengkap. Muat ulang dokumen sebelum melanjutkan.') }
++const uuid = (v: unknown): v is string => typeof v === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(v)
++const hash = (v: unknown): v is string => typeof v === 'string' && /^[0-9a-f]{64}$/.test(v)
++const day = (v: unknown): v is string => typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v)
++  && Number.isFinite(Date.parse(v)) && new Date(v).toISOString().slice(0, 10) === v
++
++function fields(value: unknown, keys: string[]) {
++  if (!value || typeof value !== 'object' || Array.isArray(value)) return fail()
++  const record = value as Record<string, unknown>
++  if (Object.keys(record).length !== keys.length || keys.some(key => !Object.hasOwn(record, key))) return fail()
++  return record
++}
++
++function issuesOf(value: unknown): string[] {
++  if (!Array.isArray(value) || !value.every(v => typeof v === 'string' && /^[A-Z][A-Z0-9_]{1,100}$/.test(v))) return fail()
++  return value
++}
++
++function uniqueEvents(rows: { event_id: string }[]) {
++  if (new Set(rows.map(row => row.event_id.toLowerCase())).size !== rows.length) fail()
++}
++
++export function parseReturnCreditReview(value: unknown): ReturnCreditReview {
++  const r = fields(value, ['contract_version', 'state', 'review_token', 'credit_delta', 'before_available',
++    'after_available', 'issues', 'active_consumers', 'families', 'source_authority_proven', 'increase_policy',
++    'shortfall_policy', 'replacement_invoice_policy'])
++  const state = r.state
++  if (r.contract_version !== 'cp7.credit-correction-de.v1' || r.increase_policy !== 'AUTO_CREDIT_INCREMENT'
++    || r.shortfall_policy !== 'UNDO_ACTIVE_CONSUMERS_FIRST' || r.replacement_invoice_policy !== 'AUTO_TRANSFER_TO_REPLACEMENT'
++    || !Array.isArray(r.active_consumers) || !Array.isArray(r.families)
++    || (state !== 'REVIEW_REQUIRED' && state !== 'READY' && state !== 'REFUSE')) return fail()
++  const issues = issuesOf(r.issues)
++  const amounts = [r.credit_delta, r.before_available, r.after_available]
++  if (state === 'REVIEW_REQUIRED') {
++    if (r.review_token !== null || r.source_authority_proven !== false || amounts.some(v => v !== null)
++      || issues.length || r.families.length) return fail()
++  } else {
++    if (!hash(r.review_token) || r.source_authority_proven !== true
++      || creditCents(r.before_available) + creditCents(r.credit_delta) !== creditCents(r.after_available)
++      || (state === 'READY') !== (issues.length === 0)) return fail()
++  }
++  const active_consumers = r.active_consumers.map((value): ActiveConsumer => {
++    const event = fields(value, ['event_id', 'event_kind', 'amount', 'cohort_id', 'family_ordinal', 'target_sale_id', 'journal_id', 'undo_action'])
++    const { event_id, event_kind, amount, target_sale_id } = event
++    if (!uuid(event_id) || !uuid(event.cohort_id) || !uuid(event.journal_id)
++      || typeof event.family_ordinal !== 'string' || !/^[1-9][0-9]*$/.test(event.family_ordinal)
++      || (event_kind !== 'APPLY' && event_kind !== 'REFUND') || typeof amount !== 'string' || creditCents(amount) <= 0n
++      || (event_kind === 'APPLY' ? !uuid(target_sale_id) : target_sale_id !== null)
++      || typeof event.undo_action !== 'string' || !event.undo_action) return fail()
++    return { event_id, event_kind, amount, target_sale_id: target_sale_id as string | null }
++  })
++  uniqueEvents(active_consumers)
++  return { state, review_token: r.review_token as string | null, credit_delta: r.credit_delta as string | null,
++    before_available: r.before_available as string | null, after_available: r.after_available as string | null, issues, active_consumers }
++}
++
++export function parseNoteCreditBasis(value: unknown, source: NonNullable<SalesRead['detail']>, root: string): NoteCreditBasis {
++  const r = fields(value, ['contract_version', 'sale_id', 'root_sale_id', 'row_version', 'review_token',
++    'basis_sha256', 'transfer_amount', 'minimum_replacement_net', 'original_net', 'policy', 'issues', 'consumers'])
++  const { basis_sha256, transfer_amount, minimum_replacement_net } = r
++  if (r.contract_version !== 'cp7.note-credit-carry-basis.v1' || r.policy !== 'AUTO_TRANSFER_TO_REPLACEMENT'
++    || r.sale_id !== source.id || r.root_sale_id !== root || r.row_version !== source.row_version
++    || r.review_token !== source.review_token || !hash(basis_sha256)
++    || typeof transfer_amount !== 'string' || typeof minimum_replacement_net !== 'string' || !Array.isArray(r.consumers)
++    || creditCents(transfer_amount) < 0n || creditCents(minimum_replacement_net) < creditCents(transfer_amount)
++    || creditCents(r.original_net) !== creditCents(source.financial?.gross_total)) return fail()
++  const consumers = r.consumers.map((value): CarryConsumer => {
++    const event = fields(value, ['event_id', 'amount', 'cohort_id', 'journal_id', 'historical_target_id', 'economic_date', 'transaction_date'])
++    const { event_id, amount, historical_target_id, economic_date, transaction_date } = event
++    if (!uuid(event_id) || !uuid(event.cohort_id) || !uuid(event.journal_id) || !uuid(historical_target_id)
++      || !day(economic_date) || !day(transaction_date) || transaction_date < economic_date
++      || typeof amount !== 'string' || creditCents(amount) === 0n) return fail()
++    return { event_id, amount, historical_target_id, economic_date, transaction_date }
++  })
++  uniqueEvents(consumers)
++  return { basis_sha256, transfer_amount, minimum_replacement_net, issues: issuesOf(r.issues), consumers }
++}
++
++export function noteCarryReview(basis: NoteCreditBasis, replacementNet: bigint) {
++  const carried = creditCents(basis.transfer_amount)
++  if (basis.issues.length || carried === 0n || replacementNet < creditCents(basis.minimum_replacement_net)) return null
++  const amount = (cents: bigint) => `${cents / 100n}.${String(cents % 100n).padStart(2, '0')}`
++  return { contract_version: 'cp7.note-credit-carry-review.v1', basis_sha256: basis.basis_sha256,
++    transfer_amount: basis.transfer_amount, replacement_net: amount(replacementNet), remaining_amount: amount(replacementNet - carried) }
++}
+diff --git a/src/salesReturnCorrectionContract.ts b/src/salesReturnCorrectionContract.ts
+index 1a3fdba..be0dc57 100644
+--- a/src/salesReturnCorrectionContract.ts
++++ b/src/salesReturnCorrectionContract.ts
+@@ -1,11 +1,12 @@
+ import {salesCashAmount} from './salesCashContract'
+ import type {SalesHeader} from './salesReadContract'
++import {parseReturnCreditReview,type ReturnCreditReview} from './salesCorrectionCreditContract'
+ export type ReturnCorrectionLine={id:string;allocation_id:string;product_id:string;product_sku:string;lot_id:string;lot_number:string;location_id:string;location_name:string;qty_pcs:string;quality_grade:'GRADE_A'|'GRADE_B'|'HOLD';refund_amount:string;notes:string|null}
+ export type ReturnCorrectionDocument={id:string;sale_id:string;number:string;physical_at:string;status:'POSTED'|'REVERSED'|'DRAFT';notes:string|null;items:ReturnCorrectionLine[]}
+ export type ReturnCorrectionAllocation={allocation_id:string;sale_item_id:string;product_id:string;product_sku:string;product_name:string;size_code:string;lot_id:string;lot_number:string;source_location_name:string;allocated_qty:string;peer_returned_qty:string;replacement_capacity:string;sale_item_qty:string;sale_item_net:string}
+ export type ReturnCorrectionLink={id:string;original_id:string;replacement_id:string;sale_id:string;actor_scope_id:string;request_id:string;reason:string;recorded_at:string;time_restatement:{source_journal_id:string;inverse_journal_id:string;neutral_journal_id:string;effective_journal_id:string;native_economic_date:string;corrected_economic_date:string}|null}
+ type Relative={link:ReturnCorrectionLink;document:ReturnCorrectionDocument}
+-export type ReturnCorrectionWorkspace={contract_version:'cp7.sales-return-correction-workspace.v1';read_at:string;source:{sale_id:string;row_version:string;review_token:string};document:ReturnCorrectionDocument;return_review_token:string;financial:NonNullable<SalesHeader['financial']>;eligible:boolean;can_correct:boolean;allocations:{rows:ReturnCorrectionAllocation[];total:string;offset:number;limit:number;next_offset:number|null};current_allocations:ReturnCorrectionAllocation[];previous:Relative|null;next:Relative|null;production_go:false}
++export type ReturnCorrectionWorkspace={contract_version:'cp7.sales-return-correction-workspace.v1';read_at:string;source:{sale_id:string;row_version:string;review_token:string};document:ReturnCorrectionDocument;return_review_token:string;financial:NonNullable<SalesHeader['financial']>;eligible:boolean;can_correct:boolean;allocations:{rows:ReturnCorrectionAllocation[];total:string;offset:number;limit:number;next_offset:number|null};current_allocations:ReturnCorrectionAllocation[];previous:Relative|null;next:Relative|null;production_go:false;credit_correction?:ReturnCreditReview}
+ const fail=():never=>{throw Error('Data pembetulan retur berubah atau belum lengkap. Muat ulang invoice sebelum melanjutkan.')}
+ const text=(v:unknown):v is string=>typeof v==='string'
+ const id=(v:unknown):v is string=>text(v)&&/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(v)
+@@ -50,7 +51,7 @@ function financial(v:unknown){
+  return r as unknown as NonNullable<SalesHeader['financial']>
+ }
+ export function parseReturnCorrectionWorkspace(v:unknown,source:{id:string;row_version:string;review_token?:string},returnId:string,offset=0):ReturnCorrectionWorkspace{
+- const r=closed(v,['contract_version','read_at','source','document','return_review_token','financial','eligible','can_correct','allocations','current_allocations','previous','next','production_go']),s=closed(r.source,['sale_id','row_version','review_token'])
++ const r=closed(v,['contract_version','read_at','source','document','return_review_token','financial','eligible','can_correct','allocations','current_allocations','previous','next','production_go',...(v&&typeof v==='object'&&Object.hasOwn(v,'credit_correction')?['credit_correction']:[])]),s=closed(r.source,['sale_id','row_version','review_token'])
+  if(r.contract_version!=='cp7.sales-return-correction-workspace.v1'||!stamp(r.read_at)||s.sale_id!==source.id||s.row_version!==source.row_version||s.review_token!==source.review_token||!token(s.review_token)||!token(r.return_review_token)||typeof r.eligible!=='boolean'||typeof r.can_correct!=='boolean'||r.production_go!==false)fail()
+  const d=parseReturnCorrectionDocument(r.document,source.id),f=financial(r.financial);if(d.id!==returnId)fail()
+  const p=closed(r.allocations,['rows','total','offset','limit','next_offset'])
+@@ -65,7 +66,8 @@ export function parseReturnCorrectionWorkspace(v:unknown,source:{id:string;row_v
+   if(!['POSTED','REVERSED'].includes(other.status)||key==='previous'&&(l.replacement_id!==returnId||l.original_id!==other.id||other.status!=='REVERSED')||key==='next'&&(l.original_id!==returnId||l.replacement_id!==other.id||d.status!=='REVERSED'))fail()
+  }
+  if(r.eligible&&(d.status!=='POSTED'||r.next!==null||f.state!=='ACTIVE_RECEIVABLE')||r.can_correct&&!r.eligible)fail()
+- return r as unknown as ReturnCorrectionWorkspace
++ const result=r as unknown as ReturnCorrectionWorkspace
++ return Object.hasOwn(r,'credit_correction')?{...result,credit_correction:parseReturnCreditReview(r.credit_correction)}:result
+ }
+ export function parseReturnCorrectionOutcome(v:unknown,requestId:string,saleId:string,originalReturnId:string){
+  const r=closed(v,['contract_version','kind','action','request_id','sale_id','row_version','status','original_return_id','original_return_status','return_id','return_status','return_page_offset','link','production_go'])

@@ -8,7 +8,7 @@ export const fixtureActor = 'c6b00000-0000-4000-8000-000000000001'
 const appUserId = 'c6b00000-0000-4000-8000-000000000002'
 
 export type Call = { name: string; args: Record<string, any> }
-export type Reply = { body: unknown; status?: number }
+export type Reply = { body: unknown; status?: number } | { abort: true }
 export type Role = 'OWNER' | 'ADMIN' | 'STAFF'
 type Transport = { calls: Call[]; unexpected: string[]; pageErrors: string[]; consoleErrors: string[] }
 const transports = new WeakMap<BrowserContext, Transport>()
@@ -65,7 +65,7 @@ export async function mockApp(context: BrowserContext, config: {
       calls.push(call)
       if (name === 'erp_get_my_access_v1') return send(access)
       const reply = config.resolve(call)
-      if (reply) return send(reply.body, reply.status)
+      if (reply) return 'abort' in reply ? route.abort('failed') : send(reply.body, reply.status)
     }
     unexpected.push(`${request.method()} ${url.pathname}`)
     return send({ message: 'RPC fixture tidak dideklarasikan.' }, 404)

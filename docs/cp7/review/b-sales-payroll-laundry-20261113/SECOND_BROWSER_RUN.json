@@ -1,0 +1,17 @@
+{
+  "head": "d1263c17b1f3a2b14a2f045558fdf496a09a7014",
+  "tree": "0d3ddb006e06f3810e56d7be308d8a08f2976be2",
+  "app": "a62504d71a6ca1cdbaa59b6fe0fd5739693f100a",
+  "run": 43389856387,
+  "job": 131766902239,
+  "artifact": 14019299497,
+  "archive_bytes": 1550739,
+  "archive_sha256": "329dbaf8b949db33f397d73835821ad80d2357115e89a5e94de8f9da1133db4b",
+  "crc_members": 13,
+  "results": {"pass": 3, "fail": 0, "skip": 1},
+  "s05": {"desktop": "PASS", "mobile": "PASS", "observation": "The 31st mandor was reachable; actual/standard/delta and PO filtering matched the fixture. UNKNOWN left delta absent. A simulated 42501 removed previous figures."},
+  "attendance": {"desktop": "PASS", "mobile": "SKIP", "observation": "Owner preview displayed both Rp100 treatments at zero pieces and emitted no write. The mobile route is retained in the prior S03 browser evidence."},
+  "test_elapsed_ms": 8044,
+  "case_results_path": "browser/results.json",
+  "auth_mode": "loopback_fixture"
+}

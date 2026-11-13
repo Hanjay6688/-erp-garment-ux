@@ -49,14 +49,19 @@ jobs:
           mkdir -p b-money-ui-proof
           git rev-parse HEAD HEAD:src | tee b-money-ui-proof/BUILD_SOURCE.txt
           test "$(git rev-parse HEAD:src)" = 05c1bbf1f16ede5eeb3d782e8442357cdb6bd3e7
-          sha256sum package-lock.json vite.config.ts index.html | tee -a b-money-ui-proof/BUILD_SOURCE.txt
+          patch=docs/cp7/review/b-sales-payroll-laundry-20261113/SALES_CREDIT_UI.patch
+          sha256sum package-lock.json vite.config.ts index.html "$patch" | tee -a b-money-ui-proof/BUILD_SOURCE.txt
+          git apply --index --check "$patch"
+          git apply --index "$patch"
+          git diff --cached --check
+          printf 'App tree with B proposal %s\n' "$(git rev-parse "$(git write-tree):src")" | tee -a b-money-ui-proof/BUILD_SOURCE.txt
           npm run build:cp6-disposable 2>&1 | tee b-money-ui-proof/BUILD.log
       - name: Install Chromium
         run: node_modules/.bin/playwright install --with-deps --only-shell chromium 2>&1 | tee b-money-ui-proof/CHROMIUM_INSTALL.log
-      - name: Exercise S05 and attendance fixture gaps
+      - name: Exercise only the affected Sales fixture cases
         run: |
           set +e
-          node_modules/.bin/playwright test --config playwright.cp7-b-sales-payroll-laundry.config.ts --grep "S05|Attendance" 2>&1 | tee b-money-ui-proof/BROWSER.log
+          node_modules/.bin/playwright test --config playwright.cp7-b-sales-payroll-laundry.config.ts --grep "Sales opens|Sales shows" 2>&1 | tee b-money-ui-proof/BROWSER.log
           status=${PIPESTATUS[0]}
           set -e
           if [[ -d test-results/cp7-b-sales-payroll-laundry ]]; then
