@@ -1,0 +1,72 @@
+name: CP7 B Sales, Payroll and Laundry browser fixture
+on:
+  push:
+    branches: [astra-b/sales-payroll-laundry-ui-20261113]
+    paths:
+      - '.github/workflows/cp7-b-sales-payroll-laundry-fixture.yml'
+      - 'playwright.cp7-b-sales-payroll-laundry.config.ts'
+      - 'tests/browser/cp7-b-sales-payroll-laundry.spec.ts'
+      - 'tests/browser/support/cp7-b-*.ts'
+      - 'docs/cp7/review/b-sales-payroll-laundry-20261113/*.patch'
+permissions:
+  contents: read
+concurrency:
+  group: cp7-b-sales-payroll-laundry-fixture
+  cancel-in-progress: false
+jobs:
+  browser-fixture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      VITE_ERP_RUNTIME_MODE: DISPOSABLE_TEST
+      VITE_SUPABASE_URL: http://127.0.0.1:54328
+      VITE_DISPOSABLE_API_PORT: '54328'
+      VITE_SUPABASE_ANON_KEY: eyJhbGciOiJub25lIn0.eyJyb2xlIjoiYW5vbiIsInJlZiI6ImxvY2FsIn0.Y3A3LWItZml4dHVyZQ
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /*
+            !/*/
+            /src/
+            /public/
+            /contracts/
+            /tests/
+            /scripts/assert-cp6-disposable-env.mjs
+            /scripts/build-preflight.mjs
+            /scripts/scan-client-artifacts.mjs
+            /scripts/cp7_accessory_nonpayable/LOCAL_SETTINGS_CONTROLS.json
+            /docs/cp7/review/b-sales-payroll-laundry-20261113/
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Install locked dependencies
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Build the candidate App in disposable mode
+        run: |
+          mkdir -p b-money-ui-proof
+          git rev-parse HEAD HEAD:src | tee b-money-ui-proof/BUILD_SOURCE.txt
+          test "$(git rev-parse HEAD:src)" = 05c1bbf1f16ede5eeb3d782e8442357cdb6bd3e7
+          sha256sum package-lock.json vite.config.ts index.html | tee -a b-money-ui-proof/BUILD_SOURCE.txt
+          npm run build:cp6-disposable 2>&1 | tee b-money-ui-proof/BUILD.log
+      - name: Install Chromium
+        run: node_modules/.bin/playwright install --with-deps --only-shell chromium 2>&1 | tee b-money-ui-proof/CHROMIUM_INSTALL.log
+      - name: Exercise the browser fixture gaps in one setup
+        run: |
+          set +e
+          node_modules/.bin/playwright test --config playwright.cp7-b-sales-payroll-laundry.config.ts 2>&1 | tee b-money-ui-proof/BROWSER.log
+          status=${PIPESTATUS[0]}
+          set -e
+          if [[ -d test-results/cp7-b-sales-payroll-laundry ]]; then
+            mv test-results/cp7-b-sales-payroll-laundry b-money-ui-proof/browser
+          fi
+          exit "$status"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: cp7-b-sales-payroll-laundry-${{ github.sha }}
+          path: b-money-ui-proof/
+          retention-days: 30
+          if-no-files-found: error
