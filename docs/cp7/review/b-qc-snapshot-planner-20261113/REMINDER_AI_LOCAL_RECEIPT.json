@@ -1,0 +1,13 @@
+{
+  "scope": "LOCAL_UNIT_AND_DOM",
+  "base": "a62504d71a6ca1cdbaa59b6fe0fd5739693f100a",
+  "app_src": "05c1bbf1f16ede5eeb3d782e8442357cdb6bd3e7",
+  "executed_at_wib": "2026-11-13T20:41:19+07:00",
+  "command": "vitest run src/NativeStagedRemindersPanel.dom.test.tsx src/nativeStagedReminders.test.ts src/NativeStagedAiPanel.dom.test.tsx src/NativeStagedAiPanel.fallback.dom.test.tsx src/nativeStagedAi.test.ts",
+  "test_files_passed": 5,
+  "tests_passed": 36,
+  "duration_s": 3.43,
+  "log_sha256": "5b3021f57b9d2e12cbc4ae08bedb534f7c088d945801e2e582ea5b9cba5b831d",
+  "actual_combined_erp_cases": 0,
+  "production_go": false
+}
