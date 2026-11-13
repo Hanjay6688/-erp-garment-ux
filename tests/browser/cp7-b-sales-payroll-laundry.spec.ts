@@ -60,6 +60,7 @@ test('Sales opens the server credit correction review for the exact return', asy
   await amount.fill('50.00')
   await review.click()
   await expect(panel).toContainText('Batalkan transaksi kredit aktif yang terkait dahulu')
+  await expect(panel).toContainText('Pembetulan yang mengurangi nilai retur memerlukan penanganan admin')
   await expect(panel).toContainText('Saldo setelah pembetulan Rp-50')
   await expect(submit).toBeDisabled()
   expect(mock.calls.some(c => c.name === salesCase.returnWriter)).toBe(false)

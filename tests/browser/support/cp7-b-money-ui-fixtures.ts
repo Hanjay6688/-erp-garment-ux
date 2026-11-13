@@ -16,7 +16,7 @@ const target: NonNullable<SalesRead['detail']> = {
   ...source, id: creditTarget, number: creditTargetRow.number, status: 'PARTIAL_PAID',
   row_version: creditTargetRow.row_version, physical_at: creditTargetRow.physical_at, returned_qty: '0',
   review_token: 'c'.repeat(32),
-  financial: { ...sourceFinance, gross_total: '400.00', return_total: '0.00', net_total: '400.00', paid_total: '80.00', open_balance: '320.00' },
+  financial: { ...sourceFinance, gross_total: '400', return_total: '0.00', net_total: '400.00', paid_total: '80.00', open_balance: '320.00' },
   items: [{ ...source.items[0], id: salesCase.targetItem, financial: { unit_price: '40.00', discount: '0.00', line_total: '400.00' } }],
 }
 const allocation = {

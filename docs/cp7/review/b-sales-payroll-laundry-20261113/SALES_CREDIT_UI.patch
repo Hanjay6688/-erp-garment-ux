@@ -87,7 +87,7 @@ index 690cf8f..780adb2 100644
        <button type="button" className="primary-btn" disabled={disabled||!confirmed||!inputReady} onClick={save}>Simpan transaksi kredit</button>
      </section>:null}
 diff --git a/src/SalesDraftPanel.tsx b/src/SalesDraftPanel.tsx
-index ff4a978..bd88ac4 100644
+index ff4a978..740a460 100644
 --- a/src/SalesDraftPanel.tsx
 +++ b/src/SalesDraftPanel.tsx
 @@ -10,6 +10,7 @@ import type {Json} from './types/database.preconnect'
@@ -154,7 +154,7 @@ index ff4a978..bd88ac4 100644
     <label>Catatan invoice<input aria-label="Catatan draft invoice" maxLength={4000} value={form.notes} onChange={e=>update({notes:e.target.value})}/></label><label>Alasan penyimpanan<input aria-label="Alasan simpan invoice" required minLength={5} maxLength={1000} value={form.reason} onChange={e=>update({reason:e.target.value})}/></label>
     <div className="cproc-total"><span>{correction?'Nilai nota setelah dibetulkan':'Nilai draft'}</span><strong>{total===null?'Belum lengkap':`Rp${numberText(`${total/100n}.${String(total%100n).padStart(2,'0')}`)}`}</strong><p>{correction?'Pembetulan memperbarui nota, stok, piutang dan HPP bersama. Periode keuangan yang ditutup tetap dilindungi.':'Menyimpan draft memesan stok siap jual. Piutang belum dibukukan sampai invoice disahkan.'}</p></div>
 -   <label className="cproc-check"><input type="checkbox" aria-label={correction?'Pembetulan nota sudah diperiksa':'Draft invoice sudah diperiksa'} checked={reviewed} disabled={!!seriesBusy} onChange={e=>setReviewed(e.target.checked)}/>Pelanggan, tanggal, jumlah, harga, dan potongan sudah saya periksa.</label><button className="primary-btn" disabled={!valid||!reviewed}>{correction?'Simpan pembetulan nota':'Simpan draft invoice'}</button>
-+   {creditBasis&&<section className="cproc-review" aria-label="Saldo kredit pada pembetulan nota">
++   {creditBasis&&!blocked&&<section className="cproc-review cproc-credit-correction" aria-label="Saldo kredit pada pembetulan nota">
 +    <h3>Saldo kredit pada nota pengganti</h3>
 +    <p>Saldo yang sudah dipakai Rp{numberText(creditBasis.transfer_amount)}. Nilai minimum nota pengganti Rp{numberText(creditBasis.minimum_replacement_net)}.</p>
 +    <p>Pembetulan ini memakai barang dan jumlah asli. Kredit yang memenuhi syarat ikut ke nota pengganti.</p>
@@ -167,7 +167,7 @@ index ff4a978..bd88ac4 100644
   </form>
  }
 diff --git a/src/SalesReturnCorrectionPanel.tsx b/src/SalesReturnCorrectionPanel.tsx
-index 30849c9..bc85bd5 100644
+index 30849c9..476d423 100644
 --- a/src/SalesReturnCorrectionPanel.tsx
 +++ b/src/SalesReturnCorrectionPanel.tsx
 @@ -12,6 +12,7 @@ import {parseReturnCorrectionWorkspace,returnCorrectionCents,type ReturnCorrecti
@@ -260,7 +260,7 @@ index 30849c9..bc85bd5 100644
     <label>Waktu barang kembali · WIB<input type="datetime-local" aria-label="Waktu pembetulan retur WIB" value={at} onChange={e=>{setAt(e.target.value);setTimeEdited(true);setRestoredAt(null)}}/></label>
     <label>Catatan retur<textarea aria-label="Catatan pembetulan retur" maxLength={2000} value={notes} onChange={e=>setNotes(e.target.value)}/></label>
     <div className="cproc-search"><label>Cari gudang penerima<input aria-label="Cari gudang pembetulan retur" maxLength={120} value={locationSearch} onChange={e=>setLocationSearch(e.target.value)}/></label><button type="button" onClick={()=>onLocationSearch(locationSearch.trim())}>Cari gudang pembetulan retur</button></div>
-@@ -75,12 +106,29 @@ export default function SalesReturnCorrectionPanel({source,returnId,number,initi
+@@ -75,12 +106,31 @@ export default function SalesReturnCorrectionPanel({source,returnId,number,initi
     {lines.map((l,n)=>{const a=facts.current.allocations.get(l.allocation_id),known=original?.items.find(i=>i.allocation_id===l.allocation_id)??data.previous?.document.items.find(i=>i.allocation_id===l.allocation_id),locationName=locations?.page.rows.find(x=>x.id===l.location_id)?.name??(known?.location_id===l.location_id?known.location_name:null)
      return <article className="cproc-item" key={l.key}><h4>{a?.product_sku??known?.product_sku??'Alokasi belum dimuat'} · lot {a?.lot_number??known?.lot_number??'belum dimuat'}</h4>{a?<p>Maksimum pengganti {formatReceiptDecimal(a.replacement_capacity)} PCS setelah retur lain.</p>:<p role="alert">Cari SKU atau lot untuk memuat alokasi baris ini sebelum menyimpan.</p>}
       <div className="cproc-grid"><label>Jumlah PCS<input aria-label={`Jumlah pembetulan retur ${n+1}`} inputMode="numeric" value={l.qty} onChange={e=>update(l.key,{qty:e.target.value})}/></label><label>Nilai retur<input aria-label={`Nilai pembetulan retur ${n+1}`} inputMode="decimal" value={l.refund} onChange={e=>update(l.key,{refund:e.target.value})}/></label><label>Grade<select aria-label={`Grade pembetulan retur ${n+1}`} value={l.grade} onChange={e=>update(l.key,{grade:e.target.value as OwnLine['grade']})}><option value="GRADE_A">Grade A</option><option value="GRADE_B">Grade B</option><option value="HOLD">Ditahan (Hold)</option></select></label></div>
@@ -273,7 +273,7 @@ index 30849c9..bc85bd5 100644
 -   <p>Total retur pengganti: {total===null?'periksa nilai baris':money(total)}</p><label>Alasan pembetulan<input aria-label="Alasan pembetulan retur" maxLength={1000} value={reason} onChange={e=>setReason(e.target.value)}/></label><label><input type="checkbox" aria-label="Pembetulan retur sudah diperiksa" checked={review} onChange={e=>{e.stopPropagation();setReview(e.target.checked)}}/>Jumlah, gudang, grade, tanggal, dan nilai retur sudah diperiksa.</label><button className="primary-btn" disabled={!valid}>Simpan pembetulan retur</button>
 +   <section aria-label="Alokasi pengganti retur">{data.allocations.rows.map(a=><button type="button" key={a.allocation_id} disabled={lines.length>=100||lines.some(l=>l.allocation_id===a.allocation_id)||!destination} onClick={()=>{setLines(old=>[...old,{key:crypto.randomUUID(),allocation_id:a.allocation_id,location_id:destination!,qty:'',grade:'GRADE_A',refund:'',notes:''}]);retireQuote()}}>Tambah {a.product_sku} · lot {a.lot_number}</button>)}<div className="cproc-pagination"><span>Total {data.allocations.total} alokasi</span><button type="button" disabled={data.allocations.offset===0} onClick={()=>{query.current.offset=Math.max(0,data.allocations.offset-25);void load()}}>Alokasi pembetulan sebelumnya</button><button type="button" disabled={data.allocations.next_offset===null} onClick={()=>{query.current.offset=data.allocations.next_offset??0;void load()}}>Alokasi pembetulan berikutnya</button></div></section>
 +   <p>Total retur pengganti: {total===null?'periksa nilai baris':money(total)}</p><label>Alasan pembetulan<input aria-label="Alasan pembetulan retur" maxLength={1000} value={reason} onChange={e=>setReason(e.target.value)}/></label>
-+   {credit&&!disabled&&<section className="cproc-review" aria-label="Dampak pembetulan pada saldo kredit">
++   {credit&&!disabled&&<section className="cproc-review cproc-credit-correction" aria-label="Dampak pembetulan pada saldo kredit">
 +    <h4>Dampak pada saldo kredit</h4>
 +    <p>Periksa saldo dan transaksi yang masih aktif sebelum menyimpan pembetulan.</p>
 +    <button type="button" disabled={!baseValid||quoteBusy} onClick={()=>void reviewCredit()}>Periksa dampak saldo kredit</button>
@@ -281,7 +281,9 @@ index 30849c9..bc85bd5 100644
 +    {quoteError&&<p role="alert">{quoteError}</p>}
 +    {quote&&<><p>Saldo sekarang {money(quote.before_available!)} · Perubahan {money(quote.credit_delta!)} · Saldo setelah pembetulan {money(quote.after_available!)}.</p>
 +     {quote.issues.includes('UNDO_ACTIVE_CONSUMERS_FIRST')&&<p role="alert">Batalkan transaksi kredit aktif yang terkait dahulu. Tutup panel retur, buka Saldo kredit pelanggan pada invoice asal, lalu periksa riwayat kredit. Muat ulang pembetulan sesudah pembatalan.</p>}
-+     {quote.issues.filter(code=>code!=='UNDO_ACTIVE_CONSUMERS_FIRST').map(code=><p key={code} role="alert">Pembetulan ini tertahan. Periksa perubahan atau hubungi admin dengan kode {code}.</p>)}
++     {quote.issues.filter(code=>code!=='UNDO_ACTIVE_CONSUMERS_FIRST').map(code=><p key={code} role="alert">
++      {code==='SIGNED_DECREASE_ADAPTER_REQUIRED'?'Pembetulan yang mengurangi nilai retur memerlukan penanganan admin.':'Pembetulan ini tertahan. Periksa perubahan atau hubungi admin.'} Kode {code}.
++     </p>)}
 +    </>}
 +    {(quote??credit).active_consumers.map(event=><article className="cproc-item" key={event.event_id}>
 +     <strong>{event.event_kind==='APPLY'?'Pemakaian saldo kredit':'Pengembalian uang'} · {money(event.amount)}</strong>
@@ -289,7 +291,7 @@ index 30849c9..bc85bd5 100644
 +     {event.target_sale_id&&<TransactionSourceLink sourceType="SALE" sourceId={event.target_sale_id} disabled={disabled} label="Buka invoice pemakaian saldo"/>}
 +    </article>)}
 +   </section>}
-+   <label><input type="checkbox" aria-label="Pembetulan retur sudah diperiksa" checked={review} disabled={Boolean(credit)&&quote?.state!=='READY'} onChange={e=>{e.stopPropagation();setReview(e.target.checked)}}/>Jumlah, gudang, grade, tanggal, dan nilai retur sudah diperiksa.</label><button className="primary-btn" disabled={!valid}>Simpan pembetulan retur</button>
++   <label className="cproc-check"><input type="checkbox" aria-label="Pembetulan retur sudah diperiksa" checked={review} disabled={Boolean(credit)&&quote?.state!=='READY'} onChange={e=>{e.stopPropagation();setReview(e.target.checked)}}/>Jumlah, gudang, grade, tanggal, dan nilai retur sudah diperiksa.</label><button className="primary-btn" disabled={!valid}>Simpan pembetulan retur</button>
    </fieldset></form>:null}
   </section>
  }
@@ -385,12 +387,24 @@ index ea3fbc0..3db9c57 100644
  }
  export function parseNoteCorrectionOutcome(v:unknown,request:string,source:string,effectiveAt:string){
   const r=closed(v,['contract_version','kind','action','request_id','root_sale_id','previous_sale_id','sale_id','revision_id','revision','effective_at'])
+diff --git a/src/procurement-connected.css b/src/procurement-connected.css
+index 216e454..f47ba25 100644
+--- a/src/procurement-connected.css
++++ b/src/procurement-connected.css
+@@ -42,6 +42,7 @@
+ .cproc-total strong { font-size: 24px; color: var(--green); }
+ .cproc.ccash .cproc-total strong { overflow-wrap: anywhere; }
+ .cproc-review { display: grid; gap: 12px; padding-top: 22px; }
++.cproc-credit-correction { min-width: 0; grid-template-columns: minmax(0, 1fr); overflow-wrap: anywhere; }
+ .cproc-pagination { padding-top: 20px; font-size: 13px; }
+ @media (max-width: 1000px) { .cproc-layout { grid-template-columns: 1fr; } }
+ @media (max-width: 640px) { .cproc-grid, .cproc-search { grid-template-columns: 1fr; } .cproc .panel { padding: 16px; } .cproc-line { padding: 12px; } .cproc-receipt { flex-wrap: wrap; } }
 diff --git a/src/salesCorrectionCreditContract.ts b/src/salesCorrectionCreditContract.ts
 new file mode 100644
-index 0000000..3728fe9
+index 0000000..b51e839
 --- /dev/null
 +++ b/src/salesCorrectionCreditContract.ts
-@@ -0,0 +1,120 @@
+@@ -0,0 +1,122 @@
 +import { creditCents } from './customerCreditContract'
 +import type { SalesRead } from './salesReadContract'
 +
@@ -486,12 +500,14 @@ index 0000000..3728fe9
 +  const r = fields(value, ['contract_version', 'sale_id', 'root_sale_id', 'row_version', 'review_token',
 +    'basis_sha256', 'transfer_amount', 'minimum_replacement_net', 'original_net', 'policy', 'issues', 'consumers'])
 +  const { basis_sha256, transfer_amount, minimum_replacement_net } = r
++  if (!source.financial) return fail()
++  const [gross, fraction = ''] = source.financial.gross_total.split('.')
 +  if (r.contract_version !== 'cp7.note-credit-carry-basis.v1' || r.policy !== 'AUTO_TRANSFER_TO_REPLACEMENT'
 +    || r.sale_id !== source.id || r.root_sale_id !== root || r.row_version !== source.row_version
 +    || r.review_token !== source.review_token || !hash(basis_sha256)
 +    || typeof transfer_amount !== 'string' || typeof minimum_replacement_net !== 'string' || !Array.isArray(r.consumers)
 +    || creditCents(transfer_amount) < 0n || creditCents(minimum_replacement_net) < creditCents(transfer_amount)
-+    || creditCents(r.original_net) !== creditCents(source.financial?.gross_total)) return fail()
++    || creditCents(r.original_net) !== creditCents(`${gross}.${fraction.padEnd(2, '0')}`)) return fail()
 +  const consumers = r.consumers.map((value): CarryConsumer => {
 +    const event = fields(value, ['event_id', 'amount', 'cohort_id', 'journal_id', 'historical_target_id', 'economic_date', 'transaction_date'])
 +    const { event_id, amount, historical_target_id, economic_date, transaction_date } = event

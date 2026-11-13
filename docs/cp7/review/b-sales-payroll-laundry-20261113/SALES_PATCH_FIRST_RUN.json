@@ -1,0 +1,16 @@
+{
+  "head": "5f5dfa56a45254e68e1d91d5dc8f894bc8c00956",
+  "tree": "326386fdcef8064f6759dd04d23daf524063702c",
+  "base_app": "a62504d71a6ca1cdbaa59b6fe0fd5739693f100a",
+  "patched_app_tree": "8889df2b5d1814104dbeb0787ad7066839433bc4",
+  "patch_sha256": "9377ed792ea7ca530b58c052462a6a2104178bd06f2978f3bc56feddd31a4513",
+  "run": 43392428034,
+  "job": 131775299686,
+  "artifact": 14020703880,
+  "archive_bytes": 4304546,
+  "archive_sha256": "441dedb65f7e4e44c0539b65e764e28ea641edbfe7a367ad94a6bdbbea7cc270",
+  "crc_members": 17,
+  "results": {"pass": 3, "fail": 1},
+  "first_failure": "The 390 px return refusal viewport/document expanded to 404 px at the long refusal code; business interaction assertions reached the fixture save and readback. Both invoice carry, reload, exact retry and named APPLY undo cases passed.",
+  "auth_mode": "loopback_fixture"
+}
