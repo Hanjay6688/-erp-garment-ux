@@ -20,7 +20,7 @@ def observe(original, cur, fixture, label):
     if set(value) & {'current_economic_pools', 'current_session_leaks'}:
         raise ValueError('CURRENT_SKU_ECONOMIC_OBSERVATION_MUST_NOT_REPLACE_ORIGINAL_FIELDS')
     pools = {product: cur.execute(
-        "select cp7_sku_conversion.pool_quote_v2(%s,%s,'GRADE_A')",
+        "select cp7_sku_conversion.pool_values_v6(%s,%s,'GRADE_A')->'economic'",
         (product, fixture['location'])).fetchone()[0]
         for product in (fixture['source'], fixture['target'])}
     sessions = cur.execute(SESSION_SQL, ()).fetchone()[0]

@@ -24,6 +24,8 @@ UI_AFTER = '15dc4bde83e1ac74871f8d4aaf005e9e36445aeb'
 UI_PATHS = frozenset(('src/ConnectedInitialImportPage.tsx', 'src/ConnectedPocketFabricPage.tsx', 'src/initial-import.css'))
 BUILD_INPUTS = frozenset(('index.html', 'package-lock.json', 'package.json', 'tsconfig.app.json',
                          'tsconfig.contracts.json', 'tsconfig.json', 'vite.config.ts'))
+SKU_VALUE_UI_PATHS = frozenset(('src/ConnectedProductConversionPage.tsx', 'src/productConversion.ts',
+                                'src/skuPairConversion.test.ts'))
 MANDOR_HEAD = 'f6a853813e6db252b44fa8044310b9f499210420'
 MANDOR_TREE = '255ea50ba4821813f08f4f465bdbeda0e2c28185'
 MANDOR_BASE = 'c296fd06167ddd177e1192c1008992e2a1e3d628'
@@ -218,6 +220,20 @@ def check(*, runtime=False, cumulative=False):
     assembly.require(all(current_mandor[name] == identity for name, identity in selected.items()),
                      'SKU_AUTOMATIC_SELECTED_UI_MUST_MATCH_CURRENT_MANDOR')
     expected.update(current_mandor)
+    value_ui = manifest.get('sku_value_ui', {})
+    if value_ui:
+        assembly.require(runtime and set(value_ui) == SKU_VALUE_UI_PATHS,
+                         'SKU_ECONOMIC_POOL_EXACT_VALUE_UI_PATHS_REQUIRED')
+        for name, row in value_ui.items():
+            path = root / name
+            assembly.require(path.is_file() and not any(parent.is_symlink() for parent in (path, *path.parents)),
+                             'SKU_ECONOMIC_POOL_REGULAR_VALUE_UI_SOURCE_REQUIRED:' + name)
+            raw = path.read_bytes()
+            blob = sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest()
+            assembly.require(expected[name] == dict(mode='100644', blob=row['before'])
+                             and name not in current_mandor and assembly.admission.pin(raw) == row['content']
+                             and blob == row['after'], 'SKU_ECONOMIC_POOL_EXACT_VALUE_UI_SOURCE_REQUIRED:' + name)
+            expected[name] = dict(mode='100644', blob=blob)
     parent_paths = set()
     materialized = 0
     absent = []
@@ -236,7 +252,7 @@ def check(*, runtime=False, cumulative=False):
     changed = assembly.git('diff', '--name-only', base['head'], '--').decode().splitlines()
     namespace = str(HERE.relative_to(root)) + '/'
     workflow_name = '.github/workflows/cp7-sku-current-parent-money-automatic-native25.yml'
-    assembly.require(all(name.startswith(namespace) or name in current_mandor or name in evidence_paths
+    assembly.require(all(name.startswith(namespace) or name in current_mandor or name in evidence_paths or name in value_ui
                          or (runtime and name == workflow_name) for name in changed),
                      'SKU_AUTOMATIC_PARENT_DIFF_OUTSIDE_NAMESPACE')
     own_paths = {namespace + name for name in manifest['files']} | {namespace + 'SOURCE.json'}
@@ -281,6 +297,7 @@ def check(*, runtime=False, cumulative=False):
                 actual_runtime_adoption_pending=closed,
                 private_authority_reviewer_prepared=True,
                 whole_parent_unchanged=False, exact_approved_B_UI_files=3,
+                exact_SKU_value_UI_files=len(value_ui),
                 complete_approved_UI_src_tree=UI_AFTER,
                 all_other_parent_sources_and_build_inputs_unchanged=True,
                 **parent, actual_current_Mandor_Root_adopted=runtime,

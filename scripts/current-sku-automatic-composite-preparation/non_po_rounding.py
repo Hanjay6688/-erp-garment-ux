@@ -90,10 +90,22 @@ def preflight(automatic, directory):
                  for sig in money.prepared_product.parent_original_signatures()}
     _, profile, _ = money.prepared(catalogue, dict(originals=originals))
     functions = catalogue['functions'] | profile['groups']['functions'] | profile['replacement_functions']
+    # The historical Native27 input predates the two Moving Average readers.
+    # Replay the same retained source that installs them before Money at runtime.
+    moving = money.parent()
+    preview, _ = moving.private_delta.SIGNATURES
+    position = moving.reader_access.FUNCTION
+    if functions[preview] != catalogue['functions'][preview] or position in functions:
+        raise ValueError('SKU_NON_PO_ROUNDING_EXACT_MOVING_PREDECESSOR_REQUIRED')
+    private_originals = {sig: catalogue['functions'][sig][0] for sig in moving.private_delta.SIGNATURES}
+    definitions = moving.private_delta.patched(private_originals)
+    functions[preview] = [definitions[preview], *functions[preview][1:]]
+    functions[position] = moving.catalog_additions.expected()['functions'][position]
     delta, additions, _ = automatic.prepared(dict(catalogue, functions=functions),
                                             dict(before=catalogue, predecessor=dict(originals=originals)))
     if ROUTES.keys() & (delta['definitions'].keys() | additions['groups']['functions'].keys()):
         raise ValueError('SKU_NON_PO_ROUNDING_AUTOMATIC_DELTA_OVERLAP')
     return dict(source=source(), original_sha256=ORIGINAL_PIN[1],
                 money_replacements=len(profile['replacement_functions']),
+                moving_read_predecessors=2,
                 automatic_replacements=len(delta['definitions']), actual_SQL_executed=0)

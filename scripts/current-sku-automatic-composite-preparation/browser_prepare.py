@@ -59,7 +59,9 @@ def derive(raw=None):
         (" {cwd:'../writer',input:JSON.stringify(payload)", " {cwd:WRITER,input:JSON.stringify(payload)"),
         (source_gate, ADMITTED.rstrip()),
         ("maxBuffer:32*1024*1024,timeout:120000", "maxBuffer:32*1024*1024,timeout:SOURCE_ADMISSION_TIMEOUT_MS+NATIVE_OPERATION_TIMEOUT_MS+FIXTURE_CLEANUP_TIMEOUT_MS"),
-        ("'nilai sumber Rp 60,06'", "'nilai sumber Rp 68,07'"),
+        ("  await expect(destination()).toContainText('nilai sumber Rp 60,06');await expect(destination()).toContainText('Reservasi tetap.')",
+         "  await expect(destination()).toContainText('nilai sumber Rp 68,07');await expect(destination()).toContainText('Reservasi tetap.')\n"
+         "  await expect(destination()).toContainText('HPP rata-rata per PCS · asal Rp17,02 · tujuan Rp30,03')"),
         ("one_complete_group_two_Native_parts_value:'60.06'",
          "one_complete_group_two_Native_parts_physical_value:'60.06',moving_average_value:'68.07'"),
         ("const final=state('WHOLE_GROUP_REVERSED')", "const final=state('WHOLE_GROUP_REVERSED');inverseOracle(final,f)"),

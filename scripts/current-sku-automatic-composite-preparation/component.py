@@ -21,7 +21,9 @@ def load(name, path):
     return module
 
 
-def derive(raw, *, focused=False):
+def derive(raw, *, focused=False, full_plan_wib=False):
+    if focused and full_plan_wib:
+        raise ValueError('SKU_AUTOMATIC_ONE_NATIVE_SCOPE_REQUIRED')
     retained = RETAINED.read_bytes()
     if dict(bytes=len(retained), sha256=sha256(retained).hexdigest()) != RETAINED_PIN:
         raise ValueError('SKU_AUTOMATIC_EXACT_CURRENT_MONEY_COMPONENT_DERIVER_REQUIRED')
@@ -47,13 +49,15 @@ def derive(raw, *, focused=False):
          "    report.update(status='PASS',actual_Auth_browser=True,actual_business_cases=len(business.IDS)+2,\n"
          "                  qualification_scope='NATIVE25_AND_CURRENT_BROWSER2')"),
     )
+    bind = '    business,preflight=_NATIVE_SUITE.bind(business,preflight,product,prefix)'
     if focused:
-        bind = '    business,preflight=_NATIVE_SUITE.bind(business,preflight,product,prefix)'
         routes += (
             (bind, bind + '\n    business=_CONTINUATION.select(business,_FOCUS)'),
             ("qualification_scope='NATIVE25_AND_CURRENT_BROWSER2'",
              "qualification_scope='FRESH_SKU13_AND_CURRENT_BROWSER2'"),
         )
+    elif full_plan_wib:
+        routes += ((bind, bind + '\n    business=_CONTINUATION.select(business,_FULL_PLAN_WIB,full_plan=True)'),)
     after = before
     for old, new in routes:
         if after.count(old) != 1 or new in after:
@@ -72,7 +76,7 @@ def derive(raw, *, focused=False):
 
 
 def load_prepared(bridge, product, parent_raw, money_raw, plan_raw, scheduler_quiet, *,
-                  case_output=None, browser_run=None, focus=None):
+                  case_output=None, browser_run=None, focus=None, full_plan_wib=None):
     bridge.admission.require_ready()  # Before caller, receipt, file, Git or ERP inspection.
     bridge.admission.inputs(parent_raw, money_raw, plan_raw)
     bridge.source_manifest()
@@ -81,15 +85,21 @@ def load_prepared(bridge, product, parent_raw, money_raw, plan_raw, scheduler_qu
     path = money_bridge.FROZEN_SKU / ORIGINAL
     if not path.is_file() or path.is_symlink():
         raise ValueError('SKU_AUTOMATIC_EXACT_FROZEN_NATIVE_MONEY_RUNNER_REQUIRED')
-    source, proof = derive(path.read_bytes(), focused=focus is not None)
+    source, proof = derive(path.read_bytes(), focused=focus is not None, full_plan_wib=full_plan_wib is not None)
     module = ModuleType('current_automatic_exact_native25_component')
     module.__file__ = str(HERE / 'component.py')
     module._CURRENT_MONEY_ASSEMBLY = product
     module._FROZEN_SKU = money_bridge.FROZEN_SKU
     module._NATIVE_SUITE = load('automatic_complete_native25_suite', HERE / 'native_suite.py')
+    if focus is not None or full_plan_wib is not None:
+        module._CONTINUATION = load('automatic_exact_Native_WIB_scope', HERE / 'continuation.py')
     if focus is not None:
-        module._CONTINUATION = load('automatic_exact_e4ea_continuation', HERE / 'continuation.py')
         module._FOCUS = focus
+    if full_plan_wib is not None:
+        module._FULL_PLAN_WIB = full_plan_wib
+        proof['current_native_cases'] = dict(case_ids=full_plan_wib['planned_case_ids'],
+            caller_timezone=module._CONTINUATION.CALLER_TIMEZONE,
+            wib_case_ids=full_plan_wib['non_po_affected_case_ids'], scope=module._CONTINUATION.SCOPE_PIN)
     ids = (tuple(money_bridge.prepared_sources()[0]['native_case_ids']) + module._NATIVE_SUITE.native.IDS
            + module._NATIVE_SUITE.invoices.IDS)
     if tuple(json.loads(plan_raw)['case_ids']) != ids:

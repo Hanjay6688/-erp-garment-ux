@@ -108,7 +108,7 @@ def inherited_scope():
 def runtime():
     parent_raw, money_raw, plan_raw, receipt = actual_inputs()
     assembly.source_manifest()
-    focus = continuation.admitted(plan_raw) if continuation.SCOPE.exists() else None
+    full_plan_wib = continuation.admitted(plan_raw)
     frozen_afui()
     # Binding validates the actual Root with the retained admission before
     # loading any inherited financial runtime. Original money gates stay None.
@@ -137,7 +137,7 @@ def runtime():
                 product = assembly.load_prepared(bridge, inherited.product, money_product, automatic_product,
                                                  parent_raw, money_raw, plan_raw)
                 original = FROZEN_PARENT / package_source.load('automatic_exact_retained_money_package', package_source.RETAINED).ORIGINAL
-                text, package_proof = package_source.derive(original.read_bytes(), focused=focus is not None)
+                text, package_proof = package_source.derive(original.read_bytes())
                 package_proof['complete_parent_state_binding'] = package_source.bind_parent_state(
                     product, checkpoint.observe_parent_phase)
                 package_proof['moving_diagnostics'] = moving_diagnostics.bind(
@@ -157,7 +157,8 @@ def runtime():
                     inherited_scope=inherited_scope, FROZEN_PARENT=FROZEN_PARENT, FROZEN_AFUI=FROZEN_AFUI,
                     complete_case_output=complete_case_output, report_io=report_io)
                 engine.runner, component_proof = component.load_prepared(assembly, product, parent_raw, money_raw, plan_raw,
-                                                                         inherited.runner.scheduler_quiet, case_output=case_output, focus=focus,
+                                                                         inherited.runner.scheduler_quiet, case_output=case_output,
+                                                                         full_plan_wib=full_plan_wib,
                                                                          browser_run=partial(browser_access.run, browser_entry))
                 global_catalogue = load('automatic_Global_parent_catalogue', HERE / 'global_parent_catalogue.py')
                 engine.runner.exercise = global_catalogue.bind(engine.runner.exercise, report_io.complete_originals())

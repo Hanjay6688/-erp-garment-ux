@@ -160,4 +160,6 @@ def load_prepared(bridge, parent, money_module, automatic_module, parent_raw, mo
     money.prepared = cost_timezone.bind(money.prepared)
     timezone = load('automatic_context_timezone', HERE / 'context_timezone.py')
     product.prepared = timezone.bind(product.prepared)
+    economic_pool = load('sku_precise_economic_pool', HERE / 'economic_pool.py')
+    product.prepared = economic_pool.bind(product.prepared)
     return product

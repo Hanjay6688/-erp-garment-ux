@@ -1,4 +1,4 @@
-"""Select affected Native cases and keep historical evidence bound to its origin."""
+"""Bind the reviewed WIB cases and keep historical evidence bound to its origin."""
 
 from hashlib import sha256
 import json
@@ -23,6 +23,10 @@ def require(condition, reason):
 
 def pin(raw):
     return {"bytes": len(raw), "sha256": sha256(raw).hexdigest()}
+
+
+def catalogue_group_pin(rows):
+    return pin(json.dumps(rows, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode())
 
 
 def admitted(plan_raw):
@@ -62,28 +66,27 @@ def run_in_wib(cursor, callback):
     return dict(result, caller_timezone=before)
 
 
-def select(business, scope):
+def select(business, scope, *, full_plan=False):
     plan = tuple(scope["planned_case_ids"])
-    fresh = tuple(scope["fresh_case_ids"])
+    selected_ids = plan if full_plan else tuple(scope["fresh_case_ids"])
     non_po = set(scope['non_po_affected_case_ids'])
     require(business.IDS == plan, "SKU_E4EA_CONTINUATION_CALLBACK_PLAN_CHANGED")
 
     def cases(cursor, today):
         callbacks = business.cases(cursor, today)
         require(tuple(key for key, _ in callbacks) == plan, "SKU_E4EA_CONTINUATION_CALLBACK_ORDER_CHANGED")
-        selected = [(key, callback) for key, callback in callbacks if key in fresh]
-        require(tuple(key for key, _ in selected) == fresh, "SKU_E4EA_CONTINUATION_FRESH_ORDER_CHANGED")
+        selected = [(key, callback) for key, callback in callbacks if key in selected_ids]
+        require(tuple(key for key, _ in selected) == selected_ids, "SKU_E4EA_CONTINUATION_FRESH_ORDER_CHANGED")
         return [(key, (lambda action=callback: run_in_wib(cursor, action)) if key in non_po else callback)
                 for key, callback in selected]
 
-    return SimpleNamespace(**dict(vars(business), IDS=fresh, cases=cases))
+    return SimpleNamespace(**dict(vars(business), IDS=selected_ids, cases=cases))
 
 
 def catalogue_comparison(value, scope):
     expected = scope["expected_fixed_catalogue_group_pins"]
     require(len(expected) == 25 and set(value) == set(expected), "SKU_E4EA_CONTINUATION_COMPLETE_ACTUAL_FULL25_REQUIRED")
-    actual = {group: pin(json.dumps(rows, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode())
-              for group, rows in value.items()}
+    actual = {group: catalogue_group_pin(rows) for group, rows in value.items()}
     differences = sorted(group for group in actual if actual[group] != expected[group])
     return dict(actual=actual, differing_groups=differences, exact_expected_groups=not differences,
                 archived_comparison_still_required=True)

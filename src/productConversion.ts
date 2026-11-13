@@ -8,7 +8,7 @@ export type ConversionStock = { available: number; reserved: number; physical: n
 export type ConversionSource = { product_id: string; sku: string; product_name: string; brand_name: string; size: string; location_id: string; location_name: string; stock: ConversionStock }
 export type ConversionTarget = { id: string; sku: string; product_name: string; brand_name?: string; size?: string; recommended?: boolean }
 export type ConversionSelection = { source_product_id: string; target_product_id: string | null; location_id: string; source_stock: ConversionStock; target_stock: ConversionStock | null }
-export type AutoConversionPreview = { source_product_id: string; target_product_id: string; location_id: string; location_name: string; source_sku: string; target_sku: string; physical_at: string; qty_pcs: number; source_revision: string; source_stock: ConversionStock; target_stock: ConversionStock; source_after: ConversionStock; target_after: ConversionStock; cost: { source_value?: string }; allocations: { source_lot_id: string; qty_pcs: number; source_revision: string; source_value: string | null; lot_number: string }[] }
+export type AutoConversionPreview = { source_product_id: string; target_product_id: string; location_id: string; location_name: string; source_sku: string; target_sku: string; physical_at: string; qty_pcs: number; source_revision: string; source_stock: ConversionStock; target_stock: ConversionStock; source_after: ConversionStock; target_after: ConversionStock; cost: { source_value?: string }; movingAverage?: { source: string | null; target: string | null }; allocations: { source_lot_id: string; qty_pcs: number; source_revision: string; source_value: string | null; lot_number: string }[] }
 export type ConversionDocument = { id: string; conversion_number: string; status: string; source_sku: string; target_sku: string; qty_pcs: number; physical_at: string; notes: string; origin_kind: string; revision: string; target_value: string | null; extra_cost: string | null; pending_returns: number; value_state: 'PROVISIONAL_RECOVERY' | 'SOURCED_TO_DATE'; returns: { id: string; material: string; holder: string; expected: string; received: string; unreturned: string; awaiting_value: string }[]; group_id?: string; group_qty_pcs?: number; group_part_count?: number; group_line_no?: number }
 export type ConversionWorkspace = { lots: ConversionLot[]; targets: ConversionTarget[]; documents: ConversionDocument[]; total: number; page: number; page_size: number; targets_total: number; target_page: number; documents_total: number; document_page: number; contract_version?: string; sources?: ConversionSource[]; sources_total?: number; selection?: ConversionSelection }
 export function conversionObject(value: unknown): Record<string, unknown> {
@@ -56,6 +56,22 @@ export function autoConversionPayload(source: ConversionSource | undefined, targ
   if (!source || !target || source.product_id === target || !/^[1-9]\d{0,8}$/.test(quantity) || Number(quantity) > source.stock.available || !time || !reason.trim()) throw new Error('Lengkapi SKU asal dan tujuan berbeda, jumlah sesuai stok tersedia, waktu WIB dan alasan.')
   return { source_product_id: source.product_id, target_product_id: target, location_id: source.location_id, qty_pcs: Number(quantity), physical_at: time, reason: reason.trim() }
 }
+
+function parseMovingAverage(value: unknown, physical: number, revision: unknown): string | null {
+  const pool = conversionObject(value)
+  if (pool.basis !== 'SKU_LOCATION_GRADE_MOVING_AVERAGE_V2' || pool.reserved_included !== true
+    || typeof revision !== 'string' || !/^[a-f0-9]{32}$/.test(revision) || pool.revision !== revision
+    || typeof pool.qty !== 'string' || !/^\d+(?:\.0{1,6})?$/.test(pool.qty) || Number(pool.qty) !== physical) {
+    throw new Error('Lingkup HPP rata-rata tidak cocok dengan stok.')
+  }
+  if (pool.state === 'EMPTY' && physical === 0 && pool.average === null) return null
+  if (pool.state === 'PROVISIONAL' && physical > 0 && pool.final_cost_ready === false) return null
+  if (pool.state === 'UNKNOWN' && physical > 0 && pool.average === null
+    && pool.value === null && pool.base_value === null && pool.adjustment === null) return null
+  if (pool.state === 'KNOWN' && physical > 0 && typeof pool.average === 'string' && /^\d+(?:\.\d+)?$/.test(pool.average)) return pool.average
+  throw new Error('HPP rata-rata belum lengkap.')
+}
+
 export function parseAutoConversionPreview(value: unknown, payload: Record<string, Json>): AutoConversionPreview {
   const p = conversionObject(value)
   if (p.source_product_id !== payload.source_product_id || p.target_product_id !== payload.target_product_id || p.location_id !== payload.location_id || p.qty_pcs !== payload.qty_pcs || !Number.isFinite(Date.parse(text(p.physical_at))) || Date.parse(text(p.physical_at)) !== Date.parse(String(payload.physical_at))) throw new Error('Pratinjau SKU/lokasi/jumlah tidak cocok.')
@@ -65,7 +81,14 @@ export function parseAutoConversionPreview(value: unknown, payload: Record<strin
   const allocations = rows(p.allocations, a => ({ id: id(a.source_lot_id), source_lot_id: id(a.source_lot_id), qty_pcs: count(a.qty_pcs), source_revision: text(a.source_revision), source_value: amount(a.source_value), lot_number: text(a.lot_number) }))
   if (!allocations.length || allocations.some(a => a.qty_pcs < 1) || allocations.reduce((n, a) => n + a.qty_pcs, 0) !== quantity) throw new Error('Alokasi sumber tidak sama dengan jumlah konversi.')
   const cost = conversionObject(p.cost); if (cost.source_value !== undefined) amount(cost.source_value)
-  return { source_product_id: id(p.source_product_id), target_product_id: id(p.target_product_id), location_id: id(p.location_id), location_name: text(p.location_name), source_sku: text(p.source_sku), target_sku: text(p.target_sku), physical_at: text(p.physical_at), qty_pcs: quantity, source_revision: text(p.source_revision), source_stock: sourceStock, target_stock: targetStock, source_after: sourceAfter, target_after: targetAfter, allocations, cost: cost as { source_value?: string } }
+  let movingAverage: AutoConversionPreview['movingAverage']
+  if (typeof cost.source_value === 'string' && (p.source_value_pool !== undefined || p.target_value_pool !== undefined)) {
+    movingAverage = {
+      source: parseMovingAverage(p.source_value_pool, sourceStock.physical, p.source_value_revision),
+      target: parseMovingAverage(p.target_value_pool, targetStock.physical, p.target_value_revision),
+    }
+  }
+  return { source_product_id: id(p.source_product_id), target_product_id: id(p.target_product_id), location_id: id(p.location_id), location_name: text(p.location_name), source_sku: text(p.source_sku), target_sku: text(p.target_sku), physical_at: text(p.physical_at), qty_pcs: quantity, source_revision: text(p.source_revision), source_stock: sourceStock, target_stock: targetStock, source_after: sourceAfter, target_after: targetAfter, allocations, cost: cost as { source_value?: string }, ...(movingAverage ? { movingAverage } : {}) }
 }
 export function conversionPayload(lot: ConversionLot | undefined, target: string, quantity: string, at: string, reason: string): Record<string, Json> {
   const time = cp6WibPhysicalTimeToIso(at)

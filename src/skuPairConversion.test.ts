@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { autoConversionPayload, parseAutoConversionPreview, parseConversionWorkspace, validateConversionResult, type ConversionSource } from './productConversion'
 import { skuPairPayload, validateSkuPairResult } from './skuMaster'
 import { parseProductionEnvelope } from './productionRecovery'
+import { skuMoney } from './skuHpp'
 const u = (n: number) => `10000000-0000-4000-8000-${String(n).padStart(12, '0')}`
 const source: ConversionSource = { product_id: u(1), sku: '1002', product_name: 'Vivo 1002 31', brand_name: 'Vivo', size: '31', location_id: u(9), location_name: 'Gudang A', stock: { physical: 10, reserved: 1, available: 9 } }
 const payload = autoConversionPayload(source, u(2), '4', '2026-10-20T07:00', 'Barang tercampur')
@@ -24,6 +25,33 @@ describe('owner 29 October pair and conversion boundary', () => {
     for (const invalid of variants) expect(() => parseAutoConversionPreview(invalid(), payload)).toThrow()
     const hidden = { ...preview(), cost: {}, allocations: preview().allocations.map(a => ({ ...a, source_value: null })) }
     expect(parseAutoConversionPreview(hidden, payload).cost).toEqual({})
+  })
+  it('keeps precise moving averages while the display rounds to two decimals', () => {
+    const sourceRevision = 'a'.repeat(32), targetRevision = 'b'.repeat(32)
+    const pool = (qty: string, average: string, revision: string) => ({
+      state: 'KNOWN', basis: 'SKU_LOCATION_GRADE_MOVING_AVERAGE_V2', reserved_included: true, qty, average, revision,
+    })
+    const current = { ...preview(), cost: { source_value: '68.07' },
+      source_value_revision: sourceRevision, target_value_revision: targetRevision,
+      source_value_pool: pool('10.000000', '17.0170000000000000', sourceRevision),
+      target_value_pool: pool('4.000000', '30.0300000000000000', targetRevision) }
+    const result = parseAutoConversionPreview(current, payload)
+    expect(result.movingAverage).toEqual({ source: '17.0170000000000000', target: '30.0300000000000000' })
+    expect(skuMoney(result.movingAverage!.source)).toBe('Rp17,02')
+    expect(result.cost.source_value).toBe('68.07')
+    expect(parseAutoConversionPreview({ ...current, cost: {} }, payload).movingAverage).toBeUndefined()
+    expect(() => parseAutoConversionPreview({ ...current, target_value_revision: sourceRevision }, payload)).toThrow()
+    const provisional = { ...current, source_value_pool: { ...current.source_value_pool,
+      state: 'PROVISIONAL', final_cost_ready: false } }
+    expect(parseAutoConversionPreview(provisional, payload)).toMatchObject({
+      cost: { source_value: '68.07' }, movingAverage: { source: null, target: '30.0300000000000000' },
+    })
+    expect(() => parseAutoConversionPreview({ ...provisional,
+      source_value_pool: { ...provisional.source_value_pool, final_cost_ready: true } }, payload)).toThrow()
+    const unknown = { ...current, target_value_pool: { ...current.target_value_pool, state: 'UNKNOWN',
+      average: null, value: null, base_value: null, adjustment: null } }
+    expect(parseAutoConversionPreview(unknown, payload).movingAverage?.target).toBeNull()
+    expect(() => parseAutoConversionPreview({ ...unknown, target_value_pool: { ...unknown.target_value_pool, value: '-0.005' } }, payload)).toThrow()
   })
   it('requires source/target and unique Native allocation IDs on successful automatic conversion', () => {
     const result = { ...preview(), conversion_id: u(80), request_id: u(80), action: 'POST', status: 'POSTED', destination_lot_id: u(81), conversion_ids: [u(80), u(82)], destination_lot_ids: [u(81), u(83)] }

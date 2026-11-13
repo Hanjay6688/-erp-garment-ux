@@ -29,6 +29,14 @@ PREFLIGHT = component.LABEL + '_PREFLIGHT.json'
 SUPERVISION = 'SKU_CURRENT_PARENT_MONEY_AUTOMATIC_RUNTIME_SUPERVISION.json'
 BROWSER = 'SKU_CURRENT_PARENT_MONEY_AUTOMATIC_BROWSER2.json'
 browser_gate = load('automatic_final_complete_browser2_gate', HERE / 'browser_gate.py')
+catalogue = load('automatic_final_complete_catalogue', HERE / 'global_parent_catalogue.py')
+economic_pool = load('automatic_final_exact_economic_pool_projection', HERE / 'economic_pool.py')
+# Full25 functions from the 0b59 owning Original. Only the credit guard's
+# database-local trigger OID digest varies between the reviewed installations.
+BASELINE_FUNCTIONS = dict(bytes=8582240, sha256='fca6874d731c369b2b19a370db1fc9b1675badeb00312fb4dd8ec19db5a3c275')
+CREDIT_GUARD = 'cp7_credit.assert_source_native_trigger_census_v1()'
+CREDIT_SEAL = '1ed4e207a3d715a522ed0b77b0f7629fa765721b4c034d847b54db5fafdaa25a'
+SEAL_LITERAL = re.compile(r"(?m)^ if actual_sha256 is distinct from '([0-9a-f]{64})'then$")
 ROUTES = (
     ('actual_Native_cases=19', 'actual_Native_cases=25', 3),
     ('actual_business_cases=19', 'actual_business_cases=27', 1),
@@ -123,6 +131,57 @@ def validate(p, docs, head, ids, *, focused=False):
     return result
 
 
+def catalogue_functions(p, rows):
+    current = dict(rows)
+    if not (economic_pool.ROUTES.keys() | {economic_pool.FUNCTION, CREDIT_GUARD}) <= current.keys():
+        raise ValueError('SKU_FULL25_REVIEWED_FUNCTIONS_REQUIRED')
+    p.exact(current[economic_pool.FUNCTION], economic_pool.helper_row(), 'SKU_FULL25_EXACT_ECONOMIC_POOL_HELPER')
+    before = {signature: economic_pool.restore(signature, current[signature]) for signature in economic_pool.ROUTES}
+    guard = current[CREDIT_GUARD]
+    if type(guard) is not list or len(guard) != 19 or type(guard[0]) is not str:
+        raise ValueError('SKU_FULL25_EXACT_DATABASE_LOCAL_CREDIT_SEAL_REQUIRED')
+    literals = SEAL_LITERAL.findall(guard[0])
+    if len(literals) != 1:
+        raise ValueError('SKU_FULL25_EXACT_DATABASE_LOCAL_CREDIT_SEAL_REQUIRED')
+    definition = SEAL_LITERAL.sub(" if actual_sha256 is distinct from '" + CREDIT_SEAL + "'then", guard[0])
+    before[CREDIT_GUARD] = [definition, *guard[1:]]
+    restored = [[signature, before.get(signature, row)] for signature, row in rows if signature != economic_pool.FUNCTION]
+    normalized = runtime.continuation.catalogue_group_pin(restored)
+    p.exact(normalized, BASELINE_FUNCTIONS, 'SKU_FULL25_ONLY_REVIEWED_ECONOMIC_POOL_FUNCTIONS_MAY_CHANGE')
+    return dict(added=economic_pool.FUNCTION, replaced=sorted(economic_pool.ROUTES),
+                normalized_predecessor=normalized, database_local_credit_seal=literals[0])
+
+
+def validate_catalogue(p, raw, capture, head, run_id, scope):
+    readers = {name: dict(bytes=size, sha256=digest) for name, (size, digest) in catalogue.SOURCE_PINS.items()}
+    p.fields(capture, dict(status='ACTUAL_FULL25_SKU_CATALOGUE_OBSERVED', head=head, run_id=run_id, attempt=1,
+        original=dict(name=catalogue.ORIGINAL, **admission.pin(raw)), readers=readers, actual_ERP_case_credit=0,
+        complete_input_review=False, production_go=False), 'SKU_FULL25_SAME_ACTUAL_CATALOGUE_OWNER')
+    value = p.strict(raw)
+    _, _, groups = catalogue.exact_readers()
+    if type(value) is not dict:
+        raise ValueError('SKU_FULL25_EXACT_CATALOGUE_OBJECT_REQUIRED')
+    p.exact(set(value), groups, 'SKU_FULL25_EXACT_GROUPS')
+    for name, rows in value.items():
+        if type(rows) is not list or any(type(row) is not list or len(row) != 2 or type(row[0]) is not str for row in rows):
+            raise ValueError('SKU_FULL25_EXACT_KEYED_CATALOGUE_ROWS_REQUIRED:' + name)
+        keys = [row[0] for row in rows]
+        p.exact(keys, sorted(set(keys)), 'SKU_FULL25_ORDERED_UNIQUE_CATALOGUE_KEYS:' + name)
+    if any(not value[name] for name in ('functions', 'relations', 'roles', 'operators', 'casts', 'languages')):
+        raise ValueError('SKU_FULL25_CURRENT_COMBINED_CATALOGUE_REQUIRED')
+    fingerprint = capture['fingerprint']
+    p.fields(fingerprint, dict(contract='cp7.global-catalogue-fingerprint.v1', groups=25,
+        counts={name: len(rows) for name, rows in value.items()}), 'SKU_FULL25_EXACT_CAPTURE_FINGERPRINT')
+    digest = fingerprint.get('sha256')
+    if type(digest) is not str or re.fullmatch('[a-f0-9]{64}', digest) is None:
+        raise ValueError('SKU_FULL25_EXACT_POSTGRES_FINGERPRINT_REQUIRED')
+    functions = catalogue_functions(p, value['functions'])
+    historical = runtime.continuation.catalogue_comparison(value, scope)
+    return dict(original=capture['original'], fingerprint=fingerprint, readers=readers,
+        current_group_pins=historical['actual'], economic_pool_functions=functions,
+        historical_nonfunction_differences=[name for name in historical['differing_groups'] if name != 'functions'])
+
+
 def gate(directory, head):
     parent_raw, money_raw, plan_raw, receipt = runtime.actual_inputs()
     p = typed_reader()
@@ -142,9 +201,11 @@ def gate(directory, head):
         raw[name] = path.read_bytes()
     docs = {name: p.strict(value) for name, value in raw.items()}
     continuation = runtime.continuation
-    focus = continuation.admitted(plan_raw) if continuation.SCOPE.exists() else None
-    tested_ids = focus['fresh_case_ids'] if focus is not None else ids
-    result = validate(p, docs, head, tested_ids, focused=focus is not None)
+    scope = continuation.admitted(plan_raw)
+    result = validate(p, docs, head, ids)
+    p.exact({case: row['caller_timezone'] for case, row in docs[NATIVE]['cases'].items() if 'caller_timezone' in row},
+            dict.fromkeys(scope['non_po_affected_case_ids'], continuation.CALLER_TIMEZONE),
+            'SKU_NON_PO_EXACT_EIGHT_ACTUAL_WIB_NATIVE_CASES_REQUIRED')
     refs = docs[MAIN]['committed'][component.CASE]['strict_group_originals']
     originals = [row for row in refs if row['name'] == NATIVE]
     if len(originals) != 1:
@@ -154,6 +215,9 @@ def gate(directory, head):
     result['current_browser2'] = browser_gate.gate(p, directory, docs[BROWSER], part, head, docs[MAIN]['source_declaration'])
     p.exact(part['current_browser_complete_evidence_gate'], result['current_browser2'],
             'AUTOMATIC_BROWSER_RECHECK_EQUALS_COMPLETE_FIRST_RUNTIME_GATE')
+    raw_catalogue = browser_gate.asset(directory, catalogue.ORIGINAL)
+    result['global_parent_catalogue'] = validate_catalogue(p, raw_catalogue, part['Global_parent_catalogue'],
+                                                          head, result['run_id'], scope)
     runtime.frozen_afui()
     fence = runtime.load('automatic_final_original_import_DB_fence',
         runtime.FROZEN_AFUI / 'scripts/current-sku-managed-recovery-native27-qualification/source_context.py')
@@ -162,28 +226,7 @@ def gate(directory, head):
         with engine.inherited_admission.parent_scope():
             sources = engine.admitted()
     p.exact(docs[MAIN]['source_declaration'], sources, 'AUTOMATIC_COMPLETE_NATURAL_SOURCE_GRAPH_NOT_PROJECTED')
-    status = 'CURRENT_MANDOR_PARENT_MONEY_AUTOMATIC_NATIVE25_BROWSER2_AND_ALL5_PASS'
-    if focus is not None:
-        for case in focus['non_po_affected_case_ids']:
-            p.fields(docs[NATIVE]['cases'][case], dict(caller_timezone=continuation.CALLER_TIMEZONE),
-                     'SKU_NON_PO_ACTUAL_WIB_NATIVE_CASE_REQUIRED:' + case)
-        path = directory / 'SKU_GLOBAL_PARENT_ACTUAL_FULL25.json'
-        if not path.is_file() or any(item.is_symlink() for item in (path, *path.parents)):
-            raise ValueError('SKU_E4EA_CONTINUATION_EXACT_ACTUAL_CATALOGUE_ORIGINAL_REQUIRED')
-        raw_catalogue = path.read_bytes()
-        capture = part['Global_parent_catalogue']
-        p.fields(capture, dict(status='ACTUAL_FULL25_SKU_CATALOGUE_OBSERVED', head=head,
-                               run_id=result['run_id'], attempt=1),
-                 'SKU_E4EA_CONTINUATION_SAME_ACTUAL_CATALOGUE_OWNER')
-        p.exact(admission.pin(raw_catalogue), {key: capture['original'][key] for key in ('bytes', 'sha256')},
-                'SKU_E4EA_CONTINUATION_EXACT_ACTUAL_CATALOGUE_BYTES')
-        result['continuation'] = dict(origin=focus['origin'], fresh_case_ids=tested_ids,
-                                      retained_case_ids=focus['retained_case_ids'],
-                                      scope=continuation.SCOPE_PIN,
-                                      catalogue=continuation.catalogue_comparison(json.loads(raw_catalogue), focus),
-                                      cumulative_acceptance_pending=True)
-        status = 'CURRENT_MANDOR_PARENT_MONEY_AUTOMATIC_FRESH13_BROWSER2_AND_ALL5_PASS'
-    return dict(status=status, head=head, **result,
+    return dict(status='CURRENT_MANDOR_PARENT_MONEY_AUTOMATIC_NATIVE25_BROWSER2_AND_ALL5_PASS', head=head, **result,
                 accepted_sources=receipt, parent_root=admission.pin(parent_raw), money_source_preflight=admission.pin(money_raw),
                 automatic_source=reference['automatic_source'], complete_native_plan=admission.pin(plan_raw),
                 originals={name: admission.pin(value) for name, value in raw.items()},

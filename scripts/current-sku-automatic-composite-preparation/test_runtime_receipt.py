@@ -1,6 +1,7 @@
 """Disposable runner controls. No ERP cases or database commands are used."""
 from concurrent.futures import ThreadPoolExecutor
 from contextlib import redirect_stderr
+from copy import deepcopy
 from io import StringIO
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -16,9 +17,11 @@ import sys
 import unittest
 
 import checkpoint
+import component
 import context_timezone
 import continuation
 import cost_source_timezone
+import final_gate
 import runtime_receipt
 
 
@@ -60,7 +63,7 @@ class CandidateSourceControls(unittest.TestCase):
         self.assertEqual(expected['groups']['functions'][cost_source_timezone.SIGNATURE][12],
                          ['search_path=""', 'TimeZone=UTC'])
 
-    def test_continuation_runs_all_thirteen_affected_cases_in_order(self):
+    def test_native_selects_exact_eight_wib_cases_for_historical_and_full_plans(self):
         directory = Path(continuation.__file__).resolve().parent
         scope = continuation.admitted((directory / 'PREPARED_NATIVE25_PLAN.json').read_bytes())
         ids = tuple(scope['planned_case_ids'])
@@ -81,14 +84,21 @@ class CandidateSourceControls(unittest.TestCase):
         cursor = SimpleNamespace(execute=execute, timezone='UTC')
         callbacks = [(case, lambda key=case: run_case(key)) for case in ids]
         original = SimpleNamespace(IDS=ids, cases=lambda _cursor, _today: callbacks)
-        selected = continuation.select(original, scope)
-        observed = []
-        for _, callback in selected.cases(cursor, None):
-            cursor.timezone = 'UTC'  # The owning snapshot sets UTC before each case.
-            observed.append(callback())
-        self.assertEqual(len(observed), 13)
-        self.assertEqual([row['case'] for row in observed], scope['fresh_case_ids'])
-        self.assertEqual({row['case'] for row in observed if row.get('caller_timezone') == 'Asia/Jakarta'}, affected)
+        for full_plan, expected in ((False, scope['fresh_case_ids']), (True, list(ids))):
+            with self.subTest(full_plan=full_plan):
+                selected = continuation.select(original, scope, full_plan=full_plan)
+                self.assertEqual(selected.IDS, tuple(expected))
+                observed = []
+                for key, callback in selected.cases(cursor, None):
+                    if key not in affected:
+                        self.assertIs(callback, dict(callbacks)[key])
+                    cursor.timezone = 'UTC'  # The owning snapshot sets UTC before each case.
+                    observed.append(callback())
+                self.assertEqual([row['case'] for row in observed], expected)
+                self.assertEqual({row['case'] for row in observed if row.get('caller_timezone') == 'Asia/Jakarta'}, affected)
+        original.cases = lambda _cursor, _today: list(reversed(callbacks))
+        with self.assertRaisesRegex(ValueError, 'SKU_E4EA_CONTINUATION_CALLBACK_ORDER_CHANGED'):
+            continuation.select(original, scope, full_plan=True).cases(cursor, None)
 
         def change_timezone():
             cursor.timezone = 'UTC'
@@ -96,6 +106,75 @@ class CandidateSourceControls(unittest.TestCase):
 
         with self.assertRaisesRegex(ValueError, 'SKU_NON_PO_WIB_CALLER_CHANGED_DURING_CASE'):
             continuation.run_in_wib(cursor, change_timezone)
+
+    def test_current_component_adds_only_the_full_plan_wib_binding(self):
+        reference = json.loads(component.RETAINED.with_name('SOURCE_REFERENCE.json').read_bytes())
+        raw = subprocess.check_output(['git', '-C', str(component.ROOT), 'show',
+                                      reference['candidate_tree'] + ':' + component.ORIGINAL])
+        original, _ = component.derive(raw)
+        current, proof = component.derive(raw, full_plan_wib=True)
+        historical, _ = component.derive(raw, focused=True)
+        route = '\n    business=_CONTINUATION.select(business,_FULL_PLAN_WIB,full_plan=True)'
+        self.assertEqual(current.count(route), 1)
+        self.assertEqual(current.replace(route, ''), original)
+        self.assertEqual(proof['exact_additional_routes'], 7)
+        self.assertIn("qualification_scope='FRESH_SKU13_AND_CURRENT_BROWSER2'", historical)
+
+    def test_full25_gate_accepts_only_the_exact_read_overlay_and_local_seal(self):
+        scope = continuation.admitted(continuation.SCOPE.with_name('PREPARED_NATIVE25_PLAN.json').read_bytes())
+        pool = final_gate.economic_pool
+        typed = final_gate.typed_reader()
+        # Small protocol rows let the exact inverse run without a database or historical Original.
+        base = {signature: ['\n'.join(before for before, _ in routes), *([None] * 18)]
+                for signature, routes in pool.ROUTES.items()}
+        preimages = {signature: continuation.catalogue_group_pin(row)['sha256'] for signature, row in base.items()}
+        guard = final_gate.CREDIT_GUARD
+        base[guard] = [f"begin\n if actual_sha256 is distinct from '{final_gate.CREDIT_SEAL}'then\n end", *([None] * 18)]
+        base['example.unchanged()'] = ['unrelated exact definition']
+        baseline = continuation.catalogue_group_pin([[signature, row] for signature, row in sorted(base.items())])
+        _, _, groups = final_gate.catalogue.exact_readers()
+        with patch.object(pool, 'BASELINE_ROWS', preimages), patch.object(final_gate, 'BASELINE_FUNCTIONS', baseline):
+            current = deepcopy(base)
+            current[pool.FUNCTION] = pool.helper_row()
+            current.update({signature: pool.project(signature, base[signature]) for signature in pool.ROUTES})
+            current[guard][0] = current[guard][0].replace(final_gate.CREDIT_SEAL, 'b' * 64)
+
+            def check(functions, *, duplicate=False, run_id='425'):
+                value = {group: [] for group in groups}
+                for group in ('relations', 'roles', 'operators', 'casts', 'languages'):
+                    value[group] = [['model.' + group, None]]
+                value['functions'] = [[signature, row] for signature, row in sorted(functions.items())]
+                if duplicate:
+                    value['functions'].append(value['functions'][-1])
+                raw = json.dumps(value).encode()
+                capture = dict(status='ACTUAL_FULL25_SKU_CATALOGUE_OBSERVED', head='a' * 40, run_id='425', attempt=1,
+                    original=dict(name=final_gate.catalogue.ORIGINAL, **continuation.pin(raw)), actual_ERP_case_credit=0,
+                    complete_input_review=False, production_go=False,
+                    readers={name: dict(bytes=size, sha256=digest)
+                             for name, (size, digest) in final_gate.catalogue.SOURCE_PINS.items()},
+                    fingerprint=dict(contract='cp7.global-catalogue-fingerprint.v1', groups=25, sha256='c' * 64,
+                                     counts={name: len(rows) for name, rows in value.items()}))
+                return final_gate.validate_catalogue(typed, raw, capture, 'a' * 40, run_id, scope)
+
+            accepted = check(current)
+            self.assertEqual(accepted['economic_pool_functions']['normalized_predecessor'], baseline)
+            self.assertEqual(accepted['economic_pool_functions']['database_local_credit_seal'], 'b' * 64)
+            self.assertEqual(set(accepted['current_group_pins']), groups)
+            self.assertIn('roles', accepted['historical_nonfunction_differences'])
+            for signature in (*pool.ROUTES, pool.FUNCTION, guard, 'example.unchanged()'):
+                with self.subTest(signature=signature):
+                    tampered = deepcopy(current)
+                    tampered[signature][0] += '\nunreviewed'
+                    with self.assertRaises(ValueError):
+                        check(tampered)
+            with self.assertRaisesRegex(ValueError, 'SKU_FULL25_REVIEWED_FUNCTIONS_REQUIRED'):
+                check({signature: row for signature, row in current.items() if signature != pool.FUNCTION})
+            with self.assertRaisesRegex(ValueError, 'SKU_FULL25_ONLY_REVIEWED_ECONOMIC_POOL_FUNCTIONS_MAY_CHANGE'):
+                check(dict(current, unreviewed=['extra function']))
+            with self.assertRaisesRegex(ValueError, 'SKU_FULL25_ORDERED_UNIQUE_CATALOGUE_KEYS'):
+                check(current, duplicate=True)
+            with self.assertRaisesRegex(ValueError, 'SKU_FULL25_SAME_ACTUAL_CATALOGUE_OWNER'):
+                check(current, run_id='424')
 
 
 class RuntimeReceiptControls(unittest.TestCase):

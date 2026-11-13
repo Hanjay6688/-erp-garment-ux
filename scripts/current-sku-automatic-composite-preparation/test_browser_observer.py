@@ -24,7 +24,7 @@ class ObserverControls(unittest.TestCase):
         self.assertEqual(set(result), set(original) | {'current_economic_pools', 'current_session_leaks'})
         self.assertTrue(all(result[key] is value for key, value in original.items()))
         self.assertNotIn('current_economic_pools', original)
-        self.assertEqual(calls, [("select cp7_sku_conversion.pool_quote_v2(%s,%s,'GRADE_A')", (product, 'LOCATION'))
+        self.assertEqual(calls, [("select cp7_sku_conversion.pool_values_v6(%s,%s,'GRADE_A')->'economic'", (product, 'LOCATION'))
                                  for product in ('SOURCE', 'TARGET')] + [(observer.SESSION_SQL, ())])
         self.assertEqual(result['current_session_leaks'], dict(advisory_locks=0, advisory_lock_keys=[], other_sessions=[]))
 
