@@ -1,0 +1,19 @@
+{
+  "head": "89087e9bd26abfd4e675810d628cf5924d1fb78c",
+  "tree": "ccd600226fe2b84637ad5e8abee791edc2fe5e25",
+  "base_app": "a62504d71a6ca1cdbaa59b6fe0fd5739693f100a",
+  "patched_app_tree": "fb03fe34064e2cedde86dc83988160ac8ae2094b",
+  "patch_sha256": "64c0699d6f0f56e911a3fb93e5c02b9e8313a4e1537c341621a6bac7d37be58e",
+  "run": 43394126812,
+  "job": 131780823040,
+  "artifact": 14021938360,
+  "archive_bytes": 953254,
+  "archive_sha256": "f838bfc916efbfee6034e9adce583e77bbcc662b3603120eef44382f6537a3f1",
+  "crc_members": 9,
+  "results": {"pass": 2, "fail": 0, "skip": 0},
+  "test_elapsed_ms": 6488.276,
+  "case_results_path": "browser/results.json",
+  "source_tree_record": "BUILD_SOURCE.txt",
+  "auth_mode": "loopback_fixture",
+  "database_business_claim": false
+}
