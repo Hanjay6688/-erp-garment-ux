@@ -37,6 +37,7 @@ jobs:
             /scripts/assert-cp6-disposable-env.mjs
             /scripts/build-preflight.mjs
             /scripts/scan-client-artifacts.mjs
+            /scripts/current-vendor-money-browser/cases.mjs
             /scripts/cp7_accessory_nonpayable/LOCAL_SETTINGS_CONTROLS.json
             /docs/cp7/review/b-sales-payroll-laundry-20261113/
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
@@ -49,7 +50,7 @@ jobs:
           mkdir -p b-money-ui-proof
           git rev-parse HEAD HEAD:src | tee b-money-ui-proof/BUILD_SOURCE.txt
           test "$(git rev-parse HEAD:src)" = 05c1bbf1f16ede5eeb3d782e8442357cdb6bd3e7
-          patch=docs/cp7/review/b-sales-payroll-laundry-20261113/SALES_CREDIT_UI.patch
+          patch=docs/cp7/review/b-sales-payroll-laundry-20261113/LAUNDRY_CREDIT_UI.patch
           sha256sum package-lock.json vite.config.ts index.html "$patch" | tee -a b-money-ui-proof/BUILD_SOURCE.txt
           git apply --index --check "$patch"
           git apply --index "$patch"
@@ -58,10 +59,10 @@ jobs:
           npm run build:cp6-disposable 2>&1 | tee b-money-ui-proof/BUILD.log
       - name: Install Chromium
         run: node_modules/.bin/playwright install --with-deps --only-shell chromium 2>&1 | tee b-money-ui-proof/CHROMIUM_INSTALL.log
-      - name: Exercise only the affected Sales fixture cases
+      - name: Exercise only the affected Laundry fixture cases
         run: |
           set +e
-          node_modules/.bin/playwright test --config playwright.cp7-b-sales-payroll-laundry.config.ts --grep "Sales opens|Sales shows" 2>&1 | tee b-money-ui-proof/BROWSER.log
+          node_modules/.bin/playwright test --config playwright.cp7-b-sales-payroll-laundry.config.ts --grep "Laundry distinguishes" 2>&1 | tee b-money-ui-proof/BROWSER.log
           status=${PIPESTATUS[0]}
           set -e
           if [[ -d test-results/cp7-b-sales-payroll-laundry ]]; then

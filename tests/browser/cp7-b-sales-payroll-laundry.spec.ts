@@ -306,8 +306,14 @@ test('Laundry distinguishes claim credit and vendor receivable and shows the dat
   const refund = payment.getByRole('region', { name: 'Pengembalian piutang vendor', exact: true })
   const receivable = payment.locator('dl > div').filter({ has: page.locator('dt').filter({ hasText: /^Piutang ke vendor$/ }) }).locator('dd')
   await expect(receivable).toHaveText('Rp 100,00')
-  await expect(payment.getByRole('table', { name: 'Kredit klaim vendor' })).toContainText('CLM-RUSAK-A')
-  await expect(payment.getByLabel('Kredit klaim dipakai').locator('option')).toHaveCount(3)
+  const credits = payment.getByRole('table', { name: 'Sumber potongan vendor' })
+  await expect(credits.getByRole('row').filter({ hasText: 'CLM-RUSAK-A' }).getByRole('cell')).toHaveText([
+    'Klaim laundry · CLM-RUSAK-A', '2026-11-10', 'Rp 20,00', 'Rp 0,00', 'Rp 20,00', 'Rp 0,00',
+  ])
+  await expect(credits.getByRole('row').filter({ hasText: 'KOR-LDR-A' }).getByRole('cell')).toHaveText([
+    'Koreksi invoice · KOR-LDR-A (koreksi turun atas INV-ORIGINAL)', '2026-11-10', 'Rp 100,00', 'Rp 0,00', 'Rp 100,00', 'Rp 100,00',
+  ])
+  await expect(payment.getByLabel('Sumber potongan tagihan', { exact: true }).locator('option')).toHaveCount(3)
   await expect(refund.getByLabel('Piutang vendor dikembalikan').locator('option')).toHaveCount(2)
   await expect(refund.getByLabel('Piutang vendor dikembalikan').locator('option')).not.toContainText(['CLM-RUSAK-A'])
   const refuse = async () => {
@@ -318,9 +324,14 @@ test('Laundry distinguishes claim credit and vendor receivable and shows the dat
   await payment.getByLabel('Tagihan dilunasi').selectOption(vendorCase.targetInvoice)
   await payment.getByLabel('Tanggal pelunasan').fill(vendorCase.beforeBookDate)
   await payment.getByLabel('Alasan pelunasan').fill('Periksa tanggal buku sumber koreksi')
-  await payment.getByLabel('Kredit klaim dipakai').selectOption(vendorCase.correctionId)
-  await payment.getByLabel('Nominal kredit klaim').fill('30,01')
-  await payment.getByRole('button', { name: 'Pakai kredit klaim' }).click()
+  const sourcePicker = payment.getByLabel('Sumber potongan tagihan', { exact: true })
+  await sourcePicker.selectOption(vendorCase.claimId)
+  await expect(payment.getByText('Klaim laundry · tersedia Rp 20,00', { exact: true })).toBeVisible()
+  await expect(payment.getByText('termasuk piutang', { exact: false })).toHaveCount(0)
+  await sourcePicker.selectOption(vendorCase.correctionId)
+  await expect(payment.getByText('Koreksi invoice · tersedia Rp 100,00 · termasuk piutang Rp 100,00', { exact: true })).toBeVisible()
+  await payment.getByLabel('Nominal potongan tagihan', { exact: true }).fill('30,01')
+  await payment.getByRole('button', { name: 'Potong tagihan', exact: true }).click()
   await refuse()
   await capture(page, info, 'laundry-apply-dated-refusal')
   await refund.getByLabel('Piutang vendor dikembalikan').selectOption(vendorCase.correctionId)
