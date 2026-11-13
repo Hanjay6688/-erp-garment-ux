@@ -1,4 +1,4 @@
-import fixture from './nativeAnalysisStandin.json'
+import fixture from './nativeAnalysisStandin.json' with { type: 'json' }
 import {sha} from './nativeAnalysisTransport'
 // A staged run (P19 §10) built from the one-target stand-in: every target gets
 // its own recommendation, action, metric, timeline items, demand model,
@@ -23,21 +23,29 @@ export function stagedJobFixture(requestId:string,state:StagedJobState,extra:Jso
 }
 // itemRanges: a server defect where page p holds the items of other targets
 // than the range it claims (hashes, counts and totals all consistent).
-export async function stagedRun({targets,perPage,pageSizes,unreviewed=0,requestId=fixture.request_id,itemRanges,capturedAt=STAGED_CAPTURED_AT,reverseLabels=false}:{targets:number;perPage?:number;pageSizes?:number[];unreviewed?:number;requestId?:string;itemRanges?:[number,number][];capturedAt?:string;reverseLabels?:boolean}){
+type FixtureTarget={rootId:string;sizeId:string;sku:string;name:string;stock?:string;targetQty?:string|null}
+export async function stagedRun({targets,perPage,pageSizes,unreviewed=0,requestId=fixture.request_id,runId,actor,itemRanges,capturedAt=STAGED_CAPTURED_AT,reverseLabels=false,query,fixtures}:{targets:number;perPage?:number;pageSizes?:number[];unreviewed?:number;requestId?:string;runId?:string;actor?:string;itemRanges?:[number,number][];capturedAt?:string;reverseLabels?:boolean;query?:{from_date:string;through_date:string;group_mode:'AS_SOLD'|'RESTATED'};fixtures?:FixtureTarget[]}){
  const base=structuredClone(fixture) as Json,a=base.analysis as Json,key0:string=a.recommendations[0].target.key,[root0,size]=key0.split(':'),profile0:string=a.assumptions[1].id
+ if(query)base.query=query
+ if(runId)base.run_id=a.run_id=runId
+ if(actor)a.scope.actor_scope_id=actor
  const states=['ACTIVE','ACTIVE','PAUSED','STOPPED']
  const per:Record<string,unknown[]>[]=[],labels:Json[]=[]
  for(let i=0;i<targets;i++){
-  const root=i===0?root0:`00000000-0000-4000-8000-1${i.toString(16).padStart(11,'0')}`,key=`${root}:${size}`,profile=i===0?profile0:`ce000000-0000-4000-8000-${i.toString(16).padStart(12,'0')}`
-  const swap=(v:unknown)=>JSON.parse(JSON.stringify(v).replaceAll(key0,key).replaceAll(root0,root).replaceAll(profile0,profile))
-  labels.push({target_key:key,sku:i===0?'TEST':`SKU-${i}`,product_name:i===0?'TEST':`Produk ${i}`})
+  const target=fixtures?.[i],root=target?.rootId??(i===0?root0:`00000000-0000-4000-8000-1${i.toString(16).padStart(11,'0')}`),key=`${root}:${target?.sizeId??size}`,profile=i===0?profile0:`ce000000-0000-4000-8000-${i.toString(16).padStart(12,'0')}`
+  const swap=(v:unknown)=>JSON.parse(JSON.stringify(v).replaceAll(key0,key).replaceAll(root0,root).replaceAll(size,target?.sizeId??size).replaceAll(profile0,profile))
+  labels.push({target_key:key,sku:target?.sku??(i===0?'TEST':`SKU-${i}`),product_name:target?.name??(i===0?'TEST':`Produk ${i}`)})
   if(i>0&&unreviewed>0&&i%unreviewed===unreviewed-1){
    per.push({assumptions:[],generation_warnings:[`PRODUCTION_POLICY_UNREVIEWED:${key}`],recommendations:[],demand_models:[],material_needs:[],metrics:[],timeline:[],
     actions:[{...swap(a.actions[0]),key:`review-policy-${key}`,target_keys:[],primary_reason:'PRODUCTION_POLICY_UNREVIEWED',conditional:false,
      display_priority:{lane:'REVIEW_DATA',rank:null,basis:['Status produksi produk perlu diperiksa'],rule_version:'native-review-1'}}]})
    continue
   }
-  per.push({assumptions:[swap(a.assumptions[1])],generation_warnings:[],actions:[swap(a.actions[0])],recommendations:[{...swap(a.recommendations[0]),production_state:states[i%4]}],
+  const recommendation=swap(a.recommendations[0])
+  if(target?.stock!==undefined)recommendation.actual_fg.value=target.stock
+  if(target?.targetQty===null)recommendation.target_qty={state:'UNKNOWN',unit:'PCS',reason:'SOURCE_INPUT_NOT_PROVEN',refs:recommendation.target_qty.refs}
+  else if(target?.targetQty!==undefined)recommendation.target_qty.value=target.targetQty
+  per.push({assumptions:[swap(a.assumptions[1])],generation_warnings:[],actions:[swap(a.actions[0])],recommendations:[{...recommendation,production_state:states[i%4]}],
    demand_models:[swap(a.demand_models[0])],material_needs:[swap(a.material_needs[0])],metrics:[swap(a.metrics[0])],timeline:a.timeline.slice(0,2).map(swap)})
  }
  // Global items stay in the header: the schedule assumption before the
