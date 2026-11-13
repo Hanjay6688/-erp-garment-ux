@@ -53,10 +53,10 @@ jobs:
           npm run build:cp6-disposable 2>&1 | tee b-money-ui-proof/BUILD.log
       - name: Install Chromium
         run: node_modules/.bin/playwright install --with-deps --only-shell chromium 2>&1 | tee b-money-ui-proof/CHROMIUM_INSTALL.log
-      - name: Exercise the browser fixture gaps in one setup
+      - name: Exercise S05 and attendance fixture gaps
         run: |
           set +e
-          node_modules/.bin/playwright test --config playwright.cp7-b-sales-payroll-laundry.config.ts 2>&1 | tee b-money-ui-proof/BROWSER.log
+          node_modules/.bin/playwright test --config playwright.cp7-b-sales-payroll-laundry.config.ts --grep "S05|Attendance" 2>&1 | tee b-money-ui-proof/BROWSER.log
           status=${PIPESTATUS[0]}
           set -e
           if [[ -d test-results/cp7-b-sales-payroll-laundry ]]; then

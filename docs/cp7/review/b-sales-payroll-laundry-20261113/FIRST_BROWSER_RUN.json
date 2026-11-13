@@ -1,0 +1,19 @@
+{
+  "head": "d5a120964b5368008a0499e35fdf0c7e0c9d577a",
+  "tree": "96ea44f9ed53154edf5e0a7483b2c80d98a73c8c",
+  "app": "a62504d71a6ca1cdbaa59b6fe0fd5739693f100a",
+  "run": 43389182293,
+  "job": 131764747041,
+  "artifact": 14019992134,
+  "archive_bytes": 3422188,
+  "archive_sha256": "255b0b048ea6e28fa7f9aeed13816b1325ef5feaef6006386a90eb79eb3cfced",
+  "crc_members": 29,
+  "results": {"pass": 4, "fail": 7, "skip": 1},
+  "sales_dependency_navigation": {"desktop": "PASS", "mobile": "PASS"},
+  "sales_credit_return_correction": {"desktop": "FAIL", "mobile": "FAIL", "observation": "Legacy client rejects the documented credit_correction extension before showing the form."},
+  "sales_credit_note_correction": {"desktop": "FAIL", "mobile": "FAIL", "observation": "Legacy client rejects the documented credit_carry extension and retires the selected invoice."},
+  "s05": {"desktop": "DRIVER_FAIL", "mobile": "DRIVER_FAIL", "observation": "Nested relative selector failed although the selected 31st mandor and report values were present in the original accessibility snapshot."},
+  "attendance": {"desktop": "DRIVER_FAIL", "mobile": "SKIP", "observation": "Non-exact label matched the choice combobox and the reason textarea."},
+  "laundry": {"desktop": "PASS", "mobile": "PASS", "observation": "The fixture date refusal was displayed for both apply and refund; source balance remained Rp100 and no recovery was offered for the answered refusal."},
+  "case_results_path": "browser/results.json"
+}
