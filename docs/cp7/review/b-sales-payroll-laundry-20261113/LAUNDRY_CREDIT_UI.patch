@@ -1,5 +1,5 @@
 diff --git a/scripts/current-vendor-money-browser/cases.mjs b/scripts/current-vendor-money-browser/cases.mjs
-index 8f64070..b9e3f8c 100644
+index 8f64070..cb627d3 100644
 --- a/scripts/current-vendor-money-browser/cases.mjs
 +++ b/scripts/current-vendor-money-browser/cases.mjs
 @@ -117,12 +117,12 @@ async function journey(ui,today,mobile){
@@ -8,8 +8,8 @@ index 8f64070..b9e3f8c 100644
     await box.getByLabel('Tagihan dilunasi',{exact:true}).selectOption(f.next_invoice.invoice_id)
 -   await box.getByLabel('Kredit klaim dipakai',{exact:true}).selectOption(f.credit_id)
 -   await box.getByLabel('Nominal kredit klaim',{exact:true}).fill('1000,25')
-+   await box.getByLabel('Sumber potongan tagihan',{exact:true}).selectOption(f.credit_id)
-+   await box.getByLabel('Nominal potongan tagihan',{exact:true}).fill('1000,25')
++   await box.getByRole('combobox',{name:'Sumber potongan tagihan',exact:true}).selectOption(f.credit_id)
++   await box.getByRole('textbox',{name:'Nominal potongan tagihan',exact:true}).fill('1000,25')
     await box.getByLabel('Tanggal pelunasan',{exact:true}).fill(today)
     await box.getByLabel('Alasan pelunasan',{exact:true}).fill('Piutang vendor dipakai untuk tagihan berikutnya lewat layar')
     const appliedResponse=page.waitForResponse(response=>response.request().url().endsWith('/rest/v1/rpc/'+writeRpc)&&response.request().method()==='POST'&&response.request().postDataJSON()?.p_action==='APPLY_CLAIM_CREDIT')

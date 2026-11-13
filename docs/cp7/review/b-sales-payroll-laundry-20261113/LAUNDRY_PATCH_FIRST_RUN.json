@@ -1,0 +1,16 @@
+{
+  "head": "a6492ddc7d6849dd4feefd7c4432c476e5b97fc6",
+  "tree": "1379185a991960f5477db3b4ac82982a3db5610b",
+  "base_app": "a62504d71a6ca1cdbaa59b6fe0fd5739693f100a",
+  "patched_app_tree": "fb03fe34064e2cedde86dc83988160ac8ae2094b",
+  "patch_sha256": "d38215cd6ae7cb679338eee82407e66139077a17475c0250429e016b09646180",
+  "run": 43393782544,
+  "job": 131779706647,
+  "artifact": 14021288797,
+  "archive_bytes": 380210,
+  "archive_sha256": "1dc70756de8e16b40c01e66427d43fc6a7d5b01578cdf1954564fb098dd9abe2",
+  "crc_members": 9,
+  "results": {"pass": 0, "fail": 2},
+  "first_failure": "Playwright exact implicit-label text query found no select. The original accessibility snapshots show a combobox named Sumber potongan tagihan. Both source rows and all their exact numbers passed before the locator failure. The successor uses the accessible combobox name.",
+  "auth_mode": "loopback_fixture"
+}
