@@ -42,7 +42,7 @@ def store_role(cur, code, permissions):
 
 
 def provision(conn, cur, auth):
-    role = store_role(cur,'P21_ANALYSIS_ONLY',ANALYST_GRANTS)
+    analysis_role_id = store_role(cur,'P21_ANALYSIS_ONLY',ANALYST_GRANTS)
     conn.commit()
     credentials, users = {}, {}
     wire = auth.transport.auth
@@ -68,7 +68,7 @@ def provision(conn, cur, auth):
             credentials.clear()
     require(auth.verified_actors == len(ACTORS), 'P21_FOLLOWUP_ACTOR_COUNT')
     require(cur.execute('update erp.app_users set role_id=%s where auth_user_id=%s',
-                        (role, users['analyst']['uid'])).rowcount==1,'P21_E22_ANALYSIS_ROLE_FIXTURE')
+                        (analysis_role_id, users['analyst']['uid'])).rowcount==1,'P21_E22_ANALYSIS_ROLE_FIXTURE')
     conn.commit()
     return users
 
