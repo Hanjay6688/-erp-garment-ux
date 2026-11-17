@@ -1,0 +1,59 @@
+{
+  "report_period_WIB": ["2026-10-16", "2026-10-16"],
+  "exclusive_interval_UTC": ["2026-10-15T17:00:00Z", "2026-10-16T17:00:00Z"],
+  "receipt_and_production_WIB": {
+    "fabric_receipt": "2026-10-15T23:30:00+07:00",
+    "accessory_receipt": "2026-10-15T09:00:00+07:00",
+    "unlinked_note": "2026-10-16T00:30:00+07:00",
+    "cut": "2026-10-16T08:00:00+07:00",
+    "pickup": "2026-10-16T09:00:00+07:00",
+    "sew": "2026-10-16T10:00:00+07:00",
+    "laundry_send": "2026-10-16T11:00:00+07:00",
+    "laundry_return": "2026-10-16T13:00:00+07:00",
+    "QC_GOOD": "2026-10-16T14:00:00+07:00",
+    "linked_note": "2026-10-16T16:00:00+07:00"
+  },
+  "columns": ["actual_qty", "standard_qty", "delta_qty", "actual_inventory_cost", "actual_receivable", "standard_hpp_cost", "standard_reimbursement"],
+  "before_or_after_ABORT": {
+    "all_PO": ["7", "5", "2", "14", "22.75", "10", "10"],
+    "selected_PO": ["0", "5", "-5", "0", "0", "10", "10"],
+    "stock_PCS": 23,
+    "stock_value": "46"
+  },
+  "after_COMMIT": {
+    "all_PO": ["11", "5", "6", "22", "35.75", "10", "10"],
+    "selected_PO": ["4", "5", "-1", "8", "13", "10", "10"],
+    "stock_PCS": 19,
+    "stock_value": "38"
+  },
+  "draft_rebuild_deletes": {
+    "cutting": {
+      "erp.cutting_group_rolls": 1,
+      "erp.cutting_group_size_slots": 2,
+      "erp.cutting_roll_yields": 2
+    },
+    "pickup": {
+      "erp.cutting_distribution_allocations": 2,
+      "erp.cutting_distribution_batches": 1
+    }
+  },
+  "additional_relation_scope": [
+    "cp7_attendance_choice.allocations_v1",
+    "cp7_master.history",
+    "cp7_master.requests",
+    "erp.bc_accessory_zones_v1",
+    "erp.bc_policy_settings_v1",
+    "erp.rework_accessory_selection_lines",
+    "erp.schema_migrations"
+  ],
+  "additional_read_only_setup_scope": {
+    "erp.bc_accessory_zones_v1": "cp7_master.entity(LOCATION) reads zone_kind after ordinary raw-warehouse CREATE",
+    "erp.bc_policy_settings_v1": "cp7_accessory_nonpayable.good_basis_v1 reads ERP_DEC02 during QC even for a regular Mandor",
+    "erp.schema_migrations": "erp.save_laundry_qc_action_v1(POST_DELIVERY) checks the v2.6.20d redispatch allocator marker"
+  },
+  "source_only_coverage": {
+    "Native": 0,
+    "Global": 0,
+    "browser": 0
+  }
+}

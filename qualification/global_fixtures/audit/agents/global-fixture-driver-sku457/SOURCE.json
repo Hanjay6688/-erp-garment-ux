@@ -1,0 +1,139 @@
+{
+  "contract": "cp7.closed-global-sku457-fixture-source.v1",
+  "first_Global_tree": "6ca1a7d3bab151f4ebf61034f40f5f3589633133",
+  "candidate": {
+    "scripts/cp6_auditor_modes.py": {
+      "bytes": 23276,
+      "sha256": "d927c7491c72fe1eecfd1b4b8b4faf7e1710d6943fda601ede6a599fbc99209f"
+    },
+    "scripts/cp6_auditor_runner.py": {
+      "bytes": 14911,
+      "sha256": "2c74439f7e919e2adb2484bc774bef4881e71237124f2e6b6dabdab141348ea7"
+    },
+    "scripts/cp6_bd_probe.py": {
+      "bytes": 142782,
+      "sha256": "c3add21e66d4d5544bf4e4d046a9fa8d64dbcb0cb285551a92c2d7405156b31b"
+    },
+    "scripts/cp7_accessory_standard_report/cases.py": {
+      "bytes": 19581,
+      "sha256": "e025be1280630dfb89f62261163194ce072b6f6ad6d909b56ff6c82f75778e98"
+    },
+    "scripts/cp7_credit_correction_de/cases.py": {
+      "bytes": 21156,
+      "sha256": "c530bb87f72ee6091e032d15efdb2b2e55cf9c9632b64c9e781665b70325bbdb"
+    },
+    "scripts/cp7_credit_correction_de/e_cases.py": {
+      "bytes": 25058,
+      "sha256": "058a9c29b991b30ca4da6467cfeb2629179d3ce8f25b8dba09d6ea45f419e2ad"
+    },
+    "scripts/cp7_credit_correction_de/native_fixture.py": {
+      "bytes": 7703,
+      "sha256": "4fbe56583ffc63473c12195ddaae6ff3e0cd0ad46b358bf7eef7b5175c67e829"
+    },
+    "scripts/cp7_global_nonpo_envelope/graph_helpers/inspect.sql": {
+      "bytes": 9510,
+      "sha256": "8f9461ce31e9973969040ae16029241253eb2ce1e0fde9ebba160db32b6cd782"
+    },
+    "scripts/cp7_global_nonpo_envelope/graph_helpers/scope.sql": {
+      "bytes": 10246,
+      "sha256": "c24434d8ab62fd7b92ba1dc0706ee1d35ac06864700cc3ceeec36cf90fad1575"
+    },
+    "scripts/cp7_global_nonpo_envelope/native_hooks.py": {
+      "bytes": 6535,
+      "sha256": "0ce771ecc8817a96c687f17a0150cc2b55135baa0a1b338d50fe6e2da0c5cf9d"
+    },
+    "scripts/cp7_global_nonpo_envelope/owning_hooks_model.mjs": {
+      "bytes": 16806,
+      "sha256": "c5befbc343209ef4aa68d8dff26a38058275b905b8ee293aa0bbdb29aa33bd63"
+    },
+    "scripts/cp7_global_nonpo_envelope/work_scope.sql": {
+      "bytes": 10641,
+      "sha256": "fd379bef9aac477d77a5d7aa74a7d7ed32f9217f38d95a9af9f6c9e9f7b5505c"
+    },
+    "scripts/cp7_global_nonpo_envelope/work_scope_model.mjs": {
+      "bytes": 13285,
+      "sha256": "26762aceedd3de437b82fd4a0453c8248e0b2582bb66a9e3861ccdd7e5d77d9c"
+    },
+    "scripts/cp7_note_correction_cases.py": {
+      "bytes": 65138,
+      "sha256": "1f6bfff2974b865d54600dec4fd515bd8b931efdd737c19e50eb8b1a094f604c"
+    },
+    "scripts/cp7_sales_return_correction_cases.py": {
+      "bytes": 33173,
+      "sha256": "26fe2e420af55ee213a629db4f7a9929a5e9155374682ddcb1f1f2b855bb6c1c"
+    },
+    "scripts/cp7_supplier_payment_cases.py": {
+      "bytes": 14658,
+      "sha256": "b95ff7cdb52603935cee2cf87b1d3e2cee2fc7f51c3574ea18683c2a16ad82d3"
+    },
+    "scripts/cp7_supplier_payment_correction_cases.py": {
+      "bytes": 26721,
+      "sha256": "d9483c09f3e4db8f53e7cab4e54f05a1888ac50d6473a142e1731f91bd7a5e7b"
+    },
+    "scripts/cp7_supplier_payment_create_cases.py": {
+      "bytes": 17794,
+      "sha256": "ac07bfdb55751b5e8da86e599eec1bf97e870768c39c930af3a76d871a19c292"
+    },
+    "scripts/cp7_supplier_transfer/cases.py": {
+      "bytes": 10996,
+      "sha256": "0d3f8c697ec14dd0a1dcde44cafb066f7da796f805c43040b443ce0162af83e7"
+    },
+    "scripts/current-complete-de-integration-preparation/WITNESS_ORIGIN.json": {
+      "bytes": 598,
+      "sha256": "61de51e9744baefa471362b50e1204499b3ccd38dfe696f46d33390664af2e6d"
+    },
+    "scripts/current-complete-de-integration-preparation/retained-e17-component.py.txt": {
+      "bytes": 8409,
+      "sha256": "f8a1864d9e7687d20913c149b4c78be6ee17bb8c2163af621be9e9397351f4d1"
+    },
+    "scripts/current-complete-de-integration-preparation/witness.py": {
+      "bytes": 3188,
+      "sha256": "eeefe44420b6bf72682713f35c5ee2197846a6c5a702a2af6736c99517483245"
+    },
+    "scripts/current-global-first-snapshot-preparation/INSTALL_PLAN.json": {
+      "bytes": 15526,
+      "sha256": "239de06ccb27c91dc5ec00b10fc5b36874d0a736ccf178f7ccd9d87f167bb804"
+    },
+    "scripts/current-global-first-snapshot-preparation/SOURCE.json": {
+      "bytes": 1429,
+      "sha256": "69f4b246476ec69858a3c7f431e7b91bd7035311ecf5fcc10e290df1bc77a03a"
+    },
+    "scripts/current-global-timezone-preparation/preuse_data.py": {
+      "bytes": 3545,
+      "sha256": "6c98163922a0cd63c113763fb4f29a24d12ee1e43858358977c21e41774d7619"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/source_context.py": {
+      "bytes": 1968,
+      "sha256": "48e8f2712f8dedc19c9af239e25755abdb64084797041ecb1b90ac4438ef5f88"
+    }
+  },
+  "money": {
+    "scripts/cp6_bf_probe.py": {
+      "bytes": 25873,
+      "sha256": "966ab01ad809f53ca895eadfe9394e51737a7b85944a5a5b1752220bb0b57bd7"
+    },
+    "scripts/cp7_sku_moving_average/qualification_cases.py": {
+      "bytes": 23358,
+      "sha256": "a0c6733afa5aac70f3657f04e1b67e630416b251379021aa23b2ac62d34ff195"
+    },
+    "scripts/current-sku-pair-conversion-qualification/fixture.py": {
+      "bytes": 8377,
+      "sha256": "9d2c79c049595371d622bfce328a7e6496dc8d5a4d90e68a4c03a949be6331a4"
+    }
+  },
+  "caller": {
+    "SOURCE.json": {
+      "bytes": 6595,
+      "sha256": "a28461fc6f41dd12ed8d1fad18954f8b6b21dae685e369f08fd341f848d8a26b"
+    },
+    "lifecycle.py": {
+      "bytes": 9474,
+      "sha256": "1976381280cce2b1279a8555db262490a077568d1e73457ecda651328b7eaaa6"
+    },
+    "owning.py": {
+      "bytes": 19491,
+      "sha256": "67131f3ec8380214ac09cde28e8f7521335952e76376da6124981848d322e8a3"
+    }
+  },
+  "actual_ERP_cases": 0
+}

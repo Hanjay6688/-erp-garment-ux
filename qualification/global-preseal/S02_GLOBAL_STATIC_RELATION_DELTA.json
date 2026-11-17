@@ -1,0 +1,765 @@
+{
+  "SQL_executed": 0,
+  "actual_ERP_cases": 0,
+  "actual_close_filing_additional_relation": "erp.accounting_close_filings_v1",
+  "actual_full25": {
+    "bytes": 16051957,
+    "sha256": "ecf858d67f43c0967cfe6f38c51338dea64331ef6c0d1264786a8967f856e2a4"
+  },
+  "conditional_claim_source_peers": [
+    "erp.bd_opening_laundry_claim_events_v1"
+  ],
+  "direct_additions": {
+    "cp7_vendor_receivable.refunds_v1": {
+      "bytes": 389,
+      "sha256": "1076c63ef0627277c0cbdab514906993db614efcccdb869f09ef9fd5ae67686b"
+    },
+    "cp7_vendor_receivable.reversals_v1": {
+      "bytes": 389,
+      "sha256": "1076c63ef0627277c0cbdab514906993db614efcccdb869f09ef9fd5ae67686b"
+    },
+    "cp7_vendor_receivable.sources_v1": {
+      "bytes": 389,
+      "sha256": "1076c63ef0627277c0cbdab514906993db614efcccdb869f09ef9fd5ae67686b"
+    },
+    "erp.bb_opening_credits_v1": {
+      "bytes": 389,
+      "sha256": "1076c63ef0627277c0cbdab514906993db614efcccdb869f09ef9fd5ae67686b"
+    },
+    "erp.bd_claim_credit_applications_v1": {
+      "bytes": 389,
+      "sha256": "1076c63ef0627277c0cbdab514906993db614efcccdb869f09ef9fd5ae67686b"
+    }
+  },
+  "global_static_base_relation_count": 438,
+  "live_auth_and_observed_relation_scope_pending": true,
+  "live_typed_dispatch_pending": true,
+  "new_relation_fk_index": {
+    "foreign_key_rows": 10,
+    "foreign_keys": {
+      "cp7_vendor_receivable.refunds_v1:refunds_v1_correction_id_fkey": {
+        "child": "cp7_vendor_receivable.refunds_v1",
+        "deferrable": false,
+        "exact_trigger_identities": {
+          "RI_FKey_check_ins": "cp7_vendor_receivable.refunds_v1:cp7_vendor_receivable.refunds_v1:refunds_v1_correction_id_fkey:\"RI_FKey_check_ins\"():5",
+          "RI_FKey_check_upd": "cp7_vendor_receivable.refunds_v1:cp7_vendor_receivable.refunds_v1:refunds_v1_correction_id_fkey:\"RI_FKey_check_upd\"():17",
+          "RI_FKey_noaction_del": "cp7_vendor_receivable.sources_v1:cp7_vendor_receivable.refunds_v1:refunds_v1_correction_id_fkey:\"RI_FKey_noaction_del\"():9",
+          "RI_FKey_noaction_upd": "cp7_vendor_receivable.sources_v1:cp7_vendor_receivable.refunds_v1:refunds_v1_correction_id_fkey:\"RI_FKey_noaction_upd\"():17"
+        },
+        "full11": {
+          "bytes": 203,
+          "sha256": "210b092a7c5ec1c9c84e3c21a77829f101114c704a5356bd66d50fd982de493a"
+        },
+        "initially_deferred": false,
+        "parent_constraint": null,
+        "referenced": "cp7_vendor_receivable.sources_v1",
+        "validated": true
+      },
+      "cp7_vendor_receivable.reversals_v1:reversals_v1_refund_id_fkey": {
+        "child": "cp7_vendor_receivable.reversals_v1",
+        "deferrable": false,
+        "exact_trigger_identities": {
+          "RI_FKey_check_ins": "cp7_vendor_receivable.reversals_v1:cp7_vendor_receivable.reversals_v1:reversals_v1_refund_id_fkey:\"RI_FKey_check_ins\"():5",
+          "RI_FKey_check_upd": "cp7_vendor_receivable.reversals_v1:cp7_vendor_receivable.reversals_v1:reversals_v1_refund_id_fkey:\"RI_FKey_check_upd\"():17",
+          "RI_FKey_noaction_del": "cp7_vendor_receivable.refunds_v1:cp7_vendor_receivable.reversals_v1:reversals_v1_refund_id_fkey:\"RI_FKey_noaction_del\"():9",
+          "RI_FKey_noaction_upd": "cp7_vendor_receivable.refunds_v1:cp7_vendor_receivable.reversals_v1:reversals_v1_refund_id_fkey:\"RI_FKey_noaction_upd\"():17"
+        },
+        "full11": {
+          "bytes": 190,
+          "sha256": "82260bc79bf115a300959ae6df47d9e5df7a01460e325c06a5bf022b6380561a"
+        },
+        "initially_deferred": false,
+        "parent_constraint": null,
+        "referenced": "cp7_vendor_receivable.refunds_v1",
+        "validated": true
+      },
+      "erp.bb_opening_credits_v1:bb_opening_credits_v1_customer_credit_id_fkey": {
+        "child": "erp.bb_opening_credits_v1",
+        "deferrable": false,
+        "exact_trigger_identities": {
+          "RI_FKey_check_ins": "erp.bb_opening_credits_v1:erp.bb_opening_credits_v1:bb_opening_credits_v1_customer_credit_id_fkey:\"RI_FKey_check_ins\"():5",
+          "RI_FKey_check_upd": "erp.bb_opening_credits_v1:erp.bb_opening_credits_v1:bb_opening_credits_v1_customer_credit_id_fkey:\"RI_FKey_check_upd\"():17",
+          "RI_FKey_noaction_del": "erp.bb_customer_credits_v1:erp.bb_opening_credits_v1:bb_opening_credits_v1_customer_credit_id_fkey:\"RI_FKey_noaction_del\"():9",
+          "RI_FKey_noaction_upd": "erp.bb_customer_credits_v1:erp.bb_opening_credits_v1:bb_opening_credits_v1_customer_credit_id_fkey:\"RI_FKey_noaction_upd\"():17"
+        },
+        "full11": {
+          "bytes": 178,
+          "sha256": "a70945964635e9b325ab2c57d068060102470d02b69cd8aab0b7dcb559681d6a"
+        },
+        "initially_deferred": false,
+        "parent_constraint": null,
+        "referenced": "erp.bb_customer_credits_v1",
+        "validated": true
+      },
+      "erp.bb_opening_credits_v1:bb_opening_credits_v1_settlement_id_fkey": {
+        "child": "erp.bb_opening_credits_v1",
+        "deferrable": false,
+        "exact_trigger_identities": {
+          "RI_FKey_check_ins": "erp.bb_opening_credits_v1:erp.bb_opening_credits_v1:bb_opening_credits_v1_settlement_id_fkey:\"RI_FKey_check_ins\"():5",
+          "RI_FKey_check_upd": "erp.bb_opening_credits_v1:erp.bb_opening_credits_v1:bb_opening_credits_v1_settlement_id_fkey:\"RI_FKey_check_upd\"():17",
+          "RI_FKey_noaction_del": "erp.opening_subledger_settlements:erp.bb_opening_credits_v1:bb_opening_credits_v1_settlement_id_fkey:\"RI_FKey_noaction_del\"():9",
+          "RI_FKey_noaction_upd": "erp.opening_subledger_settlements:erp.bb_opening_credits_v1:bb_opening_credits_v1_settlement_id_fkey:\"RI_FKey_noaction_upd\"():17"
+        },
+        "full11": {
+          "bytes": 187,
+          "sha256": "a4065712bff594b8b3c873640d3e4a8a07ea953a79d4fd448dc907cad6f7ec4f"
+        },
+        "initially_deferred": false,
+        "parent_constraint": null,
+        "referenced": "erp.opening_subledger_settlements",
+        "validated": true
+      },
+      "erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_correction_invoice_id_fkey": {
+        "child": "erp.bd_claim_credit_applications_v1",
+        "deferrable": false,
+        "exact_trigger_identities": {
+          "RI_FKey_check_ins": "erp.bd_claim_credit_applications_v1:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_correction_invoice_id_fkey:\"RI_FKey_check_ins\"():5",
+          "RI_FKey_check_upd": "erp.bd_claim_credit_applications_v1:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_correction_invoice_id_fkey:\"RI_FKey_check_upd\"():17",
+          "RI_FKey_noaction_del": "erp.bd_laundry_invoices_v1:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_correction_invoice_id_fkey:\"RI_FKey_noaction_del\"():9",
+          "RI_FKey_noaction_upd": "erp.bd_laundry_invoices_v1:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_correction_invoice_id_fkey:\"RI_FKey_noaction_upd\"():17"
+        },
+        "full11": {
+          "bytes": 191,
+          "sha256": "ac62b87f4252fa597fb18b179d2d3ccc80d139355644511c3c0a45084e715ec1"
+        },
+        "initially_deferred": false,
+        "parent_constraint": null,
+        "referenced": "erp.bd_laundry_invoices_v1",
+        "validated": true
+      },
+      "erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_laundry_claim_id_fkey": {
+        "child": "erp.bd_claim_credit_applications_v1",
+        "deferrable": false,
+        "exact_trigger_identities": {
+          "RI_FKey_check_ins": "erp.bd_claim_credit_applications_v1:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_laundry_claim_id_fkey:\"RI_FKey_check_ins\"():5",
+          "RI_FKey_check_upd": "erp.bd_claim_credit_applications_v1:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_laundry_claim_id_fkey:\"RI_FKey_check_upd\"():17",
+          "RI_FKey_noaction_del": "erp.laundry_claims:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_laundry_claim_id_fkey:\"RI_FKey_noaction_del\"():9",
+          "RI_FKey_noaction_upd": "erp.laundry_claims:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_laundry_claim_id_fkey:\"RI_FKey_noaction_upd\"():17"
+        },
+        "full11": {
+          "bytes": 170,
+          "sha256": "6b085b3d9e86890b8716f693be62c369f0db9fef5c7880d545d69b7471ee848d"
+        },
+        "initially_deferred": false,
+        "parent_constraint": null,
+        "referenced": "erp.laundry_claims",
+        "validated": true
+      },
+      "erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_opening_claim_event_id_fkey": {
+        "child": "erp.bd_claim_credit_applications_v1",
+        "deferrable": false,
+        "exact_trigger_identities": {
+          "RI_FKey_check_ins": "erp.bd_claim_credit_applications_v1:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_opening_claim_event_id_fkey:\"RI_FKey_check_ins\"():5",
+          "RI_FKey_check_upd": "erp.bd_claim_credit_applications_v1:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_opening_claim_event_id_fkey:\"RI_FKey_check_upd\"():17",
+          "RI_FKey_noaction_del": "erp.bd_opening_laundry_claim_events_v1:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_opening_claim_event_id_fkey:\"RI_FKey_noaction_del\"():9",
+          "RI_FKey_noaction_upd": "erp.bd_opening_laundry_claim_events_v1:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_opening_claim_event_id_fkey:\"RI_FKey_noaction_upd\"():17"
+        },
+        "full11": {
+          "bytes": 216,
+          "sha256": "89b86d559ad2dc8cd1d5e233e4b10353f19aeec939217b56b8e37710238b31fb"
+        },
+        "initially_deferred": false,
+        "parent_constraint": null,
+        "referenced": "erp.bd_opening_laundry_claim_events_v1",
+        "validated": true
+      },
+      "erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_opening_settlement_id_fkey": {
+        "child": "erp.bd_claim_credit_applications_v1",
+        "deferrable": false,
+        "exact_trigger_identities": {
+          "RI_FKey_check_ins": "erp.bd_claim_credit_applications_v1:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_opening_settlement_id_fkey:\"RI_FKey_check_ins\"():5",
+          "RI_FKey_check_upd": "erp.bd_claim_credit_applications_v1:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_opening_settlement_id_fkey:\"RI_FKey_check_upd\"():17",
+          "RI_FKey_noaction_del": "erp.opening_subledger_settlements:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_opening_settlement_id_fkey:\"RI_FKey_noaction_del\"():9",
+          "RI_FKey_noaction_upd": "erp.opening_subledger_settlements:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_opening_settlement_id_fkey:\"RI_FKey_noaction_upd\"():17"
+        },
+        "full11": {
+          "bytes": 205,
+          "sha256": "9a4726822bb21fd73105db1d2e54eb2408d403d0acedd7fa95311d8ee8452ebf"
+        },
+        "initially_deferred": false,
+        "parent_constraint": null,
+        "referenced": "erp.opening_subledger_settlements",
+        "validated": true
+      },
+      "erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_vendor_id_fkey": {
+        "child": "erp.bd_claim_credit_applications_v1",
+        "deferrable": false,
+        "exact_trigger_identities": {
+          "RI_FKey_check_ins": "erp.bd_claim_credit_applications_v1:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_vendor_id_fkey:\"RI_FKey_check_ins\"():5",
+          "RI_FKey_check_upd": "erp.bd_claim_credit_applications_v1:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_vendor_id_fkey:\"RI_FKey_check_upd\"():17",
+          "RI_FKey_noaction_del": "erp.laundry_vendors:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_vendor_id_fkey:\"RI_FKey_noaction_del\"():9",
+          "RI_FKey_noaction_upd": "erp.laundry_vendors:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_vendor_id_fkey:\"RI_FKey_noaction_upd\"():17"
+        },
+        "full11": {
+          "bytes": 165,
+          "sha256": "a213aecee1237f5594c61f7294fb253a3fb0d850da200523cb9b6ef699b56a04"
+        },
+        "initially_deferred": false,
+        "parent_constraint": null,
+        "referenced": "erp.laundry_vendors",
+        "validated": true
+      },
+      "erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_vendor_payment_id_fkey": {
+        "child": "erp.bd_claim_credit_applications_v1",
+        "deferrable": false,
+        "exact_trigger_identities": {
+          "RI_FKey_check_ins": "erp.bd_claim_credit_applications_v1:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_vendor_payment_id_fkey:\"RI_FKey_check_ins\"():5",
+          "RI_FKey_check_upd": "erp.bd_claim_credit_applications_v1:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_vendor_payment_id_fkey:\"RI_FKey_check_upd\"():17",
+          "RI_FKey_noaction_del": "erp.vendor_payments:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_vendor_payment_id_fkey:\"RI_FKey_noaction_del\"():9",
+          "RI_FKey_noaction_upd": "erp.vendor_payments:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_vendor_payment_id_fkey:\"RI_FKey_noaction_upd\"():17"
+        },
+        "full11": {
+          "bytes": 173,
+          "sha256": "f090e7ca6bc27eaf983f5405499b2fac20dcf75eb5d30583205b37ed8f72b97e"
+        },
+        "initially_deferred": false,
+        "parent_constraint": null,
+        "referenced": "erp.vendor_payments",
+        "validated": true
+      }
+    },
+    "outside_potential_ri_writes": [],
+    "outside_relation_endpoints": [
+      "erp.bb_customer_credits_v1",
+      "erp.bd_laundry_invoices_v1",
+      "erp.bd_opening_laundry_claim_events_v1",
+      "erp.laundry_claims",
+      "erp.laundry_vendors",
+      "erp.opening_subledger_settlements",
+      "erp.vendor_payments"
+    ],
+    "trigger_bindings": {
+      "cp7_vendor_receivable.refunds_v1:cp7_vendor_receivable.refunds_v1:refunds_v1_correction_id_fkey:\"RI_FKey_check_ins\"():5": {
+        "attached": "cp7_vendor_receivable.refunds_v1",
+        "constraint_relation": "cp7_vendor_receivable.refunds_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 180,
+          "sha256": "9a68caaa2c77cafb221b8e1d4cba7bb465847e5c4ce8e8b6014af79133729a33"
+        },
+        "function": "\"RI_FKey_check_ins\"()",
+        "internal": true,
+        "referenced_relation": "cp7_vendor_receivable.sources_v1"
+      },
+      "cp7_vendor_receivable.refunds_v1:cp7_vendor_receivable.refunds_v1:refunds_v1_correction_id_fkey:\"RI_FKey_check_upd\"():17": {
+        "attached": "cp7_vendor_receivable.refunds_v1",
+        "constraint_relation": "cp7_vendor_receivable.refunds_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 181,
+          "sha256": "d52cef2a83f36bc3bd842c535d268aea47e175e641602ba2eb21bd34c0a7f97c"
+        },
+        "function": "\"RI_FKey_check_upd\"()",
+        "internal": true,
+        "referenced_relation": "cp7_vendor_receivable.sources_v1"
+      },
+      "cp7_vendor_receivable.refunds_v1:cp7_vendor_receivable.reversals_v1:reversals_v1_refund_id_fkey:\"RI_FKey_noaction_del\"():9": {
+        "attached": "cp7_vendor_receivable.refunds_v1",
+        "constraint_relation": "cp7_vendor_receivable.reversals_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 185,
+          "sha256": "0734a8f52d7cfd8940e9c73459b2b0c9e1c6d0be419181222c415b4f09d74c89"
+        },
+        "function": "\"RI_FKey_noaction_del\"()",
+        "internal": true,
+        "referenced_relation": "cp7_vendor_receivable.reversals_v1"
+      },
+      "cp7_vendor_receivable.refunds_v1:cp7_vendor_receivable.reversals_v1:reversals_v1_refund_id_fkey:\"RI_FKey_noaction_upd\"():17": {
+        "attached": "cp7_vendor_receivable.refunds_v1",
+        "constraint_relation": "cp7_vendor_receivable.reversals_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 186,
+          "sha256": "2f79c93f5a96aae29341572d61af21532fdf4d4dbea52cd3677155462c2030f3"
+        },
+        "function": "\"RI_FKey_noaction_upd\"()",
+        "internal": true,
+        "referenced_relation": "cp7_vendor_receivable.reversals_v1"
+      },
+      "cp7_vendor_receivable.refunds_v1:refund_immutable": {
+        "attached": "cp7_vendor_receivable.refunds_v1",
+        "constraint_relation": null,
+        "enabled": "O",
+        "full16": {
+          "bytes": 264,
+          "sha256": "41377f87fb8e1ad33ace74e585cbac5194edc2dd43a63f9fe2f6aca72ed34f4d"
+        },
+        "function": "cp7_vendor_receivable.immutable_v1()",
+        "internal": false,
+        "referenced_relation": null
+      },
+      "cp7_vendor_receivable.reversals_v1:cp7_vendor_receivable.reversals_v1:reversals_v1_refund_id_fkey:\"RI_FKey_check_ins\"():5": {
+        "attached": "cp7_vendor_receivable.reversals_v1",
+        "constraint_relation": "cp7_vendor_receivable.reversals_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 180,
+          "sha256": "54e6e129c48a4a0124849d6cbf634f9681af8814a83bf6f32c2c4667f3c768fa"
+        },
+        "function": "\"RI_FKey_check_ins\"()",
+        "internal": true,
+        "referenced_relation": "cp7_vendor_receivable.refunds_v1"
+      },
+      "cp7_vendor_receivable.reversals_v1:cp7_vendor_receivable.reversals_v1:reversals_v1_refund_id_fkey:\"RI_FKey_check_upd\"():17": {
+        "attached": "cp7_vendor_receivable.reversals_v1",
+        "constraint_relation": "cp7_vendor_receivable.reversals_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 181,
+          "sha256": "07629e385b53badc7223a3efbe5aed2403999b06209f540010cabbdba4a61be4"
+        },
+        "function": "\"RI_FKey_check_upd\"()",
+        "internal": true,
+        "referenced_relation": "cp7_vendor_receivable.refunds_v1"
+      },
+      "cp7_vendor_receivable.reversals_v1:reversal_immutable": {
+        "attached": "cp7_vendor_receivable.reversals_v1",
+        "constraint_relation": null,
+        "enabled": "O",
+        "full16": {
+          "bytes": 268,
+          "sha256": "3d366a241aab39d30835c78bd3b984bbd454c1ce452e8e7334e2646fa0e044cf"
+        },
+        "function": "cp7_vendor_receivable.immutable_v1()",
+        "internal": false,
+        "referenced_relation": null
+      },
+      "cp7_vendor_receivable.sources_v1:cp7_vendor_receivable.refunds_v1:refunds_v1_correction_id_fkey:\"RI_FKey_noaction_del\"():9": {
+        "attached": "cp7_vendor_receivable.sources_v1",
+        "constraint_relation": "cp7_vendor_receivable.refunds_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 183,
+          "sha256": "1db70ffb8a2b0cbaa4a2372006adfe900d58fbd0d338a170c6a1bc36944a9f4c"
+        },
+        "function": "\"RI_FKey_noaction_del\"()",
+        "internal": true,
+        "referenced_relation": "cp7_vendor_receivable.refunds_v1"
+      },
+      "cp7_vendor_receivable.sources_v1:cp7_vendor_receivable.refunds_v1:refunds_v1_correction_id_fkey:\"RI_FKey_noaction_upd\"():17": {
+        "attached": "cp7_vendor_receivable.sources_v1",
+        "constraint_relation": "cp7_vendor_receivable.refunds_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 184,
+          "sha256": "d7a55b3cebeadfc7acc6423b40d638db5129a44929fc366b3bc03c2794e75224"
+        },
+        "function": "\"RI_FKey_noaction_upd\"()",
+        "internal": true,
+        "referenced_relation": "cp7_vendor_receivable.refunds_v1"
+      },
+      "cp7_vendor_receivable.sources_v1:source_immutable": {
+        "attached": "cp7_vendor_receivable.sources_v1",
+        "constraint_relation": null,
+        "enabled": "O",
+        "full16": {
+          "bytes": 264,
+          "sha256": "527715e2f393b31b310611287fd45e911832c1556f062351cc9ae3298da9a7e1"
+        },
+        "function": "cp7_vendor_receivable.immutable_v1()",
+        "internal": false,
+        "referenced_relation": null
+      },
+      "erp.bb_customer_credits_v1:erp.bb_opening_credits_v1:bb_opening_credits_v1_customer_credit_id_fkey:\"RI_FKey_noaction_del\"():9": {
+        "attached": "erp.bb_customer_credits_v1",
+        "constraint_relation": "erp.bb_opening_credits_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 185,
+          "sha256": "97b7b08640069b092aa89217317820b5d5e6dd8a853d78d5f15d4888adaffe17"
+        },
+        "function": "\"RI_FKey_noaction_del\"()",
+        "internal": true,
+        "referenced_relation": "erp.bb_opening_credits_v1"
+      },
+      "erp.bb_customer_credits_v1:erp.bb_opening_credits_v1:bb_opening_credits_v1_customer_credit_id_fkey:\"RI_FKey_noaction_upd\"():17": {
+        "attached": "erp.bb_customer_credits_v1",
+        "constraint_relation": "erp.bb_opening_credits_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 186,
+          "sha256": "09af1cb90404886f2f482e8efc937337a90dff861e455a7e0f07c0272a30e4c4"
+        },
+        "function": "\"RI_FKey_noaction_upd\"()",
+        "internal": true,
+        "referenced_relation": "erp.bb_opening_credits_v1"
+      },
+      "erp.bb_opening_credits_v1:erp.bb_opening_credits_v1:bb_opening_credits_v1_customer_credit_id_fkey:\"RI_FKey_check_ins\"():5": {
+        "attached": "erp.bb_opening_credits_v1",
+        "constraint_relation": "erp.bb_opening_credits_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 183,
+          "sha256": "64afd8dafc04c6343ee616f5fc95b361209edfdf49b1dfff45d2783e7aeea384"
+        },
+        "function": "\"RI_FKey_check_ins\"()",
+        "internal": true,
+        "referenced_relation": "erp.bb_customer_credits_v1"
+      },
+      "erp.bb_opening_credits_v1:erp.bb_opening_credits_v1:bb_opening_credits_v1_customer_credit_id_fkey:\"RI_FKey_check_upd\"():17": {
+        "attached": "erp.bb_opening_credits_v1",
+        "constraint_relation": "erp.bb_opening_credits_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 184,
+          "sha256": "9575bd83c3ae317b5c3f8f01863b1819ddc62bb13b682b40980a198c7236c153"
+        },
+        "function": "\"RI_FKey_check_upd\"()",
+        "internal": true,
+        "referenced_relation": "erp.bb_customer_credits_v1"
+      },
+      "erp.bb_opening_credits_v1:erp.bb_opening_credits_v1:bb_opening_credits_v1_settlement_id_fkey:\"RI_FKey_check_ins\"():5": {
+        "attached": "erp.bb_opening_credits_v1",
+        "constraint_relation": "erp.bb_opening_credits_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 185,
+          "sha256": "e9ab2f9999a476052e8935e429b7cd96e4c2f57f9c0a2190ac44ef94cc3cb7b4"
+        },
+        "function": "\"RI_FKey_check_ins\"()",
+        "internal": true,
+        "referenced_relation": "erp.opening_subledger_settlements"
+      },
+      "erp.bb_opening_credits_v1:erp.bb_opening_credits_v1:bb_opening_credits_v1_settlement_id_fkey:\"RI_FKey_check_upd\"():17": {
+        "attached": "erp.bb_opening_credits_v1",
+        "constraint_relation": "erp.bb_opening_credits_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 186,
+          "sha256": "593d4cf8c07c3c53e7ea70c0e2d3d093c80e3417120402f20f2fb09c1195b9c9"
+        },
+        "function": "\"RI_FKey_check_upd\"()",
+        "internal": true,
+        "referenced_relation": "erp.opening_subledger_settlements"
+      },
+      "erp.bd_claim_credit_applications_v1:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_correction_invoice_id_fkey:\"RI_FKey_check_ins\"():5": {
+        "attached": "erp.bd_claim_credit_applications_v1",
+        "constraint_relation": "erp.bd_claim_credit_applications_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 206,
+          "sha256": "198a8861f3c2f05367ce11050589a322f81e9852026c30315ece88851928db5c"
+        },
+        "function": "\"RI_FKey_check_ins\"()",
+        "internal": true,
+        "referenced_relation": "erp.bd_laundry_invoices_v1"
+      },
+      "erp.bd_claim_credit_applications_v1:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_correction_invoice_id_fkey:\"RI_FKey_check_upd\"():17": {
+        "attached": "erp.bd_claim_credit_applications_v1",
+        "constraint_relation": "erp.bd_claim_credit_applications_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 207,
+          "sha256": "890dfdccf8ad5a3c1c22bf3437bbf77817d53e32446fecb5444b1475686c1a4e"
+        },
+        "function": "\"RI_FKey_check_upd\"()",
+        "internal": true,
+        "referenced_relation": "erp.bd_laundry_invoices_v1"
+      },
+      "erp.bd_claim_credit_applications_v1:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_laundry_claim_id_fkey:\"RI_FKey_check_ins\"():5": {
+        "attached": "erp.bd_claim_credit_applications_v1",
+        "constraint_relation": "erp.bd_claim_credit_applications_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 193,
+          "sha256": "75161b035eea69fa9552cffb417ac4a3661436ed48aa3579cb5e27605e545628"
+        },
+        "function": "\"RI_FKey_check_ins\"()",
+        "internal": true,
+        "referenced_relation": "erp.laundry_claims"
+      },
+      "erp.bd_claim_credit_applications_v1:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_laundry_claim_id_fkey:\"RI_FKey_check_upd\"():17": {
+        "attached": "erp.bd_claim_credit_applications_v1",
+        "constraint_relation": "erp.bd_claim_credit_applications_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 194,
+          "sha256": "e37e16fe07d95e0070807e2bfd0837455fbdb53c29ceda9ee8fac78276c0c047"
+        },
+        "function": "\"RI_FKey_check_upd\"()",
+        "internal": true,
+        "referenced_relation": "erp.laundry_claims"
+      },
+      "erp.bd_claim_credit_applications_v1:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_opening_claim_event_id_fkey:\"RI_FKey_check_ins\"():5": {
+        "attached": "erp.bd_claim_credit_applications_v1",
+        "constraint_relation": "erp.bd_claim_credit_applications_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 219,
+          "sha256": "06b974a6bcbf347a7948ef0945bcba867270b23b636b7558da07452f64be3ad9"
+        },
+        "function": "\"RI_FKey_check_ins\"()",
+        "internal": true,
+        "referenced_relation": "erp.bd_opening_laundry_claim_events_v1"
+      },
+      "erp.bd_claim_credit_applications_v1:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_opening_claim_event_id_fkey:\"RI_FKey_check_upd\"():17": {
+        "attached": "erp.bd_claim_credit_applications_v1",
+        "constraint_relation": "erp.bd_claim_credit_applications_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 220,
+          "sha256": "0e66900b380a5b0965857c4107c2ef8c00aec16a10c214d7b61be6f143927939"
+        },
+        "function": "\"RI_FKey_check_upd\"()",
+        "internal": true,
+        "referenced_relation": "erp.bd_opening_laundry_claim_events_v1"
+      },
+      "erp.bd_claim_credit_applications_v1:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_opening_settlement_id_fkey:\"RI_FKey_check_ins\"():5": {
+        "attached": "erp.bd_claim_credit_applications_v1",
+        "constraint_relation": "erp.bd_claim_credit_applications_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 213,
+          "sha256": "1da011e4f78236b7ff90f17f5b21f75882a87a08954aefbc06e4680c707b96c8"
+        },
+        "function": "\"RI_FKey_check_ins\"()",
+        "internal": true,
+        "referenced_relation": "erp.opening_subledger_settlements"
+      },
+      "erp.bd_claim_credit_applications_v1:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_opening_settlement_id_fkey:\"RI_FKey_check_upd\"():17": {
+        "attached": "erp.bd_claim_credit_applications_v1",
+        "constraint_relation": "erp.bd_claim_credit_applications_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 214,
+          "sha256": "5af406be906087e8120d6522efcd99a171b921461957362a3b66fde967bbd651"
+        },
+        "function": "\"RI_FKey_check_upd\"()",
+        "internal": true,
+        "referenced_relation": "erp.opening_subledger_settlements"
+      },
+      "erp.bd_claim_credit_applications_v1:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_vendor_id_fkey:\"RI_FKey_check_ins\"():5": {
+        "attached": "erp.bd_claim_credit_applications_v1",
+        "constraint_relation": "erp.bd_claim_credit_applications_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 187,
+          "sha256": "52a2a43a81f99bb8800d83574fb8d10e4d7db6cc43bcb84c6eb091769372f40e"
+        },
+        "function": "\"RI_FKey_check_ins\"()",
+        "internal": true,
+        "referenced_relation": "erp.laundry_vendors"
+      },
+      "erp.bd_claim_credit_applications_v1:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_vendor_id_fkey:\"RI_FKey_check_upd\"():17": {
+        "attached": "erp.bd_claim_credit_applications_v1",
+        "constraint_relation": "erp.bd_claim_credit_applications_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 188,
+          "sha256": "cbdf81fddf6bf3f8e106b115abf9227868bd0a5bf54bb77e772ea49aaa618915"
+        },
+        "function": "\"RI_FKey_check_upd\"()",
+        "internal": true,
+        "referenced_relation": "erp.laundry_vendors"
+      },
+      "erp.bd_claim_credit_applications_v1:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_vendor_payment_id_fkey:\"RI_FKey_check_ins\"():5": {
+        "attached": "erp.bd_claim_credit_applications_v1",
+        "constraint_relation": "erp.bd_claim_credit_applications_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 195,
+          "sha256": "32305e7e195dbdf3d3265077c86977bf5d076efe0aa1544ecb8a64fffc4491cd"
+        },
+        "function": "\"RI_FKey_check_ins\"()",
+        "internal": true,
+        "referenced_relation": "erp.vendor_payments"
+      },
+      "erp.bd_claim_credit_applications_v1:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_vendor_payment_id_fkey:\"RI_FKey_check_upd\"():17": {
+        "attached": "erp.bd_claim_credit_applications_v1",
+        "constraint_relation": "erp.bd_claim_credit_applications_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 196,
+          "sha256": "97f2ad6847faf9fa1e2c5b54bfd4d4d963b8c02f8e68ae881dc6a26e53eacb63"
+        },
+        "function": "\"RI_FKey_check_upd\"()",
+        "internal": true,
+        "referenced_relation": "erp.vendor_payments"
+      },
+      "erp.bd_laundry_invoices_v1:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_correction_invoice_id_fkey:\"RI_FKey_noaction_del\"():9": {
+        "attached": "erp.bd_laundry_invoices_v1",
+        "constraint_relation": "erp.bd_claim_credit_applications_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 218,
+          "sha256": "d48f9c9c6e98ab82b97b6440d1b752f1d76a5a60e256dfc67452d729aafa1458"
+        },
+        "function": "\"RI_FKey_noaction_del\"()",
+        "internal": true,
+        "referenced_relation": "erp.bd_claim_credit_applications_v1"
+      },
+      "erp.bd_laundry_invoices_v1:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_correction_invoice_id_fkey:\"RI_FKey_noaction_upd\"():17": {
+        "attached": "erp.bd_laundry_invoices_v1",
+        "constraint_relation": "erp.bd_claim_credit_applications_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 219,
+          "sha256": "0c510146a4b62e9d1c67616fdfc98c298523d2be4bd761de0a64f18cd057a196"
+        },
+        "function": "\"RI_FKey_noaction_upd\"()",
+        "internal": true,
+        "referenced_relation": "erp.bd_claim_credit_applications_v1"
+      },
+      "erp.bd_opening_laundry_claim_events_v1:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_opening_claim_event_id_fkey:\"RI_FKey_noaction_del\"():9": {
+        "attached": "erp.bd_opening_laundry_claim_events_v1",
+        "constraint_relation": "erp.bd_claim_credit_applications_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 219,
+          "sha256": "d9ed291d4b87f9a04aa1bf9377dfc7bb69b8487a970f6b8b43cb2f5e504bcc96"
+        },
+        "function": "\"RI_FKey_noaction_del\"()",
+        "internal": true,
+        "referenced_relation": "erp.bd_claim_credit_applications_v1"
+      },
+      "erp.bd_opening_laundry_claim_events_v1:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_opening_claim_event_id_fkey:\"RI_FKey_noaction_upd\"():17": {
+        "attached": "erp.bd_opening_laundry_claim_events_v1",
+        "constraint_relation": "erp.bd_claim_credit_applications_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 220,
+          "sha256": "e6072f9f6c4ba27af41a83426ff3bfb92a14d10b6c224299dbab00928dfa94d6"
+        },
+        "function": "\"RI_FKey_noaction_upd\"()",
+        "internal": true,
+        "referenced_relation": "erp.bd_claim_credit_applications_v1"
+      },
+      "erp.laundry_claims:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_laundry_claim_id_fkey:\"RI_FKey_noaction_del\"():9": {
+        "attached": "erp.laundry_claims",
+        "constraint_relation": "erp.bd_claim_credit_applications_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 213,
+          "sha256": "f33ba751596f04820e79c969a2dea2bd9b2d986af72bb68ff48f4d6aff235a92"
+        },
+        "function": "\"RI_FKey_noaction_del\"()",
+        "internal": true,
+        "referenced_relation": "erp.bd_claim_credit_applications_v1"
+      },
+      "erp.laundry_claims:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_laundry_claim_id_fkey:\"RI_FKey_noaction_upd\"():17": {
+        "attached": "erp.laundry_claims",
+        "constraint_relation": "erp.bd_claim_credit_applications_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 214,
+          "sha256": "e88b7a92968de17d18784675e0d97883a31ecf5f9e559280a6eb3c96672609cb"
+        },
+        "function": "\"RI_FKey_noaction_upd\"()",
+        "internal": true,
+        "referenced_relation": "erp.bd_claim_credit_applications_v1"
+      },
+      "erp.laundry_vendors:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_vendor_id_fkey:\"RI_FKey_noaction_del\"():9": {
+        "attached": "erp.laundry_vendors",
+        "constraint_relation": "erp.bd_claim_credit_applications_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 206,
+          "sha256": "4cd133f56d968712cfa5b6b9657e8fb42d45c0aab1fe78e1f03ac2deb7603034"
+        },
+        "function": "\"RI_FKey_noaction_del\"()",
+        "internal": true,
+        "referenced_relation": "erp.bd_claim_credit_applications_v1"
+      },
+      "erp.laundry_vendors:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_vendor_id_fkey:\"RI_FKey_noaction_upd\"():17": {
+        "attached": "erp.laundry_vendors",
+        "constraint_relation": "erp.bd_claim_credit_applications_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 207,
+          "sha256": "d6d8ec251f64221fa550465ab79b0175aef92ab3311d01684880b7a333db58fd"
+        },
+        "function": "\"RI_FKey_noaction_upd\"()",
+        "internal": true,
+        "referenced_relation": "erp.bd_claim_credit_applications_v1"
+      },
+      "erp.opening_subledger_settlements:erp.bb_opening_credits_v1:bb_opening_credits_v1_settlement_id_fkey:\"RI_FKey_noaction_del\"():9": {
+        "attached": "erp.opening_subledger_settlements",
+        "constraint_relation": "erp.bb_opening_credits_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 180,
+          "sha256": "0a4d84110f1dba1e7f2f688689e9c3c2ceae5de31ea32be2237370c2331fd47e"
+        },
+        "function": "\"RI_FKey_noaction_del\"()",
+        "internal": true,
+        "referenced_relation": "erp.bb_opening_credits_v1"
+      },
+      "erp.opening_subledger_settlements:erp.bb_opening_credits_v1:bb_opening_credits_v1_settlement_id_fkey:\"RI_FKey_noaction_upd\"():17": {
+        "attached": "erp.opening_subledger_settlements",
+        "constraint_relation": "erp.bb_opening_credits_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 181,
+          "sha256": "9e5391dbc92ffbff97a530c11764d9d344d196ab05e7e9073f8a6db15698b176"
+        },
+        "function": "\"RI_FKey_noaction_upd\"()",
+        "internal": true,
+        "referenced_relation": "erp.bb_opening_credits_v1"
+      },
+      "erp.opening_subledger_settlements:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_opening_settlement_id_fkey:\"RI_FKey_noaction_del\"():9": {
+        "attached": "erp.opening_subledger_settlements",
+        "constraint_relation": "erp.bd_claim_credit_applications_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 218,
+          "sha256": "127b46b4d07ca3bdfb386115adecacdf5e9600a134d583ba32be3275d0d1283b"
+        },
+        "function": "\"RI_FKey_noaction_del\"()",
+        "internal": true,
+        "referenced_relation": "erp.bd_claim_credit_applications_v1"
+      },
+      "erp.opening_subledger_settlements:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_opening_settlement_id_fkey:\"RI_FKey_noaction_upd\"():17": {
+        "attached": "erp.opening_subledger_settlements",
+        "constraint_relation": "erp.bd_claim_credit_applications_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 219,
+          "sha256": "19c5cc8ef76e49cde76b9a45366e76a03479eefe9ae7c3605c0f8496198f1ea9"
+        },
+        "function": "\"RI_FKey_noaction_upd\"()",
+        "internal": true,
+        "referenced_relation": "erp.bd_claim_credit_applications_v1"
+      },
+      "erp.vendor_payments:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_vendor_payment_id_fkey:\"RI_FKey_noaction_del\"():9": {
+        "attached": "erp.vendor_payments",
+        "constraint_relation": "erp.bd_claim_credit_applications_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 214,
+          "sha256": "ad6d89bb5c1f0a9fbcd81d5d477dc2d8cb3aa660025ba8333de055225cfdc1d9"
+        },
+        "function": "\"RI_FKey_noaction_del\"()",
+        "internal": true,
+        "referenced_relation": "erp.bd_claim_credit_applications_v1"
+      },
+      "erp.vendor_payments:erp.bd_claim_credit_applications_v1:bd_claim_credit_applications_v1_vendor_payment_id_fkey:\"RI_FKey_noaction_upd\"():17": {
+        "attached": "erp.vendor_payments",
+        "constraint_relation": "erp.bd_claim_credit_applications_v1",
+        "enabled": "O",
+        "full16": {
+          "bytes": 215,
+          "sha256": "703824677a9fb207e2d12aefd17632de65aa6f94886fcc34af9d76d81600f027"
+        },
+        "function": "\"RI_FKey_noaction_upd\"()",
+        "internal": true,
+        "referenced_relation": "erp.bd_claim_credit_applications_v1"
+      }
+    },
+    "trigger_rows": 43
+  },
+  "outside_RI_writes_after_direct_additions": [],
+  "production_go": false,
+  "ri_index_source": {
+    "bytes": 7896,
+    "sha256": "aa4b1700b964eae018b9e32194cce92f3cae62a644a726cadee53400c089bcdf"
+  },
+  "scheduled_Native_fixture_calls_actual_close": false,
+  "selected_candidate_relation_count": 443,
+  "sku_run": 43347020525,
+  "static_global_review": {
+    "bytes": 704508,
+    "sha256": "d48e8a664c04b4ab85b9208dcc1e162d1a5dbf635a00ca8e595c8ff1651395ae"
+  },
+  "status": "S02_STATIC_GLOBAL_RELATION_ADOPTION_DELTA"
+}

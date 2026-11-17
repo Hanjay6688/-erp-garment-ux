@@ -1,0 +1,893 @@
+{
+  "complete_input_review": true,
+  "contract": "cp7.global-reviewed-input-profile.v1",
+  "installation_plan": {
+    "bytes": 15667,
+    "sha256": "71f15d39d45696c40d683f1cd27a03ac4c53a8da960a060839b24bd81996a319"
+  },
+  "nota_opening_advance": {
+    "catalogue": {
+      "bytes": 16051957,
+      "sha256": "ecf858d67f43c0967cfe6f38c51338dea64331ef6c0d1264786a8967f856e2a4"
+    },
+    "contract": "cp7.global-nota-opening-advance-parent-binding.v1",
+    "installation_plan": {
+      "bytes": 15667,
+      "sha256": "71f15d39d45696c40d683f1cd27a03ac4c53a8da960a060839b24bd81996a319"
+    },
+    "note": {
+      "actual_Note_cases": 0,
+      "existing_command": {
+        "full19": {
+          "after": {
+            "bytes": 16523,
+            "sha256": "404da08cf1452844745773eb2130898d58fbb10683539559d36a35f0015f1db8"
+          },
+          "before": {
+            "bytes": 16496,
+            "sha256": "d159417e7619ea6133dba7ed6a231254c7b107029d6dc56ec61a03abe8e1f1a4"
+          }
+        },
+        "owner": "postgres",
+        "signature": "cp7_note.command(jsonb,uuid,text)"
+      },
+      "latent_carry": {
+        "guard": "NATIVE_PAYMENT_REPLAY_ADAPTER_REQUIRED",
+        "original_full19": {
+          "bytes": 16493,
+          "sha256": "c9156267bb81c5b30542e1e1931c7a156c67b0e1da91e45811faf7fe41d7fbff"
+        },
+        "signature": "cp7_credit_note_carry_de.command_v1(jsonb,uuid,text)"
+      },
+      "new_helper": {
+        "create": {
+          "bytes": 240,
+          "sha256": "0adeea1b6edf0d29cda390a626206f46d28ea09158d5def82e9c599966d83666"
+        },
+        "full19": {
+          "bytes": 468,
+          "sha256": "ee7b8131ead6da7e2e58db8c0c00c48266e0a773693896acf4d7137b5031b66c"
+        },
+        "owner": "postgres",
+        "signature": "cp7_note.sales_payment_snapshot_v1(uuid)"
+      },
+      "reference": {
+        "bytes": 35929,
+        "sha256": "54aeb62c79b49459672e9a59b29a2e13f0626520bfb8e214ae9abb7ec5e78e52"
+      }
+    },
+    "parent": {
+      "head": "a62504d71a6ca1cdbaa59b6fe0fd5739693f100a",
+      "job_id": 131628716944,
+      "run_id": 43347020525,
+      "tree": "df64669b64e82f4b5027ccad837cc3d014dbcafa"
+    },
+    "root": {
+      "bytes": 23897,
+      "sha256": "ef5bbb964536502c25d4cf99774447006f4f015833818fae5c14e3cf8be5932a"
+    }
+  },
+  "ow06_s05_snapshot": {
+    "catalogue": {
+      "bytes": 16051957,
+      "sha256": "ecf858d67f43c0967cfe6f38c51338dea64331ef6c0d1264786a8967f856e2a4"
+    },
+    "contract": "cp7.global-first-ow06-s05-sku-parent-binding.v1",
+    "existing_reader_replacements": 9,
+    "installation_plan": {
+      "bytes": 15667,
+      "sha256": "71f15d39d45696c40d683f1cd27a03ac4c53a8da960a060839b24bd81996a319"
+    },
+    "new_private_helpers": 2,
+    "parent": {
+      "head": "a62504d71a6ca1cdbaa59b6fe0fd5739693f100a",
+      "job_id": 131628716944,
+      "run_id": 43347020525,
+      "tree": "df64669b64e82f4b5027ccad837cc3d014dbcafa"
+    },
+    "parent_fingerprint": {
+      "contract": "cp7.global-catalogue-fingerprint.v1",
+      "counts": {
+        "aggregates": 0,
+        "casts": 229,
+        "columns": 10359,
+        "constraints": 4081,
+        "database_authority": 1,
+        "default_privileges": 27,
+        "enums": 46,
+        "event_triggers": 6,
+        "extensions": 5,
+        "functions": 3106,
+        "indexes": 1695,
+        "inheritance": 15,
+        "languages": 4,
+        "memberships": 28,
+        "operators": 799,
+        "policies": 463,
+        "relations": 2510,
+        "roles": 92,
+        "rules": 54,
+        "schemas": 140,
+        "sequence_ownership": 13,
+        "sequences": 15,
+        "triggers": 5799,
+        "type_implementation": 1626,
+        "types": 1626
+      },
+      "groups": 25,
+      "sha256": "be01b60247ff0f0f099f0393481672e04ab852c5ada9b17453126c0356f7a448"
+    },
+    "reviewed_full19": {
+      "bytes": 82570,
+      "sha256": "ea51351de5f00b7e28107e177800edcbc34a4e7f68644d2b23c49d442b71ad19"
+    },
+    "root": {
+      "bytes": 23897,
+      "sha256": "ef5bbb964536502c25d4cf99774447006f4f015833818fae5c14e3cf8be5932a"
+    }
+  },
+  "parent": {
+    "head": "a62504d71a6ca1cdbaa59b6fe0fd5739693f100a",
+    "tree": "df64669b64e82f4b5027ccad837cc3d014dbcafa"
+  },
+  "parent_catalogue_equivalence": {
+    "archived_census_sha256": "3716f58ab1e98b6ec413689087ca77c56077e47951f5fd445c5987d4d0f44e30",
+    "contract": "cp7.global-parent-trigger-census-equivalence.v1",
+    "groups": {
+      "aggregates": {
+        "bytes": 2,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "casts": {
+        "bytes": 11147,
+        "sha256": "bec25256a4f07fe46e7ceaccacbbc69073b7dc2af948cf6e55c5e0132ac5a1b3"
+      },
+      "columns": {
+        "bytes": 1344498,
+        "sha256": "6ac35131942dbde8857c5615f13a240d4cc70ef8cf68df64f77054cc3a80668f"
+      },
+      "constraints": {
+        "bytes": 935196,
+        "sha256": "451957fe62e714bffdcd5cc251022352f67277be57d370a354f1418c4f24f2ff"
+      },
+      "database_authority": {
+        "bytes": 522,
+        "sha256": "e601be75f5e0e1223d062dce4c65f3677c0a2deacbaa778eb970c3a2f16e7224"
+      },
+      "default_privileges": {
+        "bytes": 16825,
+        "sha256": "118135c1a7f27b4c415f31af99c5824c9e846c5ab6514c40b7c85183300afb90"
+      },
+      "enums": {
+        "bytes": 1766,
+        "sha256": "1e93c7d4452abdd0abc0e1a86c3646aafaf5b5fb54916bce19479f822ef7dcb8"
+      },
+      "event_triggers": {
+        "bytes": 685,
+        "sha256": "240e67c7e08e495eeb8d1f9dc82e51018b3ee455fc12722e5e6cb18d674d06d2"
+      },
+      "extensions": {
+        "bytes": 360,
+        "sha256": "8f4f7c252b906e44c87c44680eba2e566d5c27be4c72b17ba41c220801005eae"
+      },
+      "functions": {
+        "bytes": 8585877,
+        "sha256": "b641501d4d298c3b158cd89337dc60cf134c1cc02fd04bbee07d4ff4f0d7b283"
+      },
+      "indexes": {
+        "bytes": 327034,
+        "sha256": "e035a0734113cf057ecf474ce1bbe5e3eed2fc9369fd8081d822a5bb5116ff6d"
+      },
+      "inheritance": {
+        "bytes": 1106,
+        "sha256": "973b0b525463b50d753d345593bfaf8034fbcb67ea1cd65f4d46b47b85c0c3a2"
+      },
+      "languages": {
+        "bytes": 371,
+        "sha256": "8e4a3c7700c45441bb481cc2ec3d79efa5cfed37e4fd84823cb40d7bb45b8b68"
+      },
+      "memberships": {
+        "bytes": 1870,
+        "sha256": "f3aba944b1484aeb26cf12f9252582ef743b03ca40b2f389184ce019ecf419ef"
+      },
+      "operators": {
+        "bytes": 185490,
+        "sha256": "b21be61dfe322af62bd56bfd08775f161cc77aa31b5fdfec1e4dddca4b030043"
+      },
+      "policies": {
+        "bytes": 67504,
+        "sha256": "400a42fd02bd5e6088e6e5d950c38723415937574a95a5c6a90b168da9fb2d86"
+      },
+      "relations": {
+        "bytes": 1346126,
+        "sha256": "a9bf0f27bd2beea0896fbc782170d0f04fd24a2fe93890fdf4a8ad07e4fa1198"
+      },
+      "roles": {
+        "bytes": 12891,
+        "sha256": "08daf87c1b26fee3f939d9781e6c2e736c7f5ab6f14bffbe0eafcafb1ab9ad12"
+      },
+      "rules": {
+        "bytes": 86201,
+        "sha256": "c8b627891fc58481e54b538e4754736f04efe3f3f11036e83ec9366484aedc39"
+      },
+      "schemas": {
+        "bytes": 29934,
+        "sha256": "1d6437ab33317d2e63b657a84a8034d7fb602854b151b0e1ee42528dcd7c6eaf"
+      },
+      "sequence_ownership": {
+        "bytes": 981,
+        "sha256": "27da4f99930f9c04cd99951267c76f854600827ff6a3890a906c7e93b4e0f4a2"
+      },
+      "sequences": {
+        "bytes": 1370,
+        "sha256": "21aa0bb0c35b8bde2b070338e1c2ebeacf5be8b3470748c773b24d0cb75a1d46"
+      },
+      "triggers": {
+        "bytes": 1842994,
+        "sha256": "c37bb55fff5a143f638d4729b640d588cbd695d37bf948bca8a763f2fd287e96"
+      },
+      "type_implementation": {
+        "bytes": 440291,
+        "sha256": "a9a6a13e79c24e9826326d186bfa649ec240030da19a9acffa92bb66017145fb"
+      },
+      "types": {
+        "bytes": 216862,
+        "sha256": "f67b275d11365ddd5d31ef0778f7809a644dbf3fa428c6ebacf1974e122684ba"
+      }
+    },
+    "guard": {
+      "bytes": 6322,
+      "sha256": "e5f4006fea5c6e931f8919e7317fd2b6668b61498049b004da6a05dbd4227131"
+    },
+    "original": {
+      "bytes": 16051957,
+      "sha256": "ecf858d67f43c0967cfe6f38c51338dea64331ef6c0d1264786a8967f856e2a4"
+    }
+  },
+  "parent_catalogue_fingerprint": {
+    "contract": "cp7.global-catalogue-fingerprint.v1",
+    "counts": {
+      "aggregates": 0,
+      "casts": 229,
+      "columns": 10359,
+      "constraints": 4081,
+      "database_authority": 1,
+      "default_privileges": 27,
+      "enums": 46,
+      "event_triggers": 6,
+      "extensions": 5,
+      "functions": 3106,
+      "indexes": 1695,
+      "inheritance": 15,
+      "languages": 4,
+      "memberships": 28,
+      "operators": 799,
+      "policies": 463,
+      "relations": 2510,
+      "roles": 92,
+      "rules": 54,
+      "schemas": 140,
+      "sequence_ownership": 13,
+      "sequences": 15,
+      "triggers": 5799,
+      "type_implementation": 1626,
+      "types": 1626
+    },
+    "groups": 25,
+    "sha256": "be01b60247ff0f0f099f0393481672e04ab852c5ada9b17453126c0356f7a448"
+  },
+  "relations": [
+    "cp7_accessory_nonpayable.category_versions_v1",
+    "cp7_accessory_nonpayable.date_requests_v1",
+    "cp7_accessory_nonpayable.good_bases_v1",
+    "cp7_analysis_jobs.documents",
+    "cp7_attendance.command_context",
+    "cp7_attendance_choice.allocations_v1",
+    "cp7_attendance_choice.decisions_v1",
+    "cp7_attendance_choice.reversals_v1",
+    "cp7_attendance_choice.sources_v1",
+    "cp7_credit.cohorts",
+    "cp7_credit.component_journals",
+    "cp7_credit.component_parts",
+    "cp7_credit.consumer_completions_v1",
+    "cp7_credit.consumer_execution_context",
+    "cp7_credit.consumer_operations_v1",
+    "cp7_credit.consumer_posting_scope_v1",
+    "cp7_credit.consumer_requests_v1",
+    "cp7_credit.consumer_validation_queue_v1",
+    "cp7_credit.consumption_events",
+    "cp7_credit.execution_context",
+    "cp7_credit.financial_materialization_objects",
+    "cp7_credit.financial_materializations",
+    "cp7_credit.initial_refund_operations",
+    "cp7_credit.initial_refund_posting_scope",
+    "cp7_credit.initial_return_completions",
+    "cp7_credit.initial_return_materializations",
+    "cp7_credit.initial_return_work",
+    "cp7_credit.native_empty_completions",
+    "cp7_credit.native_empty_operations",
+    "cp7_credit.native_empty_source_scope",
+    "cp7_credit.native_empty_work",
+    "cp7_credit.opening_return_hpp_work_v1",
+    "cp7_credit.payment_consumer_headers_v1",
+    "cp7_credit.payment_source_context_v1",
+    "cp7_credit.payment_source_legs_v1",
+    "cp7_credit.plan_dependencies",
+    "cp7_credit.plan_support_events",
+    "cp7_credit.posting_scope",
+    "cp7_credit.recognition_components",
+    "cp7_credit.recognition_plans",
+    "cp7_credit.return_command_scope",
+    "cp7_credit.return_families",
+    "cp7_credit.return_family_members",
+    "cp7_credit.return_native_scope",
+    "cp7_credit.return_requests",
+    "cp7_credit.source_mutation_scope",
+    "cp7_credit.source_operation_completions_v1",
+    "cp7_credit.source_operation_materializations_v1",
+    "cp7_credit.source_operation_part_seals_v1",
+    "cp7_credit.source_operation_plans_v1",
+    "cp7_credit.source_operation_work_v1",
+    "cp7_credit_correction_de.operations_v1",
+    "cp7_credit_correction_de.parts_v1",
+    "cp7_credit_correction_de.plans_v1",
+    "cp7_credit_correction_de.posting_v1",
+    "cp7_credit_correction_de.work_v1",
+    "cp7_credit_note_carry_de.assignments_v1",
+    "cp7_credit_note_carry_de.operations_v1",
+    "cp7_credit_note_carry_de.work_v1",
+    "cp7_cutover.control",
+    "cp7_cutting_correction.auto_po_drafts",
+    "cp7_cutting_correction.auto_po_history",
+    "cp7_cutting_correction.finish_history",
+    "cp7_cutting_correction.history",
+    "cp7_cutting_correction.pickup_context",
+    "cp7_cutting_correction.pickup_history",
+    "cp7_cutting_correction.po_rate_modes",
+    "cp7_cutting_correction.po_reopen_history",
+    "cp7_cutting_correction.rate_revisions",
+    "cp7_cutting_correction.return_history",
+    "cp7_cutting_correction.return_reversal_history",
+    "cp7_cutting_correction.sewing_history",
+    "cp7_cutting_correction.sewing_wave_history",
+    "cp7_fg.correction_movements",
+    "cp7_global_nonpo_envelope.profiles",
+    "cp7_global_nonpo_envelope.scope_completions_v1",
+    "cp7_global_nonpo_envelope.work_scopes_v1",
+    "cp7_guard.compound_scope",
+    "cp7_guard.compound_touch",
+    "cp7_identity.production_policy",
+    "cp7_installment.accounts",
+    "cp7_installment.command_context",
+    "cp7_installment.payments",
+    "cp7_installment.requests",
+    "cp7_invoice.payment_requests",
+    "cp7_kasbon.advances",
+    "cp7_kasbon.command_context",
+    "cp7_kasbon.deduction_links",
+    "cp7_laundry_unknown_wash.prices_v1",
+    "cp7_mandor_shop.allocation_events",
+    "cp7_mandor_shop.allocation_states",
+    "cp7_mandor_shop.command_context",
+    "cp7_mandor_shop.contractor_accounts",
+    "cp7_mandor_shop.deduction_links",
+    "cp7_mandor_shop.draft_buyers",
+    "cp7_mandor_shop.offset_accounts",
+    "cp7_mandor_shop.payment_work",
+    "cp7_mandor_shop.payroll_identities",
+    "cp7_mandor_shop.sales",
+    "cp7_mandor_shop.settlement_lines",
+    "cp7_mandor_shop.settlement_reversals",
+    "cp7_mandor_shop.settlements",
+    "cp7_master.history",
+    "cp7_master.requests",
+    "cp7_material.execution_context",
+    "cp7_misc.command_context",
+    "cp7_misc_correction.links",
+    "cp7_note.context",
+    "cp7_note.item_lineage",
+    "cp7_note.journal_restatements",
+    "cp7_note.payment_replays",
+    "cp7_note.requests",
+    "cp7_note.revisions",
+    "cp7_note_zero_effect.preparations",
+    "cp7_note_zero_effect.receipts",
+    "cp7_payment_correction.context",
+    "cp7_payment_correction.links",
+    "cp7_payment_correction.requests",
+    "cp7_payroll.execution_context",
+    "cp7_payroll.settlement_context",
+    "cp7_plan_native.apply_own_drafts",
+    "cp7_procurement.draft_requests",
+    "cp7_procurement.execution_context",
+    "cp7_receipt_fix.context",
+    "cp7_receipt_fix.invoice_restatements",
+    "cp7_receipt_fix.journal_restatements",
+    "cp7_receipt_fix.ledger_links",
+    "cp7_receipt_fix.material_names",
+    "cp7_receipt_fix.movement_lineage",
+    "cp7_receipt_fix.payment_replays",
+    "cp7_receipt_fix.revisions",
+    "cp7_receipt_fix.roll_lineage",
+    "cp7_sales.command_context",
+    "cp7_sales.requests",
+    "cp7_sales_chain.history",
+    "cp7_sales_return_correction.context",
+    "cp7_sales_return_correction.journal_restatements",
+    "cp7_sales_return_correction.links",
+    "cp7_sales_return_correction.requests",
+    "cp7_sku_conversion.automatic_admissions_v5",
+    "cp7_sku_conversion.automatic_context_v5",
+    "cp7_sku_conversion.base_money_events_v4",
+    "cp7_sku_conversion.component_events_v2",
+    "cp7_sku_conversion.cost_contributors_v3",
+    "cp7_sku_conversion.cost_events_v3",
+    "cp7_sku_conversion.cost_money_events_v3",
+    "cp7_sku_conversion.cost_source_rebalances_v3",
+    "cp7_sku_conversion.execution_v1",
+    "cp7_sku_conversion.group_inverse_rebalances_v3",
+    "cp7_sku_conversion.groups_v1",
+    "cp7_sku_conversion.legacy_groups_v4",
+    "cp7_sku_conversion.members_v1",
+    "cp7_sku_conversion.pairs_v1",
+    "cp7_sku_conversion.return_cost_components_v3",
+    "cp7_sku_conversion.sale_allocation_attributions_v2",
+    "cp7_sku_conversion.sale_allocation_components_v2",
+    "cp7_sku_conversion.sale_allocation_values_v2",
+    "cp7_sku_conversion.sale_cost_components_v3",
+    "cp7_sku_conversion.sales_return_attributions_v2",
+    "cp7_sku_conversion.sales_return_components_v2",
+    "cp7_sku_conversion.sales_return_values_v2",
+    "cp7_sku_conversion.valuation_attributions_v2",
+    "cp7_sku_conversion.valuation_contributors_v2",
+    "cp7_sku_conversion.valuation_events_v2",
+    "cp7_sku_conversion.valuation_postings_v2",
+    "cp7_sku_conversion.valuation_quotes_v2",
+    "cp7_supplier_payment_correction.context",
+    "cp7_supplier_payment_correction.links",
+    "cp7_supplier_payment_correction.requests",
+    "cp7_supplier_payment_create.context",
+    "cp7_supplier_payment_create.requests",
+    "cp7_supplier_return.execution_context",
+    "cp7_supplier_transfer.allocations_v1",
+    "cp7_supplier_transfer.context_v1",
+    "cp7_supplier_transfer.corrections_v1",
+    "cp7_supplier_transfer.requests_v1",
+    "cp7_supplier_transfer.transfers_v1",
+    "cp7_vendor_receivable.refunds_v1",
+    "cp7_vendor_receivable.reversals_v1",
+    "cp7_vendor_receivable.sources_v1",
+    "erp.accessory_bom_items",
+    "erp.accessory_bom_versions",
+    "erp.accessory_categories",
+    "erp.accessory_category_uom_conversions",
+    "erp.account_daily_balances",
+    "erp.accounting_account_mappings",
+    "erp.accounting_close_filings_v1",
+    "erp.accounting_period_control",
+    "erp.app_access_audit",
+    "erp.app_permissions",
+    "erp.app_role_permissions",
+    "erp.app_roles",
+    "erp.app_users",
+    "erp.attendance_hpp_journal_line_links",
+    "erp.attendance_hpp_pool_allocations",
+    "erp.attendance_hpp_pool_sources",
+    "erp.attendance_hpp_pools",
+    "erp.attendance_periods",
+    "erp.attendance_records",
+    "erp.audit_logs",
+    "erp.bb_customer_credit_events_v1",
+    "erp.bb_customer_credits_v1",
+    "erp.bb_legacy_documents_v1",
+    "erp.bb_open_sales_draft_lines_v1",
+    "erp.bb_open_sales_drafts_v1",
+    "erp.bb_opening_credits_v1",
+    "erp.bb_opening_reworks_v1",
+    "erp.bb_opening_sale_return_receipts_v1",
+    "erp.bb_opening_sale_return_rights_v1",
+    "erp.bb_payroll_entitlements_v1",
+    "erp.bb_purchase_commitment_drafts_v1",
+    "erp.bb_purchase_commitment_lines_v1",
+    "erp.bb_purchase_commitments_v1",
+    "erp.bb_receipt_invoiced_parts_v1",
+    "erp.bb_wip_bs_splits_v1",
+    "erp.bb_wip_pickups_v1",
+    "erp.bb_wip_split_value_events_v1",
+    "erp.bc_accessory_zones_v1",
+    "erp.bc_adjustment_purposes_v1",
+    "erp.bc_count_variances_v1",
+    "erp.bc_customer_custody_v1",
+    "erp.bc_document_links_v1",
+    "erp.bc_documents_v1",
+    "erp.bc_execution_context_v1",
+    "erp.bc_free_issue_lines_v1",
+    "erp.bc_internal_use_lines_v1",
+    "erp.bc_lot_events_v1",
+    "erp.bc_note_roundings_v1",
+    "erp.bc_opening_note_lines_v1",
+    "erp.bc_outstanding_returns_v1",
+    "erp.bc_policy_settings_v1",
+    "erp.bc_return_lots_v1",
+    "erp.bd_claim_credit_applications_v1",
+    "erp.bd_custody_sources_v1",
+    "erp.bd_execution_context_v1",
+    "erp.bd_laundry_charge_lines_v1",
+    "erp.bd_laundry_charge_shares_v1",
+    "erp.bd_laundry_component_rates_v1",
+    "erp.bd_laundry_components_v1",
+    "erp.bd_laundry_invoice_lines_v1",
+    "erp.bd_laundry_invoices_v1",
+    "erp.bd_laundry_package_components_v1",
+    "erp.bd_laundry_package_rates_v1",
+    "erp.bd_laundry_packages_v1",
+    "erp.bd_laundry_priced_lines_v1",
+    "erp.bd_laundry_receipt_allocations_v1",
+    "erp.bd_laundry_scoped_rates_v1",
+    "erp.bd_laundry_size_estimates_v1",
+    "erp.bd_laundry_vendor_terms_v1",
+    "erp.bd_opening_laundry_claim_events_v1",
+    "erp.bd_opening_laundry_claims_v1",
+    "erp.bd_opening_laundry_uninvoiced_v1",
+    "erp.bd_pending_price_sales_v1",
+    "erp.bd_policy_setting_events_v1",
+    "erp.bd_policy_settings_v1",
+    "erp.bd_requests_v1",
+    "erp.be_conversion_cost_events_v1",
+    "erp.be_conversion_cost_sources_v1",
+    "erp.be_conversion_returns_v1",
+    "erp.be_conversion_sources_v1",
+    "erp.be_execution_context_v1",
+    "erp.be_nonpo_transfer_events_v1",
+    "erp.be_pocket_receipt_origins_v1",
+    "erp.be_pocket_sewing_v1",
+    "erp.be_pocket_source_events_v1",
+    "erp.be_pocket_target_events_v1",
+    "erp.be_pocket_usage_v1",
+    "erp.be_redye_price_events_v1",
+    "erp.be_redye_services_v1",
+    "erp.be_rework_targets_v1",
+    "erp.bf_context_v1",
+    "erp.bf_laundry_delivery_sources_v1",
+    "erp.bf_po_boms_v1",
+    "erp.bf_requests_v1",
+    "erp.bf_sku_members_v1",
+    "erp.bf_sku_versions_v1",
+    "erp.bf_skus_v1",
+    "erp.bf_supplier_credit_moves_v1",
+    "erp.bf_wave_skus_v1",
+    "erp.brands",
+    "erp.bs_case_components",
+    "erp.bs_case_hold_events",
+    "erp.bs_cases",
+    "erp.bs_resolution_execution_context",
+    "erp.bs_resolutions",
+    "erp.cash_accounts",
+    "erp.chart_accounts",
+    "erp.contractor_accessory_price_versions",
+    "erp.contractor_accessory_reimbursement_entitlements",
+    "erp.contractor_hpp_policy_versions",
+    "erp.contractor_material_issue_items",
+    "erp.contractor_material_issues",
+    "erp.contractor_material_price_versions",
+    "erp.contractor_work_rates",
+    "erp.contractor_workers",
+    "erp.contractors",
+    "erp.cost_adjustments",
+    "erp.cost_recalc_queue",
+    "erp.cp6_laundry_qc_execution_context",
+    "erp.customer_user_access",
+    "erp.customers",
+    "erp.cutting_batches",
+    "erp.cutting_bridge_execution_context",
+    "erp.cutting_distribution_allocations",
+    "erp.cutting_distribution_batches",
+    "erp.cutting_group_rolls",
+    "erp.cutting_group_size_slots",
+    "erp.cutting_groups",
+    "erp.cutting_pickups",
+    "erp.cutting_qty_correction_lines",
+    "erp.cutting_qty_corrections",
+    "erp.cutting_roll_yields",
+    "erp.fabric_benchmark_price_versions",
+    "erp.fabric_master_profiles",
+    "erp.fg_accessory_cost_revisions",
+    "erp.fg_accessory_cost_snapshots",
+    "erp.fg_adjustment_items",
+    "erp.fg_adjustments",
+    "erp.fg_inventory_balances",
+    "erp.fg_lots",
+    "erp.fg_stock_movements",
+    "erp.fg_unsourced_receipts_v1",
+    "erp.fg_unsourced_repair_wages_v1",
+    "erp.hpp_version_components",
+    "erp.hpp_versions",
+    "erp.idempotency_requests",
+    "erp.initial_import_bs_value_events",
+    "erp.initial_import_cost_origins",
+    "erp.initial_import_financial_sources",
+    "erp.initial_import_opening_stock_sources",
+    "erp.initial_import_origin_cost_events",
+    "erp.initial_import_prepayment_events",
+    "erp.initial_import_prepayment_payments",
+    "erp.initial_import_prepayments",
+    "erp.initial_import_production_sources",
+    "erp.initial_import_receipt_headers",
+    "erp.initial_import_receipt_lines",
+    "erp.initial_import_wip_output_reversals",
+    "erp.initial_import_wip_outputs",
+    "erp.invoice_recost_execution_context",
+    "erp.journal_entries",
+    "erp.journal_lines",
+    "erp.laundry_claims",
+    "erp.laundry_cost_accrual_events",
+    "erp.laundry_cost_accrual_state",
+    "erp.laundry_deliveries",
+    "erp.laundry_delivery_batch_size_lines",
+    "erp.laundry_delivery_lines",
+    "erp.laundry_failed_wash_attempts",
+    "erp.laundry_failed_wash_batch_size_lines",
+    "erp.laundry_rate_owner_estimates_v1",
+    "erp.laundry_receipt_batch_size_lines",
+    "erp.laundry_receipt_bs_product_allocations",
+    "erp.laundry_receipt_lines",
+    "erp.laundry_receipts",
+    "erp.laundry_redispatch_participant_allocations",
+    "erp.laundry_redispatch_participant_events",
+    "erp.laundry_vendor_rate_versions",
+    "erp.laundry_vendors",
+    "erp.locations",
+    "erp.manual_reminders",
+    "erp.material_adjustment_items",
+    "erp.material_adjustment_revaluation_facts",
+    "erp.material_adjustments",
+    "erp.material_cost_checkpoints",
+    "erp.material_cost_history",
+    "erp.material_cost_revaluation_events",
+    "erp.material_cost_revaluation_state",
+    "erp.material_purchase_cost_correction_items",
+    "erp.material_purchase_cost_corrections",
+    "erp.material_purchase_headers",
+    "erp.material_purchase_items",
+    "erp.material_rolls",
+    "erp.material_stock_movements",
+    "erp.material_supplier_invoice_lines",
+    "erp.material_supplier_invoices",
+    "erp.material_supplier_return_items",
+    "erp.material_supplier_returns",
+    "erp.material_transfer_items",
+    "erp.material_transfers",
+    "erp.materials",
+    "erp.migration_batches",
+    "erp.migration_staging_rows",
+    "erp.misc_finance_categories",
+    "erp.misc_finance_transactions",
+    "erp.non_po_hpp_gl_sync_events_v2620f",
+    "erp.opening_balance_headers",
+    "erp.opening_balance_items",
+    "erp.opening_financial_corrections",
+    "erp.opening_hpp_corrections",
+    "erp.opening_lot_hpp_gl_state",
+    "erp.opening_subledger_balances",
+    "erp.opening_subledger_settlements",
+    "erp.payroll_attendance_items",
+    "erp.payroll_deductions",
+    "erp.payroll_reimbursements",
+    "erp.payroll_settlements",
+    "erp.payroll_work_items",
+    "erp.po_accessory_bom_commitments",
+    "erp.po_customer_visibility",
+    "erp.po_hpp_gl_events",
+    "erp.po_hpp_gl_lot_state_v1",
+    "erp.po_hpp_gl_material_state_v1",
+    "erp.po_hpp_gl_state",
+    "erp.po_wip_close_events",
+    "erp.po_work_component_snapshots",
+    "erp.pocket_fabric_execution_context",
+    "erp.pocket_fabric_materials",
+    "erp.pocket_fabric_usage",
+    "erp.pocket_period_destinations",
+    "erp.pocket_period_events",
+    "erp.pocket_period_sources",
+    "erp.pocket_periods",
+    "erp.product_conversion_allocations",
+    "erp.product_conversions",
+    "erp.product_identity_mutation_context_v1",
+    "erp.product_model_sizes",
+    "erp.product_models",
+    "erp.product_price_versions",
+    "erp.production_orders",
+    "erp.production_pattern_audit",
+    "erp.production_patterns",
+    "erp.products",
+    "erp.qc_inspection_items",
+    "erp.qc_inspections",
+    "erp.rework_accessory_decisions",
+    "erp.rework_accessory_selection_lines",
+    "erp.rework_component_lines",
+    "erp.rework_orders",
+    "erp.sale_stock_allocations",
+    "erp.sales_headers",
+    "erp.sales_items",
+    "erp.sales_payment_posting_facts",
+    "erp.sales_payment_reversal_facts",
+    "erp.sales_payments",
+    "erp.sales_return_items",
+    "erp.sales_returns",
+    "erp.schema_migrations",
+    "erp.scrap_batches",
+    "erp.scrap_sales",
+    "erp.sewing_terminal_events",
+    "erp.sizes",
+    "erp.stock_explainability_snapshots",
+    "erp.stock_policy_versions",
+    "erp.supplier_cent_posting_facts",
+    "erp.supplier_payments",
+    "erp.suppliers",
+    "erp.uom_definitions",
+    "erp.vendor_invoice_items",
+    "erp.vendor_invoices",
+    "erp.vendor_payments",
+    "erp.wash_processes",
+    "erp.wip_control_flags",
+    "erp.wip_stage_events",
+    "erp.work_bom_items",
+    "erp.work_bom_versions",
+    "erp.work_completion_events",
+    "erp.work_completion_lines",
+    "erp.work_components",
+    "erp.worker_daily_rate_versions",
+    "erp.worker_employment_periods"
+  ],
+  "review_scope": {
+    "app_tree": "ada4544ebf22d9352461beb4b234f9a2f3e0ee29",
+    "candidate_tree": "3a338b69cc13d44f7c881c62ecf77f5a762a7df7",
+    "disposable": true,
+    "fixture_manifest": "qualification/global_fixtures/GLOBAL_ORDINARY_FIXTURE_MANIFEST.json",
+    "id": "CP7_GLOBAL_DATED_ORDINARY_PRIVATE_DISPOSABLE_461",
+    "independent_acceptance": false,
+    "private_pull_request": true,
+    "production_go": false,
+    "repository": "Hanjay6688/test",
+    "single_attempt": true
+  },
+  "timezone_overlay": {
+    "catalogue": {
+      "bytes": 16051957,
+      "sha256": "ecf858d67f43c0967cfe6f38c51338dea64331ef6c0d1264786a8967f856e2a4"
+    },
+    "contract": "cp7.global-four-timezone-verified-parent-binding.v1",
+    "functions": {
+      "cp7_credit_note_carry_de.assert_historical_v1(uuid)": {
+        "apply": {
+          "bytes": 88,
+          "sha256": "f7c37683e796fce757fd2fca3f474d34edc30595f43e7529c2f49668c86569da"
+        },
+        "full19": {
+          "after": {
+            "bytes": 2718,
+            "sha256": "b6d989319246aed92f33e241dc59640029b4496fa0ba929a115f8fda1c41e51f"
+          },
+          "before": {
+            "bytes": 2675,
+            "sha256": "09d21ea6f11214d42d4b8475f5493ba5adecb0fae16564a34d8d84323f5e02b4"
+          }
+        },
+        "inverse": {
+          "bytes": 81,
+          "sha256": "92c61a67c49e868b7a9191dd34cfc9aebf25f55748ceb50041c43f28e6a04f41"
+        },
+        "owner": "postgres"
+      },
+      "cp7_credit_note_carry_de.assert_work_v1()": {
+        "apply": {
+          "bytes": 78,
+          "sha256": "543f7613df90777519732c052ee8565fa3a0fb04d890c3fa422df2f4de6ccfd3"
+        },
+        "full19": {
+          "after": {
+            "bytes": 1439,
+            "sha256": "f095db40dfbea1fd25943fbc46cae53f7f04c9e177d1d9f7446852c4ddf4a599"
+          },
+          "before": {
+            "bytes": 1396,
+            "sha256": "20d4ae5354760eb6b2dbb434ba6fd87f337225cbbf8d37687249885169b18971"
+          }
+        },
+        "inverse": {
+          "bytes": 71,
+          "sha256": "b783063a953026a7f9875168b51123a38fc0f67f9dd47c5c7fc38ff3eb22686f"
+        },
+        "owner": "postgres"
+      },
+      "cp7_credit_note_carry_de.effective_target_v1(uuid)": {
+        "apply": {
+          "bytes": 87,
+          "sha256": "9cf36fafdf73573cc0cddf4e092b5dbae413bf7ed8d0651564f826e19a03f79f"
+        },
+        "full19": {
+          "after": {
+            "bytes": 2036,
+            "sha256": "16494f38daf118e189156f37ce6936986df72db007f0d627f2c55c1975d090ff"
+          },
+          "before": {
+            "bytes": 1993,
+            "sha256": "a92179fd0da01144338fbbbbe308de22465238a4a3933961fa941f7e9adf51bd"
+          }
+        },
+        "inverse": {
+          "bytes": 80,
+          "sha256": "898fc0f6efd74de848646ad880029a53bb8b1742c6947b08fb03400a07250cb0"
+        },
+        "owner": "postgres"
+      },
+      "cp7_sales.review_token(uuid)": {
+        "apply": {
+          "bytes": 65,
+          "sha256": "cda9a3aa63254da8f3442d3ed8b61dc2866d98e0df8ccac39fcee97fee738a4a"
+        },
+        "full19": {
+          "after": {
+            "bytes": 1451,
+            "sha256": "200f9fb6df0606a3dfdf2f3d124a98110388b8ba62f18957e1a3a74860c4675b"
+          },
+          "before": {
+            "bytes": 1408,
+            "sha256": "3eef311a00077dc1e21ee8205feb7e1d8284cf25fc13c2935470ce9f1b4e4d0e"
+          }
+        },
+        "inverse": {
+          "bytes": 58,
+          "sha256": "b136dabd0670d950f5dc4ad94a4387e6086ac46a85d5b3f040be9233fbe47b4b"
+        },
+        "owner": "cp7_sales_read"
+      }
+    },
+    "installation_plan": {
+      "bytes": 15667,
+      "sha256": "71f15d39d45696c40d683f1cd27a03ac4c53a8da960a060839b24bd81996a319"
+    },
+    "parent": {
+      "head": "a62504d71a6ca1cdbaa59b6fe0fd5739693f100a",
+      "job_id": 131628716944,
+      "run_id": 43347020525,
+      "tree": "df64669b64e82f4b5027ccad837cc3d014dbcafa"
+    },
+    "parent_fingerprint": {
+      "contract": "cp7.global-catalogue-fingerprint.v1",
+      "counts": {
+        "aggregates": 0,
+        "casts": 229,
+        "columns": 10359,
+        "constraints": 4081,
+        "database_authority": 1,
+        "default_privileges": 27,
+        "enums": 46,
+        "event_triggers": 6,
+        "extensions": 5,
+        "functions": 3106,
+        "indexes": 1695,
+        "inheritance": 15,
+        "languages": 4,
+        "memberships": 28,
+        "operators": 799,
+        "policies": 463,
+        "relations": 2510,
+        "roles": 92,
+        "rules": 54,
+        "schemas": 140,
+        "sequence_ownership": 13,
+        "sequences": 15,
+        "triggers": 5799,
+        "type_implementation": 1626,
+        "types": 1626
+      },
+      "groups": 25,
+      "sha256": "be01b60247ff0f0f099f0393481672e04ab852c5ada9b17453126c0356f7a448"
+    },
+    "root": {
+      "bytes": 23897,
+      "sha256": "ef5bbb964536502c25d4cf99774447006f4f015833818fae5c14e3cf8be5932a"
+    }
+  }
+}

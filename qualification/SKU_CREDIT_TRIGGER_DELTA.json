@@ -1,0 +1,1192 @@
+{
+  "actual_erp_cases": 0,
+  "archived_guard_definition_sha256": "fd8b96fb4755539aa0b8195629a9c58284aa92dc8a242a68d6d69a7abf207e9a",
+  "archived_installed_credit_seal": "3716f58ab1e98b6ec413689087ca77c56077e47951f5fd445c5987d4d0f44e30",
+  "failed_private_run": 43445087314,
+  "final_archived_counts": {
+    "foreign_keys": 137,
+    "internal_triggers": 286,
+    "ordinary_functions": 23,
+    "ordinary_triggers": 32,
+    "relations": 6
+  },
+  "foreign_keys": [
+    {
+      "columns": [
+        "sale_id"
+      ],
+      "deferrable": false,
+      "delete_action": "a",
+      "initially_deferred": false,
+      "match_type": "s",
+      "parent": "erp.sales_headers",
+      "parent_columns": [
+        "id"
+      ],
+      "relation": "cp7_mandor_shop.draft_buyers",
+      "update_action": "a",
+      "validated": true
+    },
+    {
+      "columns": [
+        "sale_id"
+      ],
+      "deferrable": false,
+      "delete_action": "a",
+      "initially_deferred": false,
+      "match_type": "s",
+      "parent": "erp.sales_headers",
+      "parent_columns": [
+        "id"
+      ],
+      "relation": "cp7_mandor_shop.sales",
+      "update_action": "a",
+      "validated": true
+    },
+    {
+      "columns": [
+        "journal_id"
+      ],
+      "deferrable": false,
+      "delete_action": "a",
+      "initially_deferred": false,
+      "match_type": "s",
+      "parent": "erp.journal_entries",
+      "parent_columns": [
+        "id"
+      ],
+      "relation": "cp7_mandor_shop.settlements",
+      "update_action": "a",
+      "validated": true
+    },
+    {
+      "columns": [
+        "reversal_journal_id"
+      ],
+      "deferrable": false,
+      "delete_action": "a",
+      "initially_deferred": false,
+      "match_type": "s",
+      "parent": "erp.journal_entries",
+      "parent_columns": [
+        "id"
+      ],
+      "relation": "cp7_mandor_shop.settlement_reversals",
+      "update_action": "a",
+      "validated": true
+    },
+    {
+      "columns": [
+        "hpp_version_id"
+      ],
+      "deferrable": false,
+      "delete_action": "a",
+      "initially_deferred": false,
+      "match_type": "s",
+      "parent": "erp.hpp_versions",
+      "parent_columns": [
+        "id"
+      ],
+      "relation": "cp7_sku_conversion.valuation_contributors_v2",
+      "update_action": "a",
+      "validated": true
+    },
+    {
+      "columns": [
+        "correction_journal_id"
+      ],
+      "deferrable": false,
+      "delete_action": "a",
+      "initially_deferred": false,
+      "match_type": "s",
+      "parent": "erp.journal_entries",
+      "parent_columns": [
+        "id"
+      ],
+      "relation": "cp7_sku_conversion.valuation_postings_v2",
+      "update_action": "a",
+      "validated": true
+    },
+    {
+      "columns": [
+        "sale_id"
+      ],
+      "deferrable": false,
+      "delete_action": "a",
+      "initially_deferred": false,
+      "match_type": "s",
+      "parent": "erp.sales_headers",
+      "parent_columns": [
+        "id"
+      ],
+      "relation": "cp7_sku_conversion.sale_allocation_values_v2",
+      "update_action": "a",
+      "validated": true
+    },
+    {
+      "columns": [
+        "return_id"
+      ],
+      "deferrable": false,
+      "delete_action": "a",
+      "initially_deferred": false,
+      "match_type": "s",
+      "parent": "erp.sales_returns",
+      "parent_columns": [
+        "id"
+      ],
+      "relation": "cp7_sku_conversion.sales_return_values_v2",
+      "update_action": "a",
+      "validated": true
+    },
+    {
+      "columns": [
+        "hpp_version_id"
+      ],
+      "deferrable": false,
+      "delete_action": "a",
+      "initially_deferred": false,
+      "match_type": "s",
+      "parent": "erp.hpp_versions",
+      "parent_columns": [
+        "id"
+      ],
+      "relation": "cp7_sku_conversion.cost_contributors_v3",
+      "update_action": "a",
+      "validated": true
+    },
+    {
+      "columns": [
+        "journal_id"
+      ],
+      "deferrable": false,
+      "delete_action": "a",
+      "initially_deferred": false,
+      "match_type": "s",
+      "parent": "erp.journal_entries",
+      "parent_columns": [
+        "id"
+      ],
+      "relation": "cp7_sku_conversion.cost_source_rebalances_v3",
+      "update_action": "a",
+      "validated": true
+    },
+    {
+      "columns": [
+        "journal_id"
+      ],
+      "deferrable": false,
+      "delete_action": "a",
+      "initially_deferred": false,
+      "match_type": "s",
+      "parent": "erp.journal_entries",
+      "parent_columns": [
+        "id"
+      ],
+      "relation": "cp7_sku_conversion.group_inverse_rebalances_v3",
+      "update_action": "a",
+      "validated": true
+    }
+  ],
+  "full25_sha256": "ecf858d67f43c0967cfe6f38c51338dea64331ef6c0d1264786a8967f856e2a4",
+  "functions": [
+    {
+      "acl": [
+        {
+          "grantable": false,
+          "grantee": "postgres",
+          "privilege": "EXECUTE"
+        }
+      ],
+      "body_sha256": "e82e9c1179e7a20a3a59a6c6a763bef741230c940d9b3ea54e14b9880653d3d7",
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "e2a4e84ea6a28b058632b7d977fc5dbb49b74c81c92987eb5b8842f0c712b9d1",
+      "exact_acl": [
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ],
+      "identity": "cp7_mandor_shop.deferred_payment_journal()",
+      "input_arguments": "",
+      "language": "plpgsql",
+      "moving_pre_money_body_sha256": null,
+      "owner": "postgres",
+      "result": "trigger",
+      "security_definer": true,
+      "source": "scripts/cp7_mandor_shop/payment_guards.sql",
+      "source_fragment_sha256": "8d76285cc28e267eb428b3f2b54b8e49411cddd77492d98cb8442f4db27febc2",
+      "volatility": "v"
+    },
+    {
+      "acl": [
+        {
+          "grantable": false,
+          "grantee": "postgres",
+          "privilege": "EXECUTE"
+        }
+      ],
+      "body_sha256": "e7a73b066b823d48e94c58c48b244746acad8af1425aa44c78a084407aae0d4d",
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "7ff91d9ac8c7e016bbc6a1c8743ee769d2aa49495856d459df72f97eadd8de09",
+      "exact_acl": [
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ],
+      "identity": "cp7_mandor_shop.guard_invoice_offset_exposure()",
+      "input_arguments": "",
+      "language": "plpgsql",
+      "moving_pre_money_body_sha256": null,
+      "owner": "postgres",
+      "result": "trigger",
+      "security_definer": true,
+      "source": "scripts/cp7_mandor_shop/payment_guards.sql",
+      "source_fragment_sha256": "618c3a638d195e576e72f18cfed28767a9b4082a1ced5befb131284504b7c830",
+      "volatility": "v"
+    },
+    {
+      "acl": [
+        {
+          "grantable": false,
+          "grantee": "postgres",
+          "privilege": "EXECUTE"
+        }
+      ],
+      "body_sha256": "bcb30c066171f9b3fac584c2cbb1cde5f081bf41e4ae1fb18f6f2f460b9f3168",
+      "config": [
+        "search_path=\"\""
+      ],
+      "definition_sha256": "0743ef72f373e0f88a5582afa81b10d9401bff0620709631a3d53a5d1cb85952",
+      "exact_acl": [
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ],
+      "identity": "cp7_mandor_shop.guard_payment_journal()",
+      "input_arguments": "",
+      "language": "plpgsql",
+      "moving_pre_money_body_sha256": null,
+      "owner": "postgres",
+      "result": "trigger",
+      "security_definer": true,
+      "source": "scripts/cp7_mandor_shop/payment_guards.sql",
+      "source_fragment_sha256": "b5f4bedeefa5900ade6e561e29ff297063e77ba4f6fc3cb1ce7cea85dbb0e91e",
+      "volatility": "v"
+    },
+    {
+      "acl": [
+        {
+          "grantable": false,
+          "grantee": "postgres",
+          "privilege": "EXECUTE"
+        }
+      ],
+      "body_sha256": "9b53495fa2a76043a46418702e6d07e406a44be0a9ac8e79b22eaf944f2d45b5",
+      "config": [
+        "search_path=\"\"",
+        "TimeZone=UTC",
+        "lock_timeout=1s"
+      ],
+      "definition_sha256": "4f5d8b50e360b90be29a65dba949bc600f3c0780c48a04da29667d1c85196c8f",
+      "exact_acl": [
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ],
+      "identity": "cp7_mandor_shop.sales_identity()",
+      "input_arguments": "",
+      "language": "plpgsql",
+      "moving_pre_money_body_sha256": null,
+      "owner": "postgres",
+      "result": "trigger",
+      "security_definer": true,
+      "source": "scripts/cp7_mandor_shop/sale_identity.sql",
+      "source_fragment_sha256": "0134a40e7f1ada560a36afcc8e37ed182a14592d646e27ba475b179f308f30e3",
+      "volatility": "v"
+    },
+    {
+      "acl": [
+        {
+          "grantable": false,
+          "grantee": "postgres",
+          "privilege": "EXECUTE"
+        }
+      ],
+      "body_sha256": "91ba8e189218671c7e052cee61c593ff8db203f6574bb38fad86665d25d88e3f",
+      "config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "definition_sha256": "607be2a36573d3b24a9558adc5aa00bcddfdded4e04a1ed696f2cd7015cc8726",
+      "exact_acl": [
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ],
+      "identity": "cp7_sku_conversion.status_component_reverse_v2()",
+      "input_arguments": "",
+      "language": "plpgsql",
+      "moving_pre_money_body_sha256": "12ee2dfa67208e4881dec6b6fd3eaf7ad3685a6d1b9c0ff7a9cbb828418cd87b",
+      "owner": "postgres",
+      "result": "trigger",
+      "security_definer": true,
+      "source": "scripts/cp7_sku_moving_average/valuation.sql",
+      "source_fragment_sha256": "ac9b33a9de7edcf5eead1831a474dd19e6c3b8734ec5a300f8c133273f83f65e",
+      "volatility": "v"
+    }
+  ],
+  "guard_reseal_executed": false,
+  "ordinary_triggers": [
+    {
+      "args_hex": "",
+      "argument_count": 0,
+      "columns": [],
+      "condition": null,
+      "constraint": {
+        "definition": "TRIGGER DEFERRABLE INITIALLY DEFERRED",
+        "name": "mandor_shop_journal_exact_at_commit",
+        "semantic": null,
+        "type": "t"
+      },
+      "deferrable": true,
+      "definition": "CREATE CONSTRAINT TRIGGER mandor_shop_journal_exact_at_commit AFTER INSERT OR UPDATE ON erp.journal_entries DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE FUNCTION cp7_mandor_shop.deferred_payment_journal()",
+      "definition_sha256": "057a2b15b83510cf53b37e85ceebc584f3f192d49f897356058b0b58ad69ab20",
+      "enabled": "O",
+      "function": "cp7_mandor_shop.deferred_payment_journal()",
+      "initially_deferred": true,
+      "internal": false,
+      "name": "mandor_shop_journal_exact_at_commit",
+      "new_table": null,
+      "old_table": null,
+      "parent_trigger": null,
+      "referenced_relation": null,
+      "relation": "erp.journal_entries",
+      "relation_owner": "postgres",
+      "source": "scripts/cp7_mandor_shop/payment_guards.sql",
+      "trigger_type": 21
+    },
+    {
+      "args_hex": "",
+      "argument_count": 0,
+      "columns": [],
+      "condition": null,
+      "constraint": null,
+      "deferrable": false,
+      "definition": "CREATE TRIGGER mandor_shop_journal_owner BEFORE INSERT OR DELETE OR UPDATE ON erp.journal_entries FOR EACH ROW EXECUTE FUNCTION cp7_mandor_shop.guard_payment_journal()",
+      "definition_sha256": "76064a88d091d093b6059f6381684afe2300505a7c68da7d1578a2d1db9e7e90",
+      "enabled": "O",
+      "function": "cp7_mandor_shop.guard_payment_journal()",
+      "initially_deferred": false,
+      "internal": false,
+      "name": "mandor_shop_journal_owner",
+      "new_table": null,
+      "old_table": null,
+      "parent_trigger": null,
+      "referenced_relation": null,
+      "relation": "erp.journal_entries",
+      "relation_owner": "postgres",
+      "source": "scripts/cp7_mandor_shop/payment_guards.sql",
+      "trigger_type": 31
+    },
+    {
+      "args_hex": "",
+      "argument_count": 0,
+      "columns": [
+        "customer_id",
+        "status"
+      ],
+      "condition": null,
+      "constraint": null,
+      "deferrable": false,
+      "definition": "CREATE TRIGGER cp7_mandor_shop_sales_identity AFTER INSERT OR UPDATE OF customer_id, status ON erp.sales_headers FOR EACH ROW EXECUTE FUNCTION cp7_mandor_shop.sales_identity()",
+      "definition_sha256": "66f33e2691df57591e3ef878b76331e91d180ff6b2828d4cfe97a7f53f64a5c7",
+      "enabled": "O",
+      "function": "cp7_mandor_shop.sales_identity()",
+      "initially_deferred": false,
+      "internal": false,
+      "name": "cp7_mandor_shop_sales_identity",
+      "new_table": null,
+      "old_table": null,
+      "parent_trigger": null,
+      "referenced_relation": null,
+      "relation": "erp.sales_headers",
+      "relation_owner": "postgres",
+      "source": "scripts/cp7_mandor_shop/sale_identity.sql",
+      "trigger_type": 21
+    },
+    {
+      "args_hex": "",
+      "argument_count": 0,
+      "columns": [],
+      "condition": null,
+      "constraint": null,
+      "deferrable": false,
+      "definition": "CREATE TRIGGER mandor_shop_invoice_offset_exposure BEFORE DELETE OR UPDATE ON erp.sales_headers FOR EACH ROW EXECUTE FUNCTION cp7_mandor_shop.guard_invoice_offset_exposure()",
+      "definition_sha256": "e93937e639109e139ca1e90e6ff06b75b063eaf5e350a6870a4edc8850d2c27d",
+      "enabled": "O",
+      "function": "cp7_mandor_shop.guard_invoice_offset_exposure()",
+      "initially_deferred": false,
+      "internal": false,
+      "name": "mandor_shop_invoice_offset_exposure",
+      "new_table": null,
+      "old_table": null,
+      "parent_trigger": null,
+      "referenced_relation": null,
+      "relation": "erp.sales_headers",
+      "relation_owner": "postgres",
+      "source": "scripts/cp7_mandor_shop/payment_guards.sql",
+      "trigger_type": 27
+    },
+    {
+      "args_hex": "",
+      "argument_count": 0,
+      "columns": [],
+      "condition": null,
+      "constraint": null,
+      "deferrable": false,
+      "definition": "CREATE TRIGGER mandor_shop_return_offset_exposure BEFORE INSERT OR DELETE OR UPDATE ON erp.sales_returns FOR EACH ROW EXECUTE FUNCTION cp7_mandor_shop.guard_invoice_offset_exposure()",
+      "definition_sha256": "45d467fc0700fcda3305ffa3b7da70067e1d91622071e78b261b20100b85c54a",
+      "enabled": "O",
+      "function": "cp7_mandor_shop.guard_invoice_offset_exposure()",
+      "initially_deferred": false,
+      "internal": false,
+      "name": "mandor_shop_return_offset_exposure",
+      "new_table": null,
+      "old_table": null,
+      "parent_trigger": null,
+      "referenced_relation": null,
+      "relation": "erp.sales_returns",
+      "relation_owner": "postgres",
+      "source": "scripts/cp7_mandor_shop/payment_guards.sql",
+      "trigger_type": 31
+    },
+    {
+      "args_hex": "",
+      "argument_count": 0,
+      "columns": [
+        "status"
+      ],
+      "condition": null,
+      "constraint": null,
+      "deferrable": false,
+      "definition": "CREATE TRIGGER sku_component_sale_reverse_v2 AFTER UPDATE OF status ON erp.sales_headers FOR EACH ROW EXECUTE FUNCTION cp7_sku_conversion.status_component_reverse_v2()",
+      "definition_sha256": "d69451f026b87acadc45cee77f327fb74523114a54d8beb1070649bd8ffcc67c",
+      "enabled": "O",
+      "function": "cp7_sku_conversion.status_component_reverse_v2()",
+      "initially_deferred": false,
+      "internal": false,
+      "name": "sku_component_sale_reverse_v2",
+      "new_table": null,
+      "old_table": null,
+      "parent_trigger": null,
+      "referenced_relation": null,
+      "relation": "erp.sales_headers",
+      "relation_owner": "postgres",
+      "source": "scripts/cp7_sku_moving_average/valuation.sql",
+      "trigger_type": 17
+    },
+    {
+      "args_hex": "",
+      "argument_count": 0,
+      "columns": [
+        "status"
+      ],
+      "condition": null,
+      "constraint": null,
+      "deferrable": false,
+      "definition": "CREATE TRIGGER sku_component_return_reverse_v2 AFTER UPDATE OF status ON erp.sales_returns FOR EACH ROW EXECUTE FUNCTION cp7_sku_conversion.status_component_reverse_v2()",
+      "definition_sha256": "a619a12e37ff3a1493f47b1e653de2096eb096e2c71e17ebf4de5b63cd08f0cb",
+      "enabled": "O",
+      "function": "cp7_sku_conversion.status_component_reverse_v2()",
+      "initially_deferred": false,
+      "internal": false,
+      "name": "sku_component_return_reverse_v2",
+      "new_table": null,
+      "old_table": null,
+      "parent_trigger": null,
+      "referenced_relation": null,
+      "relation": "erp.sales_returns",
+      "relation_owner": "postgres",
+      "source": "scripts/cp7_sku_moving_average/valuation.sql",
+      "trigger_type": 17
+    }
+  ],
+  "phases": {
+    "mandor": {
+      "added_fks": [
+        {
+          "definition": "FOREIGN KEY (sale_id) REFERENCES erp.sales_headers(id)",
+          "key": "cp7_mandor_shop.draft_buyers:draft_buyers_sale_id_fkey",
+          "line": 15,
+          "semantic": {
+            "columns": [
+              "sale_id"
+            ],
+            "deferrable": false,
+            "delete_action": "a",
+            "initially_deferred": false,
+            "match_type": "s",
+            "parent": "erp.sales_headers",
+            "parent_columns": [
+              "id"
+            ],
+            "relation": "cp7_mandor_shop.draft_buyers",
+            "update_action": "a",
+            "validated": true
+          },
+          "source": "scripts/cp7_mandor_shop/schema.sql"
+        },
+        {
+          "definition": "FOREIGN KEY (sale_id) REFERENCES erp.sales_headers(id)",
+          "key": "cp7_mandor_shop.sales:sales_sale_id_fkey",
+          "line": 27,
+          "semantic": {
+            "columns": [
+              "sale_id"
+            ],
+            "deferrable": false,
+            "delete_action": "a",
+            "initially_deferred": false,
+            "match_type": "s",
+            "parent": "erp.sales_headers",
+            "parent_columns": [
+              "id"
+            ],
+            "relation": "cp7_mandor_shop.sales",
+            "update_action": "a",
+            "validated": true
+          },
+          "source": "scripts/cp7_mandor_shop/schema.sql"
+        },
+        {
+          "definition": "FOREIGN KEY (journal_id) REFERENCES erp.journal_entries(id)",
+          "key": "cp7_mandor_shop.settlements:settlements_journal_id_fkey",
+          "line": 91,
+          "semantic": {
+            "columns": [
+              "journal_id"
+            ],
+            "deferrable": false,
+            "delete_action": "a",
+            "initially_deferred": false,
+            "match_type": "s",
+            "parent": "erp.journal_entries",
+            "parent_columns": [
+              "id"
+            ],
+            "relation": "cp7_mandor_shop.settlements",
+            "update_action": "a",
+            "validated": true
+          },
+          "source": "scripts/cp7_mandor_shop/schema.sql"
+        },
+        {
+          "definition": "FOREIGN KEY (reversal_journal_id) REFERENCES erp.journal_entries(id)",
+          "key": "cp7_mandor_shop.settlement_reversals:settlement_reversals_reversal_journal_id_fkey",
+          "line": 122,
+          "semantic": {
+            "columns": [
+              "reversal_journal_id"
+            ],
+            "deferrable": false,
+            "delete_action": "a",
+            "initially_deferred": false,
+            "match_type": "s",
+            "parent": "erp.journal_entries",
+            "parent_columns": [
+              "id"
+            ],
+            "relation": "cp7_mandor_shop.settlement_reversals",
+            "update_action": "a",
+            "validated": true
+          },
+          "source": "scripts/cp7_mandor_shop/schema.sql"
+        }
+      ],
+      "added_ordinary_functions": {
+        "cp7_mandor_shop.deferred_payment_journal()": {
+          "acl": [
+            {
+              "grantable": false,
+              "grantee": "postgres",
+              "privilege": "EXECUTE"
+            }
+          ],
+          "body_sha256": "e82e9c1179e7a20a3a59a6c6a763bef741230c940d9b3ea54e14b9880653d3d7",
+          "config": [
+            "search_path=\"\""
+          ],
+          "definition_sha256": "e2a4e84ea6a28b058632b7d977fc5dbb49b74c81c92987eb5b8842f0c712b9d1",
+          "exact_acl": [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ],
+          "identity": "cp7_mandor_shop.deferred_payment_journal()",
+          "input_arguments": "",
+          "language": "plpgsql",
+          "moving_pre_money_body_sha256": null,
+          "owner": "postgres",
+          "result": "trigger",
+          "security_definer": true,
+          "source": "scripts/cp7_mandor_shop/payment_guards.sql",
+          "source_fragment_sha256": "8d76285cc28e267eb428b3f2b54b8e49411cddd77492d98cb8442f4db27febc2",
+          "volatility": "v"
+        },
+        "cp7_mandor_shop.guard_invoice_offset_exposure()": {
+          "acl": [
+            {
+              "grantable": false,
+              "grantee": "postgres",
+              "privilege": "EXECUTE"
+            }
+          ],
+          "body_sha256": "e7a73b066b823d48e94c58c48b244746acad8af1425aa44c78a084407aae0d4d",
+          "config": [
+            "search_path=\"\""
+          ],
+          "definition_sha256": "7ff91d9ac8c7e016bbc6a1c8743ee769d2aa49495856d459df72f97eadd8de09",
+          "exact_acl": [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ],
+          "identity": "cp7_mandor_shop.guard_invoice_offset_exposure()",
+          "input_arguments": "",
+          "language": "plpgsql",
+          "moving_pre_money_body_sha256": null,
+          "owner": "postgres",
+          "result": "trigger",
+          "security_definer": true,
+          "source": "scripts/cp7_mandor_shop/payment_guards.sql",
+          "source_fragment_sha256": "618c3a638d195e576e72f18cfed28767a9b4082a1ced5befb131284504b7c830",
+          "volatility": "v"
+        },
+        "cp7_mandor_shop.guard_payment_journal()": {
+          "acl": [
+            {
+              "grantable": false,
+              "grantee": "postgres",
+              "privilege": "EXECUTE"
+            }
+          ],
+          "body_sha256": "bcb30c066171f9b3fac584c2cbb1cde5f081bf41e4ae1fb18f6f2f460b9f3168",
+          "config": [
+            "search_path=\"\""
+          ],
+          "definition_sha256": "0743ef72f373e0f88a5582afa81b10d9401bff0620709631a3d53a5d1cb85952",
+          "exact_acl": [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ],
+          "identity": "cp7_mandor_shop.guard_payment_journal()",
+          "input_arguments": "",
+          "language": "plpgsql",
+          "moving_pre_money_body_sha256": null,
+          "owner": "postgres",
+          "result": "trigger",
+          "security_definer": true,
+          "source": "scripts/cp7_mandor_shop/payment_guards.sql",
+          "source_fragment_sha256": "b5f4bedeefa5900ade6e561e29ff297063e77ba4f6fc3cb1ce7cea85dbb0e91e",
+          "volatility": "v"
+        },
+        "cp7_mandor_shop.sales_identity()": {
+          "acl": [
+            {
+              "grantable": false,
+              "grantee": "postgres",
+              "privilege": "EXECUTE"
+            }
+          ],
+          "body_sha256": "9b53495fa2a76043a46418702e6d07e406a44be0a9ac8e79b22eaf944f2d45b5",
+          "config": [
+            "search_path=\"\"",
+            "TimeZone=UTC",
+            "lock_timeout=1s"
+          ],
+          "definition_sha256": "4f5d8b50e360b90be29a65dba949bc600f3c0780c48a04da29667d1c85196c8f",
+          "exact_acl": [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ],
+          "identity": "cp7_mandor_shop.sales_identity()",
+          "input_arguments": "",
+          "language": "plpgsql",
+          "moving_pre_money_body_sha256": null,
+          "owner": "postgres",
+          "result": "trigger",
+          "security_definer": true,
+          "source": "scripts/cp7_mandor_shop/sale_identity.sql",
+          "source_fragment_sha256": "0134a40e7f1ada560a36afcc8e37ed182a14592d646e27ba475b179f308f30e3",
+          "volatility": "v"
+        }
+      },
+      "added_ordinary_triggers": [
+        {
+          "args_hex": "",
+          "argument_count": 0,
+          "columns": [],
+          "condition": null,
+          "constraint": {
+            "definition": "TRIGGER DEFERRABLE INITIALLY DEFERRED",
+            "name": "mandor_shop_journal_exact_at_commit",
+            "semantic": null,
+            "type": "t"
+          },
+          "deferrable": true,
+          "definition": "CREATE CONSTRAINT TRIGGER mandor_shop_journal_exact_at_commit AFTER INSERT OR UPDATE ON erp.journal_entries DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE FUNCTION cp7_mandor_shop.deferred_payment_journal()",
+          "definition_sha256": "057a2b15b83510cf53b37e85ceebc584f3f192d49f897356058b0b58ad69ab20",
+          "enabled": "O",
+          "function": "cp7_mandor_shop.deferred_payment_journal()",
+          "initially_deferred": true,
+          "internal": false,
+          "name": "mandor_shop_journal_exact_at_commit",
+          "new_table": null,
+          "old_table": null,
+          "parent_trigger": null,
+          "referenced_relation": null,
+          "relation": "erp.journal_entries",
+          "relation_owner": "postgres",
+          "source": "scripts/cp7_mandor_shop/payment_guards.sql",
+          "trigger_type": 21
+        },
+        {
+          "args_hex": "",
+          "argument_count": 0,
+          "columns": [],
+          "condition": null,
+          "constraint": null,
+          "deferrable": false,
+          "definition": "CREATE TRIGGER mandor_shop_journal_owner BEFORE INSERT OR DELETE OR UPDATE ON erp.journal_entries FOR EACH ROW EXECUTE FUNCTION cp7_mandor_shop.guard_payment_journal()",
+          "definition_sha256": "76064a88d091d093b6059f6381684afe2300505a7c68da7d1578a2d1db9e7e90",
+          "enabled": "O",
+          "function": "cp7_mandor_shop.guard_payment_journal()",
+          "initially_deferred": false,
+          "internal": false,
+          "name": "mandor_shop_journal_owner",
+          "new_table": null,
+          "old_table": null,
+          "parent_trigger": null,
+          "referenced_relation": null,
+          "relation": "erp.journal_entries",
+          "relation_owner": "postgres",
+          "source": "scripts/cp7_mandor_shop/payment_guards.sql",
+          "trigger_type": 31
+        },
+        {
+          "args_hex": "",
+          "argument_count": 0,
+          "columns": [
+            "customer_id",
+            "status"
+          ],
+          "condition": null,
+          "constraint": null,
+          "deferrable": false,
+          "definition": "CREATE TRIGGER cp7_mandor_shop_sales_identity AFTER INSERT OR UPDATE OF customer_id, status ON erp.sales_headers FOR EACH ROW EXECUTE FUNCTION cp7_mandor_shop.sales_identity()",
+          "definition_sha256": "66f33e2691df57591e3ef878b76331e91d180ff6b2828d4cfe97a7f53f64a5c7",
+          "enabled": "O",
+          "function": "cp7_mandor_shop.sales_identity()",
+          "initially_deferred": false,
+          "internal": false,
+          "name": "cp7_mandor_shop_sales_identity",
+          "new_table": null,
+          "old_table": null,
+          "parent_trigger": null,
+          "referenced_relation": null,
+          "relation": "erp.sales_headers",
+          "relation_owner": "postgres",
+          "source": "scripts/cp7_mandor_shop/sale_identity.sql",
+          "trigger_type": 21
+        },
+        {
+          "args_hex": "",
+          "argument_count": 0,
+          "columns": [],
+          "condition": null,
+          "constraint": null,
+          "deferrable": false,
+          "definition": "CREATE TRIGGER mandor_shop_invoice_offset_exposure BEFORE DELETE OR UPDATE ON erp.sales_headers FOR EACH ROW EXECUTE FUNCTION cp7_mandor_shop.guard_invoice_offset_exposure()",
+          "definition_sha256": "e93937e639109e139ca1e90e6ff06b75b063eaf5e350a6870a4edc8850d2c27d",
+          "enabled": "O",
+          "function": "cp7_mandor_shop.guard_invoice_offset_exposure()",
+          "initially_deferred": false,
+          "internal": false,
+          "name": "mandor_shop_invoice_offset_exposure",
+          "new_table": null,
+          "old_table": null,
+          "parent_trigger": null,
+          "referenced_relation": null,
+          "relation": "erp.sales_headers",
+          "relation_owner": "postgres",
+          "source": "scripts/cp7_mandor_shop/payment_guards.sql",
+          "trigger_type": 27
+        },
+        {
+          "args_hex": "",
+          "argument_count": 0,
+          "columns": [],
+          "condition": null,
+          "constraint": null,
+          "deferrable": false,
+          "definition": "CREATE TRIGGER mandor_shop_return_offset_exposure BEFORE INSERT OR DELETE OR UPDATE ON erp.sales_returns FOR EACH ROW EXECUTE FUNCTION cp7_mandor_shop.guard_invoice_offset_exposure()",
+          "definition_sha256": "45d467fc0700fcda3305ffa3b7da70067e1d91622071e78b261b20100b85c54a",
+          "enabled": "O",
+          "function": "cp7_mandor_shop.guard_invoice_offset_exposure()",
+          "initially_deferred": false,
+          "internal": false,
+          "name": "mandor_shop_return_offset_exposure",
+          "new_table": null,
+          "old_table": null,
+          "parent_trigger": null,
+          "referenced_relation": null,
+          "relation": "erp.sales_returns",
+          "relation_owner": "postgres",
+          "source": "scripts/cp7_mandor_shop/payment_guards.sql",
+          "trigger_type": 31
+        }
+      ],
+      "exact_source_hashes": {
+        "cp7_mandor_shop/payment_guards.sql": "11f00f6918330d8c4288e0c6265173cb8caee28aa24e62350a01d86b8247723a",
+        "cp7_mandor_shop/sale_identity.sql": "98964804488c94f0ffee865068327a8b6fb37fc8b7c6e037e97af32525a672ea",
+        "cp7_mandor_shop/schema.sql": "59c1b8e69555f6a8e0caf34e8d0ee18e27c1d4caaee8073c44225bbc4a687fd1"
+      },
+      "frozen_checkout_commit": "a0e7d5616a0ac470876409d31c41388159f17692"
+    },
+    "money": {
+      "added_fks": [
+        {
+          "definition": "FOREIGN KEY (hpp_version_id) REFERENCES erp.hpp_versions(id)",
+          "key": "cp7_sku_conversion.cost_contributors_v3:cost_contributors_v3_hpp_version_id_fkey",
+          "line": 25,
+          "semantic": {
+            "columns": [
+              "hpp_version_id"
+            ],
+            "deferrable": false,
+            "delete_action": "a",
+            "initially_deferred": false,
+            "match_type": "s",
+            "parent": "erp.hpp_versions",
+            "parent_columns": [
+              "id"
+            ],
+            "relation": "cp7_sku_conversion.cost_contributors_v3",
+            "update_action": "a",
+            "validated": true
+          },
+          "source": "scripts/cp7_sku_cost_components/costs.sql"
+        },
+        {
+          "definition": "FOREIGN KEY (journal_id) REFERENCES erp.journal_entries(id)",
+          "key": "cp7_sku_conversion.cost_source_rebalances_v3:cost_source_rebalances_v3_journal_id_fkey",
+          "line": 5,
+          "semantic": {
+            "columns": [
+              "journal_id"
+            ],
+            "deferrable": false,
+            "delete_action": "a",
+            "initially_deferred": false,
+            "match_type": "s",
+            "parent": "erp.journal_entries",
+            "parent_columns": [
+              "id"
+            ],
+            "relation": "cp7_sku_conversion.cost_source_rebalances_v3",
+            "update_action": "a",
+            "validated": true
+          },
+          "source": "scripts/cp7_sku_cost_components/source_rebalance.sql"
+        },
+        {
+          "definition": "FOREIGN KEY (journal_id) REFERENCES erp.journal_entries(id)",
+          "key": "cp7_sku_conversion.group_inverse_rebalances_v3:group_inverse_rebalances_v3_journal_id_fkey",
+          "line": 4,
+          "semantic": {
+            "columns": [
+              "journal_id"
+            ],
+            "deferrable": false,
+            "delete_action": "a",
+            "initially_deferred": false,
+            "match_type": "s",
+            "parent": "erp.journal_entries",
+            "parent_columns": [
+              "id"
+            ],
+            "relation": "cp7_sku_conversion.group_inverse_rebalances_v3",
+            "update_action": "a",
+            "validated": true
+          },
+          "source": "scripts/cp7_sku_cost_components/inverse_rebalance.sql"
+        }
+      ],
+      "added_ordinary_functions": {},
+      "added_ordinary_triggers": [],
+      "exact_source_hashes": {
+        "cp7_sku_cost_components/costs.sql": "999ce0516366efb0a2cdc59e0c90b7edf99717dc387fa51f972934e287c1e6c1",
+        "cp7_sku_cost_components/inverse_rebalance.sql": "8d681ce43fca746e1fd89d9a7ebbd351ad7979789f9f0f0c39952177f9d4e188",
+        "cp7_sku_cost_components/source_rebalance.sql": "7a9ab4a887fe92b82eeb003989418b5ab4da57607fccefc365b2f2445bade765",
+        "cp7_sku_cost_components/valuation_delta.py": "9c509c96b49d3f236fed740437e10bab480b9a86957222786ac952b600291a2d"
+      },
+      "frozen_checkout_commit": "f1674ae84739f577571d68415beabfca3f3b832b"
+    },
+    "moving": {
+      "added_fks": [
+        {
+          "definition": "FOREIGN KEY (hpp_version_id) REFERENCES erp.hpp_versions(id)",
+          "key": "cp7_sku_conversion.valuation_contributors_v2:valuation_contributors_v2_hpp_version_id_fkey",
+          "line": 26,
+          "semantic": {
+            "columns": [
+              "hpp_version_id"
+            ],
+            "deferrable": false,
+            "delete_action": "a",
+            "initially_deferred": false,
+            "match_type": "s",
+            "parent": "erp.hpp_versions",
+            "parent_columns": [
+              "id"
+            ],
+            "relation": "cp7_sku_conversion.valuation_contributors_v2",
+            "update_action": "a",
+            "validated": true
+          },
+          "source": "scripts/cp7_sku_moving_average/valuation.sql"
+        },
+        {
+          "definition": "FOREIGN KEY (correction_journal_id) REFERENCES erp.journal_entries(id)",
+          "key": "cp7_sku_conversion.valuation_postings_v2:valuation_postings_v2_correction_journal_id_fkey",
+          "line": 42,
+          "semantic": {
+            "columns": [
+              "correction_journal_id"
+            ],
+            "deferrable": false,
+            "delete_action": "a",
+            "initially_deferred": false,
+            "match_type": "s",
+            "parent": "erp.journal_entries",
+            "parent_columns": [
+              "id"
+            ],
+            "relation": "cp7_sku_conversion.valuation_postings_v2",
+            "update_action": "a",
+            "validated": true
+          },
+          "source": "scripts/cp7_sku_moving_average/valuation.sql"
+        },
+        {
+          "definition": "FOREIGN KEY (sale_id) REFERENCES erp.sales_headers(id)",
+          "key": "cp7_sku_conversion.sale_allocation_values_v2:sale_allocation_values_v2_sale_id_fkey",
+          "line": 76,
+          "semantic": {
+            "columns": [
+              "sale_id"
+            ],
+            "deferrable": false,
+            "delete_action": "a",
+            "initially_deferred": false,
+            "match_type": "s",
+            "parent": "erp.sales_headers",
+            "parent_columns": [
+              "id"
+            ],
+            "relation": "cp7_sku_conversion.sale_allocation_values_v2",
+            "update_action": "a",
+            "validated": true
+          },
+          "source": "scripts/cp7_sku_moving_average/valuation.sql"
+        },
+        {
+          "definition": "FOREIGN KEY (return_id) REFERENCES erp.sales_returns(id)",
+          "key": "cp7_sku_conversion.sales_return_values_v2:sales_return_values_v2_return_id_fkey",
+          "line": 118,
+          "semantic": {
+            "columns": [
+              "return_id"
+            ],
+            "deferrable": false,
+            "delete_action": "a",
+            "initially_deferred": false,
+            "match_type": "s",
+            "parent": "erp.sales_returns",
+            "parent_columns": [
+              "id"
+            ],
+            "relation": "cp7_sku_conversion.sales_return_values_v2",
+            "update_action": "a",
+            "validated": true
+          },
+          "source": "scripts/cp7_sku_moving_average/valuation.sql"
+        }
+      ],
+      "added_ordinary_functions": {
+        "cp7_sku_conversion.status_component_reverse_v2()": {
+          "acl": [
+            {
+              "grantable": false,
+              "grantee": "postgres",
+              "privilege": "EXECUTE"
+            }
+          ],
+          "body_sha256": "91ba8e189218671c7e052cee61c593ff8db203f6574bb38fad86665d25d88e3f",
+          "config": [
+            "search_path=\"\"",
+            "TimeZone=UTC"
+          ],
+          "definition_sha256": "607be2a36573d3b24a9558adc5aa00bcddfdded4e04a1ed696f2cd7015cc8726",
+          "exact_acl": [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ],
+          "identity": "cp7_sku_conversion.status_component_reverse_v2()",
+          "input_arguments": "",
+          "language": "plpgsql",
+          "moving_pre_money_body_sha256": "12ee2dfa67208e4881dec6b6fd3eaf7ad3685a6d1b9c0ff7a9cbb828418cd87b",
+          "owner": "postgres",
+          "result": "trigger",
+          "security_definer": true,
+          "source": "scripts/cp7_sku_moving_average/valuation.sql",
+          "source_fragment_sha256": "ac9b33a9de7edcf5eead1831a474dd19e6c3b8734ec5a300f8c133273f83f65e",
+          "volatility": "v"
+        }
+      },
+      "added_ordinary_triggers": [
+        {
+          "args_hex": "",
+          "argument_count": 0,
+          "columns": [
+            "status"
+          ],
+          "condition": null,
+          "constraint": null,
+          "deferrable": false,
+          "definition": "CREATE TRIGGER sku_component_sale_reverse_v2 AFTER UPDATE OF status ON erp.sales_headers FOR EACH ROW EXECUTE FUNCTION cp7_sku_conversion.status_component_reverse_v2()",
+          "definition_sha256": "d69451f026b87acadc45cee77f327fb74523114a54d8beb1070649bd8ffcc67c",
+          "enabled": "O",
+          "function": "cp7_sku_conversion.status_component_reverse_v2()",
+          "initially_deferred": false,
+          "internal": false,
+          "name": "sku_component_sale_reverse_v2",
+          "new_table": null,
+          "old_table": null,
+          "parent_trigger": null,
+          "referenced_relation": null,
+          "relation": "erp.sales_headers",
+          "relation_owner": "postgres",
+          "source": "scripts/cp7_sku_moving_average/valuation.sql",
+          "trigger_type": 17
+        },
+        {
+          "args_hex": "",
+          "argument_count": 0,
+          "columns": [
+            "status"
+          ],
+          "condition": null,
+          "constraint": null,
+          "deferrable": false,
+          "definition": "CREATE TRIGGER sku_component_return_reverse_v2 AFTER UPDATE OF status ON erp.sales_returns FOR EACH ROW EXECUTE FUNCTION cp7_sku_conversion.status_component_reverse_v2()",
+          "definition_sha256": "a619a12e37ff3a1493f47b1e653de2096eb096e2c71e17ebf4de5b63cd08f0cb",
+          "enabled": "O",
+          "function": "cp7_sku_conversion.status_component_reverse_v2()",
+          "initially_deferred": false,
+          "internal": false,
+          "name": "sku_component_return_reverse_v2",
+          "new_table": null,
+          "old_table": null,
+          "parent_trigger": null,
+          "referenced_relation": null,
+          "relation": "erp.sales_returns",
+          "relation_owner": "postgres",
+          "source": "scripts/cp7_sku_moving_average/valuation.sql",
+          "trigger_type": 17
+        }
+      ],
+      "exact_source_hashes": {
+        "cp7_sku_moving_average/valuation.sql": "f2868e334b1f85f6a568c3f5da51cb7f979867eb154058a8652e865222d83649"
+      },
+      "frozen_checkout_commit": "f1674ae84739f577571d68415beabfca3f3b832b"
+    }
+  },
+  "pinned_guard_inputs": {
+    "SOURCE_PINS.json": "dbb177c5fc067d3173b23c6654dd8c0bc62610c3e8d9ce1b42876c6a7712d292",
+    "build_source_pins.py": "dc39bacd8fd5beb2d40bb3acac8ced0ff4f29a34e1731981e52a0eb416bdf026",
+    "capture.sql": "0ec6af17788d09a3f30ffc2adffa2f6a8e46dae8d1879664669f91995fe91f38",
+    "trigger_guard.py": "7de2a8cc7761487d77e03bb77f4333f7a52ed61b9fa5ccc33ea3f52965661ab9"
+  },
+  "pre_mandor_expected_counts": {
+    "foreign_keys": 126,
+    "internal_triggers": 264,
+    "ordinary_functions": 18,
+    "ordinary_triggers": 25,
+    "relations": 6
+  },
+  "preexisting_ordinary_function_body_authority_unchanged": 18,
+  "preexisting_ordinary_trigger_keys_retained": 25,
+  "preexisting_source_fks_retained": 126,
+  "production_go": false,
+  "raw_authority_scope": {
+    "existing_raw_relation_trigger_function_fk_rows_must_match_pre_mandor": true,
+    "new_deferred_constraint_oid_bound_to_live_pg_constraint": true,
+    "relations": [
+      "erp.fg_stock_movements",
+      "erp.hpp_versions",
+      "erp.journal_entries",
+      "erp.sales_headers",
+      "erp.sales_payments",
+      "erp.sales_returns"
+    ]
+  },
+  "scope": [
+    "erp.fg_stock_movements",
+    "erp.hpp_versions",
+    "erp.journal_entries",
+    "erp.sales_headers",
+    "erp.sales_payments",
+    "erp.sales_returns"
+  ],
+  "sku_original_run": 43347020525,
+  "status": "SOURCE_AND_RETAINED_FULL25_CREDIT_CENSUS_DELTA_VERIFIED",
+  "vendor_guard_scope_added_fks": 0
+}

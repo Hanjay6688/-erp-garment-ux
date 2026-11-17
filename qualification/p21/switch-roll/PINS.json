@@ -1,0 +1,9 @@
+{
+  "product_head": "00272ba94b2e467c3b97a63f97548e47187a8b35",
+  "product_tree": "07c39c54bdf79e4c0bae58f442af743304990c89",
+  "parent": "a752459a0a8baf1920d0e6d1c1fba6f4ef14af8d",
+  "bundle_sha256": "ae7834256cc26cd4b22a4358914afd6dbad4a825fd43e098636ba51ebc8774f6",
+  "target": "PRIVATE_GITHUB_DISPOSABLE_LOOPBACK",
+  "p20_replay_cases": 0,
+  "production_go": false
+}

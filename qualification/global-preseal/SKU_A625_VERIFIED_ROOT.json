@@ -1,0 +1,413 @@
+{
+  "status": "ROOT_VERIFIED_CURRENT_SKU_NATIVE25_BROWSER2_ALL5",
+  "head": "a62504d71a6ca1cdbaa59b6fe0fd5739693f100a",
+  "tree": "df64669b64e82f4b5027ccad837cc3d014dbcafa",
+  "run_id": 43347020525,
+  "job_id": 131628716944,
+  "attempt": 1,
+  "artifact_id": 14011544457,
+  "archive": {
+    "bytes": 166093725,
+    "sha256": "de951319b2e9a31c490e2a2dc75a4985561e381256085c10d162264576e54c27",
+    "members": 257
+  },
+  "originals": {
+    "CP7_SKU_CURRENT_PARENT_MONEY_AUTOMATIC_QUALIFICATION.json": {
+      "bytes": 8962731,
+      "sha256": "21199c40956e85b00b219548114741730f0e4f6a7109c7a30c70f763e0d17b75"
+    },
+    "CP7_SKU_CURRENT_PARENT_MONEY_AUTOMATIC_NATIVE25.json": {
+      "bytes": 169164,
+      "sha256": "1a78da25be91eec7ef8d1c409af09d1e082f2c327dcb6087fc0c1e76cddb914a"
+    },
+    "SKU_CURRENT_PARENT_MONEY_AUTOMATIC_BROWSER2.json": {
+      "bytes": 2061010,
+      "sha256": "cde7667eba37b10431afed67dbb2b782d496cbf01e9fb89a97616610f1a2e369"
+    },
+    "SKU_CURRENT_PARENT_MONEY_AUTOMATIC_FINAL_GATE.json": {
+      "bytes": 17953,
+      "sha256": "f7ff36a8a437d40ef86d2e0875b58e0a493fd0f46bf949610c5fdf9269d0a031"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360433,
+      "sha256": "a63256e230eb48d9760241eb08c6e61bcb28b26831c17b35d24125fac92de1ce"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 1470,
+      "sha256": "9fb030c15751013127c59ed89294052fb3e50caab5cbbfed3752511a95bf6532"
+    },
+    "SKU_CURRENT_PARENT_MONEY_AUTOMATIC_RUNTIME_SUPERVISION.json": {
+      "bytes": 602,
+      "sha256": "902dae40df5aaffd4c5bfdffe85bfce7018a3b9643efe418a4c0579830fb9fac"
+    },
+    "SKU_GLOBAL_PARENT_ACTUAL_FULL25.json": {
+      "bytes": 16051957,
+      "sha256": "ecf858d67f43c0967cfe6f38c51338dea64331ef6c0d1264786a8967f856e2a4"
+    }
+  },
+  "mandor_root": {
+    "bytes": 19149,
+    "sha256": "87f9c26be35fb84288189162c6ed18edc9d12f9648901ef36a41c85a168e7670"
+  },
+  "mandor_evidence_mode": "CUMULATIVE_15_PLUS_2",
+  "mandor_cumulative_decision": {
+    "bytes": 16346,
+    "sha256": "26a885207634cd91aa57e6746e92852d1ffa8092cf4df3b6da389c2f929927c0"
+  },
+  "qualified_combined_SKU_sources": {
+    "contract": "cp7.sku-automatic-on-current-mandor-money.v5",
+    "predecessor": {
+      "contract": "cp7.sku-cost-money-on-current-mandor.v1",
+      "predecessor": {
+        "contract": "cp7.sku-moving-average-on-current-mandor.v1",
+        "predecessor": {
+          "contract": "cp7.mandor-shop-on-accepted-afui.v1",
+          "parent_root": {
+            "bytes": 1981,
+            "sha256": "18f068fa23983cb64980bcf3882bfbce7f794640e280d03e5c37a90eb04a999d"
+          },
+          "qualified_Afui_sources": {
+            "bytes": 756824,
+            "sha256": "97e9619d995d61601b0b9819c02104c0090805d14ddf08d86c221f7896b68b44"
+          },
+          "Mandor_sources": {
+            "contract": "cp7.mandor-shop-guarded-installation.v1",
+            "manifest": {
+              "bytes": 18857,
+              "sha256": "4d11d55e06373db14ecab8ce4dd77b35c739d50ea23dadecbfd753a12351e0de"
+            },
+            "plan": {
+              "bytes": 13274,
+              "sha256": "677cd27d61a44b875b9d0745fbba7eeb1c23588093fad299e7639c07c5dc2316"
+            },
+            "actual_final_parent_admission": "fd797083eab093d9dc97f2d52ca61dc37812b437",
+            "runtime_entry": "scripts/current-mandor-shop-native-qualification/qualification.py",
+            "production_go": false,
+            "independent_acceptance": false
+          },
+          "Mandor_review_adapter": {
+            "asset_sha256": {
+              "FOCUSED_INSTALLER.sql": "d85ed5728c2a5b5269d12988994a4c5388dc7d60d9e41fd6bc52cd980528ece4",
+              "FOCUSED_INSTALLER_RECEIPT.json": "35f2f5fdd76b1de47be912eab08156af796f7616f76b086f81fb66fcd1764ebd",
+              "FORMAL_ALL22_WIB_GUARD_FIXTURE.json": "2d392768907d3ab4bb232df14500ec43160347a46395ab1b2cd209530cb12349",
+              "UNUSED_INVERSE.sql": "04f4b1527fc9f79907460399135fa78d27c442c42fa3f68a29e6b806bba3e681"
+            },
+            "terminal_sha256": "b0dd950d7383089486358b7d29e2b38f29770b1bf4c37017d11c5511149a84d1",
+            "focus_run": 42479817344,
+            "focus_job": 128729109169,
+            "focus_artifact": 13619251724
+          },
+          "actual_Native_cases": 0,
+          "actual_Auth_HTTP_cases": 0,
+          "actual_browser_cases": 0,
+          "production_go": false,
+          "independent_acceptance": false
+        },
+        "files": {
+          "scripts/cp7_sku_moving_average/README.md": "5f1433aa5ae3f86aec9e5c2103e992f853530ac7dd33283fb0046b1e40e9983d",
+          "scripts/cp7_sku_moving_average/COMPONENT_LEDGER_DESIGN.md": "69888806a8a5a2497ebfce09846400820adcab6080e4089488cae92fc9cb4a0a",
+          "scripts/cp7_sku_moving_average/component_oracle.py": "202f17cd1903fd4b741e99ad84ea897285788d78f41c5ff9a58174c4d9872179",
+          "scripts/cp7_sku_moving_average/valuation.sql": "f2868e334b1f85f6a568c3f5da51cb7f979867eb154058a8652e865222d83649",
+          "scripts/cp7_sku_moving_average/private_delta.py": "e57e89f8291a7b62ce1584b4f30b4927dadac9b5bbb17feefe1c97c6c8f4218e",
+          "scripts/cp7_sku_moving_average/consumer_delta.py": "958dd155969a85c75ed78b5d9bb4853f7c262739b91fc8bcdcdb3fff1fa6fa8a",
+          "scripts/cp7_sku_moving_average/reader_delta.py": "022dbea3058e6163753fcde95a46f68bcaf8547145c17f8780592a76fd68c38d",
+          "scripts/cp7_sku_moving_average/credit_delta.py": "40db04666d22bd619cdba2a7e3e44b848ca55d8d73cf880f3ead7a9f1cf74945",
+          "scripts/cp7_sku_moving_average/reader_access.py": "b93e519817a6031761bc9c9b2544c278aed9ca9b130258860380853be83babe1",
+          "scripts/cp7_sku_moving_average/qualification_cases.py": "a0c6733afa5aac70f3657f04e1b67e630416b251379021aa23b2ac62d34ff195",
+          "scripts/cp7_sku_moving_average/composition.py": "da1f275fa0e91ecbbaa5bcedff65ba0391b162108cc9e91b98a5e2c9f746465f",
+          "scripts/cp7_sku_moving_average/catalog_additions.py": "fc5153f81b870e74b3c583c2c7a12bbc440e17f16223782d93edf154bd137bcb",
+          "scripts/cp7_sku_moving_average/CATALOG_ADDITIONS.json": "0c30c91959615560312e1c80475323095e89437fb92a0b2ab8ef7dfca881ea72",
+          "scripts/cp7_sku_moving_average/test_component_contract.py": "d984df9676ccfbf3c79fd8959542dfa1b13dab1aedbee99323817b3dd5366fe5",
+          "scripts/cp7_sku_moving_average/test_private_delta.py": "9a0516279a1922de7c9f16cd93b5f6e4545caf4a1f73badb8a499f1863487551",
+          "scripts/cp7_sku_moving_average/test_consumer_delta.py": "6847b8339cdc1dabffd6da2401d7267486745abd55a5f269bd6a39c53b8ad366",
+          "scripts/cp7_sku_moving_average/test_credit_delta.py": "5c81a84009c6d0371eba8d3d8906dd70fda4dabdaad90de2abaf1e20ecf7ab2b",
+          "scripts/cp7_sku_moving_average/test_reader_delta.py": "51c9c69d78d2ef0e1675fff484659c6af5d796f652b07a99c290e2241858e7a4",
+          "scripts/cp7_sku_moving_average/test_reader_capability.mjs": "1e28148e74f7d4bf380fcd70b9bdcecb28913995fe8c6a29eee57e242c8106b4",
+          "scripts/cp7_sku_moving_average/test_qualification_cases.py": "10304b3ef820dedfbc140b91bb0f0386388362524dd55e1ace85eaaa7db4c2ee",
+          "scripts/cp7_sku_moving_average/test_preuse_package_contract.py": "f0653c8527c81840498708cac01ad8a02fdca4bd8ea4ea0f528cb46ed267ea1e",
+          "scripts/cp7_sku_moving_average/test_attribution_plan.mjs": "c2dbed99cb651ea925eedb7cc1457ddc2a272b950857e14c0775d523336f02d2",
+          "scripts/cp7_sku_moving_average/prepare_consumer_model.py": "921de20da984a8a90ed7d7cdd67025d56454ebf69d0e16a343d30fef57ae7f1b",
+          "scripts/cp7_sku_moving_average/test_consumers_pg17.mjs": "798a9b8f11d8bdd3bdd4b4f1246a463ade32a335a9135a0478d8d4ee6b3e5b08",
+          "scripts/cp7_sku_moving_average/test_credit_projection_pg17.mjs": "1d210889a0c2777fb245ce62c2bb62a300b7fccdf73fc047a05bd190c81a430f"
+        },
+        "physical_FIFO_preserved": true,
+        "economic_valuation": "SKU_LOCATION_GRADE_MOVING_AVERAGE",
+        "current_parent_bridge": {
+          "receipt": {
+            "parent_root": {
+              "bytes": 19149,
+              "sha256": "87f9c26be35fb84288189162c6ed18edc9d12f9648901ef36a41c85a168e7670"
+            },
+            "candidate_source_preflight": {
+              "bytes": 368964,
+              "sha256": "55c13119aef4a9307b1638864b8eec3199e574a8876c26aa3254aa0920b1a8cb"
+            },
+            "runtime_entry": "scripts/current-sku-automatic-composite-preparation/qualification.py",
+            "fresh_complete_money19_still_required": true,
+            "candidate_money_financially_qualified": false,
+            "actual_composite_cases": 0,
+            "production_go": false,
+            "independent_acceptance": false
+          },
+          "preparation_source": {
+            "bytes": 1543,
+            "sha256": "a265d58aec12fa66053353436cf1ad57fca4051f7176ce0c937878a2e9d8317b"
+          },
+          "derivations": {
+            "moving": {
+              "original_sha256": "da1f275fa0e91ecbbaa5bcedff65ba0391b162108cc9e91b98a5e2c9f746465f",
+              "derived_sha256": "c72fe581f195ded0e7b1317df70683b439d7d88e357cea838acbc40d937aa97c",
+              "counted_changes": 6,
+              "original_recovered_exactly": true,
+              "actual_Native_cases": 0,
+              "production_go": false
+            },
+            "money": {
+              "original_bytes": 6718,
+              "original_sha256": "7ddfc7a3b825d35146a93643b1427be04c29ed49fd5debcbada00a26718868f0",
+              "derived_sha256": "6b5d188d43c75128a0b0562d5d948d0dd03e3a3a6a91c4def0862f673e013f7f",
+              "counted_changes": 5,
+              "original_recovered_exactly": true,
+              "actual_Native_cases": 0,
+              "production_go": false,
+              "independent_acceptance": false
+            }
+          },
+          "parent_state_projection": false,
+          "actual_composite_cases": 0,
+          "production_go": false
+        },
+        "actual_SQL": 0,
+        "production_go": false,
+        "independent_acceptance": false
+      },
+      "files": {
+        "scripts/cp7_sku_cost_components/CATALOG_ADDITIONS.json": "330dc07c6d48e9a1599b84cd9e169fb4a74eddb5b45772873f0e30f8f4c06b31",
+        "scripts/cp7_sku_cost_components/README.md": "b77b1d039a1adc4b72a5c5845983181c98ba421c95d0c44b2300fd387b3385d9",
+        "scripts/cp7_sku_cost_components/SOURCE.json": "3abdd3fadbc0dcb873461dab4354baada7b4452edc8e73534ae4c538e3d72ae6",
+        "scripts/cp7_sku_cost_components/base_cent_cases.mjs.inc": "eeeeba3dbab43bc92c690c36ba6d01ac0d344fa8e2e7fde781b825af9baa5a18",
+        "scripts/cp7_sku_cost_components/base_forward_cases.mjs.inc": "72fcb6298dbc0861687c81175d6ffecf1e7e45612ad9a66260a40583683b3092",
+        "scripts/cp7_sku_cost_components/base_money.sql": "cdd8dc4742388690f9d83566ac5015ddb3322cae00b1fd0d99474eb0033d262d",
+        "scripts/cp7_sku_cost_components/base_money_cases.mjs.inc": "dc76a4265d4b3d5ff483c16c90c6d4f2a92a451eb864e0824609c0473cfb9cd9",
+        "scripts/cp7_sku_cost_components/base_money_delta.py": "b943979524c86bdbcf22daa703d2f9891be07bc292a020db822662cb878cc835",
+        "scripts/cp7_sku_cost_components/base_money_fixture.mjs.inc": "fe17a1d8a5e1b9123389b6aeab268427b4af883ff663994aa93692a7f2e31cc7",
+        "scripts/cp7_sku_cost_components/base_money_followup_cases.mjs.inc": "506ac318ed72e265d5f00c93f38bee4f37624781a25873443a8044a56f537610",
+        "scripts/cp7_sku_cost_components/catalog_additions.py": "4b272fe78d1cd8124c835e461ed5b830346ce36d3fbeaee5750f0ce93d65202c",
+        "scripts/cp7_sku_cost_components/cent_inverse_counterexamples.mjs.inc": "caa591d9ab7976890cea5387553ff75348d0e0f43955b9fb67d31d816aaefe1f",
+        "scripts/cp7_sku_cost_components/cent_ownership.py": "d6483135a059d2319d53adb3ab0b8dc7ed472e27c24cf3f4fa75efa345350a1e",
+        "scripts/cp7_sku_cost_components/chain_cases.mjs.inc": "425be6aba1aeecb3a96b5354a35990ce073c28cd448acd778bca73dadda26668",
+        "scripts/cp7_sku_cost_components/chain_repair_checks.mjs.inc": "9898434ca1c8e084dcaedd5543b7daa08e093610a545eef718343b3b1617c420",
+        "scripts/cp7_sku_cost_components/composition.py": "7ddfc7a3b825d35146a93643b1427be04c29ed49fd5debcbada00a26718868f0",
+        "scripts/cp7_sku_cost_components/cost_cases.mjs.inc": "670a13471483e386f70a52b4083e725939d1f1531d17f3ad72a31e6a2555bbdd",
+        "scripts/cp7_sku_cost_components/costs.sql": "999ce0516366efb0a2cdc59e0c90b7edf99717dc387fa51f972934e287c1e6c1",
+        "scripts/cp7_sku_cost_components/financial_delta.py": "5a99c9c6b301124605d86e621af12277b137a2eb20ee719b07d862abd44924a7",
+        "scripts/cp7_sku_cost_components/inverse_cases.mjs.inc": "eed5e1ce9967b9ed12570d5363255f91e7aa2999935d5c92a2585a3cf6d8489c",
+        "scripts/cp7_sku_cost_components/inverse_rebalance.sql": "8d681ce43fca746e1fd89d9a7ebbd351ad7979789f9f0f0c39952177f9d4e188",
+        "scripts/cp7_sku_cost_components/legacy.sql": "f814b6b172c2ed1a5838bd9e4281c28cb8b68707a3865e106ad72bcc8526b07f",
+        "scripts/cp7_sku_cost_components/legacy_cases.mjs.inc": "0b1119afaaf6bcda92acebaef89d8c2b65d218db75d0d5579546a8d34fb0fd86",
+        "scripts/cp7_sku_cost_components/legacy_delta.py": "5d095b410101dd1eeca452a5e87da8fd8f5351f48f8c60046469f788630a96c7",
+        "scripts/cp7_sku_cost_components/legacy_followup_cases.mjs.inc": "1af650f2136b558235742075addf9b86e9737d388d9601456673a91908497a1e",
+        "scripts/cp7_sku_cost_components/legacy_model_setup.mjs.inc": "fbf23cf09bda180ddda9025e805e9e92cd6367c1bec86ad4cd7609a0f33575a1",
+        "scripts/cp7_sku_cost_components/money.sql": "58ea892a29077535cbb417a3aac750a3b35996027d8d6b10851aa5030b92cc69",
+        "scripts/cp7_sku_cost_components/money_cases.mjs.inc": "5898f8702cede651abceba264d7b623a330ad79764865a3cc0ef713879509b24",
+        "scripts/cp7_sku_cost_components/money_credit_cases.mjs.inc": "ecbf65dfe93dd97ce3547ffd3468bcd8999d99021e9c786071a091dc383c82df",
+        "scripts/cp7_sku_cost_components/money_delta.py": "c97a14eae7f4028a79362a27de023a878e7e9930de250cff94df3fe9401a5d4f",
+        "scripts/cp7_sku_cost_components/money_history_case.mjs.inc": "150a8bbd914d3060e62220799f936b7d9364f9d439322059d8d0136fc0708043",
+        "scripts/cp7_sku_cost_components/oracle.py": "6a0627fa980634bb2b4b812d6f53848aed5b85a206915b465b665b627268ebf7",
+        "scripts/cp7_sku_cost_components/prepare_catalog.py": "48ef52a251d9d1c8be2fb3bbaa62ac5535323d3614606f51ad1ea19c971620b4",
+        "scripts/cp7_sku_cost_components/prepare_legacy_model.py": "9033aceab2525831dd234386f637898b270d965aeb701188a135fc3b164459f1",
+        "scripts/cp7_sku_cost_components/prepare_model.py": "e2f2b43b7dce96a529e7b837c923580d3fcdf4fe3d205dab9b37281ca44207dd",
+        "scripts/cp7_sku_cost_components/prepared_product.py": "786a8fede0530c1b8f1e3be6797d74ceef2c17dceda97e8a74f6381411ed2652",
+        "scripts/cp7_sku_cost_components/private_inverse_delta.py": "2129a0f9246f696e91cec760cf79fdb69d6a63fd315fbee9534fce5ab269d803",
+        "scripts/cp7_sku_cost_components/profile_catalog.mjs": "80d6fb996a5c2e4b7f9425410c18aa7186c99d4077c700abed4f6dab1481c03d",
+        "scripts/cp7_sku_cost_components/source_delta.py": "0efbe785782e94d2cb77a5d7f230c7e08cd63054a91465622bd2d269690d4a2f",
+        "scripts/cp7_sku_cost_components/source_rebalance.sql": "7a9ab4a887fe92b82eeb003989418b5ab4da57607fccefc365b2f2445bade765",
+        "scripts/cp7_sku_cost_components/test_catalog_transition.py": "099a035146a3b069a6ff38e7a81b7bc317a720953497cd60d1369c9d2e1cf667",
+        "scripts/cp7_sku_cost_components/test_cent_ownership.py": "59a292925abd4a7a9575a563a5355a912119ee9a6a2c665ba01ed012ab3b0a40",
+        "scripts/cp7_sku_cost_components/test_oracle.py": "c914ef44d60d49a8e9ebbd4f41ac8289c673bbddab333fcc0402f70ccebe69ef",
+        "scripts/cp7_sku_cost_components/valuation_delta.py": "9c509c96b49d3f236fed740437e10bab480b9a86957222786ac952b600291a2d"
+      },
+      "current_parent_bridge": {
+        "receipt": {
+          "parent_root": {
+            "bytes": 19149,
+            "sha256": "87f9c26be35fb84288189162c6ed18edc9d12f9648901ef36a41c85a168e7670"
+          },
+          "candidate_source_preflight": {
+            "bytes": 368964,
+            "sha256": "55c13119aef4a9307b1638864b8eec3199e574a8876c26aa3254aa0920b1a8cb"
+          },
+          "runtime_entry": "scripts/current-sku-automatic-composite-preparation/qualification.py",
+          "fresh_complete_money19_still_required": true,
+          "candidate_money_financially_qualified": false,
+          "actual_composite_cases": 0,
+          "production_go": false,
+          "independent_acceptance": false
+        },
+        "preparation_source": {
+          "bytes": 1543,
+          "sha256": "a265d58aec12fa66053353436cf1ad57fca4051f7176ce0c937878a2e9d8317b"
+        },
+        "derivations": {
+          "moving": {
+            "original_sha256": "da1f275fa0e91ecbbaa5bcedff65ba0391b162108cc9e91b98a5e2c9f746465f",
+            "derived_sha256": "c72fe581f195ded0e7b1317df70683b439d7d88e357cea838acbc40d937aa97c",
+            "counted_changes": 6,
+            "original_recovered_exactly": true,
+            "actual_Native_cases": 0,
+            "production_go": false
+          },
+          "money": {
+            "original_bytes": 6718,
+            "original_sha256": "7ddfc7a3b825d35146a93643b1427be04c29ed49fd5debcbada00a26718868f0",
+            "derived_sha256": "6b5d188d43c75128a0b0562d5d948d0dd03e3a3a6a91c4def0862f673e013f7f",
+            "counted_changes": 5,
+            "original_recovered_exactly": true,
+            "actual_Native_cases": 0,
+            "production_go": false,
+            "independent_acceptance": false
+          }
+        },
+        "parent_state_projection": false,
+        "actual_composite_cases": 0,
+        "production_go": false
+      },
+      "base_and_additional_cents_conserved": true,
+      "actual_ERP_cases": 0,
+      "production_go": false,
+      "independent_acceptance": false,
+      "non_po_rounding": {
+        "contract": "cp7.sku-non-po-cumulative-cent-rounding.v1",
+        "replacements": {
+          "erp.compute_non_po_product_hpp_targets_v2620f(uuid)": {
+            "before_sha256": "1476efc2176ad189f15218d6217179304d1b1af3ff10cb0a6d68874205e4fc8a",
+            "after_sha256": "798c4a2959da01720c2283a29947e1f2339386d04770a5732c94bdc254b296a6"
+          },
+          "cp7_credit.initial_hpp_targets_v1(uuid,uuid,jsonb,boolean)": {
+            "before_sha256": "3f60a963c752a7f3ecb53f5c35e9c1df95506ca78983ffc4fc55aeafe85a6918",
+            "after_sha256": "4b23090b8322fb7555200ad789c55757f4a29ef392c32f6dbd1c2270293a79a0"
+          }
+        }
+      }
+    },
+    "current_parent_bridge": {
+      "receipt": {
+        "parent_root": {
+          "bytes": 19149,
+          "sha256": "87f9c26be35fb84288189162c6ed18edc9d12f9648901ef36a41c85a168e7670"
+        },
+        "money_source_preflight": {
+          "bytes": 368964,
+          "sha256": "55c13119aef4a9307b1638864b8eec3199e574a8876c26aa3254aa0920b1a8cb"
+        },
+        "complete_native_plan": {
+          "bytes": 2762,
+          "sha256": "df9837324b15cba9be756a27e27776fa11f1a153e01ee2ee0fa296aa9ddeb1a8"
+        },
+        "owning_entry": "scripts/current-sku-automatic-composite-preparation/qualification.py",
+        "actual_ERP_cases": 0,
+        "production_go": false
+      },
+      "preparation_source": {
+        "bytes": 63533,
+        "sha256": "fbb2319bd79cadcedcadac3ed778b5646b4cef773d09dbb62bae20c49aa83622"
+      },
+      "derivation": {
+        "original": {
+          "bytes": 7275,
+          "sha256": "384bb580a937ce031973e257b7b992a58525a3d29e317e306d7428ab550d089d"
+        },
+        "derived": "1eaa3979732317f25c48145ec480dbb5b2bfec0fb1e2f2a4cd25701f332d5a06",
+        "exact_routes": 5,
+        "original_recovered_exactly": true,
+        "original_SQL_and_inverse_bodies_unchanged": true,
+        "actual_ERP_cases": 0,
+        "production_go": false
+      },
+      "complete_current_parent_state_bound": true,
+      "actual_ERP_cases": 0,
+      "production_go": false
+    },
+    "files": {
+      "scripts/cp7_sku_automatic_pending/CATALOG_ADDITIONS.json": "07824d6732540348590440bca3c8f8aef9a2b58cdcb8af9dc43c964723b0303a",
+      "scripts/cp7_sku_automatic_pending/README.md": "e18cd32de0adb0c3faf00cb17338b44777d00b60b5cd8f3c979c8238d0f65e15",
+      "scripts/cp7_sku_automatic_pending/SOURCE.json": "7ff25f1c26effa52fdd43469464459d6d818ed8ed5128b5f01bd4dd2e6eca528",
+      "scripts/cp7_sku_automatic_pending/catalog_additions.py": "c3dea8598a4ec688585c76bbcbc52a7516ef862fc053df40dfc6c8cadd0b4298",
+      "scripts/cp7_sku_automatic_pending/composition.py": "384bb580a937ce031973e257b7b992a58525a3d29e317e306d7428ab550d089d",
+      "scripts/cp7_sku_automatic_pending/context.sql": "67141e2dcbf2c57082a2b6b415100a5583facdd81a43baab031bbe29a6355d5a",
+      "scripts/cp7_sku_automatic_pending/derivation.py": "3f1653202283c62115d8c74bc64e741e2ac9334a362d87ed7df7abc96c9dc9ac",
+      "scripts/cp7_sku_automatic_pending/installation_product.py": "19167299006aba9b1ebb6473b2640c27e334e06c80c14b38ddedb5fdbfbb373e",
+      "scripts/cp7_sku_automatic_pending/model_cases.mjs.inc": "392003be9a143e4a299c335ba389376fc5f4b10c3da7dbb3b002d28de94df0a4",
+      "scripts/cp7_sku_automatic_pending/model_providers.sql": "388663d5c6d4df52f9fa2cb00641e812b1c2084e30c96cf0587d96c337b9b4bc",
+      "scripts/cp7_sku_automatic_pending/prepare_catalog.py": "8ce871682a6c15ac3c7abd6559aa980d1d9e5e174945d241d1fbd4f006772a21",
+      "scripts/cp7_sku_automatic_pending/prepare_model.py": "ece59052dd629367e824ace8530308d8856661fc6a02cfb139dd0a9505d0aaca",
+      "scripts/cp7_sku_automatic_pending/prepared_product.py": "fbde83c9ba4a7113153e80d66351a491be1a55f9d75cbd5cbe960deec841332f",
+      "scripts/cp7_sku_automatic_pending/profile_catalog.mjs": "0b1002b3735d600eff9ef06cbc89a50dae564aa82700e6f3358d59dec6e9c7ea",
+      "scripts/cp7_sku_automatic_pending/test_installation.py": "4f12fc4138be230eee1df796ce967e52fd4f36a466259f6902734b947e0343f3",
+      "scripts/cp7_sku_pending_accounting/derivation.py": "5970718abdbe8713bf7ae0cdee6979155bb7e370e8393674426ed4585a010dd4"
+    },
+    "actual_ERP_cases": 0,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "global_parent_catalogue": {
+    "original": {
+      "name": "SKU_GLOBAL_PARENT_ACTUAL_FULL25.json",
+      "bytes": 16051957,
+      "sha256": "ecf858d67f43c0967cfe6f38c51338dea64331ef6c0d1264786a8967f856e2a4"
+    },
+    "fingerprint": {
+      "contract": "cp7.global-catalogue-fingerprint.v1",
+      "groups": 25,
+      "sha256": "be01b60247ff0f0f099f0393481672e04ab852c5ada9b17453126c0356f7a448",
+      "counts": {
+        "aggregates": 0,
+        "casts": 229,
+        "columns": 10359,
+        "constraints": 4081,
+        "database_authority": 1,
+        "default_privileges": 27,
+        "enums": 46,
+        "event_triggers": 6,
+        "extensions": 5,
+        "functions": 3106,
+        "indexes": 1695,
+        "inheritance": 15,
+        "languages": 4,
+        "memberships": 28,
+        "operators": 799,
+        "policies": 463,
+        "relations": 2510,
+        "roles": 92,
+        "rules": 54,
+        "schemas": 140,
+        "sequence_ownership": 13,
+        "sequences": 15,
+        "triggers": 5799,
+        "type_implementation": 1626,
+        "types": 1626
+      }
+    },
+    "exact_query_sources": {
+      "composition.py": {
+        "bytes": 21891,
+        "sha256": "aa5139dcc0a87445e4fbecd1af0aca9cdf70b9e53b5a6be523aebe86d38029e4"
+      },
+      "catalogue_profile.py": {
+        "bytes": 4607,
+        "sha256": "e34234eab2e4c36f8c63742a504569f954957241c0cbc679e9b420d12218b19e"
+      }
+    }
+  },
+  "actual_Native_cases": 25,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_two_session_races": 0,
+  "actual_browser_cases": 2,
+  "actual_business_cases": 27,
+  "package_all_five": true,
+  "actual_outer_restore": true,
+  "prior_runs_aggregated": false,
+  "complete_global_input_review": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

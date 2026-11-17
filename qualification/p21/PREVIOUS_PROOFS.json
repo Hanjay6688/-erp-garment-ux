@@ -1,0 +1,122 @@
+{
+  "p20": {
+    "accepted_p20_cases": [
+      "P20_OW07_REPORT_EXPENSE",
+      "P20_OW07_REPORT_CARRY",
+      "P20_CASH_OW09_03",
+      "P20_CARRY_CASH_04",
+      "P20_CARRY_DATE_05",
+      "P20_CARRY_CLOSED_06",
+      "P20_AUTH_CASH_01_02",
+      "P20_SALE_SERIES_BROWSER",
+      "P20_OW07_POSITIVE_CLOSE",
+      "P19P_FG_INCREASE_NEED_CHANGED",
+      "P19P_WIP_INCREASE_NEED_CHANGED",
+      "P19P_APPLY_AFTER_UNRELATED_CHANGE",
+      "P20_PLANNER_CURRENT_CUTTING_PERMISSION"
+    ],
+    "actual_P20_cases_rerun": 0,
+    "archive_sha256": "3d5a8959f113a71779036842a549fea59300848561229b692e3a029bde7a7c8c",
+    "auditor_record": "P20_AUDITOR_20261117.md v15",
+    "candidate": {
+      "head": "a752459a0a8baf1920d0e6d1c1fba6f4ef14af8d",
+      "tree": "3440cb483c8f809987efb04c3e26072d14039ff2"
+    },
+    "contract": "cp7.writer.p21.p20-evidence-intake.v1",
+    "final": {
+      "archive_sha256": "d217b4237e7ba0f24fdfdf72bf20009de4d0d99f8049b28bcd502378ff33d189",
+      "artifact": 14301659714,
+      "job": 133811423687,
+      "receipt_sha256": "1f3bf1eb4abd829d6f3fe3e5ddb304a297a5a92dc6b05f52d21fbda1a27ccf13",
+      "run": 44015223986,
+      "runner": "ad1613d3a2b92b577a5aee646ec1f3a2e3642d05",
+      "runner_tree": "f537011c839dd93ab76b57bdce4d5d0d306c7180"
+    },
+    "installed_P21_acceptance": false,
+    "manifest_sha256": "72e671ce9d803fd3faeb229bac23ff9a41384a50eb823f1e016cca594ae14a01",
+    "oracle_sha256": "295387ab0ca0563783248b299f489d9ebc887448229eb3e188b861eda2192b41",
+    "prior": {
+      "case_ids": [
+        "P20_OW07_POSITIVE_CLOSE",
+        "P20_OW07_REPORT_EXPENSE",
+        "P20_OW07_REPORT_CARRY",
+        "P19P_FG_INCREASE_NEED_CHANGED",
+        "P19P_WIP_INCREASE_NEED_CHANGED",
+        "P19P_APPLY_AFTER_UNRELATED_CHANGE",
+        "P20_CASH_OW09_03",
+        "P20_CARRY_CASH_04",
+        "P20_CARRY_DATE_05",
+        "P20_CARRY_CLOSED_06",
+        "P20_AUTH_CASH_01_02",
+        "P20_SALE_SERIES_BROWSER"
+      ],
+      "originals": [
+        {
+          "artifact": 14291469964,
+          "attempt": 1,
+          "bytes": 5389,
+          "case_ids": [
+            "P20_OW07_REPORT_EXPENSE",
+            "P20_OW07_REPORT_CARRY",
+            "P19P_FG_INCREASE_NEED_CHANGED",
+            "P19P_WIP_INCREASE_NEED_CHANGED",
+            "P19P_APPLY_AFTER_UNRELATED_CHANGE",
+            "P20_CASH_OW09_03",
+            "P20_CARRY_CASH_04",
+            "P20_CARRY_DATE_05",
+            "P20_CARRY_CLOSED_06"
+          ],
+          "member_sha256": "effc882aadb89e52bad43961adf39f9c8577993d2c692e707380345c33100fb5",
+          "run": 43989835658,
+          "runner": "a7bad3397f2fd9a13677a85bd7bdc01059bc43c5",
+          "sha256": "98f02e83983c0ea5e6b265dcc8a62844270ace980b033f9c52b947d13d9cf1c7"
+        },
+        {
+          "artifact": 14297807273,
+          "attempt": 1,
+          "bytes": 3759,
+          "case_ids": [
+            "P20_OW07_POSITIVE_CLOSE",
+            "P20_AUTH_CASH_01_02",
+            "P20_SALE_SERIES_BROWSER"
+          ],
+          "member_sha256": "42cd36d3ac72072afaaaceaf448daf75570593a015377a771bf3790a1e63afa8",
+          "run": 44006936125,
+          "runner": "64857b57a47c15250b625958c1c85fd69ca28f41",
+          "sha256": "1a894bb4337fe3e73f58e6cf66c988a4f5e9b31dbc48ea6c70d20926ca99568c"
+        }
+      ],
+      "repeated": false
+    },
+    "production_go": false,
+    "status": "VERIFIED_EXISTING_EVIDENCE"
+  },
+  "p21": {
+    "archive_sha256": "2153bffa06df30d4577d6a54777ab70ff42d5af12396ccae67bb053aa606b7f2",
+    "browser_artifact_id": 14317917191,
+    "browser_original_sha256": "a095955c4c6e1a96a6b15d35028c514818532569b7e25e07d2738ac5c9c8f37f",
+    "previous_full_restore_verified": true,
+    "prior_e14_and_compute_role": {
+      "cp7_capture_writer_denied": true,
+      "e14_artifact_id": 14329839364,
+      "e14_cases_rerun": 0,
+      "full_restore": true,
+      "physical_location_and_source": true,
+      "raw_artifact_id": 14328779902,
+      "real_gotrue": true,
+      "run_id": 44077573387,
+      "status": "PASS",
+      "terminal_artifact_id": 14330263730
+    },
+    "product": {
+      "head": "00272ba94b2e467c3b97a63f97548e47187a8b35",
+      "tree": "07c39c54bdf79e4c0bae58f442af743304990c89"
+    },
+    "reuse_p20_cases": 13,
+    "run_id": 44046953072,
+    "status": "PASS",
+    "switch_roll_saves_rerun": 0,
+    "terminal_artifact_id": 14318275675,
+    "terminal_original_sha256": "12255563673a84276f544c4f480be16cc20467f2ae2d6f7252b83d9178b287a6"
+  }
+}

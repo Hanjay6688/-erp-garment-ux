@@ -1,0 +1,153 @@
+{
+  "status": "GLOBAL_DATED_PRIVATE_ORDINARY_SCHEDULE_SOURCE_BOUND",
+  "tree": "3a338b69cc13d44f7c881c62ecf77f5a762a7df7",
+  "owner": {
+    "bytes": 33541,
+    "sha256": "61e77fd937847f8d12222937856d2f14e083189dcaa922ce062e855e9dde85f3"
+  },
+  "case_schedule": {
+    "bytes": 8101,
+    "sha256": "98ba7aa1b44675aa0c2ae26a23c14fd0fa2ce28f143e76a7e3902256428ec366"
+  },
+  "dated_auth": {
+    "bytes": 4765,
+    "sha256": "1540b5b2c2f67058e05453eff56b13353abd960693d096c6c08c2ef6bdba4b8f"
+  },
+  "writer": {
+    "bytes": 13151,
+    "sha256": "a0ef28f9794faab06f4a9c410709514f3bcd6d1898bd3e782b638b03832d0078"
+  },
+  "writer_order": [
+    "_global_lifecycle.foundation.after_commit",
+    "_global_auth.begin",
+    "runner.exercise,conn,cur",
+    "_global_auth.before_restore",
+    "database._restore,PRE_DUMP",
+    "_global_auth.after_restore",
+    "report['status']='PASS'"
+  ],
+  "source_fence": {
+    "attempts": [],
+    "self_controls": [
+      {
+        "api": "psycopg.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "api": "psycopg.Connection.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "api": "psycopg.AsyncConnection.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "original_connect_descriptors_restored": true
+      }
+    ],
+    "network_nonGit_attempts": [],
+    "public_source_sha256": "1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797"
+  },
+  "strict_source": {
+    "status": "ACTUAL_STRICT_RUNNER_AND_ORIGINAL_OUTPUT_API_ADMITTED_BEFORE_DATABASE",
+    "runner_source_files": {
+      "cp6_auditor_runner.py": {
+        "bytes": 14911,
+        "sha256": "2c74439f7e919e2adb2484bc774bef4881e71237124f2e6b6dabdab141348ea7"
+      },
+      "cp6_au_r1_probe.py": {
+        "bytes": 29829,
+        "sha256": "451d3d5cbf34fed8f6ba0bf6445cee08e5198d6979f1fd1fbc68f9e299d3724b"
+      }
+    },
+    "strict_group_parameters": [
+      "name",
+      "factory",
+      "verify"
+    ],
+    "public_state_parameters": [
+      "cur"
+    ],
+    "original_output_path": "/workspace/scratch/7dab3ec84d5d/qualified-afui-parent/cp6-proof/aw",
+    "business_fixture_is_not_the_strict_runner": true,
+    "actual_SQL_executed": 0,
+    "actual_Native_cases": 0,
+    "runner_source_root": "/workspace/scratch/7dab3ec84d5d/qualified-sku090b"
+  },
+  "controls": {
+    "order": [
+      "scheduler_quiet",
+      "S05_setup",
+      "Native",
+      "transfer",
+      "HTTP",
+      "inverse"
+    ],
+    "case_ids": [
+      "D_AFTER_ACTIVE_APPLY",
+      "D_REPLAY_EXACT_UUID",
+      "E_SAME_UUID_AND_CHANGED_INTENT",
+      "E_UNDO_ORIGINAL_80_AND_OLD_RECEIPT",
+      "OW04_SIGNED_RETURN_REVERSE_UNCONSUMED_CREDIT",
+      "OW04_SIGNED_PAYMENT_REVERSE_UNCONSUMED_CREDIT",
+      "D_ACCESS_REVOKED_NO_EFFECT",
+      "E_CURRENT_ACCESS_REVOKED_REFUSES",
+      "GLOBAL_DIRTY_D1_REVIEW_REFUSED",
+      "GLOBAL_DIRTY_E_REVIEW_REFUSED",
+      "GLOBAL_DIRTY_SOURCE_RETURN_REVERSE_REFUSED",
+      "NOTE_PREPAYMENT_REPLAY_WIB",
+      "NOTE_PREPAYMENT_OVERPAYMENT_ATOMIC_WIB",
+      "NOTE_OLD_ADVANCE_CASH_REPORT_WIB",
+      "NOTE_PREPAYMENT_REPLAY_UTC",
+      "NOTE_PREPAYMENT_OVERPAYMENT_ATOMIC_UTC",
+      "NOTE_OLD_ADVANCE_CASH_REPORT_UTC",
+      "OW06_TRANSFER_PAGE_25_TO_26",
+      "GLOBAL_AUTH_D1_FRESH_REPLAY",
+      "GLOBAL_AUTH_E_FRESH_REPLAY",
+      "GLOBAL_AUTH_D1_ADMIN_PERMISSION_REVOKED",
+      "GLOBAL_AUTH_E_ADMIN_PERMISSION_REVOKED",
+      "GLOBAL_AUTH_S05_ORDINARY_ACCESS"
+    ],
+    "negative_controls": [
+      "s05_setup_error",
+      "transfer_error",
+      "duplicate_pid",
+      "missing_terminal",
+      "http_error",
+      "missing_http",
+      "no_actual_http",
+      "wrong_native",
+      "missing_consumer",
+      "missing_callback",
+      "second_attempt"
+    ],
+    "model_originals": 4,
+    "model_counts": {
+      "actual_Native_cases": 17,
+      "actual_two_session_races": 1,
+      "actual_Auth_HTTP_cases": 5,
+      "actual_browser_cases": 0,
+      "actual_business_cases": 23,
+      "real_Auth_HTTP_qualified": true,
+      "real_Auth_browser_claim": false
+    }
+  },
+  "ordinary_http": {
+    "bytes": 2733,
+    "sha256": "5ef28437b08075bf43d37aa1cfe8d686f75515ac320f39c252458b423ad3e12d"
+  },
+  "auth_fixture_sources": {
+    "auth_case_plan": "9abc105fc1dc760deea622d2b97dbfac5f23c2f10ba96574d20d941a6e7f12e5",
+    "payload_routes": "5d74fd1c0c28ca3b672353799c5f82a7afa854ca3b1f49d7e52a64f637643297",
+    "credit_http": "79bfe70f0bb46a063f1bc4284f278bb1f2115e20c1d779d144050c3bbeb032d5",
+    "auth_credit_fixtures": "f193146fe195d8bf26fd16354a7084a2128a5da54da68540a0e51ec930613d41",
+    "s05_report_http": "ed5ba3d8fe73f697b4a559b4d1b910e343ae0a5e4bebcea401027e9518c8cdba",
+    "s05_report_fixture": "93a1d575b0934c000c35efdacb3f76540c95fe50b5556fd6ee29cf0ea0f2d535",
+    "auth_schedule": "9f72065d9cef2f6fd4f6b40e27f5971188b83cfd19faf0f65427728ef7f6197b"
+  },
+  "pending_real_HTTP_execution": true,
+  "actual_SQL_executed": 0,
+  "actual_Global_cases": 0,
+  "runtime_admission": false,
+  "production_go": false
+}

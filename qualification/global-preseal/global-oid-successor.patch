@@ -1,0 +1,290 @@
+diff --git a/scripts/cp7_global_nonpo_envelope/INSTALL_PLAN.json b/scripts/cp7_global_nonpo_envelope/INSTALL_PLAN.json
+index 0eb38eada..f919e6246 100644
+--- a/scripts/cp7_global_nonpo_envelope/INSTALL_PLAN.json
++++ b/scripts/cp7_global_nonpo_envelope/INSTALL_PLAN.json
+@@ -27,8 +27,8 @@
+       "sha256": "8f9461ce31e9973969040ae16029241253eb2ce1e0fde9ebba160db32b6cd782"
+     },
+     "semantic_authority.sql": {
+-      "bytes": 3251,
+-      "sha256": "698a36a0b096f68d5b337c603f8c007ae648557ee78995b69cd0996af36020d6"
++      "bytes": 3541,
++      "sha256": "683361b761993cc5fe8fbb18c6f7cb6dea4cb77b7f9ed09e93288c2d1d593dca"
+     },
+     "catalogue_fingerprint.sql": {
+       "bytes": 17577,
+@@ -168,7 +168,7 @@
+     },
+     "cp7_global_nonpo_envelope.semantic_authority_v1(jsonb)": {
+       "file": "semantic_authority.sql",
+-      "body_sha256": "387c605fb98c8536d68ef1815cc9d1cc849408418f17242d60d0274a48284a43",
++      "body_sha256": "0f798122cca8f13d9d4da980dd3420387360609c73abc8851de23d0e67262ba2",
+       "owner": "postgres",
+       "language": "plpgsql",
+       "volatility": "i",
+diff --git a/scripts/cp7_global_nonpo_envelope/SEMANTIC_AUTHORITY_SOURCE_CONTROLS.json b/scripts/cp7_global_nonpo_envelope/SEMANTIC_AUTHORITY_SOURCE_CONTROLS.json
+index 83f161712..a65128e1e 100644
+--- a/scripts/cp7_global_nonpo_envelope/SEMANTIC_AUTHORITY_SOURCE_CONTROLS.json
++++ b/scripts/cp7_global_nonpo_envelope/SEMANTIC_AUTHORITY_SOURCE_CONTROLS.json
+@@ -34,8 +34,8 @@
+     "sha256": "875e1924412175f962ca7610d18d7375537e85ac381ed4870dbba0a073ee5ff6"
+   },
+   "semantic_helper": {
+-    "bytes": 3251,
+-    "sha256": "698a36a0b096f68d5b337c603f8c007ae648557ee78995b69cd0996af36020d6"
++    "bytes": 3541,
++    "sha256": "683361b761993cc5fe8fbb18c6f7cb6dea4cb77b7f9ed09e93288c2d1d593dca"
+   },
+   "observed_OID_paths_removed_from_semantic_hash_only": [
+     "functions[].oid",
+diff --git a/scripts/cp7_global_nonpo_envelope/SOURCE.json b/scripts/cp7_global_nonpo_envelope/SOURCE.json
+index 5b99afa61..d2eb2c1f0 100644
+--- a/scripts/cp7_global_nonpo_envelope/SOURCE.json
++++ b/scripts/cp7_global_nonpo_envelope/SOURCE.json
+@@ -153,15 +153,15 @@
+     },
+     "scripts/cp7_global_nonpo_envelope/SEMANTIC_AUTHORITY_SOURCE_CONTROLS.json": {
+       "bytes": 2426,
+-      "sha256": "3913e9accb6e5477b2e86d7ee50b05bbd456a6b551d70c3e1949a139ec38430c"
++      "sha256": "99f27a74625efd89d9e198f3fa39059f00189d60afb55a8370962e8861b563cd"
+     },
+     "scripts/cp7_global_nonpo_envelope/semantic_routes.py": {
+       "bytes": 3359,
+       "sha256": "a275a64b4cfe14dad2404d43f5713b25b0938411d5846573d11286e0236707b7"
+     },
+     "scripts/cp7_global_nonpo_envelope/semantic_authority.sql": {
+-      "bytes": 3251,
+-      "sha256": "698a36a0b096f68d5b337c603f8c007ae648557ee78995b69cd0996af36020d6"
++      "bytes": 3541,
++      "sha256": "683361b761993cc5fe8fbb18c6f7cb6dea4cb77b7f9ed09e93288c2d1d593dca"
+     },
+     "scripts/cp7_global_nonpo_envelope/build_install_plan.py": {
+       "bytes": 6679,
+@@ -173,7 +173,7 @@
+     },
+     "scripts/cp7_global_nonpo_envelope/INSTALL_PLAN.json": {
+       "bytes": 16095,
+-      "sha256": "96ce9eee5c4e12f2669cb1e9636080632a5f84c043e1d01b6c14c1c72a288a40"
++      "sha256": "7a98648ee70dc193c378ac46788073262da53883b71e7985ef62e9c09d6d475c"
+     }
+   },
+   "prepared_owning_source_adapters": 8,
+diff --git a/scripts/cp7_global_nonpo_envelope/semantic_authority.sql b/scripts/cp7_global_nonpo_envelope/semantic_authority.sql
+index 5fd08967b..b5181053a 100644
+--- a/scripts/cp7_global_nonpo_envelope/semantic_authority.sql
++++ b/scripts/cp7_global_nonpo_envelope/semantic_authority.sql
+@@ -11,9 +11,12 @@ begin
+   or jsonb_typeof(p_authority->'new_private_functions')is distinct from'array'
+   or jsonb_typeof(p_authority->'view')is distinct from'object'then
+   raise exception 'CP7_GLOBAL_COMPLETE_TYPED_AUTHORITY_REQUIRED';end if;
++ -- PostgreSQL JSON encodes the oid type as a decimal string. Accept that
++ -- canonical spelling and the equivalent numeric form used by retained inputs.
+  if jsonb_array_length(p_authority->'functions')<>19
+   or jsonb_array_length(p_authority->'new_private_functions')<>4
+-  or jsonb_typeof(p_authority#>'{view,oid}')is distinct from'number'
++  or coalesce(p_authority#>>'{view,oid}','')!~'^[1-9][0-9]{0,9}$'
++  or not pg_input_is_valid(p_authority#>>'{view,oid}','pg_catalog.oid')
+   or jsonb_typeof(p_authority#>'{view,actual_catalog_row}')is distinct from'array'then
+   raise exception 'CP7_GLOBAL_COMPLETE_TYPED_AUTHORITY_REQUIRED';end if;
+  if jsonb_array_length(p_authority#>'{view,actual_catalog_row}')<>13 then
+@@ -23,7 +26,8 @@ begin
+  foreach field_key_ in array array['functions','new_private_functions']loop
+   if exists(select 1 from jsonb_array_elements(p_authority->field_key_)as element_(value)
+    where jsonb_typeof(element_.value)is distinct from'object'
+-    or jsonb_typeof(element_.value->'oid')is distinct from'number'
++    or coalesce(element_.value->>'oid','')!~'^[1-9][0-9]{0,9}$'
++    or not pg_input_is_valid(element_.value->>'oid','pg_catalog.oid')
+     or jsonb_typeof(element_.value->'signature')is distinct from'string'
+     or coalesce(element_.value->>'signature','')='')
+    or jsonb_array_length(p_authority->field_key_)<>(select count(distinct element_.value->>'signature')
+diff --git a/scripts/current-global-first-snapshot-preparation/INSTALL_PLAN.json b/scripts/current-global-first-snapshot-preparation/INSTALL_PLAN.json
+index dfcf1d185..38c21c361 100644
+--- a/scripts/current-global-first-snapshot-preparation/INSTALL_PLAN.json
++++ b/scripts/current-global-first-snapshot-preparation/INSTALL_PLAN.json
+@@ -9,6 +9,10 @@
+     "bytes": 11126,
+     "sha256": "1d2c2b879ae35e9a830ea2a16d2168fb7cc2b2c6aa068caa94278ec2b643b3d4"
+   },
++  "active_retained_global_plan": {
++    "bytes": 11126,
++    "sha256": "97c5ad19e915c2d13b17a2feabee1ef3448a0daf52725bf424e225a46de866b9"
++  },
+   "retained_graph_authority": {
+     "bytes": 71436,
+     "sha256": "193194184cdbfde1753677ad486d7010ada8ed9e6198f9a19e57c4b8587e3d78"
+diff --git a/scripts/current-global-first-snapshot-preparation/SOURCE.json b/scripts/current-global-first-snapshot-preparation/SOURCE.json
+index 58f10e58c..a94459a5e 100644
+--- a/scripts/current-global-first-snapshot-preparation/SOURCE.json
++++ b/scripts/current-global-first-snapshot-preparation/SOURCE.json
+@@ -3,8 +3,8 @@
+   "basis_tree": "92a8eb9e15f35470a5ee14bf7dc2cbc0f9a386ea",
+   "files": {
+     "INSTALL_PLAN.json": {
+-      "bytes": 15526,
+-      "sha256": "ccf27249a4c5bcba4236b306a3523894d807e087fab1f8ec7add458906234a23"
++      "bytes": 15667,
++      "sha256": "71f15d39d45696c40d683f1cd27a03ac4c53a8da960a060839b24bd81996a319"
+     },
+     "README.md": {
+       "bytes": 3262,
+@@ -23,8 +23,8 @@
+       "sha256": "0fb350c037f61b2ff1edd943fc2f5af29ac4ca2a9c27861d708b657591e5be5c"
+     },
+     "preseal_routes.py": {
+-      "bytes": 8097,
+-      "sha256": "b3f527407219ae36bd36799ee5f316fa54ce08efe9f04d230a639dbbce766406"
++      "bytes": 8261,
++      "sha256": "a23432bc31668f2c15f8e0b5681d8539e7ee21126c7879c117d5c90473d916be"
+     },
+     "snapshot_ownership.py": {
+       "bytes": 5537,
+diff --git a/scripts/current-global-first-snapshot-preparation/preseal_routes.py b/scripts/current-global-first-snapshot-preparation/preseal_routes.py
+index aece99bd8..23615957a 100644
+--- a/scripts/current-global-first-snapshot-preparation/preseal_routes.py
++++ b/scripts/current-global-first-snapshot-preparation/preseal_routes.py
+@@ -85,6 +85,8 @@ def plan(derivation):
+     value = snapshot.images()
+     return dict(contract='cp7.global-first-ow06-s05-closed-preseal-plan.v1', basis_tree=snapshot.BASIS_TREE,
+                 reviewed_full19=snapshot.IMAGES_PIN, retained_global_plan=value['retained_global_plan'],
++                active_retained_global_plan=snapshot.pin((HERE.parent /
++                    'current-global-timezone-preparation/INSTALL_PLAN.json').read_bytes()),
+                 retained_graph_authority=value['retained_graph_authority'], derivation=derivation,
+                 existing_functions={sig: {phase: snapshot.pin(snapshot.compact(value[key][sig]))
+                                           for phase, key in (('before', 'old_rows'), ('after', 'new_rows'))}
+diff --git a/scripts/current-global-sku-automatic-preparation/INSTALL_PLAN.json b/scripts/current-global-sku-automatic-preparation/INSTALL_PLAN.json
+index dd2b72ba1..f52482820 100644
+--- a/scripts/current-global-sku-automatic-preparation/INSTALL_PLAN.json
++++ b/scripts/current-global-sku-automatic-preparation/INSTALL_PLAN.json
+@@ -27,8 +27,8 @@
+       "sha256": "8f9461ce31e9973969040ae16029241253eb2ce1e0fde9ebba160db32b6cd782"
+     },
+     "semantic_authority.sql": {
+-      "bytes": 3251,
+-      "sha256": "698a36a0b096f68d5b337c603f8c007ae648557ee78995b69cd0996af36020d6"
++      "bytes": 3541,
++      "sha256": "683361b761993cc5fe8fbb18c6f7cb6dea4cb77b7f9ed09e93288c2d1d593dca"
+     },
+     "catalogue_fingerprint.sql": {
+       "bytes": 17577,
+@@ -168,7 +168,7 @@
+     },
+     "cp7_global_nonpo_envelope.semantic_authority_v1(jsonb)": {
+       "file": "semantic_authority.sql",
+-      "body_sha256": "387c605fb98c8536d68ef1815cc9d1cc849408418f17242d60d0274a48284a43",
++      "body_sha256": "0f798122cca8f13d9d4da980dd3420387360609c73abc8851de23d0e67262ba2",
+       "owner": "postgres",
+       "language": "plpgsql",
+       "volatility": "i",
+diff --git a/scripts/current-global-sku-automatic-preparation/SOURCE.json b/scripts/current-global-sku-automatic-preparation/SOURCE.json
+index a06ed5ef8..e83e8fd9b 100644
+--- a/scripts/current-global-sku-automatic-preparation/SOURCE.json
++++ b/scripts/current-global-sku-automatic-preparation/SOURCE.json
+@@ -31,7 +31,7 @@
+     },
+     "scripts/current-global-sku-automatic-preparation/INSTALL_PLAN.json": {
+       "bytes": 16096,
+-      "sha256": "a6eed85a09008bcf0ffd0dcfa8b0716126a9e919c560182e53acb97d0ea46d51"
++      "sha256": "0ea09cbae590444afc8dac67e1b87787a98fd08bea651e0568c1b8a45f5c4b58"
+     },
+     "scripts/current-global-sku-automatic-preparation/MODEL_CONTROLS.json": {
+       "bytes": 5378,
+diff --git a/scripts/current-global-sku-input-preparation/PO_INSTALL_PLAN.json b/scripts/current-global-sku-input-preparation/PO_INSTALL_PLAN.json
+index 2a892334d..216812dcc 100644
+--- a/scripts/current-global-sku-input-preparation/PO_INSTALL_PLAN.json
++++ b/scripts/current-global-sku-input-preparation/PO_INSTALL_PLAN.json
+@@ -27,8 +27,8 @@
+       "sha256": "8f9461ce31e9973969040ae16029241253eb2ce1e0fde9ebba160db32b6cd782"
+     },
+     "semantic_authority.sql": {
+-      "bytes": 3251,
+-      "sha256": "698a36a0b096f68d5b337c603f8c007ae648557ee78995b69cd0996af36020d6"
++      "bytes": 3541,
++      "sha256": "683361b761993cc5fe8fbb18c6f7cb6dea4cb77b7f9ed09e93288c2d1d593dca"
+     },
+     "catalogue_fingerprint.sql": {
+       "bytes": 17577,
+@@ -168,7 +168,7 @@
+     },
+     "cp7_global_nonpo_envelope.semantic_authority_v1(jsonb)": {
+       "file": "semantic_authority.sql",
+-      "body_sha256": "387c605fb98c8536d68ef1815cc9d1cc849408418f17242d60d0274a48284a43",
++      "body_sha256": "0f798122cca8f13d9d4da980dd3420387360609c73abc8851de23d0e67262ba2",
+       "owner": "postgres",
+       "language": "plpgsql",
+       "volatility": "i",
+diff --git a/scripts/current-global-sku-input-preparation/SOURCE.json b/scripts/current-global-sku-input-preparation/SOURCE.json
+index 98b8f7780..d2cbc9d71 100644
+--- a/scripts/current-global-sku-input-preparation/SOURCE.json
++++ b/scripts/current-global-sku-input-preparation/SOURCE.json
+@@ -39,7 +39,7 @@
+     },
+     "scripts/current-global-sku-input-preparation/PO_INSTALL_PLAN.json": {
+       "bytes": 16096,
+-      "sha256": "19be171ac3c41128607742584efd77709a3995f07feefeb822fa296521c15781"
++      "sha256": "ecad0cef91f183ad22b8065447baddeab20acaaed90b5088d0858b3b9a840e43"
+     },
+     "scripts/current-global-sku-input-preparation/PO_MODEL_CONTROLS.json": {
+       "bytes": 6258,
+diff --git a/scripts/current-global-sku-money-preparation/INSTALL_PLAN.json b/scripts/current-global-sku-money-preparation/INSTALL_PLAN.json
+index 63f743365..6c2593f6b 100644
+--- a/scripts/current-global-sku-money-preparation/INSTALL_PLAN.json
++++ b/scripts/current-global-sku-money-preparation/INSTALL_PLAN.json
+@@ -27,8 +27,8 @@
+       "sha256": "8f9461ce31e9973969040ae16029241253eb2ce1e0fde9ebba160db32b6cd782"
+     },
+     "semantic_authority.sql": {
+-      "bytes": 3251,
+-      "sha256": "698a36a0b096f68d5b337c603f8c007ae648557ee78995b69cd0996af36020d6"
++      "bytes": 3541,
++      "sha256": "683361b761993cc5fe8fbb18c6f7cb6dea4cb77b7f9ed09e93288c2d1d593dca"
+     },
+     "catalogue_fingerprint.sql": {
+       "bytes": 17577,
+@@ -168,7 +168,7 @@
+     },
+     "cp7_global_nonpo_envelope.semantic_authority_v1(jsonb)": {
+       "file": "semantic_authority.sql",
+-      "body_sha256": "387c605fb98c8536d68ef1815cc9d1cc849408418f17242d60d0274a48284a43",
++      "body_sha256": "0f798122cca8f13d9d4da980dd3420387360609c73abc8851de23d0e67262ba2",
+       "owner": "postgres",
+       "language": "plpgsql",
+       "volatility": "i",
+diff --git a/scripts/current-global-sku-money-preparation/SOURCE.json b/scripts/current-global-sku-money-preparation/SOURCE.json
+index 88a4229fc..aeed86e8b 100644
+--- a/scripts/current-global-sku-money-preparation/SOURCE.json
++++ b/scripts/current-global-sku-money-preparation/SOURCE.json
+@@ -41,7 +41,7 @@
+     },
+     "scripts/current-global-sku-money-preparation/INSTALL_PLAN.json": {
+       "bytes": 16096,
+-      "sha256": "59bc7785b3db28a97df5eb187b490fffacfc25321b5d9179d01a2e077d0cbce1"
++      "sha256": "a3292f4199426b792f34257a42fa352b745a1d11e0189dec6297c6a00b8c3a23"
+     },
+     "scripts/current-global-sku-money-preparation/MODEL_CONTROLS.json": {
+       "bytes": 6466,
+diff --git a/scripts/current-global-timezone-preparation/INSTALL_PLAN.json b/scripts/current-global-timezone-preparation/INSTALL_PLAN.json
+index e5be50d1f..c9cab47bc 100644
+--- a/scripts/current-global-timezone-preparation/INSTALL_PLAN.json
++++ b/scripts/current-global-timezone-preparation/INSTALL_PLAN.json
+@@ -3,7 +3,7 @@
+   "retained_tree": "50556987e15649442561aae03c2c00c995bc115d",
+   "retained_plan": {
+     "bytes": 16096,
+-    "sha256": "a6eed85a09008bcf0ffd0dcfa8b0716126a9e919c560182e53acb97d0ea46d51"
++    "sha256": "0ea09cbae590444afc8dac67e1b87787a98fd08bea651e0568c1b8a45f5c4b58"
+   },
+   "retained_native_adapters": 8,
+   "timezone_configuration_adapters": 4,
+diff --git a/scripts/current-global-timezone-preparation/SOURCE.json b/scripts/current-global-timezone-preparation/SOURCE.json
+index d0b31295c..0de32522c 100644
+--- a/scripts/current-global-timezone-preparation/SOURCE.json
++++ b/scripts/current-global-timezone-preparation/SOURCE.json
+@@ -8,7 +8,7 @@
+   "files": {
+     "INSTALL_PLAN.json": {
+       "bytes": 11126,
+-      "sha256": "84be9ed55595884322c23c87bc2d1fa31f569451e06d039e358f2f8ce438dff8"
++      "sha256": "97c5ad19e915c2d13b17a2feabee1ef3448a0daf52725bf424e225a46de866b9"
+     },
+     "NOTA_FULL19_REFERENCE.json": {
+       "bytes": 35929,

@@ -1,0 +1,399 @@
+{
+  "actor_roles": [
+    "OWNER",
+    "ADMIN",
+    "KEUANGAN"
+  ],
+  "application_database": "cp6_rollback",
+  "case_ids": {
+    "browser": [],
+    "http": [
+      "GLOBAL_AUTH_D1_FRESH_REPLAY",
+      "GLOBAL_AUTH_E_FRESH_REPLAY",
+      "GLOBAL_AUTH_D1_ADMIN_PERMISSION_REVOKED",
+      "GLOBAL_AUTH_E_ADMIN_PERMISSION_REVOKED",
+      "GLOBAL_AUTH_S05_ORDINARY_ACCESS"
+    ],
+    "native": [
+      "D_AFTER_ACTIVE_APPLY",
+      "D_REPLAY_EXACT_UUID",
+      "E_SAME_UUID_AND_CHANGED_INTENT",
+      "E_UNDO_ORIGINAL_80_AND_OLD_RECEIPT",
+      "OW04_SIGNED_RETURN_REVERSE_UNCONSUMED_CREDIT",
+      "OW04_SIGNED_PAYMENT_REVERSE_UNCONSUMED_CREDIT",
+      "D_ACCESS_REVOKED_NO_EFFECT",
+      "E_CURRENT_ACCESS_REVOKED_REFUSES",
+      "GLOBAL_DIRTY_D1_REVIEW_REFUSED",
+      "GLOBAL_DIRTY_E_REVIEW_REFUSED",
+      "GLOBAL_DIRTY_SOURCE_RETURN_REVERSE_REFUSED",
+      "NOTE_PREPAYMENT_REPLAY_WIB",
+      "NOTE_PREPAYMENT_OVERPAYMENT_ATOMIC_WIB",
+      "NOTE_OLD_ADVANCE_CASH_REPORT_WIB",
+      "NOTE_PREPAYMENT_REPLAY_UTC",
+      "NOTE_PREPAYMENT_OVERPAYMENT_ATOMIC_UTC",
+      "NOTE_OLD_ADVANCE_CASH_REPORT_UTC"
+    ],
+    "races": [
+      "OW06_TRANSFER_PAGE_25_TO_26"
+    ]
+  },
+  "contract": "cp7.global-dated-ordinary-private-fixtures.v1",
+  "immutable_runner_inputs": {
+    "qualification/global-preseal/GLOBAL_DATED_S05_RELATION_LOWER_BOUND.json": {
+      "bytes": 21666,
+      "sha256": "9a8374a4e563cf99591b1b7d4dfbc845ea787a8e9801355213945a07b2da13f1"
+    },
+    "qualification/global-preseal/SKU_A625_VERIFIED_ROOT.json": {
+      "bytes": 23897,
+      "sha256": "ef5bbb964536502c25d4cf99774447006f4f015833818fae5c14e3cf8be5932a"
+    },
+    "qualification/global_fixtures/audit/agents/global-auth-recovery/auth_adapter.py": {
+      "bytes": 24404,
+      "sha256": "d32fe4ea3a40e576660d3e99604bc0b0300339096bc1dd0de72d861429b6deab"
+    },
+    "qualification/global_fixtures/audit/agents/global-auth-recovery/cleanup_routes.py": {
+      "bytes": 4383,
+      "sha256": "5317e69e31aeae26659f93830a4021641f7a7486a9fbc39592bf1320a35de70d"
+    },
+    "qualification/global_fixtures/audit/agents/global-auth-recovery/local_rest.py": {
+      "bytes": 10981,
+      "sha256": "6fe996b74c73a95bcfca9e6e6b62d22b3f5012f817268cbf8c64eda28897fbf0"
+    },
+    "qualification/global_fixtures/audit/agents/global-auth-recovery/source_binding.py": {
+      "bytes": 9702,
+      "sha256": "26b3a71fcbd5943a12f7e13ceab02892a57552a3055aaa83313eda8926cdbfca"
+    },
+    "qualification/global_fixtures/audit/agents/global-fixture-driver-sku457/SOURCE.json": {
+      "bytes": 5578,
+      "sha256": "85101dc1a214599a0d2f891621288074d40347a7b185978da42bd797160ccf48"
+    },
+    "qualification/global_fixtures/audit/agents/global-fixture-driver-sku457/fixture_driver.py": {
+      "bytes": 16600,
+      "sha256": "61cb7793f26785f356181305c107bddde6ee9b9562335011439ee86869ad574e"
+    },
+    "qualification/global_fixtures/audit/agents/global-fixture-driver-sku457/source_binding.py": {
+      "bytes": 12039,
+      "sha256": "58125c9b1aca741fd1aa6eee199e15236ece02555d9fc99ce21d4a11d01d5075"
+    },
+    "qualification/global_fixtures/audit/agents/global-fixture-recovery/foundation.py": {
+      "bytes": 16576,
+      "sha256": "151a239b0485e722ddaa56ef2bdb9a084a2efb21007edb0f8b634e31ddbb3496"
+    },
+    "qualification/global_fixtures/audit/agents/global-fixture-recovery/inherited.py": {
+      "bytes": 7459,
+      "sha256": "a4603a06e765f2c4c6e41d390585373a07d48a4203c0908d52630f3b68453620"
+    },
+    "qualification/global_fixtures/audit/agents/global-fixture-recovery/recovery.py": {
+      "bytes": 15974,
+      "sha256": "36c60bc42d4ef4101de906623411117e439a51f01a92c869f181c7a735edb0ea"
+    },
+    "qualification/global_fixtures/audit/agents/global-owning-caller-sku457/SOURCE.json": {
+      "bytes": 6595,
+      "sha256": "a28461fc6f41dd12ed8d1fad18954f8b6b21dae685e369f08fd341f848d8a26b"
+    },
+    "qualification/global_fixtures/audit/agents/global-transfer-race-proof/race_observer.py": {
+      "bytes": 10475,
+      "sha256": "865393d5b0dae025067eda927053b065658c3295c9617ab4b5adb366aec77f63"
+    },
+    "qualification/global_fixtures/audit/nov13-recovery/dirty_global_fixture.py": {
+      "bytes": 5700,
+      "sha256": "dc811fb4aa9416b3a97349d4e2644e1e2fe0afb3bab8fdd6ee959e74edae0f7b"
+    },
+    "qualification/global_fixtures/audit/nov13-recovery/global-moving-average-compatibility/GLOBAL_CURRENT_COMPOSED_WRITER_CLOSED.patch": {
+      "bytes": 3347,
+      "sha256": "43383d3ea504963d55a8d1c66f3ba30cc7748e559eab0d70ae5b1e5e0dfb8ecc"
+    },
+    "qualification/global_fixtures/audit/nov13-recovery/global-ow06-page-source/ow06_transfer_page.py": {
+      "bytes": 19637,
+      "sha256": "b6797d23a855a82344986f76359dcfaa01f7328b4f27bc8f974135b348c1657b"
+    },
+    "qualification/global_fixtures/audit/nov13-recovery/global-owning-lanes/compose_runtime_routes.py": {
+      "bytes": 2218,
+      "sha256": "08f9fe447c3762df01541b8f5968bdd55168950d3760f79462177ee3cd13f7bb"
+    },
+    "qualification/global_fixtures/audit/nov13-recovery/global-owning-lanes/native_routes.py": {
+      "bytes": 4953,
+      "sha256": "620734125679e7a0adccd7cdea0ba2511656fc4ebc803a3f38817aca6fee3635"
+    },
+    "qualification/global_fixtures/audit/nov13-recovery/global-owning-lanes/snapshot_prerequisites.py": {
+      "bytes": 2530,
+      "sha256": "f8a009af194d1d820939735e197789ffa467efe8a9d461197764768d072c22cb"
+    },
+    "qualification/global_fixtures/auth_case_plan.py": {
+      "bytes": 7153,
+      "sha256": "9abc105fc1dc760deea622d2b97dbfac5f23c2f10ba96574d20d941a6e7f12e5"
+    },
+    "qualification/global_fixtures/auth_credit_fixtures.py": {
+      "bytes": 18251,
+      "sha256": "f193146fe195d8bf26fd16354a7084a2128a5da54da68540a0e51ec930613d41"
+    },
+    "qualification/global_fixtures/auth_schedule.py": {
+      "bytes": 7870,
+      "sha256": "9f72065d9cef2f6fd4f6b40e27f5971188b83cfd19faf0f65427728ef7f6197b"
+    },
+    "qualification/global_fixtures/credit_http.py": {
+      "bytes": 20504,
+      "sha256": "79bfe70f0bb46a063f1bc4284f278bb1f2115e20c1d779d144050c3bbeb032d5"
+    },
+    "qualification/global_fixtures/ordinary/native_ordinary.py": {
+      "bytes": 21784,
+      "sha256": "c9f99417a2f26c315626df04f6b40879c25561318352c42b6953a050abb1c0d9"
+    },
+    "qualification/global_fixtures/payload_routes.py": {
+      "bytes": 5565,
+      "sha256": "5d74fd1c0c28ca3b672353799c5f82a7afa854ca3b1f49d7e52a64f637643297"
+    },
+    "qualification/global_fixtures/s05/EXPECTED.json": {
+      "bytes": 2232,
+      "sha256": "e24ab647f081ec3bba57fa5e4177a892290a0b85efbfd0e7caeb7e18cb57c7c9"
+    },
+    "qualification/global_fixtures/s05/fixture.py": {
+      "bytes": 32326,
+      "sha256": "aa0550a36e0cb5f73b91641278ff8edf27dac52428911eefb6300a406c96dd35"
+    },
+    "qualification/global_fixtures/s05_report_fixture.py": {
+      "bytes": 2518,
+      "sha256": "93a1d575b0934c000c35efdacb3f76540c95fe50b5556fd6ee29cf0ea0f2d535"
+    },
+    "qualification/global_fixtures/s05_report_http.py": {
+      "bytes": 7292,
+      "sha256": "ed5ba3d8fe73f697b4a559b4d1b910e343ae0a5e4bebcea401027e9518c8cdba"
+    },
+    "qualification/global_fixtures/transfer/rebind.py": {
+      "bytes": 4074,
+      "sha256": "3d645ff00268175db58ae2c7d94389e0b4547828b841a84f7a5eb74d8b2c886f"
+    },
+    "qualification/global_fixtures/transfer/transfer_page.py": {
+      "bytes": 3427,
+      "sha256": "9fa73f327bd134b6b7eaee5e0d671759127c733200f3e5a69b9c9d684313fdcc"
+    },
+    "qualification/global_fixtures/transfer/transfer_page_roots.py": {
+      "bytes": 5104,
+      "sha256": "2db6e41c3f2c7fd53230de87b00121f30670c9c6a7f8a2fad9e53bb13ee22b17"
+    },
+    "qualification/global_owning/SOURCE.json": {
+      "bytes": 7786,
+      "sha256": "46631f8119bc4537a08fb2806f315027568b12348aa561f26f1f437bed229505"
+    },
+    "qualification/global_owning/case_schedule.py": {
+      "bytes": 8518,
+      "sha256": "458b397d1590c7099f4de5da6cf5ad6a42d2018dd5052686b1ea976350f76ef2"
+    },
+    "qualification/global_owning/checks/GLOBAL_DATED_CASE_SCHEDULE_SOURCE.json": {
+      "bytes": 5011,
+      "sha256": "11edd3b031834045b2b369329af2630b3bb3f1f9c1ee0b7783fc2925ff54456d"
+    },
+    "qualification/global_owning/checks/GLOBAL_ORDINARY_AUTH_RELATION_SCOPE.json": {
+      "bytes": 12123,
+      "sha256": "0072a13feebb3f1cef5c9bde463f018a98a7637a34fa837ed36acb3269d616c6"
+    },
+    "qualification/global_owning/checks/check_ordinary_auth_scope.py": {
+      "bytes": 6645,
+      "sha256": "fb853a13bda6479dc9c50ccd8bd5e0c8b4d7a1a8ef01f7e82c32f2337ab7128a"
+    },
+    "qualification/global_owning/dated_lifecycle.py": {
+      "bytes": 3800,
+      "sha256": "692519b43e6067b802d3e323757d6fadfc5f2e998f3aa33658f711768415734d"
+    },
+    "qualification/global_owning/dated_parent.py": {
+      "bytes": 2405,
+      "sha256": "5e0b0cffc184a44bdb33984ff053420851ed06329cb3a18086722614e20f2313"
+    },
+    "qualification/global_owning/foundation.py": {
+      "bytes": 17374,
+      "sha256": "cde3f0592ca44e101ef9e6f0778c5cf82204d4c2804d1c4b9f0e6b67b4320925"
+    },
+    "qualification/global_owning/lifecycle.py": {
+      "bytes": 10922,
+      "sha256": "f49f59b51b9e37d98e0b5e02bf9452c870ced415ffcdad4e8fa2f18a0c22bdda"
+    },
+    "qualification/global_owning/observe_d1_e.py": {
+      "bytes": 12165,
+      "sha256": "ae657783a425b3df7f10431d15be3f86445f9711c8b1d1f6050e4bee79273b60"
+    },
+    "qualification/global_owning/ordinary_case_scope.py": {
+      "bytes": 2395,
+      "sha256": "59534d3b8a929e28496370baab6f6d032907e26dd9cb7f90d825e42c3c508753"
+    },
+    "qualification/global_owning/ordinary_http.py": {
+      "bytes": 2733,
+      "sha256": "5ef28437b08075bf43d37aa1cfe8d686f75515ac320f39c252458b423ad3e12d"
+    },
+    "qualification/global_owning/package_routes.py": {
+      "bytes": 6105,
+      "sha256": "822502e8f02ddcdaa75f6bb8bcb021c6a9e8f368099f904568008f250e0ab74e"
+    },
+    "qualification/scope_witness.py": {
+      "bytes": 9263,
+      "sha256": "2b52d3c7125e465bd4b16fa8618fdb086ea79787d3ada469dfe68e82371d96f9"
+    }
+  },
+  "independent_acceptance": false,
+  "installation_plan": {
+    "bytes": 15667,
+    "sha256": "71f15d39d45696c40d683f1cd27a03ac4c53a8da960a060839b24bd81996a319"
+  },
+  "issuer_database": "postgres",
+  "owning_observations": [
+    "Resolve current relation OIDs, raw ACLs, origin RI and effective prerequisites against the sealed profile.",
+    "Observe foundation, exact S05 setup with cutting and pickup, recost temp removal on the original backend, and phase write scope.",
+    "Keep S05 open at preparation with closed_through before 2026-10-15 or NULL and cutover on or before that date or NULL.",
+    "Observe committed outside SKU, Native, committed E and exact reverse with stale refusals on the admitted dates.",
+    "Observe ordinary transfer GET and SAVE with separate reader and writer for each ABORT and COMMIT terminal.",
+    "Recheck open authored D1/E dates against the actual WIB day, record Auth setup and writers, and verify the restored mapping.",
+    "Verify read-only S05 responses, real Auth identity, transport stop, application restore, issuer reconciliation, advisors and stack cleanup.",
+    "Retain the first failure and completed phase receipts. A successful package requires all five T3 gates."
+  ],
+  "parent": {
+    "full25": {
+      "bytes": 16051957,
+      "sha256": "ecf858d67f43c0967cfe6f38c51338dea64331ef6c0d1264786a8967f856e2a4"
+    },
+    "head": "a62504d71a6ca1cdbaa59b6fe0fd5739693f100a",
+    "job": 131628716944,
+    "root": {
+      "bytes": 23897,
+      "sha256": "ef5bbb964536502c25d4cf99774447006f4f015833818fae5c14e3cf8be5932a"
+    },
+    "run": 43347020525,
+    "tree": "df64669b64e82f4b5027ccad837cc3d014dbcafa"
+  },
+  "production_go": false,
+  "profile": {
+    "bytes": 31142,
+    "path": "qualification/global_fixtures/GLOBAL_ORDINARY_INPUT_PROFILE.json",
+    "sha256": "2478af40612a86198e86a4990ce48ebf64793022c9e27529e04f7c0260f983f1"
+  },
+  "relations": {
+    "count": 461,
+    "list": {
+      "bytes": 14882,
+      "sha256": "4ddd740d20841ad90bdc18101375cb0743645d53c43e6adc2d1840db532e3f74"
+    },
+    "source": {
+      "bytes": 21666,
+      "sha256": "9a8374a4e563cf99591b1b7d4dfbc845ea787a8e9801355213945a07b2da13f1"
+    }
+  },
+  "retained_evidence": {
+    "actual_Global_cases": 0,
+    "auth_source": {
+      "pin": {
+        "bytes": 12123,
+        "sha256": "0072a13feebb3f1cef5c9bde463f018a98a7637a34fa837ed36acb3269d616c6"
+      },
+      "routes": {
+        "ACCESS": 0,
+        "ACTOR": 2,
+        "D1": 50,
+        "E": 91,
+        "PERMISSION": 1,
+        "S05_REPORT": 0
+      },
+      "write_relations": 102
+    },
+    "candidate_profile_draft": {
+      "bytes": 21487,
+      "sha256": "693e268a7a7e880bbbb775488e3544614e571f4c4e62adca52dd386a1760f07f"
+    },
+    "dirty_and_nota_source": {
+      "candidate_relations": 438,
+      "pin": {
+        "bytes": 19982,
+        "sha256": "b8cd6fccb0e2ed3faf3a255940fda247c3ece6c6f5c42514e6d219b987e9dafd"
+      }
+    },
+    "foundation_local": {
+      "pin": {
+        "bytes": 17070,
+        "sha256": "347ac0765bf276cd9d2de819a598536251f4a83b622cc4c3ccc6a1fd4db9d1ea"
+      },
+      "write_relations": 50
+    },
+    "nota_local": {
+      "callbacks": 6,
+      "pin": {
+        "bytes": 245746,
+        "sha256": "50486c2a8b45658985e8c8e05ff217c3f77f024ca9fc39ed13e59bca7f848024"
+      },
+      "write_relations": 44
+    },
+    "retained_fixture_source_census": {
+      "baseline_relations": 330,
+      "member": "daily-audit-20261112/nov13-recovery/global-actual-fixture-relations/GLOBAL_ACTUAL_FIXTURE_RELATION_REVIEW.json",
+      "pin": {
+        "bytes": 704508,
+        "sha256": "d48e8a664c04b4ab85b9208dcc1e162d1a5dbf635a00ca8e595c8ff1651395ae"
+      }
+    },
+    "schedule_source": {
+      "bytes": 5011,
+      "sha256": "11edd3b031834045b2b369329af2630b3bb3f1f9c1ee0b7783fc2925ff54456d"
+    },
+    "scope_preseal": {
+      "artifact_id": 14094441949,
+      "attempt": 1,
+      "database_recovered": true,
+      "job": 132281921675,
+      "member": {
+        "bytes": 1662,
+        "sha256": "54bce01a9c22a2f6947a99df0c99f5edc564191701c6d8d48984ee90f0993943"
+      },
+      "missing_OIDs": 0,
+      "original": {
+        "bytes": 947,
+        "sha256": "83bc2b8d0dcc3bf7afddcaddc8f4004095f7c9cfb5a48cd0119742cb289e92b0"
+      },
+      "outside_origin_RI": 0,
+      "profile_rows_sealed": 0,
+      "run": 43541202078,
+      "terminal": {
+        "bytes": 12389,
+        "sha256": "ae38721eaa599c4b70cc6cd55c3372078beee08979c02e22a4359a534fde8867"
+      }
+    },
+    "transfer_local": {
+      "pin": {
+        "bytes": 35151,
+        "sha256": "1009b6b79bf7872d9ef5ae85b3e8c681ed432cd882ac4fbdafd4250d56089afb"
+      },
+      "terminals": [
+        "ABORT",
+        "COMMIT"
+      ],
+      "write_relations": 31
+    }
+  },
+  "rpc_allowlist": [
+    "erp_get_my_access_v1",
+    "erp_cp7_get_sales_return_correction_v1",
+    "erp_cp7_correct_sales_return_v1",
+    "erp_cp7_get_note_correction_v2",
+    "erp_cp7_correct_note_v1",
+    "erp_cp7_get_accessory_standard_report_v1"
+  ],
+  "safe_ci_output": "GLOBAL_ORDINARY_FINAL.json",
+  "scope": {
+    "app_tree": "ada4544ebf22d9352461beb4b234f9a2f3e0ee29",
+    "candidate_tree": "3a338b69cc13d44f7c881c62ecf77f5a762a7df7",
+    "disposable": true,
+    "fixture_manifest": "qualification/global_fixtures/GLOBAL_ORDINARY_FIXTURE_MANIFEST.json",
+    "id": "CP7_GLOBAL_DATED_ORDINARY_PRIVATE_DISPOSABLE_461",
+    "independent_acceptance": false,
+    "private_pull_request": true,
+    "production_go": false,
+    "repository": "Hanjay6688/test",
+    "single_attempt": true
+  },
+  "scope_exclusions": [
+    "OW06 separate supplier bank picker",
+    "OW06 supplier payment history",
+    "OW06 selected-detail callback that calls supplier payment history",
+    "S05 pause attachment to the owning runner",
+    "Global browser and hosted or production actions"
+  ],
+  "source_runner": {
+    "head": "4d6a8d1e7f6c3c2c5507dd407c7655f798b84aa7",
+    "tree": "c7f3c73d47e877cbf974d3ae6076668cd2703727"
+  }
+}

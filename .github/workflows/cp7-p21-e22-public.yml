@@ -1,4 +1,6 @@
-name: Writer A / P21 E22 public runner check
+name: Writer A / CP7 P21 E22 public
+run-name: Writer A/P21/E22 public/00272ba9
+
 on:
   push:
     branches:
@@ -7,14 +9,469 @@ on:
 permissions: {}
 
 jobs:
-  runner:
-    if: github.repository == 'Hanjay6688/-erp-garment-ux' && github.event.repository.private == false
+  ordinary:
+    if: >-
+      github.repository == 'Hanjay6688/-erp-garment-ux' &&
+      github.event.repository.private == false &&
+      github.ref == 'refs/heads/writer-a/cp7-p21-e22-public' &&
+      github.event_name == 'push' &&
+      github.run_attempt == 1
+    concurrency:
+      group: cp7-global-live-parent
+      cancel-in-progress: false
     runs-on: ubuntu-24.04
-    timeout-minutes: 3
+    timeout-minutes: 180
+    permissions:
+      contents: read
+      actions: read
+      packages: read
+    env:
+      PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+      PYTHONDONTWRITEBYTECODE: '1'
+      GIT_TERMINAL_PROMPT: '0'
+      ORDINARY_JOB_BUDGET_SECONDS: '10800'
+      CP7_DISPOSABLE_INSTALL_OBSERVATION: CURRENT_GLOBAL_INSTALLED_SCHEMA_AND_LEGACY_INVENTORY_ONLY
+      CP7_P21_TARGET: PUBLIC_GITHUB_DISPOSABLE_LOOPBACK
+      P21_PRODUCT_SHA: a752459a0a8baf1920d0e6d1c1fba6f4ef14af8d
+      CP7_P21_SWITCH_ROLL_HEAD: 00272ba94b2e467c3b97a63f97548e47187a8b35
+      CP7_P21_SWITCH_ROLL_TREE: 07c39c54bdf79e4c0bae58f442af743304990c89
     steps:
-      - name: Verify the standard Linux runner can start
+      - name: Record the actual runner start
         run: |
           set -euo pipefail
-          test "$RUNNER_OS" = Linux
-          docker info --format 'DOCKER_SERVER_READY={{.ServerVersion}}'
-          printf '%s\n' P21_PUBLIC_STANDARD_RUNNER_STARTED
+          python3 - <<'PY'
+          import os
+          import time
+
+          with open(os.environ['GITHUB_ENV'], 'a', encoding='ascii') as output:
+              output.write(f'SKU_CURRENT_AUTOMATIC_JOB_START_MONOTONIC={time.monotonic()}\n')
+          PY
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          path: runner-source
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Verify minimized receipts for P20, Switch Roll and E14
+        env:
+          PYTHONPATH: runner-source/qualification
+        run: |
+          set -euo pipefail
+          umask 077
+          mkdir -p "$RUNNER_TEMP/cp7-live-parent"
+          python3 -B -c 'import os; from p21.mode import public_identity; public_identity(os.environ["GITHUB_SHA"])'
+          python3 -B -m p21.preflight "$RUNNER_TEMP/cp7-live-parent/P21_P20_INTAKE.json"
+          python3 -B -m p21.retained "$RUNNER_TEMP/cp7-live-parent/P21_RETAINED_INTAKE.json"
+          echo 'P21_RETAINED_EVIDENCE_VERIFIED P20=13 Switch_Roll_save_and_recovery=true E14=PASS exact_replays=0'
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: writer-p21-p20-intake-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/cp7-live-parent/P21_P20_INTAKE.json
+            ${{ runner.temp }}/cp7-live-parent/P21_RETAINED_INTAKE.json
+          if-no-files-found: error
+          retention-days: 14
+      - name: Prepare the exact published SKU source and dependencies
+        run: |
+          set -euo pipefail
+          umask 077
+          export GIT_TERMINAL_PROMPT=0
+          git init -q auditor
+          git -C auditor remote add origin https://github.com/Hanjay6688/-erp-garment-ux.git
+          # Test sources, reviewed catalogues and fixtures. Exclude the
+          # accumulated run evidence stored under unrelated documentation.
+          git -C auditor sparse-checkout set src scripts contracts supabase tests ops public .github \
+            docs/evidence docs/cp7/d17-14 docs/cp7/d17-18 docs/cp7/framework-v2 \
+            docs/cp7/sku-cumulative-source-20261110
+          heads=(
+            a62504d71a6ca1cdbaa59b6fe0fd5739693f100a
+            a0e7d5616a0ac470876409d31c41388159f17692
+            fd797083eab093d9dc97f2d52ca61dc37812b437
+            f1674ae84739f577571d68415beabfca3f3b832b
+            9b1b0fcc9fbf477634619f07d4628d5be3a1b634
+            090b85d3fcb738d3e694d4329d306f199a686eb8
+            ca7f09556397801c50a2277bdb65b1bf019f9a05
+            c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+            25fa4736329e5148dfdb3572bc169952cba23251
+            1bdca3766f7c9800d68295ff5122798060b8a05d
+            469ed1e8b2edf80f7988feba38162a5be7251b8c
+            05bad4f465c61caabddfc0e8f4d5914b39aab22a
+            6d056959d33808dc59b8c38fb15ce8492db44523
+            3776a052ea97695dce95da018be182fdf21fe85b
+            e3261d84ae217d1d37374990dec5804fd1970934
+            ffa0b63dbb6f0b7888eeaec59d0f39347cd58e0e
+            014019a612260525e9c3b9459e354a86209336c1
+            c7f06b855512e0c8d450522c36e84f4cab570a2a
+            10a36e35b956febd9e34907f20fc5b782ec48dc1
+            a5944f25a5e3ba1f1f537a18abe923eb753f922f
+            0da4d79a4f7201ef053d6de1eb155d990b4bfa4d
+            927ee03213a80e854fda30779d824c5c617644bd
+            e6684b07f98d753b5f78b24c7af52cd981971c0c
+            1601415d974d5e2fc9d627e35b976e38d6daee8c
+            56e7b238e68620c5cc172b7961c83a46bda8783a
+            1c66a74295eae2f09b7535619325e4d023942e19
+            5f099fa6852c9088ab46daa0f1079a0f6a1f3185
+            c296fd06167ddd177e1192c1008992e2a1e3d628
+            f6a853813e6db252b44fa8044310b9f499210420
+            e63c758990f54dbec4e635ecf3d53c6e80b03041
+            1cc838c834ebc49642f4d27274a8c5ebabb46822
+            fea75841e26645f1892d880905231625b47e3065
+            ae480ca43d750a6abe41681fc6f90e6ad81a9135
+          )
+          git -C auditor fetch --no-tags origin "${heads[@]}" > "$RUNNER_TEMP/sku-source.log" 2>&1
+          git -C auditor checkout --quiet --detach "${heads[0]}"
+          test "$(git -C auditor rev-parse 'HEAD^{tree}')" = df64669b64e82f4b5027ccad837cc3d014dbcafa
+          python -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2' 'jsonschema==4.25.1'
+      - name: Record the real WIB business day and restoration reserves
+        run: python3 -B auditor/scripts/current-sku-automatic-composite-preparation/run_window.py --record
+      - uses: supabase/setup-cli@ab058987d8d6c725971f6cf9d0b5c98467e30bd1
+        with:
+          version: 2.116.0
+      - name: Install PostgreSQL 17 client
+        run: |
+          set -euo pipefail
+          if ! test -x /usr/lib/postgresql/17/bin/pg_dump; then
+            sudo install -d /usr/share/postgresql-common/pgdg
+            key=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc
+            sudo curl --fail --silent --show-error --retry 2 --connect-timeout 8 --max-time 20 \
+              -o "$key" https://www.postgresql.org/media/keys/ACCC4CF8.asc
+            fingerprint="$(gpg --show-keys --with-colons "$key" | awk -F: '$1 == "fpr" && !seen++ {print $10}')"
+            test "$fingerprint" = B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8
+            . /etc/os-release
+            sudo tee /etc/apt/sources.list.d/pgdg.sources >/dev/null <<EOF
+          Types: deb
+          URIs: https://apt.postgresql.org/pub/repos/apt
+          Suites: ${VERSION_CODENAME}-pgdg
+          Components: main
+          Signed-By: ${key}
+          EOF
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq postgresql-client-17
+          fi
+          /usr/lib/postgresql/17/bin/pg_dump --version | grep -E 'PostgreSQL\) 17\.'
+          /usr/lib/postgresql/17/bin/pg_dump --help | grep -- '--restrict-key' >/dev/null
+          echo '/usr/lib/postgresql/17/bin' >> "$GITHUB_PATH"
+      - name: Prepare retained SKU inputs for Global
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          umask 077
+          mkdir -p "$RUNNER_TEMP/cp7-live-parent"
+          PYTHONPATH=runner-source/qualification python3 -B -c 'from sku_parent import check_context; check_context("retrieve")'
+          python3 runner-source/qualification/sku_inputs.py "$GITHUB_WORKSPACE" \
+            --settings-file "$RUNNER_TEMP/cp7-live-parent/sku-settings.json"
+      - name: Verify the successful SKU Original and exact installer graph
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          umask 077
+          probe=runner-source/qualification/sku_parent.py
+          python3 "$probe" retrieve
+          unset GH_TOKEN
+          log="$RUNNER_TEMP/cp7-live-parent/source.log"
+          status=0
+          python3 "$probe" source > "$log" 2>&1 || status=$?
+          grep -E '^GLOBAL_(PARENT_EXACT_SKU_INSTALL_GRAPH_VERIFIED|LIVE_PARENT_FAILURE)' "$log" || true
+          exit "$status"
+      - name: Materialize the accepted ERP candidate
+        run: |
+          set -euo pipefail
+          umask 077
+          p20_assets="$GITHUB_WORKSPACE/runner-source/qualification/global_owning/p20"
+          (
+            cd "$p20_assets"
+            sha256sum --strict --check INPUTS.sha256
+          )
+          git clone --quiet --shared --no-checkout "$GITHUB_WORKSPACE/auditor" p20-product
+          test "$(git -C p20-product rev-parse HEAD)" = a62504d71a6ca1cdbaa59b6fe0fd5739693f100a
+          git -C p20-product bundle verify "$p20_assets/P20_BASE.bundle"
+          git -C p20-product fetch "$p20_assets/P20_BASE.bundle" refs/heads/writer-a/cp7-p20-review
+          git -C p20-product bundle verify "$p20_assets/P20_REPAIR.bundle"
+          git -C p20-product fetch "$p20_assets/P20_REPAIR.bundle" refs/heads/writer-a/cp7-ow07-report-readiness
+          git -C p20-product checkout --quiet --detach FETCH_HEAD
+          test "$(git -C p20-product rev-parse HEAD)" = "$P21_PRODUCT_SHA"
+          test "$(git -C p20-product rev-parse 'HEAD^{tree}')" = 3440cb483c8f809987efb04c3e26072d14039ff2
+      - name: Materialize and verify the Switch Roll successor
+        run: |
+          set -euo pipefail
+          umask 077
+          bundle="$GITHUB_WORKSPACE/runner-source/qualification/p21/switch-roll/PRODUCT.bundle"
+          printf '%s  %s\n' 'ae7834256cc26cd4b22a4358914afd6dbad4a825fd43e098636ba51ebc8774f6' "$bundle" | sha256sum --strict --check
+          git clone --quiet --shared --no-checkout p20-product switch-roll-product
+          git -C switch-roll-product sparse-checkout set src scripts tests contracts public supabase docs/evidence docs/cp7/evidence/p00 docs/cp7/framework-v2
+          git -C switch-roll-product bundle verify "$bundle"
+          git -C switch-roll-product fetch "$bundle" refs/heads/writer-a/cp7-switch-roll
+          git -C switch-roll-product checkout --quiet --detach FETCH_HEAD
+          test "$(git -C switch-roll-product rev-parse HEAD)" = "$CP7_P21_SWITCH_ROLL_HEAD"
+          test "$(git -C switch-roll-product rev-parse 'HEAD^{tree}')" = "$CP7_P21_SWITCH_ROLL_TREE"
+          test "$(git -C switch-roll-product rev-parse 'HEAD^')" = "$P21_PRODUCT_SHA"
+      - name: Materialize and verify the Global ordinary source graph
+        id: ordinary_preflight
+        run: |
+          set -euo pipefail
+          umask 077
+          scope=runner-source/qualification
+          patch=runner-source/qualification/global-preseal/global-combined.patch.gz
+          scratch="$RUNNER_TEMP/cp7-live-parent"
+          if ! (
+            python3 "$scope/global_preseal.py" "$GITHUB_WORKSPACE/auditor" "$GITHUB_WORKSPACE/global-candidate" "$patch" &&
+            git -C "$GITHUB_WORKSPACE/global-candidate" sparse-checkout add \
+              docs/cp7/d17-14/ow04/consumer-command docs/evidence supabase/migrations supabase/tests &&
+            python3 -u runner-source/qualification/ordinary_run.py preflight
+          ) > "$scratch/ordinary-preflight.log" 2>&1; then
+            grep -E '^GLOBAL_ORDINARY_PHASE SOURCE_PREFLIGHT (STARTED|FAILED)$' "$scratch/ordinary-preflight.log" || true
+            if [[ -f "$scratch/ordinary-preflight-failure.json" ]]; then
+              jq -er '.first_failure | strings | select(test("^[A-Z0-9_]{5,108}$"))'                 "$scratch/ordinary-preflight-failure.json" || true
+            fi
+            echo 'Global ordinary source preflight failed.' >&2
+            exit 1
+          fi
+          echo 'GLOBAL_ORDINARY_SOURCE_PREFLIGHT_PASS'
+      - name: Check source evidence before public upload
+        id: source_public
+        if: always() && steps.ordinary_preflight.outcome != 'skipped'
+        run: python3 -B runner-source/qualification/p21/public_evidence.py source "$RUNNER_TEMP/cp7-live-parent"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always() && steps.source_public.outcome == 'success'
+        with:
+          name: writer-p21-source-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/cp7-live-parent/ordinary-preflight.json
+            ${{ runner.temp }}/cp7-live-parent/ordinary-preflight-failure.json
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Reclaim space for the disposable database when needed
+        env:
+          RUNNER_ENVIRONMENT: ${{ runner.environment }}
+        run: |
+          set -euo pipefail
+          docker_root="$(docker info --format '{{.DockerRootDir}}')"
+          free_mib() { sudo -n df -m --output=avail -- "$1" | tail -n 1 | tr -d ' '; }
+          workspace_free="$(free_mib "$GITHUB_WORKSPACE")"
+          docker_free="$(free_mib "$docker_root")"
+          printf 'ERP_TEST_DISK_BEFORE_MIB workspace=%s docker=%s\n' "$workspace_free" "$docker_free"
+          # The hosted VM ships an Android SDK that this job never uses.
+          sdk=/usr/local/lib/android/sdk
+          if [[ "$RUNNER_ENVIRONMENT" == github-hosted && -d "$sdk" && ! -L "$sdk" ]] &&
+            (( workspace_free < 6144 || docker_free < 6144 )); then
+            sdk_device="$(stat -c %d -- "$sdk")"
+            workspace_device="$(stat -c %d -- "$GITHUB_WORKSPACE")"
+            docker_device="$(sudo -n stat -c %d -- "$docker_root")"
+            if { (( workspace_free < 6144 )) && [[ "$sdk_device" == "$workspace_device" ]]; } ||
+              { (( docker_free < 6144 )) && [[ "$sdk_device" == "$docker_device" ]]; }; then
+              sudo -n rm -rf --one-file-system -- "$sdk"
+              echo 'ERP_TEST_UNUSED_ANDROID_SDK_REMOVED'
+            fi
+          fi
+          printf 'ERP_TEST_DISK_READY_MIB workspace=%s docker=%s\n' "$(free_mib "$GITHUB_WORKSPACE")" "$(free_mib "$docker_root")"
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24'
+      - name: Install the pinned checkpoint publisher
+        run: |
+          set -euo pipefail
+          umask 077
+          mkdir "$RUNNER_TEMP/p20-evidence-node"
+          cp runner-source/qualification/audit/codex/checkpoint_action/package*.json "$RUNNER_TEMP/p20-evidence-node/"
+          npm ci --prefix "$RUNNER_TEMP/p20-evidence-node" --ignore-scripts --no-audit --no-fund
+      - name: Prepare the Switch Roll browser and check its UI contracts
+        working-directory: switch-roll-product
+        run: |
+          set -euo pipefail
+          npm ci --no-audit --no-fund
+          npx --no-install playwright install --with-deps chromium
+          npm exec -- vitest run src/SwitchRollPanel.dom.test.tsx src/receiptCorrectionContract.test.ts
+      - name: Recheck the real WIB window before starting the database
+        run: python3 -B auditor/scripts/current-sku-automatic-composite-preparation/run_window.py --require
+      - name: Start the disposable Supabase database
+        working-directory: base
+        id: stack
+        env:
+          GHCR_TOKEN: ${{ github.token }}
+          DOCKER_CONFIG: ${{ runner.temp }}/cp7-baseline-docker
+        run: |
+          set -euo pipefail
+          umask 077
+          mkdir -p "$DOCKER_CONFIG" "$RUNNER_TEMP/cp7-baseline"
+          printf '%s' "$GHCR_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin > "$RUNNER_TEMP/cp7-baseline/registry.log" 2>&1
+          unset GHCR_TOKEN
+          mkdir cp5-local
+          supabase init --force --workdir cp5-local > "$RUNNER_TEMP/cp7-baseline/init.log" 2>&1
+          config=cp5-local/supabase/config.toml
+          sed -i '0,/^enable_signup = true$/s//enable_signup = false/' "$config"
+          python - "$config" <<'PY'
+          import sys, tomllib
+          with open(sys.argv[1], 'rb') as stream:
+              config = tomllib.load(stream)
+          assert config['project_id'] == 'cp5-local'
+          assert config['auth']['enable_signup'] is False and config['auth']['email']['enable_signup'] is True
+          PY
+          mkdir -p cp5-local/supabase/.temp
+          printf '%s\n' '17.6.1.165' > cp5-local/supabase/.temp/postgres-version
+          status=0
+          timeout --kill-after=10s 13m python ../auditor/scripts/current-finance-combined-composition/disposable_start.py \
+            > "$RUNNER_TEMP/cp7-baseline/start.log" 2>&1 || status=$?
+          python "$GITHUB_WORKSPACE/runner-source/qualification/startup_receipt.py" \
+            "$GITHUB_WORKSPACE/auditor/cp6-proof/t3/disposable-startup-attempts" "$GITHUB_WORKSPACE"
+          test "$status" -eq 0
+          docker exec supabase_db_cp5-local psql -U supabase_admin -X -At -d postgres -c 'show server_version_num' | grep -Fx '170006'
+          if ! supabase status --workdir cp5-local -o env > "$RUNNER_TEMP/cp7-baseline/stack.env" 2> "$RUNNER_TEMP/cp7-baseline/status.log"; then
+            echo 'Could not read disposable Auth configuration at startup.' >&2
+            exit 1
+          fi
+      - name: Install the frozen ERP baseline through AB
+        working-directory: base
+        run: |
+          set -euo pipefail
+          umask 077
+          report="$RUNNER_TEMP/cp7-baseline/ALIGNED_CHAIN.json"
+          status=0
+          PYTHONPATH=scripts python -B ../auditor/scripts/cp6_t3_aligned_chain.py "$report" --stop-after-ab > "$RUNNER_TEMP/cp7-baseline/align.log" 2>&1 || status=$?
+          python - "$report" "$status" <<'PY'
+          import json, pathlib, sys
+          path = pathlib.Path(sys.argv[1])
+          report = json.loads(path.read_bytes()) if path.exists() else {}
+          steps = report.get('steps', [])
+          if sys.argv[2] != '0':
+              print(f'Frozen AB preparation failed after {len(steps)} recorded stages (exit {int(sys.argv[2])}).')
+              if steps and steps[-1]['exit_code']:
+                  print('Last frozen source stage:', steps[-1]['name'])
+              raise SystemExit(1)
+          assert report['status'] == 'PASS_ALIGNED_CHAIN_TO_AB'
+          assert len(steps) == 40 and all(step['exit_code'] == 0 for step in steps)
+          assert steps[-1]['code_sha256'] == '2e7b338350fee3a4e01d5294ee13c60e14bdc40e3cb272269ed8a4558bc55593'
+          assert report['hosted_fingerprint']['equal'] is True
+          assert report['reused_bootstrap_input']['status'] == 'PRE_U_CAPTURED_IN_THIS_REBUILD'
+          print('ERP_BASELINE_AB_PASS stages=40 historical_catalogue_equal=true')
+          PY
+      - name: Provision the fixed disposable package authority
+        run: |
+          set -euo pipefail
+          maintenance_password="$(openssl rand -hex 32)"
+          maintenance_pgurl="postgresql://cp6_maintenance_admission:${maintenance_password}@127.0.0.1:54322/template1"
+          echo "::add-mask::$maintenance_password"
+          echo "::add-mask::$maintenance_pgurl"
+          docker exec -i supabase_db_cp5-local \
+            psql -U supabase_admin -d template1 -X -v ON_ERROR_STOP=1 \
+            -v cp6_password="$maintenance_password" <<'SQL'
+          create role cp6_maintenance_admission
+            login superuser noinherit nocreatedb nocreaterole noreplication
+            connection limit 4 password :'cp6_password';
+          SQL
+          printf 'CP6_ADMISSION_CONTROL_PGURL=%s\n' "$maintenance_pgurl" >> "$GITHUB_ENV"
+      - name: Verify the isolated ERP clone
+        working-directory: writer
+        run: |
+          set -euo pipefail
+          umask 077
+          prefix="$RUNNER_TEMP/cp7-baseline/CLONE_install"
+          if ! bash scripts/clone-cp6-disposable-database.sh \
+            "$PGURL" 'postgresql://postgres:postgres@127.0.0.1:54322/template1' \
+            'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \
+            cp6_rollback supabase_db_cp5-local "$prefix" > "$RUNNER_TEMP/cp7-baseline/clone.log" 2>&1; then
+            echo 'AB clone or comparison failed.' >&2
+            exit 1
+          fi
+          grep -Fx 'status=PASS' "$prefix.txt" "$prefix.connection-fence.txt" >/dev/null
+          grep -Fx 'erp_schema_owners_grants_sequences_rows=IDENTICAL' "$prefix.txt" >/dev/null
+          grep -Fx 'source_connections_restored=PASS' "$prefix.connection-fence.txt" >/dev/null
+          printf '%s\n' 'ERP_BASELINE_CLONE_PASS erp_catalogue_rows_sequences_equal=true actual_global_erp_cases=0 production_go=false'
+      - name: Install exact P21, complete E22 and restore the test database
+        id: ordinary_runtime
+        uses: ./runner-source/qualification/p21/publisher
+      - name: Remove the disposable Global environment
+        id: ordinary_cleanup
+        if: always() && steps.stack.outcome != 'skipped'
+        run: |
+          set -euo pipefail
+          umask 077
+          scratch="$RUNNER_TEMP/cp7-live-parent"
+          baseline="$RUNNER_TEMP/cp7-baseline"
+          mkdir -p "$scratch" "$baseline"
+          status=0
+          transport=success
+          stop_authority="$scratch/ordinary-stack-stop-authorized.json"
+          if ! python3 -u runner-source/qualification/ordinary_run.py cleanup-transport \
+            > "$scratch/ordinary-transport-cleanup.log" 2>&1; then
+            transport=failure
+            echo 'Global ordinary transport cleanup failed.' >&2
+            if test -s "$stop_authority" || test -f base/cp5-local/supabase/config.toml; then
+              status=1
+            fi
+          fi
+          if test -f base/cp5-local/supabase/config.toml; then
+            if ! test -f "$stop_authority" || test -L "$stop_authority" || ! test -s "$stop_authority"; then
+              echo 'Disposable Supabase stop requires verified worker termination.' >&2
+              status=1
+            elif ! timeout --kill-after=10s 3m supabase stop --workdir base/cp5-local --no-backup > "$baseline/stop.log" 2>&1; then
+              echo 'Disposable Supabase stop failed.' >&2
+              status=1
+            fi
+          fi
+          if ! containers="$(docker ps -a --format '{{.Names}}' 2> "$baseline/container-cleanup.log")"; then
+            echo 'Disposable container cleanup could not be verified.' >&2
+            status=1
+          elif grep -Eq '^supabase_.+_cp5-local$' <<< "$containers"; then
+            echo 'A disposable Supabase container remained after cleanup.' >&2
+            status=1
+          fi
+          printf 'transport=%s\n' "$transport" >> "$GITHUB_OUTPUT"
+          if test "$status" -eq 0; then
+            echo 'ERP_BASELINE_CLEANUP_PASS'
+          fi
+          exit "$status"
+      - name: Check raw evidence before public upload
+        id: raw_public
+        if: always() && hashFiles('global-candidate/cp6-proof/t3/P21_FOLLOWUP_ORIGINALS/*') != ''
+        run: python3 -B runner-source/qualification/p21/public_evidence.py raw "$GITHUB_WORKSPACE/global-candidate/cp6-proof/t3"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always() && steps.raw_public.outcome == 'success'
+        with:
+          name: writer-p21-e22-recovery-originals-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ github.workspace }}/global-candidate/cp6-proof/t3/P21_FOLLOWUP_ORIGINALS/
+            ${{ github.workspace }}/global-candidate/cp6-proof/t3/GLOBAL_AUTH_*_BASELINE.json
+            ${{ github.workspace }}/global-candidate/cp6-proof/t3/GLOBAL_AUTH_*_REST_BOUND.json
+            ${{ github.workspace }}/global-candidate/cp6-proof/t3/GLOBAL_AUTH_*_MAPPING.json
+            ${{ github.workspace }}/global-candidate/cp6-proof/t3/GLOBAL_AUTH_*_FINAL_CLEANUP.json
+          if-no-files-found: error
+          retention-days: 14
+      - name: Finalize P21 installation and recovery evidence
+        if: always()
+        env:
+          ORDINARY_PREFLIGHT: ${{ steps.ordinary_preflight.outcome }}
+          ORDINARY_STACK: ${{ steps.stack.outcome }}
+          ORDINARY_RUNTIME: ${{ steps.ordinary_runtime.outcome }}
+          ORDINARY_CLEANUP: ${{ steps.ordinary_cleanup.outcome }}
+          ORDINARY_TRANSPORT: ${{ steps.ordinary_cleanup.outputs.transport }}
+        run: |
+          set -euo pipefail
+          umask 077
+          scratch="$RUNNER_TEMP/cp7-live-parent"
+          mkdir -p "$scratch"
+          receipt="$scratch/P21_INSTALLATION_FINAL.json"
+          status=0
+          python3 -u runner-source/qualification/ordinary_run.py finalize \
+            > "$scratch/ordinary-finalize.log" 2>&1 || status=$?
+          rm -f "$RUNNER_TEMP/cp7-baseline/stack.env" "$scratch/sku-original.zip" "$scratch/sku-settings.json"
+          rm -f "$RUNNER_TEMP/cp7-baseline-docker/config.json"
+          if ! test -s "$receipt"; then
+            printf '%s\n' '{"status":"INCOMPLETE","failure":"CP7_P21_TERMINAL_RECEIPT_UNAVAILABLE","actual_P20_cases_rerun":0,"production_go":false,"installed_P21_acceptance":false,"independent_acceptance":false}' > "$receipt"
+            status=1
+          fi
+          printf 'GLOBAL_ORDINARY_FINALIZE_EXIT=%s\n' "$status"
+          exit "$status"
+      - name: Check terminal evidence before public upload
+        id: terminal_public
+        if: always()
+        run: python3 -B runner-source/qualification/p21/public_evidence.py terminal "$RUNNER_TEMP/cp7-live-parent"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always() && steps.terminal_public.outcome == 'success'
+        with:
+          name: writer-p21-terminal-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/cp7-live-parent/P21_INSTALLATION_FINAL.json
+          if-no-files-found: error
+          retention-days: 14

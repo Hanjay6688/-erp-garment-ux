@@ -1,0 +1,153 @@
+{
+  "contract": "cp7.global-first-owning-source-caller.v1",
+  "basis_tree": "6ca1a7d3bab151f4ebf61034f40f5f3589633133",
+  "candidate_files": {
+    "scripts/cp6_au_r1_probe.py": {
+      "bytes": 29829,
+      "sha256": "451d3d5cbf34fed8f6ba0bf6445cee08e5198d6979f1fd1fbc68f9e299d3724b"
+    },
+    "scripts/cp6_auditor_runner.py": {
+      "bytes": 14911,
+      "sha256": "2c74439f7e919e2adb2484bc774bef4881e71237124f2e6b6dabdab141348ea7"
+    },
+    "scripts/cp6_run_identity.py": {
+      "bytes": 1869,
+      "sha256": "4876539c2ed0cffc674522f2a24ae73f2f52253f434bf949a53a3744018f2279"
+    },
+    "scripts/cp6_t3_package_run.py": {
+      "bytes": 17087,
+      "sha256": "952bbf1b99652dadf69ab0e1291979a4e7227182631baaab6af7a7eabcb80ab0"
+    },
+    "scripts/cp7_accessory_nonpayable/complete_original_io.py": {
+      "bytes": 5951,
+      "sha256": "f7c732004e1f5f0f2fe7ac7e08a6f049e6d41f0074fca7336c66736aaf522170"
+    },
+    "scripts/cp7_credit_correction_de/cases.py": {
+      "bytes": 21156,
+      "sha256": "c530bb87f72ee6091e032d15efdb2b2e55cf9c9632b64c9e781665b70325bbdb"
+    },
+    "scripts/cp7_credit_correction_de/e_cases.py": {
+      "bytes": 25058,
+      "sha256": "058a9c29b991b30ca4da6467cfeb2629179d3ce8f25b8dba09d6ea45f419e2ad"
+    },
+    "scripts/cp7_credit_correction_de/native_fixture.py": {
+      "bytes": 7703,
+      "sha256": "4fbe56583ffc63473c12195ddaae6ff3e0cd0ad46b358bf7eef7b5175c67e829"
+    },
+    "scripts/cp7_customer_credit/consumer/cp7_ow04_consumer_fixture.py": {
+      "bytes": 9005,
+      "sha256": "75a6d5d573de0827a2efa712d49059a14e1ee83e3ee2635598e005b4bc1afeed"
+    },
+    "scripts/cp7_customer_credit/initial-settlement/cp7_ow04_initial_settlement_cases.py": {
+      "bytes": 25791,
+      "sha256": "6d4e2389e0090333ae076fc3091ec4333492e886e08fc1a96c4eea9282f93602"
+    },
+    "scripts/cp7_customer_credit/native/cp7_ow04_native_source_fixture.py": {
+      "bytes": 25693,
+      "sha256": "4984926b221df459e6e88c2f282da3e553d4810d177208ea489c9c3b1d264497"
+    },
+    "scripts/cp7_customer_credit/reconciliation/native/cp7_ow04_signed_source_cases.py": {
+      "bytes": 28027,
+      "sha256": "82831d767c85199ab182c21aa5a56fe46e7cba0c7e70ccba6c89477b755de640"
+    },
+    "scripts/cp7_global_nonpo_envelope/admission.py": {
+      "bytes": 1739,
+      "sha256": "e77645273331e4f13def8bbd830127fab1673c95e198796e789784dbfaa218fe"
+    },
+    "scripts/cp7_global_nonpo_envelope/catalogue_profile.py": {
+      "bytes": 4607,
+      "sha256": "e34234eab2e4c36f8c63742a504569f954957241c0cbc679e9b420d12218b19e"
+    },
+    "scripts/cp7_global_nonpo_envelope/composition.py": {
+      "bytes": 21891,
+      "sha256": "aa5139dcc0a87445e4fbecd1af0aca9cdf70b9e53b5a6be523aebe86d38029e4"
+    },
+    "scripts/current-complete-de-integration-preparation/native_business.py": {
+      "bytes": 7611,
+      "sha256": "36b1873edd47b20db3c4e54b08f0ed8cfeaf1dff8c1e8b7fb9a01f7718fb3aae"
+    },
+    "scripts/current-de-free-date-preparation/attempt_policy.py": {
+      "bytes": 2209,
+      "sha256": "5076f5ddb63b8c6b677c6141253d25734b295721aa8d483f116abc6ecd0136f8"
+    },
+    "scripts/current-global-first-snapshot-preparation/SOURCE.json": {
+      "bytes": 1429,
+      "sha256": "69f4b246476ec69858a3c7f431e7b91bd7035311ecf5fcc10e290df1bc77a03a"
+    },
+    "scripts/current-global-first-snapshot-preparation/install_routes.py": {
+      "bytes": 4648,
+      "sha256": "0b55f9c87f7e9ae15ba9a927bc036772f6a61f9ef03492d0939b5e7a6a803576"
+    },
+    "scripts/current-mandor-afui-preparation/report_io.py": {
+      "bytes": 9238,
+      "sha256": "300a4239a2e3fec6bbd6fa6fc8115a730034592aa362fee1993cff013e0c3c25"
+    },
+    "scripts/current-mandor-shop-native-qualification/package_identity.py": {
+      "bytes": 1892,
+      "sha256": "cb1731afcf14d0bff21fb66661dcfc3b75427e02cc2cafd501ce49e0c77c03f2"
+    },
+    "scripts/current-sku-automatic-composite-preparation/E4EA_CONTINUATION_SCOPE.json": {
+      "bytes": 22999,
+      "sha256": "91a74eeda82feace3cfdc27488841306edb05ff40311c38cda6201af7215a760"
+    },
+    "scripts/current-sku-automatic-composite-preparation/catalogue_decode.py": {
+      "bytes": 8321,
+      "sha256": "9da7405db5de328514943e0dd7aff58066dc3897c5f99e73f9530070796ac7a1"
+    },
+    "scripts/current-sku-automatic-composite-preparation/module_scope.py": {
+      "bytes": 8504,
+      "sha256": "64d5c922edd3179d9a1b6673b57c46a970ba915caf4324fa0cdd3f880a5e9456"
+    },
+    "scripts/current-sku-automatic-composite-preparation/package.py": {
+      "bytes": 14239,
+      "sha256": "0f81933b4990a2e47c604dceb7fbe14ea5b7db3ef963de29665e2687b8e307cb"
+    },
+    "scripts/current-sku-automatic-composite-preparation/qualification.py": {
+      "bytes": 15029,
+      "sha256": "86e8934708f8d349c585fae98cbd8c7b96caf84a40654f437e6744ca12f7a68d"
+    },
+    "scripts/current-sku-automatic-composite-preparation/report_io.py": {
+      "bytes": 6464,
+      "sha256": "60bdfee408b3671be6d1af21d94eebef55ea32748ce7c26f273cf4bcb4cc603c"
+    },
+    "scripts/current-sku-automatic-composite-preparation/run_window.py": {
+      "bytes": 5787,
+      "sha256": "be4008173b1f6b8d8b970bdbb278de0a2d146cec5c660e28df036fdf681ca62f"
+    },
+    "scripts/current-sku-composite-preparation/sku_current_parent_package.py": {
+      "bytes": 2837,
+      "sha256": "9e216e5face39f4c6eebfe75ab9bea1474fe2c6e1ae5855b41d21372e59a974a"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/source_context.py": {
+      "bytes": 1968,
+      "sha256": "48e8f2712f8dedc19c9af239e25755abdb64084797041ecb1b90ac4438ef5f88"
+    },
+    "scripts/current-sku-money-composite-preparation/package.py": {
+      "bytes": 2010,
+      "sha256": "a1da58839417cac35330d8d474b932651134e2708772183d7e0261a184815eef"
+    },
+    "scripts/current-sku-recovery-material-lock/SOURCE.json": {
+      "bytes": 5848,
+      "sha256": "df1278bd775a0666b408959930d2a5c018655ffc62ee242aac3d8048ab0b7586"
+    },
+    "scripts/current-sku-recovery-material-lock/runtime_source.py": {
+      "bytes": 5176,
+      "sha256": "1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797"
+    },
+    "scripts/current-vendor-receivable-qualification/probe.py": {
+      "bytes": 12667,
+      "sha256": "c420d894f8d5f16bddefeae73addb621507170f372a28e7d6e33d88c7eeb0be9"
+    }
+  },
+  "observer": {
+    "bytes": 12165,
+    "sha256": "ae657783a425b3df7f10431d15be3f86445f9711c8b1d1f6050e4bee79273b60"
+  },
+  "root_source_receipt": {
+    "bytes": 3071,
+    "sha256": "202f8335aca81da50404d0fb64a2343c2f3bdfdcbd9130b0fdfaf50e8093e546"
+  },
+  "actual_SKU_Root_adopted": false,
+  "runtime_admission": false,
+  "actual_ERP_cases": 0
+}

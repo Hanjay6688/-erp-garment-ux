@@ -1,0 +1,41 @@
+--- retained/global_owning_writer.py
++++ proposal/global_owning_writer.py
+@@ -101,9 +101,12 @@
+             report['current_private_info_authority']=_global_lifecycle.capture_advisors(cur,STATE)
+             new_roles=database._roles(cur)-before_roles
+             conn.commit();installed=True
++            _global_lifecycle.foundation.after_commit(cur,report)
+         report['advisors_with_cp7']=advisors(package.boundary.PG)
+         case=report['committed'].setdefault(runner.CASE,dict(status='INCOMPLETE'))
+         with psycopg.connect(package.boundary.ADMIN)as conn,conn.cursor()as cur:
++            _global_auth.begin(conn,cur,package.boundary.ADMIN,package.boundary.PRIMARY_ADMIN,
++                               lambda cursor: _global_lifecycle.verify(cursor,STATE),report)
+             measured(timings,'ISOLATED_DIAGNOSTICS',runner.exercise,conn,cur,database,package.boundary.ADMIN,case,STATE)
+         assert case['used_guard_refused_before_DDL'] is True
+         report['used_guard_refused_before_DDL']=True
+@@ -112,6 +115,7 @@
+     finally:
+         if before is not None and pre_dumped:
+             try:
++                _global_auth.before_restore(report)
+                 if report['committed']:
+                     report['scheduler_quiet_before_baseline_restore']=runner.scheduler_quiet(package.boundary.ADMIN)
+                 # This case commits real Native posting and runner progress. Restore the
+@@ -140,11 +144,16 @@
+                 else:report['advisor_gate']=report['baseline_advisors_equal']
+             except Exception as error:
+                 report.update(restore_error=str(error),restore_traceback=traceback.format_exc(),cp6_restored=False,advisor_gate=False)
++        if report.get('global_auth_before_restore',{}).get('verified') is True:
++            try:
++                _global_auth.after_restore(report)
++            except Exception as error:
++                report['global_auth_cleanup_error']=_global_auth_error(error)
+         drill.docker('rm','-f',PRE_DUMP,check=False)
+         cases=report['committed']
+         report['observed_case_count']=len(cases)
+         report['required_case_ids_pass']=set(cases)==set(IDS)and all(c['status']=='PASS'for c in cases.values())
+-        if not report.get('error')and report.get('cp6_restored')and report.get('advisor_gate')and report.get('baseline_full25_portable_catalogue_equal')and report.get('focused_preuse_removal')and report['required_case_ids_pass']and report.get('used_guard_refused_before_DDL'):
++        if not report.get('error')and report.get('cp6_restored')and report.get('advisor_gate')and report.get('baseline_full25_portable_catalogue_equal')and report.get('global_auth_cleanup',{}).get('status')=='PASS'and not report.get('global_auth_cleanup_error')and report.get('global_auth_cleanup',{}).get('verified_actors',0)>0 and report.get('global_auth_cleanup',{}).get('application_rpc_responses',0)>0 and (not _global_lifecycle.fixtures.CASE_IDS['browser'] or report['global_auth_before_restore'].get('browser',{}).get('process_tree_empty') is True) and report.get('focused_preuse_removal')and report['required_case_ids_pass']and report.get('used_guard_refused_before_DDL'):
+             report['status']='PASS'
+             report['actual_cron_claim']=False
+             report.update(_global_lifecycle.actual_counts(cases[runner.CASE]))

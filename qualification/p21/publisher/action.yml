@@ -1,0 +1,5 @@
+name: P21 installation receipts
+description: Archive bounded disposable installation checkpoints
+runs:
+  using: node24
+  main: index.mjs

@@ -1,0 +1,9 @@
+name: P20 evidence publisher
+description: Archive bounded private P20 receipts before advancing the disposable runner
+inputs:
+  mode:
+    description: Exact audit or synthetic smoke mode
+    required: true
+runs:
+  using: node24
+  main: index.mjs

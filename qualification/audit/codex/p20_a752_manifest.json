@@ -1,0 +1,258 @@
+{
+  "contract": "cp7.audit.p20.codex.a752.v1",
+  "round_id": "P20_A752_20261117",
+  "auditor": "Codex",
+  "status": "PLANNED_NOT_EXECUTED",
+  "candidate_sha": "a752459a0a8baf1920d0e6d1c1fba6f4ef14af8d",
+  "candidate_tree": "3440cb483c8f809987efb04c3e26072d14039ff2",
+  "runner_base_sha": "8b0971c001b95f6a34c6d678ff603ee4055a5d52",
+  "production_go": false,
+  "independent_acceptance": false,
+  "evidence_origin": "INDEPENDENT_NATIVE_RERUN_ONLY_AFTER_ACTUAL_DISPATCH",
+  "fixture_origin": "Retained Writer synthetic fixtures; auditor precommitted literal expectations and a separate positive CLOSE case",
+  "cases": [
+    {
+      "id": "AUD-P20-SERIES",
+      "layer": "browser+installed transactions",
+      "roles": [
+        "owner"
+      ],
+      "expected": {
+        "draft_pcs": 24,
+        "edited_pcs": 25,
+        "draft_journal_count": 0,
+        "post_stock_pcs_by_series_size": [
+          13,
+          14,
+          14,
+          14
+        ],
+        "hpp": "250.00",
+        "receivable": "620.00",
+        "journal_by_account": {
+          "receivable_debit": "620.00",
+          "sales_credit": "620.00",
+          "hpp_debit": "250.00",
+          "inventory_credit": "250.00"
+        },
+        "replay_uuid_effect_count": 1,
+        "inverse_restores_by_series_size": true
+      }
+    },
+    {
+      "id": "AUD-P20-CREDIT",
+      "layer": "real Auth+installed transactions",
+      "roles": [
+        "owner"
+      ],
+      "expected": {
+        "credit": "80.00",
+        "replacement_note": "550.00",
+        "receivable_before": "420.00",
+        "receivable_after": "470.00",
+        "cash_delta": "0.00",
+        "source_stock_hpp_journal_delta": "0.00",
+        "stale_error_sqlstate": "P0001",
+        "stale_error_code": "CP7_CREDIT_NOTE_CARRY_STALE_REVIEW",
+        "stale_effect_count": 0,
+        "replay_uuid_effect_count": 1
+      }
+    },
+    {
+      "id": "AUD-P20-CASH",
+      "layer": "real Auth HTTP+browser+ledger",
+      "roles": [
+        "owner",
+        "admin"
+      ],
+      "expected": {
+        "page_lengths": [
+          25,
+          10
+        ],
+        "balance": "730.25",
+        "opening": "100.00",
+        "inflow": "638.75",
+        "outflow": "8.50",
+        "draft_excluded": "99.00",
+        "internal_transfer_net": "0.00",
+        "authorized_http": 200,
+        "revoked_current_session_http": 403,
+        "revoked_new_session_http": 403,
+        "comparison_http": 200,
+        "comparison_cash_payload_absent": true,
+        "ui_clears_old_cash": true,
+        "grant_restored_exactly": true
+      }
+    },
+    {
+      "id": "AUD-P20-OW07",
+      "layer": "installed transactions+official report+close",
+      "roles": [
+        "owner"
+      ],
+      "expected": {
+        "pending_blocker": "ATTENDANCE_ZERO_CHOICE_REQUIRED",
+        "approved_absence": "100.00",
+        "carry_wip": "100.00",
+        "carry_payable": "100.00",
+        "expense_wip_delta": "-100.00",
+        "expense_expense_delta": "100.00",
+        "expense_payable": "100.00",
+        "positive_close_once_with_other_blockers_resolved": true,
+        "replay_no_extra_journal": true,
+        "post_close_correction_rejected_no_effect": true,
+        "sku_lot_quantity_reconciled": true
+      }
+    },
+    {
+      "id": "AUD-P20-RESTORE",
+      "layer": "disposable stack",
+      "roles": [
+        "test_maintenance"
+      ],
+      "expected": {
+        "business_before_rollback": true,
+        "all_schema_rows_sequences_catalogue_roles_acl_auth_reconciled": true,
+        "no_session_lock_container_leak": true
+      }
+    },
+    {
+      "id": "P19P_FG_INCREASE_NEED_CHANGED",
+      "layer": "installed Native transaction",
+      "roles": [
+        "owner"
+      ],
+      "expected": {
+        "baseline": {
+          "fg": "15",
+          "wip": "40",
+          "need": "85",
+          "capacity": "60",
+          "selected": "2"
+        },
+        "observed": {
+          "fg": "99",
+          "wip": "40",
+          "need": "1",
+          "capacity": "60",
+          "selected": "2"
+        },
+        "sqlstate": "40001",
+        "code": "CP7_PLAN_V2_NEED_CHANGED",
+        "native_draft_delta": 0,
+        "intent_delta": 0,
+        "apply_ready": false,
+        "money_stock_HPP_unchanged": true
+      }
+    },
+    {
+      "id": "P19P_WIP_INCREASE_NEED_CHANGED",
+      "layer": "installed Native transaction",
+      "roles": [
+        "owner"
+      ],
+      "expected": {
+        "baseline": {
+          "fg": "15",
+          "wip": "40",
+          "need": "85",
+          "capacity": "60",
+          "selected": "2"
+        },
+        "observed": {
+          "fg": "15",
+          "wip": "124",
+          "need": "1",
+          "capacity": "60",
+          "selected": "2"
+        },
+        "sqlstate": "40001",
+        "code": "CP7_PLAN_V2_NEED_CHANGED",
+        "native_draft_delta": 0,
+        "intent_delta": 0,
+        "apply_ready": false,
+        "money_stock_HPP_unchanged": true
+      }
+    },
+    {
+      "id": "P19P_APPLY_AFTER_UNRELATED_CHANGE",
+      "layer": "installed Native transaction",
+      "roles": [
+        "owner"
+      ],
+      "expected": {
+        "baseline": {
+          "fg": "15",
+          "wip": "40",
+          "need": "85",
+          "capacity": "60",
+          "selected": "2"
+        },
+        "state": "NATIVE_DRAFT_CREATED",
+        "native_draft_delta": 1,
+        "intent_delta": 1,
+        "material_issue_posted": false,
+        "money_stock_HPP_unchanged": true,
+        "exact_uuid_replay": true,
+        "changed_request_code": "CP7_PLAN_REQUEST_CHANGED",
+        "repeat_new_uuid_code": "CP7_PLAN_ALREADY_APPLIED"
+      }
+    },
+    {
+      "id": "P20_PLANNER_CURRENT_CUTTING_PERMISSION",
+      "layer": "installed Native actor mapping; not real Auth HTTP",
+      "roles": [
+        "admin"
+      ],
+      "expected": {
+        "baseline": {
+          "fg": "15",
+          "wip": "40",
+          "need": "85",
+          "capacity": "60",
+          "selected": "2"
+        },
+        "sqlstate": "42501",
+        "code": "CP7_PLAN_ACCESS_DENIED",
+        "draft_state_when_denied": "SAVED",
+        "native_draft_delta_denied": 0,
+        "intent_delta_denied": 0,
+        "native_draft_delta_after_restore": 1,
+        "intent_delta_after_restore": 1,
+        "material_issue_posted": false,
+        "money_stock_HPP_unchanged": true,
+        "exact_grant_restored": true,
+        "exact_uuid_replay": true,
+        "revocation_committed": true,
+        "real_auth_http": false
+      }
+    }
+  ],
+  "required_record": [
+    "candidate_sha",
+    "candidate_tree",
+    "workflow_sha",
+    "harness_sha",
+    "fixture_sha256",
+    "oracle_sha256",
+    "run_id",
+    "attempt",
+    "actor",
+    "case_id",
+    "observed",
+    "raw_status",
+    "first_failure",
+    "restore_receipt"
+  ],
+  "no_writer_case_relabel": true,
+  "no_retest_without_change": true,
+  "planner_handoff": {
+    "package_sha256": "28603ce465872ecba5ab52327116788a9eb1fd6acbbf03413dadf05aefa49131",
+    "product_fixture_sha256": "3f9e33ebc733d0bf7d49c00ce17899ec2ce6c6b8300661720767c6763eab412a",
+    "writer_wrapper_sha256_actual": "4226946e82e9ad4ac3b42e9b9d57ce082d02474db13a1afa29fad35fb7712b09",
+    "writer_expected_wrapper_sha256_stale": "d32766cb42cb470e79500cd9d82f0331ff659c47b28cfea7021e2c113dd5f8ac",
+    "wrapper_used": "auditor planner.py; Writer wrapper is reviewed handoff only",
+    "unrelated_wide_case": "P19P_FIELDS_KINDS_ACCESS remains INCOMPLETE outside targeted permission assertion"
+  }
+}

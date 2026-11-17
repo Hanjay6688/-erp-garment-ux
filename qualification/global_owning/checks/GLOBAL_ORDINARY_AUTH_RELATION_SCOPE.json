@@ -1,0 +1,355 @@
+{
+  "status": "GLOBAL_ORDINARY_AUTH_SOURCE_RELATION_REVIEW_VERIFIED",
+  "candidate_relations": 461,
+  "combined_write_relation_names": 102,
+  "source_pins": {
+    "full25": "ecf858d67f43c0967cfe6f38c51338dea64331ef6c0d1264786a8967f856e2a4",
+    "scope": "9a8374a4e563cf99591b1b7d4dfbc845ea787a8e9801355213945a07b2da13f1",
+    "core": "7a98648ee70dc193c378ac46788073262da53883b71e7985ef62e9c09d6d475c",
+    "reader_images": "ea51351de5f00b7e28107e177800edcbc34a4e7f68644d2b23c49d442b71ad19",
+    "cache": "df1618772fa052ceb6bad74b563f2b0ddee27e39876c1e3bb241dd6be8b7b421",
+    "retained_plan": {
+      "bytes": 15526,
+      "sha256": "ccf27249a4c5bcba4236b306a3523894d807e087fab1f8ec7add458906234a23"
+    }
+  },
+  "routes": {
+    "D1": {
+      "roots": [
+        "public.erp_cp7_get_sales_return_correction_v1(jsonb)",
+        "public.erp_cp7_correct_sales_return_v1(jsonb,uuid,text)"
+      ],
+      "relations": [
+        "cp7_credit.component_journals",
+        "cp7_credit.component_parts",
+        "cp7_credit.financial_materialization_objects",
+        "cp7_credit.financial_materializations",
+        "cp7_credit.opening_return_hpp_work_v1",
+        "cp7_credit.plan_support_events",
+        "cp7_credit.recognition_components",
+        "cp7_credit.recognition_plans",
+        "cp7_credit.return_family_members",
+        "cp7_credit_correction_de.operations_v1",
+        "cp7_credit_correction_de.parts_v1",
+        "cp7_credit_correction_de.plans_v1",
+        "cp7_credit_correction_de.posting_v1",
+        "cp7_credit_correction_de.work_v1",
+        "cp7_fg.correction_movements",
+        "cp7_global_nonpo_envelope.scope_completions_v1",
+        "cp7_global_nonpo_envelope.work_scopes_v1",
+        "cp7_guard.compound_touch",
+        "cp7_mandor_shop.command_context",
+        "cp7_mandor_shop.draft_buyers",
+        "cp7_mandor_shop.sales",
+        "cp7_sales.command_context",
+        "cp7_sales_return_correction.context",
+        "cp7_sales_return_correction.journal_restatements",
+        "cp7_sales_return_correction.links",
+        "cp7_sales_return_correction.requests",
+        "cp7_sku_conversion.component_events_v2",
+        "cp7_sku_conversion.cost_events_v3",
+        "cp7_sku_conversion.cost_money_events_v3",
+        "cp7_sku_conversion.valuation_events_v2",
+        "erp.account_daily_balances",
+        "erp.audit_logs",
+        "erp.be_execution_context_v1",
+        "erp.be_nonpo_transfer_events_v1",
+        "erp.fg_inventory_balances",
+        "erp.fg_lots",
+        "erp.fg_stock_movements",
+        "erp.hpp_version_components",
+        "erp.hpp_versions",
+        "erp.journal_entries",
+        "erp.journal_lines",
+        "erp.non_po_hpp_gl_sync_events_v2620f",
+        "erp.opening_lot_hpp_gl_state",
+        "erp.po_hpp_gl_events",
+        "erp.po_hpp_gl_lot_state_v1",
+        "erp.po_hpp_gl_material_state_v1",
+        "erp.po_hpp_gl_state",
+        "erp.sales_headers",
+        "erp.sales_return_items",
+        "erp.sales_returns"
+      ],
+      "writes": 74,
+      "routines": 394,
+      "FK_triggers": 268,
+      "unresolved_parse": {
+        "extensions.gen_random_uuid()": [
+          "opaque_language"
+        ],
+        "extensions.digest(bytea,text)": [
+          "opaque_language"
+        ],
+        "extensions.digest(text,text)": [
+          "opaque_language"
+        ]
+      },
+      "unbound_qualified_calls": [],
+      "catalogue_operators": [
+        "pg_catalog.array_agg",
+        "pg_catalog.bool_and",
+        "pg_catalog.btrim",
+        "pg_catalog.convert_to",
+        "pg_catalog.count",
+        "pg_catalog.encode",
+        "pg_catalog.hashtextextended",
+        "pg_catalog.jsonb_agg",
+        "pg_catalog.jsonb_array_elements",
+        "pg_catalog.jsonb_array_length",
+        "pg_catalog.jsonb_build_array",
+        "pg_catalog.jsonb_build_object",
+        "pg_catalog.jsonb_object_keys",
+        "pg_catalog.jsonb_typeof",
+        "pg_catalog.lag",
+        "pg_catalog.length",
+        "pg_catalog.make_date",
+        "pg_catalog.min",
+        "pg_catalog.pg_advisory_xact_lock",
+        "pg_catalog.pg_backend_pid",
+        "pg_catalog.pg_current_xact_id",
+        "pg_catalog.round",
+        "pg_catalog.sha256",
+        "pg_catalog.substr",
+        "pg_catalog.substring",
+        "pg_catalog.sum",
+        "pg_catalog.timezone",
+        "pg_catalog.txid_current"
+      ],
+      "outside_relations": []
+    },
+    "E": {
+      "roots": [
+        "public.erp_cp7_get_note_correction_v2(uuid)",
+        "public.erp_cp7_correct_note_v1(jsonb,uuid,text)"
+      ],
+      "relations": [
+        "cp7_credit.cohorts",
+        "cp7_credit.component_journals",
+        "cp7_credit.component_parts",
+        "cp7_credit.consumption_events",
+        "cp7_credit.execution_context",
+        "cp7_credit.financial_materialization_objects",
+        "cp7_credit.financial_materializations",
+        "cp7_credit.initial_refund_operations",
+        "cp7_credit.initial_refund_posting_scope",
+        "cp7_credit.initial_return_materializations",
+        "cp7_credit.initial_return_work",
+        "cp7_credit.native_empty_completions",
+        "cp7_credit.native_empty_operations",
+        "cp7_credit.native_empty_source_scope",
+        "cp7_credit.native_empty_work",
+        "cp7_credit.opening_return_hpp_work_v1",
+        "cp7_credit.payment_source_context_v1",
+        "cp7_credit.payment_source_legs_v1",
+        "cp7_credit.plan_dependencies",
+        "cp7_credit.plan_support_events",
+        "cp7_credit.posting_scope",
+        "cp7_credit.recognition_components",
+        "cp7_credit.recognition_plans",
+        "cp7_credit.return_command_scope",
+        "cp7_credit.return_families",
+        "cp7_credit.return_family_members",
+        "cp7_credit.return_native_scope",
+        "cp7_credit.source_mutation_scope",
+        "cp7_credit.source_operation_completions_v1",
+        "cp7_credit.source_operation_materializations_v1",
+        "cp7_credit.source_operation_part_seals_v1",
+        "cp7_credit.source_operation_plans_v1",
+        "cp7_credit.source_operation_work_v1",
+        "cp7_credit_note_carry_de.assignments_v1",
+        "cp7_credit_note_carry_de.operations_v1",
+        "cp7_credit_note_carry_de.work_v1",
+        "cp7_fg.correction_movements",
+        "cp7_global_nonpo_envelope.scope_completions_v1",
+        "cp7_global_nonpo_envelope.work_scopes_v1",
+        "cp7_guard.compound_scope",
+        "cp7_guard.compound_touch",
+        "cp7_mandor_shop.command_context",
+        "cp7_mandor_shop.draft_buyers",
+        "cp7_mandor_shop.sales",
+        "cp7_note.context",
+        "cp7_note.item_lineage",
+        "cp7_note.journal_restatements",
+        "cp7_note.payment_replays",
+        "cp7_note.requests",
+        "cp7_note.revisions",
+        "cp7_sales.command_context",
+        "cp7_sku_conversion.component_events_v2",
+        "cp7_sku_conversion.cost_events_v3",
+        "cp7_sku_conversion.cost_money_events_v3",
+        "cp7_sku_conversion.return_cost_components_v3",
+        "cp7_sku_conversion.sale_allocation_attributions_v2",
+        "cp7_sku_conversion.sale_allocation_components_v2",
+        "cp7_sku_conversion.sale_allocation_values_v2",
+        "cp7_sku_conversion.sale_cost_components_v3",
+        "cp7_sku_conversion.sales_return_attributions_v2",
+        "cp7_sku_conversion.sales_return_components_v2",
+        "cp7_sku_conversion.sales_return_values_v2",
+        "cp7_sku_conversion.valuation_events_v2",
+        "erp.account_daily_balances",
+        "erp.audit_logs",
+        "erp.bd_pending_price_sales_v1",
+        "erp.be_execution_context_v1",
+        "erp.be_nonpo_transfer_events_v1",
+        "erp.fg_inventory_balances",
+        "erp.fg_lots",
+        "erp.fg_stock_movements",
+        "erp.hpp_version_components",
+        "erp.hpp_versions",
+        "erp.idempotency_requests",
+        "erp.initial_import_prepayment_payments",
+        "erp.journal_entries",
+        "erp.journal_lines",
+        "erp.non_po_hpp_gl_sync_events_v2620f",
+        "erp.opening_lot_hpp_gl_state",
+        "erp.po_hpp_gl_events",
+        "erp.po_hpp_gl_lot_state_v1",
+        "erp.po_hpp_gl_material_state_v1",
+        "erp.po_hpp_gl_state",
+        "erp.sale_stock_allocations",
+        "erp.sales_headers",
+        "erp.sales_items",
+        "erp.sales_payment_posting_facts",
+        "erp.sales_payment_reversal_facts",
+        "erp.sales_payments",
+        "erp.sales_return_items",
+        "erp.sales_returns"
+      ],
+      "writes": 136,
+      "routines": 515,
+      "FK_triggers": 402,
+      "unresolved_parse": {
+        "extensions.gen_random_uuid()": [
+          "opaque_language"
+        ],
+        "extensions.digest(bytea,text)": [
+          "opaque_language"
+        ],
+        "extensions.digest(text,text)": [
+          "opaque_language"
+        ]
+      },
+      "unbound_qualified_calls": [],
+      "catalogue_operators": [
+        "pg_catalog.array_agg",
+        "pg_catalog.bool_and",
+        "pg_catalog.btrim",
+        "pg_catalog.convert_to",
+        "pg_catalog.count",
+        "pg_catalog.encode",
+        "pg_catalog.hashtextextended",
+        "pg_catalog.jsonb_agg",
+        "pg_catalog.jsonb_array_elements",
+        "pg_catalog.jsonb_array_length",
+        "pg_catalog.jsonb_build_array",
+        "pg_catalog.jsonb_build_object",
+        "pg_catalog.jsonb_object_keys",
+        "pg_catalog.jsonb_typeof",
+        "pg_catalog.lag",
+        "pg_catalog.length",
+        "pg_catalog.make_date",
+        "pg_catalog.min",
+        "pg_catalog.pg_advisory_xact_lock",
+        "pg_catalog.pg_backend_pid",
+        "pg_catalog.pg_current_xact_id",
+        "pg_catalog.round",
+        "pg_catalog.sha256",
+        "pg_catalog.substr",
+        "pg_catalog.substring",
+        "pg_catalog.sum",
+        "pg_catalog.timezone",
+        "pg_catalog.to_jsonb",
+        "pg_catalog.to_regprocedure",
+        "pg_catalog.txid_current"
+      ],
+      "outside_relations": []
+    },
+    "S05_REPORT": {
+      "roots": [
+        "public.erp_cp7_get_accessory_standard_report_v1(date,date,uuid,uuid,text,integer,integer)"
+      ],
+      "relations": [],
+      "writes": 0,
+      "routines": 11,
+      "FK_triggers": 0,
+      "unresolved_parse": {},
+      "unbound_qualified_calls": [],
+      "catalogue_operators": [
+        "pg_catalog.position",
+        "pg_catalog.timezone"
+      ],
+      "outside_relations": []
+    },
+    "ACCESS": {
+      "roots": [
+        "public.erp_get_my_access_v1()"
+      ],
+      "relations": [],
+      "writes": 0,
+      "routines": 4,
+      "FK_triggers": 0,
+      "unresolved_parse": {},
+      "unbound_qualified_calls": [],
+      "catalogue_operators": [],
+      "outside_relations": []
+    },
+    "ACTOR": {
+      "roots": [],
+      "relations": [
+        "erp.app_users",
+        "erp.audit_logs"
+      ],
+      "writes": 2,
+      "routines": 5,
+      "FK_triggers": 2,
+      "unresolved_parse": {},
+      "unbound_qualified_calls": [],
+      "catalogue_operators": [],
+      "outside_relations": []
+    },
+    "PERMISSION": {
+      "roots": [],
+      "relations": [
+        "erp.app_role_permissions"
+      ],
+      "writes": 2,
+      "routines": 1,
+      "FK_triggers": 3,
+      "unresolved_parse": {},
+      "unbound_qualified_calls": [],
+      "catalogue_operators": [],
+      "outside_relations": []
+    }
+  },
+  "profile_view": "public.v_erp_my_profile",
+  "separate_application_sequence": "erp.audit_logs_id_seq",
+  "issuer_database": "postgres",
+  "application_database": "cp6_rollback",
+  "source_fence": {
+    "attempts": [],
+    "self_controls": [
+      {
+        "api": "psycopg.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "api": "psycopg.Connection.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "api": "psycopg.AsyncConnection.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "original_connect_descriptors_restored": true
+      }
+    ],
+    "network_nonGit_attempts": [],
+    "public_source_sha256": "1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797"
+  },
+  "actual_SQL_executed": 0,
+  "actual_Auth_cases": 0,
+  "complete_input_review": false,
+  "production_go": false
+}
