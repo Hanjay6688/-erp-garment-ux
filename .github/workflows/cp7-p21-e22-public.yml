@@ -1,0 +1,20 @@
+name: Writer A / P21 E22 public runner check
+on:
+  push:
+    branches:
+      - writer-a/cp7-p21-e22-public
+
+permissions: {}
+
+jobs:
+  runner:
+    if: github.repository == 'Hanjay6688/-erp-garment-ux' && github.event.repository.private == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    steps:
+      - name: Verify the standard Linux runner can start
+        run: |
+          set -euo pipefail
+          test "$RUNNER_OS" = Linux
+          docker info --format 'DOCKER_SERVER_READY={{.ServerVersion}}'
+          printf '%s\n' P21_PUBLIC_STANDARD_RUNNER_STARTED
