@@ -58,7 +58,9 @@ def bind_switch_roll(provider, product):
         nonlocal addition, installed
         repairs = repair(cur)
         before = provider.capture(cur)
-        with provider.as_role(cur, 'postgres'):
+        # P21 installed this layer through the existing Supabase Admin connection.
+        # PostgreSQL's postgres role cannot transfer ownership to cp7_procure_write.
+        with provider.as_role(cur, 'supabase_admin'):
             installed = roll.install(cur)
         projected, addition = split_catalogue(provider.capture(cur), signatures)
         require(projected == before and installed['source_sha256'] == SOURCE_SHA
@@ -74,7 +76,7 @@ def bind_switch_roll(provider, product):
         return predecessor(before, after)
 
     def remove_layer(cur, state):
-        with provider.as_role(cur, 'postgres'):
+        with provider.as_role(cur, 'supabase_admin'):
             roll.remove_preuse(cur)
         restore(cur, state)
 
