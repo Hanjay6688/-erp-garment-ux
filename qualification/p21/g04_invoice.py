@@ -77,7 +77,7 @@ def native_case(cur, day, observations, evidence):
     codes['CREDIT'] = liability['id']
     initial_accounts = cmd.accounts(cur)
     refusals = {}
-    evidence.update(sale_id=f['sale'], refusals=refusals)
+    evidence['refusals'] = refusals
 
     def close_child_transaction():
         # Emulate each RPC's commit-time checks while retaining fixture rollback.
@@ -124,6 +124,7 @@ def native_case(cur, day, observations, evidence):
     snapshot('initial', 10, None, 0, 0)
     p = drafts.payload(f, '3', '20', '0')
     drafts.create(cur, f, p)
+    evidence['sale_id'] = f['sale']
     snapshot('draft_3', 7, None, 0, 0, 'DRAFT')
     update, version = drafts.edit_payload(cur, f, p)
     update['items'][0]['qty_pcs'] = '4'

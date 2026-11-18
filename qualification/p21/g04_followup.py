@@ -1,6 +1,8 @@
 """One AUD-G04 observation on the verified full P21 installation."""
 import importlib
 from pathlib import Path
+import re
+from traceback import extract_tb
 
 from . import g04_invoice as probe, mode
 from .g04_catalogue import SALE_CREDIT_SHA, SOURCE_SHA
@@ -68,6 +70,12 @@ def exercise(conn, cur, state, report, *, lifecycle, candidate, switch_roll_rece
     except Exception as error:
         evidence['status'] = 'INCOMPLETE'
         evidence['first_failure'] = dict(p20_batch.bounded_failure(error), phase=phase)
+        probe_sites = [f'{Path(frame.filename).name}:{frame.lineno}' for frame in extract_tb(error.__traceback__)
+                       if Path(frame.filename).name in ('g04_invoice.py', 'g04_followup.py')]
+        evidence['first_failure']['locations'].extend(probe_sites[-4:])
+        if isinstance(error, KeyError) and len(error.args) == 1 and isinstance(error.args[0], str):
+            if re.fullmatch(r'[a-z][a-z_0-9]{0,63}', error.args[0]):
+                evidence['first_failure']['missing_key'] = error.args[0]
         report['p21_followup_exception'] = evidence['first_failure']
         write(output / 'first-failure.json', evidence['first_failure'])
         p20_batch.progress(phase, 'FAILED')
