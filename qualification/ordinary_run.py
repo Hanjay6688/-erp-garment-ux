@@ -633,7 +633,7 @@ def p21_result(scratch, output, run):
     auth = writer.get('global_auth_cleanup',{})
     result['checks'].update(p20_evidence_reused=intake == evidence,
                             p21_originals_reused=retained_intake==retained==writer.get('p21_followup_retained'),
-                            e14_e22_auth_cleanup=installed_types_only.p21_auth_complete(writer),
+                            g04_setup_auth_cleanup=installed_types_only.p21_auth_complete(writer),
                             installed_P21_probes=p21_installed.proven(probes),
                             checkpoints_archived=bool(checkpoints))
     if result['status'] != 'PASS' or not all(result['checks'].values()):
@@ -652,12 +652,12 @@ def p21_result(scratch, output, run):
                                     residual_subject_rows=auth.get('residual_subject_rows'), failures=auth.get('failures')),
                   p20_product=p21_preflight.PRODUCT, p20_prior=evidence,
                   actual_P20_cases_rerun=0, installed_checks=probes, checkpoint_receipts=checkpoints,
-                  observed_P21_probes_passed=[name for name in p21_installed.CHECKS
-                                              if probes.get(name, {}).get('status') == 'PASS'],
+                  observed_P21_probes=[name for name in p21_installed.CHECKS
+                                        if probes.get(name, {}).get('status') == 'OBSERVED'],
                   schema_inventory=dict(public_erp_names=schema.get('public_erp_names'),
                                         catalogue_groups=schema.get('catalogue_groups')),
                   actual_switch_roll_successful_saves_rerun=0, actual_E14_cases_rerun=0,
-                  pending_independent_gates=['Independent review of retained E14 and E22 recovery originals', 'X32 acceptance'],
+                  pending_independent_gates=['Independent review of the AUD-G04 terminal invoice outcome'],
                   installed_P21_acceptance=False, independent_acceptance=False, production_go=False)
     return result
 

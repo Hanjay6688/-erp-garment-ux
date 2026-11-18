@@ -1,0 +1,90 @@
+"""One AUD-G04 observation on the verified full P21 installation."""
+import importlib
+from pathlib import Path
+
+from . import g04_invoice as probe, mode, switch_roll
+from .followup import provision, require
+from .retained import verify_retained
+from .state_probe import write
+
+G04 = 'P21_AUD_G04_TERMINAL'
+CHECKS = (G04,)
+
+
+def exercise(conn, cur, state, report, *, lifecycle, candidate, make_lanes, checkpoint, auth, package):
+    del make_lanes
+    from global_owning import owning, p20_batch
+    from .installed import verify_loopback
+
+    require(mode.enabled(), 'P21_G04_EXACT_MODE')
+    verify_loopback(conn, cur)
+    base = switch_roll.product_checkout()
+    product = base.parent / 'g04-product'
+    probe.confirm_source(product)
+    day = lifecycle.foundation.day
+    output = Path(candidate) / 'cp6-proof/t3/P21_FOLLOWUP_ORIGINALS'
+    output.mkdir(mode=0o700, exist_ok=False)
+    reused = verify_retained()
+    report['p21_followup_retained'] = reused
+    write(output / 'retained-originals.json', reused)
+    results = report['p21_installed_checks'] = {}
+    observations = []
+    evidence = dict(case='AUD-G04', product=probe.PRODUCT, product_tree=probe.TREE,
+                    installed_p21_base=reused['product'], business_day=str(day),
+                    observations=observations, rpc_auth='SYNTHETIC_NATIVE_FIXTURE',
+                    production_go=False)
+    baseline = None
+    try:
+        p20_batch.progress('P21_AUD_G04_PREPARE', 'STARTED')
+        roots = [base / 'scripts', *(base / 'scripts/cp7_customer_credit' / part for part in
+                                     ('consumer', 'native', 'initial-settlement', 'reconciliation/native'))]
+        with owning.import_paths(*roots):
+            install = importlib.import_module('cp7_switch_roll_install')
+            prepare = importlib.import_module('global_owning.p20.native').prepare
+            auth.begin(conn, cur, package.boundary.ADMIN, package.boundary.PRIMARY_ADMIN,
+                       lambda observer: lifecycle.verify(observer, state), report)
+            installed = install.install(cur)
+            require(installed['source_sha256'] == 'dac3f026f2b2b7d891fc0106fd1960f55c39959aa6756611f45c8179df8e1422'
+                    and installed['public_rpc_count'] == 3 and installed['predecessor_public_functions_preserved'],
+                    'P21_G04_SWITCH_ROLL_INSTALL_SOURCE')
+            conn.commit()
+            write(output / 'switch-roll-install-original.json', installed)
+            provision(conn, cur, auth)
+            prepare(cur)
+        p20_batch.progress('P21_AUD_G04_PREPARE', 'COMPLETED')
+        cur.execute("set local timezone='Asia/Jakarta'")
+        baseline = probe.boundary_digest(cur)
+        p20_batch.progress('P21_AUD_G04_REVERSE', 'STARTED')
+        with probe.fixture_sources(product):
+            evidence['result'] = probe.native_case(cur, day, observations)
+        evidence['status'] = 'OBSERVED'
+        p20_batch.progress('P21_AUD_G04_REVERSE', 'COMPLETED')
+    except Exception as error:
+        evidence['status'] = 'INCOMPLETE'
+        evidence['first_failure'] = p20_batch.bounded_failure(error)
+        report['p21_followup_exception'] = evidence['first_failure']
+        write(output / 'first-failure.json', evidence['first_failure'])
+        p20_batch.progress('P21_AUD_G04_REVERSE', 'FAILED')
+    finally:
+        conn.rollback()
+        if baseline is not None:
+            cur.execute("set local timezone='Asia/Jakarta'")
+            evidence['business_rows_rolled_back'] = probe.boundary_digest(cur) == baseline
+        conn.rollback()
+        write(output / 'g04-invoice.json', evidence)
+        result = evidence.get('result', {})
+        results[G04] = dict(status=evidence.get('status'), product=probe.PRODUCT,
+                            result=result, business_rows_rolled_back=evidence.get('business_rows_rolled_back', False),
+                            first_failure=evidence.get('first_failure'))
+        checkpoint(G04, results[G04])
+    return results
+
+
+def proven(results):
+    if set(results) != {G04}:
+        return False
+    receipt = results[G04]
+    result = receipt.get('result', {})
+    return (receipt['status'] == 'OBSERVED' and receipt['business_rows_rolled_back'] is True
+            and result.get('available_children') == 0
+            and all(result.get(route, {}).get('outcome') in ('REVERSED', 'REFUSED') for route in ('direct', 'chain')))

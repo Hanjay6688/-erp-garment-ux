@@ -1,6 +1,6 @@
 """Installed evidence adapters for the focused P21 follow-up."""
 
-from .followup import CHECKS, exercise, proven, require
+from .g04_followup import CHECKS, exercise, proven, require
 
 
 def verify_loopback(conn, cur):
