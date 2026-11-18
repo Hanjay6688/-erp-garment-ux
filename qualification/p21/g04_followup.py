@@ -3,7 +3,7 @@ import importlib
 from pathlib import Path
 
 from . import g04_invoice as probe, mode
-from .g04_catalogue import SOURCE_SHA
+from .g04_catalogue import SALE_CREDIT_SHA, SOURCE_SHA
 from .followup import provision, require
 from .retained import verify_retained
 from .state_probe import write
@@ -37,8 +37,9 @@ def exercise(conn, cur, state, report, *, lifecycle, candidate, switch_roll_rece
     try:
         p20_batch.progress(phase, 'STARTED')
         fingerprint = state.global_installation['sealed']['actual_parent_root_receipt']['catalogue_fingerprint']
-        require(switch_roll_receipt['source_sha256'] == SOURCE_SHA and switch_roll_receipt['sealed_fingerprint'] == fingerprint,
-                'CP7_P21_G04_SWITCH_ROLL_SEALED_FINGERPRINT_REQUIRED')
+        require(switch_roll_receipt['source_sha256'] == SOURCE_SHA and switch_roll_receipt['sealed_fingerprint'] == fingerprint
+                and switch_roll_receipt['sale_credit']['source_sha256'] == SALE_CREDIT_SHA,
+                'CP7_P21_G04_SEALED_FINGERPRINT_REQUIRED')
         write(output / 'switch-roll-install-original.json', switch_roll_receipt)
         scripts = product / 'scripts'
         roots = [scripts, *(scripts / 'cp7_customer_credit' / part for part in
@@ -59,6 +60,9 @@ def exercise(conn, cur, state, report, *, lifecycle, candidate, switch_roll_rece
         p20_batch.progress(phase, 'STARTED')
         with probe.fixture_sources(product):
             evidence['result'] = probe.native_case(cur, day, observations)
+        for route in ('direct', 'chain'):
+            failure = evidence['result'][route]
+            require(failure['outcome'] == 'REVERSED', failure.get('message', 'CP7_P21_G04_INVERSE_INCOMPLETE'))
         evidence['status'] = 'OBSERVED'
         p20_batch.progress(phase, 'COMPLETED')
     except Exception as error:
@@ -90,5 +94,9 @@ def proven(results):
     result = receipt.get('result', {})
     return (receipt['status'] == 'OBSERVED' and receipt['business_rows_rolled_back'] is True
             and bool(receipt.get('verified_catalogue_sha256'))
-            and result.get('available_children') == 0
-            and all(result.get(route, {}).get('outcome') in ('REVERSED', 'REFUSED') for route in ('direct', 'chain')))
+            and result.get('available_children') == 0 and result.get('both_routes_reversed') is True
+            and set(result.get('refusals', {})) == {'active_children', 'active_refund', 'pending_direct', 'pending_chain'}
+            and all(item.get('unchanged') is True for item in result['refusals'].values())
+            and all(result.get(route, {}).get('outcome') == 'REVERSED' and all(
+                result[route].get(key) is True for key in ('immutable_history', 'one_journal_inverse',
+                    'one_audit_entry', 'exact_request_replay', 'final_ledger_neutral')) for route in ('direct', 'chain')))

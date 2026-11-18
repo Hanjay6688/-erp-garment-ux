@@ -1,13 +1,14 @@
-"""Install the pinned Switch Roll layer before the final Global seal."""
+"""Install the pinned P21 layers before the final Global seal."""
 
 from hashlib import sha256
 
-from .g04_invoice import confirm_source, require
+from .g04_source import confirm_source, require
 
 
 SCHEMA = 'cp7_switch_roll'
 CORRECTIONS = f'{SCHEMA}.corrections'
 SOURCE_SHA = 'dac3f026f2b2b7d891fc0106fd1960f55c39959aa6756611f45c8179df8e1422'
+SALE_CREDIT_SHA = '866771c49decb617ca4231363b09cc7b37b7529fb807f3801c47485f3e33e6eb'
 COUNTS = dict(schemas=1, functions=13, relations=4, columns=14, constraints=4,
               indexes=3, triggers=9, policies=1, types=2, type_implementation=2)
 REFERENCES = {'corrections_issue_id_fkey': 'erp.material_stock_movements',
@@ -39,43 +40,75 @@ def split_catalogue(catalogue, signatures):
     return retained, added
 
 
+def project_credit_hooks(catalogue, original, installed):
+    functions = []
+    seen = set()
+    for name, row in catalogue['functions']:
+        if name in installed:
+            require(name not in seen and row == installed[name], 'CP7_P21_G04_CREDIT_PRESEAL_DRIFT')
+            seen.add(name)
+            if name in original:
+                functions.append([name, original[name]])
+        else:
+            functions.append([name, row])
+    require(seen == set(installed), 'CP7_P21_G04_CREDIT_HOOKS_INCOMPLETE')
+    return dict(catalogue, functions=functions)
+
+
 def bind_switch_roll(provider, product):
     """Extend the already bound P20 preseal and unused inverse in this run."""
     from global_owning import owning
 
     confirm_source(product)
     roll = owning.load('cp7_g04_exact_switch_roll', product / 'scripts/cp7_switch_roll_install.py')
+    sale = owning.load('cp7_g04_exact_sale_credit', product / 'scripts/cp7_sale_reverse_credit_install.py')
     require(sha256(roll.SQL.read_bytes()).hexdigest() == SOURCE_SHA,
             'CP7_P21_G04_SWITCH_ROLL_INSTALL_SOURCE')
+    require(sha256(sale.SQL.read_bytes()).hexdigest() == SALE_CREDIT_SHA,
+            'CP7_P21_G04_SALE_CREDIT_INSTALL_SOURCE')
     signatures = set(roll.PUBLIC) | {f'{SCHEMA}.{name}' for name in roll.PRIVATE}
     repair = provider._repair_readers_preseal
     predecessor = provider._repair_predecessor_image
     restore = provider._repair_restore_unused
     verify_inverse = provider._timezone_verify_inverse
-    addition = installed = None
+    addition = installed = original_hooks = installed_hooks = restore_hooks = credit_receipt = None
 
     def install_layer(cur):
-        nonlocal addition, installed
+        nonlocal addition, installed, original_hooks, installed_hooks, restore_hooks, credit_receipt
         repairs = repair(cur)
         before = provider.capture(cur)
         # P21 installed this layer through the existing Supabase Admin connection.
         # PostgreSQL's postgres role cannot transfer ownership to cp7_procure_write.
         with provider.as_role(cur, 'supabase_admin'):
             installed = roll.install(cur)
+        with provider.as_role(cur, 'postgres'), provider.metadata_context(cur):
+            restore_hooks, credit_receipt = sale.install(cur)
         projected, addition = split_catalogue(provider.capture(cur), signatures)
-        require(projected == before and installed['source_sha256'] == SOURCE_SHA
+        original_hooks = {name: row for name, row in before['functions'] if name in sale.PREDECESSOR}
+        installed_hooks = {name: row for name, row in projected['functions']
+                           if name in sale.PREDECESSOR or name == sale.HELPER}
+        require(set(original_hooks) == set(sale.PREDECESSOR)
+                and set(installed_hooks) == {*sale.PREDECESSOR, sale.HELPER}
+                and all(original_hooks[name][1:] == installed_hooks[name][1:]
+                        and original_hooks[name][0] == restore_hooks[name]
+                        and sha256(installed_hooks[name][0].encode()).hexdigest() == credit_receipt['installed_sha256'][name]
+                        for name in original_hooks), 'CP7_P21_G04_CREDIT_CATALOGUE_DELTA')
+        require(project_credit_hooks(projected, original_hooks, installed_hooks) == before
+                and installed['source_sha256'] == SOURCE_SHA
                 and installed['public_rpc_count'] == len(roll.PUBLIC)
                 and installed['predecessor_public_functions_preserved'] is True
                 and installed['browser_capabilities_scoped'] is True,
-                'CP7_P21_G04_SWITCH_ROLL_UNDECLARED_CATALOGUE_CHANGE')
+                'CP7_P21_G04_UNDECLARED_CATALOGUE_CHANGE')
         return repairs
 
     def project(before, after):
         after, observed = split_catalogue(after, signatures)
         require(observed == addition, 'CP7_P21_G04_SWITCH_ROLL_PRESEAL_DRIFT')
-        return predecessor(before, after)
+        return predecessor(before, project_credit_hooks(after, original_hooks, installed_hooks))
 
     def remove_layer(cur, state):
+        with provider.as_role(cur, 'postgres'), provider.metadata_context(cur):
+            sale.remove_preuse(cur, restore_hooks)
         with provider.as_role(cur, 'supabase_admin'):
             roll.remove_preuse(cur)
         restore(cur, state)
@@ -92,7 +125,7 @@ def bind_switch_roll(provider, product):
     provider._timezone_verify_inverse = verify_removed
 
     def receipt(state):
-        return dict(installed, catalogue_additions=COUNTS,
+        return dict(installed, catalogue_additions=COUNTS, sale_credit=credit_receipt,
                     sealed_fingerprint=state['sealed']['actual_parent_root_receipt']['catalogue_fingerprint'])
 
     return receipt

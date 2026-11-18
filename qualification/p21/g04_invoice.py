@@ -12,41 +12,30 @@ from hashlib import sha256
 import json
 import os
 from pathlib import Path
-import subprocess
 import sys
 from uuid import uuid4
 
 import psycopg
 
-
-PRODUCT = '9ee09e9562978e8a501da2a9d36defd9ea30bfcf'
-TREE = '747313f22979077f2b149b6e90bf24374e9bb869'
-REFUSAL = 'CP7_CREDIT_REGISTERED_SOURCE_MUTATION_REQUIRES_BOUND_RECONCILIATION'
-TABLES = ('erp.sales_headers', 'erp.sales_payments', 'erp.sales_returns',
-          'erp.fg_stock_movements', 'erp.hpp_versions', 'erp.journal_entries',
-          'erp.journal_lines', 'erp.account_daily_balances', 'cp7_credit.return_families',
-          'cp7_credit.consumption_events', 'cp7_sales.requests')
+from .g04_source import PRODUCT, TREE, confirm_source, require
 
 
-def require(condition, reason):
-    if not condition:
-        raise ValueError(reason)
+CREDIT_HISTORY = tuple('cp7_credit.' + name for name in (
+    'return_families', 'return_family_members', 'cohorts', 'recognition_plans', 'recognition_components',
+    'component_parts', 'component_journals', 'consumption_events', 'financial_materializations',
+    'financial_materialization_objects', 'source_operation_materializations_v1', 'source_operation_completions_v1',
+))
+TABLES = ('erp.sales_headers', 'erp.sales_payments', 'erp.sales_returns', 'erp.fg_stock_movements',
+          'erp.hpp_versions', 'erp.journal_entries', 'erp.journal_lines', 'erp.account_daily_balances',
+          'erp.audit_logs', 'cp7_sales.requests', 'cp7_sales_chain.requests', 'cp7_sales_chain.history',
+          'cp7_credit.source_mutation_scope') + CREDIT_HISTORY
 
 
-def confirm_source(product):
-    def git(*args):
-        return subprocess.check_output(('git', '-C', str(product), *args), text=True).strip()
-
-    require((git('rev-parse', 'HEAD'), git('rev-parse', 'HEAD^{tree}')) == (PRODUCT, TREE),
-            'AUD_G04_UNEXPECTED_PRODUCT_PIN')
-    require(not git('status', '--porcelain', '--untracked-files=no'), 'AUD_G04_PRODUCT_TRACKED_DRIFT')
-
-
-def boundary_digest(cur):
+def boundary_digest(cur, tables=TABLES):
     from psycopg import sql
 
     rows = {}
-    for table in TABLES:
+    for table in tables:
         schema, name = table.split('.')
         query = sql.SQL("select count(*), encode(sha256(convert_to(coalesce("
                         "jsonb_agg(to_jsonb(x) order by to_jsonb(x)::text),'[]')::text,"
@@ -87,6 +76,28 @@ def native_case(cur, day, observations):
     codes['BANK'] = payments.bank_account(cur, f)
     codes['CREDIT'] = liability['id']
     initial_accounts = cmd.accounts(cur)
+    refusals = {}
+
+    def close_child_transaction():
+        # Emulate each RPC's commit-time checks while retaining fixture rollback.
+        cur.execute('set constraints all immediate')
+        cur.execute('set constraints all deferred')
+
+    def reject(label, operation, message):
+        before = boundary_digest(cur)
+        cur.execute('savepoint expected_refusal')
+        try:
+            operation()
+            raise ValueError('CP7_AUD_G04_EXPECTED_REFUSAL_' + label.upper())
+        except psycopg.Error as error:
+            require((error.sqlstate, error.diag.message_primary) == ('P0001', message),
+                    'CP7_AUD_G04_UNEXPECTED_REFUSAL_' + label.upper() + ' ' + error.diag.message_primary)
+            cur.execute('rollback to savepoint expected_refusal')
+            require(boundary_digest(cur) == before, 'CP7_AUD_G04_REFUSAL_CHANGED_STATE_' + label.upper())
+            refusals[label] = dict(sqlstate=error.sqlstate, message=error.diag.message_primary, unchanged=True)
+        finally:
+            cur.execute('rollback to savepoint expected_refusal')
+            cur.execute('release savepoint expected_refusal')
 
     def snapshot(label, stock, receivable, cash, hpp, expected_status=None):
         chain.b.api.admin(cur)
@@ -103,9 +114,9 @@ def native_case(cur, day, observations):
                       all_ledger_deltas=ledger_delta)
         observations.append(dict(step=label, actual=actual))
         require((actual['stock'], open_balance, actual['ledger']['BANK'], actual['ledger']['COGS']) ==
-                (stock, receivable, cash, hpp), 'AUD_G04_UNEXPECTED_STOCK_AR_BANK_OR_COGS_' + label.upper())
+                (stock, receivable, cash, hpp), 'CP7_AUD_G04_UNEXPECTED_STOCK_AR_BANK_OR_COGS_' + label.upper())
         if expected_status is not None:
-            require(status == expected_status, 'AUD_G04_UNEXPECTED_DOCUMENT_STATUS_' + label.upper())
+            require(status == expected_status, 'CP7_AUD_G04_UNEXPECTED_DOCUMENT_STATUS_' + label.upper())
         return actual
 
     snapshot('initial', 10, None, 0, 0)
@@ -120,7 +131,7 @@ def native_case(cur, day, observations):
     cmd.command(cur, 'POST', post, version)
     posted = snapshot('posted', 6, 80, 0, 40, 'POSTED')
     require(posted['ledger'] == dict(AR_CUSTOMER=80, SALES_REVENUE=-80, FG_INVENTORY=-40,
-                                    COGS=40, BANK=0, CREDIT=0), 'AUD_G04_POST_JOURNAL')
+                                    COGS=40, BANK=0, CREDIT=0), 'CP7_AUD_G04_POST_JOURNAL')
 
     sale_at = datetime.fromisoformat(f['sale_at'])
     payment_payload, version = payments.payment_payload(cur, f, '70.00')
@@ -138,57 +149,88 @@ def native_case(cur, day, observations):
                                  reference='AUD-G04 synthetic cash refund'))
     before_quote = boundary_digest(cur)
     quote = initial.native.call_quote(cur, query)
-    require(quote['read_only'] and boundary_digest(cur) == before_quote, 'AUD_G04_QUOTE_MUTATED_BUSINESS_ROWS')
-    require(quote['readiness']['state'] == 'READY', 'AUD_G04_REFUND_QUOTE_NOT_READY')
+    require(quote['read_only'] and boundary_digest(cur) == before_quote, 'CP7_AUD_G04_QUOTE_MUTATED_BUSINESS_ROWS')
+    require(quote['readiness']['state'] == 'READY', 'CP7_AUD_G04_REFUND_QUOTE_NOT_READY')
     combined = initial._settle(cur, initial._envelope(query, quote), uuid4())
-    require(combined['return_status'] == 'POSTED' and combined['refund_event_id'], 'AUD_G04_LINKED_REFUND_REQUIRED')
+    require(combined['return_status'] == 'POSTED' and combined['refund_event_id'], 'CP7_AUD_G04_LINKED_REFUND_REQUIRED')
+    close_child_transaction()
     snapshot('returned_2_refunded_30', 8, 0, 40, 20)
+    reject('active_children', lambda: returns.reverse_sale(cur, f), 'CP7_CREDIT_SALE_REVERSE_CHILDREN_NOT_CLOSED')
+    reject('active_refund', lambda: returns.inverse(cur, f, combined['return_id']),
+           'CP7_CREDIT_SOURCE_CONSUMERS_REQUIRE_UNDO')
 
     undo = dict(action='UNDO', cohort_id=None, target_sale_id=None, cash_account_id=None,
                 restores_event_id=combined['refund_event_id'], amount=None,
                 physical_at=(sale_at + timedelta(minutes=4)).isoformat(),
                 reason='AUD-G04 reverse the original synthetic cash refund', reference=None)
     result = credit.command(cur, credit.review(cur, undo), uuid4())
-    require(Decimal(result['amount']) == -30, 'AUD_G04_REFUND_INVERSE_AMOUNT')
+    require(Decimal(result['amount']) == -30, 'CP7_AUD_G04_REFUND_INVERSE_AMOUNT')
+    close_child_transaction()
     returns.inverse(cur, f, combined['return_id'])
+    close_child_transaction()
     payments.inverse(cur, f, payment['payment_id'])
+    close_child_transaction()
     before = snapshot('refund_return_payment_reversed', 6, 80, 0, 40, 'POSTED')
-    require(before['ledger'] == posted['ledger'], 'AUD_G04_CHILD_INVERSES_DID_NOT_RESTORE_JOURNAL')
+    require(before['ledger'] == posted['ledger'], 'CP7_AUD_G04_CHILD_INVERSES_DID_NOT_RESTORE_JOURNAL')
     p, version = chain.payload(cur, f)
     chain_source = chain.workspace(cur, f)['source']
     require(not (chain_source['payments'] or chain_source['returns'] or chain_source['pending_children']),
-            'AUD_G04_ACTIVE_OR_PENDING_CHILDREN')
+            'CP7_AUD_G04_ACTIVE_OR_PENDING_CHILDREN')
     require(cur.execute('select exists(select 1 from cp7_credit.return_families where family_root_sale_id=%s)',
-                        (f['sale'],)).fetchone() == (True,), 'AUD_G04_CREDIT_SOURCE_NOT_REGISTERED')
+                        (f['sale'],)).fetchone() == (True,), 'CP7_AUD_G04_CREDIT_SOURCE_NOT_REGISTERED')
     pre = boundary_digest(cur)
+    historic = boundary_digest(cur, CREDIT_HISTORY)
+    original_facts = chain.facts(cur, f)
+    direct_payload, direct_version = cmd.review(cur, f)
+
+    cur.execute('savepoint pending_child')
+    try:
+        cur.execute('''insert into erp.sales_payments(sale_id,payment_number,payment_date,amount,cash_account_id,payment_method)
+                    values(%s,%s,%s,1,%s,'CASH')''', (f['sale'], 'G04-PENDING-' + uuid4().hex[:10], sale_at, f['bank']))
+        pending, pending_version = chain.payload(cur, f)
+        reject('pending_direct', lambda: returns.reverse_sale(cur, f), 'CP7_CREDIT_SALE_REVERSE_CHILDREN_NOT_CLOSED')
+        reject('pending_chain', lambda: chain.reverse(cur, pending, pending_version), 'CP7_SALES_CHAIN_PENDING_CHILD')
+    finally:
+        cur.execute('rollback to savepoint pending_child')
+        cur.execute('release savepoint pending_child')
+    require(boundary_digest(cur) == pre, 'CP7_AUD_G04_PENDING_CONTROL_CHANGED_STATE')
 
     def attempt(label, call):
         cur.execute('savepoint g04_terminal')
         try:
-            response = call()
+            request = uuid4()
+            response = call(request)
             cur.execute('set constraints all immediate')
             snapshot(label + '_accepted', 10, None, 0, 0, 'REVERSED')
-            require(cmd.accounts(cur) == initial_accounts, 'AUD_G04_FINAL_INVERSE_JOURNAL_NOT_NEUTRAL')
-            return dict(outcome='REVERSED', response=response)
+            require(cmd.accounts(cur) == initial_accounts, 'CP7_AUD_G04_FINAL_INVERSE_JOURNAL_NOT_NEUTRAL')
+            require(boundary_digest(cur, CREDIT_HISTORY) == historic and chain.facts(cur, f) == original_facts,
+                    'CP7_AUD_G04_ORIGINAL_FACTS_CHANGED')
+            require(cur.execute('''select count(*) from erp.journal_entries j
+                join erp.journal_entries inverse on inverse.reversal_of_id=j.id
+                where j.source_type='SALE' and j.source_id=%s and j.status='REVERSED'
+                    and inverse.source_type='JOURNAL_REVERSAL' and inverse.status='POSTED' ''',
+                (f['sale'],)).fetchone() == (1,), 'CP7_AUD_G04_EXACT_INVOICE_INVERSE_REQUIRED')
+            require(cur.execute('''select count(*) from erp.audit_logs where entity_type='sales_headers'
+                and entity_id=%s and action='REVERSE' and nullif(btrim(change_reason),'') is not null''',
+                (f['sale'],)).fetchone() == (1,), 'CP7_AUD_G04_EXACT_INVOICE_AUDIT_REQUIRED')
+            after = boundary_digest(cur)
+            require(call(request) == response and boundary_digest(cur) == after, 'CP7_AUD_G04_REPLAY_CHANGED_STATE')
+            return dict(outcome='REVERSED', response=response, immutable_history=True, one_journal_inverse=True,
+                        one_audit_entry=True, exact_request_replay=True, final_ledger_neutral=True)
         except psycopg.Error as error:
-            if (error.sqlstate, error.diag.message_primary) != ('P0001', REFUSAL):
-                raise
-            # The known business refusal must leave both money and stock intact.
             cur.execute('rollback to savepoint g04_terminal')
             chain.b.api.admin(cur)
-            after = snapshot(label + '_refused', 6, 80, 0, 40, 'POSTED')
-            require(after == before and boundary_digest(cur) == pre, 'AUD_G04_TERMINAL_REFUSAL_CHANGED_STATE')
+            after = snapshot(label + '_rejected', 6, 80, 0, 40, 'POSTED')
+            require(after == before and boundary_digest(cur) == pre, 'CP7_AUD_G04_TERMINAL_REFUSAL_CHANGED_STATE')
             return dict(outcome='REFUSED', sqlstate=error.sqlstate, message=error.diag.message_primary)
         finally:
             cur.execute('rollback to savepoint g04_terminal')
             cur.execute('release savepoint g04_terminal')
             chain.b.api.admin(cur)
 
-    direct = attempt('direct', lambda: returns.reverse_sale(cur, f))
-    compound = attempt('chain', lambda: chain.reverse(cur, p, version))
-    return dict(sale_id=f['sale'], direct=direct, chain=compound, available_children=0,
-                guard_reproduced=all(item.get('message') == REFUSAL and item.get('sqlstate') == 'P0001'
-                                     for item in (direct, compound)),
+    direct = attempt('direct', lambda key: cmd.command(cur, 'SALE_REVERSE', direct_payload, direct_version, key))
+    compound = attempt('chain', lambda key: chain.reverse(cur, p, version, key))
+    return dict(sale_id=f['sale'], direct=direct, chain=compound, available_children=0, refusals=refusals,
                 both_routes_reversed=all(item['outcome'] == 'REVERSED' for item in (direct, compound)))
 
 
@@ -198,7 +240,7 @@ def exercise(conn, cur, day, *, product, lifecycle, state, retain):
     info = conn.info
     require(cur.connection is conn and not conn.autocommit and info.host in ('127.0.0.1', 'localhost')
             and info.dbname == 'cp6_rollback' and info.transaction_status.name == 'IDLE',
-            'AUD_G04_REQUIRES_P21_DISPOSABLE_CLONE')
+            'CP7_AUD_G04_REQUIRES_P21_DISPOSABLE_CLONE')
     lifecycle.verify(cur, state)
     conn.rollback()
     observations = []

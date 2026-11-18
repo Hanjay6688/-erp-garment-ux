@@ -190,6 +190,11 @@ def preflight(workspace, scratch, run):
     phase('SOURCE_PREFLIGHT', 'STARTED')
     try:
         require_window(workspace)
+        if p21_mode.enabled():
+            from p21 import g04_source
+
+            _, bundle = owning.tracked_source(HERE.parent, g04_source.BUNDLE)
+            g04_source.prepare(workspace / 'g04-product', bundle)
         inherited_receipt = retain_inherited_writer_receipt(workspace, scratch)
         with bind_runtime(workspace, scratch) as bound:
             require(bound.runner_source['github'] == run, 'GLOBAL_ORDINARY_SOURCE_IDENTITY_CHANGED')
@@ -621,7 +626,7 @@ def p21_result(scratch, output, run):
     from p21.checkpoints import archived
     from p21.followup import verify_retained
     from p21.g04_followup import G04
-    from p21.g04_invoice import PRODUCT as G04_PRODUCT, TREE as G04_TREE
+    from p21.g04_source import PRODUCT as G04_PRODUCT, TREE as G04_TREE
 
     result = installation_result(scratch, output, run)
     intake = json_read(scratch / 'P21_P20_INTAKE.json')
