@@ -534,6 +534,11 @@ def runtime(candidate, sku_checkout, *, parent_receipt=None, input_profile=None,
 
             foundation = Foundation(seed, identities, foundation_proof, provider, actual_day)
             profile = json.loads(profile_raw)
+            if p21_mode.enabled():
+                from p21.g04_catalogue import bind_switch_roll
+
+                tracked_source(runner_checkout, 'qualification/p21/g04_catalogue.py')
+                switch_roll_receipt = bind_switch_roll(provider, candidate.parent / 'g04-product')
             lifecycle = DatedLifecycle(engine, provider, parent_raw, profile_raw, reviewed, credit=credit,
                                        sku_catalogue=catalogue_raw, inputs=profile, foundation=foundation)
             output = candidate / 'cp6-proof/t3'
@@ -565,14 +570,9 @@ def runtime(candidate, sku_checkout, *, parent_receipt=None, input_profile=None,
                 scoped_auth = auth_scope(namespace['_global_auth'])
                 namespace['_global_auth'] = scoped_auth
 
-                def lanes(state):
-                    return ordinary.make_lanes(lifecycle, state, verify=lambda cur: lifecycle.verify(cur, state),
-                                               trusted_connection=engine.trusted_installer_connection,
-                                               output=output, originals=originals)
-
                 def observe_p21(conn, cur, state, report):
                     exercise(conn, cur, state, report, lifecycle=lifecycle, candidate=candidate,
-                             make_lanes=lanes, checkpoint=record_case,
+                             switch_roll_receipt=switch_roll_receipt(state.global_installation), checkpoint=record_case,
                              auth=scoped_auth,package=namespace['package'])
 
                 owner.run_inner.__globals__['_p21_installed_checks'] = observe_p21

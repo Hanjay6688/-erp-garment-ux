@@ -2,7 +2,8 @@
 import importlib
 from pathlib import Path
 
-from . import g04_invoice as probe, mode, switch_roll
+from . import g04_invoice as probe, mode
+from .g04_catalogue import SOURCE_SHA
 from .followup import provision, require
 from .retained import verify_retained
 from .state_probe import write
@@ -11,15 +12,13 @@ G04 = 'P21_AUD_G04_TERMINAL'
 CHECKS = (G04,)
 
 
-def exercise(conn, cur, state, report, *, lifecycle, candidate, make_lanes, checkpoint, auth, package):
-    del make_lanes
+def exercise(conn, cur, state, report, *, lifecycle, candidate, switch_roll_receipt, checkpoint, auth, package):
     from global_owning import owning, p20_batch
     from .installed import verify_loopback
 
     require(mode.enabled(), 'P21_G04_EXACT_MODE')
     verify_loopback(conn, cur)
-    base = switch_roll.product_checkout()
-    product = base.parent / 'g04-product'
+    product = Path(candidate).parent / 'g04-product'
     probe.confirm_source(product)
     day = lifecycle.foundation.day
     output = Path(candidate) / 'cp6-proof/t3/P21_FOLLOWUP_ORIGINALS'
@@ -34,37 +33,40 @@ def exercise(conn, cur, state, report, *, lifecycle, candidate, make_lanes, chec
                     observations=observations, rpc_auth='SYNTHETIC_NATIVE_FIXTURE',
                     production_go=False)
     baseline = None
+    phase = 'P21_AUD_G04_PREPARE'
     try:
-        p20_batch.progress('P21_AUD_G04_PREPARE', 'STARTED')
-        roots = [base / 'scripts', *(base / 'scripts/cp7_customer_credit' / part for part in
-                                     ('consumer', 'native', 'initial-settlement', 'reconciliation/native'))]
+        p20_batch.progress(phase, 'STARTED')
+        fingerprint = state.global_installation['sealed']['actual_parent_root_receipt']['catalogue_fingerprint']
+        require(switch_roll_receipt['source_sha256'] == SOURCE_SHA and switch_roll_receipt['sealed_fingerprint'] == fingerprint,
+                'CP7_P21_G04_SWITCH_ROLL_SEALED_FINGERPRINT_REQUIRED')
+        write(output / 'switch-roll-install-original.json', switch_roll_receipt)
+        scripts = product / 'scripts'
+        roots = [scripts, *(scripts / 'cp7_customer_credit' / part for part in
+                            ('consumer', 'native', 'initial-settlement', 'reconciliation/native'))]
         with owning.import_paths(*roots):
-            install = importlib.import_module('cp7_switch_roll_install')
             prepare = importlib.import_module('global_owning.p20.native').prepare
             auth.begin(conn, cur, package.boundary.ADMIN, package.boundary.PRIMARY_ADMIN,
                        lambda observer: lifecycle.verify(observer, state), report)
-            installed = install.install(cur)
-            require(installed['source_sha256'] == 'dac3f026f2b2b7d891fc0106fd1960f55c39959aa6756611f45c8179df8e1422'
-                    and installed['public_rpc_count'] == 3 and installed['predecessor_public_functions_preserved'],
-                    'P21_G04_SWITCH_ROLL_INSTALL_SOURCE')
-            conn.commit()
-            write(output / 'switch-roll-install-original.json', installed)
             provision(conn, cur, auth)
             prepare(cur)
-        p20_batch.progress('P21_AUD_G04_PREPARE', 'COMPLETED')
-        cur.execute("set local timezone='Asia/Jakarta'")
+        with lifecycle.provider.as_role(cur, 'postgres'):
+            live = cur.execute('select cp7_global_nonpo_envelope.catalogue_fingerprint_v1()').fetchone()[0]
+        require(live == fingerprint, 'CP7_P21_G04_CATALOGUE_DRIFT_BEFORE_TRANSACTIONS')
+        evidence['verified_catalogue_sha256'] = live['sha256']
         baseline = probe.boundary_digest(cur)
-        p20_batch.progress('P21_AUD_G04_REVERSE', 'STARTED')
+        p20_batch.progress(phase, 'COMPLETED')
+        phase = 'P21_AUD_G04_REVERSE'
+        p20_batch.progress(phase, 'STARTED')
         with probe.fixture_sources(product):
             evidence['result'] = probe.native_case(cur, day, observations)
         evidence['status'] = 'OBSERVED'
-        p20_batch.progress('P21_AUD_G04_REVERSE', 'COMPLETED')
+        p20_batch.progress(phase, 'COMPLETED')
     except Exception as error:
         evidence['status'] = 'INCOMPLETE'
-        evidence['first_failure'] = p20_batch.bounded_failure(error)
+        evidence['first_failure'] = dict(p20_batch.bounded_failure(error), phase=phase)
         report['p21_followup_exception'] = evidence['first_failure']
         write(output / 'first-failure.json', evidence['first_failure'])
-        p20_batch.progress('P21_AUD_G04_REVERSE', 'FAILED')
+        p20_batch.progress(phase, 'FAILED')
     finally:
         conn.rollback()
         if baseline is not None:
@@ -75,6 +77,7 @@ def exercise(conn, cur, state, report, *, lifecycle, candidate, make_lanes, chec
         result = evidence.get('result', {})
         results[G04] = dict(status=evidence.get('status'), product=probe.PRODUCT,
                             result=result, business_rows_rolled_back=evidence.get('business_rows_rolled_back', False),
+                            verified_catalogue_sha256=evidence.get('verified_catalogue_sha256'),
                             first_failure=evidence.get('first_failure'))
         checkpoint(G04, results[G04])
     return results
@@ -86,5 +89,6 @@ def proven(results):
     receipt = results[G04]
     result = receipt.get('result', {})
     return (receipt['status'] == 'OBSERVED' and receipt['business_rows_rolled_back'] is True
+            and bool(receipt.get('verified_catalogue_sha256'))
             and result.get('available_children') == 0
             and all(result.get(route, {}).get('outcome') in ('REVERSED', 'REFUSED') for route in ('direct', 'chain')))

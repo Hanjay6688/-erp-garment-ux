@@ -171,7 +171,9 @@ def native_case(cur, day, observations):
             require(cmd.accounts(cur) == initial_accounts, 'AUD_G04_FINAL_INVERSE_JOURNAL_NOT_NEUTRAL')
             return dict(outcome='REVERSED', response=response)
         except psycopg.Error as error:
-            # Read exact refusal and observe tables on the restored savepoint.
+            if (error.sqlstate, error.diag.message_primary) != ('P0001', REFUSAL):
+                raise
+            # The known business refusal must leave both money and stock intact.
             cur.execute('rollback to savepoint g04_terminal')
             chain.b.api.admin(cur)
             after = snapshot(label + '_refused', 6, 80, 0, 40, 'POSTED')

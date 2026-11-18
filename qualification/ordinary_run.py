@@ -620,6 +620,8 @@ def p20_result(scratch, output, run):
 def p21_result(scratch, output, run):
     from p21.checkpoints import archived
     from p21.followup import verify_retained
+    from p21.g04_followup import G04
+    from p21.g04_invoice import PRODUCT as G04_PRODUCT, TREE as G04_TREE
 
     result = installation_result(scratch, output, run)
     intake = json_read(scratch / 'P21_P20_INTAKE.json')
@@ -638,14 +640,16 @@ def p21_result(scratch, output, run):
                             checkpoints_archived=bool(checkpoints))
     if result['status'] != 'PASS' or not all(result['checks'].values()):
         result['status'] = 'INCOMPLETE'
-        if not result['first_failure']:
-            result['first_failure'] = next(
-                (proof.get('first_failure', {}).get('code') for proof in probes.values()
-                 if proof.get('status') == 'INCOMPLETE' and proof.get('first_failure', {}).get('code')),
-                'CP7_P21_INSTALLATION_GATE_INCOMPLETE')
+        case_failure = probes.get(G04, {}).get('first_failure') or {}
+        if case_failure.get('code'):
+            result['first_failure'] = case_failure['code']
+            result['first_failed_phase'] = case_failure.get('phase') or result['first_failed_phase']
+        elif not result['first_failure']:
+            result['first_failure'] = 'CP7_P21_INSTALLATION_GATE_INCOMPLETE'
     schema = json_read(output / 'CP7_INSTALLED_TYPES.json')
     result.update(contract='cp7.writer.p21.disposable-install.v1', scope=p21_mode.SCOPE,
                   target=p21_mode.TARGET, product=retained['product'], retained=retained,
+                  g04_product=dict(head=G04_PRODUCT, tree=G04_TREE),
                   auth_cleanup=dict(status=auth.get('status'), verified_actors=auth.get('verified_actors'),
                                     removed_actors=len(auth.get('deletions',{})),
                                     primary_mappings_absent=auth.get('primary_application_mappings_absent'),
