@@ -536,9 +536,12 @@ def runtime(candidate, sku_checkout, *, parent_receipt=None, input_profile=None,
             profile = json.loads(profile_raw)
             if p21_mode.enabled():
                 from p21.g04_catalogue import bind_switch_roll
+                from p21.s06_catalogue import bind as bind_s06
 
                 tracked_source(runner_checkout, 'qualification/p21/g04_catalogue.py')
                 switch_roll_receipt = bind_switch_roll(provider, candidate.parent / 'g04-product')
+                tracked_source(runner_checkout, 'qualification/p21/s06_catalogue.py')
+                switch_roll_receipt = bind_s06(provider, candidate.parent / 's06-product', switch_roll_receipt)
             lifecycle = DatedLifecycle(engine, provider, parent_raw, profile_raw, reviewed, credit=credit,
                                        sku_catalogue=catalogue_raw, inputs=profile, foundation=foundation)
             output = candidate / 'cp6-proof/t3'

@@ -1,4 +1,4 @@
-"""Bind the AUD-G04 follow-up to its exact public branch and disposable product."""
+"""Bind the S06 integration to its exact public branch and disposable product."""
 
 import json
 import os
@@ -11,10 +11,10 @@ from audit.codex.p20_evidence import PRODUCT, PRODUCT_TREE
 MODE_KEY = 'CP7_P21_TARGET'
 TARGET = 'PUBLIC_GITHUB_DISPOSABLE_LOOPBACK'
 REPOSITORY = 'Hanjay6688/-erp-garment-ux'
-BRANCH = 'writer-a/cp7-p21-g04-public'
-WORKFLOW = '.github/workflows/cp7-p21-g04-public.yml'
+BRANCH = 'writer-a/cp7-close05-s06-public'
+WORKFLOW = '.github/workflows/cp7-close05-s06-public.yml'
 EVENT = 'push'
-SCOPE = 'P21_AUD_G04_INSTALLED_CONFIRMATION'
+SCOPE = 'P21_CLOSE05_S06_INSTALLED_CONFIRMATION'
 
 
 def enabled():

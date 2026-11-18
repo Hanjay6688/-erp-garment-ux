@@ -191,10 +191,17 @@ def preflight(workspace, scratch, run):
     try:
         require_window(workspace)
         if p21_mode.enabled():
-            from p21 import g04_source
+            from p21 import g04_source, s06_source
 
             _, bundle = owning.tracked_source(HERE.parent, g04_source.BUNDLE)
             g04_source.prepare(workspace / 'g04-product', bundle)
+            combined_product = workspace / 's06-product'
+            owning.git(workspace, 'clone', '--quiet', '--shared', '--no-checkout',
+                       str(workspace / 'g04-product'), str(combined_product))
+            owning.git(combined_product, 'sparse-checkout', 'set', 'src', 'scripts', 'tests', 'contracts', 'public', 'supabase')
+            owning.git(combined_product, 'checkout', '--quiet', '--detach', g04_source.PRODUCT)
+            _, s06_bundle = owning.tracked_source(HERE.parent, s06_source.BUNDLE)
+            s06_source.prepare(combined_product, s06_bundle)
         inherited_receipt = retain_inherited_writer_receipt(workspace, scratch)
         with bind_runtime(workspace, scratch) as bound:
             require(bound.runner_source['github'] == run, 'GLOBAL_ORDINARY_SOURCE_IDENTITY_CHANGED')
@@ -625,8 +632,9 @@ def p20_result(scratch, output, run):
 def p21_result(scratch, output, run):
     from p21.checkpoints import archived
     from p21.followup import verify_retained
-    from p21.g04_followup import G04
+    from p21.s06_followup import S06
     from p21.g04_source import PRODUCT as G04_PRODUCT, TREE as G04_TREE
+    from p21.s06_source import PRODUCT as S06_PRODUCT, TREE as S06_TREE
 
     result = installation_result(scratch, output, run)
     intake = json_read(scratch / 'P21_P20_INTAKE.json')
@@ -640,12 +648,12 @@ def p21_result(scratch, output, run):
     auth = writer.get('global_auth_cleanup',{})
     result['checks'].update(p20_evidence_reused=intake == evidence,
                             p21_originals_reused=retained_intake==retained==writer.get('p21_followup_retained'),
-                            g04_setup_auth_cleanup=installed_types_only.p21_auth_complete(writer),
+                            s06_setup_auth_cleanup=installed_types_only.p21_auth_complete(writer),
                             installed_P21_probes=p21_installed.proven(probes),
                             checkpoints_archived=bool(checkpoints))
     if result['status'] != 'PASS' or not all(result['checks'].values()):
         result['status'] = 'INCOMPLETE'
-        case_failure = probes.get(G04, {}).get('first_failure') or {}
+        case_failure = probes.get(S06, {}).get('first_failure') or {}
         if case_failure.get('code'):
             result['first_failure'] = case_failure['code']
             result['first_failed_phase'] = case_failure.get('phase') or result['first_failed_phase']
@@ -655,6 +663,8 @@ def p21_result(scratch, output, run):
     result.update(contract='cp7.writer.p21.disposable-install.v1', scope=p21_mode.SCOPE,
                   target=p21_mode.TARGET, product=retained['product'], retained=retained,
                   g04_product=dict(head=G04_PRODUCT, tree=G04_TREE),
+                  combined_product=dict(head=S06_PRODUCT, tree=S06_TREE),
+                  actual_G04_cases_rerun=0,
                   auth_cleanup=dict(status=auth.get('status'), verified_actors=auth.get('verified_actors'),
                                     removed_actors=len(auth.get('deletions',{})),
                                     primary_mappings_absent=auth.get('primary_application_mappings_absent'),
@@ -666,7 +676,7 @@ def p21_result(scratch, output, run):
                   schema_inventory=dict(public_erp_names=schema.get('public_erp_names'),
                                         catalogue_groups=schema.get('catalogue_groups')),
                   actual_switch_roll_successful_saves_rerun=0, actual_E14_cases_rerun=0,
-                  pending_independent_gates=['Independent review of the AUD-G04 terminal invoice outcome'],
+                  pending_independent_gates=['Independent review of S06 on the combined candidate'],
                   installed_P21_acceptance=False, independent_acceptance=False, production_go=False)
     return result
 

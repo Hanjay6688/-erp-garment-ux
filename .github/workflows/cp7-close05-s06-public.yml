@@ -1,10 +1,10 @@
-name: Writer A / CP7 AUD-G04 installed
-run-name: Writer A/P21/AUD-G04/9ee09e95
+name: Writer A / CP7 S06 combined installation
+run-name: Writer A/CLOSE-05/S06/7a17d348
 
 on:
   push:
     branches:
-      - writer-a/cp7-p21-g04-public
+      - writer-a/cp7-close05-s06-public
 
 permissions: {}
 
@@ -13,7 +13,7 @@ jobs:
     if: >-
       github.repository == 'Hanjay6688/-erp-garment-ux' &&
       github.event.repository.private == false &&
-      github.ref == 'refs/heads/writer-a/cp7-p21-g04-public' &&
+      github.ref == 'refs/heads/writer-a/cp7-close05-s06-public' &&
       github.event_name == 'push' &&
       github.run_attempt == 1
     concurrency:
@@ -387,7 +387,7 @@ jobs:
           grep -Fx 'erp_schema_owners_grants_sequences_rows=IDENTICAL' "$prefix.txt" >/dev/null
           grep -Fx 'source_connections_restored=PASS' "$prefix.connection-fence.txt" >/dev/null
           printf '%s\n' 'ERP_BASELINE_CLONE_PASS erp_catalogue_rows_sequences_equal=true actual_global_erp_cases=0 production_go=false'
-      - name: Install exact P21, observe AUD-G04 and restore the test database
+      - name: Install the S06 combined candidate, verify forwarding and restore
         id: ordinary_runtime
         uses: ./runner-source/qualification/p21/publisher
       - name: Remove the disposable Global environment
@@ -438,7 +438,7 @@ jobs:
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always() && steps.raw_public.outcome == 'success'
         with:
-          name: writer-p21-g04-originals-${{ github.run_id }}-${{ github.run_attempt }}
+          name: writer-p21-s06-originals-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             ${{ github.workspace }}/global-candidate/cp6-proof/t3/P21_FOLLOWUP_ORIGINALS/
             ${{ github.workspace }}/global-candidate/cp6-proof/t3/GLOBAL_AUTH_*_BASELINE.json
