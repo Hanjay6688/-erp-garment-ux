@@ -61,7 +61,7 @@ def fixture_sources(product):
         os.chdir(previous)
 
 
-def native_case(cur, day, observations):
+def native_case(cur, day, observations, evidence):
     import cp7_sales_chain_cases as chain
     import cp7_sales_draft_cases as drafts
     import cp7_ow04_initial_settlement_cases as initial
@@ -77,6 +77,7 @@ def native_case(cur, day, observations):
     codes['CREDIT'] = liability['id']
     initial_accounts = cmd.accounts(cur)
     refusals = {}
+    evidence.update(sale_id=f['sale'], refusals=refusals)
 
     def close_child_transaction():
         # Emulate each RPC's commit-time checks while retaining fixture rollback.
@@ -90,11 +91,12 @@ def native_case(cur, day, observations):
             operation()
             raise ValueError('CP7_AUD_G04_EXPECTED_REFUSAL_' + label.upper())
         except psycopg.Error as error:
-            require((error.sqlstate, error.diag.message_primary) == ('P0001', message),
-                    'CP7_AUD_G04_UNEXPECTED_REFUSAL_' + label.upper() + ' ' + error.diag.message_primary)
             cur.execute('rollback to savepoint expected_refusal')
-            require(boundary_digest(cur) == before, 'CP7_AUD_G04_REFUSAL_CHANGED_STATE_' + label.upper())
-            refusals[label] = dict(sqlstate=error.sqlstate, message=error.diag.message_primary, unchanged=True)
+            unchanged = boundary_digest(cur) == before
+            refusals[label] = dict(sqlstate=error.sqlstate, message=error.diag.message_primary, unchanged=unchanged)
+            require((error.sqlstate, error.diag.message_primary) == ('P0001', message),
+                    'CP7_AUD_G04_UNEXPECTED_REFUSAL_' + label.upper())
+            require(unchanged, 'CP7_AUD_G04_REFUSAL_CHANGED_STATE_' + label.upper())
         finally:
             cur.execute('rollback to savepoint expected_refusal')
             cur.execute('release savepoint expected_refusal')
@@ -183,18 +185,6 @@ def native_case(cur, day, observations):
     original_facts = chain.facts(cur, f)
     direct_payload, direct_version = cmd.review(cur, f)
 
-    cur.execute('savepoint pending_child')
-    try:
-        cur.execute('''insert into erp.sales_payments(sale_id,payment_number,payment_date,amount,cash_account_id,payment_method)
-                    values(%s,%s,%s,1,%s,'CASH')''', (f['sale'], 'G04-PENDING-' + uuid4().hex[:10], sale_at, f['bank']))
-        pending, pending_version = chain.payload(cur, f)
-        reject('pending_direct', lambda: returns.reverse_sale(cur, f), 'CP7_CREDIT_SALE_REVERSE_CHILDREN_NOT_CLOSED')
-        reject('pending_chain', lambda: chain.reverse(cur, pending, pending_version), 'CP7_SALES_CHAIN_PENDING_CHILD')
-    finally:
-        cur.execute('rollback to savepoint pending_child')
-        cur.execute('release savepoint pending_child')
-    require(boundary_digest(cur) == pre, 'CP7_AUD_G04_PENDING_CONTROL_CHANGED_STATE')
-
     def attempt(label, call):
         cur.execute('savepoint g04_terminal')
         try:
@@ -217,21 +207,42 @@ def native_case(cur, day, observations):
             require(call(request) == response and boundary_digest(cur) == after, 'CP7_AUD_G04_REPLAY_CHANGED_STATE')
             return dict(outcome='REVERSED', response=response, immutable_history=True, one_journal_inverse=True,
                         one_audit_entry=True, exact_request_replay=True, final_ledger_neutral=True)
-        except psycopg.Error as error:
+        except (psycopg.Error, ValueError) as error:
             cur.execute('rollback to savepoint g04_terminal')
             chain.b.api.admin(cur)
             after = snapshot(label + '_rejected', 6, 80, 0, 40, 'POSTED')
             require(after == before and boundary_digest(cur) == pre, 'CP7_AUD_G04_TERMINAL_REFUSAL_CHANGED_STATE')
-            return dict(outcome='REFUSED', sqlstate=error.sqlstate, message=error.diag.message_primary)
+            if isinstance(error, psycopg.Error):
+                return dict(outcome='REFUSED', sqlstate=error.sqlstate, message=error.diag.message_primary)
+            return dict(outcome='INCOMPLETE', message=str(error))
         finally:
             cur.execute('rollback to savepoint g04_terminal')
             cur.execute('release savepoint g04_terminal')
             chain.b.api.admin(cur)
 
     direct = attempt('direct', lambda key: cmd.command(cur, 'SALE_REVERSE', direct_payload, direct_version, key))
+    evidence['direct'] = direct
     compound = attempt('chain', lambda key: chain.reverse(cur, p, version, key))
-    return dict(sale_id=f['sale'], direct=direct, chain=compound, available_children=0, refusals=refusals,
-                both_routes_reversed=all(item['outcome'] == 'REVERSED' for item in (direct, compound)))
+    evidence.update(chain=compound, available_children=0,
+                    both_routes_reversed=all(item['outcome'] == 'REVERSED' for item in (direct, compound)))
+
+    cur.execute('savepoint pending_child')
+    try:
+        cur.execute("set local timezone='UTC'")
+        cur.execute('''insert into erp.sales_payments(sale_id,payment_number,payment_date,amount,cash_account_id,payment_method)
+                    values(%s,%s,%s,1,%s,'CASH')''', (f['sale'], 'G04-PENDING-' + uuid4().hex[:10], sale_at, f['bank']))
+        pending, pending_version = chain.payload(cur, f)
+        # The open-invoice financial reader refuses a new unbound draft in this
+        # historical profile. Use the current token from the chain workspace
+        # so this control sends the direct command to the server.
+        pending_direct = dict(direct_payload, review_token=pending['review_token'])
+        reject('pending_direct', lambda: cmd.command(cur, 'SALE_REVERSE', pending_direct, pending_version),
+               'CP7_CREDIT_SALE_REVERSE_CHILDREN_NOT_CLOSED')
+        reject('pending_chain', lambda: chain.reverse(cur, pending, pending_version), 'CP7_SALES_CHAIN_PENDING_CHILD')
+    finally:
+        cur.execute('rollback to savepoint pending_child')
+        cur.execute('release savepoint pending_child')
+    require(boundary_digest(cur) == pre, 'CP7_AUD_G04_PENDING_CONTROL_CHANGED_STATE')
 
 
 def exercise(conn, cur, day, *, product, lifecycle, state, retain):
@@ -244,12 +255,12 @@ def exercise(conn, cur, day, *, product, lifecycle, state, retain):
     lifecycle.verify(cur, state)
     conn.rollback()
     observations = []
-    record = dict(case='AUD-G04', product=PRODUCT, tree=TREE, production_go=False, observations=observations)
+    record = dict(case='AUD-G04', product=PRODUCT, tree=TREE, production_go=False, observations=observations, result={})
     try:
         cur.execute("set local timezone='Asia/Jakarta'")
         baseline = boundary_digest(cur)
         with fixture_sources(product):
-            record['result'] = native_case(cur, day, observations)
+            native_case(cur, day, observations, record['result'])
         record['status'] = 'OBSERVED'
     except Exception as error:
         record['status'] = 'INCOMPLETE'

@@ -30,7 +30,7 @@ def exercise(conn, cur, state, report, *, lifecycle, candidate, switch_roll_rece
     observations = []
     evidence = dict(case='AUD-G04', product=probe.PRODUCT, product_tree=probe.TREE,
                     installed_p21_base=reused['product'], business_day=str(day),
-                    observations=observations, rpc_auth='SYNTHETIC_NATIVE_FIXTURE',
+                    observations=observations, result={}, rpc_auth='SYNTHETIC_NATIVE_FIXTURE',
                     production_go=False)
     baseline = None
     phase = 'P21_AUD_G04_PREPARE'
@@ -59,7 +59,7 @@ def exercise(conn, cur, state, report, *, lifecycle, candidate, switch_roll_rece
         phase = 'P21_AUD_G04_REVERSE'
         p20_batch.progress(phase, 'STARTED')
         with probe.fixture_sources(product):
-            evidence['result'] = probe.native_case(cur, day, observations)
+            probe.native_case(cur, day, observations, evidence['result'])
         for route in ('direct', 'chain'):
             failure = evidence['result'][route]
             require(failure['outcome'] == 'REVERSED', failure.get('message', 'CP7_P21_G04_INVERSE_INCOMPLETE'))
