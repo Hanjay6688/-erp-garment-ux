@@ -1,0 +1,49 @@
+{
+  "first_run": 44329529478,
+  "runner": "160369cbd8cac16af34bd9ef946e4c1453555b66",
+  "product": "7a17d348ea5831454c770586eff4270627003be0",
+  "status": "FIRST_GLOBAL_INSTALL_INCOMPLETE",
+  "first_published_error": "GLOBAL_ORDINARY_PRIVATE_ERROR_RETAINED_IN_RUNNER",
+  "actual_S06_cases": 0,
+  "full_database_restore": true,
+  "actual_G04_cases_rerun": 0,
+  "production_go": false,
+  "diagnosis": {
+    "source": "scripts/current-mandor-afui-preparation/report_io.py:116 install_qualified_parent",
+    "source_authority": "supabase_admin",
+    "local_reproduction_sqlstate": "42501",
+    "local_reproduction_message": "permission denied for schema cp7_alert_native",
+    "full_run_original_sql_error_available": false
+  },
+  "repair": {
+    "scope": "Runner S06 install and unused inverse authority only",
+    "existing_authority_reused": "supabase_admin",
+    "permissions_added": false,
+    "product_changed": false
+  },
+  "checks": [
+    "old postgres authority refused without catalogue mutation",
+    "exact three functions changed",
+    "function metadata and grants unchanged",
+    "idempotent installation",
+    "grant drift rejected",
+    "unused inverse restores full catalogue",
+    "reinstallation produces identical catalogue",
+    "synthetic pg_net request captured once and rolled back"
+  ],
+  "test_source": "qualification/p21/s06_role_check.py",
+  "archives": [
+    {
+      "id": 14443540725,
+      "sha256": "bf0d1e2800983db11dc43b273d85f186efbe041e672e19724b2aa796d50baff1",
+      "bytes": 2952,
+      "crc_verified": true
+    },
+    {
+      "id": 14441239890,
+      "sha256": "41efdef5edb1120777c41a683b1aefaaa35fd8a2f91e91ab1dda143e9f1a569e",
+      "bytes": 1062,
+      "crc_verified": true
+    }
+  ]
+}

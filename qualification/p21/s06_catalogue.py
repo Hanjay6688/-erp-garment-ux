@@ -1,8 +1,27 @@
 """Bind the three S06 function bodies before Global captures its final seal."""
 
 from hashlib import sha256
+from contextlib import contextmanager
+import re
 
 from .s06_source import confirm_source, require, PRODUCT, TREE, PARENT, FILES
+
+
+@contextmanager
+def phase(name):
+    """Retain a bounded installer error in the public terminal receipt."""
+    print(f'GLOBAL_ORDINARY_PHASE P21_S06_{name} STARTED', flush=True)
+    try:
+        yield
+    except Exception as error:
+        kind = type(error).__name__.upper()
+        kind = kind if re.fullmatch(r'[A-Z0-9_]{1,48}', kind) else 'ERROR'
+        state = getattr(error, 'sqlstate', None)
+        state = state if isinstance(state, str) and re.fullmatch(r'[0-9A-Z]{5}', state) else 'NONE'
+        print(f'GLOBAL_ORDINARY_PHASE P21_S06_{name} FAILED', flush=True)
+        raise ValueError(f'CP7_S06_{name}_{kind}_SQLSTATE_{state}') from error
+    else:
+        print(f'GLOBAL_ORDINARY_PHASE P21_S06_{name} COMPLETED', flush=True)
 
 
 def project_functions(catalogue, original, installed):
@@ -28,7 +47,9 @@ def bind(provider, product, predecessor_receipt):
         nonlocal original, installed, install_receipt
         repairs = repair(cur)
         before = provider.capture(cur)
-        with provider.as_role(cur, 'postgres'), provider.metadata_context(cur):
+        # The retained full install grants cp7_alert to Supabase Admin.
+        # Reuse that existing installer authority; postgres cannot replace it.
+        with phase('INSTALL'), provider.as_role(cur, 'supabase_admin'), provider.metadata_context(cur):
             install_receipt = change.install(cur)
             require(install_receipt['status'] == 'INSTALLED', 'CP7_S06_FRESH_INSTALL_REQUIRED')
             require(change.install(cur)['status'] == 'ALREADY_INSTALLED', 'CP7_S06_INSTALL_REPLAY_FAILED')
@@ -47,7 +68,7 @@ def bind(provider, product, predecessor_receipt):
     def remove_layer(cur, state):
         current = provider.capture(cur)
         project_functions(current, original, installed)
-        with provider.as_role(cur, 'postgres'), provider.metadata_context(cur):
+        with phase('UNUSED_INVERSE'), provider.as_role(cur, 'supabase_admin'), provider.metadata_context(cur):
             for name in expected:
                 cur.execute(original[name][0], prepare=False)
         require(provider.capture(cur) == project_functions(current, original, installed),

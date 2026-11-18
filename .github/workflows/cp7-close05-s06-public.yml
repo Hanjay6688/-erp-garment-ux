@@ -46,6 +46,24 @@ jobs:
           with open(os.environ['GITHUB_ENV'], 'a', encoding='ascii') as output:
               output.write(f'SKU_CURRENT_AUTOMATIC_JOB_START_MONOTONIC={time.monotonic()}\n')
           PY
+      - name: Wait for the next real WIB test window
+        run: |
+          python3 -u - <<'PY'
+          from datetime import datetime, timezone
+          from zoneinfo import ZoneInfo
+          import time
+
+          target = datetime(2026, 11, 19, 0, 2, tzinfo=ZoneInfo('Asia/Jakarta'))
+          remaining = (target - datetime.now(timezone.utc)).total_seconds()
+          if remaining > 75 * 60:
+              raise SystemExit('CP7_S06_WAIT_EXCEEDS_ONE_RETRY_WINDOW')
+          if remaining > 0:
+              print('CP7_S06_WAITING_FOR_REAL_WIB_WINDOW 2026-11-19T00:02:00+07:00', flush=True)
+          while remaining > 0:
+              time.sleep(min(30, remaining))
+              remaining = (target - datetime.now(timezone.utc)).total_seconds()
+          print('CP7_S06_REAL_WIB_WINDOW_READY', flush=True)
+          PY
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           path: runner-source
