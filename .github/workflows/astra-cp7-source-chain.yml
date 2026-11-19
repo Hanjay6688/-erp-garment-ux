@@ -1,0 +1,30 @@
+name: Astra current release and Global installer source admission
+on:
+  push:
+    branches: [audit/astra-cp7-public-ffda]
+    paths:
+      - .github/workflows/astra-cp7-source-chain.yml
+      - qualification/astra-public/installer/**
+permissions: {}
+jobs:
+  source:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          sparse-checkout: qualification/astra-public/installer
+          path: audit
+          persist-credentials: false
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: a62504d71a6ca1cdbaa59b6fe0fd5739693f100a
+          sparse-checkout: scripts/cp7-src/alerts
+          path: original
+          persist-credentials: false
+      - name: Verify Writer source changes and execute the original read-only admission check
+        run: |
+          python -B audit/qualification/astra-public/installer/source-update.py
+          python -B audit/qualification/astra-public/installer/check-current.py original/scripts/cp7-src/alerts/alerts.sql
