@@ -1,0 +1,40 @@
+name: Astra public installation reference and recovery
+on:
+  push:
+    branches: [audit/astra-cp7-public-ffda]
+    paths:
+      - .github/workflows/astra-cp7-recovery.yml
+      - qualification/astra-public/extension-restore.py
+permissions: {}
+jobs:
+  recovery:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 17
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          sparse-checkout: qualification/astra-public/extension-restore.py
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - name: Confirm which release the public combined installer actually exercised
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/14454454290/zip > "$RUNNER_TEMP/qualified.zip"
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib, json, os, zipfile
+          p=Path(os.environ['RUNNER_TEMP'])/'qualified.zip'
+          assert hashlib.sha256(p.read_bytes()).hexdigest()=='86b5525385637606a430e5d7190d559d54420889409221c2a0b3bb9340627666'
+          with zipfile.ZipFile(p) as z:
+              result=json.loads(z.read('P21_INSTALLATION_FINAL.json'))
+          assert result['status']=='PASS' and result['production_go'] is False and result['observed_P21_probes']==['P21_CLOSE05_S06']
+          target='ffda5cfceb7ebc196656baa650dffd18dd425047'
+          print('ASTRA_GLOBAL_REFERENCE '+json.dumps(dict(target=target,installed=result['combined_product'],matched=result['combined_product']['head']==target,scope=result['scope'],cases=result['actual_Global_cases'],source_run=44340772680)))
+          PY
+      - name: Restore a clean public Supabase test cluster with its scheduler and vault
+        run: python3 qualification/astra-public/extension-restore.py
