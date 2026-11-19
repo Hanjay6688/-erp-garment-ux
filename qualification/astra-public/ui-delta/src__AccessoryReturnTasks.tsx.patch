@@ -1,0 +1,28 @@
+diff --git a/src/AccessoryReturnTasks.tsx b/src/AccessoryReturnTasks.tsx
+new file mode 100644
+--- /dev/null
++++ b/src/AccessoryReturnTasks.tsx
+@@ -0,0 +1,23 @@
++import {useState} from 'react'
++import {useAuth} from './auth/AuthProvider'
++import {getUatSupabaseClient} from './lib/supabase'
++
++import {parseReturnTasks,names,conditions,type ReturnTask} from './returnWorkContract'
++
++export function ReturnTaskList({rows}:{rows:ReturnTask[]}){
++ return <ul>{rows.map(r=><li key={r.key}><strong>{names[r.stage]}</strong> · {r.pending} unit {conditions[r.condition]} · lot {r.source_id}
++ {r.posted_valued!==null&&<> · sudah dinilai {r.posted_valued} unit {conditions[r.condition]}</>}{r.document_id&&<> · dokumen {r.document_id}</>}</li>)}</ul>
++}
++export default function AccessoryReturnTasks(){
++ const {runtime,identity}=useAuth()
++ if(runtime.mode!=='DISPOSABLE_TEST'||identity.status!=='AUTHORIZED'||!identity.permissions.includes('warehouse.accessory.view'))return null
++ return <ReturnWorkspace key={[runtime.projectRef,identity.profile.id,identity.profile.rowVersion,identity.profile.roleRowVersion,...identity.permissions].join('|')}/>
++}
++function ReturnWorkspace(){
++ const {runtime}=useAuth(),[rows,setRows]=useState<ReturnTask[]|null>(null),[error,setError]=useState(''),[busy,setBusy]=useState(false)
++ async function read(){if(runtime.mode!=='DISPOSABLE_TEST')return;setError('');setRows(null);setBusy(true)
++  try{const r=await getUatSupabaseClient(runtime).rpc('erp_cp7_get_accessory_return_tasks_v1',{});if(r.error)throw r.error;setRows(parseReturnTasks(r.data))}
++  catch(e){setError(e instanceof Error?e.message:'Tugas retur belum dapat dibaca.')}finally{setBusy(false)}}
++ return <section aria-label="Tugas retur aksesori"><button type="button" disabled={busy} onClick={()=>void read()}>Periksa tugas retur aksesori</button>{error&&<p role="alert">{error}</p>}
++ {rows&&(rows.length?<ReturnTaskList rows={rows}/>:<p>Semua tugas retur dalam cakupan ini sudah selesai.</p>)}</section>
++}

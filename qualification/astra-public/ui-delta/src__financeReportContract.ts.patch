@@ -1,0 +1,35 @@
+--- a/src/financeReportContract.ts
++++ b/src/financeReportContract.ts
+@@ -24,20 +24,26 @@
+  if(p.through!==through||!nullableDate(p.closed_through)||typeof p.date_allowed!=='boolean')fail()
+  return p as unknown as NonNullable<FinanceReport['close_preflight']>
+ }
+-export function parseFinanceSnapshot(value:unknown,dates:FinanceDates):FinanceReport['snapshot']{
+- const s=closed(value,['basis','financial_position','performance','quality','supplier_exposure','data_confidence']),basis=closed(s.basis,['period_from','period_to','balance_sheet_as_of','supplier_exposure_basis','performance_lifecycle_basis','performance_reconciliation_basis','quality_event_basis','laundry_outstanding_basis'])
++export type FinanceComparisonSnapshot=Pick<FinanceReport['snapshot'],'basis'|'performance'|'data_confidence'>
++export function parseFinanceSnapshot(value:unknown,dates:FinanceDates,comparisonOnly:true):FinanceComparisonSnapshot
++export function parseFinanceSnapshot(value:unknown,dates:FinanceDates,comparisonOnly?:false):FinanceReport['snapshot']
++export function parseFinanceSnapshot(value:unknown,dates:FinanceDates,comparisonOnly=false):FinanceComparisonSnapshot{
++ const keys=['basis','performance','data_confidence']
++ const s=closed(value,comparisonOnly?keys:[...keys,'financial_position','quality','supplier_exposure']),basis=closed(s.basis,['period_from','period_to','balance_sheet_as_of','supplier_exposure_basis','performance_lifecycle_basis','performance_reconciliation_basis','quality_event_basis','laundry_outstanding_basis'])
+  if(![dates.from,dates.to,dates.as_of].every(financeDate)||dates.from>dates.to||dates.to>dates.as_of||basis.period_from!==dates.from||basis.period_to!==dates.to||basis.balance_sheet_as_of!==dates.as_of||basis.supplier_exposure_basis!=='CURRENT_OPERATIONAL_STATE'||basis.performance_lifecycle_basis!=='SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD'||basis.performance_reconciliation_basis!=='OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'||basis.quality_event_basis!=='CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF'||basis.laundry_outstanding_basis!=='IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE')fail()
+- const position=closed(s.financial_position,positionFields);if(!Object.values(position).every(x=>decimal(x)))fail()
+  const performance=closed(s.performance,[...performanceMoney,'gross_margin_pct','net_margin_pct','sales_revenue_reconciled']);if(!performanceMoney.every(k=>decimal(performance[k]))||![performance.gross_margin_pct,performance.net_margin_pct].every(x=>x===null||decimal(x,4))||typeof performance.sales_revenue_reconciled!=='boolean')fail()
+- const quality=closed(s.quality,['qc_good_pcs','qc_bs_pcs','qc_defect_rate_pct','laundry_good_received_pcs','laundry_bs_pcs','laundry_bs_rate_on_resolved_receipts_pct','laundry_outstanding_pcs','legacy_receipt_stuck_pcs','legacy_receipt_missing_pcs']);for(const[k,x]of Object.entries(quality))if(k.endsWith('_pct')?x!==null&&!decimal(x,4):!whole(x))fail()
+- const exposure=closed(s.supplier_exposure,['unfinalized_receipt_count','oldest_unfinalized_days','open_final_ap_document_count','overdue_final_ap_amount']);for(const[k,x]of Object.entries(exposure))if(k==='overdue_final_ap_amount'?!decimal(x):!whole(x))fail()
++ if(!comparisonOnly){
++  const position=closed(s.financial_position,positionFields);if(!Object.values(position).every(x=>decimal(x)))fail()
++  const quality=closed(s.quality,['qc_good_pcs','qc_bs_pcs','qc_defect_rate_pct','laundry_good_received_pcs','laundry_bs_pcs','laundry_bs_rate_on_resolved_receipts_pct','laundry_outstanding_pcs','legacy_receipt_stuck_pcs','legacy_receipt_missing_pcs']);for(const[k,x]of Object.entries(quality))if(k.endsWith('_pct')?x!==null&&!decimal(x,4):!whole(x))fail()
++  const exposure=closed(s.supplier_exposure,['unfinalized_receipt_count','oldest_unfinalized_days','open_final_ap_document_count','overdue_final_ap_amount']);for(const[k,x]of Object.entries(exposure))if(k==='overdue_final_ap_amount'?!decimal(x):!whole(x))fail()
++ }
+  const c=closed(s.data_confidence,['status','critical_issue_count','warning_issue_count','pending_cost_recalc_count','failed_checks','engine','as_of','window_from','closed_through','blockers','info','filing','changed_since_filing']);if(![c.critical_issue_count,c.warning_issue_count,c.pending_cost_recalc_count].every(whole)||c.engine!=='PERIOD_READINESS_V1'||c.as_of!==dates.as_of||!nullableDate(c.window_from)||!nullableDate(c.closed_through)||typeof c.changed_since_filing!=='boolean'||!Array.isArray(c.failed_checks))return fail()
+  if(c.status!==(BigInt(String(c.critical_issue_count))>0n?'BLOCKED':BigInt(String(c.pending_cost_recalc_count))>0n?'RECALC_PENDING':'READY'))fail();blockers(c.blockers);blockers(c.info,true)
+  for(const value of c.failed_checks){const x=closed(value,['check_name','severity','issue_count','details'],['family','scope','impact_date','reference']);if(!text(x.check_name)||!text(x.details)||!['WARNING','CRITICAL'].includes(String(x.severity))||!whole(x.issue_count)||!exactJson(x))fail()}
+  const nativeBlockers=c.blockers as FinanceBlocker[],criticalChecks=c.failed_checks.reduce((sum,x)=>sum+(x.severity==='CRITICAL'?BigInt(x.issue_count):0n),0n)
+  if(BigInt(String(c.critical_issue_count))!==criticalChecks||BigInt(String(c.critical_issue_count))<BigInt(nativeBlockers.filter(x=>x.severity==='CRITICAL'||x.severity==='POLICY').length)||BigInt(String(c.pending_cost_recalc_count))!==BigInt(nativeBlockers.filter(x=>x.severity==='RECALC').length))fail()
+  if(c.filing!==null){const f=closed(c.filing,['filing_id','closed_through','previous_closed_through','filed_at','filed_status']);filingMeta(f,'filing_id');if(f.filed_status!=='READY')fail()}else if(c.changed_since_filing)fail()
+- return s as unknown as FinanceReport['snapshot']
++ return s as unknown as FinanceComparisonSnapshot
+ }
+ export function parseFinanceReport(v:unknown,dates:FinanceDates,filingId:string|null=null,offset=0,canPreflight=false):FinanceReport{
+  const r=closed(v,['contract_version','captured_at','knowledge_basis','historical_knowledge','snapshot','close_preflight','filings','filing']);if(r.contract_version!=='cp7.finance-report.v1'||!timestamp(r.captured_at)||r.knowledge_basis!=='CURRENT_RECORDED_KNOWLEDGE'||r.historical_knowledge!=='NOT_RECONSTRUCTED')fail()

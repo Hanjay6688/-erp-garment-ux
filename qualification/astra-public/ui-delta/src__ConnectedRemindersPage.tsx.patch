@@ -1,0 +1,25 @@
+--- a/src/ConnectedRemindersPage.tsx
++++ b/src/ConnectedRemindersPage.tsx
+@@ -1,3 +1,5 @@
++import StockScopePanel from './StockScopePanel'
++import AccessoryReturnTasks from './AccessoryReturnTasks'
+ import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from 'react'
+ import { useAuth } from './auth/AuthProvider'
+ import { hasPermission } from './auth/accessCatalog'
+@@ -125,7 +127,7 @@
+       <div><div className="eyebrow">PENGATURAN & AUDIT</div><h1>Pengingat</h1>
+         <p>{owner
+           ? 'Pengingat kerja pribadi akun ini; hanya akun ini yang melihatnya. Bila Sambungan WhatsApp menyala, pengingat Bos yang waktunya sudah tiba juga diteruskan ke WhatsApp Bos sendiri.'
+-          : 'Pengingat kerja pribadi akun ini; hanya akun ini yang melihatnya. Pengingat ini tidak dikirim ke mana pun: tidak lewat WhatsApp, email, atau notifikasi.'}</p></div>
++          : 'Daftar pengingat pribadi di ERP hanya terlihat dari akun ini. Jika penerusan pengingat pribadi aktif, judul pengingat yang jatuh tempo dapat dikirim ke WhatsApp owner.'}</p></div>
+       {tab === 'MINE' ? <button type="button" disabled={busy} onClick={() => { setDone(''); void load() }}>Muat ulang pengingat</button> : null}
+     </header>
+     <div className="panel creminders-tabs" role="tablist" aria-label="Bagian pengingat" onKeyDown={tabKey}>{tabs.map(t =>
+@@ -185,6 +187,7 @@
+     </> : null}
+     </div>
+     {opened.includes('SYSTEM') ? <div className="creminders-tabpanel" role="tabpanel" id="creminders-panel-SYSTEM" aria-labelledby="creminders-tab-SYSTEM" hidden={tab !== 'SYSTEM'}>
++      <StockScopePanel/><AccessoryReturnTasks/>
+       <SystemRemindersPanel owner={owner} onOpenWa={owner ? () => openTab('WA') : undefined}/></div> : null}
+     {owner && opened.includes('WA') ? <div className="creminders-tabpanel" role="tabpanel" id="creminders-panel-WA" aria-labelledby="creminders-tab-WA" hidden={tab !== 'WA'}>
+       <WaConnectionPanel/></div> : null}

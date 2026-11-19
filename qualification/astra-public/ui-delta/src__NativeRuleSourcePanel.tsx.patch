@@ -1,0 +1,144 @@
+--- a/src/NativeRuleSourcePanel.tsx
++++ b/src/NativeRuleSourcePanel.tsx
+@@ -1,3 +1,4 @@
++import {ReturnTaskList} from './AccessoryReturnTasks'
+ import {useEffect,useMemo,useRef,useState} from 'react'
+ import {useAuth} from './auth/AuthProvider'
+ import {getUatSupabaseClient} from './lib/supabase'
+@@ -7,10 +8,24 @@
+ import {productionLockManager,productionLockName,readProductionRecovery,hasProductionPending} from './productionRecovery'
+ import {formatFact} from './cp7/workspace'
+ import {reminderRuleIds,reminderRuleLabels,type ReminderRule} from './nativeReminderPolicy'
+-import {parseRuleSource,parseRuleObservations,parseLocalWorkspace,parseLocalCommand,readRuleRequest,persistRuleRequest,clearRuleRequest,ruleRequestKey,ruleConditionLabels,ruleEligibilityLabels,localClaimLabels,type RuleSource,type RuleObservationResult,type RuleRequest,type LocalWorkspace,type LocalClaim} from './nativeRuleSource'
++import {formatReceiptDecimal} from './procurementContract'
++import {laundryServices,parseRuleSource,parseRuleObservations,parseLocalWorkspace,parseLocalCommand,readRuleRequest,persistRuleRequest,clearRuleRequest,ruleRequestKey,ruleConditionLabels,ruleEligibilityLabels,localClaimLabels,type RuleSource,type RuleObservationResult,type RuleRequest,type LocalWorkspace,type LocalClaim} from './nativeRuleSource'
+ 
+ type Props={context:NativeAnalysis|null;generation:number;blocked:boolean;access:AnalysisFinanceAccess;onReadStart:()=>number;isReadCurrent:(n:number)=>boolean;onReadEnd:(n:number)=>void;onAnalysis:(a:NativeAnalysis,n:number)=>void;requireClear:()=>void}
+ type Facts={authority:string;generation:number;source:RuleSource|null;observations:RuleObservationResult|null;local:LocalWorkspace|null}
++type LastRead={authority:string;key:string;source:RuleSource}
++function originalKey(a:NativeAnalysis) {
++ const {actor_scope_id,allocation_scope_id,display_filter}=a.analysis.scope
++ return JSON.stringify([a.runId,actor_scope_id,allocation_scope_id,display_filter,a.analysis.versions.access_epoch,
++  a.analysis.snapshot.source_hash,a.query.from_date,a.query.through_date,a.query.group_mode])
++}
++function accessLost(e:unknown){
++ const normalized=normalizeClientError(e)
++ if(['AUTH_FAILED','AUTH_REQUIRED','FORBIDDEN','NOT_FOUND'].includes(normalized.code))return true
++ const raw=e as {code?:string;message?:string;status?:number}
++ return ['401','403','42501','PGRST301','PGRST302'].includes(String(raw?.code??raw?.status))||
++  /(?:FORBIDDEN|ACCESS_DENIED|SCOPE_CHANGED|ACCESS_CHANGED|ACCESS_EPOCH|RUN_NOT_FOUND)/i.test(raw?.message??'')
++}
+ const emptyFacts:Facts={authority:'',generation:-1,source:null,observations:null,local:null}
+ // Fabric condition reasons in plain words; the number itself stays the shared analysis fact.
+ const fabricReasonText:Record<string,string>={SOURCE_BOUND_ADDITIONAL_EXTERNAL_FABRIC_NEED:'Perlu tambahan kain dari luar menurut asumsi resep; ini bukan perintah beli.',
+@@ -24,22 +39,80 @@
+  FABRIC_DEADLINE_UNKNOWN:'Batas waktu kebutuhan belum diketahui.',FABRIC_INCOMING_OVERDUE:'Ada PO yang lewat tanggal datang dan belum diterima.',
+  FABRIC_INCOMING_ETA_UNKNOWN:'Ada PO tanpa tanggal datang.',FABRIC_PRODUCTION_DISABLED:'Produksi baru produk ini dihentikan.',
+  IMMUTABLE_ORIGINAL_REQUIRES_NEW_CAPTURE:'Analisis lama; ambil analisis baru.'}
++function LaundryServiceList({document}:{document:Record<string,unknown>}){
++ const rows=laundryServices(document)
++ if(!rows.length)return null
++ return <details><summary>Harga per layanan laundry</summary><ul>{rows.map(row=><li key={row.id}>
++  {row.service} · {row.covered_qty} pcs · {{UNKNOWN:'Tarif belum diketahui',FREE:'Gratis',WAIVED:'Dibebaskan',KNOWN:'Tarif diketahui'}[row.rate_status]}
++  {row.amount!==null&&<> · nilai layanan Rp{formatReceiptDecimal(row.amount)}</>}{row.reason&&<> · {row.reason}</>}
++ </li>)}</ul></details>
++}
+ export default function NativeRuleSourcePanel(props:Props){
+  const{runtime,identity}=useAuth()
+  if(runtime.mode!=='DISPOSABLE_TEST'||identity.status!=='AUTHORIZED'||!['OWNER','ADMIN','STAFF'].includes(identity.profile.role)||!['master.product.view','production.wip.view','warehouse.stock.view','sales.invoice.view'].every(p=>identity.permissions.includes(p)))return null
+- return <Conditions {...props} projectRef={runtime.projectRef} profileId={identity.profile.id} actor={identity.profile.authUserId} manage={['OWNER','ADMIN'].includes(identity.profile.role)&&identity.permissions.includes('master.product.manage')} ar={identity.permissions.includes('finance.ar.view')} ap={identity.permissions.includes('finance.ap.view')} payroll={identity.permissions.includes('finance.payroll.view')} accessoryPayables={identity.permissions.includes('warehouse.accessory.view')&&(identity.permissions.includes('finance.hpp.view')||identity.permissions.includes('finance.hpp.manage'))} laundry={identity.permissions.includes('production.laundry.view')&&(identity.permissions.includes('finance.hpp.view')||identity.permissions.includes('finance.hpp.manage'))}/>
++ const identityKey=JSON.stringify([runtime.projectRef,identity.profile.id,identity.profile.authUserId,identity.profile.role,
++  identity.profile.rowVersion,identity.profile.roleRowVersion,[...identity.permissions].sort(),props.access])
++ return <Conditions key={identityKey} {...props} projectRef={runtime.projectRef} profileId={identity.profile.id} actor={identity.profile.authUserId} manage={['OWNER','ADMIN'].includes(identity.profile.role)&&identity.permissions.includes('master.product.manage')} ar={identity.permissions.includes('finance.ar.view')} ap={identity.permissions.includes('finance.ap.view')} hpp={identity.permissions.includes('finance.hpp.view')} payroll={identity.permissions.includes('finance.payroll.view')} accessoryPayables={identity.permissions.includes('warehouse.accessory.view')&&(identity.permissions.includes('finance.hpp.view')||identity.permissions.includes('finance.hpp.manage'))} laundry={identity.permissions.includes('production.laundry.view')&&(identity.permissions.includes('finance.hpp.view')||identity.permissions.includes('finance.hpp.manage'))}/>
+ }
+-function Conditions(props:Props&{projectRef:string;profileId:string;actor:string;manage:boolean;ar:boolean;ap:boolean;payroll:boolean;accessoryPayables:boolean;laundry:boolean}){
++function Conditions(props:Props&{projectRef:string;profileId:string;actor:string;manage:boolean;ar:boolean;ap:boolean;hpp:boolean;payroll:boolean;accessoryPayables:boolean;laundry:boolean}){
+  const{runtime}=useAuth();if(runtime.mode!=='DISPOSABLE_TEST')throw Error('Sesi pemeriksaan kondisi belum siap.')
+- const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime]),scope='analysis:'+props.projectRef+':'+props.profileId,productionScope='erp:'+props.projectRef+':'+props.profileId,rights={ar:props.ar,ap:props.ap,payroll:props.payroll,accessoryPayables:props.accessoryPayables,laundry:props.laundry}
++ const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime]),scope='analysis:'+props.projectRef+':'+props.profileId,productionScope='erp:'+props.projectRef+':'+props.profileId,rights={hpp:props.hpp,ar:props.ar,ap:props.ap,payroll:props.payroll,accessoryPayables:props.accessoryPayables,laundry:props.laundry}
+  const authority=JSON.stringify([scope,props.actor,props.manage,rights,props.access]),authorityRef=useRef(authority);authorityRef.current=authority
+  const mounted=useRef(true),active=useRef<number|null>(null),[busy,setBusy]=useState(false),[error,setError]=useState(''),[message,setMessage]=useState(''),[facts,setFacts]=useState<Facts>(emptyFacts),[recovery,setRecovery]=useState(()=>readRuleRequest(scope))
++ const [last,setLast]=useState<LastRead|null>(null),[staleGeneration,setStaleGeneration]=useState<number|null>(null)
++ const contextKey=props.context?originalKey(props.context):null
++ const prior=last?.authority===authority&&(!contextKey||contextKey===last.key)?last:null
++ const historical=staleGeneration===props.generation&&props.isReadCurrent(props.generation)?prior:null
++ const readableOriginal=props.context??historical?.source.analysis
++ useEffect(()=>{if(contextKey&&last&&contextKey!==last.key){setLast(null);setStaleGeneration(null)}},[contextKey,last])
+  const[label,setLabel]=useState(''),[enabled,setEnabled]=useState(''),[selectedRules,setSelectedRules]=useState<ReminderRule[]>([]),[bindingReason,setBindingReason]=useState(''),[reviewed,setReviewed]=useState(false),[selectedKey,setSelectedKey]=useState(''),[resolutionReason,setResolutionReason]=useState(''),[resolutionOutcome,setResolutionOutcome]=useState(''),[resolutionReviewed,setResolutionReviewed]=useState(false),[page,setPage]=useState(0)
+  useEffect(()=>{mounted.current=true;return()=>{mounted.current=false}},[])
+- useEffect(()=>{const listener=(e:StorageEvent)=>{if(e.key===null||e.key===ruleRequestKey(scope)){setRecovery(readRuleRequest(scope));setFacts(emptyFacts);setReviewed(false);setResolutionReviewed(false)}};addEventListener('storage',listener);return()=>removeEventListener('storage',listener)},[scope])
+- const current=(n:number)=>mounted.current&&props.isReadCurrent(n)&&authorityRef.current===authority,data=facts.generation===props.generation&&facts.authority===authority?facts:null,source=data?.source,blocked=props.blocked||busy||Boolean(recovery.error||recovery.pending),eligible=source?.rows.filter(r=>r.eligibility==='LOCAL_PREVIEW_ELIGIBLE')??[],binding=data?.local?.binding
+- const perform=async(fn:(n:number)=>Promise<void>)=>{if(active.current!==null)return;const n=props.onReadStart();active.current=n;setBusy(true);setFacts(emptyFacts);setReviewed(false);setResolutionReviewed(false);setError('');setMessage('');try{await fn(n)}catch(e){if(current(n))setError(normalizeClientError(e).message)}finally{if(mounted.current){setBusy(false);setRecovery(readRuleRequest(scope))}if(active.current===n)active.current=null;props.onReadEnd(n)}}
+- const load=(local=false)=>{const original=props.context;void perform(async n=>{props.requireClear();if(!original)throw Error('Muat analisis ERP terlebih dahulu.');const r=local?await client.rpc('erp_cp7_get_local_reminders_v1',{p_run:original.runId}):await client.rpc('erp_cp7_get_rule_conditions_v1',{p_run:original.runId});if(!current(n))return;if(r.error)throw r.error;const workspace=local?await parseLocalWorkspace(r.data,original.query,props.actor,props.access,rights):null,source=workspace?.source??parseRuleSource(r.data,original.query,props.actor,props.access,rights);if(!current(n))return;assertSameAnalysis(original,source.analysis);setFacts({authority,generation:n,source,observations:null,local:workspace});setPage(0);props.onAnalysis(source.analysis,n)})}
++ useEffect(()=>{const listener=(e:StorageEvent)=>{if(e.key===null||e.key===ruleRequestKey(scope)){setRecovery(readRuleRequest(scope));setFacts(emptyFacts);setLast(null);setStaleGeneration(null);setReviewed(false);setResolutionReviewed(false)}};addEventListener('storage',listener);return()=>removeEventListener('storage',listener)},[scope])
++ const current=(n:number)=>mounted.current&&props.isReadCurrent(n)&&authorityRef.current===authority
++ const data=facts.generation===props.generation&&facts.authority===authority&&(!contextKey||!facts.source||originalKey(facts.source.analysis)===contextKey)?facts:null
++ const source=data?.source??historical?.source,blocked=props.blocked||busy||Boolean(recovery.error||recovery.pending)
++ const eligible=data?.source?.rows.filter(r=>r.eligibility==='LOCAL_PREVIEW_ELIGIBLE')??[],binding=data?.local?.binding
++ const perform=async(fn:(n:number)=>Promise<void>)=>{
++  if(active.current!==null)return
++  const n=props.onReadStart();active.current=n;setBusy(true);setFacts(emptyFacts);setStaleGeneration(null);setReviewed(false);setResolutionReviewed(false);setError('');setMessage('')
++  try{await fn(n)}catch(e){if(current(n))setError(normalizeClientError(e).message)}
++  finally{if(mounted.current){setBusy(false);setRecovery(readRuleRequest(scope))}if(active.current===n)active.current=null;props.onReadEnd(n)}
++ }
++ const load=(local=false)=>{
++  const original=readableOriginal
++  void perform(async n=>{
++   props.requireClear()
++   if(!original)throw Error('Muat analisis ERP terlebih dahulu.')
++   let changedAuthority=false
++   try{
++    const r=local?await client.rpc('erp_cp7_get_local_reminders_v1',{p_run:original.runId}):await client.rpc('erp_cp7_get_rule_conditions_v1',{p_run:original.runId})
++    if(!current(n))return
++    if(r.error)throw r.error
++    const raw=r.data as unknown as {source?:unknown;actor_scope_id?:string}|null
++    const envelope=(local?raw?.source:raw) as {actor_scope_id?:string;analysis?:{run_id?:string;analysis?:NativeAnalysis['analysis']}}|null
++    const body=envelope?.analysis?.analysis
++    changedAuthority=Boolean(envelope?.actor_scope_id&&envelope.actor_scope_id!==props.actor ||
++      envelope?.analysis?.run_id&&envelope.analysis.run_id!==original.runId ||
++      body?.versions?.access_epoch&&body.versions.access_epoch!==original.analysis.versions.access_epoch ||
++      body?.scope?.actor_scope_id!=null&&body.scope.actor_scope_id!==original.analysis.scope.actor_scope_id||
++      body?.scope?.allocation_scope_id!=null&&body.scope.allocation_scope_id!==original.analysis.scope.allocation_scope_id||
++      body?.scope?.display_filter!=null&&body.scope.display_filter!==original.analysis.scope.display_filter)
++    if(changedAuthority)throw Error('Akses atau cakupan observasi berubah. Muat kembali analisis.')
++    const workspace=local?await parseLocalWorkspace(r.data,original.query,props.actor,props.access,rights):null
++    const next=workspace?.source??parseRuleSource(r.data,original.query,props.actor,props.access,rights)
++    if(!current(n))return
++    assertSameAnalysis(original,next.analysis)
++    setLast({authority,key:originalKey(next.analysis),source:next});setFacts({authority,generation:n,source:next,observations:null,local:workspace})
++    setPage(0);props.onAnalysis(next.analysis,n)
++   }catch(e){
++    if(current(n)){
++     if(changedAuthority||accessLost(e))setLast(null)
++     else if(prior?.key===originalKey(original))setStaleGeneration(n)
++    }
++    throw e
++   }
++  })
++ }
+  const send=(request:RuleRequest,lookup=false)=>void perform(async n=>{
+   props.requireClear();const manager=productionLockManager();if(!manager)throw Error('Pencatatan pemeriksaan membutuhkan pengunci tab. Sumber masih dapat dibaca.')
+   await manager.request(productionLockName(productionScope),{mode:'exclusive',ifAvailable:true},async lock=>{
+@@ -51,17 +124,18 @@
+    if(!current(n))return;clearRuleRequest(scope,request.id);setRecovery(readRuleRequest(scope));setFacts({authority,generation:n,source,observations,local:command?.workspace??null});props.onAnalysis(source.analysis,n);setMessage((observations?.status??command?.status)==='COMMITTED'?'Catatan tersimpan. Status bisnis tetap mengikuti sumber ERP.':'Permintaan lama belum tersimpan dan sudah ditutup. Periksa sumber sebelum mencoba lagi.')
+   })
+  })
+- const action=(operation:RuleRequest['operation'],payload:RuleRequest['payload'])=>{try{props.requireClear();const held=readRuleRequest(scope);if(held.error||held.pending)throw Error(held.error??'Pastikan hasil permintaan lokal yang tertunda.');if(!props.context||!source)throw Error('Periksa sumber terlebih dahulu.');send({id:crypto.randomUUID(),query:props.context.query,operation,payload:{run_id:props.context.runId,...payload}})}catch(e){setError(normalizeClientError(e).message)}}
++ const action=(operation:RuleRequest['operation'],payload:RuleRequest['payload'])=>{try{props.requireClear();const held=readRuleRequest(scope);if(held.error||held.pending)throw Error(held.error??'Pastikan hasil permintaan lokal yang tertunda.');if(!props.context||!data?.source||historical)throw Error('Periksa sumber terlebih dahulu.');send({id:crypto.randomUUID(),query:props.context.query,operation,payload:{run_id:props.context.runId,...payload}})}catch(e){setError(normalizeClientError(e).message)}}
+  const retry=(lookup:boolean)=>{try{const held=readRuleRequest(scope);setRecovery(held);if(!held.pending)throw Error(held.error??'Permintaan lokal tidak tersedia.');send(held.pending,lookup)}catch(e){setError(normalizeClientError(e).message)}}
+  const saveBinding=()=>{if(!reviewed||!['true','false'].includes(enabled)||!label.trim()||!bindingReason.trim()||!selectedRules.length)return;action('BINDING',{expected_revision:binding?.revision??'0',enabled:enabled==='true',label,environment:'LOCAL_TEST_SINK',rules:selectedRules,reason:bindingReason})}
+  const finish=(claim:LocalClaim,outcome:'LOCAL_CAPTURE'|'UNKNOWN')=>action('OUTCOME',{claim_id:claim.id,fence:claim.fence,outcome})
+  const resolve=(claim:LocalClaim)=>{if(!resolutionReviewed||!resolutionReason.trim()||!['CAPTURE_CONFIRMED','NOT_CAPTURED_CONFIRMED'].includes(resolutionOutcome))return;action('RESOLUTION',{claim_id:claim.id,fence:claim.fence,outcome:resolutionOutcome,reason:resolutionReason})}
+  return <section aria-label="Kondisi masalah dan pratinjau lokal"><h3>Kondisi yang perlu ditangani</h3><p>Sudah dibaca, selesai ditinjau, dan hasil pesan adalah catatan terpisah. Masalah selesai hanya ketika sumber ERP membuktikannya.</p>
+-  <button disabled={blocked||!props.context}onClick={()=>load()}>Periksa kondisi masalah ERP</button>{props.manage?<button disabled={blocked||!props.context}onClick={()=>load(true)}>Muat pratinjau lokal tersimpan</button>:null}
++  <button disabled={blocked||!readableOriginal}onClick={()=>load()}>Periksa kondisi masalah ERP</button>{props.manage?<button disabled={blocked||!readableOriginal}onClick={()=>load(true)}>Muat pratinjau lokal tersimpan</button>:null}
+   {error?<p role="alert">{error}</p>:null}{recovery.error?<p role="alert">{recovery.error}</p>:null}{message?<p role="status">{message}</p>:null}
+   {recovery.pending?<aside><p>Hasil pencatatan belum diketahui. Permintaan yang sama dipertahankan.</p><button disabled={props.blocked||busy}onClick={()=>retry(false)}>Ulangi permintaan kondisi yang sama</button><button disabled={props.blocked||busy}onClick={()=>retry(true)}>Pastikan hasil kondisi di server</button></aside>:null}
+-  {source?<><p>Kondisi diperiksa {formatCp6WibDateTime(source.readAt)} · {source.rows.length} kondisi.</p><p>Saldo awal, gaji, aksesori, dan laundry mengikuti hak akses saat ini. Sisa tagihan disalin dari sumber ERP; tanggal yang belum dicatat tetap belum diketahui. Alokasi ke gaji dan perkiraan laundry belum membuktikan pembayaran.</p><button disabled={blocked}onClick={()=>action('EPISODES',{source_hash:source.hash})}>Catat pemeriksaan kondisi ERP</button>
+-   {source.rows.slice(page*25,(page+1)*25).map(r=><article key={r.key}aria-label={`Kondisi ${r.key}`}><h4>{reminderRuleLabels[r.rule_id]} · {r.label}</h4><p>{ruleConditionLabels[r.state]}. {r.value.unit==='DAY'?'Umur jatuh tempo: ':''}{formatFact(r.value)}</p>{r.rule_id==='FABRIC_NEED'?<p>{fabricReasonText[r.reason]??'Lihat penjelasan kebutuhan kain pada analisis bersama.'}</p>:null}{r.financial_source?<><p>Sisa tagihan: {formatFact(r.financial_source.remaining)}.</p><p>{r.financial_source.recorded_due_date?'Jatuh tempo '+r.financial_source.recorded_due_date:'Tanggal jatuh tempo belum dicatat'}.</p>{r.economic_state==='OPEN'?<p>Saldo kewajiban masih terbuka, termasuk ketika umur jatuh tempo belum diketahui.</p>:null}{r.reason==='ALLOCATION_NOT_SETTLEMENT'?<p>Nilai yang dialokasikan ke gaji belum membuktikan bahwa aksesori sudah dibayar.</p>:null}{['VALUE_PENDING','INVOICE_PENDING'].includes(r.reason)?<p>Nota belum lengkap. Perkiraan biaya belum menjadi saldo tagihan final.</p>:null}</>:null}<p>{ruleEligibilityLabels[r.eligibility]}. {r.policy_timing.next_at?'Dapat diperiksa lagi '+formatCp6WibDateTime(r.policy_timing.next_at)+'.':''}</p><p>{r.business_resolved?'Sumber membuktikan selesai.':'Belum ada bukti sumber bahwa masalah ini selesai.'}</p>{r.production_state==='PAUSED'||r.production_state==='STOPPED'?<p>Produksi ditunda atau dihentikan; kebutuhan tercatat tetap dipertahankan.</p>:null}<details><summary>Dasar pemeriksaan kondisi</summary><p>{r.reason} · {r.source_hash}</p><p>{r.policy_binding.policy?'Mengikuti versi aturan '+r.policy_binding.policy.revision+'.':'Aturan belum diatur.'}</p></details></article>)}
++  {historical&&<p role="status">Pembacaan gagal. Kondisi berikut memakai observasi terakhir yang berhasil pada {formatCp6WibDateTime(historical.source.readAt)} · {Math.max(0,Math.floor((Date.now()-Date.parse(historical.source.readAt))/60000))} menit lalu. Baca ulang untuk memperbarui.</p>}
++  {source?<>{Boolean(source.recostTasks?.length)&&<section aria-label="Hitung ulang HPP"><h4>HPP menunggu hitung ulang</h4><ul>{source.recostTasks!.map(t=><li key={t.queue_id}>{t.po_number??t.entity_id} · {t.status} · antrean {t.queue_id}</li>)}</ul></section>}{Boolean(source.returnTasks?.length)&&<ReturnTaskList rows={source.returnTasks!}/>}<p>Kondisi diperiksa {formatCp6WibDateTime(source.readAt)} · {source.rows.length} kondisi.</p><p>Saldo awal, gaji, aksesori, dan laundry mengikuti hak akses saat ini. Sisa tagihan disalin dari sumber ERP; tanggal yang belum dicatat tetap belum diketahui. Alokasi ke gaji dan perkiraan laundry belum membuktikan pembayaran.</p><button disabled={blocked||Boolean(historical)}onClick={()=>action('EPISODES',{source_hash:source.hash})}>Catat pemeriksaan kondisi ERP</button>
++   {source.rows.slice(page*25,(page+1)*25).map(r=><article key={r.key}aria-label={`Kondisi ${r.key}`}><h4>{reminderRuleLabels[r.rule_id]} · {r.label}</h4><p>{r.reason==='PRICE_KNOWN_AWAITING_INVOICE'?'Menunggu tagihan laundry':ruleConditionLabels[r.state]}. {r.value.unit==='DAY'?'Umur jatuh tempo: ':''}{formatFact(r.value)}</p>{r.rule_id==='FABRIC_NEED'?<p>{fabricReasonText[r.reason]??'Lihat penjelasan kebutuhan kain pada analisis bersama.'}</p>:null}{r.financial_source?<>{r.domain==='LAUNDRY_RECEIPT'&&<LaundryServiceList document={r.financial_source.document}/>}<p>Sisa tagihan: {formatFact(r.financial_source.remaining)}.</p><p>{r.financial_source.recorded_due_date?'Jatuh tempo '+r.financial_source.recorded_due_date:'Tanggal jatuh tempo belum dicatat'}.</p>{r.economic_state==='OPEN'?<p>Saldo kewajiban masih terbuka, termasuk ketika umur jatuh tempo belum diketahui.</p>:null}{r.reason==='ALLOCATION_NOT_SETTLEMENT'?<p>Nilai yang dialokasikan ke gaji belum membuktikan bahwa aksesori sudah dibayar.</p>:null}{r.reason==='PRICE_KNOWN_AWAITING_INVOICE'?<p>Tarif layanan sudah diketahui. Penerimaan menunggu tagihan untuk sisa yang belum ditagih.</p>:null}{r.reason==='LAUNDRY_FREE'?<p>Seluruh layanan tercatat gratis.</p>:null}{r.reason==='LAUNDRY_WAIVED'?<p>Seluruh layanan tercakup dalam tarif nol dan pembebasan yang tercatat.</p>:null}{['VALUE_PENDING','INVOICE_PENDING'].includes(r.reason)?<p>Nota belum lengkap. Perkiraan biaya belum menjadi saldo tagihan final.</p>:null}</>:null}<p>{ruleEligibilityLabels[r.eligibility]}. {r.policy_timing.next_at?'Dapat diperiksa lagi '+formatCp6WibDateTime(r.policy_timing.next_at)+'.':''}</p><p>{r.business_resolved?'Sumber membuktikan selesai.':'Belum ada bukti sumber bahwa masalah ini selesai.'}</p>{r.production_state==='PAUSED'||r.production_state==='STOPPED'?<p>Produksi ditunda atau dihentikan; kebutuhan tercatat tetap dipertahankan.</p>:null}<details><summary>Dasar pemeriksaan kondisi</summary><p>{r.reason} · {r.source_hash}</p><p>{r.policy_binding.policy?'Mengikuti versi aturan '+r.policy_binding.policy.revision+'.':'Aturan belum diatur.'}</p></details></article>)}
+    <nav aria-label="Halaman kondisi masalah"><button disabled={blocked||page===0}onClick={()=>setPage(p=>p-1)}>Kondisi sebelumnya</button><span>Halaman {page+1} dari {Math.max(1,Math.ceil(source.rows.length/25))}</span><button disabled={blocked||(page+1)*25>=source.rows.length}onClick={()=>setPage(p=>p+1)}>Kondisi berikutnya</button></nav>
+    {data?.observations?<section aria-label="Catatan pemeriksaan kondisi"><h4>Catatan pemeriksaan kondisi</h4>{data.observations.freshness==='HISTORICAL_SOURCE_CHANGED'?<p>Catatan ini memakai sumber sebelumnya. Sumber terkini ditampilkan pada daftar kondisi.</p>:null}{data.observations.rows.filter(r=>r.episode).map(r=><p key={r.condition.key}>{r.condition.label} · kejadian {r.episode!.number} · {r.episode!.state==='ARCHIVED'?'diarsipkan karena transaksi asal tidak aktif; bukan pembayaran':r.episode!.state==='RESOLVED'?'sumber membuktikan selesai':'masih terbuka'} · pertama dicatat {formatCp6WibDateTime(r.episode!.first_observed_at)}. {r.episode!.freshness==='UNKNOWN'?'Data kini belum pasti; umur masalah tetap dipertahankan.':''}</p>)}</section>:null}
+   </>:null}

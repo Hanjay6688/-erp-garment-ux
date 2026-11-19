@@ -1,0 +1,13 @@
+--- a/src/nativeStagedPlan.ts
++++ b/src/nativeStagedPlan.ts
+@@ -68,7 +68,9 @@
+  if(by.WIP.status==='OK'){
+   if(live.wipNow===null||live.wipSnapshot===null||live.increase===null||live.needNow===null||live.cutLimitNow===null)fail()
+   const inc=max0(sub(add(dec(live.fgNow),dec(live.wipNow!)),add(dec(live.fgSnapshot),dec(live.wipSnapshot!)))),need=max0(sub(dec(body.needed),inc))
+-  const y=body.yield,limit=y.basis==='UNKNOWN'?ceil(need):ceil({n:need.n*BigInt(y.denominator!),d:need.d*BigInt(y.numerator!)})
++  const y=body.yield,yieldLimit=y.basis==='UNKNOWN'?ceil(need):ceil({n:need.n*BigInt(y.denominator!),d:need.d*BigInt(y.numerator!)})
++  const step=BigInt(body.policyMultiple??'1'),rounded=ceil({n:need.n,d:need.d*step})*step
++  const limit=body.policyMultiple!==null&&rounded>yieldLimit?rounded:yieldLimit
+   if(!eq(dec(live.increase!),inc)||!eq(dec(live.needNow!),need)||!eq(dec(live.cutLimitNow!),{n:limit,d:1n}))fail()
+   if((by.NEED.status==='REFUSED')!==(need.n===0n||gt(dec(body.selected),{n:limit,d:1n}))||by.NEED.status==='UNKNOWN')fail()
+  }else if(by.NEED.status!=='UNKNOWN'||live.needNow!==null)fail()

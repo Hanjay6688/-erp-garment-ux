@@ -1,0 +1,61 @@
+(async function(){
+  const delay=ms=>new Promise(ok=>setTimeout(ok,ms));
+  const trace={events:[],checks:{},surface:navigator.userAgent,touch:navigator.maxTouchPoints,width:innerWidth,height:innerHeight};
+  let step='start';
+  const post=async(path,payload)=>{const r=await fetch(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});return r.json()};
+  const emit=label=>post('/event',{label,...trace});
+  document.addEventListener('visibilitychange',()=>trace.events.push(document.visibilityState));
+  const wait=async(fn,title)=>{step=title;for(let i=0;i<120;i++){const v=fn();if(v)return v;await delay(90)}throw Error(title)};
+  const buttons=d=>Array.from(d.querySelectorAll('button'));
+  const button=(d,label)=>wait(()=>buttons(d).find(e=>e.textContent.trim()===label&&!e.disabled),label);
+  const click=async(d,label)=>{const e=await button(d,label);e.focus();e.click();await delay(50)};
+  const fill=(el,text)=>{const setter=Object.getOwnPropertyDescriptor(Object.getPrototypeOf(el),'value').set;setter.call(el,text);el.dispatchEvent(new Event('input',{bubbles:true}))};
+  const find=(d,s,label)=>wait(()=>d.querySelector(s),label);
+  const must=(value,label)=>{if(!value)throw Error(label)};
+  try {
+    const main=document.querySelector('#analysis').contentDocument,rem=document.querySelector('#reminders').contentDocument;
+    await click(main,'Ambil analisis ERP terbaru');
+    await click(main,'Tanya AI');
+    const question=await find(main,'[aria-label="Pertanyaan analisis ERP"]','question');
+    fill(question,'Periksa sisa kain sintetis untuk uji perangkat.');await delay(100);
+    await click(main,'Periksa & salin pertanyaan untuk AI');
+    await wait(()=>main.body.innerText.includes('Salin otomatis gagal.'),'native clipboard denied');
+    const area=await find(main,'[aria-label="Salinan manual pertanyaan dan sumber ERP"]','manual copy');
+    const prompt=area.value,preview=main.querySelector('[aria-label="Pertanyaan dan sumber ERP"]').textContent;
+    must(prompt.length>1000&&prompt===preview&&prompt.includes(question.value),'complete checked source');area.focus();await delay(150);
+    must(area.selectionStart===0&&area.selectionEnd===prompt.length,'all prompt characters selected');
+    await click(main,'Periksa sumber & buka ChatGPT');
+    await wait(()=>main.body.innerText.includes('Tab diblokir.'),'sandbox popup denied');
+    const selected=await find(main,'[aria-label="Salinan manual pertanyaan dan sumber ERP"]','reread textarea');
+    must(selected.value===prompt&&main.querySelector('a[target="_blank"][href="https://chatgpt.com/"]'),'manual link without business content');
+    trace.checks.clipboard={native_rejection:true,popup_rejected:true,characters:prompt.length,selected:prompt.length,static_link:true};
+    await emit('clipboard');
+    const title=await find(rem,'[aria-label="Judul pengingat"]','real reminder input');
+    await wait(()=>!title.disabled,'reminder editable');
+    fill(title,'Catatan iOS belum disimpan');await delay(80);selected.focus();await delay(80);
+    const waitForReturn=fetch('/release').then(r=>r.json());await emit('switch');
+    await waitForReturn;
+    if(!window.developmentControl)must(trace.events.includes('hidden')&&trace.events.includes('visible'),'actual application lifecycle');
+    const retained=main.querySelector('[aria-label="Salinan manual pertanyaan dan sumber ERP"]');
+    must(retained.value===prompt&&title.value==='Catatan iOS belum disimpan','unsaved data after switching applications');
+    retained.blur();retained.focus();await delay(100);must(retained.selectionStart===0&&retained.selectionEnd===prompt.length,'select after returning');
+    trace.checks.returned={unsaved_text:true,full_source:true,selected:retained.selectionEnd-retained.selectionStart};
+    await emit('returned');
+    await click(main,'Produksi');
+    const batch=await wait(()=>buttons(main).find(b=>b.textContent.startsWith('Buka rincian batch')&&!b.disabled),'production batch');
+    const batchLabel=batch.textContent;batch.focus();batch.click();await click(main,'Kembali ke daftar batch');
+    await wait(()=>main.activeElement?.textContent===batchLabel,'focus returned to batch');
+    await click(main,'Stok');await post('/fault',{once:true});
+    await click(main,'Periksa sumber analisis');
+    await wait(()=>main.querySelector('[role=alert]')?.textContent.includes('belum dapat dipastikan'),'stale data warning');
+    must(!main.querySelector('.native-analysis-result'),'unconfirmed stock figure hidden');
+    await click(main,'Baca ulang sumber Stok dan WIP');
+    await find(main,'.native-analysis-result','fresh stock result');
+    trace.checks.stock={focus_returned:true,old_numbers_hidden:true,retry:true};await emit('complete');
+  } catch(e) {
+    trace.error=String(e.message||e);trace.step=step;
+    const doc=document.querySelector('#analysis')?.contentDocument;trace.alerts=doc?Array.from(doc.querySelectorAll('[role=alert]')).map(n=>n.textContent.slice(0,150)):[];
+    trace.buttons=doc?buttons(doc).filter(b=>!b.disabled).map(b=>b.textContent.trim()).slice(-22):[];
+    await emit('failed');
+  }
+})()

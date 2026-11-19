@@ -1,0 +1,13 @@
+--- a/src/WaConnectionPanel.tsx
++++ b/src/WaConnectionPanel.tsx
+@@ -176,8 +176,8 @@
+       <div>
+         <span className="eyebrow">SAMBUNGAN WHATSAPP · KHUSUS OWNER</span>
+         <h2>Teruskan pengingat ke WhatsApp Bos</h2>
+-        <p>Setiap pengingat sistem yang baru muncul, dan pengingat pribadi Bos yang waktunya sudah tiba, diteruskan ke WhatsApp Bos lewat CallMeBot.
+-          Ditambah ringkasan pada jam ringkasan. Hanya ke nomor Bos sendiri; pengingat pribadi staf tidak pernah diteruskan.</p>
++        <p>CallMeBot dapat meneruskan pengingat sistem sesuai pengaturan Bos.
++          Saat sambungan aktif dan opsi “Pengingat pribadi Bos” dipilih, pesan langsung atau ringkasan terjadwal ke nomor WhatsApp Bos dapat memuat judul pengingat Bos dan staf yang jatuh tempo.</p>
+         {data ? <small>Dibaca {formatCp6WibDateTime(data.readAt)}.</small> : null}
+       </div>
+       <button type="button" aria-label="Muat ulang sambungan WhatsApp" disabled={busy || writing !== null} onClick={reload}>Muat ulang sambungan</button>

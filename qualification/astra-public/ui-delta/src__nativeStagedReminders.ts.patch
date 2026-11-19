@@ -1,0 +1,13 @@
+--- a/src/nativeStagedReminders.ts
++++ b/src/nativeStagedReminders.ts
+@@ -223,7 +223,9 @@
+    :'Sudah lunas atau selesai — tidak ditagih.'
+   case'BELOW_THRESHOLD_NOW':return r.kind==='SNAPSHOT'&&r.ruleId==='PRODUCTION_GAP'?`Kekurangan sekarang ${n(x.need_now_pcs)} PCS, di bawah batas pengaturan ${n(x.threshold)} — tidak dibuat pratinjau.`:`Di bawah batas pengaturan ${n(x.threshold)} — tidak dibuat pratinjau.`
+   case'UNKNOWN_NOW':return'Belum bisa dipastikan sekarang (data proses atau sumber belum lengkap) — tidak dibuat pratinjau.'
+-  case'CHANGED_REVIEW_REQUIRED':return r.reason==='FABRIC_MATERIAL_CHANGED_AFTER_SNAPSHOT'?'Ada gerakan stok, PO, atau rencana potong bahan ini sejak analisis; jalankan analisis baru.'
++  case'CHANGED_REVIEW_REQUIRED':
++   if(r.reason==='SHARED_LAUNDRY_CHANGED_REVIEW_SCHEDULE')return 'Kiriman laundry atau jadwal pembagiannya berubah. Tinjau alokasi lalu ambil analisis terbaru.'
++   return r.reason==='OPENING_WIP_CHANGED_REVIEW_SCHEDULE'?'WIP saldo awal sudah berubah. Tinjau jadwal lalu ambil analisis terbaru untuk melihat kekurangan.':r.reason==='FABRIC_MATERIAL_CHANGED_AFTER_SNAPSHOT'?'Ada gerakan stok, PO, atau rencana potong bahan ini sejak analisis; jalankan analisis baru.'
+    :r.reason==='TARGET_PLANNED_AFTER_SNAPSHOT'?'Sudah ada rencana produksi untuk produk ini sejak analisis; jalankan analisis baru.':'Produk, kebijakan produksi, atau kebutuhan berubah sejak analisis; jalankan analisis baru.'
+   case'NO_LONGER_DUE':return'Belum jatuh tempo atau dokumennya tidak aktif lagi — tidak ditagih.'
+   case'NOT_FOUND_NOW':return'Kondisi ini tidak ada lagi di sumber ERP — tidak ditagih.'

@@ -1,0 +1,19 @@
+--- a/src/lib/clientError.ts
++++ b/src/lib/clientError.ts
+@@ -84,6 +84,16 @@
+   if (retention) return new ClientAppError('REJECTED', retention)
+   const master = masterMessage(candidate.message)
+   if (master) return new ClientAppError('REJECTED', master)
++  const switchRollMessages: Record<string, string> = {
++    cp7_switch_roll_busy: 'Transaksi terkait sedang berjalan. Muat ulang dan tinjau lagi setelah selesai.',
++    cp7_switch_roll_source_changed: 'Pemakaian atau roll sudah berubah. Muat ulang penerimaan dan pilih ulang.',
++    cp7_switch_roll_receipt_changed: 'Penerimaan sudah berubah. Muat ulang dan tinjau ulang revisinya.',
++    cp7_switch_roll_review_changed: 'Stok atau HPP berubah sejak ditinjau. Muat ulang dan hitung lagi dampaknya.',
++    cp7_switch_roll_insufficient_stock: 'Saldo roll tujuan kurang pada saat potong atau transaksi sesudahnya. Pilih roll lain yang sesuai fisik.',
++    cp7_switch_roll_target_unavailable: 'Roll tujuan tidak tersedia pada saat potong atau satuan bahannya berbeda.',
++    cp7_switch_roll_return_lineage: 'Riwayat kain kembali perlu diperiksa sebelum roll ini bisa dipindah.',
++  }
++  if (switchRollMessages[rawMessage]) return new ClientAppError('REJECTED', switchRollMessages[rawMessage])
+   if (code === '40001' || code === '40P01') {
+     return new ClientAppError('RETRYABLE_CONFLICT', 'Terjadi benturan sementara. Muat ulang sebelum mencoba lagi.', true)
+   }

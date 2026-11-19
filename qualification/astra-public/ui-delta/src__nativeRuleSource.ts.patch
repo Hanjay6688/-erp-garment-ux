@@ -1,0 +1,77 @@
+--- a/src/nativeRuleSource.ts
++++ b/src/nativeRuleSource.ts
+@@ -1,15 +1,17 @@
++import {parseReturnTasks,type ReturnTask} from './returnWorkContract'
+ import {parseNativeAnalysis,type NativeAnalysis,type AnalysisFinanceAccess} from './nativeAnalysis'
+ import {parseReminderPolicyRow,reminderRuleIds,reminderRuleLabels,type ReminderRule,type ReminderPolicyRow} from './nativeReminderPolicy'
+ import type {NativeDemandQuery} from './nativeDemandHistory'
+ import type {FactValue} from './cp7/contract'
+ import {financeDate} from './financeReportContract'
+ 
+-export type RuleRights={ar:boolean;ap:boolean;payroll?:boolean;accessoryPayables?:boolean;laundry?:boolean}
++export type RuleRights={ar:boolean;ap:boolean;payroll?:boolean;accessoryPayables?:boolean;laundry?:boolean;hpp?:boolean}
+ export const ruleDomains=['PRODUCTION','ACCESSORY','FABRIC','SALES_AR','MATERIAL_AP','OPENING_AR','OPENING_AP','PAYROLL_AP','ACCESSORY_AP','LAUNDRY_AP','LAUNDRY_RECEIPT','LAUNDRY_OPENING_UNINVOICED'] as const
+ export type RuleDomain=typeof ruleDomains[number]
+ export type NativeObligationFinancial={remaining:FactValue;recorded_due_date:string|null;document:Record<string,unknown>;document_sha256:string;revision_basis:'NATIVE_ROW_VERSION'|'NATIVE_DOCUMENT_CONTENT_SHA256'}
+ export type RuleCondition={domain:RuleDomain;economic_state:'NOT_APPLICABLE'|'OPEN'|'SETTLED'|'UNKNOWN'|'INACTIVE';financial_source:NativeObligationFinancial|null;key:string;rule_id:ReminderRule;target_key:string|null;source_id:string;material_key:string|null;source_hash:string;state:'ACTIVE'|'RESOLVED'|'NO_CURRENT_GAP'|'DATA_REVIEW'|'SOURCE_CHANGED';reason:string;value:FactValue;production_state:string|null;business_resolved:boolean;scope:string;label:string;policy_binding:{rule_id:ReminderRule;target_key:string|null;basis:'MISSING'|'GLOBAL'|'EXACT_TARGET';policy:ReminderPolicyRow|null};policy_timing:{status:string;ready:boolean;checked_at:string;next_at:string|null;meaning:'LOCAL_PREVIEW_ELIGIBILITY_ONLY_NOT_DELIVERY_OR_BUSINESS_RESOLUTION'};eligibility:string;delivery_sent:false;eligibility_meaning:'LOCAL_PREVIEW_ONLY_NOT_BUSINESS_RESOLUTION'}
+-export type RuleSource={analysis:NativeAnalysis;policyRows:ReminderPolicyRow[];rows:RuleCondition[];hash:string;readAt:string;coverage:Record<string,string>}
++type RecostTask={queue_id:string;entity_id:string;entity_type:string;po_number:string|null;status:'PENDING'|'RUNNING'|'FAILED'}
++export type RuleSource={recostTasks?:RecostTask[];returnTasks?:ReturnTask[];analysis:NativeAnalysis;policyRows:ReminderPolicyRow[];rows:RuleCondition[];hash:string;readAt:string;coverage:Record<string,string>}
+ export type RuleEpisode={id:string;number:string;previous_id:string|null;state:'ACTIVE'|'RESOLVED'|'ARCHIVED';archived_at?:string;freshness:'KNOWN'|'ASSUMED'|'UNKNOWN';first_observed_at:string;last_observed_at:string;resolved_at:string|null}
+ export type RuleObservation={condition:RuleCondition;episode:RuleEpisode|null;transition:string}
+ export type RuleObservationResult={source:RuleSource;status:'COMMITTED'|'NOT_COMMITTED';rows:RuleObservation[];freshness:'CURRENT_SOURCE'|'HISTORICAL_SOURCE_CHANGED'}
+@@ -58,11 +60,29 @@
+  }else if(domain==='LAUNDRY_AP'){native=record(document.native_document).remaining;recorded=record(document.header).due_date}
+  else if(['LAUNDRY_RECEIPT','LAUNDRY_OPENING_UNINVOICED'].includes(domain)&&m.state==='KNOWN'){
+   const links=document.native_invoices
+-  if(document.invoiced!==true||!Array.isArray(links)||!links.length||links.some(x=>record(x).native_status!=='PAID'))fail()
++  const charges=document.service_charges,qtySent=record(document.receipt??{}).qty_sent_pcs
++  const free=domain==='LAUNDRY_RECEIPT'&&document.invoiced===false&&Array.isArray(links)&&links.length===0&&Array.isArray(charges)&&charges.length>0&&charges.every(item=>{
++   const c=record(item)
++   return uint(qtySent)&&qtySent!=='0'&&c.covered_qty===qtySent&&['FREE','WAIVED'].includes(String(c.rate_status))&&sameMoney(c.unit_rate,'0')&&sameMoney(c.amount,'0')&&typeof c.reason==='string'&&c.reason.trim().length>0
++  })
++  if(!free&&(document.invoiced!==true||!Array.isArray(links)||!links.length||links.some(x=>record(x).native_status!=='PAID')))fail()
+   native='0'
+  }
+  const pendingMaterial=domain==='MATERIAL_AP'&&record(document.condition).state==='INVOICE_PENDING'
+  if(due!==(recorded??null)||m.state==='KNOWN'&&!sameMoney(m.value,native)||m.state==='UNKNOWN'&&signedDecimal(native)&&!pendingMaterial&&!['ACCESSORY_AP','LAUNDRY_RECEIPT','LAUNDRY_OPENING_UNINVOICED'].includes(domain))fail()
++}
++type LaundryService={id:string;service:string;rate_status:'UNKNOWN'|'KNOWN'|'FREE'|'WAIVED';covered_qty:string;unit_rate:string|null;amount:string|null;reason:string|null}
++export function laundryServices(doc:Record<string,unknown>):LaundryService[]{
++ if(!Object.hasOwn(doc,'service_charges'))return []
++ if(!Array.isArray(doc.service_charges))return fail()
++ return doc.service_charges.map(item=>{
++  const c=closed(item,['id','service','rate_status','covered_qty','unit_rate','amount','reason'])
++  if(!uuid(c.id)||typeof c.service!=='string'||!uint(c.covered_qty)||c.covered_qty==='0'||!['UNKNOWN','KNOWN','FREE','WAIVED'].includes(String(c.rate_status))
++    ||c.reason!==null&&typeof c.reason!=='string'||c.unit_rate!==null&&!signedDecimal(c.unit_rate)
++    ||c.rate_status==='UNKNOWN'&&c.amount!==null||c.rate_status!=='UNKNOWN'&&!signedDecimal(c.amount))return fail()
++  if((c.rate_status==='FREE'||c.rate_status==='WAIVED')&&(!sameMoney(c.amount,'0')||!sameMoney(c.unit_rate,'0')||typeof c.reason!=='string'||!c.reason.trim()))return fail()
++  return c as LaundryService
++ })
+ }
+ function nativeDocument(v:unknown):Record<string,unknown>{let nodes=0;const walk=(x:unknown,depth:number)=>{if(++nodes>250000||depth>30||typeof x==='number'||typeof x==='undefined')fail();if(x!==null&&typeof x==='object'){for(const y of Object.values(x))walk(y,depth+1)}else if(x!==null&&!['string','boolean'].includes(typeof x))fail()};if(!v||typeof v!=='object'||Array.isArray(v)||new TextEncoder().encode(JSON.stringify(v)).byteLength>8000000)fail();walk(v,0);return v as Record<string,unknown>}
+ function financial(v:unknown,domain:RuleDomain,id:string,dayRefs:unknown):NativeObligationFinancial{
+@@ -107,13 +127,20 @@
+  return structuredClone(r) as RuleCondition
+ }
+ export function parseRuleSource(v:unknown,q:NativeDemandQuery,actor:string,finance:AnalysisFinanceAccess,rights:RuleRights):RuleSource{
+- const e=closed(v,['contract_version','actor_scope_id','analysis','policy_rows','rows','page_complete','total','coverage','source_hash','read_at','external_delivery_enabled','full_family_acceptance','meaning'])
++ const e=closed(v,['contract_version','actor_scope_id','analysis','policy_rows','rows',...(v!==null&&typeof v==='object'&&Object.hasOwn(v,'recost_tasks')?['recost_tasks']:[]),'page_complete','total','coverage','source_hash','read_at','external_delivery_enabled','full_family_acceptance','meaning'])
+  if(e.contract_version!=='cp7.native-rule-conditions.v2'||e.actor_scope_id!==actor||e.page_complete!==true||e.external_delivery_enabled!==false||e.full_family_acceptance!==false||e.meaning!=='CURRENT_SOURCE_CONDITION_SEPARATE_FROM_ATTENTION_DELIVERY_AND_ORIGINAL'||!hash(e.source_hash)||!stamp(e.read_at)||!uint(e.total)||BigInt(e.total)>15000n||!Array.isArray(e.rows)||e.rows.length!==Number(e.total)||new TextEncoder().encode(JSON.stringify(e.rows)).byteLength>8000000||!Array.isArray(e.policy_rows)||e.policy_rows.length>4000)fail()
+  const analysis=parseNativeAnalysis(e.analysis,q,actor,finance),targets=new Set(analysis.labels.map(l=>l.key)),policies=(e.policy_rows as unknown[]).map(r=>parseReminderPolicyRow(r,rules(rights),targets));if(new Set(policies.map(r=>JSON.stringify([r.rule_id,r.scope_kind,r.scope_key]))).size!==policies.length)fail()
+  const coverage=closed(e.coverage,['production','accessory','fabric','sales_ar','material_ap','opening_ar','opening_ap','payroll_ap','accessory_ap','laundry_ap'])
+  if(coverage.production!=='COMPLETE_AUTHORIZED_ORIGINAL'||coverage.accessory!=='COMPLETE_AUTHORIZED_ORIGINAL_UNKNOWN_INSTALLATION_RETAINED'||coverage.fabric!=='COMPLETE_AUTHORIZED_ORIGINAL_UNKNOWN_PHYSICAL_AND_UNREVIEWED_RECIPE_RETAINED'||coverage.sales_ar!==(rights.ar?'COMPLETE_NATIVE_DOCUMENT_SCOPE':'EXCLUDED_BY_CURRENT_RIGHTS')||coverage.material_ap!==(rights.ap?'COMPLETE_NATIVE_DOCUMENT_SCOPE':'EXCLUDED_BY_CURRENT_RIGHTS')||coverage.opening_ar!==(rights.ar?'COMPLETE_NATIVE_DOCUMENT_SCOPE_CONTRACTOR_CASH_ADVANCE_EXCLUDED':'EXCLUDED_BY_CURRENT_RIGHTS')||coverage.opening_ap!==(rights.ap?'COMPLETE_NATIVE_DOCUMENT_SCOPE_CONTRACTOR_CASH_ADVANCE_EXCLUDED':'EXCLUDED_BY_CURRENT_RIGHTS')||coverage.payroll_ap!==(rights.ap&&rights.payroll===true?'COMPLETE_NATIVE_DOCUMENT_SCOPE':'EXCLUDED_BY_CURRENT_RIGHTS')||coverage.accessory_ap!==(rights.ap&&rights.accessoryPayables===true?'COMPLETE_NATIVE_RETURN_CARRY_SCOPE_UNKNOWN_UNALLOCATED_BALANCE_RETAINED':'EXCLUDED_BY_CURRENT_RIGHTS')||coverage.laundry_ap!==(rights.ap&&rights.laundry===true?'COMPLETE_NATIVE_INVOICE_RECEIPT_AND_OPENING_UNINVOICED_SCOPE_UNKNOWN_PENDING_RETAINED':'EXCLUDED_BY_CURRENT_RIGHTS'))fail()
+- const rows=(e.rows as unknown[]).map(r=>condition(r,analysis,policies,rights));if(new Set(rows.map(r=>r.key)).size!==rows.length||rows.filter(r=>r.rule_id==='PRODUCTION_GAP').length!==analysis.analysis.recommendations.length||rows.filter(r=>r.rule_id==='ACCESSORY_NEED').length!==analysis.analysis.material_needs.filter(m=>!m.material_key?.startsWith('FABRIC_')).length||rows.filter(r=>r.rule_id==='FABRIC_NEED').length!==analysis.analysis.material_needs.filter(m=>m.material_key?.startsWith('FABRIC_')).length)fail()
+- return{analysis,policyRows:policies,rows,hash:e.source_hash as string,readAt:e.read_at as string,coverage:coverage as Record<string,string>}
++ const all=e.rows as {domain?:string}[];const returnTasks=parseReturnTasks(all.filter(r=>r?.domain==='ACCESSORY_CUSTODY'));const rows=all.filter(r=>r?.domain!=='ACCESSORY_CUSTODY').map(r=>condition(r,analysis,policies,rights));if(new Set(rows.map(r=>r.key)).size!==rows.length||rows.filter(r=>r.rule_id==='PRODUCTION_GAP').length!==analysis.analysis.recommendations.length||rows.filter(r=>r.rule_id==='ACCESSORY_NEED').length!==analysis.analysis.material_needs.filter(m=>!m.material_key?.startsWith('FABRIC_')).length||rows.filter(r=>r.rule_id==='FABRIC_NEED').length!==analysis.analysis.material_needs.filter(m=>m.material_key?.startsWith('FABRIC_')).length)fail()
++ const jobs=e.recost_tasks??[]
++ if(!Array.isArray(jobs)||jobs.length>15000||jobs.length&&!rights.hpp)fail()
++ const seenJobs=new Set<string>(),recostTasks=(jobs as unknown[]).map(item=>{
++  const t=closed(item,['queue_id','entity_id','entity_type','po_number','status'])
++  if(!uuid(t.queue_id)||!uuid(t.entity_id)||typeof t.entity_type!=='string'||!t.entity_type||t.po_number!==null&&typeof t.po_number!=='string'||!['PENDING','RUNNING','FAILED'].includes(String(t.status))||seenJobs.has(String(t.queue_id)))fail()
++  seenJobs.add(String(t.queue_id));return t as RecostTask
++ })
++ return{analysis,policyRows:policies,rows,returnTasks,recostTasks,hash:e.source_hash as string,readAt:e.read_at as string,coverage:coverage as Record<string,string>}
+ }
+ export function parseRuleObservations(v:unknown,r:RuleRequest,actor:string,finance:AnalysisFinanceAccess,rights:RuleRights):RuleObservationResult{
+  const e=closed(v,['contract_version','actor_scope_id','source','result','result_freshness','external_delivery_enabled','business_DML']),res=closed(e.result,['request_id','status','source_hash','rows'])

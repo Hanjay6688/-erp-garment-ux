@@ -1,0 +1,61 @@
+--- a/src/nativeAnalysisPages.ts
++++ b/src/nativeAnalysisPages.ts
+@@ -69,14 +69,14 @@
+  const pagedRaw=object(e.paged),paged:AnalysisPageSet['paged']={}
+  for(const[k,raw]of Object.entries(pagedRaw)){if(!(ANALYSIS_PAGED_FIELDS as readonly string[]).includes(k))fail();const p=object(raw);exact(p,['prefix','items']);paged[k as PagedField]={prefix:count(p.prefix,0,Number.MAX_SAFE_INTEGER),items:count(p.items,1,Number.MAX_SAFE_INTEGER)}}
+  const keys=ANALYSIS_PAGED_FIELDS.filter(k=>paged[k]!==undefined)
+- if(targetsTotal===0?keys.length!==0:paged.actions===undefined)fail()
++ if(targetsTotal===0&&keys.length!==0)fail()
+  // Whole-run totals: every target is one recommendation or one unreviewed
+  // production policy; item totals equal the paged counts.
+  const t=object(e.totals);exact(t,['targets','items','recommendations','policy_unreviewed'])
+  const items=object(t.items);sameKeys(items,keys);const totalItems:Partial<Record<PagedField,number>>={}
+  for(const k of keys){if(items[k]!==paged[k]!.items)fail();totalItems[k]=paged[k]!.items}
+  const recommendations=states(t.recommendations),policyUnreviewed=count(t.policy_unreviewed,0,targetsTotal)
+- if(t.targets!==targetsTotal||stateSum(recommendations)!==(paged.recommendations?.items??0)||stateSum(recommendations)+policyUnreviewed!==targetsTotal||(paged.actions?.items??0)!==targetsTotal)fail()
++ if(t.targets!==targetsTotal||stateSum(recommendations)!==(paged.recommendations?.items??0)||stateSum(recommendations)+policyUnreviewed!==targetsTotal||(paged.actions?.items??0)<policyUnreviewed)fail()
+  // The header is inline: its listed size and hash must be the body's.
+  const h=object(e.header);exact(h,['utf8_bytes','sha256','body']);if(typeof h.body!=='string')fail()
+  const header={utf8Bytes:count(h.utf8_bytes,1,ANALYSIS_HEADER_UTF8_BYTES),sha256:hex64(h.sha256),body:h.body}
+@@ -128,6 +128,12 @@
+  if(!unique(a.sources.map(s=>s.source_key))||!unique(a.assumptions.map(x=>x.id))||!unique(a.dependencies.map(d=>d.domain))||a.snapshot.fact_count!==a.dependencies.reduce((n,d)=>n+d.fact_count,0))fail()
+  assertAnalysisFacts(a,new Set(a.assumptions.map(x=>x.id)))
+  const sources=new Map(a.sources.map(s=>[s.source_key,s])),inputs=new Map<string,{input:bigint;output:bigint}>()
++ const globalActionKeys=new Set(a.actions.map(action=>action.key)),targetLabels=new Set(labels.map(l=>l.key))
++ if(globalActionKeys.size!==a.actions.length)fail()
++ for(const action of a.actions){
++  if(action.source_keys.some(key=>!sources.has(key))||action.target_keys.some(key=>!targetLabels.has(key)))fail()
++  if(['FOLLOW_UP_LAUNDRY','REVIEW_QUEUE'].includes(action.intent)&&(!action.source_keys.length||action.target_keys.length!==0))fail()
++ }
+  for(const x of a.allocation_edges){const s=sources.get(x.source_key),i=pcs(x.input_qty),o=pcs(x.projected_output_qty)
+   if(!s||s.size_id!==x.size_id||i===null||o===null||o>i||i>0n&&!['CONFIRMED_TARGET','CANDIDATE_MATCH'].includes(x.match))fail()
+   const t=inputs.get(x.source_key)??{input:0n,output:0n};inputs.set(x.source_key,{input:t.input+i,output:t.output+o})}
+@@ -157,23 +163,23 @@
+   if(list.some(x=>!analysisSchemaMatches(x,k)))fail()
+   ;(items as unknown as Record<string,unknown[]>)[k]=structuredClone(list)
+  }
+- // Per page: each target is one recommendation or one unreviewed policy, and
+- // has exactly one action; every per-target item belongs to a target of this
+- // page; facts, assumptions, materials and edges are checked as for a whole run.
++ // A target has one recommendation or one unreviewed policy. Its actual work may
++ // require zero or several actions. Page counts, references and policy coverage
++ // bind those actions to this page independently of the number of targets.
+  const targets=entry.targetHi-entry.targetLo+1,recs=new Map(items.recommendations.map(r=>[r.target.key,r])),labels=new Set(h.labels.map(l=>l.key))
+  const unreviewed=items.generation_warnings.filter(w=>typeof w==='string'&&w.startsWith('PRODUCTION_POLICY_UNREVIEWED:'))
+  const summary=object(p.summary);exact(summary,['recommendations','policy_unreviewed'])
+  const byState=states(summary.recommendations),policyUnreviewed=count(summary.policy_unreviewed,0,targets)
+  const actual={ACTIVE:0,PAUSED:0,STOPPED:0,OTHER:0};for(const r of items.recommendations)actual[(['ACTIVE','PAUSED','STOPPED'] as string[]).includes(r.production_state)?r.production_state as 'ACTIVE':'OTHER']++
+  if(STATES.some(s=>actual[s]!==byState[s])||policyUnreviewed!==items.actions.filter(a=>a.primary_reason==='PRODUCTION_POLICY_UNREVIEWED').length)fail()
+- if(recs.size!==items.recommendations.length||recs.size+policyUnreviewed!==targets||items.actions.length!==targets||unreviewed.length!==policyUnreviewed||unreviewed.length!==items.generation_warnings.length
++ if(recs.size!==items.recommendations.length||recs.size+policyUnreviewed!==targets||unreviewed.length!==policyUnreviewed||unreviewed.length!==items.generation_warnings.length
+   ||items.recommendations.some(r=>!labels.has(r.target.key)))fail()
+  // Unreviewed targets can open their own history/model without first inventing
+  // a production policy. Bind those actions to the server's verified page too.
+  const reviewKeys=unreviewed.map(w=>w.slice('PRODUCTION_POLICY_UNREVIEWED:'.length))
+  if(new Set(reviewKeys).size!==reviewKeys.length||reviewKeys.some(k=>!labels.has(k)||recs.has(k)
+   ||!items.actions.some(a=>a.key===`review-policy-${k}`&&a.primary_reason==='PRODUCTION_POLICY_UNREVIEWED'&&a.intent==='REVIEW_SOURCE'&&a.target_keys.length===0)))fail()
+- if(new Set(items.actions.map(a=>a.key)).size!==items.actions.length||new Set(items.material_needs.map(x=>JSON.stringify([x.target_key,x.material_key]))).size!==items.material_needs.length)fail()
++ if(new Set([...h.analysisHeader.actions,...items.actions].map(a=>a.key)).size!==h.analysisHeader.actions.length+items.actions.length||new Set(items.material_needs.map(x=>JSON.stringify([x.target_key,x.material_key]))).size!==items.material_needs.length)fail()
+  const all=[...h.analysisHeader.assumptions,...items.assumptions],sources=new Set(h.analysisHeader.sources.map(s=>s.source_key))
+  if(new Set(all.map(a=>a.id)).size!==all.length)fail()
+  assertAnalysisFacts(items,new Set(all.map(a=>a.id)))

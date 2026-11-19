@@ -1,0 +1,70 @@
+--- a/src/waContract.ts
++++ b/src/waContract.ts
+@@ -17,11 +17,11 @@
+ export type ObligationKind = typeof obligationKinds[number]
+ const isObligationKind = (kind: string): kind is ObligationKind => obligationKinds.some(k => k === kind)
+ export const alertKinds = ['FABRIC_BELOW_MINIMUM', 'ACCESSORY_AT_REORDER_POINT', 'FG_AT_REORDER_POINT', 'AR_DUE', 'AP_DUE',
+-  'PRODUCTION_GAP', 'FABRIC_NEED', 'ACCESSORY_NEED', ...obligationKinds] as const
++  'PRODUCTION_GAP', 'FABRIC_NEED', 'ACCESSORY_NEED', ...obligationKinds, 'RECOST_PENDING'] as const
+ export type AlertKind = typeof alertKinds[number]
+ /** The order of cp7_alert_native.defaults(). */
+ export const waKinds = ['MANUAL_REMINDER', 'FABRIC_BELOW_MINIMUM', 'ACCESSORY_AT_REORDER_POINT', 'FG_AT_REORDER_POINT', 'AR_DUE', 'AP_DUE',
+-  'PRODUCTION_GAP', 'FABRIC_NEED', 'ACCESSORY_NEED', ...obligationKinds] as const
++  'PRODUCTION_GAP', 'FABRIC_NEED', 'ACCESSORY_NEED', ...obligationKinds, 'RECOST_PENDING'] as const
+ export type WaKind = typeof waKinds[number]
+ /** The order of the groups on the Pengingat sistem screen (the order of the WhatsApp message, render() in alerts.sql). */
+ export const alertKindOrder: readonly AlertKind[] = ['FABRIC_BELOW_MINIMUM', 'ACCESSORY_AT_REORDER_POINT', 'FG_AT_REORDER_POINT',
+@@ -42,6 +42,7 @@
+   ACCESSORY_AP: 'Kredit retur aksesori mandor',
+   LAUNDRY_AP: 'Tagihan laundry',
+   LAUNDRY_RECEIPT: 'Penerimaan laundry perlu diperiksa',
++  RECOST_PENDING: 'Hitung ulang HPP',
+   LAUNDRY_OPENING_UNINVOICED: 'Laundry awal belum ditagih',
+ }
+ export const isAnalysisKind = (kind: AlertKind) => kind === 'PRODUCTION_GAP' || kind === 'FABRIC_NEED' || kind === 'ACCESSORY_NEED'
+@@ -123,7 +124,8 @@
+  * (ESTIMATE, with its lama kirim); never the formula, so no cadangan or tingkat layanan. */
+ export type AccessoryMinimumDetail = { kind: 'ACCESSORY_AT_REORDER_POINT'; materialType: 'ACCESSORY'; basis: 'MANUAL' | 'ESTIMATE' } & MaterialReorderFields
+ export type MaterialReorderDetail = FabricFormulaDetail | AccessoryMinimumDetail
+-export type AlertDetail = FabricDetail | MaterialReorderDetail | FgReorderDetail | DueDetail | AnalysisDetail | AccessoryNeedDetail | ObligationDetail
++export type RecalculateCostDetail = { kind: 'RECOST_PENDING'; queueId:string; entityId:string; entityType:string; poNumber:string|null; status:'PENDING'|'RUNNING'|'FAILED' }
++export type AlertDetail = RecalculateCostDetail | FabricDetail | MaterialReorderDetail | FgReorderDetail | DueDetail | AnalysisDetail | AccessoryNeedDetail | ObligationDetail
+ export const isObligationDetail = (d: AlertDetail): d is ObligationDetail => obligationKinds.some(k => k === d.kind)
+ /** A detail with the material shape (a fabric on the formula, or an accessory), not the fabric minimum's. */
+ export const isMaterialReorderDetail = (d: AlertDetail): d is MaterialReorderDetail =>
+@@ -269,6 +271,11 @@
+ }
+ function detail(kind: AlertKind, v: unknown): AlertDetail {
+   const d = obj(v, 'rincian')
++  if (kind === 'RECOST_PENDING') {
++    keys(d,['queue_id','entity_id','entity_type','po_number','status'],'antrean HPP')
++    return {kind,queueId:uuidText(d.queue_id,'antrean HPP'),entityId:uuidText(d.entity_id,'sumber HPP'),entityType:str(d.entity_type,'jenis sumber'),
++      poNumber:maybeStr(d.po_number,'nomor PO'),status:oneOf(d.status,['PENDING','RUNNING','FAILED'] as const,'status hitung ulang')}
++  }
+   if (kind === 'ACCESSORY_NEED') return accessoryNeedDetail(d)
+   if (kind === 'FABRIC_BELOW_MINIMUM') {
+     // D17-10: a fabric on the formula has the material shape (it carries material_type and basis); the others the minimum's.
+@@ -432,6 +439,7 @@
+     // A finished-goods alert is keyed by its item (target_key root:size), a material alert by the material.
+     if (a.detail.kind === 'FG_AT_REORDER_POINT' && a.subjectKey !== `${a.detail.rootId}:${a.detail.sizeId}`) fail('pengingat')
+     if (isMaterialReorderDetail(a.detail) && a.subjectKey !== a.detail.materialId) fail('pengingat')
++    if (a.detail.kind==='RECOST_PENDING'&&a.subjectKey!==a.detail.queueId)fail('antrean HPP')
+     if (isObligationDetail(a.detail) && a.subjectKey !== `${kind === 'OPENING_AR' ? 'AR_DUE' : 'AP_DUE'}:${kind}:${a.detail.documentId}`) fail('pengingat')
+     if (a.detail.kind === 'ACCESSORY_NEED' && a.subjectKey !== `ACCESSORY_NEED:${a.detail.targetKey}:${a.detail.categoryKey}`) fail('pengingat')
+     return a
+@@ -775,6 +783,7 @@
+ /** One line of the numbers of a system reminder, in plain words. */
+ export function alertSummary(a: SystemAlert): string {
+   const d = a.detail
++  if (d.kind==='RECOST_PENDING') return `${d.poNumber??d.entityId} · antrean ${d.queueId} · ${d.status==='FAILED'?'perlu diperiksa':d.status==='RUNNING'?'sedang dihitung':'menunggu hitung ulang'}`
+   if (d.kind === 'ACCESSORY_NEED') {
+     const reasons = { BOM_NOT_RECORDED: 'BOM aksesori belum dicatat', BOM_AMBIGUOUS: 'BOM aksesori tumpang tindih; perlu diperiksa',
+       CATEGORY_UNAVAILABLE: 'Kategori aksesori tidak tersedia', INSTALLATION_AND_ELIGIBLE_UNUSED_SUPPLY_NOT_PROVEN: 'Pemasangan dan sisa yang dialokasikan belum terbukti' }
+@@ -787,6 +796,7 @@
+       UNKNOWN_NATIVE_REMAINING: 'Sisa kewajiban belum dapat dipastikan',
+       NATIVE_CREDIT_REVIEW: 'Saldo kredit perlu diperiksa',
+       VALUE_PENDING: 'Nilai tagihan final belum tersedia',
++      PRICE_KNOWN_AWAITING_INVOICE: 'Tarif layanan sudah diketahui, menunggu invoice',
+       ALLOCATION_NOT_SETTLEMENT: 'Alokasi belum membuktikan pembayaran',
+       SOURCE_REVIEW: 'Sumber perlu diperiksa',
+       INVOICED_LIABILITY_SEE_NATIVE_DOCUMENT: 'Sudah ditagih; nilai utang ada di invoice laundry',

@@ -1,0 +1,133 @@
+diff --git a/src/ProductionWorkList.tsx b/src/ProductionWorkList.tsx
+new file mode 100644
+--- /dev/null
++++ b/src/ProductionWorkList.tsx
+@@ -0,0 +1,128 @@
++import {BatchButton,BatchSourceDetails} from './BatchSourceDetails'
++import {formatCp6WibDateTime} from './cp6BusinessTime'
++import {useMemo, useRef, useState} from 'react'
++import type {AnalysisResult} from './cp7/contract'
++import {formatFact} from './cp7/workspace'
++
++type Props = Pick<AnalysisResult, 'sources'|'allocation_edges'|'recommendations'|'actions'> & {
++  labels: {key:string;sku:string;name:string}[]
++  runId:string
++  scope:string
++  scenario?:AnalysisResult['scenario']
++  timeline?:AnalysisResult['timeline']
++  onReviewTarget?:(key:string)=>void
++  pageOnly?:boolean
++}
++const filters = ['Semua tindakan', 'Selesaikan WIP', 'Cek kandidat', 'Potongan tambahan', 'Data perlu dicek'] as const
++type Lane = typeof filters[number] | 'Antrean kerja' | 'Laundry terlambat'
++type Card = {key:string;lane:Lane;source?:AnalysisResult['sources'][number];targets:Set<string>;reasons:Set<string>;rank:number;timed:boolean;queueRank?:number;related?:AnalysisResult['sources']}
++
++export default function ProductionWorkList({sources,allocation_edges,actions,recommendations,labels,runId,scope,pageOnly,scenario,timeline,onReviewTarget}:Props) {
++  const [filter,setFilter]=useState<Lane>('Semua tindakan')
++  const [opened,setOpened]=useState<{context:string;key:string;sourceKey:string}|null>(null)
++  const trigger=useRef<HTMLButtonElement|null>(null)
++  const context=JSON.stringify([runId,scope,scenario?.id,scenario?.version])
++  const due=useMemo(()=>{
++    const byTarget=new Map<string,number>()
++    for(const row of timeline??[]) if(row.first_gap_at){
++      const at=Date.parse(row.first_gap_at)
++      if(Number.isFinite(at))byTarget.set(row.target_key,Math.min(at,byTarget.get(row.target_key)??Infinity))
++    }
++    return byTarget
++  },[timeline])
++  const targetMap=useMemo(()=>new Map(recommendations.map(r=>[r.target.key,r])),[recommendations])
++  const names=useMemo(()=>new Map(labels.map(l=>[l.key,l.sku+' · '+l.name])),[labels])
++  const bySource=useMemo(()=>new Map(sources.map(s=>[s.source_key,s])),[sources])
++  const edges=useMemo(()=>{
++    const map=new Map<string,Props['allocation_edges']>()
++    for(const edge of allocation_edges) {const list=map.get(edge.source_key)??[];list.push(edge);map.set(edge.source_key,list)}
++    return map
++  },[allocation_edges])
++  const cards=useMemo(()=>{
++    const rows=new Map<string,Card>()
++    function add(key:string,lane:Lane,targets:string[],reasons:string[],rank:number,source?:Card['source'],timed=false) {
++      const row=rows.get(key)??{key,lane,source,targets:new Set<string>(),reasons:new Set<string>(),rank,timed:false}
++      targets.forEach(t=>row.targets.add(t));reasons.forEach(r=>row.reasons.add(r));row.rank=Math.min(row.rank,rank);row.timed||=timed
++      rows.set(key,row);return row
++    }
++    for(const a of actions){
++      if(a.intent==='FOLLOW_UP_LAUNDRY'||a.intent==='REVIEW_QUEUE')continue
++      const lane:Lane=a.intent==='FINISH_WIP'?'Selesaikan WIP':a.intent==='CHECK_CANDIDATE'?'Cek kandidat':a.intent==='START_NEW'?'Potongan tambahan':'Data perlu dicek'
++      const rank=a.display_priority.rank??Infinity
++      if(a.source_keys.length) for(const k of a.source_keys) add(lane+'|'+k,lane,a.target_keys,a.display_priority.basis,rank,bySource.get(k),a.display_priority.rule_version==='native-wip-eta-1')
++      else add(a.key,lane,a.target_keys,a.display_priority.basis,rank)
++    }
++    // Earlier Originals carry allocations without action cards. Read their signed edges as recorded.
++    for(const [k,allocations] of edges){
++      const source=bySource.get(k)
++      if(!source||!allocations.some(e=>targetMap.has(e.target_key)))continue
++      const lane=source.supply_kind==='DIRECTED'?'Selesaikan WIP':'Cek kandidat'
++      add(lane+'|'+k,lane,allocations.filter(e=>!pageOnly||targetMap.has(e.target_key)).map(e=>e.target_key),[],Infinity,source)
++    }
++    const cardsBySource=new Map<string,Card[]>()
++    for(const card of rows.values())if(card.source){
++      const key=card.source.source_key,group=cardsBySource.get(key)??[];group.push(card);cardsBySource.set(key,group)
++    }
++    for(const action of actions){
++      const rank=action.display_priority.rank??undefined
++      if(action.intent==='FOLLOW_UP_LAUNDRY'){
++        const batches=action.source_keys.map(k=>bySource.get(k)).filter((s):s is NonNullable<Card['source']>=>Boolean(s))
++        if(!batches.length)continue
++        const card=add(action.key,'Laundry terlambat',[],action.display_priority.basis,1,batches[0],true)
++        card.related=batches;card.queueRank=rank
++      }else if(action.intent==='REVIEW_QUEUE'){
++        const source=bySource.get(action.source_keys[0]);if(!source||rank===undefined)continue
++        const matches=cardsBySource.get(source.source_key)??[add(action.key,'Antrean kerja',[],[],rank,source,true)]
++        for(const card of matches){card.queueRank=rank;action.display_priority.basis.forEach(reason=>card.reasons.add(reason))}
++      }
++    }
++    for(const card of rows.values()) {
++      if(!card.source)continue
++      if(card.timed)continue
++      // Earlier Originals have no timing rank. Use their recorded ETA and first known gap only.
++      const deadline=Math.min(...[...card.targets].map(k=>due.get(k)??Infinity))
++      const eta=card.source.eta && card.source.eta_basis!=='UNKNOWN'?Date.parse(card.source.eta):NaN
++      const rank=!Number.isFinite(eta)?2:deadline===Infinity?3:eta>deadline?1:4
++      if(!Number.isFinite(card.rank))card.rank=rank
++      const etaLabel=Number.isFinite(eta)?' ETA '+formatCp6WibDateTime(card.source.eta!)+(card.source.eta_basis==='ASSUMED'?' (asumsi).':' (jadwal terkonfirmasi).'):''
++      const needLabel=Number.isFinite(deadline)?' Kebutuhan '+formatCp6WibDateTime(new Date(deadline).toISOString())+'.':''
++      card.reasons.add((rank===1?'ETA melewati waktu kebutuhan. Periksa peluang mempercepat batch.':rank===2?'ETA belum diketahui. Konfirmasi jadwal sebelum mengandalkan batch.':
++        rank===3?'Waktu kebutuhan belum diketahui. Periksa tanggal kebutuhan.':'ETA memenuhi waktu kebutuhan. Pantau jadwal batch.')+etaLabel+needLabel)
++    }
++    return [...rows.values()].sort((a,b)=>(a.queueRank??Infinity)-(b.queueRank??Infinity)||a.rank-b.rank||a.key.localeCompare(b.key))
++  },[actions,bySource,edges,targetMap,pageOnly,due])
++  const lanes:Lane[]=[...filters]
++  if(cards.some(c=>c.lane==='Laundry terlambat')||filter==='Laundry terlambat')lanes.push('Laundry terlambat')
++  if(cards.some(c=>c.queueRank!==undefined)||filter==='Antrean kerja')lanes.push('Antrean kerja')
++  const visible=cards.filter(c=>filter==='Semua tindakan'||c.lane===filter||filter==='Antrean kerja'&&c.queueRank!==undefined)
++  const targetCount=new Set(visible.flatMap(c=>[...c.targets])).size
++  const sourceCount=new Set(visible.flatMap(c=>c.related?.map(s=>s.source_key)??(c.source?[c.source.source_key]:[]))).size
++  return <section aria-label="Tindakan produksi"><h3>Tindakan produksi</h3>
++    <p>Run {runId} · cakupan {scope}{pageOnly?(actions.some(a=>a.intent==='REVIEW_QUEUE'||a.intent==='FOLLOW_UP_LAUNDRY')?' · antrean seluruh sumber dan rekomendasi halaman ini':' · tindakan untuk halaman ini'):''}</p>
++    <label>Filter tindakan <select value={filter} onChange={e=>{setFilter(e.target.value as Lane);setOpened(null)}}>{lanes.map(f=><option key={f}>{f}</option>)}</select></label>
++    <p>{visible.length} kartu · {targetCount} SKU/ukuran · {sourceCount} sumber batch</p>
++    {visible.length===0&&<p>Tidak ada tindakan untuk filter ini.</p>}
++    {visible.map(c=>{const batches=c.related??(c.source?[c.source]:[])
++      const detail=opened?.context===context&&opened.key===c.key?batches.find(s=>s.source_key===opened.sourceKey):undefined
++      return <article key={c.key} aria-label={c.lane+' '+(batches.map(s=>s.source_key).join(' ')||c.key)}
++      onClick={event=>{
++        if(!c.source||detail)return
++        if(event.target instanceof Element&&!event.target.closest('button,a,input,select,textarea,summary'))
++          event.currentTarget.querySelector<HTMLButtonElement>('button[aria-expanded]')?.click()
++      }}>
++      <h4>{c.lane}{c.source&&c.lane!=='Laundry terlambat'?' · '+c.source.source_key:''}</h4>
++      {batches.map(s=><BatchButton key={s.source_key} sourceKey={s.source_key} expanded={detail?.source_key===s.source_key}
++        onOpen={button=>{trigger.current=button;setOpened(detail?.source_key===s.source_key?null:{key:c.key,context,sourceKey:s.source_key})}}/>)}
++      {[...c.reasons].map(r=><p key={r}>{r}</p>)}
++      {c.source&&batches.length===1&&<p>Fisik {formatFact(c.source.physical_remaining)} · proyeksi {formatFact(c.source.eligible_projected)} · alokasi seluruh tujuan {formatFact(c.source.allocated)}</p>}
++      <ul>{[...c.targets].map(k=><li key={k}>{names.get(k)??k}
++        {c.source&&(edges.get(c.source.source_key)??[]).filter(e=>e.target_key===k).map((e,i)=><span key={i}> · {e.match==='CONFIRMED_TARGET'?'terarah':'alokasi bersyarat'} {formatFact(e.projected_output_qty)}</span>)}
++        {targetMap.has(k)&&<span> · kekurangan tersisa {formatFact(targetMap.get(k)!.q_conditional)}</span>}</li>)}</ul>
++      {detail&&<BatchSourceDetails source={detail}
++        edges={edges.get(detail.source_key)??[]} targets={[...c.targets]} reasons={[...c.reasons]}
++        labels={labels} runId={runId} scope={scope} scenario={scenario}
++        review={onReviewTarget?{targets:[...c.targets].filter(k=>targetMap.has(k)),open:onReviewTarget}:undefined}
++        onBack={()=>{setOpened(null);trigger.current?.focus()}}/>}
++    </article>})}
++  </section>
++}

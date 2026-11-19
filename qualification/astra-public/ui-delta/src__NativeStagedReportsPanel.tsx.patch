@@ -1,0 +1,101 @@
+--- a/src/NativeStagedReportsPanel.tsx
++++ b/src/NativeStagedReportsPanel.tsx
+@@ -1,3 +1,6 @@
++import type {PlanContext} from './nativePlanDraft'
++import {ReportBatchSources} from './BatchSourceDetails'
++import {parseAnalysisPageSet,parseAnalysisHeader,parseAnalysisPage,parseStagedCheck} from './nativeAnalysisPages'
+ import {useCallback,useEffect,useMemo,useRef,useState} from 'react'
+ import {useAuth} from './auth/AuthProvider'
+ import {getUatSupabaseClient} from './lib/supabase'
+@@ -18,22 +21,23 @@
+ // sealed summary and one section at a time. The analysis is always the
+ // snapshot "data per <time>"; actual stock, finance and HPP are the ones the
+ // server read for the report date.
+-type Props={staged:StagedAnalysis;blocked:boolean;financeAccess:AnalysisFinanceAccess}
++type Props={onPlan?:(context:PlanContext)=>void;staged:StagedAnalysis;blocked:boolean;financeAccess:AnalysisFinanceAccess}
+ type Base={seriesId:string;revision:string;kind:ReportKind}
+ export default function NativeStagedReportsPanel(props:Props){
+  const{runtime,identity}=useAuth();if(runtime.mode!=='DISPOSABLE_TEST'||identity.status!=='AUTHORIZED')return null
+- return<Reports {...props} key={`${runtime.projectRef}:${identity.profile.id}`} scope={`analysis:${runtime.projectRef}:${identity.profile.id}`} actor={identity.profile.authUserId}/>
++ return<Reports {...props} key={JSON.stringify([runtime.projectRef,identity.profile.id,identity.profile.roleRowVersion,[...identity.permissions].sort(),props.financeAccess])} scope={`analysis:${runtime.projectRef}:${identity.profile.id}`} actor={identity.profile.authUserId}/>
+ }
+-function Reports({staged,blocked:outer,financeAccess,scope,actor}:Props&{scope:string;actor:string}){
++function Reports({onPlan,staged,blocked:outer,financeAccess,scope,actor}:Props&{scope:string;actor:string}){
+  const{runtime}=useAuth();if(runtime.mode!=='DISPOSABLE_TEST')throw Error('Sesi laporan ERP belum siap.')
+  const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime]),run=staged.set,seq=useRef(0),mounted=useRef(true)
+  const[recovery,setRecovery]=useState(()=>readStagedReportRequest(scope)),[job,setJob]=useState<StagedReportJob|null>(null)
+  const[kind,setKind]=useState<ReportKind>(recovery.pending?.payload.kind??'DAILY'),[title,setTitle]=useState(recovery.pending?.payload.title??''),[reason,setReason]=useState(recovery.pending?.payload.reason??'')
+  const[withFinance,setWithFinance]=useState(false),[reviewed,setReviewed]=useState(false),[base,setBase]=useState<Base|null>(null)
+  const[compareWith,setCompareWith]=useState(''),[comparison,setComparison]=useState<StagedReportComparison|null>(null)
++ const [archivedSource,setArchivedSource]=useState<StagedAnalysis|null>(null)
+  const[report,setReport]=useState<StagedReport|null>(null),[section,setSection]=useState<StagedReportSection|null>(null),[sectionIndex,setSectionIndex]=useState(0),[index,setIndex]=useState<StagedReportIndex|null>(null)
+  const[busy,setBusy]=useState(false),[error,setError]=useState(''),[message,setMessage]=useState('')
+- const retireFacts=useCallback(()=>{setReport(null);setSection(null);setSectionIndex(0);setIndex(null);setJob(null);setBase(null);setReviewed(false);setMessage('')},[])
++ const retireFacts=useCallback(()=>{setReport(null);setArchivedSource(null);setSection(null);setSectionIndex(0);setIndex(null);setJob(null);setBase(null);setReviewed(false);setMessage('')},[])
+  useEffect(()=>{mounted.current=true;return()=>{mounted.current=false;++seq.current}},[])
+  useEffect(()=>{const listener=(e:StorageEvent)=>{if(e.key===null||e.key===stagedReportRequestKey(scope)){++seq.current;retireFacts();setBusy(false);setRecovery(readStagedReportRequest(scope))}};addEventListener('storage',listener);return()=>removeEventListener('storage',listener)},[scope,retireFacts])
+  const blocked=outer||busy
+@@ -42,7 +46,7 @@
+  // A refused or uncertain reread retires every server fact in this panel.
+  // Keep the request UUID: an uncertain publication still needs reconciliation.
+  const perform=async(op:(n:number)=>Promise<void>)=>{const n=++seq.current;setBusy(true);setError('');setMessage('');try{await op(n)}catch(e){if(n===seq.current&&mounted.current){retireFacts();setError(normalizeClientError(e).message)}}finally{if(n===seq.current&&mounted.current){setBusy(false);setRecovery(readStagedReportRequest(scope))}}}
+- const open=async(id:string,n:number)=>{setReport(null);setSection(null);setSectionIndex(0);setBase(null);setReviewed(false);const r=await client.rpc('erp_cp7_read_report_v2',{p_id:id});if(n!==seq.current)return;if(r.error)throw r.error;const d=await parseStagedReport(r.data,actor);if(n!==seq.current)return;if(d.id!==id)throw Error('Identitas laporan server berubah.');setReport(d)}
++ const open=async(id:string,n:number)=>{setReport(null);setArchivedSource(null);setSection(null);setSectionIndex(0);setBase(null);setReviewed(false);const r=await client.rpc('erp_cp7_read_report_v2',{p_id:id});if(n!==seq.current)return;if(r.error)throw r.error;const d=await parseStagedReport(r.data,actor);if(n!==seq.current)return;if(d.id!==id)throw Error('Identitas laporan server berubah.');setReport(d)}
+  const drive=(r:StagedReportRequest,lookup:boolean)=>perform(async n=>{
+   setReport(null);setSection(null)
+   const last=await driveStagedReport({rpc,request:r,lookup,aborted:()=>n!==seq.current||!mounted.current,onStatus:s=>{if(n===seq.current)setJob(s)}})
+@@ -64,6 +68,45 @@
+  const list=(before:string|null=null)=>void perform(async n=>{const r=await client.rpc('erp_cp7_list_reports_v2',{p_query:{before_id:before,limit:25}});if(n!==seq.current)return;if(r.error)throw r.error;setIndex(parseStagedReportIndex(r.data,actor,25))})
+  // OW-12a: the opened report against an earlier one, metric by metric, as the server compared the two stored reports.
+  const compare=()=>{const d=report,other=compareWith;if(!d||!other)return;void perform(async n=>{const r=await client.rpc('erp_cp7_compare_reports_v2',{p_before:other,p_after:d.id});if(n!==seq.current)return;if(r.error)throw r.error;const c=parseStagedReportComparison(r.data,actor,other,d.id);if(n===seq.current)setComparison(c)})}
++ const sourceArchive=report&&staged.header.analysisHeader&&staged.set.runId===report.runId&&staged.set.identityHash===report.identityHash?staged:
++  report&&archivedSource?.set.runId===report.runId&&archivedSource.set.identityHash===report.identityHash?archivedSource:null
++ const openSourceArchive=()=>{const d=report;if(!d)return;void perform(async n=>{
++  const result=await client.rpc('erp_cp7_read_staged_analysis_pages_v1',{p_run:d.runId})
++  if(n!==seq.current)return
++  if(result.error)throw result.error
++  const set=await parseAnalysisPageSet(result.data,d.runId,null)
++  if(set.identityHash!==d.identityHash)throw Error('Acuan sumber laporan berubah.')
++  const header=await parseAnalysisHeader(set,d.query,actor,financeAccess)
++  if(n===seq.current)setArchivedSource({kind:'STAGED',set,header})
++ })}
++ const readSourceActions=useCallback(async(key:string,signal:AbortSignal)=>{
++  const archive=sourceArchive
++  if(!archive)throw Error('Arsip batch belum terbaca.')
++  const actions:typeof archive.header.analysisHeader.actions=[...archive.header.analysisHeader.actions.filter(a=>a.source_keys.includes(key))]
++  for(const entry of archive.set.pages){
++   if(signal.aborted)break
++   if(!(entry.counts.actions??0))continue
++   const r=await client.rpc('erp_cp7_read_staged_analysis_page_v1',{p_run:archive.set.runId,p_access:archive.set.accessEpoch,p_index:entry.index})
++   if(signal.aborted)break
++   if(r.error){const e=normalizeClientError(r.error);if(['FORBIDDEN','AUTH_REQUIRED','AUTH_FAILED'].includes(e.code)){retireFacts();setError(e.message)}throw e}
++   const page=await parseAnalysisPage(r.data,archive.set,archive.header,entry.index)
++   actions.push(...page.items.actions.filter(a=>a.source_keys.includes(key)))
++  }
++  return actions
++ },[client,sourceArchive,retireFacts])
++ const reviewBatch=(target:string,source:string)=>{
++  const d=report,archive=sourceArchive
++  if(!d||!archive||!onPlan)return
++  void perform(async n=>{
++   const result=await client.rpc('erp_cp7_check_staged_snapshot_v1',{p_run:d.runId})
++   if(n!==seq.current)return
++   if(result.error)throw result.error
++   if(parseStagedCheck(result.data,d.runId).sourceState!=='UNCHANGED')throw Error('Sumber laporan berubah. Ambil analisis terbaru sebelum memeriksa rencana.')
++   if(archive.set.identityHash!==d.identityHash||!archive.header.analysisHeader.sources.some(s=>s.source_key===source))throw Error('Batch pilihan belum cocok dengan sumber laporan.')
++   onPlan({kind:'STAGED',runId:d.runId,identityHash:d.identityHash,targetKey:target,dataAsOf:archive.set.reference.capturedAt,
++    reportBatch:{reportId:d.id,sourceKey:source,scope:archive.header.analysisHeader.scope.allocation_scope_id}})
++  })
++ }
+  const readSection=()=>{const d=report;if(!d)return;const i=sectionIndex;void perform(async n=>{const r=await client.rpc('erp_cp7_read_report_section_v2',{p_id:d.id,p_index:i,p_access:d.accessEpoch});if(n!==seq.current)return;if(r.error)throw r.error;const s=await parseStagedReportSection(r.data,d,i);if(n===seq.current)setSection(s)})}
+  const revise=()=>{if(!report)return;setBase({seriesId:report.seriesId,revision:report.revision,kind:report.kind});setKind(report.kind);setReviewed(false);setMessage('Isi judul dan alasan revisi. Revisi memakai analisis bertahap yang sedang dibuka; isi laporan lama tetap tersimpan.')}
+  const pending=recovery.pending,mine=pending&&pending.payload.run_id===run.runId
+@@ -89,6 +132,8 @@
+    <p>{report.isLatest?'Versi terbaru dalam seri ini.':'Versi lama; revisi berikutnya sudah tersedia.'} Data analisis per {formatCp6WibDateTime(report.dataAsOf)}. {stagedReportFreshnessText(report)}</p>
+    <p>Stok barang jadi aktual dibaca {formatCp6WibDateTime(report.actualsReadAt)} · tanggal laporan {report.reportDate}. {report.finance==='INCLUDED'?'Keuangan dan HPP dari laporan keuangan ERP untuk tanggal itu.':'Keuangan dan HPP tidak dimasukkan.'}</p>
+    <p>Alasan: {report.reason}</p>
++   {sourceArchive?<ReportBatchSources key={report.id} analysis={sourceArchive.header.analysisHeader} labels={sourceArchive.header.labels}
++    runId={report.runId} readActions={readSourceActions} onReview={onPlan&&!blocked?reviewBatch:undefined}/>:<button type="button" disabled={blocked} onClick={openSourceArchive}>Buka sumber batch laporan</button>}
+    <button disabled={blocked||!report.isLatest||staged.header.query.from_date!==report.query.from_date||staged.header.query.through_date!==report.query.through_date||staged.header.query.group_mode!==report.query.group_mode} onClick={revise}>Buat revisi dari laporan ini</button>
+    <pre aria-label="Ringkasan laporan bertahap">{report.summary}</pre>
+    {report.sections.length?<div><label>Pilih bagian laporan<select aria-label="Pilih bagian laporan bertahap" value={sectionIndex} disabled={blocked} onChange={e=>{setSectionIndex(Number(e.target.value));setSection(null)}}>{report.sections.map(s=><option key={s.index} value={s.index}>Bagian {s.index+1}: target {s.targetLo}–{s.targetHi} dari {report.targetsTotal}</option>)}</select></label>

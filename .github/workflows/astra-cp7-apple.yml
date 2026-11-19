@@ -1,0 +1,44 @@
+name: Astra CP7 candidate on Apple simulators
+on:
+  push:
+    branches: [audit/astra-cp7-public-ffda]
+    paths:
+      - .github/workflows/astra-cp7-apple.yml
+      - qualification/astra-public/mobile*
+      - qualification/astra-public/SimulatorHost.swift
+      - qualification/astra-public/build-ui.cjs
+      - qualification/astra-public/source-pins.json
+      - qualification/astra-public/ui-delta/**
+permissions: {}
+jobs:
+  candidate:
+    runs-on: macos-15
+    timeout-minutes: 22
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [iPhone, iPad]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          path: audit
+          persist-credentials: false
+          sparse-checkout: qualification/astra-public
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: Hanjay6688/-erp-garment-ux
+          ref: a62504d71a6ca1cdbaa59b6fe0fd5739693f100a
+          path: product
+          persist-credentials: false
+          sparse-checkout: |
+            src
+            tests/fixtures
+      - name: Build and verify the candidate ERP screens
+        run: |
+          set -euo pipefail
+          npm ci --prefix product --no-audit --no-fund
+          node audit/qualification/astra-public/build-ui.cjs product "$RUNNER_TEMP/astra-ui"
+      - name: Run the candidate and switch applications on the Apple simulator
+        run: python3 audit/qualification/astra-public/mobile.py "${{ matrix.family }}" "$RUNNER_TEMP/astra-ui"
