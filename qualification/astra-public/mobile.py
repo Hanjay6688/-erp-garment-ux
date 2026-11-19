@@ -35,7 +35,9 @@ class App(BaseHTTPRequestHandler):
         if p=='/app':return self.reply(b'<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/ui.css"><div id="erp"></div><script src="/ui.js"></script>','text/html')
         if p=='/case.js':return self.reply((here/'mobile-case.js').read_bytes(),'text/javascript')
         if p in ('/ui.js','/ui.css'):return self.reply((assets/p[1:]).read_bytes(),'text/css' if p.endswith('css')else 'text/javascript')
-        if p=='/release':return self.reply({'released':resume.wait(60)})
+        if p=='/release':
+            resume.wait(360)
+            return self.reply({'released':resume.is_set()})
         return self.reply({},code=404)
     def do_POST(self):
         value=json.loads(self.rfile.read(int(self.headers['Content-Length'])))
@@ -95,17 +97,19 @@ with ThreadingHTTPServer(('127.0.0.1',0),App)as server:
         device,model,version=simulator(surface)
         print('ASTRA_SIMULATOR '+json.dumps({'model':model,'version':version}),flush=True)
         subprocess.run(['xcrun','simctl','boot',device],check=False);shell('xcrun','simctl','bootstatus',device,'-b')
-        flavor='Mobile Safari';bundle='com.apple.mobilesafari'
+        flavor=os.environ.get('ASTRA_IOS_ENGINE','Mobile Safari');bundle='com.apple.mobilesafari'
         try:
-            shell('xcrun','simctl','openurl',device,url)
-            try:wait_phase('switch',50)
-            except TimeoutError:
-                if state['calls'] or state['events']:raise
-                flavor='WKWebView';bundle='org.astra.audit.simulator'
+            if flavor=='Mobile Safari':
+                shell('xcrun','simctl','openurl',device,url)
+            elif flavor=='WKWebView':
+                bundle='org.astra.audit.simulator'
                 install_host(device);shell('xcrun','simctl','launch',device,bundle,url)
-                wait_phase('switch',40)
-            shell('xcrun','simctl','launch',device,'com.apple.Preferences');time.sleep(2.5)
-            shell('xcrun','simctl','launch',device,bundle);time.sleep(.8);resume.set()
+            else:raise ValueError('Unsupported Apple surface')
+            wait_phase('switch',240)
+            print('ASTRA_APP_SWITCH '+shell('xcrun','simctl','launch',device,'com.apple.Preferences'),flush=True)
+            time.sleep(4)
+            print('ASTRA_APP_RETURN '+shell('xcrun','simctl','launch',device,bundle),flush=True)
+            time.sleep(1.5);resume.set()
             wait_phase('complete',45)
             assert state['events']['complete']['touch']>0
         finally:

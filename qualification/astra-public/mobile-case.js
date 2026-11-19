@@ -34,7 +34,7 @@
     await wait(()=>!title.disabled,'reminder editable');
     fill(title,'Catatan iOS belum disimpan');await delay(80);selected.focus();await delay(80);
     const waitForReturn=fetch('/release').then(r=>r.json());await emit('switch');
-    await waitForReturn;
+    must((await waitForReturn).released,'host confirmed return from Settings');
     if(!window.developmentControl)must(trace.events.includes('hidden')&&trace.events.includes('visible'),'actual application lifecycle');
     const retained=main.querySelector('[aria-label="Salinan manual pertanyaan dan sumber ERP"]');
     must(retained.value===prompt&&title.value==='Catatan iOS belum disimpan','unsaved data after switching applications');
