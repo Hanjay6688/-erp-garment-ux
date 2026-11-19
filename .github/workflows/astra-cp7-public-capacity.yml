@@ -1,0 +1,41 @@
+name: Astra CP7 public runtime
+on:
+  push:
+    branches: [audit/astra-cp7-public-ffda]
+    paths:
+      - .github/workflows/astra-cp7-public-capacity.yml
+      - qualification/astra-public/runtime.py
+permissions: {}
+jobs:
+  global-inputs:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          sparse-checkout: qualification/global-preseal
+      - name: Verify the existing published Global installer and Linux runtime
+        run: |
+          set -euo pipefail
+          echo '25930a5519c806ec439dda4c06fe5cab869896d6b78dbb461a47cd0c6b369489  qualification/global-preseal/global-combined.patch.gz' | sha256sum -c -
+          docker version --format '{{.Server.Version}}'
+          python3 -c 'import json;print("ASTRA_PUBLIC_RUNTIME "+json.dumps({"standard_runner":"ubuntu-24.04","docker":True,"global_input_verified":True}))'
+  apple:
+    runs-on: macos-15
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [iPhone, iPad]
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          sparse-checkout: qualification/astra-public
+      - name: Exercise Mobile Safari and switch applications on the simulator
+        run: python3 qualification/astra-public/runtime.py "${{ matrix.family }}"
