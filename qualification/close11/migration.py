@@ -145,7 +145,32 @@ def merge_body(old,new,live,label):
 
 def ddl(cur,stmt,phase):
     try:cur.execute(stmt,prepare=False)
-    except Exception as exc:raise ValueError(f'{phase} SQLSTATE={getattr(exc,"sqlstate","NONE")} '+str(exc).splitlines()[0][:200]) from exc
+    except Exception as exc:raise ValueError(f'CLOSE11_DDL {phase} SQLSTATE {getattr(exc,"sqlstate","NONE")}') from exc
+
+PAYROLL_VIEW='erp.v_payroll_production_work_eligibility'
+PAYROLL_NATIVE='8b8b00a132cdb120b4349cd0296513d52047a227d478c080d1576d89731c1b18'
+PAYROLL_RENDERED='d4f8fcef04b11fabbf98c06ce374a3f03ce52c22f1b52ee041be79991ce60026'
+
+def install_payroll_view(cur,source):
+    # The qualified SKU stores one varchar[] -> text[] cast. Re-parsing its
+    # definition moves that cast to the two constants. The product guard pins
+    # the latter rendering. Both spellings are verified against PostgreSQL 17.6.
+    previous_path=cur.execute("select current_setting('search_path')").fetchone()[0]
+    cur.execute("set local search_path='pg_catalog'")
+    def current():
+        return cur.execute("select pg_get_viewdef(oid,false),md5(pg_get_viewdef(oid,true)),oid,pg_get_userbyid(relowner),reloptions,relacl::text from pg_class where oid=to_regclass(%s)",(PAYROLL_VIEW,)).fetchone()
+    raw,guard,*identity=current()
+    before=sha(raw.encode())
+    check(identity[1]=='postgres' and 'security_invoker=true' in (identity[2] or []),'CANDIDATE_PAYROLL_VIEW_IDENTITY')
+    if (before,guard)==(PAYROLL_NATIVE,'5e04553cdbb7e91404191dd4ca30a57b'):
+        ddl(cur,'create or replace view '+PAYROLL_VIEW+' with (security_invoker=true) as '+raw,'render retained payroll view')
+    canonical,guard,*same=current()
+    check(same==identity and (sha(canonical.encode()),guard)==(PAYROLL_RENDERED,'091e8dff818684c8acf080f75e6e7b17'),'CANDIDATE_PAYROLL_VIEW_PREIMAGE '+before)
+    ddl(cur,source,'install guarded payroll component entitlement')
+    actual,_,*same=current()
+    check(same==identity and actual!=canonical,'CANDIDATE_PAYROLL_VIEW_POSTIMAGE')
+    cur.execute("select set_config('search_path',%s,true)",(previous_path,))
+    return dict(before_sha256=before,guarded_predecessor_sha256=PAYROLL_RENDERED,after_sha256=sha(actual.encode()),identity_preserved=True)
 
 def apply(cur,sources):
     funcs,rights,whole,structs,alert_names=compile_plan(sources)
@@ -169,7 +194,10 @@ def apply(cur,sources):
     # are mutually dependent modules. The checks below reparse each complete
     # definition with validation enabled after all declarations and ACLs exist.
     cur.execute('set local check_function_bodies=off')
-    for path,s in whole:ddl(cur,s,path)
+    for path,s in whole:
+        if path=='scripts/cp7-src/payroll/component-entitlement.sql':
+            payroll=install_payroll_view(cur,s)
+        else:ddl(cur,s,path)
     expected={}
     for sig,(old,new) in funcs.items():
         row=cur.execute('select pg_get_functiondef(p.oid),p.prosrc,pg_get_userbyid(p.proowner),p.proacl::text from pg_proc p where oid=to_regprocedure(%s)',(sig,)).fetchone()
@@ -209,4 +237,4 @@ def apply(cur,sources):
             acl=cur.execute("select has_function_privilege('anon',to_regprocedure(%s),'execute'),has_function_privilege('authenticated',to_regprocedure(%s),'execute'),has_function_privilege('service_role',to_regprocedure(%s),'execute')",(sig,sig,sig)).fetchone()
             check(tuple(acl)==(False,sig.startswith('public.erp_cp7_'),False),'CANDIDATE_FUNCTION_AUTHORITY '+sig)
         installed[sig]={'body_sha256':sha(row[0].encode()),'owner':row[2]}
-    return {'functions':installed,'alert_definitions':alert_names,'structural_files':[p for p,_ in structs]+[p for p,_ in whole],'rights_statements':len(rights)}
+    return {'functions':installed,'alert_definitions':alert_names,'payroll_view':payroll,'structural_files':[p for p,_ in structs]+[p for p,_ in whole],'rights_statements':len(rights)}

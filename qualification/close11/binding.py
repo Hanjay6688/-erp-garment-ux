@@ -32,7 +32,7 @@ def diagnostic(step,e):
                 value=getattr(diag,key,None)
                 if value and re.fullmatch(r'[a-zA-Z0-9_.]{1,100}',value):line[key]=value
             msg=getattr(diag,'message_primary','') or ''
-            if re.fullmatch(r'(?:permission denied for|must be owner of|relation|function|schema|column|role|constraint|type|table|view) [a-zA-Z0-9_ .,"()]+',msg):
+            if re.fullmatch(r'(?:CP7|CP6|CLOSE11|GLOBAL|P20)_[A-Z0-9_]{2,150}',msg) or re.fullmatch(r'(?:permission denied for|must be owner of|relation|function|schema|column|role|constraint|type|table|view) [a-zA-Z0-9_ .,"()]+',msg):
                 line['message']=msg[:200]
         chain.append(line);e=e.__cause__ or e.__context__
     write('first-failure.json',dict(phase=step,causes=chain,production_go=False))
