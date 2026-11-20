@@ -39,6 +39,7 @@ def active_day(cursor):
 def run():
     origin = json.loads((OUT/"bf-verified.json").read_text())["cp6_rollback"]
     assert (origin["catalogue_sha256"], origin["platform_migrations"], origin["application_migrations"]) == (BF,128,113)
+    os.chdir(ROOT / "writer")
     candidate = ROOT / "global-candidate"
     catalogue, _, expected_sources = retained(TEMP / "cp75-original-sku.zip")
     root_raw = (RELEASE / licensed.ROOT_PATH).read_bytes()
@@ -54,18 +55,18 @@ def run():
     provider = owning.private_provider(original, admission)
     with owning.candidate_imports(candidate):
         owning.reviewed_profile(provider, profile_raw, root_raw)
-    provider = p20_batch.bind_provider(provider, RELEASE, candidate)
-    g04 = bind_switch_roll(provider, ROOT/"g04-product")
-    receipt = bind_s06(provider, ROOT/"s06-product", g04)
-    # The legacy qualification writes receipts under GITHUB_WORKSPACE/close11-evidence.
-    (WORK/"close11-evidence").mkdir(exist_ok=True)
-    binding.bind(provider, ROOT)
-    seed, identities, seed_proof = bind_seed(ROOT/"writer")
     settings = json.loads((TEMP/"cp75-sku-settings.json").read_text())
     assert all(k not in ("GH_TOKEN", "PGURL", "GITHUB_TOKEN") and not k.startswith(("GITHUB_","RUNNER_")) for k in settings)
     os.environ.update(settings)
     os.environ["CP6_FIXTURE_SCHEMA_PROFILE"] = "HOSTED_USAGE"
     with source_engine(ROOT, expected_sources, full_check=False, use_reviewed_digest=True) as (entry, engine):
+        provider = p20_batch.bind_provider(provider, RELEASE, candidate)
+        g04 = bind_switch_roll(provider, ROOT/"g04-product")
+        receipt = bind_s06(provider, ROOT/"s06-product", g04)
+        # The legacy qualification writes receipts under GITHUB_WORKSPACE/close11-evidence.
+        (WORK/"close11-evidence").mkdir(exist_ok=True)
+        binding.bind(provider, ROOT)
+        seed, identities, seed_proof = bind_seed(ROOT/"writer")
         credit = credit_seal(entry)
         foundation = Foundation(seed, identities, seed_proof, provider, active_day)
         lifecycle = DatedLifecycle(engine, provider, root_raw, profile_raw, None, credit=credit,
@@ -80,6 +81,7 @@ def run():
             lifecycle.verify(cur, state)
             receipt(state.global_installation)
             pre = cur.execute(SERVER).fetchone()[0]
+            write("global-before-commit", {"server":pre,"stage_timings":timings,"expected":OLD})
             assert pre["sha256"] == OLD and pre["groups"] == len(pre["counts"]) == 25
             conn.commit()
             foundation.after_commit(cur, report)

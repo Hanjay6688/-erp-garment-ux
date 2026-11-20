@@ -203,38 +203,43 @@ def seal():
         return c.execute("select cp7_global_nonpo_envelope.catalogue_fingerprint_v1()").fetchone()[0]
 
 
-def main():
-    assert os.environ["PGHOST"].endswith("/upgrade-socket") and seal()["sha256"]==OLD
+def cold_copy(container, archive, image):
+    docker("stop","-t","100",container,stdout=subprocess.DEVNULL)
+    try:
+        with archive.open("xb") as sink:
+            docker("run","--rm","--network","none","--user","0","-v",container+"-data:/restore/data:ro",
+                   "-v",container+"-config:/restore/config:ro","--entrypoint","sh",image,"-ec",
+                   "tar -C /restore -czf - data config",stdout=sink)
+    finally:
+        docker("start",container,stdout=subprocess.DEVNULL)
+    proof=frozen.inventory(archive)
+    proof.update(audit_baseline="COLD_GLOBAL_WITH_INACTIVE_NATIVE_JOBS",cold_control_sha256=proof["source_control_sha256"])
+    return proof
+
+
+def wait_for_seal(expected):
+    for _ in range(100):
+        try:
+            if seal()["sha256"]==expected:
+                return
+        except psycopg.OperationalError:
+            pass
+        time.sleep(1)
+    raise RuntimeError("PostgreSQL did not reopen at the expected version")
+
+
+def exercise_upgrade(container,image,origin,restore_lane):
+    assert seal()["sha256"]==OLD
     with psycopg.connect(**db()) as c:
         day=c.execute("select (now() at time zone 'Asia/Jakarta')::date").fetchone()[0]
     f=seed(day)
     before=read_history(f)
     rows=raw_state()
-    record("upgrade-before",{"business_day":str(day),"history":before,"rows_sequences":rows,"seal":OLD})
-    meta=json.loads((PRIVATE/"upgrade.json").read_text())
-    image=meta["postgres_image"]
-    name="cp75-upgrade-"+os.environ["GITHUB_RUN_ID"]
+    record("upgrade-before",{"origin":origin,"business_day":str(day),"history":before,"rows_sequences":rows,"seal":OLD})
     with tempfile.TemporaryDirectory(dir=PRIVATE) as directory:
         archive=Path(directory)/"old-with-history.tar.gz"
-        docker("stop","-t","100",name,stdout=subprocess.DEVNULL)
-        try:
-            with archive.open("xb") as sink:
-                docker("run","--rm","--network","none","--user","0","-v",name+"-data:/restore/data:ro",
-                       "-v",name+"-config:/restore/config:ro","--entrypoint","sh",image,"-ec",
-                       "tar -C /restore -czf - data config",stdout=sink)
-        finally:
-            docker("start",name,stdout=subprocess.DEVNULL)
-        for _ in range(100):
-            try:
-                if seal()["sha256"]==OLD:
-                    break
-            except psycopg.OperationalError:
-                pass
-            time.sleep(1)
-        else:
-            raise RuntimeError("historical test source did not restart")
-        proof=frozen.inventory(archive)
-        proof.update(audit_baseline="COLD_GLOBAL_WITH_INACTIVE_NATIVE_JOBS",cold_control_sha256=proof["source_control_sha256"])
+        proof=cold_copy(container,archive,image)
+        wait_for_seal(OLD)
         restore_digest=checkpoint.digest(archive)
         steps=[("g14",WORK/"g14/qualification/close12/product","77cc2c35a78c1fde725e37199a80f87a5f9965e3",MIDDLE),
                ("order",WORK/"rig/qualification/cp75-order","7a6d8ec30f17ddada5941c9a923f699a1367656a",TARGET)]
@@ -251,7 +256,7 @@ def main():
         record("upgrade-after",{"history":after,"rows_sequences":after_rows,"changed_rows_or_sequences":sorted(changed),
                                  "history_equal":before==after,"seal":seal()["sha256"]})
         assert before==after and not changed
-        _,socket=start("upgrade-restore",archive,image,proof,"cp6_rollback")
+        _,socket=start(restore_lane,archive,image,proof,"cp6_rollback")
         os.environ["PGHOST"]=str(socket)
         restored=read_history(f)
         restored_rows=raw_state()
@@ -259,6 +264,13 @@ def main():
                                    "all_rows_sequences_equal":restored_rows==rows,"physical_sha256":restore_digest,
                                    "table_and_sequence_count":len(rows),"history":restored})
         assert seal()["sha256"]==OLD and restored==before and restored_rows==rows
+
+
+def main():
+    assert os.environ["PGHOST"].endswith("/upgrade-socket")
+    meta=json.loads((PRIVATE/"upgrade.json").read_text())
+    exercise_upgrade("cp75-upgrade-"+os.environ["GITHUB_RUN_ID"],meta["postgres_image"],
+                     "original archived Global 44671146483","upgrade-restore")
 
 
 if __name__=="__main__":

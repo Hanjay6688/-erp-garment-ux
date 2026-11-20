@@ -42,6 +42,7 @@ jobs:
         sparse-checkout: |
           qualification/cp75-sku-forward
           qualification/cp75-factory-global
+          qualification/cp75-comparison
           qualification/cp75-original-live
           qualification/cp75-original-access
           qualification/cp75-global-pair
@@ -394,7 +395,7 @@ jobs:
       shell: bash
       run: |
         set -euo pipefail
-        export PYTHONPATH="$GITHUB_WORKSPACE/source/qualification/cp75-original-live:$GITHUB_WORKSPACE/source/qualification/cp75-original-access:$GITHUB_WORKSPACE/released/qualification/astra-public/global-final:$GITHUB_WORKSPACE/released/qualification:$GITHUB_WORKSPACE/auditor/scripts:$GITHUB_WORKSPACE/capture/qualification"
+        export PYTHONPATH="$GITHUB_WORKSPACE/source/qualification/cp75-comparison:$GITHUB_WORKSPACE/source/qualification/cp75-original-live:$GITHUB_WORKSPACE/source/qualification/cp75-original-access:$GITHUB_WORKSPACE/released/qualification/astra-public/global-final:$GITHUB_WORKSPACE/released/qualification:$GITHUB_WORKSPACE/auditor/scripts:$GITHUB_WORKSPACE/capture/qualification"
         python -u ../source/qualification/cp75-factory-global/target.py
     - name: Retain measured factory output
       if: always()
@@ -409,9 +410,11 @@ jobs:
     - name: Remove any separately opened recovery clone
       if: always()
       run: |
-        name="cp75-factory-restore-$GITHUB_RUN_ID"
-        if docker inspect "$name" >/dev/null 2>&1; then docker rm -f "$name"; fi
-        for v in "$name-data" "$name-config"; do if docker volume inspect "$v" >/dev/null 2>&1; then docker volume rm "$v"; fi; done
+        for lane in factory-clean factory-upgrade factory-restore factory-history-restore; do
+          name="cp75-$lane-$GITHUB_RUN_ID"
+          if docker inspect "$name" >/dev/null 2>&1; then docker rm -f "$name"; fi
+          for v in "$name-data" "$name-config"; do if docker volume inspect "$v" >/dev/null 2>&1; then docker volume rm "$v"; fi; done
+        done
     - name: Remove disposable database
       if: always()
       working-directory: base
