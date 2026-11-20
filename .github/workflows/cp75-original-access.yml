@@ -1,0 +1,21 @@
+name: CP7.5 original checkpoint access contract
+on:
+  push:
+    branches: [writer-a/cp75-baseline-public]
+    paths: [qualification/cp75-original-access/**, .github/workflows/cp75-original-access.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          sparse-checkout: qualification/cp75-original-access
+          persist-credentials: false
+      - run: python3 -m pip install --quiet 'cryptography==46.0.3'
+      - name: Check two archives, the recipient and replay boundaries
+        working-directory: qualification/cp75-original-access
+        run: python3 -m unittest -v test_access.py
