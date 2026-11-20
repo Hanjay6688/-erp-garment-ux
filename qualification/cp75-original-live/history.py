@@ -74,6 +74,7 @@ def bank_code(cur,fixture,owner):
 def seed(day):
     with psycopg.connect(**db()) as conn,conn.cursor() as cur:
         owner,other=actors(cur)
+        readers={role:master.role_actor(cur,role) for role in ("ADMIN","KEUANGAN")}
         products=opening.import_batch(cur,day,2,opening.Phases())
         row,control=profile_figures.ordered_opening(cur,products)
         assert stock(cur,row)==50
@@ -99,39 +100,33 @@ def seed(day):
         assert changed["original_status"]=="REVERSED" and changed["status"]=="POSTED"
         conn.commit()
         record("old-documents",{"sku":str(row["product"]),"sales":[warm,left,right],"purchase":f["receipt"]["purchase_id"],
-                               "original_payment":f["target"],"replacement":changed["payment_id"],"actors":[owner,other]})
+                               "original_payment":f["target"],"replacement":changed["payment_id"],"actors":[owner,other],"readers":readers})
         # Published work and its draft must exist before migration, including the stored report sections.
         production=plan.schedule.supply.capture(cur,day,subject=owner)
         snap=reports.staged_run(cur,day,subject=owner)
         _,done,_=reports.published(cur,snap,subject=owner,title="CP7.5 laporan tersimpan")
         conn.commit()
         assert payments.physical_state(cur)==f["physical"]
-        return dict(owner=owner,other=other,row=row,control=control["product"],deferred=x["f"]["product"],
+        return dict(owner=owner,other=other,readers=readers,row=row,control=control["product"],deferred=x["f"]["product"],
                     supply_id=str(production["run_id"]),plan_query=x["query"],warm=warm,left=left,right=right,fixture=f,bank=bank,
                     replacement=changed["payment_id"],draft=draft["draft_id"],run=x["run"],job=x["key"],publication=done["publication_id"])
 
 
 def report_permissions(cur, f):
-    """Exercise active roles with temporary subjects. Preserve the exact privileges and all fixture rows."""
+    """Read with the same seeded subjects before and after migration and recovery."""
     admin(cur)
     permissions = cur.execute("""select r.role_code, p.permission_key
         from erp.app_roles r left join erp.app_role_permissions p on p.role_id=r.id
         where r.is_active order by r.role_code,p.permission_key""").fetchall()
     assert {"OWNER","ADMIN","KEUANGAN"} <= {role for role,_ in permissions}
     matrix = {"OWNER": {"own_report": "READ", "foreign_report": "42501"}}
-    cur.execute("savepoint cp75_scoped_roles")
-    try:
-        for role in ("ADMIN", "KEUANGAN"):
-            subject = master.role_actor(cur, role)
-            profile = master.call(cur, "select public.erp_get_my_access_v1()", (), subject)
-            assert profile["allowed"] is True, role
-            state, code, _ = plan.refusal(cur, lambda: reports.read(cur, f["publication"], subject))
-            assert state == "42501", (role, state, code)
-            matrix[role] = {"profile_allowed":True, "foreign_report": state, "denial":code}
-    finally:
-        cur.execute("rollback to savepoint cp75_scoped_roles")
-        cur.execute("release savepoint cp75_scoped_roles")
-        admin(cur)
+    for role, subject in f["readers"].items():
+        profile = master.call(cur, "select public.erp_get_my_access_v1()", (), subject)
+        assert profile["allowed"] is True, role
+        state, code, _ = plan.refusal(cur, lambda: reports.read(cur, f["publication"], subject))
+        assert state == "42501", (role, state, code)
+        matrix[role] = {"profile_allowed":True, "foreign_report":state, "denial":code}
+    admin(cur)
     return {"matrix":matrix,"active_role_grants_sha256":stamp(permissions),
             "active_roles":len({r for r,_ in permissions}), "granted_pairs":sum(p is not None for _,p in permissions)}
 
@@ -232,23 +227,24 @@ def wait_for_seal(expected):
     raise RuntimeError("PostgreSQL did not reopen at the expected version")
 
 
-def exercise_upgrade(container,image,origin,restore_lane):
-    assert seal()["sha256"]==OLD
+def exercise_upgrade(container,image,origin,restore_lane,*,catalogues=None):
+    old,middle,target = catalogues or (OLD,MIDDLE,TARGET)
+    assert seal()["sha256"]==old
     with psycopg.connect(**db()) as c:
         day=c.execute("select (now() at time zone 'Asia/Jakarta')::date").fetchone()[0]
     f=seed(day)
     before=read_history(f)
     rows=raw_state()
-    record("upgrade-before",{"origin":origin,"business_day":str(day),"history":before,"rows_sequences":rows,"seal":OLD})
+    record("upgrade-before",{"origin":origin,"business_day":str(day),"history":before,"rows_sequences":rows,"seal":old})
     with tempfile.TemporaryDirectory(dir=PRIVATE) as directory:
         archive=Path(directory)/"old-with-history.tar.gz"
         proof=cold_copy(container,archive,image)
-        wait_for_seal(OLD)
+        wait_for_seal(old)
         restore_digest=checkpoint.digest(archive)
         backup=checkpoint.seal(archive,OUT/"historical-before-upgrade.cp75",WORK/"capture/qualification/close11/auditor-public.pem")
         record("upgrade-resume",{"origin":origin,"archive":backup,"physical_sha256":restore_digest,"image":image,"copy":proof})
-        steps=[("g14",WORK/"g14/qualification/close12/product","77cc2c35a78c1fde725e37199a80f87a5f9965e3",MIDDLE),
-               ("order",WORK/"rig/qualification/cp75-order","7a6d8ec30f17ddada5941c9a923f699a1367656a",TARGET)]
+        steps=[("g14",WORK/"g14/qualification/close12/product","77cc2c35a78c1fde725e37199a80f87a5f9965e3",middle),
+               ("order",WORK/"rig/qualification/cp75-order","7a6d8ec30f17ddada5941c9a923f699a1367656a",target)]
         for name,path,oid,want in steps:
             installer=load_installer(name,path,oid)
             with psycopg.connect(**db()) as c:
@@ -269,7 +265,7 @@ def exercise_upgrade(container,image,origin,restore_lane):
         record("upgrade-restored",{"origin_seal":seal()["sha256"],"history_equal":restored==before,
                                    "all_rows_sequences_equal":restored_rows==rows,"physical_sha256":restore_digest,
                                    "table_and_sequence_count":len(rows),"history":restored})
-        assert seal()["sha256"]==OLD and restored==before and restored_rows==rows
+        assert seal()["sha256"]==old and restored==before and restored_rows==rows
 
 
 def main():

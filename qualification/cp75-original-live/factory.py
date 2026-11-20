@@ -29,27 +29,28 @@ def socket(path):
     os.environ.pop("PGPASSWORD",None)
 
 
-def finish(container, image, origin):
+def finish(container, image, origin, *, catalogues=None):
+    old,middle,target = catalogues or (history.OLD,history.MIDDLE,history.TARGET)
     OUT.mkdir(parents=True,exist_ok=True)
     history.OUT=OUT
-    assert history.seal()["sha256"]==history.OLD
+    assert history.seal()["sha256"]==old
     install=history.load_installer("g14",WORK/"g14/qualification/close12/product","77cc2c35a78c1fde725e37199a80f87a5f9965e3")
     with psycopg.connect(**history.db()) as conn:
         changed=install.apply(conn,"up")
     midway=history.seal()
-    assert changed["changed"] and midway["sha256"]==history.MIDDLE
+    assert changed["changed"] and midway["sha256"]==middle
     _,factory=sources(WORK/"auditor",WORK/"rig/qualification/cp75-order")
     with psycopg.connect(**history.db()) as conn:
         result=apply_factory(conn,factory)
     clean_seal=history.seal()
-    assert clean_seal["sha256"]==history.TARGET and clean_seal["groups"]==len(clean_seal["counts"])==25
+    assert clean_seal["sha256"]==target and clean_seal["groups"]==len(clean_seal["counts"])==25
     write("factory-target",{"origin":origin,"G14":changed,"factory_reader":result,"seal":clean_seal})
     before_rows=history.raw_state()
     pub=WORK/"capture/qualification/close11/auditor-public.pem"
     with tempfile.TemporaryDirectory(dir=PRIVATE) as directory:
         baseline=Path(directory)/"pre-events.tar.gz"
         before_meta=history.cold_copy(container,baseline,image)
-        history.wait_for_seal(history.TARGET)
+        history.wait_for_seal(target)
         before_hash=checkpoint.digest(baseline)
         write("factory-baseline",{"rows_sequences":before_rows,"seal":clean_seal,"physical_sha256":before_hash,
                                  "archive":checkpoint.seal(baseline,OUT/"baseline.cp75",pub)})
@@ -58,10 +59,10 @@ def finish(container, image, origin):
         fixture=history.seed(day)
         observed=history.read_history(fixture)
         rows=history.raw_state()
-        write("factory-posted",{"history":observed,"rows_sequences":rows,"target":history.TARGET,"day":day,"origin":origin})
+        write("factory-posted",{"history":observed,"rows_sequences":rows,"target":target,"day":day,"origin":origin})
         posted=Path(directory)/"posted.tar.gz"
         posted_meta=history.cold_copy(container,posted,image)
-        history.wait_for_seal(history.TARGET)
+        history.wait_for_seal(target)
         _,posted_socket=start("clean-posted-recovery",posted,image,posted_meta,"cp6_rollback")
         socket(posted_socket)
         restored=history.read_history(fixture)

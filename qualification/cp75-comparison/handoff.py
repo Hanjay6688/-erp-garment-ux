@@ -2,14 +2,14 @@
 import argparse
 import json
 from pathlib import Path
-from compare import compare, read, business
+from compare import compare, read, business, OLD, TARGET
 
 def per_case(label, expected, clean, upgrade):
     return {"case":label,"expected":expected,"clean":clean,"upgrade":upgrade,"equal":clean==upgrade==expected}
 
 
-def main(clean, upgrade, output):
-    summary=compare(clean,upgrade)
+def main(clean, upgrade, output, *, target=TARGET, predecessor=OLD):
+    summary=compare(clean,upgrade,target=target,predecessor=predecessor)
     ch,uh=read(clean,"factory-posted")["history"],read(upgrade,"upgrade-after")["history"]
     clean_doc,up_doc=read(clean,"old-documents"),read(upgrade,"old-documents")
     def ids(h,d):
@@ -18,6 +18,7 @@ def main(clean, upgrade, output):
                 "supplier_purchase":d["purchase"],"supplier_payment_original":d["original_payment"],
                 "supplier_payment_replacement":d["replacement"],"original_payment_journal":ap["original_journal"],
                 "reversal_of_payment_journal":ap["inverse"],"operator_A":d["actors"][0],"operator_B":d["actors"][1],
+                **{"reader_"+role:subject for role,subject in d.get("readers",{}).items()},
                 "saved_plan":h["draft_id"],"snapshot":h["snapshot_id"],"snapshot_job":h["job_id"],
                 "publication":h["published"]["id"],"production_snapshot":h["production_id"]}
     c,u=ids(ch,clean_doc),ids(uh,up_doc)

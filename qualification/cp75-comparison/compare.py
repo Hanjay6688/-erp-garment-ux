@@ -71,12 +71,12 @@ def business(history):
     return facts
 
 
-def compare(clean, upgrade):
+def compare(clean, upgrade, *, target=TARGET, predecessor=OLD):
     factory=read(clean,"factory-posted")
     recovered=read(clean,"factory-restored")
     parent, current, reversal=(read(upgrade, name) for name in ("upgrade-before","upgrade-after","upgrade-restored"))
-    require(factory["target"] == current["seal"] == recovered["full25"]["sha256"] == TARGET and
-            recovered["full25"]["groups"] == 25 and parent["seal"] == reversal["origin_seal"] == OLD,
+    require(factory["target"] == current["seal"] == recovered["full25"]["sha256"] == target and
+            recovered["full25"]["groups"] == 25 and parent["seal"] == reversal["origin_seal"] == predecessor,
             "Versions or catalogue differ")
     require(parent["rows_sequences"] == current["rows_sequences"] and not current["changed_rows_or_sequences"] and
             current["history_equal"] and parent["history"] == current["history"] == reversal["history"],
@@ -86,7 +86,7 @@ def compare(clean, upgrade):
     require(all(restore.values()), "Missing physical recovery")
     a,b = business(factory["history"]),business(current["history"])
     differences = {key:{"clean":a[key],"upgrade":b[key]} for key in a if a[key] != b[key]}
-    return {"target":TARGET,"six_areas":{"saldo":a["saldo"]==b["saldo"],"stok":a["stok"]==b["stok"],
+    return {"target":target,"six_areas":{"saldo":a["saldo"]==b["saldo"],"stok":a["stok"]==b["stok"],
             "hpp":a["hpp"]==b["hpp"],"histori":a["histori"]==b["histori"],"hak_akses":a["hak_akses"]==b["hak_akses"],
             "pemulihan":all(restore.values())}, "differences":differences,"source_factory":factory["origin"],
             "source_upgrade":parent.get("origin","see exact opening receipt"), "business_facts":a,

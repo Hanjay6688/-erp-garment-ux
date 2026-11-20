@@ -1,0 +1,38 @@
+{
+  "server": {
+    "contract": "cp7.global-catalogue-fingerprint.v1",
+    "counts": {
+      "aggregates": 0,
+      "casts": 229,
+      "columns": 10432,
+      "constraints": 4108,
+      "database_authority": 1,
+      "default_privileges": 27,
+      "enums": 46,
+      "event_triggers": 6,
+      "extensions": 5,
+      "functions": 3165,
+      "indexes": 1705,
+      "inheritance": 15,
+      "languages": 4,
+      "memberships": 28,
+      "operators": 799,
+      "policies": 465,
+      "relations": 2525,
+      "roles": 92,
+      "rules": 54,
+      "schemas": 144,
+      "sequence_ownership": 13,
+      "sequences": 15,
+      "triggers": 5816,
+      "type_implementation": 1636,
+      "types": 1636
+    },
+    "groups": 25,
+    "sha256": "a3da0ecf21909731ab8474c54a7c91afb75bb58dd8b6042cc82314b20808dbd7"
+  },
+  "full25_sha256": "9379f5c35a0184ebc55ee7c15ebf20be19ca8fa3038e60ba1e374f8e27cf8b4c",
+  "product": "ffda5cfceb7ebc196656baa650dffd18dd425047",
+  "origin_run": 44671146483,
+  "catalogue_artifact": 14603673728
+}

@@ -1,4 +1,5 @@
 """Use the released SKU and Global installers on a new, BF-verified disposable database."""
+import gzip
 import json
 import os
 import traceback
@@ -81,8 +82,35 @@ def run():
             lifecycle.verify(cur, state)
             receipt(state.global_installation)
             pre = cur.execute(SERVER).fetchone()[0]
-            write("global-before-commit", {"server":pre,"stage_timings":timings,"expected":OLD})
-            assert pre["sha256"] == OLD and pre["groups"] == len(pre["counts"]) == 25
+            admitted = json.loads(Path(__file__).with_name("ffda-catalogue.json").read_text())
+            if not (pre["contract"] == admitted["server"]["contract"] and pre["counts"] == admitted["server"]["counts"]
+                    and pre["groups"] == len(pre["counts"]) == 25 and admitted["server"]["sha256"] == OLD):
+                raise ValueError("FFDA catalogue object census differs from the archived reference")
+            captured = provider.capture(cur)
+            if captured != state.global_installation["after"] or pre != state.global_installation["sealed"]["actual_parent_root_receipt"]["catalogue_fingerprint"]:
+                raise ValueError("FFDA does not match the owning release installer's captured catalogue")
+            with gzip.open(OUT/"ffda-object-hashes.json.gz", "wt", encoding="utf-8") as dest:
+                json.dump({group:{key:binding.pin(value) for key,value in entries} for group,entries in captured.items()},dest,sort_keys=True)
+            raw_catalogue = binding.pin(captured)
+            exact = pre == admitted["server"] and raw_catalogue == admitted["full25_sha256"]
+            source_receipt = json.loads((WORK/"close11-evidence/preseal.json").read_text())
+            if source_receipt["product"] != admitted["product"] or source_receipt["full25_installed_sha256"] != raw_catalogue:
+                raise ValueError("Source-to-catalogue identity differs from the FFDA product")
+            guard_name = "cp7_credit.assert_source_native_trigger_census_v1()"
+            from parent_catalogue import LITERAL
+            guard_text = dict(captured["functions"])[guard_name][0]
+            guard, = LITERAL.findall(guard_text)
+            qualified = {"server":pre,"expected":OLD,"stage_timings":timings,"archived_catalogue_equal":exact,
+                         "capture_sha256":raw_catalogue,"archived_capture_sha256":admitted["full25_sha256"],
+                         "group_hashes":{g:binding.pin(entries) for g,entries in captured.items()},
+                         "credit_guard_literal":guard,"FFDA_source":source_receipt,
+                         "sku_and_dated_proof":report["verified_SKU_and_dated_Laundry_before_Global"],
+                         "source_run":admitted["origin_run"],"production_go":False}
+            write("global-before-commit",qualified)
+            if not exact and os.environ.get("CP75_REBUILT_DIAGNOSTIC") != "1":
+                raise ValueError("FFDA_ARCHIVED_FULL25_DIFFERS")
+            if not exact and (os.environ.get("CP75_FACTORY_ORIGINAL") == "1" or conn.info.dbname != "cp6_rollback"):
+                raise ValueError("A reconstructed-path measurement may only use its disposable database")
             conn.commit()
             foundation.after_commit(cur, report)
         with engine.trusted_installer_connection() as conn, conn.cursor() as cur:
@@ -90,14 +118,15 @@ def run():
             assert actual == pre
             lifecycle.verify(cur, state)
         write("clean-ffda", {"seal": actual, "stages": list(timings), "BF": BF, "origin": "independent clean factory",
-                             "inverse":report["focused_preuse_removal"], "production_go": False})
+                             "inverse":report["focused_preuse_removal"], "archived_catalogue_equal":exact, "production_go": False})
 
 
 if __name__ == "__main__":
     try:
         run()
     except Exception as error:
-        write("install-error", {"type":type(error).__name__, "message":str(error).splitlines()[0][:450],
+        message = (str(error).splitlines() or [type(error).__name__])[0][:450]
+        write("install-error", {"type":type(error).__name__, "message":message,
                                 "frames":[[Path(t.filename).name,t.name,t.lineno] for t in traceback.extract_tb(error.__traceback__)[-12:]]})
-        print("CP75_GLOBAL_ERROR", type(error).__name__, str(error).splitlines()[0][:400], flush=True)
+        print("CP75_GLOBAL_ERROR", type(error).__name__, message, flush=True)
         raise
