@@ -45,10 +45,48 @@ def recost_fixture(q,owner):
     out['before_sale']=dict(po=str(f['po']),product=str(f['product']),queue_before=pending,queue_after=entry['queue_after']['counts'],hpp=recost.values(q,f))
     out['before_sale']['lot_hpp']=q.execute('select l.id::text,h.total_cost,h.qty_basis_pcs,h.is_current from erp.fg_lots l left join erp.hpp_versions h on h.lot_id=l.id where l.product_id=%s order by l.id,h.is_current',(f['product'],)).fetchall()
     store_case()
+    out['cost_sources']=dict()
+    out['cost_sources']['po']=q.execute('select to_jsonb(z) from erp.get_hpp_completeness(%s) z',(f['po'],)).fetchone()[0]
+    out['cost_sources']['lots']=q.execute("""select l.id::text,erp.bd_lot_laundry_unknown_v1(l.id),to_jsonb(h)->>'cost_state',h.total_cost,h.qty_basis_pcs from erp.fg_lots l left join erp.hpp_versions h on h.lot_id=l.id and h.is_current where l.product_id=%s""",(f['product'],)).fetchall()
+    store_case()
+    import cp7_sales_command_cases as sales
+    tag='A25-'+str(uuid.uuid4())
     # Use the app's normal sales command after the known cost is recorded; keep the two-piece allocation and its COGS oracle.
-    sale=aa.rpc(q,'erp.save_sale_draft_v2',dict(sale_number='A25-'+str(uuid.uuid4()),customer_id=f['customer'],source_location_id=aa.base.LOCATION,sale_date=aa.at(TODAY,10),reason='Penjualan dua potong setelah HPP produksi dihitung',items=[dict(product_id=f['product'],qty_pcs=2,unit_price_snapshot=40,discount_amount=0)]))
-    q.execute('select erp.post_sale_v2(%s,%s,%s)',(sale['sale_id'],uuid.uuid4(),int(sale['row_version'])))
-    admin(q);f['sale']=sale['sale_id'];return f
+    try:
+        with q.connection.transaction():
+            sale=aa.rpc(q,'erp.save_sale_draft_v2',dict(sale_number=tag,customer_id=f['customer'],source_location_id=aa.base.LOCATION,sale_date=aa.at(TODAY,10),reason='Penjualan dua potong setelah HPP produksi dihitung',items=[dict(product_id=f['product'],qty_pcs=2,unit_price_snapshot=40,discount_amount=0)]))
+            review,ver=sales.review(q,dict(sale=sale['sale_id'],tag=tag))
+            posted=sales.command(q,'POST',review,ver,subject=owner)
+            assert posted['status']=='POSTED',posted['status']
+        f['sale']=sale['sale_id']
+        out['sale_control']=dict(outcome='POSTED',qty=2,entry='public.erp_cp7_save_sale_v1')
+    except psycopg.Error as e:
+        if 'CP7_SKU_POOL_HPP_UNKNOWN' not in (e.diag.message_primary or ''): raise
+        reason=out['cost_sources']['po'].get('pending_reason_count',0)
+        unresolved=int(reason or 0)>0 or any(r[1] or r[2]=='ESTIMATED' for r in out['cost_sources']['lots'])
+        out['sale_control']=dict(outcome='REFUSED',entry='public.erp_cp7_save_sale_v1',error=e.diag.message_primary,sqlstate=e.sqlstate,unresolved_source_observed=unresolved,draft_and_reservation_rolled_back=True)
+        f['sale']=None
+    admin(q);store_case()
+    return f
+
+def seed_scale(q,commit):
+    start=perf_counter();log=vol.Phases();log.commit=commit
+    before=vol.current_targets(q);missing=512-len(before)
+    assert missing>=0
+    rows=[]
+    for off in range(0,missing,250):
+        rows+=vol.import_batch(q,TODAY,min(250,missing-off),log)
+        out['seed_progress']=dict(stage='opening recorded',new_targets=len(rows));store_case()
+    out['seed_progress']['stage']='posting known opening-balance sales';store_case()
+    vol.sell(q,TODAY,rows,log)
+    out['seed_progress']['stage']='writing operating profiles';store_case()
+    vol.profile(q,[row['root'] for row in rows],log)
+    vol.activate(q,vol.commercial(q,rows,log),log)
+    review=vol.calendar(q,TODAY,log)
+    after=vol.current_targets(q)
+    assert len(after)==512 and {r['target'] for r in rows}==set(after)-set(before)
+    return dict(targets=len(after),new_targets=len(rows),preexisting=len(before),known_opening_sales_post_calls=log['sale_post_writer']['calls'],writer_phases=dict(log),calendar=review,elapsed_s=round(perf_counter()-start,3),production_wip_comes_from_cut_sew_laundry_qc_fixture=True)
+
 def exercise():
     params=db()
     if params:
@@ -60,7 +98,7 @@ def exercise():
             assert Decimal(out['before_cost']['hpp'])==85
             c.commit()
             out['phase']='building 512 targets through application writers';store_case()
-            seed=vol.ensure(q,TODAY,512,False,commit=c.commit);out['seed']=seed
+            seed=seed_scale(q,c.commit);out['seed']=seed
             recost.period.late(q,h);out['backlog_before']=recost.read(q,subject=owner)['counts']
             admin(q);out['population']={tab:first(q,'select count(*) from erp.'+tab)for tab in ['products','material_rolls','material_stock_movements','fg_stock_movements','journal_entries','journal_lines','supplier_payments']}
             out['integrity_before']=integrity(q,h);out['db_deadlocks_before']=first(q,'select deadlocks from pg_stat_database where datname=current_database()')
@@ -85,7 +123,20 @@ def exercise():
         def planner():
             with psycopg.connect(**params,application_name='audit23_planner')as c,c.cursor()as q:
                 gate.wait(20);query=rp.staged.query(TODAY);query['from_date']=query['through_date']
-                t=perf_counter();run=rp.staged_run(q,TODAY,staff,query);c.commit();record('analisis-512-termasuk-semua-halaman','planner',t)
+                t=perf_counter();key=uuid.uuid4()
+                first_state=rp.staged.checked(rp.staged.request(q,TODAY,key,staff,query),key,'RUNNING');c.commit()
+                stages=[]
+                state=first_state
+                while state['state']=='RUNNING':
+                    assert len(stages)<rp.staged.DRIVER_CALLS
+                    step_t=perf_counter();next_state=rp.staged.checked(rp.staged.step(q,key,staff),key);c.commit()
+                    stages.append(dict(stage=state['stage'],done=next_state['units_done'],total=next_state['unit_count'],state=next_state['state'],wall_ms=round(1000*(perf_counter()-step_t),3),elapsed_s=round(perf_counter()-t,3)))
+                    assert next_state['units_done']>=state['units_done'];state=next_state
+                out['analysis_progress']=stages
+                assert state['state']=='DONE',state.get('failure')
+                orig,ps,shape=rp.staged.fetch(q,state['run_id'],staff);c.commit()
+                run=dict(run=state['run_id'],original=orig,ps=ps)
+                record('analisis-512-termasuk-semua-halaman','planner',t)
                 keys=[x['target']['key'] for x in run['original']['analysis']['recommendations']]
                 assert len(keys)==len(set(keys))==512
                 out['planner']=dict(targets=len(keys),pages=len(run['ps']['pages']),sha256=hashlib.sha256('\n'.join(sorted(keys)).encode()).hexdigest())
@@ -120,13 +171,16 @@ def exercise():
                     except Exception as exc:failures.append(str(exc)[:250])
             finally:done.set();watch.result()
         out['sampling_ms']=25;out['activity_samples']=waits;out['errors']=failures
+        out['metrics']=summarise(out['times']);store_case()
         assert not failures,failures
         with psycopg.connect(**params)as c,c.cursor()as q:
             admin(q);out['db_deadlocks_after']=first(q,'select deadlocks from pg_stat_database where datname=current_database()')
             after=pay.read(q,f,payment=f['target'],subject=owner);out['supplier_after']=after['Native_AP']
             assert after['Native_AP']['paid']=='255.00' and after['Native_AP']['remaining']=='745.00'
             out['cost_after']=recost.values(q,h);v={k:Decimal(x)for k,x in out['cost_after'].items()}
-            assert v=={'hpp':Decimal(90),'fg':Decimal(54),'cogs':Decimal(36)} and out['recalc']['counts_after']['eligible']=='0'
+            expected={'hpp':Decimal(90),'fg':Decimal(54 if h['sale'] else 90),'cogs':Decimal(36 if h['sale'] else 0)}
+            out['expected_after']={k:str(v) for k,v in expected.items()}
+            assert v==expected and out['recalc']['counts_after']['eligible']=='0'
             assert out['db_deadlocks_after']==out['db_deadlocks_before']
             out['integrity_after']=integrity(q,h)
             assert out['integrity_before']['stock']==out['integrity_after']['stock']
@@ -137,6 +191,14 @@ def exercise():
         out['simultaneous_samples']=len(multi);out['samples_with_lock_wait']=sum(any(r[1]=='Lock'for r in rows) for t,rows in waits)
         out['same_action_overlap']=True if any(a['session']!=b['session'] and a['start_s']<b['end_s'] and b['start_s']<a['end_s'] for a in out['times'] for b in out['times'] if a['action']==b['action']=='histori-supplier-dan-fokus')else False
         assert out['same_action_overlap']
+        for label,metrics in out['metrics'].items():
+            limit=3000 if label in ('muat-halaman-analisis','proses-antrean-hpp') else (2000 if label.startswith('koreksi-') else 1000)
+            if label.startswith('analisis-512'):
+                assert metrics['max_ms']<=8000 or len({v['done'] for v in out['analysis_progress']})>=2
+            else:
+                assert metrics['max_ms']<=limit,(label,metrics,limit)
+        if out['sale_control']['outcome']=='REFUSED':
+            assert out['sale_control']['unresolved_source_observed'],'Source completeness must explain the rejected sale'
     out['phase']='complete';out['outcome']='PASS';store_case()
 
 if __name__=='__main__':
