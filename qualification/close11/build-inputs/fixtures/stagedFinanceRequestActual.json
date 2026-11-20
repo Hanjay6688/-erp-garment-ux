@@ -1,0 +1,76 @@
+{
+  "query": {
+    "from_date": "2026-09-23",
+    "through_date": "2026-10-22",
+    "group_mode": "AS_SOLD",
+    "finance_mode": "STAGED"
+  },
+  "response": {
+    "stage": "HIST_PREP",
+    "state": "RUNNING",
+    "run_id": null,
+    "failure": null,
+    "reference": {
+      "captured_at": "2026-10-23T00:00:00+00:00",
+      "source_hash": "5f66d4a97d183229a4ed74c6b4bd7cfaeb9f69e667cddd224cdba970501825de"
+    },
+    "retention": {
+      "days": 7,
+      "state": "NOT_FINISHED",
+      "kept_until": null
+    },
+    "plan_final": false,
+    "request_id": "1ec89ae0-22eb-4c44-a1c7-bd19f1c80d00",
+    "unit_count": 1,
+    "units_done": 0,
+    "stage_count": 1,
+    "stage_index": 1,
+    "apply_enabled": false,
+    "production_go": false,
+    "server_runner": {
+      "active": false,
+      "last_tick_at": null
+    },
+    "targets_total": 0,
+    "unit_attempts": 0,
+    "finance_capture": {
+      "query": {
+        "from_date": "2026-09-23",
+        "group_mode": "AS_SOLD",
+        "through_date": "2026-10-22"
+      },
+      "state": "RUNNING",
+      "job_id": "3ff5b653-ba5d-4e13-9d94-c44f72931841",
+      "result": null,
+      "capture": {
+        "dates": {
+          "to": "2026-10-22",
+          "from": "2026-09-23",
+          "as_of": "2026-10-23"
+        },
+        "state": "RUNNING",
+        "owner_id": "3ff5b653-ba5d-4e13-9d94-c44f72931841",
+        "readiness": null,
+        "capture_id": "44444444-4444-4444-8444-444444444444",
+        "owner_kind": "STAGED_ANALYSIS",
+        "units_done": 0,
+        "units_total": null,
+        "failure_code": null,
+        "production_go": false,
+        "report_read_at": null,
+        "contract_version": "cp7.finance-capture-status.v1"
+      },
+      "reference": {
+        "captured_at": "2026-10-23T00:00:00+00:00",
+        "source_hash": "5f66d4a97d183229a4ed74c6b4bd7cfaeb9f69e667cddd224cdba970501825de"
+      },
+      "request_id": "1ec89ae0-22eb-4c44-a1c7-bd19f1c80d00",
+      "production_go": false,
+      "contract_version": "cp7.analysis-finance-sidecar.v1"
+    },
+    "contract_version": "cp7.native-analysis-staged-job.v1",
+    "last_progress_at": "2026-10-22T23:24:27.142+00:00",
+    "targets_done_in_stage": 0
+  },
+  "classification": "ACTUAL_PATCHED_REQUEST_STATUS_WITH_CONTROLLED_A_SOURCE_AND_IDENTITY_NOT_NATIVE"
+}

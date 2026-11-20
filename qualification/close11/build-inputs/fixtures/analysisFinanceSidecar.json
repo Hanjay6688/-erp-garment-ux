@@ -1,0 +1,169 @@
+{
+  "query": {
+    "from_date": "2026-09-23",
+    "group_mode": "AS_SOLD",
+    "through_date": "2026-10-22"
+  },
+  "state": "READY",
+  "job_id": "22222222-2222-4222-8222-222222222222",
+  "result": {
+    "dates": {
+      "to": "2026-10-22",
+      "from": "2026-09-23",
+      "as_of": "2026-10-23"
+    },
+    "metrics": [
+      {
+        "value": {
+          "refs": [
+            {
+              "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "kind": "NATIVE_OWNER_FINANCIAL_REPORT",
+              "revision": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+            }
+          ],
+          "unit": "IDR",
+          "state": "KNOWN",
+          "value": "9007199254740893.00"
+        },
+        "version": "accepted-owner-report-1",
+        "operands": [
+          {
+            "refs": [
+              {
+                "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "kind": "NATIVE_OWNER_FINANCIAL_REPORT",
+                "revision": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+              }
+            ],
+            "unit": "IDR",
+            "state": "KNOWN",
+            "value": "9007199254740893.00"
+          }
+        ],
+        "metric_id": "NATIVE_FINANCE:performance:gross_profit",
+        "readiness": "READY",
+        "scope_key": "OWNER_FINANCIAL_REPORT",
+        "period_end": "2026-10-22",
+        "scope_kind": "GLOBAL",
+        "formula_ref": "POSTED_SALES_AND_CORRECTIONS:gross_profit",
+        "period_start": "2026-09-23",
+        "knowledge_mode": "CURRENT"
+      },
+      {
+        "value": {
+          "refs": [
+            {
+              "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "kind": "NATIVE_OWNER_FINANCIAL_REPORT",
+              "revision": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+            }
+          ],
+          "unit": "IDR",
+          "state": "KNOWN",
+          "value": "9007199254740993.01"
+        },
+        "version": "accepted-owner-report-1",
+        "operands": [
+          {
+            "refs": [
+              {
+                "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "kind": "NATIVE_OWNER_FINANCIAL_REPORT",
+                "revision": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+              }
+            ],
+            "unit": "IDR",
+            "state": "KNOWN",
+            "value": "9007199254740993.01"
+          }
+        ],
+        "metric_id": "NATIVE_FINANCE:performance:sales_revenue_gl",
+        "readiness": "READY",
+        "scope_key": "OWNER_FINANCIAL_REPORT",
+        "period_end": "2026-10-22",
+        "scope_kind": "GLOBAL",
+        "formula_ref": "POSTED_SALES_AND_CORRECTIONS:sales_revenue_gl",
+        "period_start": "2026-09-23",
+        "knowledge_mode": "CURRENT"
+      },
+      {
+        "value": {
+          "refs": [
+            {
+              "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "kind": "NATIVE_OWNER_FINANCIAL_REPORT",
+              "revision": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+            }
+          ],
+          "unit": "IDR",
+          "state": "KNOWN",
+          "value": "123.45"
+        },
+        "version": "accepted-owner-report-1",
+        "operands": [
+          {
+            "refs": [
+              {
+                "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "kind": "NATIVE_OWNER_FINANCIAL_REPORT",
+                "revision": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+              }
+            ],
+            "unit": "IDR",
+            "state": "KNOWN",
+            "value": "123.45"
+          }
+        ],
+        "metric_id": "NATIVE_FINANCE:financial_position:cash",
+        "readiness": "READY",
+        "scope_key": "OWNER_FINANCIAL_REPORT",
+        "period_end": "2026-10-23",
+        "scope_kind": "GLOBAL",
+        "formula_ref": "RECORDED_GL_BALANCES_AS_OF:cash",
+        "period_start": "2026-10-23",
+        "knowledge_mode": "CURRENT"
+      }
+    ],
+    "warnings": [],
+    "readiness": "READY",
+    "capture_id": "44444444-4444-4444-8444-444444444444",
+    "source_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "dependencies": [
+      {
+        "domain": "native_owner_financial_report",
+        "revision": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "fact_count": 1,
+        "source_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "completeness": "COMPLETE"
+      }
+    ],
+    "report_read_at": "2026-10-23T00:03:00Z",
+    "contract_version": "cp7.analysis-finance-result.v1"
+  },
+  "capture": {
+    "dates": {
+      "to": "2026-10-22",
+      "from": "2026-09-23",
+      "as_of": "2026-10-23"
+    },
+    "state": "READY",
+    "owner_id": "22222222-2222-4222-8222-222222222222",
+    "readiness": "READY",
+    "capture_id": "44444444-4444-4444-8444-444444444444",
+    "owner_kind": "STAGED_ANALYSIS",
+    "units_done": 5,
+    "units_total": 5,
+    "failure_code": null,
+    "production_go": false,
+    "report_read_at": "2026-10-23T00:03:00Z",
+    "contract_version": "cp7.finance-capture-status.v1"
+  },
+  "reference": {
+    "captured_at": "2026-10-23T00:00:00+00:00",
+    "source_hash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "request_id": "33333333-3333-4333-8333-333333333333",
+  "production_go": false,
+  "contract_version": "cp7.analysis-finance-sidecar.v1"
+}

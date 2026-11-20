@@ -1,0 +1,46 @@
+// Explicit synthetic UI/parser fixture; no Native runtime evidence.
+export const actor='11111111-1111-4111-8111-111111111111'
+export const run='22222222-2222-4222-8222-222222222222'
+export const root='33333333-3333-4333-8333-333333333333'
+export const size='44444444-4444-4444-8444-444444444444'
+export const model='55555555-5555-4555-8555-555555555555'
+export const location='66666666-6666-4666-8666-666666666666'
+export const order='77777777-7777-4777-8777-777777777777'
+export const pattern='88888888-8888-4888-8888-888888888888'
+export const roll='99999999-9999-4999-8999-999999999999'
+export const draft='aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa'
+export const plan='bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb'
+export const sourceHash='a'.repeat(64)
+export const context={runId:run,targetKey:root+':'+size,sourceHash}
+export function options(atLocation=true){return{contract_version:'cp7.plan-options.v2',actor_scope_id:actor,run_id:run,target_key:context.targetKey,source_hash:sourceHash,core_hash:'b'.repeat(64),model_id:model,size_id:size,product_sku:'SYNTHETIC-P08',product_name:'Synthetic reviewed draft',needed_pcs:'100',capacity_pcs:'60',production_state:'ACTIVE',location_id:atLocation?location:null,assumptions:[{id:'selected-calendar',label:'Kalender pilihan',origin:'OWNER_INPUT',confirmed_for_operation:false}],orders:[{id:order,number:'SYNTHETIC-PO',model_id:model}],patterns:[{id:pattern,code:'REG',name:'Regular',revision:'R1'}],rolls:atLocation?[{id:roll,number:'SYNTHETIC-ROLL',material_id:roll,material_name:'Kain',unit:'YARD',available:'80',linked_native_draft_qty:'0',free_for_new_plan:'80'}]:[],locations:[{id:location,name:'Gudang bahan'}],page:{limit:25,po_offset:0,po_total:'1',pattern_offset:0,pattern_total:'1',roll_offset:0,roll_total:atLocation?'1':'0'},reservation_created:false,production_go:false}}
+export function saved(){return{contract_version:'cp7.plan-draft-read.v1',actor_scope_id:actor,draft_id:draft,plan_id:plan,revision:'1',run_id:run,target_key:context.targetKey,source_hash:sourceHash,recorded_at:'2026-10-01T08:00:00Z',payload:{run_id:run,target_key:context.targetKey,source_hash:sourceHash},is_latest:true,state:'SAVED',native_intent:null,reservation_created:false,production_go:false}}
+export function preview(){return{contract_version:'cp7.plan-preview.v3',actor_scope_id:actor,draft_id:draft,plan_id:plan,revision:'1',target_key:context.targetKey,source_hash:sourceHash,core_hash:'b'.repeat(64),composition_hash:'c'.repeat(64),status:'READY_FOR_EXPLICIT_NATIVE_DRAFT',command:'erp_save_cutting_group_before_sewing_v2:SAVE_DRAFT',needed_pcs:'100',selected_new_pcs:'60',free_capacity_pcs:'60',new_start_yield:{basis:'UNKNOWN',numerator:null as string|null,denominator:null as string|null,assumption_id:null as string|null,history:{status:'PENDING_POLICY_VALUE',reason:'OWNER_HISTORY_YIELD_POLICY_NOT_APPROVED',window_days:null,minimum_sample:null,lower_bound:null,numerator:null,denominator:null,target_key:context.targetKey}},cut_limit_pcs:'100',cut_limit_basis:'NEED_CAP_YIELD_UNKNOWN_NOT_ASSUMED_100_PERCENT',expected_good_pcs:null as string|null,rounding_extra_pcs:null as string|null,unresolved_pcs:null as string|null,pattern_revision:'R1',material_rows:[{roll_id:roll,material_id:roll,native_available:'80',linked_native_draft_qty:'0',free_for_new_plan:'80',linked_native_drafts:[],selected_issued:'1',selected_consumption:'0.5',selected_remaining:'0.5',basis:'OPERATOR_SELECTED_DRAFT_COMPOSITION_NOT_PROVEN_INSTALLED_OR_RESERVED'}],physical_production_confirmed:false,reservation_created:false,production_go:false}}
+export function saveOutcome(request:string){return{contract_version:'cp7.plan-draft.v1',actor_scope_id:actor,draft_id:draft,plan_id:plan,revision:'1',run_id:run,target_key:context.targetKey,request_id:request,state:'SAVED',reservation_created:false,production_go:false}}
+// Receipt counterfixture only. Never evidence of actual Native production.
+export function actual(){
+ const ref={kind:'erp.cutting_groups',id:pattern,revision:'2'},known=(value:string)=>({state:'KNOWN',unit:'PCS',value,refs:[ref]}),pool=`CUT:${pattern}:${size}`
+ return{contract_version:'cp7.plan-actual.v1',actor_scope_id:actor,draft_id:draft,plan_id:plan,revision:'1',run_id:run,target_key:context.targetKey,original_source_hash:sourceHash,composition_hash:'c'.repeat(64),planned_pcs:'60',planned_basis:'IMMUTABLE_OPERATOR_DRAFT_ESTIMATE',native_intent_id:order,actual:{captured_at:'2026-10-01T09:00:00Z',source_hash:'d'.repeat(64),state:'COMPLETE',reason:'CONSERVED_LINKED_NATIVE_EXACT_SIZE',original_source_state:'ARCHIVED_STALE',native_group:{id:pattern,number:'SYNTHETIC-CUT',po_id:order,model_id:model,revision:'2',cut_at:'2026-10-01T08:00:00Z',material_issue_posted:true,status:'POSTED'},size_id:size,physical_root_id:root,facts:{input_pcs:known('60'),wip_pcs:known('59'),group_fg_pcs:known('1'),bs_pcs:known('0'),withheld_pcs:known('0'),exited_pcs:known('0'),matched_fg_pcs:known('1'),other_root_fg_pcs:known('0')},positions:[{key:pool+':PRE',pool_key:pool,stage:'SEWING_UNRESOLVED',refs:[ref],size_id:size,ownership:'COMPANY',remaining_pcs:'59',quantity_quality:'KNOWN',eligible_company_wip:true,fg_identity:null},{key:'FGQC:'+draft,pool_key:pool,stage:'FG',refs:[ref],size_id:size,ownership:'COMPANY',remaining_pcs:'1',quantity_quality:'KNOWN',eligible_company_wip:false,fg_identity:{position_key:'FGQC:'+draft,root_id:root,size_id:size}}],scope:'ONE_LINKED_NATIVE_GROUP_EXACT_SIZE',fg_basis:'PRODUCTION_DISPOSITION_NOT_CURRENT_ON_HAND'},remaining_to_plan_pcs:known('59'),comparison_scope:'LINKED_DRAFT_ONLY_NOT_ALL_PO_OR_WAREHOUSE',reservation_created:false,production_go:false}
+}
+// Plan v2: one target of a staged run, its dated snapshot and the live recheck.
+export const identityHash='e'.repeat(64)
+export const dataAsOf='2026-10-08T01:00:00Z'
+export const stagedContext={kind:'STAGED' as const,runId:run,targetKey:root+':'+size,identityHash,dataAsOf}
+export function stagedOptions(){const{source_hash:_s,core_hash:_c,contract_version:_v,...o}=options();return{...o,contract_version:'cp7.plan-options-staged.v1',identity_hash:identityHash,data_as_of:dataAsOf,page_index:0,available_fg_pcs:'5',live_recheck:'AT_PREVIEW_AND_APPLY'}}
+export function stagedSaveOutcome(request:string){return{contract_version:'cp7.plan-draft.v2',actor_scope_id:actor,draft_id:draft,plan_id:plan,revision:'1',run_id:run,target_key:stagedContext.targetKey,identity_hash:identityHash,data_as_of:dataAsOf,request_id:request,state:'SAVED',reservation_created:false,production_go:false}}
+export function stagedSaved(){return{contract_version:'cp7.plan-draft-read.v2',actor_scope_id:actor,draft_id:draft,plan_id:plan,revision:'1',run_id:run,target_key:stagedContext.targetKey,identity_hash:identityHash,data_as_of:dataAsOf,
+ snapshot:{need_pcs:'100',available_fg_pcs:'5',wip_model_size_pcs:'8',capacity_pcs:'60',production_state:'ACTIVE'},recorded_at:'2026-10-08T02:00:00Z',payload:{run_id:run,target_key:stagedContext.targetKey,identity_hash:identityHash},is_latest:true,state:'SAVED',native_intent:null,reservation_created:false,production_go:false}}
+type Verdict={check:string;status:string;code:string|null}
+const allOk=():Verdict[]=>['PRODUCT','POLICY','TARGET_PLANS','LINKED_PLANS','WIP','NEED','CAPACITY'].map(check=>({check,status:'OK',code:null}))
+// live: need 100 at the snapshot (stock 5, WIP 8); now stock fgNow, WIP 8; 60 of capacity 60, used by others.
+export function stagedPreview(fgNow='5',used='0'){
+ const{source_hash:_s,core_hash:_c,contract_version:_v,...p}=preview()
+ const inc=Math.max(0,Number(fgNow)-5),need=Math.max(0,100-inc),verdicts=allOk(),cap=60-Number(used)
+ if(need===0||60>need){verdicts[5]={check:'NEED',status:'REFUSED',code:'CP7_PLAN_V2_NEED_CHANGED'}}
+ if(60>cap)verdicts[6]={check:'CAPACITY',status:'REFUSED',code:'CP7_PLAN_V2_CAPACITY_USED'}
+ const ready=verdicts.every(v=>v.status==='OK')
+ return{...p,contract_version:'cp7.plan-preview-staged.v1',identity_hash:identityHash,data_as_of:dataAsOf,run_id:run,job_id:plan,source_hash:'f'.repeat(64),page_index:0,
+  snapshot:{need_pcs:'100'},status:ready?'READY_FOR_EXPLICIT_NATIVE_DRAFT':'REVIEW_REQUIRED',already_applied:false,
+  live:{checked_at:'2026-10-08T03:00:00Z',fg_now_pcs:fgNow,fg_snapshot_pcs:'5',wip_now_pcs:'8',wip_snapshot_pcs:'8',wip_status:'COMPLETE',wip_reason:null,increase_pcs:String(inc),need_now_pcs:String(need),
+   cut_limit_now_pcs:String(need),selected_new_pcs:'60',capacity_now_pcs:String(cap),capacity_used_by_other_plans_pcs:used,capacity_through_at:'2099-01-01T00:00:00Z',
+   product:null,policy_state:'ACTIVE',policy_quality:'KNOWN',verdicts,apply_ready:ready}}
+}

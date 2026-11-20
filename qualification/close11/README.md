@@ -6,7 +6,9 @@ Lingkungan dibangun dari delapan tree yang diperiksa terhadap sumber auditor. Pe
 
 ## Membuka lingkungan yang disimpan
 
-Unduh `installed.json` dan `global-ffda.cp7` dari dua artefak pada run yang sama. Paket frontend tersedia di artefak `writer-global-auditor-ui-<run>`. Paket ini mengambil sumber aplikasi, dependensi terkunci dan konfigurasi Vite langsung dari tree kandidat. Cocokkan SHA-256 masing-masing ZIP dengan metadata GitHub Actions dan jalankan `unzip -t` sebelum ekstraksi. Ambil kunci sekali pakai dari handoff pribadi Writer A. Tetapkan `PYTHONPATH` ke direktori `qualification` di checkout runner.
+Unduh `installed.json` dan `global-ffda.cp7` dari dua artefak pada run yang sama. Untuk runner auditor, gunakan action dari commit helper yang tercantum di handoff dan isi `origin-runner` dengan SHA asli run pemasangan. Action otomatis menyatukan berkas frontend dan input build yang hash Git-nya sama dengan kandidat. Building dengan `npm ci` lalu `npm run build` menghasilkan aplikasi siap dilayani di loopback.
+
+Paket frontend tersedia di artefak `writer-global-auditor-ui-<run>`. Paket ini mengambil sumber aplikasi, dependensi terkunci dan konfigurasi Vite langsung dari tree kandidat. Cocokkan SHA-256 masing-masing ZIP dengan metadata GitHub Actions dan jalankan `unzip -t` sebelum ekstraksi. Ambil kunci sekali pakai dari handoff pribadi Writer A. Tetapkan `PYTHONPATH` ke direktori `qualification` di checkout runner.
 
 ```sh
 python -m close11.resume --installed installed.json --checkpoint global-ffda.cp7 \
@@ -35,4 +37,4 @@ Untuk selesai, hapus kontainer dan kedua volume sementara sesuai nama yang dicet
 
 ### Langkah GitHub Actions siap pakai
 
-Sebelum empat langkah uji independen, panggil `Hanjay6688/-erp-garment-ux/qualification/close11/open@<SHA-runner>` dengan argumen `origin-run` dan `origin-runner`. Job memerlukan izin baca `actions` dan `contents`. Tiga outputnya adalah `container`, `socket` dan `application`. Pengujian dapat mengakses basis `cp6_rollback` pada soket tersebut dan menjalankan aplikasi dari direktori `application`. Job menunggu balasan auditor hingga 20 menit. Setelah memeriksa ID dan SHA job, terbitkan hasil `grant` di `qualification/astra-public/close11-key-grants/<ID-run-auditor>.json` pada cabang auditor `audit/astra-cp7-public-ffda`. Balasan hanya dapat dipakai satu job itu. Pertahankan kontainer sampai keempat uji dan pengarsipan hasil selesai.
+Sebelum empat langkah uji independen, panggil `Hanjay6688/-erp-garment-ux/qualification/close11/open@<SHA-helper>` pada SHA helper di handoff dengan argumen `origin-run` dan `origin-runner`. Job memerlukan izin baca `actions` dan `contents`. Tiga outputnya adalah `container`, `socket` dan `application`. Pengujian dapat mengakses basis `cp6_rollback` pada soket tersebut dan menjalankan aplikasi dari direktori `application`. Job menunggu balasan auditor hingga 20 menit. Setelah memeriksa ID dan SHA job, terbitkan hasil `grant` di `qualification/astra-public/close11-key-grants/<ID-run-auditor>.json` pada cabang auditor `audit/astra-cp7-public-ffda`. Balasan hanya dapat dipakai satu job itu. Pertahankan kontainer sampai keempat uji dan pengarsipan hasil selesai.

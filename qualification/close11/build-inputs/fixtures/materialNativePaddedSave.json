@@ -1,0 +1,51 @@
+{
+  "args": {
+    "p_payload": {
+      "material_id": "b438cc5d-263e-4ccb-82ed-023c0a861819",
+      "expected_revision": 0,
+      "lead_days": "6",
+      "manual_point": null,
+      "reason": "OW14b reviewed formula",
+      "fabric_rule": "FORMULA",
+      "expected_legacy_minimum_qty": "500.000000"
+    },
+    "p_request": "d93760b6-7c64-4e9b-8ed2-0bc25e343455"
+  },
+  "response": {
+    "replay": false,
+    "revision": 1,
+    "evaluation": {
+      "z": 1.6449,
+      "moq": null,
+      "sku": "SS2-856A7300",
+      "name": "Kain SS2 856A7300",
+      "basis": "FORMULA",
+      "point": "39.3200000000000000",
+      "state": "ABOVE",
+      "reason": null,
+      "daily_sd": 4.7946,
+      "free_qty": 200,
+      "use_days": 10,
+      "lead_days": 6,
+      "unit_code": "YD",
+      "usage_qty": 100,
+      "changed_at": "2026-10-22T22:11:36.654189+00:00",
+      "daily_mean": 3.3333,
+      "safety_qty": 19.3184,
+      "buffer_days": null,
+      "fabric_rule": "FORMULA",
+      "material_id": "b438cc5d-263e-4ccb-82ed-023c0a861819",
+      "counted_days": 30,
+      "manual_point": null,
+      "on_order_qty": 0,
+      "formula_point": 39.32,
+      "manual_source": null,
+      "material_type": "FABRIC",
+      "estimate_point": null,
+      "usage_month_qty": null,
+      "setting_revision": 1,
+      "legacy_minimum_qty": "500.000000"
+    },
+    "material_id": "b438cc5d-263e-4ccb-82ed-023c0a861819"
+  }
+}

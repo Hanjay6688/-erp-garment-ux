@@ -1,0 +1,930 @@
+{
+  "actual_SQL": true,
+  "controlled_ERP_auth_primitives": true,
+  "actual_Native_capture": false,
+  "actual_Auth_HTTP_credit": false,
+  "actor": "d30141c7-68fb-4e19-916f-aa85d805b813",
+  "history": {
+    "query": {
+      "from_date": "2026-09-23",
+      "group_mode": "AS_SOLD",
+      "target_key": "00000001-1111-4111-8111-111111111111:00009000-1111-4111-8111-111111111111",
+      "through_date": "2026-10-22"
+    },
+    "run_id": "59983cc0-f446-4470-b157-1daf02ad32b2",
+    "history": {
+      "scope": "SINGLE_CURRENT_PHYSICAL_ROOT",
+      "history": {
+        "rows": [
+          {
+            "days": [
+              {
+                "date": "2026-09-23",
+                "state": "AVAILABLE",
+                "returned_pcs": "0",
+                "training_pcs": "0",
+                "availability_refs": [
+                  {
+                    "id": "00000001-1111-4111-8111-111111111111",
+                    "kind": "PRODUCT",
+                    "revision": "1"
+                  }
+                ],
+                "gross_observed_pcs": "0"
+              },
+              {
+                "date": "2026-09-24",
+                "state": "AVAILABLE",
+                "returned_pcs": "0",
+                "training_pcs": "10",
+                "availability_refs": [
+                  {
+                    "id": "00000001-1111-4111-8111-111111111111",
+                    "kind": "PRODUCT",
+                    "revision": "1"
+                  }
+                ],
+                "gross_observed_pcs": "10"
+              },
+              {
+                "date": "2026-09-25",
+                "state": "AVAILABLE",
+                "returned_pcs": "0",
+                "training_pcs": "0",
+                "availability_refs": [
+                  {
+                    "id": "00000001-1111-4111-8111-111111111111",
+                    "kind": "PRODUCT",
+                    "revision": "1"
+                  }
+                ],
+                "gross_observed_pcs": "0"
+              },
+              {
+                "date": "2026-09-26",
+                "state": "STOCKOUT",
+                "returned_pcs": "0",
+                "training_pcs": null,
+                "availability_refs": [
+                  {
+                    "id": "00000001-1111-4111-8111-111111111111",
+                    "kind": "PRODUCT",
+                    "revision": "1"
+                  }
+                ],
+                "gross_observed_pcs": "0"
+              },
+              {
+                "date": "2026-09-27",
+                "state": "AVAILABLE",
+                "returned_pcs": "0",
+                "training_pcs": "0",
+                "availability_refs": [
+                  {
+                    "id": "00000001-1111-4111-8111-111111111111",
+                    "kind": "PRODUCT",
+                    "revision": "1"
+                  }
+                ],
+                "gross_observed_pcs": "0"
+              },
+              {
+                "date": "2026-09-28",
+                "state": "AVAILABLE",
+                "returned_pcs": "0",
+                "training_pcs": "0",
+                "availability_refs": [
+                  {
+                    "id": "00000001-1111-4111-8111-111111111111",
+                    "kind": "PRODUCT",
+                    "revision": "1"
+                  }
+                ],
+                "gross_observed_pcs": "0"
+              },
+              {
+                "date": "2026-09-29",
+                "state": "AVAILABLE",
+                "returned_pcs": "0",
+                "training_pcs": "0",
+                "availability_refs": [
+                  {
+                    "id": "00000001-1111-4111-8111-111111111111",
+                    "kind": "PRODUCT",
+                    "revision": "1"
+                  }
+                ],
+                "gross_observed_pcs": "0"
+              },
+              {
+                "date": "2026-09-30",
+                "state": "AVAILABLE",
+                "returned_pcs": "0",
+                "training_pcs": "0",
+                "availability_refs": [
+                  {
+                    "id": "00000001-1111-4111-8111-111111111111",
+                    "kind": "PRODUCT",
+                    "revision": "1"
+                  }
+                ],
+                "gross_observed_pcs": "0"
+              },
+              {
+                "date": "2026-10-01",
+                "state": "AVAILABLE",
+                "returned_pcs": "0",
+                "training_pcs": "0",
+                "availability_refs": [
+                  {
+                    "id": "00000001-1111-4111-8111-111111111111",
+                    "kind": "PRODUCT",
+                    "revision": "1"
+                  }
+                ],
+                "gross_observed_pcs": "0"
+              },
+              {
+                "date": "2026-10-02",
+                "state": "AVAILABLE",
+                "returned_pcs": "0",
+                "training_pcs": "0",
+                "availability_refs": [
+                  {
+                    "id": "00000001-1111-4111-8111-111111111111",
+                    "kind": "PRODUCT",
+                    "revision": "1"
+                  }
+                ],
+                "gross_observed_pcs": "0"
+              },
+              {
+                "date": "2026-10-03",
+                "state": "AVAILABLE",
+                "returned_pcs": "0",
+                "training_pcs": "0",
+                "availability_refs": [
+                  {
+                    "id": "00000001-1111-4111-8111-111111111111",
+                    "kind": "PRODUCT",
+                    "revision": "1"
+                  }
+                ],
+                "gross_observed_pcs": "0"
+              },
+              {
+                "date": "2026-10-04",
+                "state": "AVAILABLE",
+                "returned_pcs": "0",
+                "training_pcs": "0",
+                "availability_refs": [
+                  {
+                    "id": "00000001-1111-4111-8111-111111111111",
+                    "kind": "PRODUCT",
+                    "revision": "1"
+                  }
+                ],
+                "gross_observed_pcs": "0"
+              },
+              {
+                "date": "2026-10-05",
+                "state": "AVAILABLE",
+                "returned_pcs": "0",
+                "training_pcs": "0",
+                "availability_refs": [
+                  {
+                    "id": "00000001-1111-4111-8111-111111111111",
+                    "kind": "PRODUCT",
+                    "revision": "1"
+                  }
+                ],
+                "gross_observed_pcs": "0"
+              },
+              {
+                "date": "2026-10-06",
+                "state": "AVAILABLE",
+                "returned_pcs": "0",
+                "training_pcs": "0",
+                "availability_refs": [
+                  {
+                    "id": "00000001-1111-4111-8111-111111111111",
+                    "kind": "PRODUCT",
+                    "revision": "1"
+                  }
+                ],
+                "gross_observed_pcs": "0"
+              },
+              {
+                "date": "2026-10-07",
+                "state": "AVAILABLE",
+                "returned_pcs": "0",
+                "training_pcs": "0",
+                "availability_refs": [
+                  {
+                    "id": "00000001-1111-4111-8111-111111111111",
+                    "kind": "PRODUCT",
+                    "revision": "1"
+                  }
+                ],
+                "gross_observed_pcs": "0"
+              },
+              {
+                "date": "2026-10-08",
+                "state": "AVAILABLE",
+                "returned_pcs": "0",
+                "training_pcs": "0",
+                "availability_refs": [
+                  {
+                    "id": "00000001-1111-4111-8111-111111111111",
+                    "kind": "PRODUCT",
+                    "revision": "1"
+                  }
+                ],
+                "gross_observed_pcs": "0"
+              },
+              {
+                "date": "2026-10-09",
+                "state": "AVAILABLE",
+                "returned_pcs": "0",
+                "training_pcs": "0",
+                "availability_refs": [
+                  {
+                    "id": "00000001-1111-4111-8111-111111111111",
+                    "kind": "PRODUCT",
+                    "revision": "1"
+                  }
+                ],
+                "gross_observed_pcs": "0"
+              },
+              {
+                "date": "2026-10-10",
+                "state": "AVAILABLE",
+                "returned_pcs": "0",
+                "training_pcs": "0",
+                "availability_refs": [
+                  {
+                    "id": "00000001-1111-4111-8111-111111111111",
+                    "kind": "PRODUCT",
+                    "revision": "1"
+                  }
+                ],
+                "gross_observed_pcs": "0"
+              },
+              {
+                "date": "2026-10-11",
+                "state": "AVAILABLE",
+                "returned_pcs": "0",
+                "training_pcs": "0",
+                "availability_refs": [
+                  {
+                    "id": "00000001-1111-4111-8111-111111111111",
+                    "kind": "PRODUCT",
+                    "revision": "1"
+                  }
+                ],
+                "gross_observed_pcs": "0"
+              },
+              {
+                "date": "2026-10-12",
+                "state": "AVAILABLE",
+                "returned_pcs": "0",
+                "training_pcs": "0",
+                "availability_refs": [
+                  {
+                    "id": "00000001-1111-4111-8111-111111111111",
+                    "kind": "PRODUCT",
+                    "revision": "1"
+                  }
+                ],
+                "gross_observed_pcs": "0"
+              },
+              {
+                "date": "2026-10-13",
+                "state": "AVAILABLE",
+                "returned_pcs": "0",
+                "training_pcs": "0",
+                "availability_refs": [
+                  {
+                    "id": "00000001-1111-4111-8111-111111111111",
+                    "kind": "PRODUCT",
+                    "revision": "1"
+                  }
+                ],
+                "gross_observed_pcs": "0"
+              },
+              {
+                "date": "2026-10-14",
+                "state": "AVAILABLE",
+                "returned_pcs": "0",
+                "training_pcs": "0",
+                "availability_refs": [
+                  {
+                    "id": "00000001-1111-4111-8111-111111111111",
+                    "kind": "PRODUCT",
+                    "revision": "1"
+                  }
+                ],
+                "gross_observed_pcs": "0"
+              },
+              {
+                "date": "2026-10-15",
+                "state": "AVAILABLE",
+                "returned_pcs": "0",
+                "training_pcs": "0",
+                "availability_refs": [
+                  {
+                    "id": "00000001-1111-4111-8111-111111111111",
+                    "kind": "PRODUCT",
+                    "revision": "1"
+                  }
+                ],
+                "gross_observed_pcs": "0"
+              },
+              {
+                "date": "2026-10-16",
+                "state": "AVAILABLE",
+                "returned_pcs": "0",
+                "training_pcs": "0",
+                "availability_refs": [
+                  {
+                    "id": "00000001-1111-4111-8111-111111111111",
+                    "kind": "PRODUCT",
+                    "revision": "1"
+                  }
+                ],
+                "gross_observed_pcs": "0"
+              },
+              {
+                "date": "2026-10-17",
+                "state": "AVAILABLE",
+                "returned_pcs": "0",
+                "training_pcs": "0",
+                "availability_refs": [
+                  {
+                    "id": "00000001-1111-4111-8111-111111111111",
+                    "kind": "PRODUCT",
+                    "revision": "1"
+                  }
+                ],
+                "gross_observed_pcs": "0"
+              },
+              {
+                "date": "2026-10-18",
+                "state": "AVAILABLE",
+                "returned_pcs": "0",
+                "training_pcs": "0",
+                "availability_refs": [
+                  {
+                    "id": "00000001-1111-4111-8111-111111111111",
+                    "kind": "PRODUCT",
+                    "revision": "1"
+                  }
+                ],
+                "gross_observed_pcs": "0"
+              },
+              {
+                "date": "2026-10-19",
+                "state": "AVAILABLE",
+                "returned_pcs": "0",
+                "training_pcs": "0",
+                "availability_refs": [
+                  {
+                    "id": "00000001-1111-4111-8111-111111111111",
+                    "kind": "PRODUCT",
+                    "revision": "1"
+                  }
+                ],
+                "gross_observed_pcs": "0"
+              },
+              {
+                "date": "2026-10-20",
+                "state": "AVAILABLE",
+                "returned_pcs": "0",
+                "training_pcs": "0",
+                "availability_refs": [
+                  {
+                    "id": "00000001-1111-4111-8111-111111111111",
+                    "kind": "PRODUCT",
+                    "revision": "1"
+                  }
+                ],
+                "gross_observed_pcs": "0"
+              },
+              {
+                "date": "2026-10-21",
+                "state": "AVAILABLE",
+                "returned_pcs": "0",
+                "training_pcs": "0",
+                "availability_refs": [
+                  {
+                    "id": "00000001-1111-4111-8111-111111111111",
+                    "kind": "PRODUCT",
+                    "revision": "1"
+                  }
+                ],
+                "gross_observed_pcs": "0"
+              },
+              {
+                "date": "2026-10-22",
+                "state": "AVAILABLE",
+                "returned_pcs": "0",
+                "training_pcs": "0",
+                "availability_refs": [
+                  {
+                    "id": "00000001-1111-4111-8111-111111111111",
+                    "kind": "PRODUCT",
+                    "revision": "1"
+                  }
+                ],
+                "gross_observed_pcs": "0"
+              }
+            ],
+            "refs": [
+              {
+                "id": "00000001-1111-4111-8111-111111111111",
+                "kind": "PRODUCT",
+                "revision": "1"
+              }
+            ],
+            "size_id": "00009000-1111-4111-8111-111111111111",
+            "target_key": "00000001-1111-4111-8111-111111111111:00009000-1111-4111-8111-111111111111",
+            "unknown_days": 0,
+            "stockout_days": 1,
+            "available_days": 29,
+            "lost_sales_pcs": null,
+            "draft_reserved_pcs": "0",
+            "gross_observed_pcs": "10",
+            "calendar_sales_mean": "0.33333333333333333333",
+            "available_sales_mean": "0.34482758620689655172",
+            "demand_estimate_basis": "ASSUMED_AVAILABLE_DAYS_REPRESENTATIVE"
+          }
+        ],
+        "reason": "POSTED_ONCE_RETURNS_SEPARATE_DRAFT_RESERVED_CENSORED_NOT_ZERO",
+        "status": "CAPTURE_COMPLETE",
+        "scope_id": "SINGLE_CURRENT_PHYSICAL_ROOT",
+        "from_date": "2026-09-23",
+        "group_mode": "AS_SOLD",
+        "known_as_of": "2026-10-24T19:15:21.743000Z",
+        "snapshot_id": "07da1844662ee4aee820be7203eedd0aadda4c2ce65a2a6dd2f4851ed9bc4acd",
+        "group_events": [
+          {
+            "refs": [
+              {
+                "id": "00000200-1111-4111-8111-111111111111",
+                "kind": "SALE_ITEM",
+                "revision": "1"
+              },
+              {
+                "id": "00000202-1111-4111-8111-111111111111",
+                "kind": "JOURNAL",
+                "revision": "1"
+              }
+            ],
+            "qty_pcs": "10",
+            "size_id": "00009000-1111-4111-8111-111111111111",
+            "group_key": "00000001-1111-4111-8111-111111111111",
+            "lineage_key": "00000200-1111-4111-8111-111111111111"
+          }
+        ],
+        "through_date": "2026-10-22",
+        "kernel_version": "demand-1",
+        "effective_as_of": "2026-10-24T19:15:21.743000Z",
+        "selected_events": [
+          {
+            "refs": [
+              {
+                "id": "00000200-1111-4111-8111-111111111111",
+                "kind": "SALE_ITEM",
+                "revision": "1"
+              },
+              {
+                "id": "00000202-1111-4111-8111-111111111111",
+                "kind": "JOURNAL",
+                "revision": "1"
+              }
+            ],
+            "status": "POSTED",
+            "qty_pcs": "10",
+            "size_id": "00009000-1111-4111-8111-111111111111",
+            "known_at": "2026-09-24T02:00:00.000000Z",
+            "revision": "1",
+            "posted_at": "2026-09-24T02:00:00.000000Z",
+            "target_key": "00000001-1111-4111-8111-111111111111:00009000-1111-4111-8111-111111111111",
+            "lineage_key": "00000200-1111-4111-8111-111111111111",
+            "effective_at": "2026-09-24T02:00:00.000000Z",
+            "returned_pcs": "0",
+            "sold_group_key": "00000001-1111-4111-8111-111111111111"
+          }
+        ],
+        "contract_version": "cp7.demand-result.v1"
+      },
+      "versions": {
+        "history": "demand-1",
+        "producer": "scoped-native-demand-1",
+        "availability": "availability-1"
+      },
+      "target_key": "00000001-1111-4111-8111-111111111111:00009000-1111-4111-8111-111111111111",
+      "captured_at": "2026-10-24T19:15:21.743000Z",
+      "source_hash": "07da1844662ee4aee820be7203eedd0aadda4c2ce65a2a6dd2f4851ed9bc4acd",
+      "current_stock": [
+        {
+          "sku": "CONTROL-1",
+          "refs": [
+            {
+              "id": "00000001-1111-4111-8111-111111111111",
+              "kind": "PRODUCT",
+              "revision": "1"
+            }
+          ],
+          "root_id": "00000001-1111-4111-8111-111111111111",
+          "size_id": "00009000-1111-4111-8111-111111111111",
+          "is_active": true,
+          "target_key": "00000001-1111-4111-8111-111111111111:00009000-1111-4111-8111-111111111111",
+          "grade_basis": "NATIVE_SELLABLE_GRADE_A_AND_B",
+          "availability": {
+            "inputs": {
+              "refs": [
+                {
+                  "id": "00000001-1111-4111-8111-111111111111",
+                  "kind": "PRODUCT",
+                  "revision": "1"
+                }
+              ],
+              "fg_pcs": "90",
+              "size_id": "00009000-1111-4111-8111-111111111111",
+              "fg_basis": "ON_HAND_AFTER_POSTED",
+              "scope_id": "SINGLE_CURRENT_PHYSICAL_ROOT",
+              "target_key": "00000001-1111-4111-8111-111111111111:00009000-1111-4111-8111-111111111111",
+              "open_drafts": [],
+              "snapshot_id": "07da1844662ee4aee820be7203eedd0aadda4c2ce65a2a6dd2f4851ed9bc4acd",
+              "contract_version": "cp7.available-input.v1",
+              "residual_future_pcs": "0"
+            },
+            "reason": "POSTED_ALREADY_IN_FG_OPEN_DRAFT_ONCE_RESIDUAL_FUTURE_ONLY",
+            "status": "KNOWN",
+            "reserved_pcs": "0",
+            "kernel_version": "availability-1",
+            "physical_fg_pcs": "90",
+            "available_fg_pcs": "90",
+            "projected_residual_pcs": "90"
+          },
+          "product_name": "Controlled source 1",
+          "projection_basis": "CURRENT_STOCK_ONLY_NO_FORECAST",
+          "native_available_pcs": "90"
+        }
+      ],
+      "production_go": false,
+      "capture_complete": true,
+      "contract_version": "cp7.scoped-demand-history.v1",
+      "model_eligibility": "HISTORICAL_AVAILABILITY_KNOWLEDGE_NOT_BACKFILLED",
+      "training_known_at": "2026-10-24T19:15:21.743000Z",
+      "raw_capture_status": "COMPLETE",
+      "raw_status_overridden": false,
+      "availability_knowledge_basis": "CURRENT_CAPTURE_RESTATED_LEDGER"
+    },
+    "request_id": "8768559c-a083-4a0d-b75f-ebcfd25ff5c0",
+    "captured_at": "2026-10-24T19:15:21.743000Z",
+    "source_hash": "07da1844662ee4aee820be7203eedd0aadda4c2ce65a2a6dd2f4851ed9bc4acd",
+    "current_guard": {
+      "reason": "CURRENT_SCOPED_SOURCE_AND_ENGINE",
+      "checked_at": "2026-10-24T19:15:21.802000Z",
+      "engine_hash": "adad276321781bcf7ff3eb696fa09b7cc730bed4145e3f08f0710bdb7a2ad2a6",
+      "source_state": "UNCHANGED",
+      "live_source_hash": "07da1844662ee4aee820be7203eedd0aadda4c2ce65a2a6dd2f4851ed9bc4acd"
+    },
+    "production_go": false,
+    "actor_scope_id": "d30141c7-68fb-4e19-916f-aa85d805b813",
+    "contract_version": "cp7.scoped-history-run.v1",
+    "model_caller_integrated": false
+  },
+  "model": {
+    "query": {
+      "target_key": "00000001-1111-4111-8111-111111111111:00009000-1111-4111-8111-111111111111",
+      "horizon_days": "7",
+      "history_run_id": "59983cc0-f446-4470-b157-1daf02ad32b2"
+    },
+    "run_id": "72daec90-5990-4f5d-9060-77226bcb35f8",
+    "assessment": {
+      "source": {
+        "size_id": "00009000-1111-4111-8111-111111111111",
+        "from_date": "2026-09-23",
+        "target_key": "00000001-1111-4111-8111-111111111111:00009000-1111-4111-8111-111111111111",
+        "known_as_of": "2026-10-24T19:15:21.743000Z",
+        "product_sku": "CONTROL-1",
+        "registry_id": "cp7.native-model-policy.v1",
+        "horizon_days": "7",
+        "product_name": "Controlled source 1",
+        "through_date": "2026-10-22",
+        "registered_at": "2026-10-24T19:15:21.678000Z",
+        "history_run_id": "59983cc0-f446-4470-b157-1daf02ad32b2",
+        "knowledge_basis": "ACTUAL_IMMUTABLE_NATIVE_CAPTURE_TIMES",
+        "series_revision_count": 30,
+        "no_retrospective_availability_backfill": true
+      },
+      "baseline": {
+        "method": "MEAN",
+        "daily_mean": "0.34482758620689655172"
+      },
+      "activation": {
+        "state": "BASELINE_REQUIRED",
+        "reason": "EXPLICIT_ACTIVATION_POLICY_REQUIRED",
+        "size_id": "00009000-1111-4111-8111-111111111111",
+        "forecast": null,
+        "policy_id": null,
+        "target_key": "00000001-1111-4111-8111-111111111111:00009000-1111-4111-8111-111111111111",
+        "engine_hash": "f8911a9a09263e2848a7c273a2d77f3c",
+        "known_as_of": "2026-10-24T19:15:21.857000Z",
+        "registry_id": null,
+        "source_hash": "1c687db92657d6341aeda133137c57054d226446485fd4776211dcca9978e2e5",
+        "horizon_days": "7",
+        "production_go": false,
+        "selected_model": null,
+        "policy_revision": null,
+        "contract_version": "cp7.model-activation-gate.v1",
+        "forecast_applied": false,
+        "forecast_from_date": "2026-10-25",
+        "policy_recorded_at": null,
+        "holdout_used_for_selection": false
+      },
+      "evaluation": {
+        "reason": "REGISTRY_NOT_KNOWN_BEFORE_VALIDATION",
+        "size_id": "00009000-1111-4111-8111-111111111111",
+        "forecast": null,
+        "from_date": "2026-09-23",
+        "evaluation": null,
+        "target_key": "00000001-1111-4111-8111-111111111111:00009000-1111-4111-8111-111111111111",
+        "known_as_of": "2026-10-24T19:15:21.743000Z",
+        "product_sku": "CONTROL-1",
+        "registry_id": "cp7.native-model-policy.v1",
+        "source_hash": "1c687db92657d6341aeda133137c57054d226446485fd4776211dcca9978e2e5",
+        "horizon_days": 7,
+        "product_name": "Controlled source 1",
+        "through_date": "2026-10-22",
+        "apply_allowed": false,
+        "production_go": false,
+        "history_run_id": "59983cc0-f446-4470-b157-1daf02ad32b2",
+        "policy_meaning": "TECHNICAL_PROPOSAL_NOT_OWNER_SERVICE_TARGET",
+        "knowledge_basis": "ACTUAL_IMMUTABLE_NATIVE_CAPTURE_TIMES",
+        "contract_version": "cp7.native-model-result.v1",
+        "selection_status": "BASELINE_RETAINED",
+        "selected_model_id": "mean-1",
+        "fallback_daily_mean": "0.34482758620689655172",
+        "automatic_activation": false,
+        "series_revision_count": 30,
+        "registry_registered_at": "2026-10-24T19:15:21.678000Z",
+        "no_retrospective_availability_backfill": true
+      },
+      "engine_hash": "f8911a9a09263e2848a7c273a2d77f3c",
+      "source_hash": "1c687db92657d6341aeda133137c57054d226446485fd4776211dcca9978e2e5",
+      "apply_allowed": false,
+      "policy_source": null,
+      "production_go": false,
+      "policy_current": true,
+      "contract_version": "cp7.native-model-assessment.v2",
+      "evaluation_state": "EVALUATED",
+      "forecast_applied": false,
+      "automatic_activation": false,
+      "current_consumption_recheck_required": true
+    },
+    "request_id": "99b45bd7-27c7-4791-bc21-4035e18c9052",
+    "captured_at": "2026-10-24T19:15:21.857000Z",
+    "current_guard": {
+      "state": "BASELINE_REQUIRED",
+      "reason": "MODEL_FORECAST_ORIGIN_NOT_CURRENT",
+      "checked_at": "2026-10-24T19:15:21.872000Z",
+      "source_state": "ARCHIVED_STALE",
+      "production_go": false,
+      "contract_version": "cp7.native-model-current-guard.v2",
+      "engine_unchanged": true,
+      "forecast_applied": false,
+      "policy_unchanged": true,
+      "history_unchanged": true,
+      "forecast_origin_current": false
+    },
+    "history_scope": "SINGLE_CURRENT_PHYSICAL_ROOT",
+    "production_go": false,
+    "actor_scope_id": "d30141c7-68fb-4e19-916f-aa85d805b813",
+    "contract_version": "cp7.scoped-model-run.v3",
+    "forecast_applied": false
+  },
+  "beforeSourceChange": {
+    "query": {
+      "target_key": "00000001-1111-4111-8111-111111111111:00009000-1111-4111-8111-111111111111",
+      "horizon_days": "7",
+      "history_run_id": "f804fc35-b8d7-4958-aba8-cc17a597ecc3"
+    },
+    "run_id": "47d45bbc-4389-4756-8b36-430a5e5a5a1f",
+    "assessment": {
+      "source": {
+        "size_id": "00009000-1111-4111-8111-111111111111",
+        "from_date": "2026-09-23",
+        "target_key": "00000001-1111-4111-8111-111111111111:00009000-1111-4111-8111-111111111111",
+        "known_as_of": "2026-10-24T19:15:22.156000Z",
+        "product_sku": "CONTROL-1",
+        "registry_id": "cp7.native-model-policy.v1",
+        "horizon_days": "7",
+        "product_name": "Controlled source 1",
+        "through_date": "2026-10-22",
+        "registered_at": "2026-10-24T19:15:21.678000Z",
+        "history_run_id": "f804fc35-b8d7-4958-aba8-cc17a597ecc3",
+        "knowledge_basis": "ACTUAL_IMMUTABLE_NATIVE_CAPTURE_TIMES",
+        "series_revision_count": 30,
+        "no_retrospective_availability_backfill": true
+      },
+      "baseline": {
+        "method": "MEAN",
+        "daily_mean": "0.34482758620689655172"
+      },
+      "activation": {
+        "state": "BASELINE_REQUIRED",
+        "reason": "EXPLICIT_ACTIVATION_POLICY_REQUIRED",
+        "size_id": "00009000-1111-4111-8111-111111111111",
+        "forecast": null,
+        "policy_id": null,
+        "target_key": "00000001-1111-4111-8111-111111111111:00009000-1111-4111-8111-111111111111",
+        "engine_hash": "f8911a9a09263e2848a7c273a2d77f3c",
+        "known_as_of": "2026-10-24T19:15:22.224000Z",
+        "registry_id": null,
+        "source_hash": "03de78912ebb831bf05500e201fea4e13db3514547a892c8fedd8d85f3b6ea5a",
+        "horizon_days": "7",
+        "production_go": false,
+        "selected_model": null,
+        "policy_revision": null,
+        "contract_version": "cp7.model-activation-gate.v1",
+        "forecast_applied": false,
+        "forecast_from_date": "2026-10-25",
+        "policy_recorded_at": null,
+        "holdout_used_for_selection": false
+      },
+      "evaluation": {
+        "reason": "REGISTRY_NOT_KNOWN_BEFORE_VALIDATION",
+        "size_id": "00009000-1111-4111-8111-111111111111",
+        "forecast": null,
+        "from_date": "2026-09-23",
+        "evaluation": null,
+        "target_key": "00000001-1111-4111-8111-111111111111:00009000-1111-4111-8111-111111111111",
+        "known_as_of": "2026-10-24T19:15:22.156000Z",
+        "product_sku": "CONTROL-1",
+        "registry_id": "cp7.native-model-policy.v1",
+        "source_hash": "03de78912ebb831bf05500e201fea4e13db3514547a892c8fedd8d85f3b6ea5a",
+        "horizon_days": 7,
+        "product_name": "Controlled source 1",
+        "through_date": "2026-10-22",
+        "apply_allowed": false,
+        "production_go": false,
+        "history_run_id": "f804fc35-b8d7-4958-aba8-cc17a597ecc3",
+        "policy_meaning": "TECHNICAL_PROPOSAL_NOT_OWNER_SERVICE_TARGET",
+        "knowledge_basis": "ACTUAL_IMMUTABLE_NATIVE_CAPTURE_TIMES",
+        "contract_version": "cp7.native-model-result.v1",
+        "selection_status": "BASELINE_RETAINED",
+        "selected_model_id": "mean-1",
+        "fallback_daily_mean": "0.34482758620689655172",
+        "automatic_activation": false,
+        "series_revision_count": 30,
+        "registry_registered_at": "2026-10-24T19:15:21.678000Z",
+        "no_retrospective_availability_backfill": true
+      },
+      "engine_hash": "f8911a9a09263e2848a7c273a2d77f3c",
+      "source_hash": "03de78912ebb831bf05500e201fea4e13db3514547a892c8fedd8d85f3b6ea5a",
+      "apply_allowed": false,
+      "policy_source": null,
+      "production_go": false,
+      "policy_current": true,
+      "contract_version": "cp7.native-model-assessment.v2",
+      "evaluation_state": "EVALUATED",
+      "forecast_applied": false,
+      "automatic_activation": false,
+      "current_consumption_recheck_required": true
+    },
+    "request_id": "5a4003cf-0517-41d1-aaad-2608a70d679c",
+    "captured_at": "2026-10-24T19:15:22.224000Z",
+    "current_guard": {
+      "state": "BASELINE_REQUIRED",
+      "reason": "MODEL_FORECAST_ORIGIN_NOT_CURRENT",
+      "checked_at": "2026-10-24T19:15:22.234000Z",
+      "source_state": "ARCHIVED_STALE",
+      "production_go": false,
+      "contract_version": "cp7.native-model-current-guard.v2",
+      "engine_unchanged": true,
+      "forecast_applied": false,
+      "policy_unchanged": true,
+      "history_unchanged": true,
+      "forecast_origin_current": false
+    },
+    "history_scope": "SINGLE_CURRENT_PHYSICAL_ROOT",
+    "production_go": false,
+    "actor_scope_id": "d30141c7-68fb-4e19-916f-aa85d805b813",
+    "contract_version": "cp7.scoped-model-run.v3",
+    "forecast_applied": false
+  },
+  "afterSourceChange": {
+    "query": {
+      "target_key": "00000001-1111-4111-8111-111111111111:00009000-1111-4111-8111-111111111111",
+      "horizon_days": "7",
+      "history_run_id": "f804fc35-b8d7-4958-aba8-cc17a597ecc3"
+    },
+    "run_id": "47d45bbc-4389-4756-8b36-430a5e5a5a1f",
+    "assessment": {
+      "source": {
+        "size_id": "00009000-1111-4111-8111-111111111111",
+        "from_date": "2026-09-23",
+        "target_key": "00000001-1111-4111-8111-111111111111:00009000-1111-4111-8111-111111111111",
+        "known_as_of": "2026-10-24T19:15:22.156000Z",
+        "product_sku": "CONTROL-1",
+        "registry_id": "cp7.native-model-policy.v1",
+        "horizon_days": "7",
+        "product_name": "Controlled source 1",
+        "through_date": "2026-10-22",
+        "registered_at": "2026-10-24T19:15:21.678000Z",
+        "history_run_id": "f804fc35-b8d7-4958-aba8-cc17a597ecc3",
+        "knowledge_basis": "ACTUAL_IMMUTABLE_NATIVE_CAPTURE_TIMES",
+        "series_revision_count": 30,
+        "no_retrospective_availability_backfill": true
+      },
+      "baseline": {
+        "method": "MEAN",
+        "daily_mean": "0.34482758620689655172"
+      },
+      "activation": {
+        "state": "BASELINE_REQUIRED",
+        "reason": "EXPLICIT_ACTIVATION_POLICY_REQUIRED",
+        "size_id": "00009000-1111-4111-8111-111111111111",
+        "forecast": null,
+        "policy_id": null,
+        "target_key": "00000001-1111-4111-8111-111111111111:00009000-1111-4111-8111-111111111111",
+        "engine_hash": "f8911a9a09263e2848a7c273a2d77f3c",
+        "known_as_of": "2026-10-24T19:15:22.224000Z",
+        "registry_id": null,
+        "source_hash": "03de78912ebb831bf05500e201fea4e13db3514547a892c8fedd8d85f3b6ea5a",
+        "horizon_days": "7",
+        "production_go": false,
+        "selected_model": null,
+        "policy_revision": null,
+        "contract_version": "cp7.model-activation-gate.v1",
+        "forecast_applied": false,
+        "forecast_from_date": "2026-10-25",
+        "policy_recorded_at": null,
+        "holdout_used_for_selection": false
+      },
+      "evaluation": {
+        "reason": "REGISTRY_NOT_KNOWN_BEFORE_VALIDATION",
+        "size_id": "00009000-1111-4111-8111-111111111111",
+        "forecast": null,
+        "from_date": "2026-09-23",
+        "evaluation": null,
+        "target_key": "00000001-1111-4111-8111-111111111111:00009000-1111-4111-8111-111111111111",
+        "known_as_of": "2026-10-24T19:15:22.156000Z",
+        "product_sku": "CONTROL-1",
+        "registry_id": "cp7.native-model-policy.v1",
+        "source_hash": "03de78912ebb831bf05500e201fea4e13db3514547a892c8fedd8d85f3b6ea5a",
+        "horizon_days": 7,
+        "product_name": "Controlled source 1",
+        "through_date": "2026-10-22",
+        "apply_allowed": false,
+        "production_go": false,
+        "history_run_id": "f804fc35-b8d7-4958-aba8-cc17a597ecc3",
+        "policy_meaning": "TECHNICAL_PROPOSAL_NOT_OWNER_SERVICE_TARGET",
+        "knowledge_basis": "ACTUAL_IMMUTABLE_NATIVE_CAPTURE_TIMES",
+        "contract_version": "cp7.native-model-result.v1",
+        "selection_status": "BASELINE_RETAINED",
+        "selected_model_id": "mean-1",
+        "fallback_daily_mean": "0.34482758620689655172",
+        "automatic_activation": false,
+        "series_revision_count": 30,
+        "registry_registered_at": "2026-10-24T19:15:21.678000Z",
+        "no_retrospective_availability_backfill": true
+      },
+      "engine_hash": "f8911a9a09263e2848a7c273a2d77f3c",
+      "source_hash": "03de78912ebb831bf05500e201fea4e13db3514547a892c8fedd8d85f3b6ea5a",
+      "apply_allowed": false,
+      "policy_source": null,
+      "production_go": false,
+      "policy_current": true,
+      "contract_version": "cp7.native-model-assessment.v2",
+      "evaluation_state": "EVALUATED",
+      "forecast_applied": false,
+      "automatic_activation": false,
+      "current_consumption_recheck_required": true
+    },
+    "request_id": "5a4003cf-0517-41d1-aaad-2608a70d679c",
+    "captured_at": "2026-10-24T19:15:22.224000Z",
+    "current_guard": {
+      "state": "BASELINE_REQUIRED",
+      "reason": "NATIVE_HISTORY_SOURCE_CHANGED",
+      "checked_at": "2026-10-24T19:15:22.268000Z",
+      "source_state": "ARCHIVED_STALE",
+      "production_go": false,
+      "contract_version": "cp7.native-model-current-guard.v2",
+      "engine_unchanged": true,
+      "forecast_applied": false,
+      "policy_unchanged": true,
+      "history_unchanged": false,
+      "forecast_origin_current": false
+    },
+    "history_scope": "SINGLE_CURRENT_PHYSICAL_ROOT",
+    "production_go": false,
+    "actor_scope_id": "d30141c7-68fb-4e19-916f-aa85d805b813",
+    "contract_version": "cp7.scoped-model-run.v3",
+    "forecast_applied": false
+  }
+}

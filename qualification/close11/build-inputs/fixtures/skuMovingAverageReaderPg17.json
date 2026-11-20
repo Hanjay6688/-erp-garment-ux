@@ -1,0 +1,38 @@
+{
+  "known": {
+    "basis": "SKU_LOCATION_GRADE_MOVING_AVERAGE_V2",
+    "state": "KNOWN",
+    "value": "47.500000",
+    "unit_cost": "23.750000",
+    "cost_state": null,
+    "hpp_version": null,
+    "calculated_at": null,
+    "pool_revision": "0123456789abcdef0123456789abcdef",
+    "hpp_version_id": null,
+    "reserved_included": true
+  },
+  "unknown": {
+    "basis": "SKU_LOCATION_GRADE_MOVING_AVERAGE_V2",
+    "state": "UNKNOWN",
+    "value": null,
+    "unit_cost": null,
+    "cost_state": null,
+    "hpp_version": null,
+    "calculated_at": null,
+    "pool_revision": null,
+    "hpp_version_id": null,
+    "reserved_included": true
+  },
+  "empty": {
+    "basis": "SKU_LOCATION_GRADE_MOVING_AVERAGE_V2",
+    "state": "UNKNOWN",
+    "value": null,
+    "unit_cost": null,
+    "cost_state": null,
+    "hpp_version": null,
+    "calculated_at": null,
+    "pool_revision": "0123456789abcdef0123456789abcdef",
+    "hpp_version_id": null,
+    "reserved_included": true
+  }
+}

@@ -1,9 +1,11 @@
 """Auditor entry point for a public job. The only remote input during restore is a wrapped key."""
 import base64
+import hashlib
 import json
 import os
 from pathlib import Path
 import re
+import shutil
 import subprocess
 import sys
 import tarfile
@@ -22,6 +24,28 @@ def api(path,timeout=90):
 def fetch(a,path):
     with path.open('xb') as stream:subprocess.run(['gh','api',f"repos/{REPO}/actions/artifacts/{a['id']}/zip"],stdout=stream,stderr=subprocess.PIPE,check=True,timeout=600)
     check(a['digest']=='sha256:'+digest(path),'CLOSE11_ARTIFACT_SHA')
+
+def install_build_inputs(app,inputs):
+    """The source tree's regular frontend tests are typechecked by npm run build."""
+    def object_id(kind,data):
+        return hashlib.sha1(kind+b' '+str(len(data)).encode()+b'\0'+data).digest()
+    fixtures=inputs/'fixtures'
+    entries=[]
+    for path in sorted(fixtures.iterdir(),key=lambda p:p.name.encode()):
+        check(path.is_file() and not path.is_symlink(),'CLOSE11_UI_FIXTURE_KIND')
+        entries.append(b'100644 '+path.name.encode()+b'\0'+object_id(b'blob',path.read_bytes()))
+    check(object_id(b'tree',b''.join(entries)).hex()=='b50c67c3b2cd85a14a69b5e3abc1dde53ec2f868','CLOSE11_UI_FIXTURE_TREE')
+    controls=inputs/'LOCAL_SETTINGS_CONTROLS.json'
+    check(object_id(b'blob',controls.read_bytes()).hex()=='8711259fd44ee7305548fb061e4cc88ffc976433','CLOSE11_UI_CONTROLS_SOURCE')
+    scanner=inputs/'scan-client-artifacts.mjs'
+    check(object_id(b'blob',scanner.read_bytes()).hex()=='4e9ab66106ddc79dd150c373d5eae5764f6bbada','CLOSE11_UI_POSTBUILD_SOURCE')
+    (app/'tests').mkdir(exist_ok=True)
+    shutil.copytree(fixtures,app/'tests/fixtures',dirs_exist_ok=True)
+    destination=app/'scripts/cp7_accessory_nonpayable'
+    destination.mkdir(exist_ok=True)
+    shutil.copyfile(controls,destination/controls.name)
+    shutil.copyfile(scanner,app/'scripts'/scanner.name)
+
 def plan(work):
     run=os.environ['ORIGIN_RUN'];head=os.environ['ORIGIN_RUNNER']
     check(run.isdecimal() and re.fullmatch(r'[0-9a-f]{40}',head),'CLOSE11_ORIGIN_ARGUMENTS')
@@ -44,6 +68,7 @@ def plan(work):
     check(terminal['status']=='INSTALLED_AND_PRESERVED' and rec['product']==PRODUCT and rec['tree']==TREE and rec['run']==run and rec['runner']==head and rec['catalogue_verified_after_scheduler'] is True,'CLOSE11_WRITER_TERMINAL')
     check(digest(work/'ffda-ui.tar.gz')==(work/'ui.sha256').read_text().split()[0],'CLOSE11_UI_DIGEST')
     with tarfile.open(work/'ffda-ui.tar.gz','r:gz') as t:t.extractall(path=work/'ui',filter='data')
+    install_build_inputs(work/'ui/product',Path(__file__).parent/'build-inputs')
     challenge(work/'installed.json',work/'global-ffda.cp7',work/'request.json',work/'receiver.pem')
     print('Receiver ready for auditor run '+os.environ['GITHUB_RUN_ID']+' at '+os.environ['GITHUB_SHA'])
 def restore(work):

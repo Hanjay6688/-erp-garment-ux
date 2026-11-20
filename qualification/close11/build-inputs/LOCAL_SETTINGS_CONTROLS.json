@@ -1,0 +1,585 @@
+{
+  "status": "ISOLATED_POSTGRES_GOOD_DATE_SETTINGS_FACADE_MODEL_PASS",
+  "engine": "PostgreSQL 17.5 on aarch64-unknown-linux-gnu, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit",
+  "checks": [
+    {
+      "name": "PUBLIC_SCHEMA_RAW_ACL_RESTORED_AFTER_OWNERSHIP_GRANT",
+      "status": "PASS"
+    },
+    {
+      "name": "OWNER_WORKSPACE_HAS_CURRENT_SOURCE_AND_BOUNDED_HISTORY",
+      "status": "PASS"
+    },
+    {
+      "name": "ADMIN_CAN_READ_BUT_CANNOT_CONFIRM_DATE",
+      "status": "PASS"
+    },
+    {
+      "name": "ORDINARY_INTERNAL_USER_CANNOT_READ_POLICY_VALUES",
+      "status": "PASS"
+    },
+    {
+      "name": "EXISTING_PERMISSION_REQUIRED:settings.erp.view",
+      "status": "PASS"
+    },
+    {
+      "name": "EXISTING_PERMISSION_REQUIRED:warehouse.accessory.view",
+      "status": "PASS"
+    },
+    {
+      "name": "EXISTING_PERMISSION_REQUIRED:settings.erp.manage",
+      "status": "PASS"
+    },
+    {
+      "name": "MISSING_JWT_AND_WRONG_JWT_ROLE_REFUSE",
+      "status": "PASS"
+    },
+    {
+      "name": "DISABLED_ACCESS_REFUSES",
+      "status": "PASS"
+    },
+    {
+      "name": "PUBLIC_EXECUTE_DENIED:anon",
+      "status": "PASS"
+    },
+    {
+      "name": "PUBLIC_EXECUTE_DENIED:service_role",
+      "status": "PASS"
+    },
+    {
+      "name": "FACADE_ROLE_HAS_ONLY_TWO_PRIVATE_ENTRYPOINTS_NO_TABLE_OR_FINANCIAL_ACCESS",
+      "status": "PASS"
+    },
+    {
+      "name": "REPEATABLE_READ_IS_REFUSED_FOR_FRESH_ACCESS",
+      "status": "PASS"
+    },
+    {
+      "name": "EXPLICIT_OWNER_SOURCE_AND_DATE_SAVED_WITH_SAME_REQUEST",
+      "status": "PASS"
+    },
+    {
+      "name": "EXACT_REPLAY_RETURNS_STORED_REPLY_WITHOUT_NEW_ROWS",
+      "status": "PASS"
+    },
+    {
+      "name": "CHANGED_INTENT_WITH_SAME_REQUEST_REFUSES",
+      "status": "PASS"
+    },
+    {
+      "name": "ANOTHER_OWNER_CANNOT_REUSE_THE_REQUEST",
+      "status": "PASS"
+    },
+    {
+      "name": "SOURCE_CHANGE_REFUSES_STALE_NEW_COMMAND_BUT_EXACT_REPLAY_SURVIVES",
+      "status": "PASS"
+    },
+    {
+      "name": "ACCESS_EPOCH_CHANGE_REFUSES_NEW_COMMAND_AND_STILL_ALLOWS_AUTHORIZED_EXACT_REPLAY",
+      "status": "PASS"
+    },
+    {
+      "name": "REVOKED_PERMISSION_CANNOT_REPLAY_CACHED_SUCCESS",
+      "status": "PASS"
+    },
+    {
+      "name": "TWO_OBSERVATIONS_STALE_TIMELINE_REFUSES_SECOND_NEW_DATE",
+      "status": "PASS"
+    },
+    {
+      "name": "CANCEL_ABSENT_STALE_REQUEST_WRITES_ONLY_A_TOMBSTONE",
+      "status": "PASS"
+    },
+    {
+      "name": "CANCEL_ALREADY_SAVED_RETURNS_SUCCESS_AND_PRESERVES_POLICY_HISTORY",
+      "status": "PASS"
+    },
+    {
+      "name": "CANCEL_SAME_UUID_CHANGED_INTENT_IS_REFUSED",
+      "status": "PASS"
+    },
+    {
+      "name": "INVALID_CLOSED_FIELDS_DATE_REVIEW_AND_REASON_HAVE_NO_EFFECT",
+      "status": "PASS"
+    },
+    {
+      "name": "EXPLICIT_PENDING_SOURCE_DATE_IS_RECORDED_AS_PENDING_NOT_FREE",
+      "status": "PASS"
+    },
+    {
+      "name": "TIMELINE_KEYSET_PAGES_ARE_BOUNDED_WITH_NO_DUPLICATES_OR_OMISSIONS",
+      "status": "PASS"
+    },
+    {
+      "name": "ACTIVE_POSTED_GOOD_REFUSES_POLICY_BACKDATE_AND_LEAVES_REQUEST_UNRECORDED",
+      "status": "PASS"
+    },
+    {
+      "name": "REQUEST_HISTORY_IS_IMMUTABLE",
+      "status": "PASS"
+    },
+    {
+      "name": "MODEL_TRANSACTION_RESTORE_AND_SETTINGS_DDL_INVERSE_RESTORE_ALL22",
+      "status": "PASS"
+    }
+  ],
+  "contract_samples": {
+    "workspace": {
+      "actor": "00000000-0000-4000-8000-000000000001",
+      "versions": [],
+      "can_write": true,
+      "access_epoch": "efdf23bab487f77528860644a3a1e95229528cd9e8bfeff91c423b3a12049093",
+      "source_events": [
+        {
+          "id": "00000000-0000-4000-8000-000000000135",
+          "reason": "SYNTHETIC SOURCE",
+          "status": "SET",
+          "version": "35",
+          "categories": [
+            {
+              "id": "00000000-0000-4000-8000-000000000004",
+              "name": "SYNTHETIC CATEGORY"
+            }
+          ],
+          "recorded_at": "2026-11-01T11:12:21.403000Z"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000134",
+          "reason": "SYNTHETIC SOURCE",
+          "status": "SET",
+          "version": "34",
+          "categories": [
+            {
+              "id": "00000000-0000-4000-8000-000000000004",
+              "name": "SYNTHETIC CATEGORY"
+            }
+          ],
+          "recorded_at": "2026-11-01T11:12:21.403000Z"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000133",
+          "reason": "SYNTHETIC SOURCE",
+          "status": "SET",
+          "version": "33",
+          "categories": [
+            {
+              "id": "00000000-0000-4000-8000-000000000004",
+              "name": "SYNTHETIC CATEGORY"
+            }
+          ],
+          "recorded_at": "2026-11-01T11:12:21.402000Z"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000132",
+          "reason": "SYNTHETIC SOURCE",
+          "status": "SET",
+          "version": "32",
+          "categories": [
+            {
+              "id": "00000000-0000-4000-8000-000000000004",
+              "name": "SYNTHETIC CATEGORY"
+            }
+          ],
+          "recorded_at": "2026-11-01T11:12:21.402000Z"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000131",
+          "reason": "SYNTHETIC SOURCE",
+          "status": "SET",
+          "version": "31",
+          "categories": [
+            {
+              "id": "00000000-0000-4000-8000-000000000004",
+              "name": "SYNTHETIC CATEGORY"
+            }
+          ],
+          "recorded_at": "2026-11-01T11:12:21.401000Z"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000130",
+          "reason": "SYNTHETIC SOURCE",
+          "status": "SET",
+          "version": "30",
+          "categories": [
+            {
+              "id": "00000000-0000-4000-8000-000000000004",
+              "name": "SYNTHETIC CATEGORY"
+            }
+          ],
+          "recorded_at": "2026-11-01T11:12:21.401000Z"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000129",
+          "reason": "SYNTHETIC SOURCE",
+          "status": "SET",
+          "version": "29",
+          "categories": [
+            {
+              "id": "00000000-0000-4000-8000-000000000004",
+              "name": "SYNTHETIC CATEGORY"
+            }
+          ],
+          "recorded_at": "2026-11-01T11:12:21.400000Z"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000128",
+          "reason": "SYNTHETIC SOURCE",
+          "status": "SET",
+          "version": "28",
+          "categories": [
+            {
+              "id": "00000000-0000-4000-8000-000000000004",
+              "name": "SYNTHETIC CATEGORY"
+            }
+          ],
+          "recorded_at": "2026-11-01T11:12:21.400000Z"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000127",
+          "reason": "SYNTHETIC SOURCE",
+          "status": "SET",
+          "version": "27",
+          "categories": [
+            {
+              "id": "00000000-0000-4000-8000-000000000004",
+              "name": "SYNTHETIC CATEGORY"
+            }
+          ],
+          "recorded_at": "2026-11-01T11:12:21.399000Z"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000126",
+          "reason": "SYNTHETIC SOURCE",
+          "status": "SET",
+          "version": "26",
+          "categories": [
+            {
+              "id": "00000000-0000-4000-8000-000000000004",
+              "name": "SYNTHETIC CATEGORY"
+            }
+          ],
+          "recorded_at": "2026-11-01T11:12:21.399000Z"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000125",
+          "reason": "SYNTHETIC SOURCE",
+          "status": "SET",
+          "version": "25",
+          "categories": [
+            {
+              "id": "00000000-0000-4000-8000-000000000004",
+              "name": "SYNTHETIC CATEGORY"
+            }
+          ],
+          "recorded_at": "2026-11-01T11:12:21.398000Z"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000124",
+          "reason": "SYNTHETIC SOURCE",
+          "status": "SET",
+          "version": "24",
+          "categories": [
+            {
+              "id": "00000000-0000-4000-8000-000000000004",
+              "name": "SYNTHETIC CATEGORY"
+            }
+          ],
+          "recorded_at": "2026-11-01T11:12:21.398000Z"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000123",
+          "reason": "SYNTHETIC SOURCE",
+          "status": "SET",
+          "version": "23",
+          "categories": [
+            {
+              "id": "00000000-0000-4000-8000-000000000004",
+              "name": "SYNTHETIC CATEGORY"
+            }
+          ],
+          "recorded_at": "2026-11-01T11:12:21.397000Z"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000122",
+          "reason": "SYNTHETIC SOURCE",
+          "status": "SET",
+          "version": "22",
+          "categories": [
+            {
+              "id": "00000000-0000-4000-8000-000000000004",
+              "name": "SYNTHETIC CATEGORY"
+            }
+          ],
+          "recorded_at": "2026-11-01T11:12:21.397000Z"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000121",
+          "reason": "SYNTHETIC SOURCE",
+          "status": "SET",
+          "version": "21",
+          "categories": [
+            {
+              "id": "00000000-0000-4000-8000-000000000004",
+              "name": "SYNTHETIC CATEGORY"
+            }
+          ],
+          "recorded_at": "2026-11-01T11:12:21.396000Z"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000120",
+          "reason": "SYNTHETIC SOURCE",
+          "status": "SET",
+          "version": "20",
+          "categories": [
+            {
+              "id": "00000000-0000-4000-8000-000000000004",
+              "name": "SYNTHETIC CATEGORY"
+            }
+          ],
+          "recorded_at": "2026-11-01T11:12:21.395000Z"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000119",
+          "reason": "SYNTHETIC SOURCE",
+          "status": "SET",
+          "version": "19",
+          "categories": [
+            {
+              "id": "00000000-0000-4000-8000-000000000004",
+              "name": "SYNTHETIC CATEGORY"
+            }
+          ],
+          "recorded_at": "2026-11-01T11:12:21.395000Z"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000118",
+          "reason": "SYNTHETIC SOURCE",
+          "status": "SET",
+          "version": "18",
+          "categories": [
+            {
+              "id": "00000000-0000-4000-8000-000000000004",
+              "name": "SYNTHETIC CATEGORY"
+            }
+          ],
+          "recorded_at": "2026-11-01T11:12:21.394000Z"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000117",
+          "reason": "SYNTHETIC SOURCE",
+          "status": "SET",
+          "version": "17",
+          "categories": [
+            {
+              "id": "00000000-0000-4000-8000-000000000004",
+              "name": "SYNTHETIC CATEGORY"
+            }
+          ],
+          "recorded_at": "2026-11-01T11:12:21.393000Z"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000116",
+          "reason": "SYNTHETIC SOURCE",
+          "status": "SET",
+          "version": "16",
+          "categories": [
+            {
+              "id": "00000000-0000-4000-8000-000000000004",
+              "name": "SYNTHETIC CATEGORY"
+            }
+          ],
+          "recorded_at": "2026-11-01T11:12:21.393000Z"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000115",
+          "reason": "SYNTHETIC SOURCE",
+          "status": "SET",
+          "version": "15",
+          "categories": [
+            {
+              "id": "00000000-0000-4000-8000-000000000004",
+              "name": "SYNTHETIC CATEGORY"
+            }
+          ],
+          "recorded_at": "2026-11-01T11:12:21.392000Z"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000114",
+          "reason": "SYNTHETIC SOURCE",
+          "status": "SET",
+          "version": "14",
+          "categories": [
+            {
+              "id": "00000000-0000-4000-8000-000000000004",
+              "name": "SYNTHETIC CATEGORY"
+            }
+          ],
+          "recorded_at": "2026-11-01T11:12:21.391000Z"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000113",
+          "reason": "SYNTHETIC SOURCE",
+          "status": "SET",
+          "version": "13",
+          "categories": [
+            {
+              "id": "00000000-0000-4000-8000-000000000004",
+              "name": "SYNTHETIC CATEGORY"
+            }
+          ],
+          "recorded_at": "2026-11-01T11:12:21.391000Z"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000112",
+          "reason": "SYNTHETIC SOURCE",
+          "status": "SET",
+          "version": "12",
+          "categories": [
+            {
+              "id": "00000000-0000-4000-8000-000000000004",
+              "name": "SYNTHETIC CATEGORY"
+            }
+          ],
+          "recorded_at": "2026-11-01T11:12:21.390000Z"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000111",
+          "reason": "SYNTHETIC SOURCE",
+          "status": "SET",
+          "version": "11",
+          "categories": [
+            {
+              "id": "00000000-0000-4000-8000-000000000004",
+              "name": "SYNTHETIC CATEGORY"
+            }
+          ],
+          "recorded_at": "2026-11-01T11:12:21.390000Z"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000110",
+          "reason": "SYNTHETIC SOURCE",
+          "status": "SET",
+          "version": "10",
+          "categories": [
+            {
+              "id": "00000000-0000-4000-8000-000000000004",
+              "name": "SYNTHETIC CATEGORY"
+            }
+          ],
+          "recorded_at": "2026-11-01T11:12:21.389000Z"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000109",
+          "reason": "SYNTHETIC SOURCE",
+          "status": "SET",
+          "version": "9",
+          "categories": [
+            {
+              "id": "00000000-0000-4000-8000-000000000004",
+              "name": "SYNTHETIC CATEGORY"
+            }
+          ],
+          "recorded_at": "2026-11-01T11:12:21.388000Z"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000108",
+          "reason": "SYNTHETIC SOURCE",
+          "status": "SET",
+          "version": "8",
+          "categories": [
+            {
+              "id": "00000000-0000-4000-8000-000000000004",
+              "name": "SYNTHETIC CATEGORY"
+            }
+          ],
+          "recorded_at": "2026-11-01T11:12:21.387000Z"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000107",
+          "reason": "SYNTHETIC SOURCE",
+          "status": "SET",
+          "version": "7",
+          "categories": [
+            {
+              "id": "00000000-0000-4000-8000-000000000004",
+              "name": "SYNTHETIC CATEGORY"
+            }
+          ],
+          "recorded_at": "2026-11-01T11:12:21.387000Z"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000106",
+          "reason": "SYNTHETIC SOURCE",
+          "status": "SET",
+          "version": "6",
+          "categories": [
+            {
+              "id": "00000000-0000-4000-8000-000000000004",
+              "name": "SYNTHETIC CATEGORY"
+            }
+          ],
+          "recorded_at": "2026-11-01T11:12:21.386000Z"
+        }
+      ],
+      "current_source": {
+        "id": "00000000-0000-4000-8000-000000000135",
+        "reason": "SYNTHETIC SOURCE",
+        "status": "SET",
+        "version": "35",
+        "categories": [
+          {
+            "id": "00000000-0000-4000-8000-000000000004",
+            "name": "SYNTHETIC CATEGORY"
+          }
+        ],
+        "recorded_at": "2026-11-01T11:12:21.403000Z"
+      },
+      "timeline_token": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "source_has_more": true,
+      "contract_version": "cp7.good-policy-date-workspace.v1",
+      "version_has_more": false,
+      "next_source_before": "6",
+      "next_version_before": null,
+      "current_source_registered": false
+    },
+    "command": {
+      "requestId": "4ae20c69-31b0-448b-a18b-96fa891d7a5e",
+      "actor": "00000000-0000-4000-8000-000000000001",
+      "payload": {
+        "contract_version": "cp7.good-policy-date-command.v1",
+        "actor": "00000000-0000-4000-8000-000000000001",
+        "access_epoch": "efdf23bab487f77528860644a3a1e95229528cd9e8bfeff91c423b3a12049093",
+        "effective_from": "2026-10-01",
+        "source_event_id": "00000000-0000-4000-8000-000000000135",
+        "expected_current_version": "35",
+        "expected_timeline": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "reason": "SYNTHETIC EXPLICIT GOOD DATE",
+        "reviewed": true
+      }
+    },
+    "outcome": {
+      "id": "72fb229d-e14a-4ac4-8c0e-6019a1ea270d",
+      "actor": "00000000-0000-4000-8000-000000000001",
+      "reason": "SYNTHETIC EXPLICIT GOOD DATE",
+      "status": "SAVED",
+      "request_id": "4ae20c69-31b0-448b-a18b-96fa891d7a5e",
+      "effective_from": "2026-10-01",
+      "source_version": "35",
+      "source_event_id": "00000000-0000-4000-8000-000000000135",
+      "contract_version": "cp7.good-policy-date-outcome.v1"
+    }
+  },
+  "source_sha256": {
+    "policy.sql": "042c30ce6c8242b0626270d2a74f0433df4b5fc57cb8af0d4198a79a8f41cd20",
+    "basis.sql": "e1297006e00898e4af8e58630a1d08ddca19d47dbed948841283e0ab1048da10",
+    "settings.sql": "93728f0995d23c77522d7bc303a8b39cd51d9a6e65c0ea3233e1322b47291fe3"
+  },
+  "actual_ERP_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "actual_two_session_races": 0,
+  "full_real_settings_installer_lifecycle_qualified": false,
+  "installed_on_candidate": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
