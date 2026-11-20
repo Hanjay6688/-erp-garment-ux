@@ -1,0 +1,27 @@
+name: CP7.5 pack the original paired SQL receipts for Astra
+'on':
+  push:
+    branches: [writer-a/cp75-baseline-public]
+    paths: [qualification/cp75-pair-export/export.py]
+permissions:
+  actions: read
+  contents: read
+jobs:
+  package:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          sparse-checkout: qualification/cp75-pair-export
+          persist-credentials: false
+      - name: Check and bundle the original synthetic readbacks
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 qualification/cp75-pair-export/export.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cp75-sql-original-records-${{ github.run_id }}
+          path: CP75_SQL_ASLI.zip
+          retention-days: 90
+          if-no-files-found: error
