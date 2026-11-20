@@ -23,9 +23,11 @@ def compact(name, body):
         return {"phases": body["phases"], "status": sku.get("status"), "details": sorted(sku),
                 "before_equals_after": bool(recovery) and recovery["before"] == recovery["after"],
                 "physical_sha256": recovery.get("plaintext_sha256")}
-    if name in ("global-before-commit", "clean-ffda", "factory-target"):
-        seal = body.get("server", body.get("seal", {}))
-        return {"catalogue": fields(seal, ("sha256", "groups", "counts")), **fields(body, ("expected", "origin"))}
+    if name in ("installed", "global-before-commit", "clean-ffda", "factory-target"):
+        seal = body.get("server_catalogue_fingerprint", body.get("server", body.get("seal", {})))
+        return {"catalogue": seal, **fields(body, ("expected", "origin", "product", "tree", "full25_sha256", "catalogue_groups"))}
+    if name == "preseal":
+        return fields(body, ("product", "tree", "full25_predecessor_sha256", "full25_installed_sha256", "changes"))
     if name == "comparison":
         return {"six_areas": body["six_areas"], "per_case": [(row["case"], row["equal"]) for row in body["per_case"]],
                 "panels_equal": body["panels"]["equal"], "document_ids_mapped": len(body["generated_ids"]),
@@ -34,7 +36,7 @@ def compact(name, body):
                          "raw_state_equal","origin_seal","fresh_seal","changed","changed_rows_or_sequences","table_and_sequence_count"))
 
 
-NAMES = {"progress", "bf-verified", "global-source", "global-before-commit", "clean-ffda", "ffda-recovery",
+NAMES = {"installed", "preseal", "progress", "bf-verified", "global-source", "global-before-commit", "clean-ffda", "ffda-recovery",
          "factory-target", "factory-baseline", "factory-posted", "factory-restored", "factory-baseline-restored",
          "upgrade-before", "upgrade-resume", "up-g14", "up-order", "upgrade-after", "upgrade-restored", "comparison",
          "install-error", "clean-error", "upgrade-error"}
