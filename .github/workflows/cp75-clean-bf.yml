@@ -1,8 +1,8 @@
-name: CP7.5 clean through BF and reusable recovery checkpoint
+name: Astra CP7.5 independent clean installation through BF
 'on':
   push:
     branches:
-    - writer-a/cp75-baseline-public
+    - audit/astra-cp75-clean-bf
     paths:
     - .github/workflows/cp75-clean-bf.yml
     - qualification/cp75-clean-bf/**
@@ -39,6 +39,7 @@ jobs:
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       with:
         path: qualification-source
+        ref: 1f0dd8b80517672ef0d31dc70238afcc7e5844e9
         sparse-checkout: qualification/cp75-clean-bf
         persist-credentials: false
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -217,11 +218,13 @@ jobs:
           'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \
           cp6_rollback supabase_db_cp5-local '../auditor/cp6-proof/t3/CLONE_install'
     - name: Install all 30 immutable AC through BF release files on the clean branch
+      working-directory: auditor
       run: |
         set -euo pipefail
-        test "$(git -C auditor rev-parse HEAD:supabase/release/cp6-t3)" = 557896a51f0661f73b74bdf9babaf9d08e7314a9
-        test "$(git -C auditor rev-parse HEAD:scripts/cp6_t3_release_package.py)" = fcd10d27213000d97a6f713463a670337f2dd24a
-        PYTHONPATH="$GITHUB_WORKSPACE/auditor/scripts" python auditor/scripts/cp6_t3_release_package.py install auditor/cp6-proof/t3/CP75_RELEASE_FILES.json
+        test "$(git rev-parse HEAD:supabase/release/cp6-t3)" = 557896a51f0661f73b74bdf9babaf9d08e7314a9
+        test "$(git rev-parse HEAD:scripts/cp6_t3_release_package.py)" = fcd10d27213000d97a6f713463a670337f2dd24a
+        test "$(git hash-object docs/evidence/cp6-ac-runtime-pins.json)" = 74fad7e726fe132e8e08b0362817636073023218
+        PYTHONPATH="$PWD/scripts" python scripts/cp6_t3_release_package.py install cp6-proof/t3/CP75_RELEASE_FILES.json
     - name: Boot a separate isolated cluster and preserve the encrypted checkpoint
       run: |
         set -euo pipefail
