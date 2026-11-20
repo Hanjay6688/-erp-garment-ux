@@ -66,7 +66,7 @@ def run():
         # The legacy qualification writes receipts under GITHUB_WORKSPACE/close11-evidence.
         (WORK/"close11-evidence").mkdir(exist_ok=True)
         binding.bind(provider, ROOT)
-        seed, identities, seed_proof = bind_seed(ROOT/"writer")
+        seed, identities, seed_proof = bind_seed(WORK/"foundation-writer")
         credit = credit_seal(entry)
         foundation = Foundation(seed, identities, seed_proof, provider, active_day)
         lifecycle = DatedLifecycle(engine, provider, root_raw, profile_raw, None, credit=credit,

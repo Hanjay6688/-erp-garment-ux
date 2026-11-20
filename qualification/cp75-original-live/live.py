@@ -73,8 +73,11 @@ def docker(*args,**kw):
     return subprocess.run(["docker",*args],check=True,env=env,**kw)
 
 
-def start(lane,archive,image,metadata,cron):
-    name="cp75-"+lane+"-"+os.environ["GITHUB_RUN_ID"]
+def start(lane,archive,image,metadata,cron,*,factory_source=False):
+    run=os.environ["GITHUB_RUN_ID"]
+    name="supabase_db_cp5-local" if factory_source else "cp75-"+lane+"-"+run
+    if factory_source and (lane!="clean" or os.environ.get("CP75_FACTORY_ORIGINAL")!="1"):
+        raise ValueError("Only the original clean factory can occupy its fixed local endpoint")
     data,config=name+"-data",name+"-config"
     sock=WORK/(lane+"-socket")
     sock.mkdir(mode=0o755)
@@ -86,9 +89,14 @@ def start(lane,archive,image,metadata,cron):
     with archive.open("rb") as stream:
         docker("run","--rm","-i","--network","none","--user","0",*args,"--entrypoint","sh",image,"-ec",
                "tar -C /restore -xzf -; chmod 700 /restore/data; chown postgres:postgres /restore/data /socket; chmod 755 /socket; "+frozen.verify_files(metadata),stdin=stream)
-    docker("run","-d","--name",name,"--network","none","-e","POSTGRES_PASSWORD","-v",data+":/var/lib/postgresql/data",
+    network_args=["--network","none"]
+    if factory_source:
+        network="cp75-factory-source-"+run
+        docker("network","create","--internal",network,stdout=subprocess.DEVNULL)
+        network_args=["--network",network,"--publish","127.0.0.1:54322:5432"]
+    docker("run","-d","--name",name,"--label","cp75.run="+run,*network_args,"-e","POSTGRES_PASSWORD","-v",data+":/var/lib/postgresql/data",
            "-v",config+":/etc/postgresql-custom","-v",str(sock)+":/var/run/postgresql",image,"postgres","-c",
-           "config_file=/etc/postgresql/postgresql.conf","-c","cron.database_name="+cron,"-c","cron.launch_active_jobs=off",stdout=subprocess.DEVNULL)
+           "config_file=/etc/postgresql/postgresql.conf",*(["-c","listen_addresses=*"] if factory_source else []),"-c","cron.database_name="+cron,"-c","cron.launch_active_jobs=off",stdout=subprocess.DEVNULL)
     for n in range(120):
         proc=subprocess.run(["docker","exec","-u","postgres",name,"pg_isready","-q","-U","supabase_admin","-d","cp6_rollback"],capture_output=True)
         if proc.returncode==0:
@@ -121,10 +129,10 @@ def opened():
             assert checkpoint.digest(raw)==expected
             src=meta["copy"] if clean else meta
             cron="cp6_rollback" if src.get("audit_baseline")=="COLD_GLOBAL_WITH_INACTIVE_NATIVE_JOBS" else "postgres"
-            container,socket=start(lane,raw,image,src,cron)
+            container,socket=start(lane,raw,image,src,cron,factory_source=clean and os.environ.get("CP75_FACTORY_ORIGINAL")=="1")
         assert query(container,"select to_jsonb(current_setting('cron.launch_active_jobs'))")=="off"
         if clean:
-            groups=query(container,bf.SUMMARY)
+            groups=query(container,"set search_path=pg_catalog,public; "+bf.SUMMARY)
             seal=hashlib.sha256(json.dumps(groups,sort_keys=True,separators=(",",":")).encode()).hexdigest()
             assert seal==meta["source"]["cp6_rollback"]["catalogue_sha256"]=="b036261ee8902fc3be5307d54cf2b021dd2e2b419e24100655a7a338b70bad0a"
         else:

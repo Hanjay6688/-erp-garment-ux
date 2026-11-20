@@ -15,6 +15,7 @@ from close11 import frozen, checkpoint
 
 import psycopg
 from psycopg import sql
+import profile_figures
 import cp7_master_cases as master
 import cp7_p19_plan_v2_cases as plan
 import cp7_p19_report_v2_cases as reports
@@ -74,7 +75,7 @@ def seed(day):
     with psycopg.connect(**db()) as conn,conn.cursor() as cur:
         owner,other=actors(cur)
         products=opening.import_batch(cur,day,2,opening.Phases())
-        row=products[0]
+        row,control=profile_figures.ordered_opening(cur,products)
         assert stock(cur,row)==50
         warm=posted(cur,owner,row,30)
         conn.commit()
@@ -100,11 +101,13 @@ def seed(day):
         record("old-documents",{"sku":str(row["product"]),"sales":[warm,left,right],"purchase":f["receipt"]["purchase_id"],
                                "original_payment":f["target"],"replacement":changed["payment_id"],"actors":[owner,other]})
         # Published work and its draft must exist before migration, including the stored report sections.
+        production=plan.schedule.supply.capture(cur,day,subject=owner)
         snap=reports.staged_run(cur,day,subject=owner)
         _,done,_=reports.published(cur,snap,subject=owner,title="CP7.5 laporan tersimpan")
         conn.commit()
         assert payments.physical_state(cur)==f["physical"]
-        return dict(owner=owner,other=other,row=row,warm=warm,left=left,right=right,fixture=f,bank=bank,
+        return dict(owner=owner,other=other,row=row,control=control["product"],deferred=x["f"]["product"],
+                    supply_id=str(production["run_id"]),plan_query=x["query"],warm=warm,left=left,right=right,fixture=f,bank=bank,
                     replacement=changed["payment_id"],draft=draft["draft_id"],run=x["run"],job=x["key"],publication=done["publication_id"])
 
 
@@ -163,7 +166,8 @@ def read_history(f):
         assert planner_values==planner_case.BASELINE
         access=report_permissions(q,f)
         admin(q)
-        result=dict(role_access=access,planner_values=planner_values,accounts_payable=ap,sales=[sale_a,sale_b],available=0,
+        panel_figures,dates=profile_figures.read(q,f,doc,snapshot)
+        result=dict(panel_figures=panel_figures,document_dates=dates,production_id=f["supply_id"],role_access=access,planner_values=planner_values,accounts_payable=ap,sales=[sale_a,sale_b],available=0,
                     draft=draft["state"],snapshot_id=str(f["run"]),job_id=str(job["id"]),
                     stored_snapshot=stamp(snapshot),snapshot_identity=pages["identity_hash"],page_count=shape["page_count"],draft_id=str(f["draft"]),
                     published={"id":doc["id"],"hash":doc["report_hash"],"sections":section_hashes,"summary":doc["summary_sha256"]},
@@ -241,6 +245,8 @@ def exercise_upgrade(container,image,origin,restore_lane):
         proof=cold_copy(container,archive,image)
         wait_for_seal(OLD)
         restore_digest=checkpoint.digest(archive)
+        backup=checkpoint.seal(archive,OUT/"historical-before-upgrade.cp75",WORK/"capture/qualification/close11/auditor-public.pem")
+        record("upgrade-resume",{"origin":origin,"archive":backup,"physical_sha256":restore_digest,"image":image,"copy":proof})
         steps=[("g14",WORK/"g14/qualification/close12/product","77cc2c35a78c1fde725e37199a80f87a5f9965e3",MIDDLE),
                ("order",WORK/"rig/qualification/cp75-order","7a6d8ec30f17ddada5941c9a923f699a1367656a",TARGET)]
         for name,path,oid,want in steps:
