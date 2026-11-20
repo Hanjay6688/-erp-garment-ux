@@ -13,6 +13,8 @@ SOURCE='supabase_db_cp5-local'
 
 def problem(phase,stderr,code):
     message=stderr.decode(errors='replace').lower()
+    utility=re.search(r'(?m)^(?:[^:\n]*/)?(tar|sha256sum|pg_controldata|chmod|chown|psql):',message)
+    if utility:phase=phase+' '+utility[1]
     for signal in ('no pg_hba.conf entry','could not translate host','no space left','permission denied','no such file','not found','already paused','paused','could not access','invalid mount','not supported','operation not permitted','password authentication failed','is not running','unrecognized option','unable to','does not exist'):
         if signal in message:return ValueError('CLOSE11_COPY '+phase+' '+signal)
     return ValueError('CLOSE11_COPY '+phase+' exit '+str(code))
@@ -46,7 +48,7 @@ def verify_files(receipt):
     else:
         return 'pg_verifybackup /restore/data'
     check(re.fullmatch(r'[0-9a-f]{64}',pin),'CLOSE11_COPY_CONTROL_PIN')
-    return 'test ! -e /restore/data/postmaster.pid && echo "'+pin+'  /restore/data/global/pg_control" | sha256sum --check --status && pg_controldata /restore/data >/dev/null'
+    return 'test ! -e /restore/data/postmaster.pid && sha256sum /restore/data/global/pg_control | { read -r actual file; test "$actual" = "'+pin+'"; } && pg_controldata /restore/data >/dev/null'
 
 def freeze(raw,image):
     datadir=PurePosixPath(psql('data directory','show data_directory'))
