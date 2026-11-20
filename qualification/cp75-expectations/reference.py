@@ -61,7 +61,7 @@ def main():
         writer = original(WRITER, "clean-bf.json", folder)
         g14 = original(CONFIG["inputs"]["sale_fixture"], "AUD-G14.json", folder)
         race = original(CONFIG["inputs"]["auditor"], "sales-collision.json", folder)
-        supplier = original({"artifact":14609978666,"digest":"sha256:04732154c37bc241e6c7b9e82a0e65bfdcca8bdb423f2705e61c4947ebfd1348"}, "AUD-G01.json", folder)
+        supplier = original({"artifact":14609391145,"digest":"sha256:cfa4cfd0f5e5dbaa2efcbbb7920f8147c3cd354aefc480cc1b9a1a089cea1fe0"}, "AUD-G01.json", folder)
     assert clean["source"] == clean["restored"] and writer["source"] == writer["restored"]
     for name in ("postgres", "cp6_rollback"):
         assert clean["source"][name] == writer["source"][name], name
@@ -95,7 +95,7 @@ def main():
               "supplier_correction":{"purchase":1000,"paid_before":260,"paid_after":255,"payable_before":740,"payable_after":745,
                                      "cash_delta_after":-255,"posted_history_rows_after":27,"linked_inverse_and_replacement":True,
                                      "stock_and_cost_unchanged":True,"aborted_edit_restored_exactly":True},
-              "source_runs":[44800849536,44801431651,44710562666,44800195953,44695156458]}
+              "source_runs":[44800849536,44801431651,44710562666,44800195953,44691911184]}
     (OUT/"expected.json").write_text(json.dumps(result,indent=2)+"\n")
     print("CP75_EXPECTED "+json.dumps(result,separators=(",",":")),flush=True)
 
