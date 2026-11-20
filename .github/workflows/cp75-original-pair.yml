@@ -63,6 +63,7 @@ jobs:
           echo "PYTHONPATH=$paths" >> "$GITHUB_ENV"
           echo "AUDIT_RESULTS=$RUNNER_TEMP/cp75-original-observations/business" >> "$GITHUB_ENV"
           echo "PGHOST=$RUNNER_TEMP/cp75-originals/upgrade-socket" >> "$GITHUB_ENV"
+          cd "$GITHUB_WORKSPACE/base"
           PYTHONPATH="$paths" AUDIT_RESULTS="$RUNNER_TEMP/compile-check" PGHOST="$RUNNER_TEMP/pair-test" python3 -c 'import history,live; assert history.load_installer("g14",history.WORK/"g14/qualification/close12/product","77cc2c35a78c1fde725e37199a80f87a5f9965e3"); assert history.load_installer("order",history.WORK/"rig/qualification/cp75-order","7a6d8ec30f17ddada5941c9a923f699a1367656a")'
       - name: Verify original archives and create the scoped receiver
         env:
@@ -87,12 +88,14 @@ jobs:
           path: ${{ runner.temp }}/cp75-original-observations/*-opened.json
           if-no-files-found: error
       - name: Verify the old history before and after upgrade and after physical recovery
-        run: python3 -u source/qualification/cp75-original-live/history.py
+        working-directory: base
+        run: python3 -u ../source/qualification/cp75-original-live/history.py
       - name: Verify the first CP7 factory release from the actual BF archive
         if: ${{ !cancelled() && steps.open.outcome == 'success' }}
         env:
           PGHOST: ${{ runner.temp }}/cp75-originals/clean-socket
-        run: python3 -u source/qualification/cp75-original-live/clean.py
+        working-directory: base
+        run: python3 -u ../source/qualification/cp75-original-live/clean.py
       - name: Preserve materialized observations
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
