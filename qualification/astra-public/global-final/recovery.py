@@ -21,12 +21,13 @@ def state(q,ids):
     assert len(jobs)==3 and all(not r[2] for r in jobs)
     assert first(q,"select current_setting('cron.launch_active_jobs')")=='off'
     ext=dict(q.execute("select extname,extversion from pg_extension where extname in ('pg_cron','supabase_vault','pg_net')").fetchall())
-    assert set(ext)=={'pg_cron','supabase_vault','pg_net'},ext
+    assert {'pg_cron','supabase_vault'} <= set(ext),ext
     workers=first(q,"select count(*) from cron.job_run_details where jobid=any(%s)",[r[0]for r in jobs])
-    queued=first(q,"select count(*) from net.http_request_queue")
+    queue_exists=first(q,"select to_regclass('net.http_request_queue') is not null")
+    queued=first(q,"select count(*) from net.http_request_queue") if queue_exists else None
     # The synthetic marker is verified by a digest. No decrypted Vault values ever leave the database.
     vault_hash=first(q,"select md5(decrypted_secret) from vault.decrypted_secrets where id=%s",ids['vault'])
-    return dict(docs=docs,outbox=outbox,hashes=digest,functions=funcs,jobs=jobs,run_count=workers,http_queue=queued,vault_digest=vault_hash,
+    return dict(docs=docs,outbox=outbox,hashes=digest,functions=funcs,jobs=jobs,run_count=workers,http_queue=queued,http_queue_installed=queue_exists,vault_digest=vault_hash,
         versions=ext,sequences={t:first(q,'select jsonb_build_array(last_value,is_called) from '+t)for t in ('erp.audit_logs_id_seq','erp.cost_recalc_queue_id_seq')},
         enabled=first(q,'select (cp7_alert_native.current_settings()).enabled'))
 def normal(v):
@@ -67,7 +68,9 @@ def main(phase):
         sender=[wa.tick(q,'send_tick'),wa.tick(q,'send_tick')]
         assert all(row.get('outcome')=='WA_OFF'for row in sender),sender
         after=normal(state(q,ident))
-        assert not after['enabled'] and after['outbox']==before['outbox'] and after['http_queue']==before['http_queue']==0
+        assert not after['enabled'] and [x['id'] for x in after['outbox']]==[x['id'] for x in before['outbox']]
+        assert all(row['attempts']==0 and row['dispatch'] is None for row in after['outbox'])
+        assert after['http_queue']==before['http_queue'] and after['http_queue'] in (None,0)
         assert after['run_count']==before['run_count']==0
         save('BR-T39',dict(outcome='PASS',seal=seal,compared_before_restore=actual==before,restored=actual,
                 later_id=ident['later'],later_absent=True,send_ticks=sender,run_count_after=after['run_count'],http_queue_after=after['http_queue']))

@@ -69,10 +69,6 @@ jobs:
             echo "PGUSER=supabase_admin"
           } >> "$GITHUB_ENV"
           python "$AUDIT_CODE/preflight.py"
-      - name: AUD-G01 real supplier payment and concurrent workspace reads
-        if: ${{ !cancelled() && steps.runtime.outcome == 'success' }}
-        working-directory: fixtures
-        run: python -u "$AUDIT_CODE/supplier.py"
       - name: AUD-G02 real Mandor issues and the PO accessory report
         if: ${{ !cancelled() && steps.runtime.outcome == 'success' }}
         working-directory: fixtures

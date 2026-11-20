@@ -68,7 +68,7 @@ def main():
                 with connection(params,capture,outcome+' second session reads before terminal')as rd:
                     row['reader_pid']=first(rd,'select pg_backend_pid()');row['during']=inspect(rd,f,owner,D(7),[first_id])
                     assert row['reader_pid']!=pid
-                calls=[('accessory-po','public.erp_cp7_get_accessory_standard_report_v1(%s,%s,%s,%s,%s,%s,%s)',(f['day'],f['day'],f['contractor'],f['po'],'',0,30),lambda r:{k:acc.category(r,f)[k] for k in ('actual_qty','actual_inventory_cost','actual_receivable','standard_hpp_cost')})]
+                calls=[('accessory-po','public.erp_cp7_get_accessory_standard_report_v1(%s,%s,%s,%s,%s,%s,%s)',(f['day'],f['day'],f['contractor'],f['po'],'',0,30),lambda r:{k:acc.category(r['report'],f)[k] for k in ('actual_qty','actual_inventory_cost','actual_receivable','standard_hpp_cost')})]
                 row['in_flight']=observe(w,owner,calls,outcome=='COMMIT')
                 for sample in row['in_flight']['reads']:
                     values=sample['value'];qty=D(values['actual_qty'])

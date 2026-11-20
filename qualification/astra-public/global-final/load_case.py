@@ -34,13 +34,28 @@ def integrity(q,h):
     digest=hashlib.sha256(json.dumps(stock,sort_keys=True,default=str).encode()).hexdigest()
     balance=first(q,"select count(*) from (select e.id from erp.journal_entries e join erp.journal_lines l on l.journal_entry_id=e.id where e.status::text='POSTED' group by e.id having sum(l.debit)<>sum(l.credit)) x")
     return dict(stock=digest,unbalanced=balance,posted=first(q,"select count(*) from erp.journal_entries where status::text='POSTED'"))
+def recost_fixture(q,owner):
+    import production_fixture
+    aa=recost.aw.chain.production
+    f=aa.estimated_receipt(q,TODAY)
+    production_fixture.prepare_lot(recost.aw.OrdinaryDraftCursor(q),f)
+    pending=recost.read(q,subject=owner)['counts']
+    entry=recost.command(q,subject=owner)
+    admin(q)
+    out['before_sale']=dict(po=str(f['po']),product=str(f['product']),queue_before=pending,queue_after=entry['queue_after']['counts'],hpp=recost.values(q,f))
+    out['before_sale']['lot_hpp']=q.execute('select l.id::text,h.total_cost,h.qty_basis_pcs,h.is_current from erp.fg_lots l left join erp.hpp_versions h on h.lot_id=l.id where l.product_id=%s order by l.id,h.is_current',(f['product'],)).fetchall()
+    store_case()
+    # Use the app's normal sales command after the known cost is recorded; keep the two-piece allocation and its COGS oracle.
+    sale=aa.rpc(q,'erp.save_sale_draft_v2',dict(sale_number='A25-'+str(uuid.uuid4()),customer_id=f['customer'],source_location_id=aa.base.LOCATION,sale_date=aa.at(TODAY,10),reason='Penjualan dua potong setelah HPP produksi dihitung',items=[dict(product_id=f['product'],qty_pcs=2,unit_price_snapshot=40,discount_amount=0)]))
+    q.execute('select erp.post_sale_v2(%s,%s,%s)',(sale['sale_id'],uuid.uuid4(),int(sale['row_version'])))
+    admin(q);f['sale']=sale['sale_id'];return f
 def exercise():
     params=db()
     if params:
         with psycopg.connect(**params)as c,c.cursor() as q:
             out['seal']=measure_seal(q);owner,second=actors(q);staff=owner
             f=pay.fixture(q,TODAY,26);f['payment']=f['target'];out['fixture_purchase']=f['receipt']['purchase_id']
-            h,_=recost.aw.recost_fixture(q,TODAY,False);out['recost_po']=h['po']
+            h=recost_fixture(q,owner);out['recost_po']=h['po']
             out['before_cost']=recost.values(q,h)
             assert Decimal(out['before_cost']['hpp'])==85
             c.commit()

@@ -28,13 +28,14 @@ docker volume create "$vol_data" >/dev/null
 docker volume create "$vol_config" >/dev/null
 socket="$base/socket"; mkdir -m 755 "$socket"
 docker run --rm --network none -i -v "$vol_data":/var/lib/postgresql/data -v "$vol_config":/etc/postgresql-custom -v "$socket":/socket --entrypoint sh "$image" -ec 'tar -C / -xzf -; chmod 700 /var/lib/postgresql/data; chown postgres:postgres /var/lib/postgresql/data /socket; chmod 755 /socket' <"$base/recovery.tar.gz"
-docker run --rm --network none -v "$vol_data":/var/lib/postgresql/data:ro --entrypoint pg_controldata "$image" /var/lib/postgresql/data >"$base/control"
+docker run --rm --network none -v "$vol_data":/var/lib/postgresql/data:ro --entrypoint sh "$image" -ec '"$(pg_config --bindir)/pg_controldata" /var/lib/postgresql/data' >"$base/control"
 grep -Eq 'Database cluster state: +shut down' "$base/control"
 export POSTGRES_PASSWORD
 POSTGRES_PASSWORD=$(openssl rand -hex 32)
 docker run --name "$tag" --network none -d -e POSTGRES_PASSWORD -v "$vol_data":/var/lib/postgresql/data -v "$vol_config":/etc/postgresql-custom -v "$socket":/var/run/postgresql "$image" postgres -c config_file=/etc/postgresql/postgresql.conf -c cron.database_name=cp6_rollback -c cron.launch_active_jobs=off >/dev/null
 unset POSTGRES_PASSWORD
 for attempt in $(seq 1 80); do if docker exec -u postgres "$tag" pg_isready -q -U supabase_admin -d cp6_rollback;then break;fi;sleep 1;done
+test "$(docker inspect "$tag" --format '{{.HostConfig.NetworkMode}}')" = none
 PGHOST="$socket" python "$script" restore
 python - "$digest" "$base/members" "$AUDIT_RESULTS/recovery-physical.json" <<'PY'
 import json,pathlib,sys
