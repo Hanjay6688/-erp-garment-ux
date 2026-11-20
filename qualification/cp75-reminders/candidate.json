@@ -1,0 +1,30 @@
+{
+  "parent": "475980f2d07a60ea9a2576fe0d8fe50e63653434",
+  "product": "486d344e0ce47d2b184e2a7bfccf2a927424d184",
+  "tree": "77942cec7dfc18b96c820f79dfdc9b90bee7ade0",
+  "parent_tree": "659a119964b84c8787e747594c5b309b547932c6",
+  "files": {
+    "docs/ERP_BEST_PRACTICES.md": {
+      "before": "2722bf61991969fa047f6090e6b1a249a18b8be9",
+      "after": "7ff7c9c17b1dc36dcbd334a8d231ca564c06fb79"
+    },
+    "src/ConnectedRemindersPage.dom.test.tsx": {
+      "before": "2bca6676e089c3a1307adee8afcaff7096f81697",
+      "after": "11d835a6444675af025b4c42a3f913542b96ca80"
+    },
+    "src/ConnectedRemindersPage.tsx": {
+      "before": "73fa017b99c343baa1d9ece103740dbc1ee40ea1",
+      "after": "7b3e983374aadbff00e2005d49c66ebe7944f02d"
+    },
+    "src/cp6BusinessTime.ts": {
+      "before": "3692024bd78a99ef0923b2d4800463856d79ab26",
+      "after": "80b20119e69f6fa81a05337a70d5f7f18cb1ac8b"
+    },
+    "src/remindersContract.ts": {
+      "before": "71255d92df4baad024e39660a15759f382dceb90",
+      "after": "cb8f07dbcd98899af90df9adc98c38cc5c3cdbf8"
+    }
+  },
+  "database_sha256": "da0b424f305f0b423808d445034ff8a166e32a8d9d13f811078daf2c864b012b",
+  "production_go": false
+}

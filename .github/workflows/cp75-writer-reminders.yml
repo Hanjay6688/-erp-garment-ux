@@ -1,0 +1,76 @@
+name: Writer A - three manual reminder corrections on synthetic Global
+on:
+  push:
+    branches: [writer-a/cp7-close12-g14-public]
+    paths: ['.github/workflows/cp75-writer-reminders.yml', 'qualification/cp75-reminders/**']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  ordinary:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          sparse-checkout: |
+            qualification/close11
+            qualification/close12
+            qualification/cp75-reminders
+          persist-credentials: false
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: a62504d71a6ca1cdbaa59b6fe0fd5739693f100a
+          sparse-checkout: |
+            scripts
+            src
+            contracts
+            supabase
+            ops
+            docs/cp7/d17-18
+            docs/cp7/framework-v2
+            docs/cp7/d17-14
+            docs/evidence
+          path: fixtures
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare test clients
+        run: python -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2' 'jsonschema==4.25.1'
+      - id: global
+        name: Open the certified synthetic Global
+        uses: ./qualification/close11/open
+        with:
+          origin-run: '44671146483'
+          origin-runner: f8520a7da6cec188540a1e52bb20ecbfaf064b19
+      - name: Read and edit reminders in Chromium with independent PostgreSQL readback
+        working-directory: fixtures
+        env:
+          PGHOST: ${{ steps.global.outputs.socket }}
+          REMINDER_APP: ${{ steps.global.outputs.application }}
+          WRITER_RESULTS: ${{ runner.temp }}/writer-reminders
+          PYTHONPATH: ${{ github.workspace }}/fixtures/scripts
+          TZ: Asia/Jakarta
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          export CHROME_BIN="$(command -v google-chrome)"
+          test -x "$CHROME_BIN"
+          python -u "$GITHUB_WORKSPACE/qualification/cp75-reminders/check.py"
+      - name: Preserve per-case observations
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: writer-reminders-${{ github.run_id }}
+          path: ${{ runner.temp }}/writer-reminders/*.json
+          if-no-files-found: warn
+          retention-days: 30
+      - name: Clean up the disposable database and network
+        if: ${{ always() && steps.global.outcome == 'success' }}
+        env:
+          C: ${{ steps.global.outputs.container }}
+        run: |
+          test -n "$C"
+          docker rm -f "$C"
+          docker volume rm "$C-data" "$C-config"
+          docker network rm "$C-network"

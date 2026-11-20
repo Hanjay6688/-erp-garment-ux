@@ -1,0 +1,335 @@
+diff --git a/src/ConnectedRemindersPage.dom.test.tsx b/src/ConnectedRemindersPage.dom.test.tsx
+index 2bca6676e089c3a1307adee8afcaff7096f81697..11d835a6444675af025b4c42a3f913542b96ca80 100644
+--- a/src/ConnectedRemindersPage.dom.test.tsx
++++ b/src/ConnectedRemindersPage.dom.test.tsx
+@@ -187,7 +187,7 @@ describe('Reminder page on real data (R3-03)', () => {
+     server(Array.from({ length: 30 }, (_, n) => row(0, { id: `0f6c1d8e-0000-4000-8000-${String(n).padStart(12, '0')}`, title: `R${n}` }))); await mount()
+     expect(container.textContent).toContain('1–25 dari 30')
+     await click('Pengingat berikutnya')
+-    expect(client.rpc.mock.calls.at(-1)).toEqual(['erp_cp7_get_reminders_v1', { p_query: { filter: 'ACTIVE', limit: 25, offset: 25 } }])
++    expect(client.rpc.mock.calls.at(-1)).toEqual(['erp_cp7_get_reminders_v1', { p_query: { filter: 'ACTIVE', limit: 50, offset: 0 } }])
+     expect(container.textContent).toContain('26–30 dari 30')
+     const good = (await client.rpc('erp_cp7_get_reminders_v1', { p_query: reminderQuery('ACTIVE') })).data as Record<string, unknown>
+     expect(() => parseRemindersWorkspace({ ...good, extra: 1 }, reminderQuery('ACTIVE'))).toThrow('ruang kerja')
+@@ -195,3 +195,88 @@ describe('Reminder page on real data (R3-03)', () => {
+     expect(() => parseRemindersWorkspace(good, reminderQuery('OPEN'))).toThrow('filter')
+   })
+ })
++
++const numbered = (n: number) => row(0, {
++  id: `0f6c1d8e-0000-4000-8000-${String(n).padStart(12, '0')}`, title: `R${n}`,
++})
++const listed = () => [...container.querySelectorAll('.reminder-list article')].map(el => el.getAttribute('aria-label'))
++
++describe('Manual reminder audit SOL-01 through SOL-03', () => {
++  it.each([26, 51, 1])('reads the last valid OPEN page after completing the final row of %i', async n => {
++    server(Array.from({ length: n }, (_, i) => numbered(i)))
++    await mount(); await click('Belum selesai')
++    for (let i = 25; i < n; i += 25) await click('Pengingat berikutnya')
++    await click(`Tandai selesai R${n - 1}`)
++    const offset = Math.max(0, n - 26)
++    const expected = Array.from({ length: Math.min(25, n - 1) }, (_, i) => `Pengingat R${i + offset}`)
++    expect(listed()).toEqual(expected)
++    expect(container.textContent).toContain(n === 1 ? 'Tidak ada pengingat' : `${offset + 1}–${n - 1} dari ${n - 1}`)
++    await click('Muat ulang pengingat')
++    expect(client.rpc.mock.calls.at(-1)?.[1].p_query).toEqual(reminderQuery('OPEN', offset))
++    expect(listed()).toEqual(expected)
++  })
++
++  it('corrects an out-of-range refresh even when another session removes several pages', async () => {
++    const s = server(Array.from({ length: 51 }, (_, i) => numbered(i)))
++    await mount(); await click('Belum selesai'); await click('Pengingat berikutnya'); await click('Pengingat berikutnya')
++    s.rows.splice(12)
++    await click('Muat ulang pengingat')
++    expect(listed()).toEqual(s.rows.map(r => 'Pengingat ' + r.title))
++    expect(container.textContent).toContain('1–12 dari 12')
++    await click('Muat ulang pengingat')
++    expect(client.rpc.mock.calls.at(-1)?.[1].p_query).toEqual(reminderQuery('OPEN'))
++  })
++
++  it.each(['remove', 'insert', 'reorder'])('restarts a changed live order on navigation (%s)', async change => {
++    const s = server(Array.from({ length: 27 }, (_, i) => numbered(i)))
++    await mount(); await click('Belum selesai')
++    if (change === 'remove') s.rows.shift()
++    else if (change === 'insert') s.rows.push({ ...numbered(27), priority: 'URGENT' })
++    else s.rows[26].priority = 'URGENT'
++    await click('Pengingat berikutnya')
++    expect(container.textContent).toContain('Urutan pengingat berubah')
++    const expected = [...s.rows].sort((a, b) => Number(b.priority === 'URGENT') - Number(a.priority === 'URGENT') || a.id.localeCompare(b.id))
++    const first = listed()
++    await click('Pengingat berikutnya')
++    expect([...first, ...listed()]).toEqual(expected.map(r => 'Pengingat ' + r.title))
++    await click('Muat dari awal')
++    expect(listed()).toEqual(first)
++  })
++
++  it.each(['title', 'note', 'midnight'])('saves the intended instant for a %s edit', async mode => {
++    const original = '2026-11-20T07:00:32.942069+00:00'
++    const s = server([row(1, { title: 'Jam', due_at: original })])
++    await mount(); await click('Ubah Jam')
++    if (mode === 'title') await type('Judul pengingat', 'Judul baru')
++    if (mode === 'note') await type('Catatan pengingat', 'Catatan baru')
++    if (mode === 'midnight') await type('Jatuh tempo pengingat (WIB)', '2026-11-21T00:00')
++    await click('Simpan perubahan')
++    const expected = mode === 'midnight' ? '2026-11-20T17:00:00.000Z' : original
++    expect(s.saves).toHaveLength(1)
++    expect(s.saves[0].p_payload).toMatchObject({ due_at: expected })
++    expect(s.rows[0].due_at).toBe(expected)
++  })
++
++  it('validates the business calendar, zoned instants, visible counts and microsecond due labels', async () => {
++    server([row(1, { due_at: '2026-10-17T02:00:00Z' })])
++    const q = reminderQuery('OPEN')
++    const good = (await client.rpc('erp_cp7_get_reminders_v1', { p_query: q })).data
++    const parse = (value: unknown) => parseRemindersWorkspace(value, q)
++    expect(parse(good).items[0].dueState).toBe('OVERDUE')
++    const changedItem = (changes: Record<string, unknown>) => ({ ...good, items: [{ ...good.items[0], ...changes }] })
++    expect(() => parse({ ...good, due: { ...good.due, overdue: 0 } })).toThrow()
++    expect(() => parse(changedItem({ due_state: 'LATER' }))).toThrow()
++    expect(() => parse({ ...good, today: '2026-02-30' })).toThrow()
++    expect(() => parse(changedItem({ due_at: '2026-10-17T02:00:00' }))).toThrow()
++    expect(() => parse(changedItem({ updated_at: '2026-02-30T12:00:00Z' }))).toThrow()
++    const boundary = { ...good, today: '2028-02-29', read_at: '2028-02-29T23:59:59.999998+07:00' }
++    for (const [dueAt, state, category] of [
++      ['2028-02-29T16:59:59.999998Z', 'OVERDUE', 'overdue'],
++      ['2028-02-29T16:59:59.999999Z', 'TODAY', 'today'],
++      ['2028-03-01T00:00:00+07:00', 'TOMORROW', 'tomorrow'],
++    ]) {
++      const due = { overdue: 0, today: 0, tomorrow: 0, complete: true, [category]: 1 }
++      expect(parse({ ...boundary, due, items: [{ ...good.items[0], due_at: dueAt, due_state: state }] }).items[0].dueState).toBe(state)
++    }
++  })
++})
+diff --git a/src/ConnectedRemindersPage.tsx b/src/ConnectedRemindersPage.tsx
+index 73fa017b99c343baa1d9ece103740dbc1ee40ea1..7b3e983374aadbff00e2005d49c66ebe7944f02d 100644
+--- a/src/ConnectedRemindersPage.tsx
++++ b/src/ConnectedRemindersPage.tsx
+@@ -13,7 +13,7 @@ import type { ProductionEnvelope } from './productionRecovery'
+ import SystemRemindersPanel from './SystemRemindersPanel'
+ import WaConnectionPanel from './WaConnectionPanel'
+ import {
+-  parseRemindersWorkspace, reminderCancelPayload, reminderCancelProblem, reminderDraftProblem, reminderFilterLabel, reminderFilters,
++  adjacentReminderPage, parseRemindersWorkspace, reminderCancelPayload, reminderCancelProblem, reminderDraftProblem, reminderFilterLabel, reminderFilters,
+   reminderIdPayload, reminderPriorityLabel, reminderPriorities, reminderQuery, reminderRefusal, reminderSavePayload, validateReminderOutcome,
+   withReminderRefusal, type ConnectedReminder, type ReminderDraft, type ReminderFilter, type ReminderPriority, type ReminderQuery, type RemindersWorkspace,
+ } from './remindersContract'
+@@ -26,7 +26,7 @@ import './connected-reminders.css'
+ const number = new Intl.NumberFormat('id-ID')
+ const empty: ReminderDraft = { title: '', note: '', dueWib: '', priority: 'NORMAL', module: 'Operasional' }
+ const dueLabel: Record<string, string> = { OVERDUE: 'Lewat jatuh tempo', TODAY: 'Hari ini', TOMORROW: 'Besok' }
+-type Editing = { id: string; rowVersion: number; original: ReminderDraft } | null
++type Editing = { id: string; rowVersion: number; dueAt: string; original: ReminderDraft } | null
+ // WA-4 (owner D17-5): three tabs. "Pengingat saya" is the page as it was; "Pengingat sistem" is for every account that may
+ // open Reminder; "Sambungan WhatsApp" exists only for the OWNER role. A tab is mounted when first opened (no read before
+ // that) and then kept, hidden, so switching back never loses what was being typed.
+@@ -64,14 +64,35 @@ function Workspace() {
+   const [draft, setDraft] = useState<ReminderDraft>(empty), [editing, setEditing] = useState<Editing>(null)
+   const [cancelId, setCancelId] = useState(''), [reason, setReason] = useState('')
+ 
+-  const load = useCallback(async () => {
+-    const ticket = beginRead(), n = ++serial.current, query = selected.current
++  const load = useCallback(async (previous?: RemindersWorkspace) => {
++    const ticket = beginRead(), n = ++serial.current
++    const current = () => n === serial.current && isReadCurrent(ticket)
++    let query = selected.current
++    const read = async (request: ReminderQuery) => {
++      const reply = await client.rpc('erp_cp7_get_reminders_v1', { p_query: request })
++      if (reply.error) throw reply.error
++      return parseRemindersWorkspace(reply.data, request)
++    }
+     setBusy(true); setError(''); setData(null)
+     try {
+-      const reply = await client.rpc('erp_cp7_get_reminders_v1', { p_query: query })
+-      if (n !== serial.current || !isReadCurrent(ticket)) return false
+-      if (reply.error) throw reply.error
+-      const parsed = parseRemindersWorkspace(reply.data, query)
++      let parsed: RemindersWorkspace | null = null
++      if (previous) {
++        const combined = await read({ ...query, offset: Math.min(previous.page.offset, query.offset), limit: query.limit * 2 })
++        if (!current()) return false
++        parsed = adjacentReminderPage(previous, combined, query)
++        if (!parsed) {
++          setDone('Urutan pengingat berubah. Daftar terbaru ditampilkan dari awal.')
++          query = reminderQuery(query.filter)
++        }
++      }
++      while (!parsed) {
++        const page = await read(query)
++        if (!current()) return false
++        const lastOffset = Math.max(0, Math.floor((page.page.window - 1) / query.limit) * query.limit)
++        if (query.offset <= lastOffset) parsed = page
++        else query = reminderQuery(query.filter, lastOffset)
++      }
++      selected.current = query
+       for (const r of parsed.items) titles.current.set(r.id, r.title)
+       setData(parsed); finishRead(ticket); return true
+     } catch (e) {
+@@ -82,7 +103,9 @@ function Workspace() {
+   useEffect(() => { void load() }, [load, recovery.scope])
+   useEffect(() => () => { ++serial.current }, [])
+ 
+-  const choose = (next: ReminderFilter, offset = 0) => { setFilter(next); setDone(''); selected.current = reminderQuery(next, offset); void load() }
++  const choose = (next: ReminderFilter, offset = 0, previous?: RemindersWorkspace) => {
++    setFilter(next); setDone(''); selected.current = reminderQuery(next, offset); void load(previous)
++  }
+   const resetForm = () => { setDraft(empty); setEditing(null) }
+   const handlers: ProductionMutationHandlers = {
+     send: async (e: ProductionEnvelope) => {
+@@ -112,13 +135,13 @@ function Workspace() {
+   const save = () => {
+     if (!canSave) return
+     setDone('')
+-    void run('SAVE', reminderSavePayload(editing?.id ?? null, draft), editing?.rowVersion ?? null, handlers)
++    void run('SAVE', reminderSavePayload(editing?.id ?? null, draft, editing?.dueAt), editing?.rowVersion ?? null, handlers)
+   }
+   const act = (action: 'DONE' | 'UNDONE', r: ConnectedReminder) => { if (writable) { setDone(''); void run(action, reminderIdPayload(r.id), r.rowVersion, handlers) } }
+   const cancel = (r: ConnectedReminder) => { if (writable && !reminderCancelProblem(reason)) { setDone(''); void run('CANCEL', reminderCancelPayload(r.id, reason), r.rowVersion, handlers) } }
+   const edit = (r: ConnectedReminder) => {
+     const original: ReminderDraft = { title: r.title, note: r.note, dueWib: cp6WibDateTimeInput(r.dueAt), priority: r.priority, module: r.module }
+-    setEditing({ id: r.id, rowVersion: r.rowVersion, original }); setDraft(original); setDone(''); setCancelId('')
++    setEditing({ id: r.id, rowVersion: r.rowVersion, dueAt: r.dueAt, original }); setDraft(original); setDone(''); setCancelId('')
+   }
+   const set = <K extends keyof ReminderDraft>(key: K, value: ReminderDraft[K]) => setDraft(current => ({ ...current, [key]: value }))
+ 
+@@ -163,8 +186,9 @@ function Workspace() {
+               <small>{data.canManage && mayManage ? 'Tambahkan pengingat lewat isian di samping, atau buka daftar lain.' : 'Buka daftar lain.'}</small></div> : null}
+           </div>
+           {data.page.offset > 0 || data.page.nextOffset !== null ? <div className="creminders-pages">
+-            <button type="button" disabled={busy || data.page.offset === 0} onClick={() => choose(data.filter, Math.max(0, data.page.offset - data.page.limit))}>Pengingat sebelumnya</button>
+-            <button type="button" disabled={busy || data.page.nextOffset === null} onClick={() => choose(data.filter, data.page.nextOffset ?? 0)}>Pengingat berikutnya</button>
++            {data.page.offset > 0 ? <button type="button" disabled={busy} onClick={() => choose(data.filter)}>Muat dari awal</button> : null}
++            <button type="button" disabled={busy || data.page.offset === 0} onClick={() => choose(data.filter, Math.max(0, data.page.offset - data.page.limit), data)}>Pengingat sebelumnya</button>
++            <button type="button" disabled={busy || data.page.nextOffset === null} onClick={() => choose(data.filter, data.page.nextOffset ?? 0, data)}>Pengingat berikutnya</button>
+           </div> : null}
+         </section>
+         {data.canManage && mayManage ? <aside className="panel reminder-editor" aria-label="Isian pengingat">
+diff --git a/src/cp6BusinessTime.ts b/src/cp6BusinessTime.ts
+index 3692024bd78a99ef0923b2d4800463856d79ab26..80b20119e69f6fa81a05337a70d5f7f18cb1ac8b 100644
+--- a/src/cp6BusinessTime.ts
++++ b/src/cp6BusinessTime.ts
+@@ -4,12 +4,27 @@ export const CP6_BUSINESS_TIME_LABEL = 'WIB (Asia/Jakarta)'
+ const CP6_BUSINESS_UTC_OFFSET = '+07:00'
+ const CP6_BUSINESS_UTC_OFFSET_MS = 7 * 60 * 60 * 1000
+ const localDateTimePattern = /^(\d{4})-(\d{2})-(\d{2})T([01]\d|2[0-3]):([0-5]\d)(?::([0-5]\d))?$/
++const zonedInstantPattern = /^(\d{4})-(\d{2})-(\d{2})T(?:[01]\d|2[0-3]):[0-5]\d(?::[0-5]\d(?:\.(\d{1,6}))?)?(?:Z|[+-](?:[01]\d|2[0-3]):[0-5]\d)$/
+ 
+ function daysInMonth(year: number, month: number) {
+   const leap = year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0)
+   return [31, leap ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month - 1] ?? 0
+ }
+ 
++function validCalendarDate(year: number, month: number, day: number) {
++  return year >= 1 && day >= 1 && day <= daysInMonth(year, month)
++}
++
++/** PostgreSQL instants carry a zone and up to six fractional digits. Date alone discards the last three. */
++export function cp6ZonedInstantMicros(value: string): bigint | null {
++  const match = zonedInstantPattern.exec(value)
++  if (!match || !validCalendarDate(Number(match[1]), Number(match[2]), Number(match[3]))) return null
++  const milliseconds = Date.parse(value)
++  if (!Number.isFinite(milliseconds)) return null
++  const remainingMicros = (match[4] ?? '').padEnd(6, '0').slice(3)
++  return BigInt(milliseconds) * 1000n + BigInt(remainingMicros)
++}
++
+ /**
+  * Converts an operator-entered wall-clock time using the ERP business timezone,
+  * never the browser/device timezone. Asia/Jakarta is UTC+07:00 without DST.
+@@ -20,7 +35,7 @@ export function cp6WibPhysicalTimeToIso(value: string) {
+   const year = Number(match[1])
+   const month = Number(match[2])
+   const day = Number(match[3])
+-  if (year < 1 || month < 1 || month > 12 || day < 1 || day > daysInMonth(year, month)) return null
++  if (!validCalendarDate(year, month, day)) return null
+   const seconds = match[6] ?? '00'
+   const instant = new Date(`${match[1]}-${match[2]}-${match[3]}T${match[4]}:${match[5]}:${seconds}${CP6_BUSINESS_UTC_OFFSET}`)
+   return Number.isNaN(instant.getTime()) ? null : instant.toISOString()
+diff --git a/src/remindersContract.ts b/src/remindersContract.ts
+index 71255d92df4baad024e39660a15759f382dceb90..cb8f07dbcd98899af90df9adc98c38cc5c3cdbf8 100644
+--- a/src/remindersContract.ts
++++ b/src/remindersContract.ts
+@@ -1,6 +1,6 @@
+ import type { Json } from './types/database.preconnect'
+ import type { ProductionEnvelope } from './productionRecovery'
+-import { cp6WibPhysicalTimeToIso } from './cp6BusinessTime'
++import { cp6WibDateTimeInput, cp6WibPhysicalTimeToIso, cp6ZonedInstantMicros } from './cp6BusinessTime'
+ 
+ // R3-03 (owner D16-1): closed parsers for scripts/cp7-src/manual-reminders/facade.sql, the CP7 facade over the Native
+ // own-user manual reminders (erp.manual_reminders). The predicates below are the facade's own (title 1-200, note <= 4000,
+@@ -40,14 +40,12 @@ const statusesByFilter: Record<ReminderFilter, readonly ReminderStatus[]> = {
+   ACTIVE: ['OPEN', 'DONE'], OPEN: ['OPEN'], DONE: ['DONE'], CANCELLED: ['CANCELLED'], ALL: ['OPEN', 'DONE', 'CANCELLED'],
+ }
+ const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+-const day = /^\d{4}-\d{2}-\d{2}$/
+-const dueText = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2}(\.\d{1,6})?)?(Z|[+-]\d{2}:\d{2})$/
+ 
+ function fail(what: string): never { throw new Error(`Respons pengingat tidak cocok (${what}).`) }
+ type Obj = Record<string, unknown>
+ const obj = (v: unknown, what: string): Obj => Boolean(v) && typeof v === 'object' && !Array.isArray(v) ? v as Obj : fail(what)
+ const str = (v: unknown, what: string) => typeof v === 'string' ? v : fail(what)
+-const instant = (v: unknown, what: string) => typeof v === 'string' && Number.isFinite(Date.parse(v)) ? v : fail(what)
++const instant = (v: unknown, what: string) => typeof v === 'string' && cp6ZonedInstantMicros(v) !== null ? v : fail(what)
+ const maybeInstant = (v: unknown, what: string) => v === null ? null : instant(v, what)
+ const count = (v: unknown, what: string) => typeof v === 'number' && Number.isSafeInteger(v) && v >= 0 ? v : fail(what)
+ const positive = (v: unknown, what: string) => typeof v === 'number' && Number.isSafeInteger(v) && v >= 1 ? v : fail(what)
+@@ -62,6 +60,17 @@ export function reminderQuery(filter: ReminderFilter, offset = 0): ReminderQuery
+   return { filter, limit: REMINDER_PAGE_SIZE, offset }
+ }
+ 
++// Both adjacent pages come from one server read. A change at the boundary restarts browsing instead of skipping a row.
++export function adjacentReminderPage(previous: RemindersWorkspace, combined: RemindersWorkspace, requested: ReminderQuery) {
++  const start = previous.page.offset - combined.page.offset
++  if (previous.page.total !== combined.page.total || previous.items.some((row, i) => row.id !== combined.items[start + i]?.id)) return null
++  const { offset, limit } = requested
++  const from = offset - combined.page.offset
++  const items = combined.items.slice(from, from + limit)
++  const nextOffset = offset + limit < combined.page.window ? offset + limit : null
++  return { ...combined, items, page: { ...combined.page, offset, limit, shown: items.length, nextOffset } }
++}
++
+ function item(v: unknown, filter: ReminderFilter): ConnectedReminder {
+   const o = obj(v, 'pengingat')
+   keys(o, ['id', 'title', 'note', 'due_at', 'priority', 'module', 'status', 'completed_at', 'cancelled_at', 'cancellation_reason',
+@@ -107,8 +116,26 @@ export function parseRemindersWorkspace(value: unknown, query: ReminderQuery): R
+   const due = { overdue: count(d.overdue, 'jatuh tempo'), today: count(d.today, 'jatuh tempo'), tomorrow: count(d.tomorrow, 'jatuh tempo'),
+     complete: d.complete === true ? true : d.complete === false ? false : fail('jatuh tempo') }
+   if (due.complete !== (counts.open <= REMINDER_WINDOW) || due.overdue + due.today + due.tomorrow > Math.min(counts.open, REMINDER_WINDOW)) fail('jatuh tempo')
+-  const today = typeof w.today === 'string' && day.test(w.today) ? w.today : fail('hari ini')
+-  return { filter: query.filter, page, items, counts, due, today, readAt: instant(w.read_at, 'waktu baca'), canManage: w.can_manage }
++  const readAt = instant(w.read_at, 'waktu baca')
++  const readMicros = cp6ZonedInstantMicros(readAt)!
++  const today = cp6WibDateTimeInput(readAt).slice(0, 10)
++  if (w.today !== today) fail('hari ini')
++  const tomorrow = cp6WibDateTimeInput(new Date(Date.parse(readAt) + 86_400_000)).slice(0, 10)
++  const visibleStatus = { OPEN: 0, DONE: 0, CANCELLED: 0 }
++  const visibleDue = { OVERDUE: 0, TODAY: 0, TOMORROW: 0, LATER: 0 }
++  for (const row of items) {
++    visibleStatus[row.status]++
++    if (row.status !== 'OPEN') continue
++    const dueDay = cp6WibDateTimeInput(row.dueAt).slice(0, 10)
++    const expected = cp6ZonedInstantMicros(row.dueAt)! <= readMicros ? 'OVERDUE'
++      : dueDay === today ? 'TODAY' : dueDay === tomorrow ? 'TOMORROW' : 'LATER'
++    if (row.dueState !== expected) fail('status jatuh tempo')
++    visibleDue[expected]++
++  }
++  if (visibleStatus.OPEN > counts.open || visibleStatus.DONE > counts.done || visibleStatus.CANCELLED > counts.cancelled) fail('jumlah')
++  const later = Math.min(counts.open, REMINDER_WINDOW) - due.overdue - due.today - due.tomorrow
++  if (visibleDue.OVERDUE > due.overdue || visibleDue.TODAY > due.today || visibleDue.TOMORROW > due.tomorrow || visibleDue.LATER > later) fail('ringkasan jatuh tempo')
++  return { filter: query.filter, page, items, counts, due, today, readAt, canManage: w.can_manage }
+ }
+ 
+ export function reminderDraftProblem(d: ReminderDraft): string {
+@@ -125,9 +152,10 @@ export function reminderCancelProblem(reason: string) {
+   const n = reason.trim().length
+   return n < 5 ? 'Tulis alasan batal (minimal 5 huruf).' : n > 1000 ? 'Alasan paling banyak 1.000 huruf.' : ''
+ }
+-export function reminderSavePayload(id: string | null, d: ReminderDraft): Json {
+-  const due = cp6WibPhysicalTimeToIso(d.dueWib)
+-  if (reminderDraftProblem(d) || !due || !dueText.test(due) || (id !== null && !uuid.test(id))) fail('isian')
++export function reminderSavePayload(id: string | null, d: ReminderDraft, originalDueAt?: string): Json {
++  const keepOriginal = id !== null && originalDueAt !== undefined && d.dueWib === cp6WibDateTimeInput(originalDueAt)
++  const due = keepOriginal ? instant(originalDueAt, 'jatuh tempo') : cp6WibPhysicalTimeToIso(d.dueWib)
++  if (reminderDraftProblem(d) || !due || (id !== null && !uuid.test(id))) fail('isian')
+   return { id, title: d.title.trim(), note: d.note, due_at: due, priority: d.priority, module: d.module.trim() }
+ }
+ export function reminderIdPayload(id: string): Json {
