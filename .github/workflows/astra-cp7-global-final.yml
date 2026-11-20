@@ -1,0 +1,120 @@
+name: Astra CP7 independent Global business cases
+on:
+  push:
+    branches: [audit/astra-cp7-public-ffda]
+    paths:
+      - '.github/workflows/astra-cp7-global-final.yml'
+      - 'qualification/astra-public/global-final/**'
+permissions:
+  actions: read
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      TZ: Asia/Jakarta
+    steps:
+      - name: Checkout independent qualification
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          sparse-checkout: qualification/astra-public/global-final
+          path: evidence-source
+          persist-credentials: false
+      - name: Checkout the original public QA fixture clients
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: a62504d71a6ca1cdbaa59b6fe0fd5739693f100a
+          sparse-checkout: |
+            scripts
+            src
+            contracts
+            supabase
+            ops
+            docs/cp7/d17-18
+            docs/cp7/framework-v2
+            docs/cp7/d17-14
+            docs/evidence
+          path: fixtures
+          persist-credentials: false
+      - name: Prepare synthetic case clients
+        shell: bash
+        run: |
+          python -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2' 'jsonschema==4.25.1'
+          code="$GITHUB_WORKSPACE/evidence-source/qualification/astra-public/global-final"
+          mkdir -m 700 "$RUNNER_TEMP/cp7-astra-metrics"
+          {
+            echo "AUDIT_CODE=$code"
+            echo "AUDIT_RESULTS=$RUNNER_TEMP/cp7-astra-metrics"
+            echo "PYTHONPATH=$code:$GITHUB_WORKSPACE/fixtures/scripts"
+          } >> "$GITHUB_ENV"
+      - id: global
+        name: Open the final certified checkpoint
+        uses: Hanjay6688/-erp-garment-ux/qualification/close11/open@f8520a7da6cec188540a1e52bb20ecbfaf064b19
+        with:
+          origin-run: '44671146483'
+          origin-runner: f8520a7da6cec188540a1e52bb20ecbfaf064b19
+      - id: runtime
+        name: Verify the live Global identity
+        shell: bash
+        working-directory: fixtures
+        env:
+          PGHOST: ${{ steps.global.outputs.socket }}
+          CONTAINER: ${{ steps.global.outputs.container }}
+        run: |
+          {
+            echo "PGHOST=$PGHOST"
+            echo "AUDIT_PG_CONTAINER=$CONTAINER"
+            echo "PGUSER=supabase_admin"
+          } >> "$GITHUB_ENV"
+          python "$AUDIT_CODE/preflight.py"
+      - name: AUD-G01 real supplier payment and concurrent workspace reads
+        if: ${{ !cancelled() && steps.runtime.outcome == 'success' }}
+        working-directory: fixtures
+        run: python -u "$AUDIT_CODE/supplier.py"
+      - name: AUD-G02 real Mandor issues and the PO accessory report
+        if: ${{ !cancelled() && steps.runtime.outcome == 'success' }}
+        working-directory: fixtures
+        run: python -u "$AUDIT_CODE/accessory.py"
+      - name: Preserve supplier and Mandor receipts
+        if: ${{ !cancelled() && steps.runtime.outcome == 'success' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: astra-supplier-mandor-${{ github.run_id }}
+          path: ${{ runner.temp }}/cp7-astra-metrics/*.json
+          retention-days: 21
+          if-no-files-found: warn
+      - name: BR-T39 restore the changed ERP reminder and outbox from data and configuration
+        if: ${{ !cancelled() && steps.runtime.outcome == 'success' }}
+        working-directory: fixtures
+        run: bash "$AUDIT_CODE/physical.sh"
+      - name: Preserve the reminder and restore receipts
+        if: ${{ !cancelled() && steps.runtime.outcome == 'success' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: astra-reminder-recovery-${{ github.run_id }}
+          path: ${{ runner.temp }}/cp7-astra-metrics/*.json
+          retention-days: 21
+          if-no-files-found: warn
+      - name: AUD-G14 native concurrent factory transactions, Planner and HPP
+        if: ${{ !cancelled() && steps.runtime.outcome == 'success' }}
+        working-directory: fixtures
+        run: python -u "$AUDIT_CODE/load_case.py"
+      - name: Preserve final independent observations
+        if: ${{ always() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: astra-final-global-${{ github.run_id }}
+          path: ${{ runner.temp }}/cp7-astra-metrics/*.json
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Remove this job's disposable clone
+        if: ${{ always() && steps.global.outcome == 'success' }}
+        env:
+          C: ${{ steps.global.outputs.container }}
+        run: |
+          test -n "$C"
+          docker rm -f "$C"
+          docker volume rm "$C-data" "$C-config"
+          docker network rm "$C-network"
