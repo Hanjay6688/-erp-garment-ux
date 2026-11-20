@@ -39,7 +39,9 @@ jobs:
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       with:
         path: qualification-source
-        sparse-checkout: qualification/cp75-bf-forward
+        sparse-checkout: |
+          qualification/cp75-bf-forward
+          qualification/cp75-clean-bf
         persist-credentials: false
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       with:
@@ -228,6 +230,7 @@ jobs:
         CP75_STAGE_OUT: ${{ runner.temp }}/cp75-forward
       run: |
         set -euo pipefail
+        python -m pip install --quiet "cryptography==46.0.3"
         PYTHONPATH="$GITHUB_WORKSPACE/auditor/scripts:$GITHUB_WORKSPACE/capture/qualification" python ../qualification-source/qualification/cp75-bf-forward/run.py
     - name: Retain each observed transition
       if: always()

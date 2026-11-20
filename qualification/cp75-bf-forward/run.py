@@ -4,16 +4,18 @@ import json
 import os
 import traceback
 import subprocess
+import importlib.util
+import tempfile
 from pathlib import Path
 
 import psycopg
 import cp6_g01_fingerprint as fingerprints
+import cp6_successor_regression as released_boundary
 
 EXPECTED = "b036261ee8902fc3be5307d54cf2b021dd2e2b419e24100655a7a338b70bad0a"
 OUT = Path(os.environ["CP75_STAGE_OUT"])
 OUT.mkdir(mode=0o700, exist_ok=True)
-DB = dict(host="127.0.0.1", port=54322, dbname="cp6_rollback", user="postgres", password="postgres",
-          connect_timeout=10, options="-c statement_timeout=120000 -c lock_timeout=8000")
+DB = dict(conninfo=released_boundary.ADMIN, connect_timeout=10, options="-c statement_timeout=160000 -c lock_timeout=8000")
 
 
 def canonical(obj):
@@ -43,6 +45,26 @@ def save(data):
     temp.replace(OUT / "forward.json")
 
 
+def preserve_verified_stage(report):
+    from close11 import checkpoint, frozen
+    source = Path(os.environ["GITHUB_WORKSPACE"]) / "qualification-source/qualification/cp75-clean-bf/checkpoint.py"
+    spec = importlib.util.spec_from_file_location("bf_recovery", source)
+    verifier = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(verifier)
+    installed = verifier.readback(frozen.SOURCE)
+    image = frozen.docker("installed image", ["inspect","-f","{{.Image}}",frozen.SOURCE])
+    public = Path(os.environ["GITHUB_WORKSPACE"]) / "capture/qualification/close11/auditor-public.pem"
+    with tempfile.TemporaryDirectory(dir=os.environ["RUNNER_TEMP"]) as folder:
+        raw = Path(folder) / "stage.tar.gz"
+        metadata = frozen.freeze(raw,image)
+        restored = verifier.boot(raw,metadata,image)
+        assert restored == installed
+        archive = checkpoint.seal(raw,OUT/"first-cp7-release.cp75",public)
+        report["checkpoint"] = {"archive":archive,"archive_plaintext_sha256":checkpoint.digest(raw),
+                                "source":installed,"restored":restored,"verification":metadata}
+        save(report)
+
+
 def main():
     initial = read()
     report = {"status":"BF_CONFIRMED", "source":"factory recreation matched to Astra BF",
@@ -59,14 +81,15 @@ def main():
         current = read()
         assert current["catalogue"] != initial["catalogue"] and len(current["cp7_schemas"]) > len(initial["cp7_schemas"])
         report.update(status="FIRST_RELEASE_INSTALLED", installed=current, verified=verified)
-        # A physical comparison is reserved for the final handoff. This check also tests the released pre-use inverse.
+        preserve_verified_stage(report)
+        # The released inverse is tested after the committed boundary has been preserved.
         with psycopg.connect(**DB) as conn, conn.cursor() as cur:
             release.rollback_preuse(cur, state)
         after = read()
         assert after == initial
         report.update(status="FIRST_RELEASE_AND_INVERSE_CONFIRMED", after_inverse=after)
     except Exception as error:
-        report.update(error_type=type(error).__name__,error=str(error).replace(DB["password"] + "@","***@")[:900],
+        report.update(error_type=type(error).__name__,error=str(error).split("\n")[0][:700],
                       frames=[{"file":Path(x.filename).name,"line":x.lineno,"function":x.name} for x in traceback.extract_tb(error.__traceback__)[-10:]],
                       observed_after_error=read())
         report["status"]="FORWARD_STOPPED"
