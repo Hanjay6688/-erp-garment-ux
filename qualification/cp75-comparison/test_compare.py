@@ -54,10 +54,10 @@ class EvidenceComparison(unittest.TestCase):
             (self.upgrade,"upgrade-restored"):{"origin_seal":OLD,"all_rows_sequences_equal":True,"history_equal":True,
                                                 "physical_sha256":H("old archive"),"history":deepcopy(self.u)}}
 
-    def run_compare(self):
+    def run_compare(self, **catalogue):
         for (folder,name),value in self.files.items():
             (folder/(name+".json")).write_text(json.dumps(value))
-        return compare(self.clean,self.upgrade)
+        return compare(self.clean,self.upgrade,**catalogue)
 
     def test_distinct_generated_ids_keep_ledger_and_links(self):
         self.assertTrue(all(self.run_compare()["six_areas"].values()))
@@ -94,3 +94,21 @@ class EvidenceComparison(unittest.TestCase):
     def test_missing_physical_restore(self):
         self.files[(self.clean,"factory-restored")]["raw_state_equal"]=False
         with self.assertRaises(ValueError): self.run_compare()
+
+    def test_archived_identity_stays_mandatory_on_the_original_path(self):
+        alternate=H("a reconstructed target")
+        self.files[self.clean,"factory-posted"]["target"]=alternate
+        self.files[self.clean,"factory-restored"]["full25"]["sha256"]=alternate
+        self.files[self.upgrade,"upgrade-after"]["seal"]=alternate
+        with self.assertRaisesRegex(ValueError,"Versions or catalogue differ"):
+            self.run_compare()
+        observed=self.run_compare(target=alternate)
+        self.assertEqual(observed["target"],alternate)
+        self.assertTrue(all(observed["six_areas"].values()))
+
+    def test_reconstructed_target_requires_matching_physical_recovery(self):
+        alternate=H("a reconstructed target")
+        self.files[self.clean,"factory-posted"]["target"]=alternate
+        self.files[self.upgrade,"upgrade-after"]["seal"]=alternate
+        with self.assertRaisesRegex(ValueError,"Versions or catalogue differ"):
+            self.run_compare(target=alternate)

@@ -19,5 +19,5 @@ jobs:
       - name: Check the comparison and historical profile readers
         working-directory: qualification/cp75-comparison
         run: |
-          python -m py_compile ../cp75-original-live/history.py
-          python -m unittest -v test_compare.py
+          python -m py_compile ../cp75-original-live/{history,catalogue_evidence}.py
+          python -m unittest discover -v
