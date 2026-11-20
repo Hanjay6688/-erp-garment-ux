@@ -1,0 +1,48 @@
+{
+  "reference_run": 44812294178,
+  "last_20_pcs": {
+    "available": 0,
+    "a": {
+      "entries": 1,
+      "sold": 16,
+      "reserve": 0,
+      "fg_cost": 96,
+      "debit": 416,
+      "credit": 416,
+      "postings": {
+        "COGS": 96,
+        "FG_INVENTORY": -96,
+        "AR_CUSTOMER": 320,
+        "SALES_REVENUE": -320
+      }
+    },
+    "b": {
+      "entries": 1,
+      "sold": 4,
+      "reserve": 0,
+      "fg_cost": 24,
+      "debit": 104,
+      "credit": 104,
+      "postings": {
+        "COGS": 24,
+        "FG_INVENTORY": -24,
+        "AR_CUSTOMER": 80,
+        "SALES_REVENUE": -80
+      }
+    },
+    "unread_reply": 0,
+    "identical_tables_after_retry": 14
+  },
+  "supplier_correction": {
+    "purchase": 1000,
+    "paid_before": 260,
+    "paid_after": 255,
+    "payable_before": 740,
+    "payable_after": 745,
+    "cash_delta_after": -255,
+    "posted_history_rows_after": 27,
+    "linked_inverse_and_replacement": true,
+    "stock_and_cost_unchanged": true,
+    "aborted_edit_restored_exactly": true
+  }
+}

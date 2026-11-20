@@ -1,0 +1,23 @@
+name: CP7.5 check the six-area comparison reader
+on:
+  push:
+    branches: [writer-a/cp75-baseline-public]
+    paths: [qualification/cp75-comparison/**, .github/workflows/cp75-compare-receipts.yml]
+permissions:
+  contents: read
+jobs:
+  compare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          sparse-checkout: |
+            qualification/cp75-comparison
+            qualification/cp75-original-live
+          persist-credentials: false
+      - name: Check the comparison and historical profile readers
+        working-directory: qualification/cp75-comparison
+        run: |
+          python -m py_compile ../cp75-original-live/history.py
+          python -m unittest -v test_compare.py
