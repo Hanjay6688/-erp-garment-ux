@@ -15,6 +15,7 @@ from close11 import frozen, checkpoint
 
 import psycopg
 from psycopg import sql
+import cp7_master_cases as master
 import cp7_p19_plan_v2_cases as plan
 import cp7_p19_report_v2_cases as reports
 import cp7_supplier_payment_cases as payments
@@ -83,6 +84,10 @@ def seed(day):
         right=posted(cur,other,row,4)
         conn.commit()
         assert stock(cur,row)==0
+        # Finish the Planner stock movements before the supplier reader records its stock and HPP reference.
+        x,draft=planner_case.setup(cur,day,subject=owner)
+        admin(cur)
+        conn.commit()
         f=payments.fixture(cur,day,26)
         f["payment"]=f["target"]
         bank=bank_code(cur,f,owner)
@@ -95,12 +100,37 @@ def seed(day):
         record("old-documents",{"sku":str(row["product"]),"sales":[warm,left,right],"purchase":f["receipt"]["purchase_id"],
                                "original_payment":f["target"],"replacement":changed["payment_id"],"actors":[owner,other]})
         # Published work and its draft must exist before migration, including the stored report sections.
-        x,draft=planner_case.setup(cur,day,subject=owner)
         snap=reports.staged_run(cur,day,subject=owner)
         _,done,_=reports.published(cur,snap,subject=owner,title="CP7.5 laporan tersimpan")
         conn.commit()
+        assert payments.physical_state(cur)==f["physical"]
         return dict(owner=owner,other=other,row=row,warm=warm,left=left,right=right,fixture=f,bank=bank,
                     replacement=changed["payment_id"],draft=draft["draft_id"],run=x["run"],job=x["key"],publication=done["publication_id"])
+
+
+def report_permissions(cur, f):
+    """Exercise active roles with temporary subjects. Preserve the exact privileges and all fixture rows."""
+    admin(cur)
+    permissions = cur.execute("""select r.role_code, p.permission_key
+        from erp.app_roles r left join erp.app_role_permissions p on p.role_id=r.id
+        where r.is_active order by r.role_code,p.permission_key""").fetchall()
+    assert {"OWNER","ADMIN","KEUANGAN"} <= {role for role,_ in permissions}
+    matrix = {"OWNER": {"own_report": "READ", "foreign_report": "42501"}}
+    cur.execute("savepoint cp75_scoped_roles")
+    try:
+        for role in ("ADMIN", "KEUANGAN"):
+            subject = master.role_actor(cur, role)
+            profile = master.call(cur, "select public.erp_get_my_access_v1()", (), subject)
+            assert profile["allowed"] is True, role
+            state, code, _ = plan.refusal(cur, lambda: reports.read(cur, f["publication"], subject))
+            assert state == "42501", (role, state, code)
+            matrix[role] = {"profile_allowed":True, "foreign_report": state, "denial":code}
+    finally:
+        cur.execute("rollback to savepoint cp75_scoped_roles")
+        cur.execute("release savepoint cp75_scoped_roles")
+        admin(cur)
+    return {"matrix":matrix,"active_role_grants_sha256":stamp(permissions),
+            "active_roles":len({r for r,_ in permissions}), "granted_pairs":sum(p is not None for _,p in permissions)}
 
 
 def read_history(f):
@@ -128,8 +158,12 @@ def read_history(f):
         assert hashlib.sha256("\n".join([doc["summary_sha256"]]+section_hashes).encode()).hexdigest()==doc["report_hash"]
         denial=plan.refusal(q,lambda:reports.read(q,f["publication"],f["other"]))
         assert tuple(denial[:2])==("42501","CP7_REPORT_UNAVAILABLE")
+        preview=plan.preview(q,f["draft"],who)["live"]
+        planner_values=planner_case.numbers(preview)
+        assert planner_values==planner_case.BASELINE
+        access=report_permissions(q,f)
         admin(q)
-        result=dict(accounts_payable=ap,sales=[sale_a,sale_b],available=0,
+        result=dict(role_access=access,planner_values=planner_values,accounts_payable=ap,sales=[sale_a,sale_b],available=0,
                     draft=draft["state"],snapshot_id=str(f["run"]),job_id=str(job["id"]),
                     stored_snapshot=stamp(snapshot),snapshot_identity=pages["identity_hash"],page_count=shape["page_count"],draft_id=str(f["draft"]),
                     published={"id":doc["id"],"hash":doc["report_hash"],"sections":section_hashes,"summary":doc["summary_sha256"]},

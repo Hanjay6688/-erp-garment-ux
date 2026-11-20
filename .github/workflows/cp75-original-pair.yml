@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches: [writer-a/cp75-baseline-public]
-    paths: [qualification/cp75-original-live/**, .github/workflows/cp75-original-pair.yml]
+    paths: [qualification/cp75-original-launch/**]
 permissions:
   contents: read
   actions: read
