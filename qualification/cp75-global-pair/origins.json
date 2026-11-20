@@ -1,0 +1,76 @@
+{
+  "repository": "Hanjay6688/-erp-garment-ux",
+  "product": "48858590a361343e73a7f16f6646363dc155c04e",
+  "tree": "21feb69a839e74773aa87bc587bbf91a2d301144",
+  "target_seal": "deb596acb49e10ac66e0a1616a582ff74889146c0b59ee0d81ac7c2818397821",
+  "clean_cipher_sha256": "996a89a48b4309b6ae4239dd8811b47f22719ed0fafdb1826d9c1cc4b1cb1019",
+  "bf_catalogue": "b036261ee8902fc3be5307d54cf2b021dd2e2b419e24100655a7a338b70bad0a",
+  "legacy_product": "ffda5cfceb7ebc196656baa650dffd18dd425047",
+  "legacy_catalogue": "a3da0ecf21909731ab8474c54a7c91afb75bb58dd8b6042cc82314b20808dbd7",
+  "inputs": {
+    "bf_proof": {
+      "run": 44800849536,
+      "head": "80aedab32c4398110d3644989ba33f3fbe87b9cf",
+      "artifact": 14661635999,
+      "name": "cp75-clean-bf-proof",
+      "bytes": 11890,
+      "digest": "sha256:d2cb43da36817538b0d4e76695b53e119a37b46305162fd52a36b241eb477657"
+    },
+    "bf_archive": {
+      "run": 44800849536,
+      "head": "80aedab32c4398110d3644989ba33f3fbe87b9cf",
+      "artifact": 14661875761,
+      "name": "cp75-clean-bf-checkpoint",
+      "bytes": 36038307,
+      "digest": "sha256:2fd3ffa255e9f3cea5d400d1f1c6af6e61586ce4429384421fdc2a2a37296d5c"
+    },
+    "old_proof": {
+      "run": 44671146483,
+      "head": "f8520a7da6cec188540a1e52bb20ecbfaf064b19",
+      "artifact": 14603673728,
+      "name": "writer-global-catalogue-44671146483",
+      "bytes": 8756,
+      "digest": "sha256:9b8d01ff0cf31d0b6fe0b32c79dec227642b79b89d9c3dd235a3f5c3d999f27c"
+    },
+    "old_terminal": {
+      "run": 44671146483,
+      "head": "f8520a7da6cec188540a1e52bb20ecbfaf064b19",
+      "artifact": 14603314619,
+      "name": "writer-global-terminal-44671146483",
+      "bytes": 776,
+      "digest": "sha256:7e30bd571f51a6f36f6c6a66cec48682718fc7598422cc7f7455b27213bfdce7"
+    },
+    "old_archive": {
+      "run": 44671146483,
+      "head": "f8520a7da6cec188540a1e52bb20ecbfaf064b19",
+      "artifact": 14604430030,
+      "name": "writer-global-auditor-environment-44671146483",
+      "bytes": 49342227,
+      "digest": "sha256:385f543825e36ef5d446cba390c97c0fdfbef0d0a767ca56794d13ceab14bc4c"
+    },
+    "auditor": {
+      "run": 44800195953,
+      "head": "6fbbc85996d76c768afde58befbcabc2221935b1",
+      "artifact": 14660952451,
+      "name": "astra-reminder-retest-44800195953",
+      "bytes": 8996,
+      "digest": "sha256:d1e718d2b1d46ae9c280f80133ef1d7c28368b150d235a36a1e6aa4b7d97c35e"
+    },
+    "sale_fixture": {
+      "run": 44710562666,
+      "head": "6e196056207f750e3db3cd227950dd4f3fce6445",
+      "artifact": 14617242511,
+      "name": "astra-final-global-44710562666",
+      "bytes": 12495,
+      "digest": "sha256:072858e585005dd43221f1c88987e02496f577003076f9f53c212c4c9fd06320"
+    },
+    "sku_release": {
+      "run": 43347020525,
+      "head": "a62504d71a6ca1cdbaa59b6fe0fd5739693f100a",
+      "artifact": 14011544457,
+      "name": "cp7-sku-current-parent-money-automatic-native25-1",
+      "bytes": 166093725,
+      "digest": "sha256:de951319b2e9a31c490e2a2dc75a4985561e381256085c10d162264576e54c27"
+    }
+  }
+}

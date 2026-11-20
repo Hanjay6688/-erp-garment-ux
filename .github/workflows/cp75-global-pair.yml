@@ -1,0 +1,37 @@
+name: CP7.5 verify clean and historical origins
+on:
+  push:
+    branches: [writer-a/cp75-baseline-public]
+    paths: [qualification/cp75-global-pair/**, .github/workflows/cp75-global-pair.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  origins:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          sparse-checkout: qualification/cp75-global-pair
+          persist-credentials: false
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: 6fbbc85996d76c768afde58befbcabc2221935b1
+          path: historical
+          sparse-checkout: qualification
+          persist-credentials: false
+      - run: python3 -m pip install --quiet 'PyYAML==6.0.2'
+      - name: Read exact checkpoint bytes and original installer evidence
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: PYTHONPATH="$GITHUB_WORKSPACE/historical/qualification" python3 qualification/cp75-global-pair/intake.py
+      - name: Retain source hashes and progress
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cp75-pair-origins
+          path: ${{ runner.temp }}/cp75-origins/receipt.json
+          if-no-files-found: warn
+          retention-days: 90
