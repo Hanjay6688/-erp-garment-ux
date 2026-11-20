@@ -85,7 +85,50 @@ def seed_scale(q,commit):
     review=vol.calendar(q,TODAY,log)
     after=vol.current_targets(q)
     assert len(after)==512 and {r['target'] for r in rows}==set(after)-set(before)
-    return dict(targets=len(after),new_targets=len(rows),preexisting=len(before),known_opening_sales_post_calls=log['sale_post_writer']['calls'],writer_phases=dict(log),calendar=review,elapsed_s=round(perf_counter()-start,3),production_wip_comes_from_cut_sew_laundry_qc_fixture=True)
+    return rows,after,dict(targets=len(after),new_targets=len(rows),preexisting=len(before),known_opening_sales_post_calls=log['sale_post_writer']['calls'],writer_phases=dict(log),calendar=review,elapsed_s=round(perf_counter()-start,3),production_wip_comes_from_cut_sew_laundry_qc_fixture=True)
+
+def measure_invoice(q,rows,owner,limit=2000):
+    import cp7_sales_command_cases as sales
+    from datetime import timedelta
+    measures=[]
+    cases=[('small',1),('regular',10),('panel maximum',100)]
+    same=[r for r in rows if r['code']==rows[0]['code']]
+    assert len(same)>=100
+    for label,n in cases:
+        tag='A25-BULK-'+uuid.uuid4().hex[:12]
+        at=(datetime.now(ZoneInfo('Asia/Jakarta'))-timedelta(minutes=1)).isoformat()
+        payload=dict(sale_number=tag,customer_id=same[0]['customer'],source_location_id=same[0]['location'],sale_date=at,due_date=None,payment_terms='Uji pengesahan nota dari layar penjualan',notes='Uji penjualan sintetis',change_reason='Pemilik memeriksa jumlah dan harga setiap barang',items=[dict(product_id=r['product'],qty_pcs='1',unit_price_snapshot='20',discount_amount='0',notes='Barang sintetis') for r in same[:n]])
+        row=dict(label=label,distinct_lines=n,pcs=n,amount=str(n*20),rpc='public.erp_cp7_save_sale_v1',native_statement_timeout_ms=8000,operations=[])
+        start=perf_counter()
+        state=None
+        try:
+            q.execute("set local statement_timeout='8s'")
+            draft=sales.command(q,'CREATE',payload,None,subject=owner);q.connection.commit()
+            row['sale_id']=draft['sale_id']
+            row['operations'].append(dict(action='CREATE',outcome='COMMIT',ms=round(1000*(perf_counter()-start),3)))
+            stage='POST'
+            review,version=sales.review(q,dict(sale=draft['sale_id'],tag=tag));q.connection.commit()
+            start=perf_counter()
+            q.execute("set local statement_timeout='8s'")
+            posted=sales.command(q,'POST',review,version,subject=owner);q.connection.commit()
+            row['operations'].append(dict(action='POST',outcome='COMMIT',ms=round(1000*(perf_counter()-start),3)))
+            assert posted['status']=='POSTED',posted
+        except psycopg.Error as exc:
+            ms=round(1000*(perf_counter()-start),3);q.connection.rollback()
+            row['operations'].append(dict(action='POST' if row.get('sale_id') else 'CREATE',outcome='ROLLBACK',sqlstate=exc.sqlstate,error=exc.diag.message_primary,ms=ms))
+        if row.get('sale_id'):
+            detail=sales.source.read(q,dict(tag=tag,sale=row['sale_id']),subject=owner)['detail']
+            row['authoritative_status']=detail['status'];row['retained_lines']=len(detail['items'])
+            row['ledger_amount']=(detail.get('financial') or {}).get('net_total')
+            assert row['retained_lines']==n,(n,row)
+            if row['operations'][-1]['outcome']=='COMMIT':
+                assert row['authoritative_status']=='POSTED' and Decimal(row['ledger_amount'])==Decimal(n*20),row
+            else:
+                assert row['authoritative_status']=='DRAFT',row
+        row['within_2s']=len(row['operations'])==2 and all(op['outcome']=='COMMIT' and op['ms']<=limit for op in row['operations'])
+        measures.append(row);out['sales_operator_latency']=measures;store_case()
+        q.connection.commit()
+    return measures
 
 def exercise():
     params=db()
@@ -98,7 +141,7 @@ def exercise():
             assert Decimal(out['before_cost']['hpp'])==85
             c.commit()
             out['phase']='building 512 targets through application writers';store_case()
-            seed=seed_scale(q,c.commit);out['seed']=seed
+            opening,expected_targets,seed=seed_scale(q,c.commit);out['seed']=seed
             recost.period.late(q,h);out['backlog_before']=recost.read(q,subject=owner)['counts']
             admin(q);out['population']={tab:first(q,'select count(*) from erp.'+tab)for tab in ['products','material_rolls','material_stock_movements','fg_stock_movements','journal_entries','journal_lines','supplier_payments']}
             out['integrity_before']=integrity(q,h);out['db_deadlocks_before']=first(q,'select deadlocks from pg_stat_database where datname=current_database()')
@@ -137,9 +180,11 @@ def exercise():
                 orig,ps,shape=rp.staged.fetch(q,state['run_id'],staff);c.commit()
                 run=dict(run=state['run_id'],original=orig,ps=ps)
                 record('analisis-512-termasuk-semua-halaman','planner',t)
-                keys=[x['target']['key'] for x in run['original']['analysis']['recommendations']]
-                assert len(keys)==len(set(keys))==512
-                out['planner']=dict(targets=len(keys),pages=len(run['ps']['pages']),sha256=hashlib.sha256('\n'.join(sorted(keys)).encode()).hexdigest())
+                analysis=run['original']['analysis'];labels=[x['target_key'] for x in run['original']['product_labels']]
+                keys=[x['target']['key'] for x in analysis['recommendations']]
+                cover=vol.coverage(labels,keys,analysis['generation_warnings'],analysis['status'],expected_targets)
+                out['planner']=dict(targets=len(labels),page_targets=run['ps']['targets_total'],pages=len(run['ps']['pages']),coverage=cover,warning_counts=dict(unreviewed=cover['unreviewed_named_targets']),sha256=hashlib.sha256('\n'.join(sorted(labels)).encode()).hexdigest())
+                assert cover['complete'] and len(labels)==512,cover
                 for p in run['ps']['pages']:
                     for _ in range(8):
                         t=perf_counter();part=take_page(q,run['run'],p['index'],run['ps']['access_epoch'],staff);c.commit();record('muat-halaman-analisis','planner',t)
@@ -168,7 +213,7 @@ def exercise():
             try:
                 for job in workers:
                     try:job.result()
-                    except Exception as exc:failures.append(str(exc)[:250])
+                    except Exception as exc:failures.append(dict(message=str(exc)[:350],where=[(Path(fr.filename).name,fr.lineno,fr.name) for fr in traceback.extract_tb(exc.__traceback__)[-4:]]))
             finally:done.set();watch.result()
         out['sampling_ms']=25;out['activity_samples']=waits;out['errors']=failures
         out['metrics']=summarise(out['times']);store_case()
@@ -199,6 +244,16 @@ def exercise():
                 assert metrics['max_ms']<=limit,(label,metrics,limit)
         if out['sale_control']['outcome']=='REFUSED':
             assert out['sale_control']['unresolved_source_observed'],'Source completeness must explain the rejected sale'
+        with psycopg.connect(**params) as c,c.cursor() as q:
+            rows=measure_invoice(q,opening,owner)
+            out['financial_workload']='PASS'
+            out['operator_save_goal_ms']=2000
+            out['sales_goal_reached']=all(r['within_2s'] for r in rows)
+            issues=[r['distinct_lines'] for r in rows if not r['within_2s']]
+            if issues:
+                out['phase']='complete';out['outcome']='FAIL';out['failed_measurements_lines']=issues;store_case()
+                print('AUD-G14 finished with a measured operator save above target:',issues,flush=True)
+                raise SystemExit(2)
     out['phase']='complete';out['outcome']='PASS';store_case()
 
 if __name__=='__main__':
