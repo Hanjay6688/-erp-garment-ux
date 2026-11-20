@@ -1,0 +1,169 @@
+diff --git a/src/ConnectedRemindersPage.dom.test.tsx b/src/ConnectedRemindersPage.dom.test.tsx
+index 11d835a6444675af025b4c42a3f913542b96ca80..343b7e4458bcb41772587d0d2b9cb87acc4c4103 100644
+--- a/src/ConnectedRemindersPage.dom.test.tsx
++++ b/src/ConnectedRemindersPage.dom.test.tsx
+@@ -34,16 +34,20 @@ function dueState(r: Row) {
+ const rank = { OPEN: 0, DONE: 1, CANCELLED: 2 }, prio: Record<string, number> = { URGENT: 0, NORMAL: 1, LOW: 2 }
+ function server(initial: Row[], options: { loseReply?: boolean; refuse?: { code: string; message: string } } = {}) {
+   const rows = initial.map(r => ({ ...r })), answers = new Map<string, unknown>(), saves: Record<string, unknown>[] = []
++  const orders: string[] = []
+   let created = 0
+   client.rpc.mockImplementation(async (name: string, args: Record<string, unknown>) => {
+     if (name === 'erp_cp7_get_reminders_v1') {
+-      const q = args.p_query as { filter: string; limit: number; offset: number }
++      const q = args.p_query as { filter: string; limit: number; offset: number; include_order?: true }
+       const want = { ACTIVE: ['OPEN', 'DONE'], OPEN: ['OPEN'], DONE: ['DONE'], CANCELLED: ['CANCELLED'], ALL: ['OPEN', 'DONE', 'CANCELLED'] }[q.filter]!
+       const list = rows.filter(r => want.includes(r.status)).sort((a, b) => rank[a.status] - rank[b.status] || prio[a.priority] - prio[b.priority]
+         || (a.status === 'OPEN' ? a.due_at : a.updated_at).localeCompare(b.status === 'OPEN' ? b.due_at : b.updated_at) || a.id.localeCompare(b.id))
+       const open = rows.filter(r => r.status === 'OPEN'), window = Math.min(list.length, 200)
+       const items = list.slice(q.offset, q.offset + q.limit).map(r => ({ ...r, due_state: dueState(r) }))
++      const order = list.slice(0, window).map(r => r.id).join(',')
++      if (q.include_order && !orders.includes(order)) orders.push(order)
+       return { data: { contract_version: 'cp7.reminders-workspace.v1', filter: q.filter,
++        ...(q.include_order ? { order_token: orders.indexOf(order).toString(16).padStart(64, '0') } : {}),
+         page: { limit: q.limit, offset: q.offset, total: list.length, shown: items.length, window, window_limit: 200,
+           next_offset: q.offset + q.limit < window ? q.offset + q.limit : null, beyond_window: list.length - window },
+         items, counts: { open: open.length, done: rows.filter(r => r.status === 'DONE').length, cancelled: rows.filter(r => r.status === 'CANCELLED').length },
+@@ -187,7 +191,7 @@ describe('Reminder page on real data (R3-03)', () => {
+     server(Array.from({ length: 30 }, (_, n) => row(0, { id: `0f6c1d8e-0000-4000-8000-${String(n).padStart(12, '0')}`, title: `R${n}` }))); await mount()
+     expect(container.textContent).toContain('1–25 dari 30')
+     await click('Pengingat berikutnya')
+-    expect(client.rpc.mock.calls.at(-1)).toEqual(['erp_cp7_get_reminders_v1', { p_query: { filter: 'ACTIVE', limit: 50, offset: 0 } }])
++    expect(client.rpc.mock.calls.at(-1)).toEqual(['erp_cp7_get_reminders_v1', { p_query: { filter: 'ACTIVE', limit: 50, offset: 0, include_order: true } }])
+     expect(container.textContent).toContain('26–30 dari 30')
+     const good = (await client.rpc('erp_cp7_get_reminders_v1', { p_query: reminderQuery('ACTIVE') })).data as Record<string, unknown>
+     expect(() => parseRemindersWorkspace({ ...good, extra: 1 }, reminderQuery('ACTIVE'))).toThrow('ruang kerja')
+@@ -243,6 +247,50 @@ describe('Manual reminder audit SOL-01 through SOL-03', () => {
+     expect(listed()).toEqual(first)
+   })
+ 
++  it.each([51, 200])('restarts after the first and last IDs trade places outside the current page (%i rows)', async n => {
++    const s = server(Array.from({ length: n }, (_, i) => numbered(i)))
++    await mount(); await click('Belum selesai')
++    for (let offset = 25; offset < n - 25; offset += 25) await click('Pengingat berikutnya')
++    // At 51 rows the reader is on page two. At 200 the change spans both 100-row read limits.
++    s.rows[0].due_at = '2041-01-01T12:00:00Z'
++    s.rows[n - 1].due_at = '2020-01-01T09:00:00Z'
++    await click('Pengingat berikutnya')
++    expect(container.textContent).toContain('Urutan pengingat berubah')
++    expect(container.textContent).toContain(`1–25 dari ${n}`)
++    const seen = [...listed()]
++    for (let offset = 25; offset < n; offset += 25) {
++      await click('Pengingat berikutnya')
++      seen.push(...listed())
++    }
++    const order = [s.rows[n - 1], ...s.rows.slice(1, -1), s.rows[0]]
++    expect(seen).toEqual(order.map(r => 'Pengingat ' + r.title))
++    expect(new Set(seen).size).toBe(n)
++  })
++
++  it('keeps the order across a deep refresh and backward navigation; a note edit does not reorder IDs', async () => {
++    const s = server(Array.from({ length: 101 }, (_, i) => numbered(i)))
++    await mount(); await click('Belum selesai'); await click('Pengingat berikutnya')
++    s.rows[0].note = 'Catatan lain'
++    await click('Pengingat berikutnya')
++    expect(container.textContent).toContain('51–75 dari 101')
++    expect(container.textContent).not.toContain('Urutan pengingat berubah')
++    s.rows[0].priority = 'LOW'; s.rows[100].priority = 'URGENT'
++    await click('Muat ulang pengingat'); await click('Pengingat sebelumnya')
++    expect(container.textContent).toContain('Urutan pengingat berubah')
++    expect(listed()[0]).toBe('Pengingat R100')
++  })
++
++  it('requires a valid order token when the navigation requests one', async () => {
++    server([numbered(0)])
++    const q = { ...reminderQuery('OPEN'), include_order: true as const }
++    const good = (await client.rpc('erp_cp7_get_reminders_v1', { p_query: q })).data
++    expect(parseRemindersWorkspace(good, q).orderToken).toBe(good.order_token)
++    const { order_token, ...legacy } = good
++    expect(() => parseRemindersWorkspace(legacy, q)).toThrow()
++    expect(() => parseRemindersWorkspace({ ...good, order_token: order_token.slice(1) }, q)).toThrow()
++    expect(parseRemindersWorkspace(legacy, reminderQuery('OPEN')).orderToken).toBeNull()
++  })
++
+   it.each(['title', 'note', 'midnight'])('saves the intended instant for a %s edit', async mode => {
+     const original = '2026-11-20T07:00:32.942069+00:00'
+     const s = server([row(1, { title: 'Jam', due_at: original })])
+diff --git a/src/ConnectedRemindersPage.tsx b/src/ConnectedRemindersPage.tsx
+index 7b3e983374aadbff00e2005d49c66ebe7944f02d..92572f8b9053721ca21bc737ca2151bf61ee54b9 100644
+--- a/src/ConnectedRemindersPage.tsx
++++ b/src/ConnectedRemindersPage.tsx
+@@ -59,6 +59,7 @@ function Workspace() {
+     openTab(next); document.getElementById(`creminders-tab-${next}`)?.focus()
+   }
+   const serial = useRef(0), selected = useRef<ReminderQuery>(reminderQuery('ACTIVE')), titles = useRef(new Map<string, string>())
++  const traversalOrder = useRef<string | null>(null)
+   const [data, setData] = useState<RemindersWorkspace | null>(null), [busy, setBusy] = useState(false), [error, setError] = useState(''), [done, setDone] = useState('')
+   const [filter, setFilter] = useState<ReminderFilter>('ACTIVE')
+   const [draft, setDraft] = useState<ReminderDraft>(empty), [editing, setEditing] = useState<Editing>(null)
+@@ -77,9 +78,9 @@ function Workspace() {
+     try {
+       let parsed: RemindersWorkspace | null = null
+       if (previous) {
+-        const combined = await read({ ...query, offset: Math.min(previous.page.offset, query.offset), limit: query.limit * 2 })
++        const combined = await read({ ...query, offset: Math.min(previous.page.offset, query.offset), limit: query.limit * 2, include_order: true })
+         if (!current()) return false
+-        parsed = adjacentReminderPage(previous, combined, query)
++        parsed = adjacentReminderPage(previous, combined, query, traversalOrder.current)
+         if (!parsed) {
+           setDone('Urutan pengingat berubah. Daftar terbaru ditampilkan dari awal.')
+           query = reminderQuery(query.filter)
+@@ -92,6 +93,8 @@ function Workspace() {
+         if (query.offset <= lastOffset) parsed = page
+         else query = reminderQuery(query.filter, lastOffset)
+       }
++      // A refresh on a later page still belongs to the traversal that brought the operator there.
++      if (parsed.orderToken !== null || query.offset === 0) traversalOrder.current = parsed.orderToken
+       selected.current = query
+       for (const r of parsed.items) titles.current.set(r.id, r.title)
+       setData(parsed); finishRead(ticket); return true
+diff --git a/src/remindersContract.ts b/src/remindersContract.ts
+index cb8f07dbcd98899af90df9adc98c38cc5c3cdbf8..696016e350bb707ecaf56b3ba0e7447745289c07 100644
+--- a/src/remindersContract.ts
++++ b/src/remindersContract.ts
+@@ -18,9 +18,10 @@ export type ConnectedReminder = {
+   completedAt: string | null; cancelledAt: string | null; cancellationReason: string | null; createdAt: string; updatedAt: string
+   rowVersion: number; dueState: ReminderDueState | null
+ }
+-export type ReminderQuery = { filter: ReminderFilter; limit: number; offset: number }
++export type ReminderQuery = { filter: ReminderFilter; limit: number; offset: number; include_order?: true }
+ export type RemindersWorkspace = {
+   filter: ReminderFilter
++  orderToken: string | null
+   page: { limit: number; offset: number; total: number; shown: number; window: number; nextOffset: number | null; beyondWindow: number }
+   items: ConnectedReminder[]
+   counts: { open: number; done: number; cancelled: number }
+@@ -60,8 +61,9 @@ export function reminderQuery(filter: ReminderFilter, offset = 0): ReminderQuery
+   return { filter, limit: REMINDER_PAGE_SIZE, offset }
+ }
+ 
+-// Both adjacent pages come from one server read. A change at the boundary restarts browsing instead of skipping a row.
+-export function adjacentReminderPage(previous: RemindersWorkspace, combined: RemindersWorkspace, requested: ReminderQuery) {
++// The first move checks the page already shown. Later moves also check the full ordered window from that same read.
++export function adjacentReminderPage(previous: RemindersWorkspace, combined: RemindersWorkspace, requested: ReminderQuery, orderToken: string | null) {
++  if (orderToken !== null && combined.orderToken !== orderToken) return null
+   const start = previous.page.offset - combined.page.offset
+   if (previous.page.total !== combined.page.total || previous.items.some((row, i) => row.id !== combined.items[start + i]?.id)) return null
+   const { offset, limit } = requested
+@@ -94,7 +96,11 @@ function item(v: unknown, filter: ReminderFilter): ConnectedReminder {
+ 
+ export function parseRemindersWorkspace(value: unknown, query: ReminderQuery): RemindersWorkspace {
+   const w = obj(value, 'ruang kerja')
+-  keys(w, ['contract_version', 'filter', 'page', 'items', 'counts', 'due', 'today', 'read_at', 'can_manage', 'business_DML'], 'ruang kerja')
++  const expected = ['contract_version', 'filter', 'page', 'items', 'counts', 'due', 'today', 'read_at', 'can_manage', 'business_DML']
++  if (query.include_order) expected.push('order_token')
++  keys(w, expected, 'ruang kerja')
++  const orderToken = query.include_order ? str(w.order_token, 'urutan') : null
++  if (orderToken !== null && !/^[0-9a-f]{64}$/.test(orderToken)) fail('urutan')
+   if (w.contract_version !== 'cp7.reminders-workspace.v1' || w.business_DML !== false || typeof w.can_manage !== 'boolean') fail('kontrak')
+   if (w.filter !== query.filter) fail('filter')
+   const p = obj(w.page, 'halaman')
+@@ -135,7 +141,7 @@ export function parseRemindersWorkspace(value: unknown, query: ReminderQuery): R
+   if (visibleStatus.OPEN > counts.open || visibleStatus.DONE > counts.done || visibleStatus.CANCELLED > counts.cancelled) fail('jumlah')
+   const later = Math.min(counts.open, REMINDER_WINDOW) - due.overdue - due.today - due.tomorrow
+   if (visibleDue.OVERDUE > due.overdue || visibleDue.TODAY > due.today || visibleDue.TOMORROW > due.tomorrow || visibleDue.LATER > later) fail('ringkasan jatuh tempo')
+-  return { filter: query.filter, page, items, counts, due, today, readAt, canManage: w.can_manage }
++  return { filter: query.filter, orderToken, page, items, counts, due, today, readAt, canManage: w.can_manage }
+ }
+ 
+ export function reminderDraftProblem(d: ReminderDraft): string {

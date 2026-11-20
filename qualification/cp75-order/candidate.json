@@ -1,0 +1,42 @@
+{
+  "product": "48858590a361343e73a7f16f6646363dc155c04e",
+  "parent": "486d344e0ce47d2b184e2a7bfccf2a927424d184",
+  "tree": "21feb69a839e74773aa87bc587bbf91a2d301144",
+  "parent_tree": "77942cec7dfc18b96c820f79dfdc9b90bee7ade0",
+  "parent_catalogue": "da0b424f305f0b423808d445034ff8a166e32a8d9d13f811078daf2c864b012b",
+  "files": {
+    "docs/ERP_BEST_PRACTICES.md": {
+      "before": "7ff7c9c17b1dc36dcbd334a8d231ca564c06fb79",
+      "after": "717e209f38045fc6aca9f1f4619e06c829188e7e"
+    },
+    "scripts/cp7-src/manual-reminders/facade.sql": {
+      "before": "10baedebcbbc1ef87330d8577c673be0c02c8c67",
+      "after": "a190100b085b34f825eb4062b5016bc28bb4ce5c"
+    },
+    "scripts/cp7_global_reminder_order/README.md": {
+      "before": null,
+      "after": "8f8e8afc5d7a01e6ff9cf6266a1c34eb6d78b697"
+    },
+    "scripts/cp7_global_reminder_order/install.py": {
+      "before": null,
+      "after": "7a6d8ec30f17ddada5941c9a923f699a1367656a"
+    },
+    "scripts/cp7_global_reminder_order/workspace.patch": {
+      "before": null,
+      "after": "9673a06747a7b1c99a36d2b58afadcbfff88da1a"
+    },
+    "src/ConnectedRemindersPage.dom.test.tsx": {
+      "before": "11d835a6444675af025b4c42a3f913542b96ca80",
+      "after": "343b7e4458bcb41772587d0d2b9cb87acc4c4103"
+    },
+    "src/ConnectedRemindersPage.tsx": {
+      "before": "7b3e983374aadbff00e2005d49c66ebe7944f02d",
+      "after": "92572f8b9053721ca21bc737ca2151bf61ee54b9"
+    },
+    "src/remindersContract.ts": {
+      "before": "cb8f07dbcd98899af90df9adc98c38cc5c3cdbf8",
+      "after": "696016e350bb707ecaf56b3ba0e7447745289c07"
+    }
+  },
+  "production_go": false
+}
