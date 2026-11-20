@@ -1,0 +1,57 @@
+name: CP7.5 install the factory Reminder independently of the historical upgrade
+on:
+  push:
+    branches: [writer-a/cp75-baseline-public]
+    paths: [qualification/cp75-factory-source/**, .github/workflows/cp75-factory-source.yml]
+permissions:
+  contents: read
+jobs:
+  factory:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          path: source
+          sparse-checkout: qualification/cp75-factory-source
+          persist-credentials: false
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: a62504d71a6ca1cdbaa59b6fe0fd5739693f100a
+          path: base
+          sparse-checkout: scripts/cp7-src/manual-reminders
+          persist-credentials: false
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: b18e79a87eeda6fa45ef3b01a7cc0f80f6fceeef
+          path: rig
+          sparse-checkout: qualification/cp75-order
+          persist-credentials: false
+      - name: Compare the two installed catalogues on independent PostgreSQL clusters
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --quiet 'psycopg[binary]==3.2.10'
+          image=postgres:17.6
+          if ! docker pull "$image"; then image=public.ecr.aws/docker/library/postgres:17.6; docker pull "$image"; fi
+          for lane in clean upgrade; do
+            sock="$RUNNER_TEMP/cp75-$lane"
+            mkdir -m 0777 "$sock"
+            docker run -d --name "factory-src-$lane" --network none -e POSTGRES_HOST_AUTH_METHOD=trust -v "$sock:/var/run/postgresql" "$image" postgres -c listen_addresses='' >/dev/null
+            for i in {1..90}; do
+              if docker exec "factory-src-$lane" pg_isready -q -U postgres && docker exec "factory-src-$lane" sh -ec 'test "$(cat /proc/1/comm)" = postgres'; then break; fi
+              sleep 1
+            done
+          done
+          python -u source/qualification/cp75-factory-source/reminder_source.py base rig/qualification/cp75-order "$RUNNER_TEMP/cp75-clean" "$RUNNER_TEMP/cp75-upgrade" "$RUNNER_TEMP/factory-reading.json"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cp75-factory-reminder-definition
+          path: ${{ runner.temp }}/factory-reading.json
+          if-no-files-found: error
+      - name: Remove the isolated comparison clusters
+        if: always()
+        run: |
+          for lane in clean upgrade; do
+            if docker inspect "factory-src-$lane" >/dev/null 2>&1; then docker rm -vf "factory-src-$lane"; fi
+          done
