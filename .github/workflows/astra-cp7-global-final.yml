@@ -69,10 +69,10 @@ jobs:
             echo "PGUSER=supabase_admin"
           } >> "$GITHUB_ENV"
           python "$AUDIT_CODE/preflight.py"
-      - name: AUD-G14 native concurrent factory transactions, Planner and HPP
+      - name: AUD-G14 follow-up 100-line invoice with isolated opening stock
         if: ${{ !cancelled() && steps.runtime.outcome == 'success' }}
         working-directory: fixtures
-        run: python -u "$AUDIT_CODE/load_case.py"
+        run: python -u "$AUDIT_CODE/invoice_profile.py"
       - name: Preserve final independent observations
         if: ${{ always() }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
