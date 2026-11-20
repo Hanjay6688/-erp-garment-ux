@@ -11,7 +11,7 @@ from pathlib import Path
 import cp6_g01_fingerprint as fingerprint
 from close11 import checkpoint, frozen
 
-OUT = Path(os.environ['CP75_OUTPUT'])
+OUT = Path(os.environ['RUNNER_TEMP']) / 'cp75-bf-encrypted'
 OUT.mkdir(parents=True, exist_ok=True)
 CONTAINER = frozen.SOURCE
 SQL = """select jsonb_build_object('database',current_database(), 'pg',current_setting('server_version_num'),

@@ -23,7 +23,6 @@ jobs:
       CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
       CP6_DATABASE_CONTAINER: supabase_db_cp5-local
       CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
-      CP75_OUTPUT: ${{ runner.temp }}/cp75-bf-encrypted
     steps:
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       with:
