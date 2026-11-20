@@ -1,0 +1,113 @@
+name: CP7.5 open both original archives and qualify the historical upgrade
+on:
+  workflow_dispatch:
+  push:
+    branches: [writer-a/cp75-baseline-public]
+    paths: [qualification/cp75-original-live/**, .github/workflows/cp75-original-pair.yml]
+permissions:
+  contents: read
+  actions: read
+  packages: read
+jobs:
+  originals:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 110
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          path: source
+          sparse-checkout: |
+            qualification/cp75-original-live
+            qualification/cp75-original-access
+            qualification/cp75-global-pair
+          persist-credentials: false
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          path: capture
+          ref: 6b22d308e83e69c2ea6fafa937ade1ee1f6498c4
+          sparse-checkout: qualification/close11
+          persist-credentials: false
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          path: reference
+          ref: 6fbbc85996d76c768afde58befbcabc2221935b1
+          sparse-checkout: |
+            qualification/audit/codex
+            qualification/astra-public/global-final
+          persist-credentials: false
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          path: base
+          ref: a62504d71a6ca1cdbaa59b6fe0fd5739693f100a
+          persist-credentials: false
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          path: g14
+          ref: faa6a2edf23e52daa42fd268b2effc7374315e52
+          sparse-checkout: qualification/close12/product
+          persist-credentials: false
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          path: rig
+          ref: b18e79a87eeda6fa45ef3b01a7cc0f80f6fceeef
+          sparse-checkout: qualification/cp75-order
+          persist-credentials: false
+      - name: Check imports and audited installer identities
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --quiet 'cryptography==46.0.3' 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2' 'jsonschema==4.25.1'
+          paths="$GITHUB_WORKSPACE/source/qualification/cp75-original-live:$GITHUB_WORKSPACE/source/qualification/cp75-original-access:$GITHUB_WORKSPACE/reference/qualification/astra-public/global-final:$GITHUB_WORKSPACE/reference/qualification:$GITHUB_WORKSPACE/base/scripts:$GITHUB_WORKSPACE/capture/qualification"
+          echo "PYTHONPATH=$paths" >> "$GITHUB_ENV"
+          echo "AUDIT_RESULTS=$RUNNER_TEMP/cp75-original-observations/business" >> "$GITHUB_ENV"
+          echo "PGHOST=$RUNNER_TEMP/cp75-originals/upgrade-socket" >> "$GITHUB_ENV"
+          PYTHONPATH="$paths" AUDIT_RESULTS="$RUNNER_TEMP/compile-check" PGHOST="$RUNNER_TEMP/pair-test" python3 -c 'import history,live; assert history.load_installer("g14",history.WORK/"g14/qualification/close12/product","77cc2c35a78c1fde725e37199a80f87a5f9965e3"); assert history.load_installer("order",history.WORK/"rig/qualification/cp75-order","7a6d8ec30f17ddada5941c9a923f699a1367656a")'
+      - name: Verify original archives and create the scoped receiver
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 source/qualification/cp75-original-live/live.py prepare
+      - name: Publish the single-run request
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cp75-request-${{ github.run_id }}
+          path: ${{ runner.temp }}/cp75-original-observations/request.json
+          if-no-files-found: error
+          retention-days: 14
+      - name: Restore both original databases with the bound grant
+        id: open
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 -u source/qualification/cp75-original-live/live.py open
+      - name: Preserve both restored origins
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cp75-original-openings-${{ github.run_id }}
+          path: ${{ runner.temp }}/cp75-original-observations/*-opened.json
+          if-no-files-found: error
+      - name: Verify the old history before and after upgrade and after physical recovery
+        run: python3 -u source/qualification/cp75-original-live/history.py
+      - name: Verify the first CP7 factory release from the actual BF archive
+        if: ${{ !cancelled() && steps.open.outcome == 'success' }}
+        env:
+          PGHOST: ${{ runner.temp }}/cp75-originals/clean-socket
+        run: python3 -u source/qualification/cp75-original-live/clean.py
+      - name: Preserve materialized observations
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cp75-original-pair-${{ github.run_id }}
+          path: ${{ runner.temp }}/cp75-original-observations/
+          if-no-files-found: warn
+          retention-days: 90
+      - name: Remove disposable cluster resources
+        if: always()
+        shell: bash
+        run: |
+          for lane in clean upgrade upgrade-restore; do
+            name="cp75-$lane-$GITHUB_RUN_ID"
+            docker rm -f "$name" >/dev/null 2>&1 || true
+            docker volume rm "$name-data" "$name-config" >/dev/null 2>&1 || true
+          done
+          rm -f -- "$RUNNER_TEMP/cp75-originals/receiver.pem"
