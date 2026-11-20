@@ -1,0 +1,26 @@
+[
+  {
+    "id": 14669689871,
+    "name": "cp75-sku-receipts",
+    "sz": 49483988,
+    "digest": "sha256:2d9b1ba98ceb255b5fcb29b83da2d176d5a1faa45aa6ab2489da1ca61356f3a7",
+    "run": 44811843660,
+    "head": "3ca79c71b0de3aeeaf8a87514992316af69e0955"
+  },
+  {
+    "id": 14672257666,
+    "name": "cp75-current-factory-44819889997",
+    "sz": 898,
+    "digest": "sha256:5ffda221d05da717ce34035258cf078040fa1d80006016d19a22a0cf8179274e",
+    "run": 44819889997,
+    "head": "d37840bb30be429e124323050da3e9a5c5093ee1"
+  },
+  {
+    "id": 14668167850,
+    "name": "cp75-current-factory-44813778562",
+    "sz": 987,
+    "digest": "sha256:13538edb03ef8ab395b397e2a11461784c6ea43e971fbf4ce7cec8bcef0bd3a4",
+    "run": 44813778562,
+    "head": "faac8c245a8be9209b7f0cadb1e1fae3228a6e72"
+  }
+]
