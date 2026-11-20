@@ -16,7 +16,10 @@ CHILD_PRODUCT='475980f2d07a60ea9a2576fe0d8fe50e63653434'
 CHILD_TREE='659a119964b84c8787e747594c5b309b547932c6'
 CHILD_SEAL='da0b424f305f0b423808d445034ff8a166e32a8d9d13f811078daf2c864b012b'
 PRODUCT=os.environ.get('ASTRA_AUDITED_CANDIDATE',PARENT_PRODUCT)
-if PRODUCT==CHILD_PRODUCT:
+ORDER_PRODUCT='48858590a361343e73a7f16f6646363dc155c04e'
+if PRODUCT==ORDER_PRODUCT:
+    TREE,SEAL='21feb69a839e74773aa87bc587bbf91a2d301144','deb596acb49e10ac66e0a1616a582ff74889146c0b59ee0d81ac7c2818397821'
+elif PRODUCT==CHILD_PRODUCT:
     TREE,SEAL=CHILD_TREE,CHILD_SEAL
 elif PRODUCT==PARENT_PRODUCT:
     TREE,SEAL=PARENT_TREE,PARENT_SEAL
@@ -49,6 +52,13 @@ def measure_seal(q):
     assert record['product']==PARENT_PRODUCT and record['tree']==PARENT_TREE
     if PRODUCT==PARENT_PRODUCT:
         assert record['server_catalogue_fingerprint']==value
+    elif PRODUCT==ORDER_PRODUCT:
+        installed=read('installation')
+        base=read('parent-installation')
+        assert base['parent_seal']['sha256']==record['server_catalogue_fingerprint']['sha256']==PARENT_SEAL
+        assert base['installed']['sha256']==installed['parent_seal']==CHILD_SEAL
+        assert installed['run']==os.environ['GITHUB_RUN_ID'] and installed['candidate']==PRODUCT and installed['tree']==TREE
+        assert installed['factory_matches_installed'] and installed['seal']==SEAL
     else:
         installation=read('candidate-install')
         assert installation['parent_seal']==record['server_catalogue_fingerprint']['sha256']==PARENT_SEAL
