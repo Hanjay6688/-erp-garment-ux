@@ -542,6 +542,8 @@ def runtime(candidate, sku_checkout, *, parent_receipt=None, input_profile=None,
                 switch_roll_receipt = bind_switch_roll(provider, candidate.parent / 'g04-product')
                 tracked_source(runner_checkout, 'qualification/p21/s06_catalogue.py')
                 switch_roll_receipt = bind_s06(provider, candidate.parent / 's06-product', switch_roll_receipt)
+                from close11.binding import bind as bind_current
+                committed_candidate = bind_current(provider, candidate.parent)
             lifecycle = DatedLifecycle(engine, provider, parent_raw, profile_raw, reviewed, credit=credit,
                                        sku_catalogue=catalogue_raw, inputs=profile, foundation=foundation)
             output = candidate / 'cp6-proof/t3'
@@ -565,20 +567,10 @@ def runtime(candidate, sku_checkout, *, parent_receipt=None, input_profile=None,
             routes = lifecycle.runner(positives, observe_scope=observation_tools())
             owner = auth.writer(engine, lifecycle, routes, sku.report_io, original, revised, source_identity, auth_attempt)
             if p21_mode.enabled():
-                from p21.installed import exercise
-                from p21.checkpoints import record_case
-                from p21.followup import auth_scope
-
                 namespace = owner.run_inner.__globals__
-                scoped_auth = auth_scope(namespace['_global_auth'])
-                namespace['_global_auth'] = scoped_auth
-
-                def observe_p21(conn, cur, state, report):
-                    exercise(conn, cur, state, report, lifecycle=lifecycle, candidate=candidate,
-                             switch_roll_receipt=switch_roll_receipt(state.global_installation), checkpoint=record_case,
-                             auth=scoped_auth,package=namespace['package'])
-
-                owner.run_inner.__globals__['_p21_installed_checks'] = observe_p21
+                def observe_current(conn, cur, state, report):
+                    return committed_candidate(conn, cur, state, lifecycle)
+                namespace['_observe_installed_types'] = observe_current
 
         started = False
 

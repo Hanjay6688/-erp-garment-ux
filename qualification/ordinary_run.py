@@ -202,6 +202,8 @@ def preflight(workspace, scratch, run):
             owning.git(combined_product, 'checkout', '--quiet', '--detach', g04_source.PRODUCT)
             _, s06_bundle = owning.tracked_source(HERE.parent, s06_source.BUNDLE)
             s06_source.prepare(combined_product, s06_bundle)
+            from close11.source import materialize
+            materialize(workspace)
         inherited_receipt = retain_inherited_writer_receipt(workspace, scratch)
         with bind_runtime(workspace, scratch) as bound:
             require(bound.runner_source['github'] == run, 'GLOBAL_ORDINARY_SOURCE_IDENTITY_CHANGED')

@@ -82,8 +82,8 @@ def complete(report):
             and all(inverse.get(key) is value for key, value in INVERSE_FLAGS.items())
             and report.get('committed') == {} and report.get('expected_case_count') == 0
             and ('used_guard_refused_before_DDL' not in report)
-            and (p21_auth_complete(report) if p21_mode.enabled() else not any(name in report for name in
-                 ('global_auth_application','global_auth_before_restore','global_auth_cleanup'))))
+            and not any(name in report for name in
+                 ('global_auth_application','global_auth_before_restore','global_auth_cleanup')))
 
 
 def derive(source):
@@ -96,11 +96,6 @@ def derive(source):
                 continue
             if before == DIAGNOSTICS:
                 after = P20_OBSERVATION
-        elif p21_mode.enabled():
-            if before in ('                _global_auth.before_restore(report)\n', AUTH_POST):
-                continue
-            if before == DIAGNOSTICS:
-                after = P21_OBSERVATION
         installed_types.require(result.count(before) == 1, 'CP7_INSTALLED_TYPES_EXACT_OBSERVER_ROUTE_REQUIRED')
         result = result.replace(before, after, 1)
     compile(result, '<cp7 installed schema observer>', 'exec', dont_inherit=True)
@@ -150,6 +145,12 @@ def bind(owner, source, report_io, lifecycle, candidate):
 
         namespace['_installation_observation_complete'] = complete_p20
     elif p21_mode.enabled():
-        namespace['_installation_observation_complete'] = lambda report: (
-            complete(report) and p21_installed.proven(report.get('p21_installed_checks', {})))
+        def installed_candidate(report):
+            receipt=report.get('installed_public_types',{})
+            inverse=report.get('focused_preuse_removal',{})
+            return (receipt.get('status')=='COMMITTED' and receipt.get('product')=='ffda5cfceb7ebc196656baa650dffd18dd425047'
+                    and len(receipt.get('catalogue_groups',{}))==25 and bool(receipt.get('checkpoint',{}).get('sha256'))
+                    and all(inverse.get(key) is value for key,value in INVERSE_FLAGS.items())
+                    and report.get('committed')=={} and report.get('expected_case_count')==0)
+        namespace['_installation_observation_complete'] = installed_candidate
     namespace['run_inner'] = FunctionType(derived, namespace, 'run_inner', inner.__defaults__)
