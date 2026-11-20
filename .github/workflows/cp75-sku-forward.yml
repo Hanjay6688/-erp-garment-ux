@@ -301,7 +301,11 @@ jobs:
       run: |
         set -euo pipefail
         python -m pip install --quiet 'cryptography==46.0.3'
-        PYTHONPATH="$GITHUB_WORKSPACE/released/qualification:$GITHUB_WORKSPACE/capture/qualification:$GITHUB_WORKSPACE/auditor/scripts" python -u qualification-source/qualification/cp75-sku-forward/install.py
+        source_dir="$GITHUB_WORKSPACE/qualification-source/qualification/cp75-sku-forward"
+        observer_paths="$GITHUB_WORKSPACE/capture/qualification:$GITHUB_WORKSPACE/auditor/scripts"
+        PYTHONPATH="$observer_paths" python -u "$source_dir/observe.py" before
+        PYTHONPATH="$GITHUB_WORKSPACE/released/qualification" python -u "$source_dir/install.py"
+        PYTHONPATH="$observer_paths" python -u "$source_dir/observe.py" capture
     - name: Retain per-stage receipts
       if: always()
       uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02

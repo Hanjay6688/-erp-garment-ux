@@ -8,7 +8,6 @@ from pathlib import Path
 import traceback
 import tempfile
 
-from close11 import frozen, checkpoint
 from sku_credit_seal import prepare as prepare_credit
 from sku_parent import CATALOGUE_PIN, SKU, retained, source_engine
 from sku_progress import before_mandor, observe as stage
@@ -30,19 +29,11 @@ def save(report, name):
     print("CP75_SKU_STAGE", name, flush=True)
 
 
-def load_bf():
-    spec = importlib.util.spec_from_file_location("bf_observer", WORK/"qualification-source/qualification/cp75-clean-bf/checkpoint.py")
-    m = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(m)
-    return m
-
-
 def main():
     report = {"product_goal":"48858590","production_go":False,"original_checkpoint_used":False,
               "carrier":"independent factory reproduction certified against BF","phases":[]}
     try:
-        bf = load_bf()
-        source = bf.readback(frozen.SOURCE)
+        source = json.loads((OUT/"bf-verified.json").read_text())
         measured = source["cp6_rollback"]
         assert measured["catalogue_sha256"] == BF and measured["platform_migrations"] == 128 and measured["application_migrations"] == 113
         report["BF"] = source
@@ -86,17 +77,6 @@ def main():
                 with credit.owning._postgres_reader(cur):
                     assert compare(cur,again,inputs,fingerprint)["status"]==proof["status"]
             save(report,"SKU_COMMITTED_AND_READ_BACK")
-        image=frozen.docker("installed image",["inspect","-f","{{.Image}}",frozen.SOURCE])
-        public=WORK/"capture/qualification/close11/auditor-public.pem"
-        with tempfile.TemporaryDirectory(dir=TEMP) as root:
-            raw=Path(root)/"sku.tar.gz"
-            metadata=frozen.freeze(raw,image)
-            before=bf.readback(frozen.SOURCE)
-            after=bf.boot(raw,metadata,image)
-            assert before==after
-            report["recovery"]={"before":before,"after":after,"copy":metadata,"plaintext_sha256":checkpoint.digest(raw),
-                                "archive":checkpoint.seal(raw,OUT/"sku.cp75",public)}
-        save(report,"SKU_PHYSICAL_RESTORE")
     except Exception as err:
         report["error"]={"class":type(err).__name__,"reason":str(err).splitlines()[0][:440],
                          "frames":[[Path(t.filename).name,t.name,t.lineno] for t in traceback.extract_tb(err.__traceback__)[-8:]]}
