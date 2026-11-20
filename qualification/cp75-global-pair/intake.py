@@ -94,12 +94,13 @@ def collect():
     history = object_from("old_proof", "installed.json")
     terminal = object_from("old_terminal", "terminal.json")
     assert history["status"] == "COMMITTED" and terminal["status"] == "INSTALLED_AND_PRESERVED"
-    assert history["product"] == PINS["legacy_product"] and history["full25_sha256"] == PINS["legacy_catalogue"]
+    assert history["product"] == PINS["legacy_product"] and history["server_catalogue_fingerprint"]["sha256"] == PINS["legacy_catalogue"]
     assert history["catalogue_verified_after_scheduler"] is True
     envelope = checkpoint_header("old_archive", "global-ffda.cp7", history["checkpoint"]["sha256"])
     if history.get("envelope_sha256"):
         assert history["envelope_sha256"] == envelope["envelope_sha256"]
-    result["upgrade"] = {**envelope, "product": history["product"], "tree": history["tree"], "catalogue": history["full25_sha256"]}
+    result["upgrade"] = {**envelope, "product": history["product"], "tree": history["tree"], "catalogue": history["server_catalogue_fingerprint"]["sha256"],
+                         "source_full25_sha256": history["full25_sha256"]}
     catalogue, fingerprint, sources = retained(OUT / "sku_release.zip")
     result["sku_parent"] = {"catalogue_bytes": len(catalogue), "catalogue_sha256": sha(catalogue),
                             "fingerprint_groups": fingerprint["groups"], "source_components": len(sources)}
