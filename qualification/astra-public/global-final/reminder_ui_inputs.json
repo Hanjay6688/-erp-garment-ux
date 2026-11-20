@@ -1,0 +1,81 @@
+{
+  "pagination_26": {
+    "total": 26,
+    "remaining": 25,
+    "heading": "26–25 dari 25",
+    "reads": [
+      0,
+      0,
+      25,
+      25
+    ],
+    "displayed": 0
+  },
+  "pagination_51": {
+    "total": 51,
+    "remaining": 50,
+    "heading": "51–50 dari 50",
+    "reads": [
+      0,
+      0,
+      25,
+      50,
+      50
+    ],
+    "displayed": 0
+  },
+  "pagination_1": {
+    "total": 1,
+    "remaining": 0,
+    "heading": "Tidak ada pengingat",
+    "reads": [
+      0,
+      0,
+      0
+    ],
+    "displayed": 0
+  },
+  "time_title": {
+    "original": "2026-11-20T07:00:32.942069+00:00",
+    "payload": {
+      "id": "0f6c1d8e-0000-4000-8000-000000000001",
+      "title": "Astra revised title",
+      "note": "",
+      "due_at": "2026-11-20T07:00:00.000Z",
+      "priority": "NORMAL",
+      "module": "Laundry"
+    }
+  },
+  "time_note": {
+    "original": "2026-11-20T07:00:32.942069+00:00",
+    "payload": {
+      "id": "0f6c1d8e-0000-4000-8000-000000000001",
+      "title": "Astra clock",
+      "note": "Astra revised note",
+      "due_at": "2026-11-20T07:00:00.000Z",
+      "priority": "NORMAL",
+      "module": "Laundry"
+    }
+  },
+  "time_intentional": {
+    "original": "2026-11-20T07:00:32.942069+00:00",
+    "payload": {
+      "id": "0f6c1d8e-0000-4000-8000-000000000001",
+      "title": "Astra clock",
+      "note": "",
+      "due_at": "2026-11-20T17:00:00.000Z",
+      "priority": "NORMAL",
+      "module": "Laundry"
+    }
+  },
+  "parser": {
+    "normal": true,
+    "accepted": [
+      "zero_count",
+      "wrong_state",
+      "impossible_date",
+      "no_timezone"
+    ],
+    "missing_row_rejected": true
+  }
+}
