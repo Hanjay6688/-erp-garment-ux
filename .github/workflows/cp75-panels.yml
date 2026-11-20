@@ -1,0 +1,48 @@
+name: CP7.5 production, Planner and finance panel readers
+on:
+  push:
+    branches: [writer-a/cp75-baseline-public]
+    paths: [qualification/cp75-panels/**, .github/workflows/cp75-panels.yml]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  panels:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          path: source
+          sparse-checkout: qualification/cp75-panels
+          persist-credentials: false
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: b18e79a87eeda6fa45ef3b01a7cc0f80f6fceeef
+          path: rig
+          sparse-checkout: |
+            qualification/cp75-reminders
+            qualification/cp75-order
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check the immutable UI package and successor files
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 source/qualification/cp75-panels/panels.py prepare
+      - name: Run the three targeted panel suites
+        working-directory: product
+        run: |
+          set -euo pipefail
+          npm ci --no-audit --no-fund
+          ./node_modules/.bin/vitest run src/NativeProductionPlanningPanel.dom.test.tsx src/NativePlanDraftPanel.staged.dom.test.tsx src/NativeAnalysisFinancePanel.dom.test.tsx --reporter=json --outputFile="$GITHUB_WORKSPACE/evidence/vitest.json"
+          python3 ../source/qualification/cp75-panels/panels.py results
+      - name: Retain suite counts and per-case outcomes
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cp75-three-panel-readers
+          path: evidence/
+          if-no-files-found: warn
+          retention-days: 90
