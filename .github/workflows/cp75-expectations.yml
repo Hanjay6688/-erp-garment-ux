@@ -1,0 +1,31 @@
+name: CP7.5 verify comparison figures from existing evidence
+on:
+  push:
+    branches: [writer-a/cp75-baseline-public]
+    paths: [qualification/cp75-expectations/**, .github/workflows/cp75-expectations.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  references:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          sparse-checkout: |
+            qualification/cp75-expectations
+            qualification/cp75-global-pair
+          persist-credentials: false
+      - name: Check independent BF and sale reference values
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 qualification/cp75-expectations/reference.py
+      - name: Preserve exact comparison values
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cp75-expected
+          path: ${{ runner.temp }}/cp75-expectations/expected.json
+          if-no-files-found: error
+          retention-days: 90
