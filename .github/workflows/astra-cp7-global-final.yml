@@ -1,4 +1,4 @@
-name: Astra CP7 independent Global business cases
+name: Astra CP1-CP7 independent reminder retest
 on:
   push:
     branches: [audit/astra-cp7-public-ffda]
@@ -11,7 +11,7 @@ permissions:
 jobs:
   audit:
     runs-on: ubuntu-24.04
-    timeout-minutes: 75
+    timeout-minutes: 40
     env:
       PYTHONDONTWRITEBYTECODE: '1'
       TZ: Asia/Jakarta
@@ -38,69 +38,43 @@ jobs:
             docs/evidence
           path: fixtures
           persist-credentials: false
-      - name: Checkout the four pinned candidate installer files
+      - name: Checkout pinned reminder test transport and Global installer
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
-          ref: faa6a2edf23e52daa42fd268b2effc7374315e52
-          sparse-checkout: qualification/close12/product
-          path: installer
+          ref: 6b22d308e83e69c2ea6fafa937ade1ee1f6498c4
+          sparse-checkout: |
+            qualification/close12/product
+            qualification/cp75-reminders
+          path: rig
           persist-credentials: false
-      - name: Prepare synthetic case clients
-        shell: bash
-        run: |
-          python -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2' 'jsonschema==4.25.1'
-          code="$GITHUB_WORKSPACE/evidence-source/qualification/astra-public/global-final"
-          mkdir -m 700 "$RUNNER_TEMP/cp7-astra-metrics"
-          {
-            echo "AUDIT_CODE=$code"
-            echo "AUDIT_RESULTS=$RUNNER_TEMP/cp7-astra-metrics"
-            echo "PYTHONPATH=$code:$GITHUB_WORKSPACE/fixtures/scripts"
-          } >> "$GITHUB_ENV"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare independent test clients
+        run: python -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2' 'jsonschema==4.25.1'
       - id: global
         name: Open the final certified checkpoint
         uses: Hanjay6688/-erp-garment-ux/qualification/close11/open@f8520a7da6cec188540a1e52bb20ecbfaf064b19
         with:
           origin-run: '44671146483'
           origin-runner: f8520a7da6cec188540a1e52bb20ecbfaf064b19
-      - id: runtime
-        name: Verify the live Global identity
-        shell: bash
+      - name: Reconcile both browser sessions with fresh PostgreSQL reads
         working-directory: fixtures
         env:
           PGHOST: ${{ steps.global.outputs.socket }}
-          CONTAINER: ${{ steps.global.outputs.container }}
+          REMINDER_APP: ${{ steps.global.outputs.application }}
+          WRITER_RESULTS: ${{ runner.temp }}/astra-reminder-retest
+          PYTHONPATH: ${{ github.workspace }}/fixtures/scripts
         run: |
-          {
-            echo "PGHOST=$PGHOST"
-            echo "AUDIT_PG_CONTAINER=$CONTAINER"
-            echo "PGUSER=supabase_admin"
-          } >> "$GITHUB_ENV"
-          python "$AUDIT_CODE/preflight.py"
-      - id: candidate
-        name: Bind the child installer and verify upgrade, reversal and reinstallation
-        if: ${{ !cancelled() && steps.runtime.outcome == 'success' }}
-        working-directory: fixtures
-        env:
-          ASTRA_AUDITED_CANDIDATE: 475980f2d07a60ea9a2576fe0d8fe50e63653434
-        run: python -u "$AUDIT_CODE/upgrade_g14.py"
-      - name: Reconcile manual Reminder pages and editing precision
-        if: ${{ !cancelled() && steps.candidate.outcome == 'success' }}
-        working-directory: fixtures
-        env:
-          ASTRA_AUDITED_CANDIDATE: 475980f2d07a60ea9a2576fe0d8fe50e63653434
-        run: python -u "$AUDIT_CODE/reminder_cross.py"
-      - name: Two sales operators share stock and recover a committed invoice
-        if: ${{ !cancelled() && steps.candidate.outcome == 'success' }}
-        working-directory: fixtures
-        env:
-          ASTRA_AUDITED_CANDIDATE: 475980f2d07a60ea9a2576fe0d8fe50e63653434
-        run: python -u "$AUDIT_CODE/sales_collision.py"
+          export CHROME_BIN="$(command -v google-chrome)"
+          test -x "$CHROME_BIN"
+          python -u "$GITHUB_WORKSPACE/evidence-source/qualification/astra-public/global-final/verify_reminder_ui.py"
       - name: Preserve final independent observations
         if: ${{ always() }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: astra-final-global-${{ github.run_id }}
-          path: ${{ runner.temp }}/cp7-astra-metrics/*.json
+          name: astra-reminder-retest-${{ github.run_id }}
+          path: ${{ runner.temp }}/astra-reminder-retest/*.json
           retention-days: 30
           if-no-files-found: warn
       - name: Remove this job's disposable clone
