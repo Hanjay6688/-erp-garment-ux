@@ -95,6 +95,7 @@ def main():
                        copy=info, archive=encrypted, plaintext_sha256=checkpoint.digest(raw), public_key_sha256=checkpoint.digest(public_key),
                        source_and_isolated_boot_equal=True, final_global_comparison=False, production_go=False)
         (OUT/'clean-bf.json').write_text(json.dumps(receipt,indent=2)+'\n')
+        print('CP75_READBACK_JSON ' + json.dumps(receipt, separators=(',', ':')), flush=True)
         print('CP7.5 clean v2.6.20bf on both clusters, 30 release files verified', flush=True)
 
 

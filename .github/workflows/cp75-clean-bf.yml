@@ -221,7 +221,7 @@ jobs:
         set -euo pipefail
         test "$(git -C auditor rev-parse HEAD:supabase/release/cp6-t3)" = 557896a51f0661f73b74bdf9babaf9d08e7314a9
         test "$(git -C auditor rev-parse HEAD:scripts/cp6_t3_release_package.py)" = fcd10d27213000d97a6f713463a670337f2dd24a
-        PYTHONPATH="$GITHUB_WORKSPACE/auditor/scripts" python auditor/scripts/cp6_t3_release_package.py install auditor/cp6-proof/t3/CP75_RELEASE_FILES.json
+        (cd auditor && PYTHONPATH="$GITHUB_WORKSPACE/auditor/scripts" python scripts/cp6_t3_release_package.py install cp6-proof/t3/CP75_RELEASE_FILES.json)
     - name: Boot a separate isolated cluster and preserve the encrypted checkpoint
       run: |
         set -euo pipefail
