@@ -1,10 +1,10 @@
 [
   {
-    "run": 44829911983,
+    "name": "cp75-current-factory-44829911983",
+    "id": 14679641825,
+    "sz": 205144534,
+    "digest": "sha256:3191d741c32b203ed72993348c3dc54c05f0a711bb608a6fa2ccc580d4f8f344",
     "head": "e6bd1db27c3a6d250d189842e326ab70e5f5e26c",
-    "id": 14679357888,
-    "sz": 12512,
-    "name": "cp75-prepare-readbacks-44829911983",
-    "digest": "sha256:e815904b6746cde17ec23bd754caeb53bd7b2718e784ac48260419d3c7162a59"
+    "run": 44829911983
   }
 ]
