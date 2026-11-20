@@ -1,17 +1,9 @@
 [
   {
-    "id": 14674898502,
-    "name": "cp75-current-factory-44822315937",
-    "sz": 2051,
-    "digest": "sha256:02d7b1702affb998e47f64901f76e02f27de5d3b01b4a6b322ff684acc9180b7",
-    "run": 44822315937,
-    "head": "a70a885c155b01062e9c0ce95498bdd35be31f1e"
-  },
-  {
-    "run": 44671146483,
-    "id": 14603673728,
-    "head": "f8520a7da6cec188540a1e52bb20ecbfaf064b19",
-    "sz": 8756,
-    "digest": "sha256:9b8d01ff0cf31d0b6fe0b32c79dec227642b79b89d9c3dd235a3f5c3d999f27c"
+    "id": 14669689871,
+    "run": 44811843660,
+    "head": "3ca79c71b0de3aeeaf8a87514992316af69e0955",
+    "sz": 49483988,
+    "digest": "sha256:2d9b1ba98ceb255b5fcb29b83da2d176d5a1faa45aa6ab2489da1ca61356f3a7"
   }
 ]
