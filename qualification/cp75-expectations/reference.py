@@ -61,6 +61,7 @@ def main():
         writer = original(WRITER, "clean-bf.json", folder)
         g14 = original(CONFIG["inputs"]["sale_fixture"], "AUD-G14.json", folder)
         race = original(CONFIG["inputs"]["auditor"], "sales-collision.json", folder)
+        supplier = original({"artifact":14609978666,"digest":"sha256:04732154c37bc241e6c7b9e82a0e65bfdcca8bdb423f2705e61c4947ebfd1348"}, "AUD-G01.json", folder)
     assert clean["source"] == clean["restored"] and writer["source"] == writer["restored"]
     for name in ("postgres", "cp6_rollback"):
         assert clean["source"][name] == writer["source"][name], name
@@ -78,11 +79,23 @@ def main():
     assert final["available"] == 0
     lost = one_branch(race, "lost_reply")
     assert lost["operator_observed_responses"] == 0 and lost["committed_seen_by_other"] and lost["same_result"] and lost["identical_tables"] == 14
+    commit=supplier["rounds"]["COMMIT"]
+    abort=supplier["rounds"]["ABORT"]
+    assert supplier["outcome"]=="PASS" and abort["before"]==abort["after"]
+    before,after=commit["before"],commit["after"]
+    assert [Decimal(x["AP"]["paid"]) for x in (before,after)]==[260,255]
+    assert [Decimal(x["AP"]["remaining"]) for x in (before,after)]==[740,745]
+    assert Decimal(after["cash_delta"])==-255 and after["original_status"]=="REVERSED"
+    assert after["replacement"]==commit["writer_result"]["payment_id"] and after["inverse"]
+    assert sum(len(p) for p in after["history_pages"])==27 and after["all_stock_and_cost_same"]
     result = {"classification":"prior independent observations for the future two-path comparison",
               "new_target_db_cases":0,"production_go":False,"BF":clean["source"],"sales":totals,
               "last_20_pcs":{"available":0,"a":verify_note(final["invoice_a"],16,320),"b":verify_note(final["invoice_b"],4,80),
                              "unread_reply":0,"identical_tables_after_retry":14},
-              "source_runs":[44800849536,44801431651,44710562666,44800195953]}
+              "supplier_correction":{"purchase":1000,"paid_before":260,"paid_after":255,"payable_before":740,"payable_after":745,
+                                     "cash_delta_after":-255,"posted_history_rows_after":27,"linked_inverse_and_replacement":True,
+                                     "stock_and_cost_unchanged":True,"aborted_edit_restored_exactly":True},
+              "source_runs":[44800849536,44801431651,44710562666,44800195953,44695156458]}
     (OUT/"expected.json").write_text(json.dumps(result,indent=2)+"\n")
     print("CP75_EXPECTED "+json.dumps(result,separators=(",",":")),flush=True)
 
