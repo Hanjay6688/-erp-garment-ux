@@ -45,6 +45,25 @@ def declaration(stmt,path):
     return dict(sig=name+'('+','.join(args)+')',name=name,statement=stmt,
                 header=stmt[:marker.start()],body=stmt[marker.end():end],path=path)
 
+def object_grant(stmt):
+    m=re.match(r'^grant\s+(select|execute)\s+on\s+(function\s+)?(.+?)\bto\s+(\w+)\s*;$',stmt,re.I|re.S)
+    if not m:return None
+    kind,functions,items,role=m.groups()
+    # Candidate signatures contain an argument list, but never nesting.
+    names=[x.strip() for x in re.split(r',(?![^()]*\))',items)]
+    return (kind.lower(),bool(functions),role),names
+
+def added_privileges(previous,statement):
+    target=object_grant(statement)
+    if not target:return statement
+    tag,new_names=target;old_names=set()
+    for item in previous:
+        prior=object_grant(item)
+        if prior and prior[0]==tag:old_names.update(prior[1])
+    fresh=[name for name in new_names if name not in old_names]
+    kind,functions,role=tag
+    return ('grant '+kind+' on '+('function ' if functions else '')+','.join(fresh)+' to '+role+';') if fresh else None
+
 def compile_plan(sources):
     functions={};rights=[];standalone=[];structures=[];alerts=[]
     # The bounded stage owns the final wrapper over its two rendering inputs.
@@ -61,7 +80,8 @@ def compile_plan(sources):
                 functions[d['sig']]=(oldf.get(d['sig']),d)
                 if path.endswith('/alerts/alerts.sql'):alerts.append(d['sig'])
             elif RIGHTS.match(s):
-                rights.append((path,s))
+                right=added_privileges(a,s)
+                if right:rights.append((path,right))
             elif s.lower().startswith('create table '):
                 structures.append((path,s))
             elif s.lower().startswith('do '):
@@ -81,8 +101,35 @@ def read_sources(base,new):
         result[p]=(before.decode(),raw.decode())
     return result
 
+# The retained original SKU catalogue supplies these three exact composed preimages.
+# The fd665438/3ecf055a auditor installer applies the candidate's complete item formatter.
+# The other two declarations retain Native's registered model schemas and netting version.
+COMPOSED = {
+    'cp7_alert_native.item_line(jsonb,text)': ('df264cec882ff5e57e97547b7c1fac46d293f2ef4faf3f0152d1c517c1dd265d','d5ab714c9bbdffecc58973459f0064a5d23ee50518601c9082562dd118102f59'),
+    'cp7_analysis_native.source_within(integer,integer)': ('7be556f35a266ee597b1fddaa78866ab3e5f5c531d00b4cec6a0abc0cde984fa','796ee4c2cceb058dca693fce462e74c00f9a84b14cae9a35614d77e2eba82aa1'),
+    'cp7_netting_native.fingerprint(jsonb)': ('c33a23f2b75cd64c0531f0f6d48653f49ba6f6455f44040896b5cb8653d20c2e','39a53c21428c1dd023f6590e36b0e776aac1014bf19f937174842fec31941ebb'),
+}
+
+def retained_composition(old,new,live,label):
+    required=COMPOSED[label]
+    check((sha(live.encode()),sha(new.encode()))==required,'CANDIDATE_COMPOSED_PREIMAGE '+label)
+    if label.startswith('cp7_alert_native.'):
+        return new
+    if label.startswith('cp7_netting_native.'):
+        marker="jsonb_build_object('work_source',"
+        extended="jsonb_build_object('net_kernel','net-dual-horizon-2','work_source',"
+        check(new.count(marker)==live.count(extended)==1 and old.replace(marker,extended)==live,'CANDIDATE_NETTING_COMPOSITION')
+        return new.replace(marker,extended)
+    original=old.splitlines(True);installed=live.splitlines(True)
+    check(len(original)==len(installed),'CANDIDATE_ANALYSIS_COMPOSITION')
+    changes=[(a,b) for a,b in zip(original,installed) if a!=b]
+    check(len(changes)==2 and all(new.count(a)==1 for a,b in changes),'CANDIDATE_ANALYSIS_REORDER_SOURCE')
+    for a,b in changes:new=new.replace(a,b,1)
+    return new
+
 def merge_body(old,new,live,label):
     if live in (old,new):return new
+    if label in COMPOSED:return retained_composition(old,new,live,label)
     # An inherited wrapper may already contain some changes. An edit can be
     # applied only at one unambiguous old span, or recognized by its new span.
     a=old.splitlines(True);b=new.splitlines(True)
@@ -158,5 +205,8 @@ def apply(cur,sources):
         check(row and row[0]==body,'BODY_READBACK '+sig)
         # Replacing an identical definition under the owning installer also runs the language validator.
         ddl(cur,row[1],'validate '+sig)
+        if sig not in funcs or not funcs[sig][0]:
+            acl=cur.execute("select has_function_privilege('anon',to_regprocedure(%s),'execute'),has_function_privilege('authenticated',to_regprocedure(%s),'execute'),has_function_privilege('service_role',to_regprocedure(%s),'execute')",(sig,sig,sig)).fetchone()
+            check(tuple(acl)==(False,sig.startswith('public.erp_cp7_'),False),'CANDIDATE_FUNCTION_AUTHORITY '+sig)
         installed[sig]={'body_sha256':sha(row[0].encode()),'owner':row[2]}
     return {'functions':installed,'alert_definitions':alert_names,'structural_files':[p for p,_ in structs]+[p for p,_ in whole],'rights_statements':len(rights)}

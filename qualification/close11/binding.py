@@ -67,7 +67,8 @@ def bind(provider,work):
             ops={}; fnames={name.split('(')[0] for name in report['functions']}
             # Every changed function is an updated source object or an existing object
             # with a candidate-declared EXECUTE grant. Global readers/guards stay identical.
-            changes=[(k,dict(old_cat['functions']).get(k),v) for k,v in new_cat['functions'] if dict(old_cat['functions']).get(k)!=v]
+            prior_functions=dict(old_cat['functions'])
+            changes=[(k,prior_functions.get(k),v) for k,v in new_cat['functions'] if prior_functions.get(k)!=v]
             for name,old,row in changes:
                 if old is None or old[0]!=row[0]:
                     check(name.split('(')[0] in fnames,'CANDIDATE_UNDECLARED_FUNCTION '+name)
@@ -96,12 +97,16 @@ def bind(provider,work):
             check(passes==2 and report is not None and conn.info.dbname=='cp6_rollback','CLOSE11_COMMITTED_ROUTE')
             lifecycle.verify(cur,state)
             actual=provider.capture(cur)
-            check(actual==new_cat and len(actual)==25,'CLOSE11_COMMITTED_FULL25')
+            check(actual==new_cat==state.global_installation['after'] and len(actual)==25,'CLOSE11_COMMITTED_FULL25')
             public_functions=[k for k,_ in actual['functions'] if k.startswith('public.erp_')]
             raw=state.global_installation['sealed']['actual_parent_root_receipt']['catalogue_fingerprint']
             check(raw and len(public_functions)>=362,'CLOSE11_GLOBAL_PROFILE')
             result={'status':'COMMITTED','database':conn.info.dbname,'product':PRODUCT,'tree':TREE,'runner':os.environ['GITHUB_SHA'],'run':os.environ['GITHUB_RUN_ID'],'public_functions':len(public_functions),'full25_sha256':pin(actual),'catalogue_groups':{k:len(v) for k,v in actual.items()},'sealed_fingerprint':raw,'actual_auditor_cases':0,'production_go':False}
+            result['server_catalogue_fingerprint']=cur.execute('select cp7_global_nonpo_envelope.catalogue_fingerprint_v1()').fetchone()[0]
+            check(result['server_catalogue_fingerprint']==raw,'CLOSE11_COMMITTED_SEAL')
+            result['extensions']=dict(cur.execute("select extname,extversion from pg_extension where extname in ('pg_cron','pg_net','supabase_vault') order by extname").fetchall())
             conn.commit()
+            write('committed.json',result)
             from .checkpoint import capture
             capture(result)
             write('installed.json',result)

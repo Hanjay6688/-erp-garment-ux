@@ -1,0 +1,44 @@
+name: Open the preserved CP7 Global for the four independent auditor cases
+description: Restore the identified physical checkpoint, expose a runner-local database socket and keep it through the auditor steps.
+inputs:
+  origin-run:
+    description: Writer Global installation run
+    required: true
+  origin-runner:
+    description: Immutable Writer installation workflow commit
+    required: true
+outputs:
+  container:
+    description: Restored isolated PostgreSQL container
+    value: ${{ steps.restore.outputs.container }}
+  socket:
+    description: Unix socket directory on this runner
+    value: ${{ steps.restore.outputs.socket }}
+  application:
+    description: Directory containing the verified frontend sources
+    value: ${{ steps.restore.outputs.application }}
+runs:
+  using: composite
+  steps:
+    - name: Verify the installation, archive CRCs and source identity
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+        ORIGIN_RUN: ${{ inputs.origin-run }}
+        ORIGIN_RUNNER: ${{ inputs.origin-runner }}
+      run: |
+        python -m pip install --quiet 'cryptography==46.0.3'
+        PYTHONPATH="$GITHUB_ACTION_PATH/../.." python -m close11.audit_job prepare
+    - name: Publish only the ephemeral public receiver
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: cp7-auditor-receiver-${{ github.run_id }}
+        path: ${{ runner.temp }}/cp7-global-auditor/request.json
+        if-no-files-found: error
+        retention-days: 1
+    - name: Receive the run-bound grant and open Global
+      id: restore
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: PYTHONPATH="$GITHUB_ACTION_PATH/../.." python -m close11.audit_job restore

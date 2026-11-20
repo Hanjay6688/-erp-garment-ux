@@ -266,6 +266,26 @@ jobs:
             ${{ runner.temp }}/cp7-live-parent/ordinary-preflight-failure.json
           if-no-files-found: warn
           retention-days: 14
+      - name: Package the verified frontend for the auditor
+        run: |
+          set -euo pipefail
+          mkdir close11-ui
+          tree=760f38cc80ee9ca15e62a86ba358dfd8e858d895
+          paths=(src contracts scripts/build-preflight.mjs index.html package.json package-lock.json vite.config.ts tsconfig.json tsconfig.app.json tsconfig.contracts.json)
+          paths+=(scripts/check-source-ownership.mjs scripts/check-access-catalog.mjs scripts/check-production-recovery.mjs scripts/check-css-ownership.mjs)
+          paths+=(docs/evidence/cp45_access_route_action_ownership.json docs/evidence/cp5_access_route_action_ownership.json docs/evidence/cp5_v2619c_uat_acceptance.json)
+          paths+=(supabase/migrations/20260902104937_erp_v2_6_17_access_pattern_wip_control.sql supabase/migrations/20260902180726_erp_v2_6_17a_cp45_pattern_assignment_immutability.sql)
+          if git -C s06-product cat-file -e "$tree:public" 2>/dev/null; then paths+=(public); fi
+          git -C s06-product archive --format=tar.gz --prefix=product/ --output="$GITHUB_WORKSPACE/close11-ui/ffda-ui.tar.gz" "$tree" -- "${paths[@]}"
+          sha256sum close11-ui/ffda-ui.tar.gz > close11-evidence/ui.sha256
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: writer-global-auditor-ui-${{ github.run_id }}
+          path: |
+            close11-ui/ffda-ui.tar.gz
+            close11-evidence/ui.sha256
+          if-no-files-found: error
+          retention-days: 30
       - name: Reclaim space for the disposable database when needed
         env:
           RUNNER_ENVIRONMENT: ${{ runner.environment }}
@@ -391,6 +411,9 @@ jobs:
           set -euo pipefail
           umask 077
           python3 -Bu runner-source/qualification/ordinary_run.py supervise
+      - name: Provision the preserved Global for the independent auditor
+        if: success() && hashFiles('close11-evidence/installed.json') != ''
+        run: PYTHONPATH=runner-source/qualification python3 -Bu -m close11.auditor_environment
       - name: Publish installed catalogue and first failure
         if: always() && steps.ordinary_preflight.outcome != 'skipped'
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02

@@ -21,11 +21,11 @@ for log in (scratch/'ordinary-worker.log',scratch/'ordinary-preflight.log'):
             if not first and re.fullmatch(r'(?:ValueError|RuntimeError|AssertionError): [A-Z][A-Z0-9_]{5,100}',line):
                 first={'reason':line}
 ok=bool(proof and proof.get('status')=='COMMITTED' and proof.get('product')==PRODUCT and proof.get('tree')==TREE
-        and len(proof.get('catalogue_groups',{}))==25 and proof.get('checkpoint',{}).get('sha256')
+        and proof.get('catalogue_verified_after_scheduler') is True and len(proof.get('catalogue_groups',{}))==25 and proof.get('checkpoint',{}).get('sha256')
         and os.environ['CLEANUP']=='success' and os.environ['RUNTIME']=='success'
         and os.environ['PRIOR_JOB']=='success' and supervisor.get('status')=='WORKER_COMPLETED_AND_REAPED' and writer.get('status')=='PASS')
 result=dict(status='INSTALLED_AND_PRESERVED' if ok else 'INCOMPLETE',product=PRODUCT,tree=TREE,run=os.environ['GITHUB_RUN_ID'],
-            writer_installed=bool(proof),runner=os.environ['GITHUB_SHA'],cleanup=os.environ['CLEANUP'],runtime=os.environ['RUNTIME'],
+            writer_installed=bool(read(evidence/'committed.json')),auditor_environment_preserved=bool(proof.get('catalogue_verified_after_scheduler')),runner=os.environ['GITHUB_SHA'],cleanup=os.environ['CLEANUP'],runtime=os.environ['RUNTIME'],
             supervisor=supervisor.get('status'),owning_report=writer.get('status'),first_failure=first,last_phases=phases[-12:],
             checkpoint=proof.get('checkpoint'),auditor_cases_run=0,production_go=False)
 (evidence/'terminal.json').write_text(json.dumps(result,indent=2)+'\n')
