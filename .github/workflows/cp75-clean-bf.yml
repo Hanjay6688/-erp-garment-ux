@@ -1,0 +1,258 @@
+name: CP7.5 clean through BF and reusable recovery checkpoint
+'on':
+  push:
+    branches:
+    - writer-a/cp75-baseline-public
+    paths:
+    - .github/workflows/cp75-clean-bf.yml
+    - qualification/cp75-clean-bf/**
+  workflow_dispatch: {}
+permissions:
+  contents: read
+  actions: read
+  packages: read
+jobs:
+  foundation:
+    name: Clean AB to BF and physical recovery
+    runs-on: ubuntu-24.04
+    timeout-minutes: 65
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+      CP6_AC_INDEPENDENT_CONFIRM: postgres
+      CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+      CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+      CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+      CP75_OUTPUT: ${{ runner.temp }}/cp75-bf-encrypted
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: writer
+        fetch-depth: 1
+        ref: ca7f09556397801c50a2277bdb65b1bf019f9a05
+        persist-credentials: false
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        ref: 6b22d308e83e69c2ea6fafa937ade1ee1f6498c4
+        path: capture
+        sparse-checkout: qualification/close11
+        persist-credentials: false
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: qualification-source
+        sparse-checkout: qualification/cp75-clean-bf
+        persist-credentials: false
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: auditor
+        fetch-depth: 1
+        persist-credentials: false
+        ref: a62504d71a6ca1cdbaa59b6fe0fd5739693f100a
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: base
+        fetch-depth: 1
+        ref: 1bdca3766f7c9800d68295ff5122798060b8a05d
+        persist-credentials: false
+    - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+      with:
+        python-version: '3.12'
+    - name: Install pinned disposable runtime
+      shell: bash
+      run: |
+        set -euo pipefail
+        python -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2' 'jsonschema==4.25.1'
+        sudo apt-get update -qq
+        sudo apt-get install -y -qq ca-certificates curl gnupg
+        sudo install -d /usr/share/postgresql-common/pgdg
+        sudo curl --fail --silent --show-error \
+          -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \
+          https://www.postgresql.org/media/keys/ACCC4CF8.asc
+        key_fingerprint="$(gpg --show-keys --with-colons \
+          /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \
+          | awk -F: '$1 == "fpr" { print $10; exit }')"
+        test "$key_fingerprint" = 'B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8'
+        . /etc/os-release
+        architecture="$(dpkg --print-architecture)"
+        sudo tee /etc/apt/sources.list.d/pgdg.sources >/dev/null <<EOF
+        Types: deb
+        URIs: https://apt.postgresql.org/pub/repos/apt
+        Suites: ${VERSION_CODENAME}-pgdg
+        Architectures: ${architecture}
+        Components: main
+        Signed-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc
+        EOF
+        sudo apt-get update -qq
+        sudo apt-get install -y -qq postgresql-client-17
+        test -x /usr/lib/postgresql/17/bin/psql
+        echo '/usr/lib/postgresql/17/bin' >> "$GITHUB_PATH"
+    - name: Verify clean foundation sources against the submitted product
+      run: |
+        set -euo pipefail
+        test "$(git -C auditor hash-object .github/workflows/cp7-current-installation.yml)" = 68cf8b133e82ef22d91b989a4a5ea8ba65824ca5
+        test "$(git -C auditor hash-object scripts/cp6_t3_aligned_chain.py)" = 91dc30c6c795e1e1a4fc8e84bb83e12d00a45dbb
+        test "$(git -C auditor hash-object scripts/cp6_ac_audit_bootstrap.py)" = 1803ccc161ad97d38f36570910426b729fb3f402
+        test "$(git -C auditor hash-object scripts/cp6_pre_u_inventory.py)" = 9ca8dab066e4537f697a45f5fd0731ca599f56a8
+        test "$(git -C auditor hash-object scripts/cp6_g01_baseline.py)" = 5f40e1a3eee24d32e1399297269a2a9dae78b4b7
+        test "$(git -C auditor hash-object scripts/cp6_g01_align.py)" = cd44246253480aa6982cc9c7dc02255c4f8cee46
+        test "$(git -C auditor hash-object scripts/cp6_g01_fingerprint.py)" = b30172a78ce3927026275933e77d105207d9014b
+        test "$(git -C auditor hash-object docs/evidence/cp6-g01/hosted_summary.json)" = 04b6b7ac931c1623f035ec97990dca81970ec57b
+        test "$(git -C base hash-object supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.manifest.json)" = f47d42025ac10a9d08a16ddaff67e22cd3475214
+        test "$(git -C base hash-object supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz)" = f7e970d72e0bcd44015c8f7d092fcc725baeb158
+        test "$(git -C base hash-object supabase/tests/fixtures/erp_enteng_cp45a_external_application_triggers.sql)" = 554e1cf1ab7c19f2732524f43819d3cc4caefbc3
+        test "$(git -C base hash-object .github/workflows/cp6-full-schema-validation.yml)" = 65340533b6307a6d2e0af8947547392aed4ab75b
+    - name: Install pinned Supabase CLI
+      uses: supabase/setup-cli@ab058987d8d6c725971f6cf9d0b5c98467e30bd1
+      with:
+        version: 2.116.0
+    - name: Start disposable database
+      working-directory: base
+      shell: bash
+      env:
+        GHCR_TOKEN: ${{ github.token }}
+      run: |
+        set -euo pipefail
+        test "$(git rev-parse HEAD)" = 1bdca3766f7c9800d68295ff5122798060b8a05d
+        test "$(git rev-parse HEAD^{tree})" = 334629c626257b8b713826f491cdf62385d5299b
+        test -z "$(git status --porcelain)"
+        supabase --help >/dev/null
+        supabase init --help >/dev/null
+        supabase start --help >/dev/null
+        # Authenticated pulls: anonymous ghcr.io/public.ecr.aws pulls were refused (toomanyrequests,
+        # Data limit exceeded) before any test ran (OW12a run 39847548230).
+        printf '%s' "$GHCR_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+        mkdir cp5-local
+        supabase init --force --workdir cp5-local
+        mkdir -p cp5-local/supabase/.temp
+        echo '17.6.1.165' > cp5-local/supabase/.temp/postgres-version
+        sed -i '0,/^enable_signup = true$/s//enable_signup = false/' cp5-local/supabase/config.toml
+        # ghcr.io can rate-limit image pulls before anything runs. Retry the start
+        # only (no test has run), falling back to the same image tags on public.ecr.aws.
+        for attempt in 1 2 3 4; do
+          if [ "$attempt" -ge 2 ]; then export SUPABASE_INTERNAL_IMAGE_REGISTRY=public.ecr.aws; fi
+          if supabase start --workdir cp5-local \
+            -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor \
+            > "$RUNNER_TEMP/cp6-local-start.log" 2>&1; then
+            echo "supabase start succeeded on attempt $attempt from ${SUPABASE_INTERNAL_IMAGE_REGISTRY:-default}"
+            break
+          fi
+          tail -n 20 "$RUNNER_TEMP/cp6-local-start.log"
+          supabase stop --workdir cp5-local --no-backup || true
+          if [ "$attempt" = 4 ]; then exit 1; fi
+          sleep $((attempt * 60))
+        done
+    - name: Rebuild to v2.6.20, align with hosted, continue the frozen path to AB
+      working-directory: base
+      env:
+        GITHUB_SHA: 1bdca3766f7c9800d68295ff5122798060b8a05d
+        GH_TOKEN: ${{ github.token }}
+      shell: bash
+      run: |
+        set -euo pipefail
+        export CP6_AC_WRITER_ARTIFACT="$RUNNER_TEMP/ac-native200.zip"
+        gh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10392910720/zip \
+          > "$CP6_AC_WRITER_ARTIFACT" || { rm -f "$CP6_AC_WRITER_ARTIFACT"; echo 'AC writer artifact 10392910720 unavailable (kept 30 days, expired 15 Oct 2026, owner D14-17); cp6_pre_u_inventory captures the pre-U table set before U'; }
+        mkdir -p ../auditor/cp6-proof/t3
+        status=0
+        PYTHONPATH=scripts python ../auditor/scripts/cp6_t3_aligned_chain.py ../auditor/cp6-proof/t3/ALIGNED_CHAIN.json --stop-after-ab || status=$?
+        python - <<'PY'
+        import json
+        d=json.load(open('../auditor/cp6-proof/t3/ALIGNED_CHAIN.json'))
+        print(json.dumps({k:d.get(k) for k in ('status','refused_step','alignment')},default=str)[:6000])
+        print(json.dumps([(s['name'],s['exit_code'],s['after_alignment']) for s in d['steps']])[:6000])
+        PY
+        exit "$status"
+    - name: Read the clean boundary and resulting installed version
+      working-directory: base
+      run: |
+        set -euo pipefail
+        python - <<'PROOF'
+        import json, os
+        from pathlib import Path
+        import psycopg
+        base = Path('cp6-proof')
+        output = Path('../auditor/cp6-proof/t3')
+        boundary = json.loads((base/'CP45A_RESTORED_BOUNDARY.json').read_text())
+        inventory = json.loads((output/'ALIGNED_CHAIN.json').read_text())
+        assert boundary['status']=='PASS' and boundary['auth_users']==boundary['app_users']==boundary['audit_logs']==0
+        assert inventory['status']=='PASS_ALIGNED_CHAIN_TO_AB' and inventory['hosted_fingerprint']['equal']
+        with psycopg.connect(os.environ['PGURL']) as conn:
+            conn.read_only = True
+            db,latest,auth_users,app_users = conn.execute(
+                "select current_database(), exists(select 1 from supabase_migrations.schema_migrations where version='20260914190500' and name='erp_v2_6_20ab_cp6_operational_business_clock'), (select count(*) from auth.users), (select count(*) from erp.app_users)"
+            ).fetchone()
+        assert db=='postgres' and latest and auth_users==app_users==0
+        record = dict(product="486d344e0ce47d2b184e2a7bfccf2a927424d184",old_product="475980f2d07a60ea9a2576fe0d8fe50e63653434",
+            stage="clean CP4.5a foundation through v2.6.20ab",origin="new isolated Supabase, catalog plus allowlisted configuration",
+            foundation=boundary,installed="v2.6.20ab",app_users_at_end=app_users,auth_users_at_end=auth_users,
+            commands_completed=len(inventory['steps']),compared_catalog_groups=inventory['hosted_fingerprint']['kinds'],
+            complete_global_clean_upgrade_comparison=False,production_go=False)
+        (output/'CP75_CLEAN_FOUNDATION.json').write_text(json.dumps(record,indent=2)+'\n')
+        print(json.dumps(record))
+        PROOF
+    - name: Provision isolated rollback authority
+      working-directory: writer
+      shell: bash
+      run: |
+        set -euo pipefail
+        maintenance_password="$(openssl rand -hex 32)"
+        maintenance_pgurl="postgresql://cp6_maintenance_admission:${maintenance_password}@127.0.0.1:54322/template1"
+        echo "::add-mask::$maintenance_password"
+        echo "::add-mask::$maintenance_pgurl"
+        docker exec -i "$CP6_DATABASE_CONTAINER" \
+          psql -U supabase_admin -d template1 -X -v ON_ERROR_STOP=1 \
+            -v cp6_password="$maintenance_password" <<'SQL'
+        create role cp6_maintenance_admission
+          login superuser noinherit nocreatedb nocreaterole noreplication
+          connection limit 4 password :'cp6_password';
+        SQL
+        printf 'CP6_ADMISSION_CONTROL_PGURL=%s\n' "$maintenance_pgurl" >> "$GITHUB_ENV"
+    - name: Clone the aligned AB state for install
+      working-directory: writer
+      run: |
+        set -euo pipefail
+        mkdir -p '../auditor/cp6-proof/t3'
+        bash scripts/clone-cp6-disposable-database.sh \
+          'postgresql://postgres:postgres@127.0.0.1:54322/postgres' \
+          'postgresql://postgres:postgres@127.0.0.1:54322/template1' \
+          'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \
+          cp6_rollback supabase_db_cp5-local '../auditor/cp6-proof/t3/CLONE_install'
+    - name: Install all 30 immutable AC through BF release files on the clean branch
+      run: |
+        set -euo pipefail
+        test "$(git -C auditor rev-parse HEAD:supabase/release/cp6-t3)" = 557896a51f0661f73b74bdf9babaf9d08e7314a9
+        test "$(git -C auditor rev-parse HEAD:scripts/cp6_t3_release_package.py)" = fcd10d27213000d97a6f713463a670337f2dd24a
+        PYTHONPATH="$GITHUB_WORKSPACE/auditor/scripts" python auditor/scripts/cp6_t3_release_package.py install auditor/cp6-proof/t3/CP75_RELEASE_FILES.json
+    - name: Boot a separate isolated cluster and preserve the encrypted checkpoint
+      run: |
+        set -euo pipefail
+        python -m pip install --quiet 'cryptography==46.0.3'
+        PYTHONPATH="$GITHUB_WORKSPACE/auditor/scripts:$GITHUB_WORKSPACE/capture/qualification" python qualification-source/qualification/cp75-clean-bf/checkpoint.py
+    - name: Remove disposable database
+      if: always()
+      working-directory: base
+      run: if command -v supabase >/dev/null 2>&1 && test -d cp5-local; then supabase stop --workdir cp5-local --no-backup; fi
+    - name: Preserve qualification records
+      if: always()
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: cp75-clean-bf-proof
+        path: |-
+          auditor/cp6-proof/t3/ALIGNED_CHAIN.json
+          auditor/cp6-proof/t3/CP75_CLEAN_FOUNDATION.json
+          base/cp6-proof/CP45A_CATALOG_BOOTSTRAP_VERIFICATION.json
+          base/cp6-proof/CP45A_RESTORED_BOUNDARY.json
+          base/cp6-proof/PRE_CP6_OBJECT_IDENTITY.json
+          base/cp6-proof/V2620AB_INSTALLED_RUNTIME.json
+          auditor/cp6-proof/t3/CP75_RELEASE_FILES.json
+          ${{ runner.temp }}/cp75-bf-encrypted/clean-bf.json
+        if-no-files-found: error
+        retention-days: 90
+    - name: Retain encrypted clean database checkpoint
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: cp75-clean-bf-checkpoint
+        path: ${{ runner.temp }}/cp75-bf-encrypted/clean-bf.cp75
+        if-no-files-found: error
+        compression-level: 0
+        retention-days: 90
