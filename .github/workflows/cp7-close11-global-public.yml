@@ -273,6 +273,7 @@ jobs:
           tree=760f38cc80ee9ca15e62a86ba358dfd8e858d895
           paths=(src contracts scripts/build-preflight.mjs index.html package.json package-lock.json vite.config.ts tsconfig.json tsconfig.app.json tsconfig.contracts.json)
           paths+=(scripts/check-source-ownership.mjs scripts/check-access-catalog.mjs scripts/check-production-recovery.mjs scripts/check-css-ownership.mjs)
+          paths+=(tests/fixtures scripts/cp7_accessory_nonpayable/LOCAL_SETTINGS_CONTROLS.json scripts/scan-client-artifacts.mjs)
           paths+=(docs/evidence/cp45_access_route_action_ownership.json docs/evidence/cp5_access_route_action_ownership.json docs/evidence/cp5_v2619c_uat_acceptance.json)
           paths+=(supabase/migrations/20260902104937_erp_v2_6_17_access_pattern_wip_control.sql supabase/migrations/20260902180726_erp_v2_6_17a_cp45_pattern_assignment_immutability.sql)
           if git -C s06-product cat-file -e "$tree:public" 2>/dev/null; then paths+=(public); fi
@@ -348,6 +349,8 @@ jobs:
             echo 'Could not read disposable Auth configuration at startup.' >&2
             exit 1
           fi
+      - name: Verify copy and WAL recovery on this disposable cluster
+        run: PYTHONPATH=runner-source/qualification python3 -Bu -m close11.frozen
       - name: Install the frozen ERP baseline through AB
         working-directory: base
         run: |

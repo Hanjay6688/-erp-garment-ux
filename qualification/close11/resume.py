@@ -3,6 +3,7 @@ import argparse,json,os,secrets,subprocess,sys,tempfile,tarfile,time
 from pathlib import Path
 from close11.checkpoint import unseal,digest
 from close11.source import PRODUCT,TREE,check
+from close11.frozen import verify_files
 
 def main():
     ap=argparse.ArgumentParser()
@@ -26,12 +27,7 @@ def main():
         if net!='none':docker('network','create','--internal',net)
         for name in volumes:docker('volume','create',name)
         cold=result.get('audit_baseline')=='COLD_GLOBAL_WITH_INACTIVE_NATIVE_JOBS'
-        verify='pg_verifybackup /restore/data'
-        if cold:
-            import re
-            control=result['cold_control_sha256']
-            check(re.fullmatch(r'[a-f0-9]{64}',control),'CLOSE11_CONTROL_HASH')
-            verify='test ! -e /restore/data/postmaster.pid && echo "'+control+'  /restore/data/global/pg_control" | sha256sum --check --status'
+        verify=verify_files(result)
         with tempfile.TemporaryDirectory() as tmp:
             archive=Path(tmp)/'cluster.tar.gz'
             session=None

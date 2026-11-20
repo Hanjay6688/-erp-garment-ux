@@ -60,50 +60,18 @@ def digest(path):
     with path.open('rb') as s:return hashlib.file_digest(s,'sha256').hexdigest()
 
 def capture(result):
-    db='supabase_db_cp5-local'
-    def docker(*args):
-        response=subprocess.run(['docker',*args],stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=480)
-        if response.returncode:
-            err=response.stderr.decode(errors='replace').lower()
-            allowed=('no space left','no such file','password authentication failed','no password supplied','peer authentication failed','permission denied','manifest','could not open','could not connect','not found')
-            reason=next((s for s in allowed if s in err),'exit '+str(response.returncode))
-            raise ValueError('CLOSE11_BACKUP '+stage+' '+reason)
-        return response.stdout.decode().strip()
-    with tempfile.TemporaryDirectory(prefix='close11-backup-') as td:
-        base=Path(td);vault=Path(os.environ['GITHUB_WORKSPACE'])/'close11-audit-checkpoint';vault.mkdir(exist_ok=True)
-        tmp='/tmp/writer-a-close11-basebackup'
-        stage='source image'
-        try:
-            image=docker('inspect','-f','{{.Image}}',db)
-            known=json.loads(docker('image','inspect','-f','{{json .RepoDigests}}',image))
-            check(known and any('@sha256:' in v for v in known),'CLOSE11_IMAGE_DIGEST')
-            # pg_basebackup includes every role, databases, WAL and backup_manifest. The config volume
-            # also carries the disposable cluster's Vault key. Neither is published in clear text.
-            docker('exec','-u','postgres',db,'mkdir','-m','700',tmp)
-            stage='physical base backup'
-            docker('exec','-u','postgres',db,'pg_basebackup','-w','-h','/var/run/postgresql','-U','supabase_admin','-D',tmp+'/data','-X','stream','-c','fast','--manifest-checksums=SHA256')
-            stage='verify backup manifest'
-            docker('exec','-u','postgres',db,'pg_verifybackup',tmp+'/data')
-            stage='copy configuration'
-            docker('exec','-u','postgres',db,'cp','-a','/etc/postgresql-custom',tmp+'/config')
-            result['backup_manifest_sha256']=docker('exec','-u','postgres',db,'sha256sum',tmp+'/data/backup_manifest').split()[0]
-            result['postgres_image']=known[0]
-            stage='services'
-            runtime=json.loads(docker('exec','-u','postgres',db,'psql','-U','supabase_admin','-d','postgres','-XAt','-v','ON_ERROR_STOP=1','-c',(
-                "select jsonb_build_object('postgres_version',current_setting('server_version_num'),'scheduler_database',current_setting('cron.database_name',true),"
-                "'scheduler_enabled',current_setting('cron.launch_active_jobs',true),'extensions',(select jsonb_object_agg(extname,extversion) from pg_extension where extname in ('pg_cron','pg_net','supabase_vault')), "
-                "'scheduler_table',to_regclass('cron.job') is not null,'vault_reader',to_regclass('vault.decrypted_secrets') is not null)")))
-            check(runtime['postgres_version']=='170006','CLOSE11_POSTGRES_SOURCE')
-            result['cluster_services']=runtime
-            raw=base/'cluster.tar.gz'
-            with raw.open('xb') as dest:
-                subprocess.run(['docker','exec','-u','postgres',db,'tar','-C',tmp,'-czf','-','data','config'],stdout=dest,stderr=subprocess.PIPE,check=True,timeout=480)
-            result['checkpoint']=seal(raw,vault/'global-ffda.cp7',HERE/'auditor-public.pem')
-            result['checkpoint']['plaintext_sha256']=digest(raw)
-            from .audit_access import envelope
-            result['envelope_sha256']=sha(envelope(vault/'global-ffda.cp7'))
-            saved=Path(os.environ['RUNNER_TEMP'])/'close11-private-source'
-            saved.mkdir(mode=0o700,exist_ok=False)
-            shutil.move(raw,saved/'cluster.tar.gz')
-        finally:
-            subprocess.run(['docker','exec','-u','postgres',db,'rm','-rf','--',tmp],capture_output=True,timeout=60)
+    from .audit_access import envelope
+    from .frozen import SOURCE,docker,freeze,psql
+    image=docker('installed server image',['inspect','-f','{{.Image}}',SOURCE])
+    known=json.loads(docker('immutable server image',['image','inspect','-f','{{json .RepoDigests}}',image]))
+    check(known and any('@sha256:' in v for v in known),'CLOSE11_IMAGE_DIGEST')
+    result['postgres_image']=next(v for v in known if '@sha256:' in v)
+    result['cluster_services']=json.loads(psql('installed services',"select jsonb_build_object('postgres_version',current_setting('server_version_num'),'scheduler_database',current_setting('cron.database_name',true),'scheduler_enabled',current_setting('cron.launch_active_jobs',true),'extensions',(select jsonb_object_agg(extname,extversion) from pg_extension where extname in ('pg_cron','pg_net','supabase_vault')),'scheduler_table',to_regclass('cron.job') is not null,'vault_reader',to_regclass('vault.decrypted_secrets') is not null)"))
+    check(result['cluster_services']['postgres_version']=='170006','CLOSE11_POSTGRES_SOURCE')
+    vault=Path(os.environ['GITHUB_WORKSPACE'])/'close11-audit-checkpoint';vault.mkdir(exist_ok=True)
+    saved=Path(os.environ['RUNNER_TEMP'])/'close11-private-source';saved.mkdir(mode=0o700)
+    raw=saved/'cluster.tar.gz'
+    result.update(freeze(raw,image))
+    result['checkpoint']=seal(raw,vault/'global-ffda.cp7',HERE/'auditor-public.pem')
+    result['checkpoint']['plaintext_sha256']=digest(raw)
+    result['envelope_sha256']=sha(envelope(vault/'global-ffda.cp7'))

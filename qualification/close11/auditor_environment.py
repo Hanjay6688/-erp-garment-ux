@@ -13,6 +13,7 @@ from .binding import diagnostic
 from .checkpoint import digest,seal
 from .audit_access import envelope
 from .source import HERE,PRODUCT,TREE,check,sha
+from .frozen import verify_files
 
 def provision(work,temporary_root):
     path=work/'close11-evidence/installed.json';receipt=json.loads(path.read_bytes())
@@ -37,7 +38,7 @@ def provision(work,temporary_root):
         step='copy verified physical source'
         with source.open('rb') as stream:
             subprocess.run(['docker','run','--rm','-i','--network','none',*flags,'--entrypoint','sh',tag,'-ec',
-                'tar -C /restore -xzf -; chmod 700 /restore/data; chown postgres:postgres /restore/data; pg_verifybackup /restore/data'],
+                'tar -C /restore -xzf -; chmod 700 /restore/data; chown postgres:postgres /restore/data; '+verify_files(receipt)],
                 stdin=stream,stdout=subprocess.DEVNULL,stderr=subprocess.PIPE,timeout=480,check=True)
         step='start physical copy'
         docker('run','-d','-e','POSTGRES_PASSWORD','--network','none','--name',label,'-v',data+':/var/lib/postgresql/data','-v',config+':/etc/postgresql-custom',
