@@ -1,0 +1,193 @@
+--- a/cp7_sku_conversion.automatic_scope_v5.sql
++++ b/cp7_sku_conversion.automatic_scope_v5.sql
+@@ -4,8 +4,10 @@
+  STABLE SECURITY DEFINER
+  SET search_path TO ''
+ AS $function$
+- select p_grade='GRADE_A'and cp7_sku_conversion.automatic_valid_v5()and exists(
++ select p_grade='GRADE_A' and case when exists(
+   select 1 from cp7_sku_conversion.automatic_context_v5 f
+   where f.backend_pid=pg_backend_pid()and f.transaction_id=txid_current()
+    and p_location=f.location_id and p_product in(f.source_product_id,f.target_product_id))
++  then cp7_sku_conversion.automatic_valid_v5()
++  else false end
+ $function$
+--- a/cp7_sku_conversion.cost_scope_value_v3.sql
++++ b/cp7_sku_conversion.cost_scope_value_v3.sql
+@@ -3,6 +3,7 @@
+  LANGUAGE plpgsql
+  STABLE SECURITY DEFINER
+  SET search_path TO ''
++ SET plan_cache_mode TO 'force_generic_plan'
+ AS $function$
+ declare v numeric;
+ begin
+--- a/cp7_sku_conversion.owned_scope_value_v2.sql
++++ b/cp7_sku_conversion.owned_scope_value_v2.sql
+@@ -1,10 +1,12 @@
+ CREATE OR REPLACE FUNCTION cp7_sku_conversion.owned_scope_value_v2(p_product uuid, p_po uuid)
+  RETURNS numeric
+- LANGUAGE sql
++ LANGUAGE plpgsql
+  STABLE SECURITY DEFINER
+  SET search_path TO ''
+ AS $function$
+-with physical as(
++declare owned_value numeric;
++begin
++ with physical as(
+  select l.id root_lot_id,(coalesce(sum(m.qty_signed),0)+coalesce(sum(abs(m.qty_signed))filter(
+   where m.movement_type='SALE_RESERVE'and not exists(select 1 from erp.fg_stock_movements rv where rv.reversal_of_id=m.id)),0))::numeric units
+  from erp.fg_lots l left join erp.fg_stock_movements m on m.lot_id=l.id
+@@ -19,7 +21,9 @@
+  and(e.source_type<>'SALES_RETURN'or exists(select 1 from erp.sales_returns rh where rh.id=e.source_id and rh.status in('POSTED','REVERSED')))
+ )
+ select (coalesce(sum(x.units*cp7_sku_conversion.base_current_unit_v4(x.root_lot_id,p_product)
+- +case when p_po is null then cp7_sku_conversion.base_transition_value_v4(x.root_lot_id,p_product)else 0 end),0)+cp7_sku_conversion.cost_scope_value_v3(p_product,p_po,'OWNED'))::numeric from(
++ +case when p_po is null then cp7_sku_conversion.base_transition_value_v4(x.root_lot_id,p_product)else 0 end),0)+cp7_sku_conversion.cost_scope_value_v3(p_product,p_po,'OWNED'))::numeric into owned_value from(
+  select root_lot_id,sum(units)::numeric units from component_entries group by root_lot_id)x
+-join erp.hpp_versions h on h.lot_id=x.root_lot_id and h.is_current
++join erp.hpp_versions h on h.lot_id=x.root_lot_id and h.is_current;
++ return owned_value;
++end
+ $function$
+--- a/cp7_sku_conversion.pool_components_v2.sql
++++ b/cp7_sku_conversion.pool_components_v2.sql
+@@ -1,10 +1,12 @@
+ CREATE OR REPLACE FUNCTION cp7_sku_conversion.pool_components_v2(p_product uuid, p_location uuid, p_grade text DEFAULT 'GRADE_A'::text)
+  RETURNS TABLE(line_no integer, root_lot_id uuid, po_id uuid, hpp_version_id uuid, component_units numeric, unit_value numeric, value numeric)
+- LANGUAGE sql
++ LANGUAGE plpgsql
+  STABLE SECURITY DEFINER
+  SET search_path TO ''
+ AS $function$
+- with physical as materialized(
++begin
++ return query
++with physical as materialized(
+   select l.id root_lot_id,
+    (coalesce(sum(m.qty_signed),0)+coalesce(sum(abs(m.qty_signed))filter(where m.movement_type='SALE_RESERVE'and not exists(
+     select 1 from erp.fg_stock_movements rv where rv.reversal_of_id=m.id and rv.physical_at<=statement_timestamp())),0))::numeric units
+@@ -13,21 +15,22 @@
+   where l.product_id=p_product and l.lot_origin<>'VOIDED_PRODUCTION'
+   group by l.id
+  ), entries as(
+-  select root_lot_id,units from physical
++  select ph.root_lot_id,ph.units from physical ph
+   union all
+   select e.root_lot_id,e.units_delta from cp7_sku_conversion.component_events_v2 e
+   where e.product_id=p_product and e.location_id=p_location and e.quality_grade=p_grade
+   and(e.source_type<>'SALE'or exists(select 1 from erp.sales_headers sh where sh.id=e.source_id and sh.status in('POSTED','PARTIAL_PAID','PAID','REVERSED')))
+   and(e.source_type<>'SALES_RETURN'or exists(select 1 from erp.sales_returns rh where rh.id=e.source_id and rh.status in('POSTED','REVERSED')))
+  ), totals as(
+-  select root_lot_id,sum(units)::numeric units from entries group by root_lot_id
+-  having abs(sum(units))>0.000000000001
++  select en.root_lot_id,sum(en.units)::numeric units from entries en group by en.root_lot_id
++  having abs(sum(en.units))>0.000000000001
+  ), valued as(
+   select t.root_lot_id,l.po_id,h.id hpp_version_id,t.units component_units,(case when h.id is null or h.cost_state='ESTIMATED'then h.hpp_per_pcs else cp7_sku_conversion.base_current_unit_v4(t.root_lot_id,p_product)end)unit_value,
+    round(t.units*(case when h.id is null or h.cost_state='ESTIMATED'then h.hpp_per_pcs else cp7_sku_conversion.base_current_unit_v4(t.root_lot_id,p_product)end),6)::numeric value
+   from totals t join erp.fg_lots l on l.id=t.root_lot_id
+   left join erp.hpp_versions h on h.lot_id=t.root_lot_id and h.is_current
+  )
+- select row_number()over(order by root_lot_id)::integer,root_lot_id,po_id,hpp_version_id,component_units,unit_value,value
+- from valued order by root_lot_id
++ select row_number()over(order by v.root_lot_id)::integer,v.root_lot_id,v.po_id,v.hpp_version_id,v.component_units,v.unit_value,v.value
++ from valued v order by v.root_lot_id;
++end
+ $function$
+--- a/erp.compute_non_po_product_hpp_book_v2620f.sql
++++ b/erp.compute_non_po_product_hpp_book_v2620f.sql
+@@ -1,9 +1,11 @@
+ CREATE OR REPLACE FUNCTION erp.compute_non_po_product_hpp_book_v2620f(p_product_id uuid)
+  RETURNS TABLE(hpp_total_cost numeric, fg_value numeric, cogs_value numeric, other_out_value numeric)
+- LANGUAGE sql
++ LANGUAGE plpgsql
+  STABLE SECURITY DEFINER
+  SET search_path TO ''
+ AS $function$
++begin
++ return query
+ with book as(
+   select
+     coalesce(sum(l.debit-l.credit) filter(
+@@ -23,5 +25,6 @@
+     and (e.source_type<>'JOURNAL_REVERSAL' or o.source_type is distinct from 'PRODUCT_CONVERSION'
+       or erp.be_nonpo_admitted_v1(o.source_id))
+ )
+-select (fg+cogs+other_out)::numeric,fg,cogs,other_out from book
++select (fg+cogs+other_out)::numeric,fg,cogs,other_out from book;
++end
+ $function$
+--- a/erp.compute_non_po_product_hpp_targets_v2620f.sql
++++ b/erp.compute_non_po_product_hpp_targets_v2620f.sql
+@@ -1,9 +1,11 @@
+ CREATE OR REPLACE FUNCTION erp.compute_non_po_product_hpp_targets_v2620f(p_product_id uuid)
+  RETURNS TABLE(hpp_total_cost numeric, fg_value numeric, cogs_value numeric, other_out_value numeric)
+- LANGUAGE sql
++ LANGUAGE plpgsql
+  STABLE SECURITY DEFINER
+  SET search_path TO ''
+ AS $function$
++begin
++ return query
+ with native_lots as(
+  select fl.id,(case when fl.lot_origin<>'CONVERSION'or exists(select 1 from erp.product_conversion_allocations a
+   join erp.product_conversions c on c.id=a.conversion_id where a.destination_lot_id=fl.id and c.status='POSTED')
+@@ -13,27 +15,33 @@
+  from erp.fg_lots fl left join erp.hpp_versions hv on hv.lot_id=fl.id and hv.is_current
+  where fl.product_id=p_product_id and fl.po_id is null and fl.lot_origin<>'VOIDED_PRODUCTION'
+ ), native_total as(select coalesce(sum(raw_total),0)::numeric value from native_lots),
+-owned as(
++owned as materialized (
+  select cp7_sku_conversion.owned_scope_value_v2(p_product_id,null)::numeric value
+ ), conversion_adjustment as(
+  select coalesce(sum(e.units_delta*h.hpp_per_pcs),0)::numeric value from cp7_sku_conversion.component_events_v2 e
+  join erp.fg_lots root on root.id=e.root_lot_id and root.po_id is null
+  join erp.hpp_versions h on h.lot_id=e.root_lot_id and h.is_current
+  where e.source_type='SKU_CONVERSION'and e.product_id=p_product_id
+-), sold as(
+- select coalesce(sum(c.component_units*cp7_sku_conversion.base_current_unit_v4(c.root_lot_id,v.product_id)),0)::numeric value
+- from cp7_sku_conversion.sale_allocation_components_v2 c
++), sold_components as materialized (
++ select c.root_lot_id,c.component_units from cp7_sku_conversion.sale_allocation_components_v2 c
+  join cp7_sku_conversion.sale_allocation_values_v2 v using(sale_stock_allocation_id)
+  join erp.sales_headers s on s.id=v.sale_id and s.status in('POSTED','PARTIAL_PAID','PAID')
++ where v.product_id=p_product_id
++), sold as(
++ select coalesce(sum(c.component_units*cp7_sku_conversion.base_current_unit_v4(c.root_lot_id,p_product_id)),0)::numeric value
++ from sold_components c
+  join erp.fg_lots root on root.id=c.root_lot_id and root.po_id is null
+- join erp.hpp_versions h on h.lot_id=c.root_lot_id and h.is_current where v.product_id=p_product_id
+-), returned as(
+- select coalesce(sum(c.component_units*cp7_sku_conversion.base_current_unit_v4(c.root_lot_id,v.product_id)),0)::numeric value
+- from cp7_sku_conversion.sales_return_components_v2 c
++ join erp.hpp_versions h on h.lot_id=c.root_lot_id and h.is_current
++), returned_components as materialized (
++ select c.root_lot_id,c.component_units from cp7_sku_conversion.sales_return_components_v2 c
+  join cp7_sku_conversion.sales_return_values_v2 v using(sales_return_item_id)
+  join erp.sales_returns r on r.id=v.return_id and r.status='POSTED'
++ where v.product_id=p_product_id
++), returned as(
++ select coalesce(sum(c.component_units*cp7_sku_conversion.base_current_unit_v4(c.root_lot_id,p_product_id)),0)::numeric value
++ from returned_components c
+  join erp.fg_lots root on root.id=c.root_lot_id and root.po_id is null
+- join erp.hpp_versions h on h.lot_id=c.root_lot_id and h.is_current where v.product_id=p_product_id
++ join erp.hpp_versions h on h.lot_id=c.root_lot_id and h.is_current
+ ), legacy_sold as(
+  select coalesce(sum(a.qty_pcs*cp7_sku_conversion.base_current_unit_v4(a.lot_id,p_product_id)),0)::numeric value
+  from erp.sale_stock_allocations a join erp.sales_items i on i.id=a.sale_item_id
+@@ -47,10 +55,11 @@
+  join erp.fg_lots root on root.id=i.lot_id and root.po_id is null and root.product_id=p_product_id
+  join erp.hpp_versions h on h.lot_id=root.id and h.is_current
+  where not exists(select 1 from cp7_sku_conversion.sales_return_values_v2 v where v.sales_return_item_id=i.id)
+-), cents as(
++), cents as materialized (
+  select round(n.value+a.value+cp7_sku_conversion.base_scope_correction_v4(p_product_id)+cp7_sku_conversion.cost_scope_value_v3(p_product_id,null,'CONVERSION'),2)::numeric hpp,round(o.value,2)::numeric fg,
+   (round(o.value+greatest(s.value+ls.value-r.value-lr.value+cp7_sku_conversion.cost_scope_value_v3(p_product_id,null,'SOLD')-cp7_sku_conversion.cost_scope_value_v3(p_product_id,null,'RETURNED'),0),2)-round(o.value,2))::numeric cogs from native_total n cross join conversion_adjustment a
+   cross join owned o cross join sold s cross join returned r cross join legacy_sold ls cross join legacy_returned lr
+ )
+-select hpp,fg,cogs,(hpp-fg-cogs)::numeric from cents
++select hpp,fg,cogs,(hpp-fg-cogs)::numeric from cents;
++end
+ $function$

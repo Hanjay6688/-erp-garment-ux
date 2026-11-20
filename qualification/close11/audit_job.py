@@ -14,8 +14,8 @@ from .checkpoint import digest
 from .source import PRODUCT,TREE,check
 
 REPO='Hanjay6688/-erp-garment-ux'
-FOLDER='qualification/astra-public/close11-key-grants'
-BRANCH='audit/astra-cp7-public-ffda'
+FOLDER='qualification/close12/grants'
+BRANCH='writer-a/cp7-close12-g14-public'
 
 def api(path,timeout=90):
     return json.loads(subprocess.check_output(['gh','api',f'repos/{REPO}/'+path],stderr=subprocess.PIPE,timeout=timeout))
@@ -66,7 +66,7 @@ def restore(work):
         print('container='+container,'socket='+str(work/'socket'),'application='+str(work/'ui/product'),file=out,sep='\n')
 
 if __name__=='__main__':
-    check(os.environ['GITHUB_REPOSITORY']==REPO and os.environ['GITHUB_REF'].startswith('refs/heads/audit/'),'CLOSE11_AUDITOR_REF_ONLY')
+    check(os.environ['GITHUB_REPOSITORY']==REPO and os.environ['GITHUB_REF']=='refs/heads/writer-a/cp7-close12-g14-public','CLOSE11_AUDITOR_REF_ONLY')
     workspace=Path(os.environ['RUNNER_TEMP'])/'cp7-global-auditor'
     if sys.argv[1:]==['prepare']:workspace.mkdir(mode=0o700);plan(workspace)
     elif sys.argv[1:]==['restore']:restore(workspace)

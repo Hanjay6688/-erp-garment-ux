@@ -1,0 +1,18 @@
+{
+  "parent": "ffda5cfceb7ebc196656baa650dffd18dd425047",
+  "parent_tree": "760f38cc80ee9ca15e62a86ba358dfd8e858d895",
+  "product": "475980f2d07a60ea9a2576fe0d8fe50e63653434",
+  "tree": "659a119964b84c8787e747594c5b309b547932c6",
+  "changed": {
+    "docs/ERP_BEST_PRACTICES.md": "2722bf61991969fa047f6090e6b1a249a18b8be9",
+    "scripts/cp7_global_invoice_post/README.md": "083ee3912101304ceb637ad32d9214a92b6b8626",
+    "scripts/cp7_global_invoice_post/definitions.patch": "73cba3c8e32aef7254a8be78e17a19a43d1bb5d7",
+    "scripts/cp7_global_invoice_post/install.py": "77cc2c35a78c1fde725e37199a80f87a5f9965e3",
+    "scripts/cp7_global_invoice_post/manifest.json": "87959104d1a4989aabb1fbe8ad3167fdf8e7fe76"
+  },
+  "package_sha256": {
+    "PRODUCT.bundle": "80ea917531e9759d715682f42606f80bf936abc4d81ee2fa2b7fe71b953edc9b",
+    "PRODUCT.patch": "b25b07d020d620397d12ae192161713a0991a733785138378001c2878391f20e"
+  },
+  "production_go": false
+}

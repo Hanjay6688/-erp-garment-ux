@@ -1,0 +1,33 @@
+{
+  "functions": {
+    "cp7_sku_conversion.automatic_scope_v5(uuid,uuid,text)": [
+      "a9ac3a8388c73dd56ed7463083d5360415969e1868a2a12b0915ea52007c390f",
+      "329074126e015ee5348d9bae1c460c29624fb066ff86a83c5d95b985fef6a952"
+    ],
+    "cp7_sku_conversion.cost_scope_value_v3(uuid,uuid,text)": [
+      "0a6fe4aceb41f9eeb07fe21b89447907b69d10945dc1e2f99be08de9599a750b",
+      "4f8ce99f9e85e15da36352c64c532a43c36af31dbd8430214648fc57a8762315"
+    ],
+    "cp7_sku_conversion.owned_scope_value_v2(uuid,uuid)": [
+      "7c9330f67b67a0cd89c48e1f2539a982c3bba9df58601c48e96e29b8179d86e4",
+      "b980487554209d42e9beb726b27c7c45d6862042b507304073cf126c63bf9864"
+    ],
+    "cp7_sku_conversion.pool_components_v2(uuid,uuid,text)": [
+      "3c1a7adc5fb8681bd63f301ce30fd480b8c53a0e1ba36bf03807c860c2c484c0",
+      "0b63ec8e6c6760041659c1e218f821cc64cbe1686c1212025abd73346dc6b742"
+    ],
+    "erp.compute_non_po_product_hpp_book_v2620f(uuid)": [
+      "1647164dc565d08a010b182c3c08b1d729b00d588fc7a6e43774f8672c9c6ea5",
+      "d38eab7bd44c2ab6d682509725b0912f90f7e58cbf04fb65c2e8db846cb2cf22"
+    ],
+    "erp.compute_non_po_product_hpp_targets_v2620f(uuid)": [
+      "798c4a2959da01720c2283a29947e1f2339386d04770a5732c94bdc254b296a6",
+      "e5272430375dc4594f38af8deaf829e320aa6269f9eef3de30ee28c3bc05251c"
+    ]
+  },
+  "indexes": {
+    "cp7_sku_conversion.cp7_return_values_product_item": "CREATE INDEX cp7_return_values_product_item ON cp7_sku_conversion.sales_return_values_v2 USING btree (product_id, sales_return_item_id)",
+    "cp7_sku_conversion.cp7_sale_values_product_allocation": "CREATE INDEX cp7_sale_values_product_allocation ON cp7_sku_conversion.sale_allocation_values_v2 USING btree (product_id, sale_stock_allocation_id)",
+    "erp.cp7_fg_lots_product_lot": "CREATE INDEX cp7_fg_lots_product_lot ON erp.fg_lots USING btree (product_id, id)"
+  }
+}

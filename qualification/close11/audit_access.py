@@ -27,7 +27,7 @@ def challenge(receipt,archive,out,private):
     from cryptography.hazmat.primitives.asymmetric import rsa
     row=json.loads(receipt.read_bytes());check(row['status']=='COMMITTED' and (row['product'],row['tree'])==(PRODUCT,TREE),'CLOSE11_ORIGIN')
     job=os.environ['GITHUB_RUN_ID'];head=os.environ['GITHUB_SHA']
-    check(os.environ['GITHUB_REPOSITORY']=='Hanjay6688/-erp-garment-ux' and os.environ['GITHUB_REF'].startswith('refs/heads/audit/') and job.isdecimal() and re.fullmatch(r'[\da-f]{40}',head),'CLOSE11_AUDITOR_JOB')
+    check(os.environ['GITHUB_REPOSITORY']=='Hanjay6688/-erp-garment-ux' and os.environ['GITHUB_REF']=='refs/heads/writer-a/cp7-close12-g14-public' and job.isdecimal() and re.fullmatch(r'[\da-f]{40}',head),'CLOSE11_AUDITOR_JOB')
     key=rsa.generate_private_key(public_exponent=65537,key_size=3072)
     with private.open('xb') as f:os.fchmod(f.fileno(),0o600);f.write(key.private_bytes(ser.Encoding.PEM,ser.PrivateFormat.PKCS8,ser.NoEncryption()))
     public=key.public_key().public_bytes(ser.Encoding.DER,ser.PublicFormat.SubjectPublicKeyInfo)
