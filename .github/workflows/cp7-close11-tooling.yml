@@ -1,0 +1,39 @@
+name: CP7 local installer tooling
+on:
+  push:
+    branches: [writer-a/cp7-close11-tools-public]
+    paths: [.github/workflows/cp7-close11-tooling.yml]
+permissions: {}
+jobs:
+  transfer:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Verify the distribution used for the local installer regression
+        run: |
+          set -euo pipefail
+          mkdir tools
+          cd tools
+          python3 - <<'PY'
+          import base64,hashlib,json,re,urllib.request
+          package='@embedded-postgres/linux-x64'
+          with urllib.request.urlopen('https://registry.npmjs.org/@embedded-postgres%2flinux-x64',timeout=30) as s:meta=json.load(s)
+          versions=[v for v in meta['versions'] if re.fullmatch(r'17\.6\.0(?:-beta\.\d+)?',v)]
+          assert versions, 'No PostgreSQL 17.6 distribution'
+          version=max(versions,key=lambda v:10**6 if '-' not in v else int(v.rsplit('.',1)[1]))
+          dist=meta['versions'][version]['dist']
+          assert dist['tarball'].startswith('https://registry.npmjs.org/@embedded-postgres/linux-x64/-/')
+          with urllib.request.urlopen(dist['tarball'],timeout=90) as s:raw=s.read()
+          assert dist['integrity']=='sha512-'+base64.b64encode(hashlib.sha512(raw).digest()).decode()
+          open('postgres-tools.tgz','wb').write(raw)
+          open('source.json','w').write(json.dumps(dict(package=package,version=version,integrity=dist['integrity'],sha256=hashlib.sha256(raw).hexdigest())))
+          PY
+          python -m pip download --no-deps --only-binary=:all: -q -d . psycopg==3.2.10
+          sha256sum * > ../SHA256SUMS
+          mv ../SHA256SUMS .
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: writer-local-postgres-tools
+          path: tools/
+          if-no-files-found: error
+          retention-days: 7
