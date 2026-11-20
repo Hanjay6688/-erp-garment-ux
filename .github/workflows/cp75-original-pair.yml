@@ -127,6 +127,11 @@ jobs:
         PYTHONPATH="$GITHUB_WORKSPACE/source/qualification/cp75-original-access:$GITHUB_WORKSPACE/capture/qualification:$GITHUB_WORKSPACE/auditor/scripts" python -u source/qualification/cp75-original-live/live.py open
         unset GH_TOKEN
         python source/qualification/cp75-original-live/transport.py
+    - name: Read the exact 25 groups on the original FFDA before any business fixture
+      if: ${{ !cancelled() && steps.original.outcome == 'success' }}
+      env:
+        PGHOST: ${{ runner.temp }}/cp75-originals/upgrade-socket
+      run: python source/qualification/cp75-original-live/catalogue_evidence.py capture "$RUNNER_TEMP/cp75-original-observations/original-ffda-objects.json.gz"
     - name: Retain the individual opening receipts
       uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       with:
@@ -134,6 +139,7 @@ jobs:
         path: |
           ${{ runner.temp }}/cp75-original-observations/*-opened.json
           ${{ runner.temp }}/cp75-original-observations/installer-identity.json
+          ${{ runner.temp }}/cp75-original-observations/original-ffda-objects.json.gz
         if-no-files-found: error
         retention-days: 90
     - name: Verify clean foundation sources against the submitted product
@@ -329,6 +335,17 @@ jobs:
         python -m pip install --quiet 'cryptography==46.0.3'
         PYTHONPATH="$GITHUB_WORKSPACE/capture/qualification:$GITHUB_WORKSPACE/auditor/scripts" python -u source/qualification/cp75-sku-forward/observe.py before
         PYTHONPATH="$GITHUB_WORKSPACE/global-release/qualification" python -u source/qualification/cp75-factory-global/install.py
+    - name: Identify every differing catalogue group and object from the original historic Global
+      if: ${{ !cancelled() && steps.original.outcome == 'success' }}
+      shell: bash
+      run: |
+        set -euo pipefail
+        path="$RUNNER_TEMP/cp75-global"
+        if test -f "$path/ffda-object-hashes.json.gz" && test -f "$path/global-before-commit.json"; then
+          python source/qualification/cp75-original-live/catalogue_evidence.py compare \
+            "$RUNNER_TEMP/cp75-original-observations/original-ffda-objects.json.gz" "$path/ffda-object-hashes.json.gz" \
+            "$path/global-before-commit.json" "$path/archived-catalogue-differences.json"
+        fi
     - name: Exercise the actual BF factory against the final source definitions and restore both pre-event and posted state
       env:
         STAGE_PATH: ${{ runner.temp }}/cp75-global
