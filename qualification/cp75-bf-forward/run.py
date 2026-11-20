@@ -3,6 +3,7 @@ import hashlib
 import json
 import os
 import traceback
+import subprocess
 from pathlib import Path
 
 import psycopg
@@ -19,16 +20,21 @@ def canonical(obj):
     return hashlib.sha256(json.dumps(obj, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
 
 
+def administrative_query(statement):
+    cmd = ["docker","exec","-u","postgres","supabase_db_cp5-local","psql","-U","supabase_admin",
+           "-d","cp6_rollback","-XAtq","-v","ON_ERROR_STOP=1","-c",statement]
+    return json.loads(subprocess.check_output(cmd, text=True))
+
+
 def read():
-    with psycopg.connect(**DB) as conn, conn.cursor() as cur:
-        row = cur.execute("""select current_database(), current_setting('server_version_num'),
-                   (select count(*) from supabase_migrations.schema_migrations),
-                   (select count(*) from erp.schema_migrations), (select count(*) from auth.users),
-                   (select count(*) from erp.app_users),
-                   (select count(*) from erp.schema_migrations where version='v2.6.20bf')""").fetchone()
-        groups = cur.execute(fingerprints.SUMMARY).fetchone()[0]
-        names = cur.execute("select nspname from pg_namespace where nspname like 'cp7%' order by 1").fetchall()
-        return {"server":list(row), "catalogue":canonical(groups),"groups":groups,"cp7_schemas":[x[0] for x in names]}
+    row = administrative_query("""select jsonb_build_array(current_database(), current_setting('server_version_num'),
+        (select count(*) from supabase_migrations.schema_migrations),
+        (select count(*) from erp.schema_migrations), (select count(*) from auth.users),
+        (select count(*) from erp.app_users),
+        (select count(*) from erp.schema_migrations where version='v2.6.20bf'))""")
+    groups = administrative_query(fingerprints.SUMMARY)
+    names = administrative_query("select coalesce(jsonb_agg(nspname order by nspname),'[]') from pg_namespace where nspname like 'cp7%'")
+    return {"server":row, "catalogue":canonical(groups),"groups":groups,"cp7_schemas":names}
 
 
 def save(data):
@@ -39,11 +45,11 @@ def save(data):
 
 def main():
     initial = read()
-    assert initial["catalogue"] == EXPECTED and initial["server"] == ["cp6_rollback","170006",128,113,0,0,1]
     report = {"status":"BF_CONFIRMED", "source":"factory recreation matched to Astra BF",
               "original_checkpoint_used": False,"initial":initial,"global_parity":False,"production_go":False}
     save(report)
     try:
+        assert initial["catalogue"] == EXPECTED and initial["server"] == ["cp6_rollback","170006",128,113,0,0,1], (initial["catalogue"],initial["server"])
         import cp7_current_installation as release
         report["entry"] = release.CONTRACT
         with psycopg.connect(**DB) as conn, conn.cursor() as cur:
