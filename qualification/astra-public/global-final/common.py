@@ -9,9 +9,19 @@ import os
 import uuid
 import psycopg
 
-PRODUCT = 'ffda5cfceb7ebc196656baa650dffd18dd425047'
-TREE = '760f38cc80ee9ca15e62a86ba358dfd8e858d895'
-SEAL = 'a3da0ecf21909731ab8474c54a7c91afb75bb58dd8b6042cc82314b20808dbd7'
+PARENT_PRODUCT = 'ffda5cfceb7ebc196656baa650dffd18dd425047'
+PARENT_TREE = '760f38cc80ee9ca15e62a86ba358dfd8e858d895'
+PARENT_SEAL = 'a3da0ecf21909731ab8474c54a7c91afb75bb58dd8b6042cc82314b20808dbd7'
+CHILD_PRODUCT='475980f2d07a60ea9a2576fe0d8fe50e63653434'
+CHILD_TREE='659a119964b84c8787e747594c5b309b547932c6'
+CHILD_SEAL='da0b424f305f0b423808d445034ff8a166e32a8d9d13f811078daf2c864b012b'
+PRODUCT=os.environ.get('ASTRA_AUDITED_CANDIDATE',PARENT_PRODUCT)
+if PRODUCT==CHILD_PRODUCT:
+    TREE,SEAL=CHILD_TREE,CHILD_SEAL
+elif PRODUCT==PARENT_PRODUCT:
+    TREE,SEAL=PARENT_TREE,PARENT_SEAL
+else:
+    raise ValueError('Unrecognised audit candidate')
 TODAY = datetime.now(ZoneInfo('Asia/Jakarta')).date()
 OUT = Path(os.environ['AUDIT_RESULTS']).resolve()
 OUT.mkdir(exist_ok=True, parents=True)
@@ -36,7 +46,13 @@ def actors(q):
 def measure_seal(q):
     value=first(q,'select cp7_global_nonpo_envelope.catalogue_fingerprint_v1()')
     record=json.loads((Path(os.environ['RUNNER_TEMP'])/'cp7-global-auditor'/'installed.json').read_bytes())
-    assert record['server_catalogue_fingerprint']==value and record['product']==PRODUCT and record['tree']==TREE
+    assert record['product']==PARENT_PRODUCT and record['tree']==PARENT_TREE
+    if PRODUCT==PARENT_PRODUCT:
+        assert record['server_catalogue_fingerprint']==value
+    else:
+        installation=read('candidate-install')
+        assert installation['parent_seal']==record['server_catalogue_fingerprint']['sha256']==PARENT_SEAL
+        assert installation['outcome']=='PASS' and installation['candidate']==PRODUCT and installation['tree']==TREE and installation['child_seal']==value['sha256']
     assert value['sha256']==SEAL and value['groups']==25 and len(value['counts'])==25
     return dict(groups=value['groups'],sha256=value['sha256'],matched_groups=value['counts'])
 @contextmanager

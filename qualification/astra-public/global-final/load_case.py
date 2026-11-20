@@ -15,7 +15,7 @@ from threading import Barrier,Event,Lock
 from math import ceil
 import traceback
 
-out=dict(environment='Preserved Global ffda5cfc on the public runner',times=[],phase='starting')
+out=dict(environment='Global candidate 475980f2 installed from certified parent ffda5cfc on a public runner',times=[],phase='starting')
 def store_case():save('AUD-G14',out)
 def take_page(q,run,i,access,actor):
     return rp.staged.limited(q,'erp_cp7_read_staged_analysis_page_v1',(run,i,access),actor)
@@ -86,49 +86,6 @@ def seed_scale(q,commit):
     after=vol.current_targets(q)
     assert len(after)==512 and {r['target'] for r in rows}==set(after)-set(before)
     return rows,after,dict(targets=len(after),new_targets=len(rows),preexisting=len(before),known_opening_sales_post_calls=log['sale_post_writer']['calls'],writer_phases=dict(log),calendar=review,elapsed_s=round(perf_counter()-start,3),production_wip_comes_from_cut_sew_laundry_qc_fixture=True)
-
-def measure_invoice(q,rows,owner,limit=2000):
-    import cp7_sales_command_cases as sales
-    from datetime import timedelta
-    measures=[]
-    cases=[('small',1),('regular',10),('panel maximum',100)]
-    same=[r for r in rows if r['code']==rows[0]['code']]
-    assert len(same)>=100
-    for label,n in cases:
-        tag='A25-BULK-'+uuid.uuid4().hex[:12]
-        at=(datetime.now(ZoneInfo('Asia/Jakarta'))-timedelta(minutes=1)).isoformat()
-        payload=dict(sale_number=tag,customer_id=same[0]['customer'],source_location_id=same[0]['location'],sale_date=at,due_date=None,payment_terms='Uji pengesahan nota dari layar penjualan',notes='Uji penjualan sintetis',change_reason='Pemilik memeriksa jumlah dan harga setiap barang',items=[dict(product_id=r['product'],qty_pcs='1',unit_price_snapshot='20',discount_amount='0',notes='Barang sintetis') for r in same[:n]])
-        row=dict(label=label,distinct_lines=n,pcs=n,amount=str(n*20),rpc='public.erp_cp7_save_sale_v1',native_statement_timeout_ms=8000,operations=[])
-        start=perf_counter()
-        state=None
-        try:
-            q.execute("set local statement_timeout='8s'")
-            draft=sales.command(q,'CREATE',payload,None,subject=owner);q.connection.commit()
-            row['sale_id']=draft['sale_id']
-            row['operations'].append(dict(action='CREATE',outcome='COMMIT',ms=round(1000*(perf_counter()-start),3)))
-            stage='POST'
-            review,version=sales.review(q,dict(sale=draft['sale_id'],tag=tag));q.connection.commit()
-            start=perf_counter()
-            q.execute("set local statement_timeout='8s'")
-            posted=sales.command(q,'POST',review,version,subject=owner);q.connection.commit()
-            row['operations'].append(dict(action='POST',outcome='COMMIT',ms=round(1000*(perf_counter()-start),3)))
-            assert posted['status']=='POSTED',posted
-        except psycopg.Error as exc:
-            ms=round(1000*(perf_counter()-start),3);q.connection.rollback()
-            row['operations'].append(dict(action='POST' if row.get('sale_id') else 'CREATE',outcome='ROLLBACK',sqlstate=exc.sqlstate,error=exc.diag.message_primary,ms=ms))
-        if row.get('sale_id'):
-            detail=sales.source.read(q,dict(tag=tag,sale=row['sale_id']),subject=owner)['detail']
-            row['authoritative_status']=detail['status'];row['retained_lines']=len(detail['items'])
-            row['ledger_amount']=(detail.get('financial') or {}).get('net_total')
-            assert row['retained_lines']==n,(n,row)
-            if row['operations'][-1]['outcome']=='COMMIT':
-                assert row['authoritative_status']=='POSTED' and Decimal(row['ledger_amount'])==Decimal(n*20),row
-            else:
-                assert row['authoritative_status']=='DRAFT',row
-        row['within_2s']=len(row['operations'])==2 and all(op['outcome']=='COMMIT' and op['ms']<=limit for op in row['operations'])
-        measures.append(row);out['sales_operator_latency']=measures;store_case()
-        q.connection.commit()
-    return measures
 
 def exercise():
     params=db()
@@ -245,7 +202,8 @@ def exercise():
         if out['sale_control']['outcome']=='REFUSED':
             assert out['sale_control']['unresolved_source_observed'],'Source completeness must explain the rejected sale'
         with psycopg.connect(**params) as c,c.cursor() as q:
-            rows=measure_invoice(q,opening,owner)
+            import invoice_g14_oracles
+            rows=invoice_g14_oracles.qualify(q,opening,owner,second,out,store_case)
             out['financial_workload']='PASS'
             out['operator_save_goal_ms']=2000
             out['sales_goal_reached']=all(r['within_2s'] for r in rows)
