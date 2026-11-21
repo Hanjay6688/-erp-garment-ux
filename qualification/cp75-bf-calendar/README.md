@@ -9,3 +9,7 @@ Pakai `request.json` dari artefak `cp75-request-<run>`. Cocokkan ID run serta SH
 ## Hasil untuk pemasang
 
 Artefak `cp75-original-bf-calendar-<run>` menyimpan tanda terima pembukaan, waktu startup sumber dan hasil SQL. Hasil SQL ikut disimpan jika kalender berbeda dari yang diperkirakan. Pemeriksaan ini tidak membukukan transaksi ERP. Putusan CP7.5 berada di Astra. `production_go=false`.
+
+## Uji ulang jalur bersih
+
+Workflow jalur asli menggunakan [kandidat Writer `47f88383`](https://github.com/Hanjay6688/-erp-garment-ux/commit/47f883833fed5af836927a923c32261f906dcfe0) dan [hasil kontrol](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/44894589828). Pemasang memeriksa kalender BF melalui SQL lebih dahulu. Sesudah cocok, pemasang menggunakan hari sumber dan membaca kembali bukti upgrade historis yang sudah diperiksa Astra. Pada saat Astra siap, satu permintaan baru di `qualification/cp75-original-launch/` pada cabang ini menjalankan uji ulang. Respons `--clean-only` harus sesuai dengan ID dan SHA run baru itu.
