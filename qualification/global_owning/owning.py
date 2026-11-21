@@ -126,9 +126,25 @@ def import_paths(*paths):
         sys.path[:] = original
 
 
-def prepared_provider(candidate, parent_raw, catalogue_raw, *, restored_source_day=None):
+def bind_parent_calendar(provider, comparator, catalogue_raw, *, restored_source_day=None):
     from datetime import date
 
+    archive_day = date(2026, 11, 13)
+    if restored_source_day is None:
+        return bind_realtime_provider(provider, comparator, catalogue_raw, CATALOGUE_PIN,
+                                      archived_startup_day=archive_day)
+
+    require(type(restored_source_day) is date, 'GLOBAL_CALLER_VERIFIED_RESTORED_CALENDAR_DAY_REQUIRED')
+    # This adapter is scoped to physical restores. The ordinary release retains its original source manifest.
+    path = HERE.parent / 'cp75_bf_realtime.py'
+    exact(path.with_name('daily_partitions.py'), '0ec5a83f6633cc502f2ce6f36242fb6da27a02914b7af081d70349834115d677')
+    exact(path, 'ee3ec588dff8d96a97a6e316af8485fde56f8440ba168a86dadf44f892dc15b9')
+    adapter = load('cp75_original_bf_realtime', path)
+    return adapter.bind_provider(provider, comparator, catalogue_raw, CATALOGUE_PIN,
+                                 archived_startup_day=archive_day, restored_source_day=restored_source_day)
+
+
+def prepared_provider(candidate, parent_raw, catalogue_raw, *, restored_source_day=None):
     require(pin(parent_raw) == ROOT_PIN and pin(catalogue_raw) == CATALOGUE_PIN,
             'GLOBAL_CALLER_EXACT_RETAINED_A625_ROOT_AND_CATALOGUE_REQUIRED')
     parent = json.loads(parent_raw)
@@ -151,9 +167,7 @@ def prepared_provider(candidate, parent_raw, catalogue_raw, *, restored_source_d
                         for name in ('timezone_overlay', 'ow06_s05_snapshot')),
                 'GLOBAL_CALLER_EXACT_THREE_BINDINGS_REQUIRED')
         snapshot = dict(vars(result))
-        bound = bind_realtime_provider(result, comparator, catalogue_raw, CATALOGUE_PIN,
-                                       archived_startup_day=date(2026, 11, 13),
-                                       restored_source_day=restored_source_day)
+        bound = bind_parent_calendar(result, comparator, catalogue_raw, restored_source_day=restored_source_day)
         contracts = {
             'install': api(bound.install, 'cur', 'parent_receipt_raw', 'input_profile_raw'),
             'verify': api(bound.verify, 'cur', 'state'),
