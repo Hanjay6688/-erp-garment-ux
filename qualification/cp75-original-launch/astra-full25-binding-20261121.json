@@ -1,0 +1,8 @@
+{
+  "auditor": "Astra",
+  "product": "48858590a361343e73a7f16f6646363dc155c04e",
+  "prior_run": 44867409744,
+  "reason": "verify the native credit constant against both live catalogues at each release",
+  "synthetic_only": true,
+  "production_go": false
+}

@@ -144,8 +144,6 @@ jobs:
           ${{ runner.temp }}/cp75-original-observations/catalogue-detail-error.json
         if-no-files-found: error
         retention-days: 90
-    - name: Connect the existing synthetic installer to the isolated BF
-      run: python source/qualification/cp75-original-live/transport.py
     - name: Verify clean foundation sources against the submitted product
       run: |
         set -euo pipefail
@@ -308,6 +306,8 @@ jobs:
         test "$(git -C g04-product rev-parse 'HEAD^{tree}')" = 747313f22979077f2b149b6e90bf24374e9bb869
         git -C g04-product diff --exit-code "$CP7_P21_SWITCH_ROLL_HEAD" HEAD -- scripts supabase contracts
         PYTHONPATH="$GITHUB_WORKSPACE/global-release/qualification" python -u "$GITHUB_WORKSPACE/source/qualification/cp75-factory-global/materialize.py"
+    - name: Connect the existing synthetic installer to the isolated BF after source-only preflight
+      run: python source/qualification/cp75-original-live/transport.py
     - name: Verify posted events, data, permissions and restoration on the original old Global
       id: history
       continue-on-error: true
@@ -332,6 +332,8 @@ jobs:
     - name: Qualify the complete factory installation on the measured BF
       env:
         STAGE_PATH: ${{ runner.temp }}/cp75-global
+        CP75_BINDING_AUDIT: '1'
+        CP75_FACTORY_ORIGINAL: '1'
       shell: bash
       run: |
         set -euo pipefail
@@ -353,6 +355,7 @@ jobs:
     - name: Exercise the actual BF factory against the final source definitions and restore both pre-event and posted state
       env:
         STAGE_PATH: ${{ runner.temp }}/cp75-global
+        CP75_BINDING_AUDIT: '1'
         AUDIT_RESULTS: ${{ runner.temp }}/cp75-global/reader-log
       working-directory: auditor
       shell: bash
@@ -363,7 +366,7 @@ jobs:
         python -u ../source/qualification/cp75-original-live/factory.py
     - name: Match expected values and map the original documents between lanes
       if: ${{ success() && steps.history.outcome == 'success' }}
-      run: python source/qualification/cp75-comparison/handoff.py "$RUNNER_TEMP/cp75-global/clean" "$RUNNER_TEMP/cp75-global/upgrade" "$RUNNER_TEMP/cp75-global/comparison.json"
+      run: python source/qualification/cp75-comparison/handoff.py "$RUNNER_TEMP/cp75-global/clean" "$RUNNER_TEMP/cp75-global/upgrade" "$RUNNER_TEMP/cp75-global/comparison.json" --binding "$RUNNER_TEMP/cp75-global/clean/binding-current.json"
     - name: Retain the evidence and reversible checkpoints
       if: always()
       uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02

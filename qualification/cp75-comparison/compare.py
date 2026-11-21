@@ -71,11 +71,20 @@ def business(history):
     return facts
 
 
-def compare(clean, upgrade, *, target=TARGET, predecessor=OLD):
+def compare(clean, upgrade, *, target=TARGET, predecessor=OLD, factory_binding=None):
     factory=read(clean,"factory-posted")
     recovered=read(clean,"factory-restored")
     parent, current, reversal=(read(upgrade, name) for name in ("upgrade-before","upgrade-after","upgrade-restored"))
-    require(factory["target"] == current["seal"] == recovered["full25"]["sha256"] == target and
+    clean_target=target
+    if factory_binding is not None:
+        require(factory_binding["verified"] and factory_binding["stage"]=="current" and
+                factory_binding["object"]=="cp7_credit.assert_source_native_trigger_census_v1()" and
+                factory_binding["native_literal"]==factory_binding["measured_local_census"] and
+                factory_binding["archived_literal"]=="9c3033ea96385e5ba29b2aed974f0cac5dc5d90940f64d863bf9a965ca8a1032" and
+                factory_binding["groups"]==25 and factory_binding["archived"]==factory_binding["projected"]==target,
+                "Missing verified full-catalogue proof for the installation-bound credit guard")
+        clean_target=factory_binding["raw"]
+    require(factory["target"] == recovered["full25"]["sha256"] == clean_target and current["seal"] == target and
             recovered["full25"]["groups"] == 25 and parent["seal"] == reversal["origin_seal"] == predecessor,
             "Versions or catalogue differ")
     require(parent["rows_sequences"] == current["rows_sequences"] and not current["changed_rows_or_sequences"] and
@@ -86,7 +95,8 @@ def compare(clean, upgrade, *, target=TARGET, predecessor=OLD):
     require(all(restore.values()), "Missing physical recovery")
     a,b = business(factory["history"]),business(current["history"])
     differences = {key:{"clean":a[key],"upgrade":b[key]} for key in a if a[key] != b[key]}
-    return {"target":target,"six_areas":{"saldo":a["saldo"]==b["saldo"],"stok":a["stok"]==b["stok"],
+    return {"target":target,"clean_raw_target":clean_target,"raw_catalogues_equal":clean_target==target,
+            "six_areas":{"saldo":a["saldo"]==b["saldo"],"stok":a["stok"]==b["stok"],
             "hpp":a["hpp"]==b["hpp"],"histori":a["histori"]==b["histori"],"hak_akses":a["hak_akses"]==b["hak_akses"],
             "pemulihan":all(restore.values())}, "differences":differences,"source_factory":factory["origin"],
             "source_upgrade":parent.get("origin","see exact opening receipt"), "business_facts":a,

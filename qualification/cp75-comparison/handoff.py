@@ -8,8 +8,8 @@ def per_case(label, expected, clean, upgrade):
     return {"case":label,"expected":expected,"clean":clean,"upgrade":upgrade,"equal":clean==upgrade==expected}
 
 
-def main(clean, upgrade, output, *, target=TARGET, predecessor=OLD):
-    summary=compare(clean,upgrade,target=target,predecessor=predecessor)
+def main(clean, upgrade, output, *, target=TARGET, predecessor=OLD, factory_binding=None):
+    summary=compare(clean,upgrade,target=target,predecessor=predecessor,factory_binding=factory_binding)
     ch,uh=read(clean,"factory-posted")["history"],read(upgrade,"upgrade-after")["history"]
     clean_doc,up_doc=read(clean,"old-documents"),read(upgrade,"old-documents")
     def ids(h,d):
@@ -61,5 +61,7 @@ if __name__=="__main__":
     p=argparse.ArgumentParser()
     for key in ("clean","upgrade","output"):
         p.add_argument(key,type=Path)
+    p.add_argument("--binding",type=Path)
     a=p.parse_args()
-    main(a.clean,a.upgrade,a.output)
+    proof=json.loads(a.binding.read_text()) if a.binding is not None else None
+    main(a.clean,a.upgrade,a.output,factory_binding=proof)

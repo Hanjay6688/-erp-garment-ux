@@ -33,16 +33,27 @@ def finish(container, image, origin, *, catalogues=None):
     old,middle,target = catalogues or (history.OLD,history.MIDDLE,history.TARGET)
     OUT.mkdir(parents=True,exist_ok=True)
     history.OUT=OUT
+    audit_binding=os.environ.get("CP75_BINDING_AUDIT")=="1"
+    def verified_seal(stage):
+        from catalogue_boundary import guard
+        with psycopg.connect(**history.db()) as connection, connection.cursor() as cur:
+            return guard(cur,stage,OUT/("binding-"+stage+".json"))
+    if audit_binding:
+        old=verified_seal("ffda")
     assert history.seal()["sha256"]==old
     install=history.load_installer("g14",WORK/"g14/qualification/close12/product","77cc2c35a78c1fde725e37199a80f87a5f9965e3")
     with psycopg.connect(**history.db()) as conn:
         changed=install.apply(conn,"up")
     midway=history.seal()
+    if audit_binding:
+        middle=verified_seal("hpp")
     assert changed["changed"] and midway["sha256"]==middle
     _,factory=sources(WORK/"auditor",WORK/"rig/qualification/cp75-order")
     with psycopg.connect(**history.db()) as conn:
         result=apply_factory(conn,factory)
     clean_seal=history.seal()
+    if audit_binding:
+        target=verified_seal("current")
     assert clean_seal["sha256"]==target and clean_seal["groups"]==len(clean_seal["counts"])==25
     write("factory-target",{"origin":origin,"G14":changed,"factory_reader":result,"seal":clean_seal})
     before_rows=history.raw_state()

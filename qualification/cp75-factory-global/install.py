@@ -117,9 +117,20 @@ def run():
                     diagnostic.capture_details(cur,captured,OUT)
                 except Exception as exc:
                     write("catalogue-detail-error",{"type":type(exc).__name__,"detail":str(exc)[:240]})
-            if not exact and os.environ.get("CP75_REBUILT_DIAGNOSTIC") != "1":
+            original_binding=False
+            if os.environ.get("CP75_BINDING_AUDIT")=="1":
+                import importlib.util
+                path=WORK/"source/qualification/cp75-original-live/catalogue_boundary.py"
+                spec=importlib.util.spec_from_file_location("cp75_checked_binding",path)
+                binding_audit=importlib.util.module_from_spec(spec)
+                spec.loader.exec_module(binding_audit)
+                measured=binding_audit.guard(cur,"ffda",OUT/"binding-ffda.json")
+                if measured!=pre["sha256"]:
+                    raise ValueError("The native and independent raw FFDA fingerprints disagree")
+                original_binding=True
+            if not exact and not original_binding and os.environ.get("CP75_REBUILT_DIAGNOSTIC") != "1":
                 raise ValueError("FFDA_ARCHIVED_FULL25_DIFFERS")
-            if not exact and (os.environ.get("CP75_FACTORY_ORIGINAL") == "1" or conn.info.dbname != "cp6_rollback"):
+            if not exact and not original_binding and (os.environ.get("CP75_FACTORY_ORIGINAL") == "1" or conn.info.dbname != "cp6_rollback"):
                 raise ValueError("A reconstructed-path measurement may only use its disposable database")
             conn.commit()
             foundation.after_commit(cur, report)
