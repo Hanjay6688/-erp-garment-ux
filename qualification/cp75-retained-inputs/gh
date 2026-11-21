@@ -1,0 +1,50 @@
+#!/usr/bin/env python3
+"""Fetch normally. Resolve the three pinned public ZIPs from escrow on HTTP 404 or 410."""
+from hashlib import sha256
+import json
+import os
+from pathlib import Path
+import re
+import subprocess
+import sys
+
+from restore_inputs import read_manifest
+
+
+def main():
+    args = sys.argv[1:]
+    checked = Path(os.environ["RUNNER_TEMP"]) / "cp75-retained-inputs"
+    real = (checked / "github-cli-path.txt").read_text().strip()
+    if not os.path.isabs(real) or os.path.samefile(real, __file__):
+        raise ValueError("Unexpected GitHub CLI path")
+    matched = re.fullmatch(r"repos/Hanjay6688/-erp-garment-ux/actions/artifacts/(\d+)/zip", args[1]) if len(args) == 2 and args[0] == "api" else None
+    _, pins = read_manifest()
+    if not matched or matched[1] not in pins:
+        os.execv(real, [real, *args])
+    aid = matched[1]
+    reply = subprocess.run([real, *args], capture_output=True, check=False)
+    raw = reply.stdout
+    gone = re.search(rb"\bHTTP (404|410)\b", reply.stderr)
+    if reply.returncode:
+        if not gone:
+            sys.stderr.buffer.write(reply.stderr)
+            return reply.returncode
+        raw = (checked / (aid + ".zip")).read_bytes()
+    pin = pins[aid]
+    if len(raw) != pin["bytes"] or sha256(raw).hexdigest() != pin["sha256"]:
+        raise ValueError("Returned archive differs from the original digest for " + aid)
+    if reply.returncode:
+        proof = {"run": os.environ["GITHUB_RUN_ID"], "artifact_id": int(aid), "original_run": pin["run"],
+                 "remote_status": int(gone[1]), "source": "retained_original_zip", "bytes": len(raw),
+                 "verified_sha256": pin["sha256"], "production_go": False}
+        receipts = Path(os.environ["RUNNER_TEMP"]) / "cp75-original-observations"
+        temp = receipts / ("retained-input-" + aid + "-" + str(os.getpid()) + ".tmp")
+        temp.write_text(json.dumps(proof, indent=2) + "\n")
+        temp.replace(receipts / ("retained-input-" + aid + ".json"))
+        print("GitHub returned HTTP", int(gone[1]), "for", aid, "using its byte-identical retained archive", file=sys.stderr)
+    sys.stdout.buffer.write(raw)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
