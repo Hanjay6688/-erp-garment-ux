@@ -1,0 +1,80 @@
+name: CP7.5 retain the expiring original SKU inputs
+on:
+  push:
+    branches: [writer-a/cp75-input-recovery]
+    paths:
+      - .github/workflows/cp75-input-window.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  original:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          sparse-checkout: qualification/cp75-input-recovery
+      - name: Prepare an ephemeral recipient for this synthetic archive
+        run: |
+          set -euo pipefail
+          umask 077
+          mkdir -p "$RUNNER_TEMP/receiving" "$RUNNER_TEMP/intake"
+          cd "$RUNNER_TEMP/receiving"
+          openssl req -x509 -newkey rsa:3072 -keyout receiver.key -out receiver.crt -noenc -days 1 -subj "/CN=cp75-native28-$GITHUB_RUN_ID" 2>/dev/null
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cp75-input-receiver-${{ github.run_id }}
+          path: ${{ runner.temp }}/receiving/receiver.crt
+          if-no-files-found: error
+          retention-days: 1
+      - name: Receive and verify the original ZIP and its qualification report
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          cd "$RUNNER_TEMP/receiving"
+          checkout="$GITHUB_WORKSPACE"
+          path="qualification/cp75-input-transfer/$GITHUB_RUN_ID.cms"
+          last="$GITHUB_SHA"
+          for attempt in $(seq 1 90); do
+            head="$(git -C "$checkout" ls-remote origin "$GITHUB_REF" | cut -f1)"
+            if test -n "$head" && test "$head" != "$last"; then
+              git -C "$checkout" fetch --quiet --no-tags --depth=1 --filter=blob:none origin "$head"
+              last="$head"
+              if git -C "$checkout" cat-file -e "FETCH_HEAD:$path" 2>/dev/null; then
+                git -C "$checkout" show "FETCH_HEAD:$path" > incoming.cms
+                test "$(wc -c < incoming.cms)" -gt 2299975
+                echo "Received encrypted Native28 input from $head"
+                break
+              fi
+            fi
+            sleep 8
+          done
+          if ! test -s incoming.cms; then echo 'No encrypted package arrived for this recipient' >&2; exit 1; fi
+          openssl cms -decrypt -binary -inform DER -in incoming.cms -recip receiver.crt -inkey receiver.key -out accepted-native28.zip
+          rm receiver.key
+          python "$GITHUB_WORKSPACE/qualification/cp75-input-recovery/window.py" accepted-native28.zip
+      - name: Retain the unmodified original ZIPs for the pinned public test
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cp75-sku-original-inputs-${{ github.run_id }}
+          path: ${{ runner.temp }}/original-zips/
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 0
+      - name: Retain the byte verification and source availability results
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cp75-window-receipts-${{ github.run_id }}
+          path: ${{ runner.temp }}/intake/
+          if-no-files-found: warn
+          retention-days: 90
+      - name: Remove the receiver and its local payload
+        if: always()
+        run: rm -f "$RUNNER_TEMP/receiving/receiver.key" "$RUNNER_TEMP/receiving/accepted-native28.zip" "$RUNNER_TEMP/receiving/incoming.cms"
