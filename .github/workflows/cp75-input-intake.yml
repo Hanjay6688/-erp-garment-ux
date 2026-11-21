@@ -38,15 +38,24 @@ jobs:
           set -euo pipefail
           umask 077
           cd "$RUNNER_TEMP/receiving"
-          url="repos/$GITHUB_REPOSITORY/contents/qualification/cp75-input-transfer/$GITHUB_RUN_ID.cms?ref=writer-a/cp75-input-recovery"
+          checkout="$GITHUB_WORKSPACE"
+          path="qualification/cp75-input-transfer/$GITHUB_RUN_ID.cms"
+          last="$GITHUB_SHA"
           for attempt in $(seq 1 90); do
-            if gh api -H 'Accept: application/vnd.github.raw+json' "$url" > incoming.cms 2>read-error; then
-              break
+            head="$(git -C "$checkout" ls-remote origin "$GITHUB_REF" | cut -f1)"
+            if test -n "$head" && test "$head" != "$last"; then
+              git -C "$checkout" fetch --quiet --no-tags --depth=1 --filter=blob:none origin "$head"
+              last="$head"
+              if git -C "$checkout" cat-file -e "FETCH_HEAD:$path" 2>/dev/null; then
+                git -C "$checkout" show "FETCH_HEAD:$path" > incoming.cms
+                test "$(wc -c < incoming.cms)" -gt 2460112
+                echo "Received encrypted Native32 input from $head"
+                break
+              fi
             fi
-            if ! grep -qE '404|Not Found' read-error; then exit 1; fi
-            sleep 10
+            sleep 8
           done
-          test -s incoming.cms
+          if ! test -s incoming.cms; then echo 'No encrypted package arrived for this recipient' >&2; exit 1; fi
           openssl cms -decrypt -binary -inform DER -in incoming.cms -recip receiver.crt -inkey receiver.key -out accepted-native32.zip
           rm receiver.key
           python "$GITHUB_WORKSPACE/qualification/cp75-input-recovery/verify.py" accepted-native32.zip > "$RUNNER_TEMP/intake/native32-verification.json"
