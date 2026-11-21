@@ -1,0 +1,13 @@
+{
+  "auditor": "Astra",
+  "qualification_candidate": "3592cc5f3865e9bb21135862588f401ef31225c9",
+  "workflow_commit": "02fc34818fd6972543dfba9ca26c5046dba8f02d",
+  "product": "48858590a361343e73a7f16f6646363dc155c04e",
+  "original_bf_run": 44800849536,
+  "retained_history_run": 44867955170,
+  "prior_clean_attempt": 44913468445,
+  "writer_controls": 44915189216,
+  "purpose": "Qualify the corrected factory installation on the original BF, compare business output and validate both clean recoveries.",
+  "synthetic_only": true,
+  "production_go": false
+}
