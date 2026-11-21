@@ -33,18 +33,17 @@ jobs:
           path: calendar
           sparse-checkout: qualification/cp75-bf-calendar
           persist-credentials: false
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-        with:
-          ref: a62504d71a6ca1cdbaa59b6fe0fd5739693f100a
-          path: sku
-          sparse-checkout: |
-            scripts
-            src
-            docs/cp7/d17-14/ow04/consumer-command
-            docs/evidence
-            supabase/migrations
-            supabase/tests
-          persist-credentials: false
+      - name: Fetch the historical SKU source and the two value and money source revisions
+        run: |
+          set -euo pipefail
+          git init -q sku
+          git -C sku remote add origin "https://github.com/$GITHUB_REPOSITORY.git"
+          git -C sku sparse-checkout set scripts src docs/cp7/d17-14/ow04/consumer-command docs/evidence supabase/migrations supabase/tests
+          git -C sku fetch --quiet --no-tags --depth=1 origin \
+            a62504d71a6ca1cdbaa59b6fe0fd5739693f100a \
+            fea75841e26645f1892d880905231625b47e3065 \
+            ae480ca43d750a6abe41681fc6f90e6ad81a9135
+          git -C sku checkout --quiet --detach a62504d71a6ca1cdbaa59b6fe0fd5739693f100a
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
         with:
           python-version: '3.12'
