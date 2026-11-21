@@ -258,7 +258,7 @@ jobs:
         PYTHONPATH=released/qualification python -c 'import os; from pathlib import Path; from sku_parent import retrieve,retained; path=Path(os.environ["RUNNER_TEMP"])/"cp75-original-sku.zip"; retrieve(path); retained(path)'
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       with:
-        ref: d6afc566c79263bf13d5fa6d7cc5a4e760c41039
+        ref: 3592cc5f3865e9bb21135862588f401ef31225c9
         path: global-release
         sparse-checkout: qualification
         persist-credentials: false
