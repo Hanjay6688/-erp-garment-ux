@@ -1,0 +1,88 @@
+name: CP7.5 read the calendar on the original BF only
+on:
+  workflow_dispatch:
+  push:
+    branches: [writer-a/cp75-baseline-public]
+    paths:
+      - .github/workflows/cp75-bf-calendar.yml
+      - qualification/cp75-bf-calendar/launch/**
+permissions:
+  contents: read
+  actions: read
+  packages: read
+jobs:
+  calendar:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 65
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          path: source
+          persist-credentials: false
+          sparse-checkout: |
+            qualification/cp75-bf-calendar
+            qualification/cp75-global-pair
+            qualification/cp75-original-live
+            qualification/cp75-original-access
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: 6b22d308e83e69c2ea6fafa937ade1ee1f6498c4
+          path: capture
+          sparse-checkout: qualification/close11
+          persist-credentials: false
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: a62504d71a6ca1cdbaa59b6fe0fd5739693f100a
+          path: auditor
+          sparse-checkout: scripts/cp6_g01_fingerprint.py
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Validate the calendar and request the original BF only
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python -m pip install --quiet 'cryptography==46.0.3'
+          export PYTHONPATH="$GITHUB_WORKSPACE/source/qualification/cp75-original-access:$GITHUB_WORKSPACE/capture/qualification"
+          python -m unittest discover -s source/qualification/cp75-bf-calendar
+          python -u source/qualification/cp75-original-live/live.py prepare --clean-only
+          gh api repos/Hanjay6688/-erp-garment-ux/actions/jobs/136512294676 > "$RUNNER_TEMP/cp75-original-observations/source-start-job.json"
+      - name: Publish the single-archive receiver
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cp75-request-${{ github.run_id }}
+          path: ${{ runner.temp }}/cp75-original-observations/request.json
+          if-no-files-found: error
+          retention-days: 14
+      - name: Open the disposable BF and read the partition calendar
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          export PYTHONPATH="$GITHUB_WORKSPACE/source/qualification/cp75-original-live:$GITHUB_WORKSPACE/source/qualification/cp75-original-access:$GITHUB_WORKSPACE/capture/qualification:$GITHUB_WORKSPACE/auditor/scripts"
+          python -u source/qualification/cp75-original-live/live.py open --clean-only
+          unset GH_TOKEN
+          python -u source/qualification/cp75-bf-calendar/calendar_probe.py
+      - name: Retain the original opening and SQL observations
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cp75-original-bf-calendar-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/cp75-original-observations/bf-calendar.json
+            ${{ runner.temp }}/cp75-original-observations/clean-opened.json
+            ${{ runner.temp }}/cp75-original-observations/source-start-job.json
+          retention-days: 90
+          if-no-files-found: warn
+      - name: Remove the disposable copy
+        if: ${{ always() }}
+        run: |
+          name="cp75-clean-$GITHUB_RUN_ID"
+          docker rm -f "$name" >/dev/null 2>&1 || true
+          for volume in "$name-data" "$name-config"; do
+            if docker volume inspect "$volume" >/dev/null 2>&1; then docker volume rm "$volume"; fi
+          done
+          rm -f "$RUNNER_TEMP/cp75-originals/receiver.pem"

@@ -39,13 +39,15 @@ def obtain(which, member, dest):
                 shutil.copyfileobj(inp,out,2**20)
 
 
-def prepare():
+def prepare(origins=access.ORIGINS):
     WORK.mkdir(mode=0o700)
     RESULT.mkdir(mode=0o700)
-    for key,file,output in [("bf_proof","clean-bf.json","clean.json"),("bf_archive","clean-bf.cp75","clean.cp"),
-                            ("old_proof","installed.json","upgrade.json"),("old_archive","global-ffda.cp7","upgrade.cp")]:
+    inputs = [("bf_proof","clean-bf.json","clean.json"),("bf_archive","clean-bf.cp75","clean.cp")]
+    if "upgrade" in origins:
+        inputs.extend([("old_proof","installed.json","upgrade.json"),("old_archive","global-ffda.cp7","upgrade.cp")])
+    for key, file, output in inputs:
         obtain(key,file,WORK/output)
-    request=access.make_request({l:WORK/(l+".cp") for l in access.ORIGINS},access.ORIGINS,
+    request=access.make_request({l:WORK/(l+".cp") for l in origins},origins,
                                 os.environ["GITHUB_RUN_ID"],os.environ["GITHUB_SHA"],KEY)
     access.write(REQUEST,request)
     print("CP75_RECEIVER "+request.decode().strip(),flush=True)
@@ -110,15 +112,15 @@ def query(container,stmt):
                              "-XAtq","-v","ON_ERROR_STOP=1","-c",stmt,capture_output=True,text=True).stdout)
 
 
-def opened():
+def opened(origins=access.ORIGINS):
     from cryptography.hazmat.primitives import serialization
     receipt=response()
     private=serialization.load_pem_private_key(KEY.read_bytes(),None)
-    keys=access.receive(REQUEST.read_bytes(),receipt,private,access.ORIGINS,os.environ["GITHUB_RUN_ID"],os.environ["GITHUB_SHA"])
+    keys=access.receive(REQUEST.read_bytes(),receipt,private,origins,os.environ["GITHUB_RUN_ID"],os.environ["GITHUB_SHA"])
     KEY.unlink()
     os.environ.pop("GH_TOKEN",None)
     import cp6_g01_fingerprint as bf
-    for lane in ("clean","upgrade"):
+    for lane in origins:
         meta=json.loads((WORK/(lane+".json")).read_text())
         clean=lane=="clean"
         expected=meta["plaintext_sha256"] if clean else meta["checkpoint"]["plaintext_sha256"]
@@ -159,8 +161,10 @@ def opened():
 if __name__=="__main__":
     arg=argparse.ArgumentParser()
     arg.add_argument("op",choices=["prepare","open"])
-    op=arg.parse_args().op
-    if op=="prepare":
-        prepare()
+    arg.add_argument("--clean-only", action="store_true", help="Request and restore only the pinned BF checkpoint")
+    args=arg.parse_args()
+    origins = {"clean": access.ORIGINS["clean"]} if args.clean_only else access.ORIGINS
+    if args.op=="prepare":
+        prepare(origins)
     else:
-        opened()
+        opened(origins)

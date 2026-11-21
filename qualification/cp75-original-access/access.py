@@ -136,12 +136,14 @@ def main():
         grant.add_argument("--"+arg,type=Path,required=True)
     grant.add_argument("--run",required=True)
     grant.add_argument("--head",required=True)
+    grant.add_argument("--clean-only", action="store_true", help="Grant only the pinned BF archive for a BF-only request")
     a=p.parse_args()
     if a.op=="request":
         raw=make_request({"clean":a.clean,"upgrade":a.upgrade},ORIGINS,os.environ["GITHUB_RUN_ID"],os.environ["GITHUB_SHA"],a.receiver)
     else:
         key=serialization.load_pem_private_key(a.key.read_bytes(),None)
-        raw=issue(a.request.read_bytes(),key,ORIGINS,a.run,a.head)
+        origins = {"clean": ORIGINS["clean"]} if a.clean_only else ORIGINS
+        raw=issue(a.request.read_bytes(),key,origins,a.run,a.head)
     write(a.out,raw)
 
 

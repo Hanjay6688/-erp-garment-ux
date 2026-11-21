@@ -37,6 +37,20 @@ class PairGrant(unittest.TestCase):
     def test_roundtrip(self):
         self.assertEqual(a.receive(self.req,self.reply,self.receiver,self.pins,self.run,self.head),self.keys)
 
+    def test_clean_only_grant_is_not_a_pair_grant(self):
+        directory = Path(self.tmp.name)
+        pins = {"clean": self.pins["clean"]}
+        keyfile = directory / "clean-receiver.pem"
+        request = a.make_request({"clean": directory / "clean"}, pins, self.run, self.head, keyfile)
+        reply = a.issue(request, self.owner, pins, self.run, self.head)
+        receiver = serialization.load_pem_private_key(keyfile.read_bytes(), None)
+        self.assertEqual(a.receive(request, reply, receiver, pins, self.run, self.head),
+                         {"clean": self.keys["clean"]})
+        with self.assertRaises(ValueError):
+            a.issue(request, self.owner, self.pins, self.run, self.head)
+        with self.assertRaises(ValueError):
+            a.issue(self.req, self.owner, pins, self.run, self.head)
+
     def test_other_head(self):
         with self.assertRaises(ValueError):
             a.issue(self.req,self.owner,self.pins,self.run,"b"*40)
