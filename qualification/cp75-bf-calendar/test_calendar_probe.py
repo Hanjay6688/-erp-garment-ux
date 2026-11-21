@@ -45,3 +45,38 @@ class CalendarTest(unittest.TestCase):
                     dict(self.job, steps=[dict(self.job["steps"][0], completed_at="2026-11-21T00:01:00Z")])]:
             with self.assertRaises(ValueError):
                 source_window(job)
+
+
+class FactoryReceiptTest(unittest.TestCase):
+    def test_installer_is_bound_to_its_own_physical_bf_and_source_clock(self):
+        from calendar_probe import BF_ARCHIVE, BF_CATALOGUE, confirmed_factory_day
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+        import json
+        fixture = CalendarTest()
+        fixture.setUp()
+        opening = {"origin_run": SOURCE_RUN, "sha256": BF_ARCHIVE, "catalogue": BF_CATALOGUE,
+                   "container": "supabase_db_cp5-local", "scheduler_enabled": False,
+                   "disposable": True, "production_go": False}
+        observed = dict(fixture.obs, read_only="on", database="cp6_rollback",
+                        postmaster_started_utc="2026-11-21T16:32:01.123456Z")
+        report = dict(evaluate(observed, source_window(fixture.job)),
+                      probe_run="1", probe_head="a"*40, original=opening)
+        with TemporaryDirectory() as temp:
+            folder = Path(temp)
+            (folder/"source-start-job.json").write_text(json.dumps(fixture.job))
+            (folder/"clean-opened.json").write_text(json.dumps(opening))
+            receipt = folder/"bf-calendar.json"
+            receipt.write_text(json.dumps(report))
+            self.assertEqual(confirmed_factory_day(folder,"1","a"*40), fixture.anchor)
+            with self.assertRaises(ValueError):
+                confirmed_factory_day(folder,"2","a"*40)
+            with self.assertRaises(ValueError):
+                confirmed_factory_day(folder,"1","b"*40)
+            for alteration in [dict(report, postgresql=dict(observed, read_only="off")),
+                               dict(report, postgresql=dict(observed, postmaster_day_utc="2026-11-22")),
+                               dict(report, source_boot=dict(report["source_boot"], utc_day="2026-11-21")),
+                               dict(report, actual_attached=[])]:
+                receipt.write_text(json.dumps(alteration))
+                with self.assertRaises(ValueError):
+                    confirmed_factory_day(folder,"1","a"*40)

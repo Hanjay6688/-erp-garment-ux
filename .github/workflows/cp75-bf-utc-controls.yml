@@ -1,0 +1,67 @@
+name: CP7.5 check the restored-calendar candidate and retained history
+on:
+  push:
+    branches: [writer-a/cp75-bf-utc-review]
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  controls:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          path: source
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /qualification/cp75-bf-calendar/
+            /qualification/cp75-comparison/
+            /qualification/cp75-global-pair/
+            /qualification/cp75-original-live/
+            /qualification/cp75-factory-source/
+            /qualification/global_owning/
+            /qualification/realtime_comparator.py
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: f8520a7da6cec188540a1e52bb20ecbfaf064b19
+          path: baseline
+          sparse-checkout: qualification
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Check the exact SKU comparator and 25-group archive
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/calendar-controls"
+          gh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/14011544457/zip > "$RUNNER_TEMP/sku.zip"
+          echo "de951319b2e9a31c490e2a2dc75a4985561e381256085c10d162264576e54c27  $RUNNER_TEMP/sku.zip" | sha256sum -c -
+          unzip -p "$RUNNER_TEMP/sku.zip" SKU_GLOBAL_PARENT_ACTUAL_FULL25.json > "$RUNNER_TEMP/sku-catalogue.json"
+          python source/qualification/cp75-bf-calendar/replay_comparator.py --catalogue "$RUNNER_TEMP/sku-catalogue.json" --prior-release baseline/qualification --candidate-release source/qualification > "$RUNNER_TEMP/calendar-controls/comparator.json"
+      - name: Check the actual SQL on an isolated PostgreSQL instance
+        run: |
+          set -euo pipefail
+          bindir="$(pg_config --bindir)"
+          export PATH="$bindir:$PATH" PGHOST="$RUNNER_TEMP/calendar-socket" PGPORT=55472 PGUSER=writer_bf PGDATABASE=postgres
+          mkdir -p "$PGHOST"
+          initdb --no-locale -A trust -U "$PGUSER" -D "$RUNNER_TEMP/calendar-db" >/dev/null
+          pg_ctl -D "$RUNNER_TEMP/calendar-db" -l "$RUNNER_TEMP/calendar-db.log" -o "-k $PGHOST -p $PGPORT -c listen_addresses='' -c timezone=UTC" -w start
+          trap 'pg_ctl -D "$RUNNER_TEMP/calendar-db" -m fast -w stop' EXIT
+          CP75_SQL_CONTROL=1 python -m unittest discover -s source/qualification/cp75-bf-calendar -v
+      - name: Verify Astra's accepted upgrade inputs and 735 restored objects
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python source/qualification/cp75-bf-calendar/retained_history.py
+          cp "$RUNNER_TEMP/cp75-global/upgrade/retained-history-origin.json" "$RUNNER_TEMP/calendar-controls/"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: cp75-bf-calendar-controls-${{ github.run_id }}
+          path: ${{ runner.temp }}/calendar-controls/
+          if-no-files-found: error
+          retention-days: 90

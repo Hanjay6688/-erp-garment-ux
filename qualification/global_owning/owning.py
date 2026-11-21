@@ -126,7 +126,7 @@ def import_paths(*paths):
         sys.path[:] = original
 
 
-def prepared_provider(candidate, parent_raw, catalogue_raw):
+def prepared_provider(candidate, parent_raw, catalogue_raw, *, restored_source_day=None):
     from datetime import date
 
     require(pin(parent_raw) == ROOT_PIN and pin(catalogue_raw) == CATALOGUE_PIN,
@@ -152,7 +152,8 @@ def prepared_provider(candidate, parent_raw, catalogue_raw):
                 'GLOBAL_CALLER_EXACT_THREE_BINDINGS_REQUIRED')
         snapshot = dict(vars(result))
         bound = bind_realtime_provider(result, comparator, catalogue_raw, CATALOGUE_PIN,
-                                       archived_startup_day=date(2026, 11, 13))
+                                       archived_startup_day=date(2026, 11, 13),
+                                       restored_source_day=restored_source_day)
         contracts = {
             'install': api(bound.install, 'cur', 'parent_receipt_raw', 'input_profile_raw'),
             'verify': api(bound.verify, 'cur', 'state'),

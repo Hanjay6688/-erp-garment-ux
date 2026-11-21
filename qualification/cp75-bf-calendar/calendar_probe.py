@@ -54,15 +54,39 @@ def evaluate(observed, source):
             "disposable": True, "production_go": False}
 
 
+def validate_opening(receipt, container):
+    identity = (receipt["origin_run"], receipt["sha256"], receipt["catalogue"], receipt["container"],
+                receipt["scheduler_enabled"], receipt["disposable"], receipt["production_go"])
+    if identity != (SOURCE_RUN, BF_ARCHIVE, BF_CATALOGUE, container, False, True, False):
+        raise ValueError("The connection is not the admitted original BF copy")
+
+
+def confirmed_factory_day(folder, run, head):
+    """Read the same job's independent source clock and its read-only original-BF observation."""
+    result = json.loads((folder / "bf-calendar.json").read_text())
+    opening = json.loads((folder / "clean-opened.json").read_text())
+    validate_opening(opening, "supabase_db_cp5-local")
+    if (result["probe_run"], result["probe_head"], result["original"]) != (run, head, opening):
+        raise ValueError("Calendar receipt does not belong to this original BF opening")
+    source = source_window(json.loads((folder / "source-start-job.json").read_text()))
+    observed = result["postgresql"]
+    replay = evaluate(observed, source)
+    started = datetime.fromisoformat(observed["postmaster_started_utc"])
+    if (started.utcoffset() != timedelta(0) or started.date().isoformat() != observed["postmaster_day_utc"]):
+        raise ValueError("The PostgreSQL startup timestamp and UTC day disagree")
+    if observed["database"] != "cp6_rollback" or observed["read_only"] != "on":
+        raise ValueError("Original BF observation must be a read-only query on cp6_rollback")
+    if not replay["matches_source_names_and_bounds"] or any(result[k] != v for k, v in replay.items()):
+        raise ValueError("The original BF source window did not match the attached partitions")
+    return date.fromisoformat(source["utc_day"])
+
+
 def main():
     import live
     receipt = json.loads((live.RESULT / "clean-opened.json").read_text())
-    container = "cp75-clean-" + os.environ["GITHUB_RUN_ID"]
-    if (receipt["origin_run"], receipt["sha256"], receipt["catalogue"], receipt["container"],
-        receipt["scheduler_enabled"], receipt["disposable"]) != (
-        SOURCE_RUN, BF_ARCHIVE, BF_CATALOGUE, container, False, True
-    ):
-        raise ValueError("The connection is not the admitted original BF copy")
+    container = ("supabase_db_cp5-local" if os.environ.get("CP75_FACTORY_ORIGINAL") == "1"
+                 else "cp75-clean-" + os.environ["GITHUB_RUN_ID"])
+    validate_opening(receipt, container)
     query = Path(__file__).with_name("observe.sql").read_text()
     observed = live.query(container, query)
     source_file = live.RESULT / "source-start-job.json"

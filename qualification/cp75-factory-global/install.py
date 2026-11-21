@@ -48,7 +48,13 @@ def run():
     profile = json.loads(profile_raw)
     licensed.admit(candidate, ROOT/"auditor", root_raw, profile_raw)
     owning.verify_candidate(candidate)
-    original, proof = owning.prepared_provider(candidate, root_raw, catalogue)
+    options = {}
+    if os.environ.get("CP75_FACTORY_ORIGINAL") == "1":
+        from calendar_probe import confirmed_factory_day
+        options["restored_source_day"] = confirmed_factory_day(
+            TEMP / "cp75-original-observations", os.environ["GITHUB_RUN_ID"], os.environ["GITHUB_SHA"]
+        )
+    original, proof = owning.prepared_provider(candidate, root_raw, catalogue, **options)
     assert proof["root"] == licensed.ROOT_PIN
     owning.require_gates(licensed.GATES)
     admission = owning.private_admission(owning.load("cp75_retained_admission",candidate/owning.ADMISSION), licensed.GATES)
