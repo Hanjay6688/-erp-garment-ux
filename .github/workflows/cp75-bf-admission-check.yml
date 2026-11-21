@@ -33,16 +33,17 @@ jobs:
           path: calendar
           sparse-checkout: qualification/cp75-bf-calendar
           persist-credentials: false
-      - name: Fetch the historical SKU source and the two value and money source revisions
+      - name: Fetch the same historical source revisions as the original installer
         run: |
           set -euo pipefail
           git init -q sku
           git -C sku remote add origin "https://github.com/$GITHUB_REPOSITORY.git"
           git -C sku sparse-checkout set scripts src docs/cp7/d17-14/ow04/consumer-command docs/evidence supabase/migrations supabase/tests
-          git -C sku fetch --quiet --no-tags --depth=1 origin \
-            a62504d71a6ca1cdbaa59b6fe0fd5739693f100a \
-            fea75841e26645f1892d880905231625b47e3065 \
-            ae480ca43d750a6abe41681fc6f90e6ad81a9135
+          git -C check show 86b3779e9ca881875a5244319263a7c4579d980a > "$RUNNER_TEMP/original-launch.yml"
+          mapfile -t heads < <(awk '/^[[:space:]]*heads=\($/ {reading=1; next} reading && /^[[:space:]]*\)$/ {exit} reading {print $1}' "$RUNNER_TEMP/original-launch.yml")
+          test "${#heads[@]}" = 33
+          for head in "${heads[@]}"; do [[ "$head" =~ ^[0-9a-f]{40}$ ]]; done
+          git -C sku fetch --quiet --no-tags origin "${heads[@]}"
           git -C sku checkout --quiet --detach a62504d71a6ca1cdbaa59b6fe0fd5739693f100a
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
         with:
