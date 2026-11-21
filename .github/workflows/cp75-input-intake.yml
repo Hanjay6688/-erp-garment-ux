@@ -1,0 +1,77 @@
+name: CP7.5 restore the retained Native32 input and check source availability
+on:
+  push:
+    branches: [writer-a/cp75-input-recovery]
+    paths:
+      - .github/workflows/cp75-input-intake.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  original:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          sparse-checkout: qualification/cp75-input-recovery
+      - name: Prepare an ephemeral recipient for this synthetic archive
+        run: |
+          set -euo pipefail
+          umask 077
+          mkdir -p "$RUNNER_TEMP/receiving" "$RUNNER_TEMP/intake"
+          cd "$RUNNER_TEMP/receiving"
+          openssl req -x509 -newkey rsa:3072 -keyout receiver.key -out receiver.crt -noenc -days 1 -subj "/CN=cp75-native32-$GITHUB_RUN_ID" 2>/dev/null
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cp75-input-receiver-${{ github.run_id }}
+          path: ${{ runner.temp }}/receiving/receiver.crt
+          if-no-files-found: error
+          retention-days: 1
+      - name: Receive and verify the original ZIP and its qualification report
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          cd "$RUNNER_TEMP/receiving"
+          url="repos/$GITHUB_REPOSITORY/contents/qualification/cp75-input-transfer/$GITHUB_RUN_ID.cms?ref=writer-a/cp75-input-recovery"
+          for attempt in $(seq 1 90); do
+            if gh api -H 'Accept: application/vnd.github.raw+json' "$url" > incoming.cms 2>read-error; then
+              break
+            fi
+            if ! grep -qE '404|Not Found' read-error; then exit 1; fi
+            sleep 10
+          done
+          test -s incoming.cms
+          openssl cms -decrypt -binary -inform DER -in incoming.cms -recip receiver.crt -inkey receiver.key -out accepted-native32.zip
+          rm receiver.key
+          python "$GITHUB_WORKSPACE/qualification/cp75-input-recovery/verify.py" accepted-native32.zip > "$RUNNER_TEMP/intake/native32-verification.json"
+      - name: Keep the original ZIP with its original Actions download scope
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cp75-retained-native32-${{ github.run_id }}
+          path: ${{ runner.temp }}/receiving/accepted-native32.zip
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 0
+      - name: Check every artifact downloaded in the accepted SKU run
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/14011544457/zip" > "$RUNNER_TEMP/sku.zip"
+          python qualification/cp75-input-recovery/check_inputs.py
+      - name: Retain the byte verification and source availability results
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cp75-input-receipts-${{ github.run_id }}
+          path: ${{ runner.temp }}/intake/
+          if-no-files-found: warn
+          retention-days: 90
+      - name: Remove the receiver and its local payload
+        if: always()
+        run: rm -f "$RUNNER_TEMP/receiving/receiver.key" "$RUNNER_TEMP/receiving/accepted-native32.zip" "$RUNNER_TEMP/receiving/incoming.cms"
