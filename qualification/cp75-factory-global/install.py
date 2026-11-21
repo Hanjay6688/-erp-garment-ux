@@ -107,6 +107,16 @@ def run():
                          "sku_and_dated_proof":report["verified_SKU_and_dated_Laundry_before_Global"],
                          "source_run":admitted["origin_run"],"production_go":False}
             write("global-before-commit",qualified)
+            if (TEMP/"cp75-original-observations/original-ffda-objects.json.gz").is_file():
+                import importlib.util
+                path=WORK/"source/qualification/cp75-original-live/catalogue_evidence.py"
+                spec=importlib.util.spec_from_file_location("cp75_catalogue_evidence",path)
+                diagnostic=importlib.util.module_from_spec(spec)
+                spec.loader.exec_module(diagnostic)
+                try:
+                    diagnostic.capture_details(cur,captured,OUT)
+                except Exception as exc:
+                    write("catalogue-detail-error",{"type":type(exc).__name__,"detail":str(exc)[:240]})
             if not exact and os.environ.get("CP75_REBUILT_DIAGNOSTIC") != "1":
                 raise ValueError("FFDA_ARCHIVED_FULL25_DIFFERS")
             if not exact and (os.environ.get("CP75_FACTORY_ORIGINAL") == "1" or conn.info.dbname != "cp6_rollback"):

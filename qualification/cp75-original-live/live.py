@@ -132,8 +132,19 @@ def opened():
             container,socket=start(lane,raw,image,src,cron,factory_source=clean and os.environ.get("CP75_FACTORY_ORIGINAL")=="1")
         assert query(container,"select to_jsonb(current_setting('cron.launch_active_jobs'))")=="off"
         if clean:
-            groups=query(container,"set search_path=pg_catalog,public; "+bf.SUMMARY)
+            # Match the original checkpoint reader's PG session before comparing the seal.
+            native_path=query(container,"select to_jsonb(current_setting('search_path'))")
+            groups=query(container,bf.SUMMARY)
             seal=hashlib.sha256(json.dumps(groups,sort_keys=True,separators=(",",":")).encode()).hexdigest()
+            former=query(container,"set search_path=pg_catalog,public; "+bf.SUMMARY)
+            previous=hashlib.sha256(json.dumps(former,sort_keys=True,separators=(",",":")).encode()).hexdigest()
+            (RESULT/"bf-reader-comparison.json").write_text(json.dumps({
+                "source_seal":meta["source"]["cp6_rollback"]["catalogue_sha256"],
+                "isolated_restore_seal":meta["restored"]["cp6_rollback"]["catalogue_sha256"],
+                "source_session_path":native_path,"native_groups":groups,"native_seal":seal,
+                "former_forced_path":"pg_catalog,public","former_seal":previous,
+                "changed_groups":sorted(key for key in groups if groups[key]!=former[key])
+            },indent=2)+"\n")
             assert seal==meta["source"]["cp6_rollback"]["catalogue_sha256"]=="b036261ee8902fc3be5307d54cf2b021dd2e2b419e24100655a7a338b70bad0a"
         else:
             actual=query(container,"select cp7_global_nonpo_envelope.catalogue_fingerprint_v1()")

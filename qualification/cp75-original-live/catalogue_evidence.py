@@ -7,11 +7,43 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import re
 
 
 def digest(value):
     encoded=json.dumps(value,ensure_ascii=False,sort_keys=True,separators=(",",":"),default=str).encode()
     return hashlib.sha256(encoded).hexdigest()
+
+
+def capture_details(cur, values, folder):
+    """Preserve per-field evidence and independently check the installation-local guard literal."""
+    guard_name="cp7_credit.assert_source_native_trigger_census_v1()"
+    row=dict(values["functions"])[guard_name]
+    pattern=re.compile(r"(if actual_sha256 is distinct from ')([a-f0-9]{64})('then)")
+    matches=list(pattern.finditer(row[0]))
+    if len(matches)!=1:
+        raise ValueError("The installed native guard must have exactly one source-bound comparison")
+    capture=Path(os.environ["GITHUB_WORKSPACE"])/"auditor/scripts/cp7_customer_credit/integration/source_triggers/capture.sql"
+    if hashlib.sha256(capture.read_bytes()).hexdigest()!="0ec6af17788d09a3f30ffc2adffa2f6a8e46dae8d1879664669f91995fe91f38":
+        raise ValueError("The native trigger census source has changed")
+    with cur.connection.transaction(force_rollback=True):
+        cur.execute("set local search_path=''; set local timezone='UTC'")
+        source=capture.read_text().strip().removesuffix(";")
+        captured,live=cur.execute("select q.value,cp7_credit.pg_jsonb_sha256(q.value) from ("+source+") q(value)").fetchone()
+    token=matches[0]
+    checked=row[0][:token.start(2)]+"<LOCAL_CENSUS_SHA256>"+row[0][token.end(2):]
+    receipt={"name":guard_name,"literal":token.group(2),"measured_local_census":live,
+             "verified_local_literal":token.group(2)==live,"body_with_only_literal_replaced":digest(checked),
+             "remaining_function_fields":digest(row[1:]),"scope_counts":{k:len(v) for k,v in captured.items()},
+             "foreign_key_semantics":digest(sorted(digest(item["semantic"]) for item in captured["foreign_keys"])),
+             "ordinary_attachments":sum(not item["internal"] for item in captured["triggers"]),
+             "internal_attachments":sum(item["internal"] for item in captured["triggers"]),
+             "production_go":False}
+    (folder/"native-credit-proof.json").write_text(json.dumps(receipt,indent=2)+"\n")
+    # Hash each field. Values such as function bodies and privilege-bearing text stay in PostgreSQL.
+    with gzip.open(folder/"catalogue-fields.json.gz","xt",encoding="utf-8") as out:
+        json.dump({g:[[k,[digest(x) for x in (v if isinstance(v,list) else [v])]] for k,v in entries]
+                   for g,entries in values.items()},out,separators=(",",":"))
 
 
 def capture_original(output):
@@ -36,6 +68,10 @@ def capture_original(output):
             values[group]=[list(pair) for pair in cur.execute(ordered).fetchall()]
         persisted=cur.execute("select encode(sha256(convert_to(%s::jsonb::text,'UTF8')),'hex')",(Jsonb(values),)).fetchone()[0]
         assert persisted==official["sha256"] and digest(values)==expected["full25_sha256"]
+        try:
+            capture_details(cur,values,output.parent)
+        except Exception as exc:
+            (output.parent/"catalogue-detail-error.json").write_text(json.dumps({"type":type(exc).__name__,"detail":str(exc)[:240]})+"\n")
     rows={g:[[key,digest(value)] for key,value in entries] for g,entries in values.items()}
     with gzip.open(output,"xt",encoding="utf-8") as dest:
         json.dump({"origin_run":expected["origin_run"],"server":official,"capture_sha256":digest(values),
