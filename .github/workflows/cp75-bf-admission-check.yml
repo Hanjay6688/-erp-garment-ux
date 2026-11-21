@@ -1,0 +1,83 @@
+name: CP7.5 verify original BF admission before reinstalling
+on:
+  push:
+    branches: [writer-a/cp75-bf-admission]
+    paths:
+      - .github/workflows/cp75-bf-admission-check.yml
+      - qualification/cp75-bf-admission/**
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  admission:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          path: check
+          sparse-checkout: qualification/cp75-bf-admission
+          persist-credentials: false
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: 3592cc5f3865e9bb21135862588f401ef31225c9
+          path: provider
+          sparse-checkout: qualification
+          persist-credentials: false
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: 47f883833fed5af836927a923c32261f906dcfe0
+          path: calendar
+          sparse-checkout: qualification/cp75-bf-calendar
+          persist-credentials: false
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: a62504d71a6ca1cdbaa59b6fe0fd5739693f100a
+          path: sku
+          sparse-checkout: |
+            scripts
+            src
+            docs/cp7/d17-14/ow04/consumer-command
+            docs/evidence
+            supabase/migrations
+            supabase/tests
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Read the identified original calendar and exact SKU catalogue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP"
+          mkdir -p admission-results
+          gh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/14710705188/zip > opening.zip
+          echo '4682815cbbb6ba71abd4117bbf2e7cf3c49c48f44479e5391cae3eddda098338  opening.zip' | sha256sum -c -
+          unzip -q opening.zip cp75-original-observations/{bf-calendar,clean-opened,source-start-job}.json
+          gh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/14011544457/zip > sku.zip
+          echo 'de951319b2e9a31c490e2a2dc75a4985561e381256085c10d162264576e54c27  sku.zip' | sha256sum -c -
+          unzip -p sku.zip SKU_GLOBAL_PARENT_ACTUAL_FULL25.json > sku-catalogue.json
+      - name: Exercise reviewed admission, both provider paths and four refusals
+        run: |
+          python -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2' 'jsonschema==4.25.1'
+          export PYTHONPATH="$GITHUB_WORKSPACE/provider/qualification:$GITHUB_WORKSPACE/calendar/qualification/cp75-bf-calendar"
+          python check/qualification/cp75-bf-admission/check.py
+      - name: Replay all calendar differences on the exact restored adapter
+        run: |
+          mkdir -p "$RUNNER_TEMP/replay"
+          cp provider/qualification/cp75_bf_realtime.py "$RUNNER_TEMP/replay/realtime_comparator.py"
+          python calendar/qualification/cp75-bf-calendar/replay_comparator.py \
+            --catalogue "$RUNNER_TEMP/sku-catalogue.json" \
+            --prior-release provider/qualification --candidate-release "$RUNNER_TEMP/replay" \
+            > "$RUNNER_TEMP/admission-results/calendar-replay.json"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: cp75-original-bf-admission-${{ github.run_id }}
+          path: ${{ runner.temp }}/admission-results/
+          if-no-files-found: warn
+          retention-days: 90
