@@ -2,6 +2,9 @@
 import json
 import os
 import secrets
+import subprocess
+import sys
+import time
 from pathlib import Path
 
 import psycopg
@@ -34,6 +37,18 @@ def main():
         assert previous[0] and previous[0][1] is True and previous[0][5] is True
         conn.execute(sql.SQL("alter role {} password {}").format(sql.Identifier(ROLE),sql.Literal(secret)))
         assert authority(conn)==previous
+    ready=ROOT/"cp75-originals/loopback-ready"
+    with (ROOT/"cp75-originals/loopback.log").open("ab") as log:
+        relay=subprocess.Popen([sys.executable,str(Path(__file__).with_name("loopback.py")),"--serve"],
+                               stdin=subprocess.DEVNULL,stdout=log,stderr=log,start_new_session=True)
+    for _ in range(100):
+        if relay.poll() is not None:
+            raise RuntimeError("The runner-only PostgreSQL listener stopped")
+        if ready.is_file() and ready.read_text()==str(relay.pid):
+            break
+        time.sleep(0.1)
+    else:
+        raise TimeoutError("The runner-only PostgreSQL listener did not start")
     with psycopg.connect(url,connect_timeout=10) as conn:
         identity=conn.execute("select session_user,current_user,current_database(),inet_client_addr() is not null").fetchone()
         assert identity==(ROLE,ROLE,"template1",True) and authority(conn)==previous

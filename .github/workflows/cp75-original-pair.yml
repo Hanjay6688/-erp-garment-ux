@@ -116,7 +116,7 @@ jobs:
         sudo apt-get install -y -qq postgresql-client-17
         test -x /usr/lib/postgresql/17/bin/psql
         echo '/usr/lib/postgresql/17/bin' >> "$GITHUB_PATH"
-    - name: Open the original physical archives and provision the existing synthetic installer login
+    - name: Open the original physical archives and verify their source fingerprints
       id: original
       env:
         CP75_FACTORY_ORIGINAL: '1'
@@ -125,8 +125,6 @@ jobs:
       run: |
         set -euo pipefail
         PYTHONPATH="$GITHUB_WORKSPACE/source/qualification/cp75-original-access:$GITHUB_WORKSPACE/capture/qualification:$GITHUB_WORKSPACE/auditor/scripts" python -u source/qualification/cp75-original-live/live.py open
-        unset GH_TOKEN
-        python source/qualification/cp75-original-live/transport.py
     - name: Read the exact 25 groups on the original FFDA before any business fixture
       if: ${{ !cancelled() && steps.original.outcome == 'success' }}
       env:
@@ -140,8 +138,14 @@ jobs:
           ${{ runner.temp }}/cp75-original-observations/*-opened.json
           ${{ runner.temp }}/cp75-original-observations/installer-identity.json
           ${{ runner.temp }}/cp75-original-observations/original-ffda-objects.json.gz
+          ${{ runner.temp }}/cp75-original-observations/bf-reader-comparison.json
+          ${{ runner.temp }}/cp75-original-observations/native-credit-proof.json
+          ${{ runner.temp }}/cp75-original-observations/catalogue-fields.json.gz
+          ${{ runner.temp }}/cp75-original-observations/catalogue-detail-error.json
         if-no-files-found: error
         retention-days: 90
+    - name: Connect the existing synthetic installer to the isolated BF
+      run: python source/qualification/cp75-original-live/transport.py
     - name: Verify clean foundation sources against the submitted product
       run: |
         set -euo pipefail

@@ -93,7 +93,7 @@ def start(lane,archive,image,metadata,cron,*,factory_source=False):
     if factory_source:
         network="cp75-factory-source-"+run
         docker("network","create","--internal",network,stdout=subprocess.DEVNULL)
-        network_args=["--network",network,"--publish","127.0.0.1:54322:5432"]
+        network_args=["--network",network]
     docker("run","-d","--name",name,"--label","cp75.run="+run,*network_args,"-e","POSTGRES_PASSWORD","-v",data+":/var/lib/postgresql/data",
            "-v",config+":/etc/postgresql-custom","-v",str(sock)+":/var/run/postgresql",image,"postgres","-c",
            "config_file=/etc/postgresql/postgresql.conf",*(["-c","listen_addresses=*"] if factory_source else []),"-c","cron.database_name="+cron,"-c","cron.launch_active_jobs=off",stdout=subprocess.DEVNULL)
