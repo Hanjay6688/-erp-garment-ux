@@ -175,8 +175,8 @@
     "sha256": "ecf858d67f43c0967cfe6f38c51338dea64331ef6c0d1264786a8967f856e2a4"
   },
   "realtime_comparator": {
-    "bytes": 2999,
-    "sha256": "e58d24c8c60d1ccff9a1f4376475c1f59332f52095476bc2a750fa7ac83e2a7c"
+    "bytes": 3582,
+    "sha256": "ee3ec588dff8d96a97a6e316af8485fde56f8440ba168a86dadf44f892dc15b9"
   },
   "daily_partitions": {
     "bytes": 5720,
