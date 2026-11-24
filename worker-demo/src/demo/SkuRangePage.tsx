@@ -5,6 +5,8 @@ import {useState} from 'react'
 import {articles,rangeChange,reverseRange,stockAt} from './planner/inventory'
 import {patternFor,patterns,products,rangeLabel,recipePattern,type StockChange} from './planner/model'
 import {changeSession,usePlannerSession} from './planner/session'
+import {allSkus,skuByKey} from './skuCatalog'
+import {SkuPairField} from './BrandConversionForm'
 import './planner/planner.css'
 
 export function SkuRangePage({mode,historyOnly=false}:{mode:'master'|'adjust'|'convert';historyOnly?:boolean}) {
@@ -14,8 +16,9 @@ export function SkuRangePage({mode,historyOnly=false}:{mode:'master'|'adjust'|'c
   const [undo,setUndo]=useState<{doc:string;id:string}|null>(null),[undoReason,setUndoReason]=useState(''),[undoError,setUndoError]=useState('')
   const events=(session.stockEvents??[]).filter(e=>e.action===mode)
 
-  const [key,setKey]=useState(articles[0].key)
-  const article=articles.find(a=>a.key===key)!
+  const options=mode==='master'?allSkus(session,true):articles
+  const [key,setKey]=useState(()=>options.find(a=>a.key===new URLSearchParams(location.search).get('sku'))?.key??options[0].key)
+  const article=options.find(a=>a.key===key)!
   const target=articles.find(a=>a.key===article.pair)
   const order=products.find(p=>p.brand===article.brand&&p.sku===article.sku)
   const defaultRef=order?recipePattern(order,session):session.patternRefs?.[key]??null
@@ -28,15 +31,15 @@ export function SkuRangePage({mode,historyOnly=false}:{mode:'master'|'adjust'|'c
   function select(next:string){setKey(next);setValues({});setReason('');setNote('');setPreview(null);setMessage('');setPendingRef(undefined)}
   const resetPreview=()=>{setPreview(null);setMessage('')}
   const title=mode==='master'?'Identitas SKU':mode==='adjust'?'Stock Adjustment · Barang jadi':'Ganti Merek'
-  if(historyOnly)return <>{events.length>0&&<section className="document-history"><h3>Riwayat {mode==='adjust'?'Stock Adjustment':'Ganti Merek'}</h3><RecordTable><thead><tr><th>Tanggal fisik</th><th>SKU dan ukuran</th><th>Alasan</th><th>Status</th><th>Tindakan</th></tr></thead><tbody>{[...events].reverse().map(e=>{const reversed=events.some(r=>r.reverses===e.id);return <tr key={e.id}><td>{e.date??'2026-11-24'}</td><td>{[...new Set(e.changes.map(c=>c.key))].map(key=><div key={key}>{key} · {rangeLabel(articles.find(a=>a.key===key)!.sizes)}</div>)}<details><summary>Detail ukuran</summary>{e.changes.map(c=><div key={c.key+c.size}>{c.key} · {c.size} · {c.delta>0?'+':''}{fgQuantity(c.delta)}</div>)}</details></td><td>{e.reason}</td><td>{e.reverses?'Pembalikan':reversed?'Sudah dibalik':'Posted'}</td><td>{!e.reverses&&!reversed&&<button type="button" onClick={()=>{setUndo({doc:e.id,id:crypto.randomUUID()});setUndoReason('');setUndoError('')}}>Balikkan transaksi</button>}</td></tr>})}</tbody></RecordTable></section>}    {undo&&<ReasonDialog title="Balikkan transaksi stok" closeLabel="Kembali" onClose={()=>setUndo(null)}><p>Semua slot ukuran pada transaksi ini akan dikembalikan bersama.</p><label>Alasan pembalikan · wajib<input required value={undoReason} onChange={e=>setUndoReason(e.target.value)}/></label><button type="button" disabled={!undoReason.trim()} onClick={()=>{try{changeSession(s=>reverseRange(s,undo.doc,undo.id,undoReason));setUndo(null);setMessage('Pembalikan tercatat. Saldo stok dan Planner sudah diperbarui.')}catch(e){setUndoError((e as Error).message)}}}>Simpan pembalikan</button>{undoError&&<p role="alert">{undoError}</p>}</ReasonDialog>}
+  if(historyOnly)return <>{events.length>0&&<section className="document-history"><h3>Riwayat {mode==='adjust'?'Stock Adjustment':'Ganti Merek'}</h3><RecordTable><thead><tr><th>Tanggal fisik</th><th>SKU dan ukuran</th><th>Alasan</th><th>Status</th><th>Tindakan</th></tr></thead><tbody>{[...events].reverse().map(e=>{const reversed=events.some(r=>r.reverses===e.id);return <tr key={e.id}><td>{e.date??'2026-11-24'}</td><td>{[...new Set(e.changes.map(c=>c.key))].map(key=><div key={key}>{key} · {rangeLabel(skuByKey(key)?.sizes??[])}</div>)}<details><summary>Detail ukuran</summary>{e.changes.map(c=><div key={c.key+c.size}>{c.key} · {c.size} · {c.delta>0?'+':''}{fgQuantity(c.delta)}</div>)}</details></td><td>{e.reason}</td><td>{e.reverses?'Pembalikan':reversed?'Sudah dibalik':'Posted'}</td><td>{!e.reverses&&!reversed&&<button type="button" onClick={()=>{setUndo({doc:e.id,id:crypto.randomUUID()});setUndoReason('');setUndoError('')}}>Balikkan transaksi</button>}</td></tr>})}</tbody></RecordTable></section>}    {undo&&<ReasonDialog title="Balikkan transaksi stok" closeLabel="Kembali" onClose={()=>setUndo(null)}><p>Semua slot ukuran pada transaksi ini akan dikembalikan bersama.</p><label>Alasan pembalikan · wajib<input required value={undoReason} onChange={e=>setUndoReason(e.target.value)}/></label><button type="button" disabled={!undoReason.trim()} onClick={()=>{try{changeSession(s=>reverseRange(s,undo.doc,undo.id,undoReason));setUndo(null);setMessage('Pembalikan tercatat. Saldo stok dan Planner sudah diperbarui.')}catch(e){setUndoError((e as Error).message)}}}>Simpan pembalikan</button>{undoError&&<p role="alert">{undoError}</p>}</ReasonDialog>}
 {message&&<p role="status">{message}</p>}</>
   return <section className={mode==='master'?'panel gar-panel sku-range':'sku-range ic-series-workspace'} aria-label={title}>
     <div className="gar-panel-head"><h2>{title}</h2>{mode!=='master'&&<a href="/master/produk-sku/">Lihat Master SKU</a>}</div>
-    <div className="sku-range-fields"><label>{mode==='convert'?'SKU asal':'Pilih SKU'}<select aria-label="Pilih SKU" value={key} onChange={e=>select(e.target.value)}>{articles.filter(a=>mode!=='convert'||a.pair).map(a=><option key={a.key}>{a.key}</option>)}</select></label>
+    <div className="sku-range-fields"><label>{mode==='convert'?'SKU asal':'Pilih SKU'}<select aria-label="Pilih SKU" value={key} onChange={e=>select(e.target.value)}>{options.map(a=><option key={a.key}>{a.key}</option>)}</select></label>
       <div><small>Warna</small><strong>{article.colour}</strong></div><div><small>{article.sizes.length===1?'Ukuran khusus':'Rentang master'}</small><strong>{rangeLabel(article.sizes)}</strong></div>
       {mode==='convert'&&target&&<div><small>SKU padanan · tujuan</small><strong>{target.key}</strong><small>{target.colour} · {rangeLabel(target.sizes)}</small></div>}
     </div>
-    {mode==='master'?<><label className="sku-range-field">Pola rencana · opsional<select aria-label="Pola rencana SKU" value={pendingRef??defaultRef??''} onChange={e=>{setPendingRef(e.target.value);setMessage('')}}><option value="">Belum ditentukan</option>{patterns.map(p=><option key={p.id} value={p.code}>{p.name} · {p.revision}</option>)}</select></label>
+    {mode==='master'?<><div id="padanan"><SkuPairField key={key} sku={key}/></div><label className="sku-range-field">Pola rencana · opsional<select aria-label="Pola rencana SKU" value={pendingRef??defaultRef??''} onChange={e=>{setPendingRef(e.target.value);setMessage('')}}><option value="">Belum ditentukan</option>{patterns.map(p=><option key={p.id} value={p.code}>{p.name} · {p.revision}</option>)}</select></label>
       <p>Anggota ukuran · {article.sizes.join(', ')}. Warna dan ukuran ikut saat SKU dipilih.</p>
       <div className="gar-actions"><button type="button" className="gar-button primary" disabled={pendingRef===undefined} onClick={()=>{changeSession(s=>({...s,patternRefs:{...s.patternRefs,[key]:pendingRef||null}}));setPendingRef(undefined);setMessage('Pola rencana tersimpan. Planner sudah membaca pilihan ini.')}}>Simpan pola rencana</button><a href="/analisis/planner/">Lihat Planner</a></div></>:
     <><div className="document-actions"><button type="button" onClick={()=>{sessionStorage.setItem(draftStorage,JSON.stringify({key,values,reason,note}));setHasDraft(true);setMessage('Draft form tersimpan di tab ini.')}}>Simpan draft form</button>

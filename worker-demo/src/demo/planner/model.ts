@@ -29,9 +29,9 @@ export type Lot = {
 export type Pickup = { id: string; mandor: string; at: string; batches: {qty: number; note: string; sizes?: Record<string,number>; sources?: {rollId:string;size:string;qty:number;slot?:number}[]}[] }
 type SourceClaim = { roll:string; slot:number; qty:number }
 type Destination = { id: string; sku: string; eta: string; sources?:SourceClaim[] }
-export type StockChange = { key:string; size:string; delta:number }
-export type StockEvent = { id:string; action:'adjust'|'convert'; date?:string; reverses?:string; reason:string; intent?:string; notes?:string|null; changes:StockChange[] }
-export type Session = { stockEvents?:StockEvent[]; patternRefs?:Record<string,string|null>; destinations?: Destination[]; cuts: Lot[]; pickups: Pickup[]; confirmed: string[]; elsewhere: string[] }
+export type StockChange = { key:string; size:string; delta:number; location?:string; grade?:string; after?:number }
+export type StockEvent = { id:string; action:'adjust'|'convert'; date?:string; reverses?:string; reason:string; recordedAt?:string; intent?:string; notes?:string|null; changes:StockChange[] }
+export type Session = { skuUpdates?:Record<string,{article:Article;active:boolean}>; skuPairs?:Record<string,string|null>; stockEvents?:StockEvent[]; patternRefs?:Record<string,string|null>; destinations?: Destination[]; cuts: Lot[]; pickups: Pickup[]; confirmed: string[]; elsewhere: string[] }
 export const emptySession: Session = { cuts: [], pickups: [], confirmed: [], elsewhere: [] }
 export const stageName: Record<string, string> = { cut: 'Meja potong', sewing: 'Jahit', laundry: 'Laundry', qc: 'QC' }
 export const productFor = (sku: string | null | undefined) => products.find(p => p.sku === sku)

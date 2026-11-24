@@ -1,15 +1,16 @@
+import PocketReceiptForm from './PocketReceiptForm'
 import { Icon } from '../components/AppIcon'
 import { cleanMoneyInput, formatMoneyInput } from '../moneyInput'
 import { Field } from './controls'
 import { formatQuantity, money, parseDecimal } from './format'
 import { useState } from 'react'
 
-type ReceiptMode = 'fabric' | 'accessory'
+type ReceiptMode = 'fabric' | 'accessory' | 'pocket'
 
 type RollDraft = { id: number; yards: string }
 
 export function ProcurementPage() {
-  const [mode,setMode] = useState<ReceiptMode>('fabric')
+  const [mode,setMode] = useState<ReceiptMode>(()=>new URLSearchParams(location.search).get('jenis')==='kantong'?'pocket':'fabric')
   const [fabricUom,setFabricUom] = useState<'yd'|'m'>('yd')
   const [rolls,setRolls] = useState<RollDraft[]>([{id:1,yards:'131,5'},{id:2,yards:'91'},{id:3,yards:'124'},{id:4,yards:''}])
   const [benchmarkPrice,setBenchmarkPrice] = useState('48500')
@@ -28,12 +29,12 @@ export function ProcurementPage() {
   const removeRoll=(id:number)=>setRolls((rows)=>rows.length>1?rows.filter((roll)=>roll.id!==id):rows)
 
   return <>
-    <section className="hero-copy compact procurement-hero"><div className="eyebrow">GUDANG · PENERIMAAN BARANG</div><h1>Pembelian & penerimaan</h1><p>Catat surat jalan saat barang datang. Kain masuk per gulung, aksesori masuk sebagai jumlah langsung.</p></section>
+    <section className="hero-copy compact procurement-hero"><div className="eyebrow">GUDANG · PENERIMAAN BARANG</div><h1>Pembelian & penerimaan</h1><p>Catat surat jalan saat barang datang. Kain dan kain kantong masuk per roll. Aksesori masuk sesuai satuan pembelian.</p></section>
     <div className="procurement-mode-bar panel" role="tablist" aria-label="Jenis penerimaan">
-      <div className="mode-tabs"><button role="tab" aria-selected={mode==='fabric'} className={mode==='fabric'?'active':''} onClick={()=>setMode('fabric')}><Icon name="ruler"/><span><strong>Kain</strong><small>Roll + {fabricUnitName}</small></span></button><button role="tab" aria-selected={mode==='accessory'} className={mode==='accessory'?'active':''} onClick={()=>setMode('accessory')}><Icon name="boxes"/><span><strong>Aksesori</strong><small>Qty langsung</small></span></button></div>
+      <div className="mode-tabs"><button role="tab" aria-selected={mode==='fabric'} className={mode==='fabric'?'active':''} onClick={()=>setMode('fabric')}><Icon name="ruler"/><span><strong>Kain</strong><small>Roll + {fabricUnitName}</small></span></button><button role="tab" aria-selected={mode==='accessory'} className={mode==='accessory'?'active':''} onClick={()=>setMode('accessory')}><Icon name="boxes"/><span><strong>Aksesori</strong><small>Qty langsung</small></span></button><button role="tab" aria-selected={mode==='pocket'} className={mode==='pocket'?'active':''} onClick={()=>setMode('pocket')}><Icon name="ruler"/><span><strong>Kain kantong</strong><small>Roll + panjang</small></span></button></div>
       <div className="receiving-rule"><Icon name="document"/><span><strong>Dasar penerimaan: surat jalan</strong><small>Kasbon boleh menyusul tanpa menahan stok masuk.</small></span></div>
     </div>
-    <section className="procurement-layout">
+    {mode==='pocket'?<PocketReceiptForm/>:<section className="procurement-layout">
       <div className="panel receipt-editor">
         <div className="proc-panel-head"><div><div className="eyebrow">PENERIMAAN BARU</div><h2>{mode==='fabric'?'Kain per gulung':'Aksesori per jumlah'}</h2></div><span className="draft-pill">Draft</span></div>
         <div className="receipt-meta-grid" key={mode}>
@@ -75,6 +76,6 @@ export function ProcurementPage() {
         <div className="panel current-receipt-card accessory-current"><div className="current-receipt-head"><div><span>PENERIMAAN TERAKHIR</span><h2>Kancing Metal 17 mm</h2><small>Mitra Aksesori · SJ-MA-0827-08</small></div><span className="actual-pill"><Icon name="check"/> Diterima</span></div><div className="accessory-quantity-hero"><span>Jumlah masuk</span><strong>1.200 pcs</strong><small>Tidak perlu dibuat roll atau yard.</small></div><div className="active-price"><span>Harga aktif</span><strong>{money(850)}<small>/ pcs</small></strong><em>Total {money(1200*850)}</em></div></div>
         <div className="panel procurement-note"><Icon name="link"/><div><strong>Tetap satu alur gudang</strong><p>Kain dan aksesori masuk dari surat jalan yang sama, tetapi cara hitung fisiknya tetap sesuai bentuk barang.</p></div></div>
       </>}</aside>
-    </section>
+    </section>}
   </>
 }
