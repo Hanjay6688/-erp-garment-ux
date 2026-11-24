@@ -47,3 +47,13 @@
   .ux-rapih .biz-table.cash > article > :is(strong,span):not(.biz-pill) { overflow-wrap: anywhere; white-space: normal; }
   .ux-rapih .biz-table.cash > :is(.biz-table-head,article) > :nth-child(5) { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
 }
+
+.cp7-demo-options { margin-bottom: 12px; }
+.cp7-demo-options > summary { width: fit-content; }
+.cp7-demo-options .cp7-controls { padding: 12px 0; }
+.cp7-report-scroll { max-width: 100%; overflow-x: auto; margin: 12px 0; }
+.cp7-report-table { border-collapse: collapse; width: auto; font-variant-numeric: tabular-nums; }
+.cp7-report-table :is(th,td) { padding: 8px 12px; text-align: right; border-bottom: 1px solid var(--card-border,var(--line)); }
+.cp7-report-table th:first-child { text-align: left; overflow-wrap: anywhere; }
+.cp7-report-table thead { background: var(--panel-2); }
+.cp7-report-table tbody th { font-weight: 400; }

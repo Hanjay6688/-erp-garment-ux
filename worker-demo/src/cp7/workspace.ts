@@ -97,8 +97,9 @@ export function formatFact(value: FactValue): string {
 }
 
 export const reasonLabel = (code: string) => reasonCatalog.find(item => item.code === code)?.label ?? code
+const demoIdentityLabel = (key: string) => key === 'fixture-vivo' ? 'Vivo' : key === 'fixture-commercial-A' ? 'Seri A' : key
 export const targetLabel = (target: AnalysisResult['recommendations'][number]['target']) => target.kind === 'PRODUCT'
-  ? `${target.brand_id} / ${target.commercial_identity.sku_id ?? target.product_id} · ukuran ${target.size_id}`
+  ? `${demoIdentityLabel(target.brand_id)} / ${demoIdentityLabel(target.commercial_identity.sku_id ?? target.product_id)} · ukuran ${target.size_id}`
   : `Belum menjadi SKU · ${target.pattern_revision_id} · ukuran ${target.size_id}`
 
 // All six consumers use this single projection. No stock/forecast/cost formulas in JSX.

@@ -217,7 +217,7 @@
     "status": "PASS",
     "version_id": "7f2c2ab0-5936-4ed6-b58d-6db00a8db6da",
     "immutable_preview_url": "https://7f2c2ab0-erp-garment-ux.zrpf6sbtjb.workers.dev",
-    "observed_runtime_identity": "ERP ENTENG \u00b7 UAT AUTH",
+    "observed_runtime_identity": "ERP ENTENG · UAT AUTH",
     "promoted_to_canonical_worker": false
   },
   "source_only": false,
@@ -339,9 +339,13 @@
       "bytes": 113160,
       "sha256": "e41f99fa269c5574410c61d7a842146dda493acce2e37d2a1290821cb9237fb6"
     },
+    "package-lock.json": {
+      "bytes": 130358,
+      "sha256": "5a75dd5d5b554dad11328443169f50835c476f9268f5de44b6d11fbcf8b412d5"
+    },
     "package.json": {
-      "bytes": 3216,
-      "sha256": "080aaa758a53cd116b592ece4e761e5328e542facaf2629436d0062a7f151449"
+      "bytes": 3384,
+      "sha256": "478da483f2917722482bc80a8e653d7468882d1251df40884445f5e9de76e4e5"
     },
     "playwright.config.ts": {
       "bytes": 1055,
@@ -350,6 +354,10 @@
     "playwright.cp5.config.ts": {
       "bytes": 1394,
       "sha256": "9effe9acdf5de935093d7cd71a164a9c04b074133aa9267a8ae4488ebd69482a"
+    },
+    "playwright.worker-demo.config.ts": {
+      "bytes": 459,
+      "sha256": "cedb62906591c28c867bf140774025a7de3298d48a98229665adaeea0b92e0d9"
     },
     "qualification/cp7c-box-cloud/README.md": {
       "bytes": 4289,
@@ -370,6 +378,10 @@
     "scripts/assert-uat-auth-env.mjs": {
       "bytes": 4647,
       "sha256": "488e615a37d98a1b56d77a01afe78c58954b4d9f81a13a6df2c1648069e361f4"
+    },
+    "scripts/build-worker-target.mjs": {
+      "bytes": 1256,
+      "sha256": "4ee5397b6d45dc8ddddb37e0a34508aaeadb3d1ab9448ae2425f2e273c39a90e"
     },
     "scripts/check-access-catalog.mjs": {
       "bytes": 14347,
@@ -622,6 +634,10 @@
     "tests/browser/cp5-bs-resolution.spec.ts": {
       "bytes": 22425,
       "sha256": "8dcafcf1ead9dec38713f7a75f317eed63de1bf64a666e0e354c540e913a7ab4"
+    },
+    "tests/browser/cp8-worker.spec.ts": {
+      "bytes": 3286,
+      "sha256": "530980c3a37b74e066cf8dce40d4d03ef65b68719b854f391ebd911eade8bc59"
     }
   },
   "visual_demo_followup": {

@@ -31,7 +31,7 @@ const exampleOptions: Array<{ value: ExampleMode; label: string }> = [
 export default function Cp7Shell({ runtimeMode }: { runtimeMode: RuntimeMode }) {
   // Guard before the child mounts: connected runtime cannot even load fixtures.
   if (runtimeMode !== 'DEMO_SIMULATION') return <main className="cp7-shell cp7-unavailable"><ShieldCheck /><h1>Integrasi CP7 belum dibuka</h1><p>Data operasional belum terhubung. Sambungan sedang disiapkan dan diuji.</p><a href="/">Kembali ke ERP</a></main>
-  const location = globalThis.location.pathname
+  const location = globalThis.location.pathname.replace(/\/+$/, '')
   const route = pages.find(item => location === `/analisis/${item.id}`)?.id
   return <PreviewWorkspace entry={route} />
 }
@@ -67,20 +67,37 @@ function PreviewWorkspace({ entry }: { entry?: Page }) {
 
   useEffect(() => { if (entry) void loadExample('FRAMEWORK') }, [entry])
 
+  function navigate(id: Page) {
+    if (entry && id !== page) globalThis.history.pushState(null, '', `/analisis/${id}/`)
+    setPage(id)
+    setDetail(null)
+    setQuery('')
+  }
+  useEffect(() => {
+    if (!entry) return
+    const restore = () => {
+      const selected = pages.find(item => `/analisis/${item.id}/` === globalThis.location.pathname)
+      if (selected) { setPage(selected.id); setDetail(null); setQuery('') }
+    }
+    window.addEventListener('popstate', restore)
+    return () => window.removeEventListener('popstate', restore)
+  }, [entry])
+
   return <div className="cp7-shell">
     <aside className="cp7-sidebar">
       <a className="cp7-back" href="/"><ArrowLeft size={16} /> Kembali ke ERP</a>
       <div className="cp7-brand">ATELIER <span>GARMENT ERP</span></div>
-      <nav aria-label="Ruang kerja CP7">{pages.map(({ id, label, icon: Icon }) => <button key={id} aria-current={page === id ? 'page' : undefined} onClick={() => { setPage(id); setDetail(null); setQuery('') }}><Icon size={19} /><span>{label}</span></button>)}</nav>
+      <nav aria-label="Ruang kerja CP7">{pages.map(({ id, label, icon: Icon }) => <button key={id} aria-current={page === id ? 'page' : undefined} onClick={() => navigate(id)}><Icon size={19} /><span>{label}</span></button>)}</nav>
       
     </aside>
     <main className="cp7-main">
       <header className="cp7-header"><div><span className="cp7-eyebrow">PERENCANAAN & KENDALI</span><h1>{heading}</h1></div><span className="cp7-tag">DATA CONTOH</span></header>
-      <div className="cp7-controls">
+      <details className="cp7-demo-options" open={!entry || undefined}><summary>Pengaturan contoh</summary><div className="cp7-controls">
         <label>Isi pratinjau<select value={mode} onChange={event => void loadExample(event.target.value as ExampleMode)}>{exampleOptions.map(item => <option key={item.value} value={item.value}>{item.label}</option>)}</select></label>
         <label>Hak akses contoh<select value={access} onChange={event => { setAccess(event.target.value as PreviewAccess); setDetail(null) }}><option value="OWNER">Owner · contoh</option><option value="OPERATIONS">Operasional · tanpa keuangan</option><option value="DENIED">Tanpa akses</option></select></label>
         <button className="cp7-button" disabled={loading} onClick={() => void loadExample(mode)}>Muat ulang</button>
       </div>
+      </details>
       <div className="cp7-notice" data-state={state.kind} role="status" aria-live="polite">{loading ? 'Memuat contoh…' : state.message}</div>
       {view.denied ? <Empty title="Akses contoh ditolak" text="Tidak ada angka, laporan atau prompt yang ditampilkan untuk hak ini." /> : <>
         {view.analysis && <div className="cp7-context"><span>Fakta sampai <b>{dateLabel(view.analysis.snapshot.effective_as_of)}</b></span><span>Skenario <b>{view.analysis.scenario.kind === 'CONDITIONAL' ? 'Bersyarat' : 'Dasar'}</b></span><span>Basis <b>{view.analysis.snapshot.knowledge_mode}</b></span><details><summary>Waktu & sumber</summary><p>Diketahui sampai: {dateLabel(view.analysis.snapshot.known_as_of)}<br />Dibuat: {dateLabel(view.analysis.snapshot.generated_at)}<br />Run: {view.analysis.run_id}<br />Skenario: {view.analysis.scenario.id} / {view.analysis.scenario.version}</p></details></div>}
@@ -89,14 +106,14 @@ function PreviewWorkspace({ entry }: { entry?: Page }) {
           {page === 'planner' && <><div className="cp7-section-heading"><h2>Tindakan yang perlu ditinjau</h2><span>{actions.length} tindakan terlihat · {rows.length} target ukuran</span></div><ActionList view={view} actions={actions} onDetail={setDetail} /></>}
           {page === 'stock' && <><div className="cp7-section-heading"><h2>Per ukuran fisik</h2><span>FG, WIP dan kebutuhan ditampilkan terpisah</span></div>{rows.length ? rows.map(row => <TargetCard key={row.target.key} row={row} onDetail={setDetail} />) : <Empty title="Tidak ada hasil filter" text="Filter tidak mengubah analisis atau stok." />}</>}
           {page === 'cutting' && <CuttingPreview view={view} onDetail={setDetail} />}
-          {page === 'report' && <ReportPreview view={view} />}
+          {page === 'report' && <ReportPreview view={view} concise={Boolean(entry)} />}
           {page === 'reminders' && <Reminders view={view} onDetail={setDetail} />}
           {page === 'ai' && <><div className="cp7-section-heading"><h2>Tanya AI V1</h2><span>Salin, lalu tempel sendiri</span></div><p className="cp7-muted">Prompt memakai angka, asumsi, dan sumber dari analisis yang sedang dibuka.</p><CopyText key={`${access}-${state.kind}`} text={view.prompt} label="Prompt Tanya AI" /><a className="cp7-button cp7-link" href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer">Buka ChatGPT <ArrowUpRight size={17} /></a><p className="cp7-footnote">Tautan dibuka tanpa membawa isi prompt. Jawaban AI tidak menyimpan atau menerapkan transaksi.</p></>}
           {page === 'whatsapp' && <WhatsAppPreview key={`${access}-${mode}`} view={view} />}
           {page === 'methods' && <Methods />}
         </>}
       </>}
-      <footer className="cp7-footer"><span>CP6: diterima sesuai cakupan</span><span>CP7: cangkang & contoh lokal</span></footer>
+      {!entry && <footer className="cp7-footer">Pratinjau dengan data sintetis</footer>}
     </main>
     {detail && view.analysis && <Dialog title="Dasar rekomendasi" onClose={() => setDetail(null)}><SourceDetail view={view} targetKey={detail} /></Dialog>}
   </div>
@@ -174,10 +191,10 @@ function CopyText({ text, label }: { text: string; label: string }) {
   return <div className="cp7-copy"><div className="cp7-actions"><button className="cp7-button" disabled={!text || copying} onClick={() => void copy()}><Clipboard size={16} />{copying ? 'Menyalin…' : 'Salin teks'}</button><span role="status">{status}</span></div><label className="cp7-text-label">{label}<textarea readOnly value={text} rows={15} /></label></div>
 }
 
-function ReportPreview({ view }: { view: ShellView }) {
+function ReportPreview({ view, concise }: { view: ShellView; concise: boolean }) {
   const [tab, setTab] = useState('Briefing')
   return <><div className="cp7-tabs" aria-label="Jenis laporan">{['Briefing', 'Review periode', 'Pengecualian', 'Arsip'].map(label => <button key={label} aria-pressed={tab === label} onClick={() => setTab(label)}>{label}</button>)}</div>
-    {tab === 'Arsip' ? <Empty title="Belum ada laporan terbit" text="Arsip dan revisi laporan baru tersedia setelah penyimpanan authoritative tersambung." /> : tab === 'Review periode' ? <Empty title="Perbandingan periode menunggu data" text="Contoh ini hanya memiliki satu skenario. Periode pembanding tidak dibuat-buat." /> : <><article className="cp7-card"><h2>{tab === 'Pengecualian' ? 'Data yang masih perlu diperiksa' : 'Briefing dari analisis yang sama'}</h2>{tab === 'Pengecualian' ? <ul>{view.rows.flatMap(row => row.reason_codes.map(code => <li key={`${row.target.key}-${code}`}>{reasonLabel(code)}</li>))}<li>Utang/piutang dan jatuh tempo belum dibaca.</li></ul> : <div className="cp7-report">{view.report.split('\n\n').map((paragraph, index) => <p key={index}>{paragraph}</p>)}</div>}</article><button className="cp7-button" disabled title={refuseOperationalCommand().message}>Terbitkan laporan</button></>}
+    {tab === 'Arsip' ? <Empty title="Belum ada laporan terbit" text="Arsip dan revisi laporan baru tersedia setelah penyimpanan authoritative tersambung." /> : tab === 'Review periode' ? <Empty title="Perbandingan periode menunggu data" text="Contoh ini hanya memiliki satu skenario. Periode pembanding tidak dibuat-buat." /> : <><article className="cp7-card"><h2>{tab === 'Pengecualian' ? 'Data yang masih perlu diperiksa' : concise ? 'Stok dan kebutuhan produksi' : 'Briefing dari analisis yang sama'}</h2>{tab === 'Pengecualian' ? <ul>{view.rows.flatMap(row => row.reason_codes.map(code => <li key={`${row.target.key}-${code}`}>{reasonLabel(code)}</li>))}<li>Utang/piutang dan jatuh tempo belum dibaca.</li></ul> : concise ? <><div className="cp7-report-scroll"><table className="cp7-report-table"><thead><tr><th scope="col">SKU / ukuran</th><th scope="col">Stok FG</th><th scope="col">Kebutuhan dasar</th></tr></thead><tbody>{view.rows.map(row => <tr key={row.target.key}><th scope="row">{targetLabel(row.target)}</th><td>{formatFact(row.actual_fg)}</td><td>{formatFact(row.q_base)}</td></tr>)}</tbody></table></div><details><summary>Sumber dan rincian analisis</summary><div className="cp7-report">{view.report.split('\n\n').map((p,i) => <p key={i}>{p}</p>)}</div></details></> : <div className="cp7-report">{view.report.split('\n\n').map((paragraph, index) => <p key={index}>{paragraph}</p>)}</div>}</article><button className="cp7-button" disabled title={refuseOperationalCommand().message}>Terbitkan laporan</button></>}
   </>
 }
 

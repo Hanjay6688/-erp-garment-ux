@@ -221,7 +221,7 @@ function handleErgonomicKeyboard(event: ReactKeyboardEvent<HTMLDivElement>) {
 
 function App() {
   const { runtime } = useAuth()
-  if (globalThis.location.pathname === '/cp7-preview' || globalThis.location.pathname.startsWith('/analisis/')) {
+  if (globalThis.location.pathname.replace(/\/+$/, '') === '/cp7-preview' || globalThis.location.pathname.startsWith('/analisis/')) {
     return <Suspense fallback={<WorkspaceFallback label="Pratinjau CP7" />}><Cp7Shell runtimeMode={runtime.mode} /></Suspense>
   }
   return <ErpApp />
@@ -447,7 +447,7 @@ function ErpApp() {
         })}</div>}
       </div>)}
       {demoAccess && <div className="nav-section"><button type="button" className="nav-main" aria-expanded={analysisExpanded} onClick={() => { setAnalysisExpanded(!analysisExpanded); setExpanded(null); setAdminExpanded(false) }}><Icon name="dashboard"/><span>Analisis &amp; Planner</span><span className="chevron">{analysisExpanded ? '⌄' : '›'}</span></button>
-        {analysisExpanded && <div className="submenu analysis-links">{[['planner','Prioritas produksi'],['stock','Stok & saran SKU'],['cutting','Panel Potongan'],['report','Business Report'],['reminders','Pengingat analisis'],['ai','Tanya AI']].map(([id, label]) => <a key={id} href={'/analisis/' + id}>{label}</a>)}</div>}</div>}
+        {analysisExpanded && <div className="submenu analysis-links">{[['planner','Prioritas produksi'],['stock','Stok & saran SKU'],['cutting','Panel Potongan'],['report','Business Report'],['reminders','Pengingat analisis'],['ai','Tanya AI']].map(([id, label]) => <a key={id} href={'/analisis/' + id + '/'}>{label}</a>)}</div>}</div>}
       <div className="sidebar-spacer" />
       {adminNav.some(canSeeNavLabel) && <div className="nav-section admin-nav-section"><button className={`nav-main ${adminExpanded||page.startsWith('admin-')?'active':''}`} onClick={()=>{setAdminExpanded((value)=>!value);setExpanded(null)}}><Icon name="audit" /><span>Pengaturan & Audit</span><span className="chevron">{adminExpanded?'⌄':'›'}</span></button>
         {adminExpanded&&<div className="submenu">{adminNav.filter(canSeeNavLabel).map((item)=>{const target=item==='Pengguna & Hak Akses'?'admin-access':item==='Impor data awal'?'admin-import':operationsPageByLabel[item];return <button key={item} className={page===target?'sub-active':''} onClick={()=>chooseSubmenu(item)}>• {item}</button>})}</div>}
