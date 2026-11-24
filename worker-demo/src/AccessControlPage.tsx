@@ -285,7 +285,7 @@ export default function AccessControlPage() {
 
   return <section className="access-page">
     <header className="access-hero">
-      <div><span>PENGATURAN · DIPERIKSA SERVER</span><h1>Pengguna & Hak Akses</h1><p>Satu pengguna memiliki satu role. Perubahan izin diperiksa lagi oleh server pada aksi berikutnya.</p></div>
+      <div><span>PENGATURAN · DIPERIKSA SERVER</span><h1>Pengguna & Hak Akses</h1><p>Satu pengguna memiliki satu peran. Perubahan izin berlaku pada request server berikutnya.</p></div>
       <button onClick={() => void load()}><RefreshCw/> Muat ulang</button>
     </header>
     <div className={`truth-strip ${connected ? 'connected' : 'simulation'}`}><ShieldCheck/><strong>{connected ? 'UAT TERHUBUNG KE SERVER' : 'DATA SIMULASI'}</strong><span>Portal Mandor, Laundry, dan Toko belum terhubung</span></div>

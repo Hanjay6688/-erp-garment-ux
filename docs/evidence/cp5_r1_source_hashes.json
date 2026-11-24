@@ -652,8 +652,8 @@
       "sha256": "4d784a154c5c328449edcd2a35d110eb3cbd6a9d92f464d357e36e9149dcf55e"
     },
     "worker-demo/src/AccessControlPage.tsx": {
-      "bytes": 23287,
-      "sha256": "bcf752f41016274c16a65126d63957cba73b6c8c890ca351df8d67736e1221af"
+      "bytes": 23279,
+      "sha256": "36ab6bda1660e061a89c7f4e717afe8bb331eb3c3e16e2442fca901997e54828"
     },
     "worker-demo/src/AccessoryReturnTasks.tsx": {
       "bytes": 1826,
@@ -984,8 +984,8 @@
       "sha256": "cae7a036c04329f89cded359e42c0b48870a02c1626feb5d9f5d5d13681a0694"
     },
     "worker-demo/src/MobilePrimaryNavigation.tsx": {
-      "bytes": 1117,
-      "sha256": "346c16d9ff2f80923f2a2f5431d615663a1c996b5d56ff5c6aa121be7005e58f"
+      "bytes": 1120,
+      "sha256": "95e5b673699fb4b0f71edf0e39a487e272a96aafc0ea95f41f461b90f8745c57"
     },
     "worker-demo/src/NativeAnalysisFinancePanel.tsx": {
       "bytes": 7613,
