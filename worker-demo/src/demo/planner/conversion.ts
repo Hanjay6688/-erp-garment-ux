@@ -1,6 +1,7 @@
 import {productCatalog} from '../../productCatalog'
 import {baseSaleStock,readInvoices,saleMoves} from '../saleBook'
 import {atPosition,nativePosition,positionDelta,skuByKey} from '../skuCatalog'
+import {dayOk} from '../warehouseDay'
 import {fixtureDate} from '../accessoryPricing'
 import {type Article,type Session,type StockChange} from './model'
 
@@ -28,7 +29,7 @@ export function moveSnapshot(s:Session,m:MoveInput) {
 export function convertStock(s:Session,m:MoveInput,id:string,expected?:Record<string,number>):Session {
   const a=skuByKey(m.source,s),b=skuByKey(m.target,s)
   if(!a||!b||a.key===b.key||s.skuUpdates?.[m.source]?.active===false||s.skuUpdates?.[m.target]?.active===false)throw Error('Pilih dua SKU aktif yang berbeda.')
-  if(!id||!m.reason.trim()||!m.location||m.grade!=='Good'||!/^\d{4}-\d{2}-\d{2}$/.test(m.date)||!Number.isFinite(Date.parse(m.date))||new Date(m.date).toISOString().slice(0,10)!==m.date||m.date>fixtureDate)throw Error('Isi tanggal fisik, lokasi, dan alasan transaksi.')
+  if(!id||!m.reason.trim()||!m.location||m.grade!=='Good'||!dayOk(m.date))throw Error('Isi tanggal fisik, lokasi, dan alasan transaksi.')
   const lines=Object.entries(m.values).filter(([,v])=>v.trim()).sort(([x],[y])=>x.localeCompare(y))
   const intent=JSON.stringify([a.key,b.key,m.location,m.grade,m.date,m.reason.trim(),m.notes?.trim()||null,lines.map(([size,q])=>[size,m.sizeMap[size]??'',q])])
   const prior=s.stockEvents?.find(e=>e.id===id)

@@ -6,7 +6,7 @@ import {reverseRange} from '../worker-demo/src/demo/planner/inventory'
 import {pairOf,pairSku,mainFg} from '../worker-demo/src/demo/skuCatalog'
 import {fgProducts,fgTotals} from '../worker-demo/src/demo/fgOverview'
 import {historyRows} from '../worker-demo/src/demo/FgHistory'
-import {pocketRolls,receivePocket,reverseReceipt,type ReceiptDraft} from '../worker-demo/src/demo/pocketReceipts'
+import {pocketRolls,prepareReceipt,receivePocket,reverseReceipt,type ReceiptDraft} from '../worker-demo/src/demo/pocketReceipts'
 
 const move:MoveInput={source:'Vivo 93001',target:'Widie 73005',values:{31:'2',32:'3'},sizeMap:{31:'33',32:'33'},location:mainFg,grade:'Good',date:'2026-11-24',reason:'Koreksi label'}
 beforeEach(()=>sessionStorage.clear())
@@ -39,6 +39,10 @@ describe('Warehouse workflows',()=>{
     expect(()=>convertStock(first,{...move,source:move.target,target:'Vivo 73003',values:{33:'1'},sizeMap:{33:'34'},date:'2026-11-23'},'B')).toThrow('stok asal')
   })
   const receipt:ReceiptDraft={request:'pr1',number:'SJ-UJI-01',supplier:'Sinaran',location:'Gudang Bahan',material:'Kain kantong hitam',day:'2026-11-24',unit:'m',rate:'9000',reason:'Surat jalan',notes:'',rolls:[{number:'U-01',qty:'19,5'},{number:'U-02',qty:'7'},{number:'',qty:''}]}
+  it('uses the matching yard benchmark when blank and requires a price for an unpriced unit',()=>{
+    expect(prepareReceipt({...receipt,unit:'yd',rate:''}).rolls[0].rate).toBe(10500)
+    expect(()=>prepareReceipt({...receipt,unit:'m',rate:''})).toThrow('Harga master belum diatur')
+  })
   it('posts one purchase with individual rolls, keeps their original unit and refuses duplicates',()=>{
     expect(receivePocket(receipt).notes).toBeNull();expect(receivePocket(receipt).rolls).toHaveLength(2)
     expect(pocketRolls().slice(-2).map(r=>[r.id,r.length,r.unit])).toEqual([['U-01',19.5,'m'],['U-02',7,'m']])

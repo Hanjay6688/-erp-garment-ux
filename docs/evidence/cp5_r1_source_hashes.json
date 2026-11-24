@@ -636,16 +636,16 @@
       "sha256": "8dcafcf1ead9dec38713f7a75f317eed63de1bf64a666e0e354c540e913a7ab4"
     },
     "tests/browser/cp8-worker.spec.ts": {
-      "bytes": 44206,
-      "sha256": "fa2be4c8edb3e242d5f97f25bc6414d4646f0f73eae571216e6e774e9759dfe4"
+      "bytes": 44273,
+      "sha256": "a4173796c8874de64aed3316e30ec5f40867ce708161a53d9c15249e112c46a6"
     },
     "tests/fg-quantity.test.ts": {
       "bytes": 1251,
       "sha256": "7a7ff7b2a744eda4011d1a08949d52a8000aa2c0923c2ff993c64183b37aba33"
     },
     "tests/warehouse-sku-roll.test.ts": {
-      "bytes": 4009,
-      "sha256": "380d24bb0a7aa702b1d847342e55a7777671f4fda51a36521f4bf64c24b14c34"
+      "bytes": 4312,
+      "sha256": "ea1cd0305ba8a232c0c9b61943b185995786dc58455e4cbe74cb209178ef6838"
     },
     "tests/worker-accessory-price.test.ts": {
       "bytes": 3467,
@@ -1616,8 +1616,8 @@
       "sha256": "aa212d7eb5f31cacf4dd82c73c7e995ee63049b9cf09a480724b48c7f77de9a8"
     },
     "worker-demo/src/demo/BrandConversionForm.tsx": {
-      "bytes": 8671,
-      "sha256": "8cca2da66cc580431f4611428029f8a34690b9453d6d8ae29209c8336b6483a5"
+      "bytes": 8726,
+      "sha256": "fc2b0daad29a998efb8b3eeda7d845898754ea4c8da08d17d5e98d43b5dc0cbd"
     },
     "worker-demo/src/demo/CuttingRollPage.tsx": {
       "bytes": 46721,
@@ -1644,12 +1644,12 @@
       "sha256": "f7a454f304d2694e7058c096937955f7f9a5f0251f3d53718bcb32b46b421676"
     },
     "worker-demo/src/demo/PocketFabric.tsx": {
-      "bytes": 10593,
-      "sha256": "e92ee92b68572b0f536092542448cd34199e37e89c8fc6bd8fb4ed4b46961255"
+      "bytes": 11034,
+      "sha256": "904cd0c40f7a0b7dc3fa0507dce09ef095089c8ed9f08ade179f88d5718fc2bc"
     },
     "worker-demo/src/demo/PocketReceiptForm.tsx": {
-      "bytes": 7849,
-      "sha256": "ba2a272386a45f63901127dc63001cd49c070cee670a2ff55a7b365cba118e82"
+      "bytes": 8330,
+      "sha256": "d47bb520d20d7235efbbe7aecce2f6a5190609741919e8b774098eb5f224fea9"
     },
     "worker-demo/src/demo/PostedFgDetail.tsx": {
       "bytes": 4835,
@@ -1724,8 +1724,8 @@
       "sha256": "afd43664dd1e9d3b7b26d2973409c107a89ba221a4fb2898ff5ccdf2c039c2d2"
     },
     "worker-demo/src/demo/planner/conversion.ts": {
-      "bytes": 4033,
-      "sha256": "75acb929a9fc85a41783d828f67a7896d60b09d235c7117f676d8b8b0042af5c"
+      "bytes": 3939,
+      "sha256": "5fa923eeea8a1208a6793d9b06dc46a0fc216b9b93485c0fa1c183b06c59f4f8"
     },
     "worker-demo/src/demo/planner/inventory.ts": {
       "bytes": 3857,
@@ -1752,8 +1752,8 @@
       "sha256": "4d6bcd871ce7bb7b8c8b99d5d9af303ce10411853038e47ae1ee26df866cfe57"
     },
     "worker-demo/src/demo/pocketReceipts.ts": {
-      "bytes": 4017,
-      "sha256": "4598f2da75349af0621ff846dc6e82f762cfe0e6a85b182e72016ef998c9ac25"
+      "bytes": 4217,
+      "sha256": "f2d6105c3526fe162bdbe560721e6af4442254fdbffa9077577a912fd85007c6"
     },
     "worker-demo/src/demo/productionModel.ts": {
       "bytes": 966,
@@ -1774,6 +1774,10 @@
     "worker-demo/src/demo/stockModel.ts": {
       "bytes": 2779,
       "sha256": "9e820b31af52ff6fa4d2d7d2c2e2a640c4db8d035c87ad298fc16506ba857458"
+    },
+    "worker-demo/src/demo/warehouseDay.ts": {
+      "bytes": 405,
+      "sha256": "32adfaaf95c77c5c0fd0edb8b0b87cc173026f01bd93f1936b48c4457da3649f"
     },
     "worker-demo/src/demo/warehouseForms.css": {
       "bytes": 6503,

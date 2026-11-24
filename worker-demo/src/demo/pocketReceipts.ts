@@ -1,4 +1,4 @@
-import {fixtureDate} from './accessoryPricing'
+import {dayOk} from './warehouseDay'
 export type PocketUnit='yd'|'m'
 export type PocketRoll={id:string;name:string;length:number;rate:number;unit:PocketUnit;date:string;location:string;receipt:string}
 type RollInput={number:string;qty:string}
@@ -12,12 +12,16 @@ export const seedRolls:PocketRoll[]=[
 export const readReceipts=():PocketReceipt[]=>JSON.parse(sessionStorage.getItem(key)??'[]')
 export const pocketRolls=()=>[...seedRolls,...readReceipts().filter(r=>!r.reversal).flatMap(r=>r.rolls)]
 export const receiptPath='/gudang/pembelian-penerimaan/?jenis=kantong'
-export const dayOk=(day:string)=>/^\d{4}-\d{2}-\d{2}$/.test(day)&&Number.isFinite(Date.parse(day))&&new Date(day).toISOString().slice(0,10)===day&&day<=fixtureDate
+export function pocketBenchmark(d:Pick<ReceiptDraft,'supplier'|'material'|'unit'|'day'>){
+  if(d.supplier!=='Sinaran')return null
+  return seedRolls.find(r=>r.name===d.material&&r.unit===d.unit&&r.date<=d.day)?.rate??null
+}
 export function prepareReceipt(d:ReceiptDraft):PocketReceipt{
   const clean=(v:string)=>v.trim()
   if(![d.number,d.supplier,d.location,d.material,d.reason].every(v=>clean(v))||!dayOk(d.day))throw Error('Isi surat jalan, supplier, gudang, bahan, tanggal fisik dan alasan penerimaan.')
   const parse=(v:string)=>/^\d+(?:[.,]\d{1,6})?$/.test(clean(v))?Number(clean(v).replace(',','.')):NaN
-  const rate=parse(d.rate)
+  const rate=clean(d.rate)?parse(d.rate):pocketBenchmark(d)
+  if(rate===null)throw Error('Harga master belum diatur untuk supplier, bahan dan satuan ini. Isi harga sementara.')
   if(!['yd','m'].includes(d.unit)||!Number.isFinite(rate)||rate<0||!Number.isSafeInteger(Math.round(rate*100)))throw Error('Periksa satuan dan harga per satuan.')
   const seen=new Set<string>()
   const rolls=d.rolls.filter(r=>clean(r.number)||clean(r.qty)).map(r=>{

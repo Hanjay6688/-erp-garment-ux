@@ -591,6 +591,7 @@ test('penerimaan kain kantong dua roll meter, pakai satu, lihat surat jalan dan 
   await expect(page.getByRole('heading',{name:'Kain kantong per roll'})).toBeVisible()
   await page.getByLabel('Nomor surat jalan',{exact:true}).fill('SJ-TEST-KT')
   await page.getByLabel('Satuan surat jalan').selectOption('m')
+  await page.getByLabel('Harga sementara per satuan').fill('8000')
   await page.getByLabel('Nomor roll 1',{exact:true}).fill('TEST-A');await page.getByLabel('Panjang roll 1',{exact:true}).fill('12,5')
   await page.getByRole('button',{name:'Tambah roll'}).click()
   await page.getByLabel('Nomor roll 2',{exact:true}).fill('TEST-B');await page.getByLabel('Panjang roll 2',{exact:true}).fill('20')
