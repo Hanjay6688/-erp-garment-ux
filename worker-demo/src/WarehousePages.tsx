@@ -338,7 +338,7 @@ function FinishedGoodsSummaryPage() {
   const brands = [...new Set(products.map((item)=>item.brand))]
   const grades = [...new Set(products.map((item)=>item.grade))]
   const locations = [...new Set(products.map((item)=>item.location))]
-  const [query,setQuery] = useState('')
+  const [query,setQuery] = useState(()=>new URLSearchParams(window.location.search).get('cari')??'')
   const [brand,setBrand] = useState('Semua')
   const [grade,setGrade] = useState('Semua')
   const [location,setLocation] = useState('Semua')

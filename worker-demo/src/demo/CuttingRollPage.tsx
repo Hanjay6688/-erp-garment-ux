@@ -1,3 +1,4 @@
+import {browseMatch} from '../browseMatch'
 import { Icon } from '../components/AppIcon'
 import CuttingPatternPicker, { hasCanonicalPattern } from '../CuttingPatternPicker'
 import type { CuttingPatternChoice } from '../CuttingPatternPicker'
@@ -54,7 +55,7 @@ export function CuttingRollPage() {
   const [savedId,setSavedId]=useState('')
   const requestId=useRef(crypto.randomUUID())
   const formRef=useRef<HTMLElement>(null)
-  const [query,setQuery]=useState('')
+  const [query,setQuery]=useState(()=>new URLSearchParams(location.search).get('cari')??'')
   const [selectedPattern,setSelectedPattern]=useState<CuttingPatternChoice|null>(draft?.selectedPattern??null)
   const [sizeNotice,setSizeNotice]=useState('')
   const [selectedSuppliers,setSelectedSuppliers]=useState([...fabricRollSuppliers])
@@ -97,7 +98,7 @@ export function CuttingRollPage() {
   const columnFillDraggedRef=useRef(false)
   const selectedIdSet=useMemo(()=>new Set(selectedRollIds),[selectedRollIds])
   const visibleRolls=useMemo(()=>fabricRollCatalog.filter((roll)=>{
-    const matchesQuery=`${roll.id} roll ${roll.sequence} ${roll.supplier} ${roll.material} ${roll.yards}`.toLowerCase().includes(query.toLowerCase())
+    const matchesQuery=browseMatch(query,roll.id,'roll '+roll.sequence,roll.supplier,roll.material,roll.yards)
     return matchesQuery&&selectedSuppliers.includes(roll.supplier)&&selectedMaterials.includes(roll.material)
   }),[query,selectedSuppliers,selectedMaterials,session.cuts.length])
   const selectedRolls=fabricRollCatalog.filter((roll)=>selectedIdSet.has(roll.id))

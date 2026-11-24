@@ -1,3 +1,4 @@
+import {browseMatch} from '../browseMatch'
 import { useState } from 'react'
 import { ArrowRight, ChevronRight, History, LockKeyhole, RotateCcw, SlidersHorizontal } from 'lucide-react'
 import { applyBatch, correctionLock, distribution, pickupsIn, returnId, total, type Batch, type Command } from './planner/distribution'
@@ -15,13 +16,13 @@ export function WipDistributionLedger(){
   const session=usePlannerSession()
   const [selection,setSelection]=useState<Selection|null>(null)
   const [notice,setNotice]=useState('')
-  const [query,setQuery]=useState('')
+  const [query,setQuery]=useState(()=>new URLSearchParams(location.search).get('cari')??'')
   const origins=lotsIn(session)
   const groups=pickupsIn(session).map(p=>{
     const ledger=distribution(p,session)
     const origin=origins.find(l=>(l.originId??l.id)===p.id)
     return {ledger,origin}
-  }).filter(({ledger,origin})=>[ledger.id,origin&&lotLabel(origin),origin?.material,...ledger.batches.map(b=>b.mandor)].join(' ').toLowerCase().includes(query.trim().toLowerCase()))
+  }).filter(({ledger,origin})=>browseMatch(query,ledger.id,origin&&lotLabel(origin),origin?.material,...ledger.batches.flatMap(b=>[b.mandor,'Batch '+b.no,...b.sources.map(r=>r.rollId)])))
   return <section className="panel gar-panel dist-ledger" aria-label="Batch distribusi aktif">
     <div className="gar-panel-head"><div><p className="gar-kicker">Jahit · Distribusi mandor</p><h2>Batch distribusi</h2></div>
       {pickupsIn(session).length>1&&<label className="dist-search"><span>Cari batch produksi</span><input type="search" value={query} onChange={e=>setQuery(e.target.value)} placeholder="Nomor, mandor, SKU…"/></label>}</div>

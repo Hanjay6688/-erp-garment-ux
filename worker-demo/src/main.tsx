@@ -32,6 +32,7 @@ import './quick-ui-layout-fixes.css'
 import './wip-roll-operational.css'
 import './ux-rapih.css'
 import './worker-theme.css'
+import './browse-rows.css'
 import { applyUxTampilan, readUxTampilan } from './uxTampilan'
 
 applyUxTampilan(readUxTampilan())

@@ -1,3 +1,5 @@
+import {browseMatch} from '../browseMatch'
+import {articles} from './planner/model'
 import { StageLots } from './planner/StageLots'
 import { Icon } from '../components/AppIcon'
 import { cellQuantity } from './cuttingAllocation'
@@ -22,27 +24,35 @@ import { useMemo, useState } from 'react'
 
 import { LAUNDRY_ALL_MANDORS, laundryMandorOf, laundryMandorOptions, matchesLaundryMandor } from './laundryMandor'
 
-export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,setDeliveries,onPosted,onReturnToWip,onOpenQc}:{
+export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,setDeliveries,onDraftVendor,onPosted,onReturnToWip,onOpenQc}:{
   prefill:LaundryPrefill|null
   readyBatches:LaundryReadyBatch[]
   setReadyBatches:(value:LaundryReadyBatch[]|((current:LaundryReadyBatch[])=>LaundryReadyBatch[]))=>void
   deliveries:LaundryDelivery[]
   setDeliveries:(value:LaundryDelivery[]|((current:LaundryDelivery[])=>LaundryDelivery[]))=>void
+  onDraftVendor:(ids:string[],vendor:string)=>void
   onPosted:(batchIds:string[])=>void
   onReturnToWip:(batchId:string,vendor:string,qty:number)=>void
   onOpenQc:(parentId:string,batchId:string)=>void
 }) {
-  const initialBatch=readyBatches.find((batch)=>batch.id===prefill?.batchId)??readyBatches[0]
-  const [activeTab,setActiveTab]=useState<LaundryView>(prefill?.view??'send')
+  const linkQuery=new URLSearchParams(location.search).get('cari')??''
+  const [saved]=useState(()=>{try{return JSON.parse(sessionStorage.getItem('erp.demo.laundry.ticket.v1')??'null')}catch{return null}})
+  const linked=linkQuery?readyBatches.find(b=>browseMatch(linkQuery,b.id,b.parentId,b.skuRef,b.vendor)):undefined
+  const initialBatch=linked??readyBatches.find(b=>b.id===prefill?.batchId)??readyBatches.find(b=>saved?.ids?.includes(b.id))??readyBatches[0]
+  const restore=!!initialBatch&&!linkQuery&&!prefill&&saved?.ids?.includes(initialBatch.id)
+  const [activeTab,setActiveTab]=useState<LaundryView>(new URLSearchParams(location.search).get('tab')==='kembali'?'return':prefill?.view??'send')
   const [vendorFilter,setVendorFilter]=useState(prefill?.vendor??'Semua laundry')
   const [patternFilter,setPatternFilter]=useState('')
   const [mandorFilter,setMandorFilter]=useState(LAUNDRY_ALL_MANDORS)
-  const [query,setQuery]=useState('')
-  const [selectedIds,setSelectedIds]=useState<string[]>(initialBatch?[initialBatch.id]:[])
-  const [sendSizeInputs,setSendSizeInputs]=useState<Record<string,string[]>>(()=>Object.fromEntries(readyBatches.map((batch)=>[batch.id,batch.sizes.map(String) as string[]])))
-  const [selectedProcess,setSelectedProcess]=useState(initialBatch?.process??'Stone Wash')
-  const [sentAt,setSentAt]=useState('2026-08-27T16:00')
-  const [sendNote,setSendNote]=useState('')
+  const [query,setQuery]=useState(()=>new URLSearchParams(location.search).get('cari')??'')
+  const [selectedIds,setSelectedIds]=useState<string[]>(restore?readyBatches.filter(b=>saved.ids.includes(b.id)&&b.vendor===initialBatch.vendor&&b.parentId===initialBatch.parentId).map(b=>b.id):initialBatch?[initialBatch.id]:[])
+  const [sendSizeInputs,setSendSizeInputs]=useState<Record<string,string[]>>(()=>Object.fromEntries(readyBatches.map((batch)=>[batch.id,restore&&Array.isArray(saved.quantities?.[batch.id])?saved.quantities[batch.id]:batch.sizes.map(String)])))
+  const [selectedProcess,setSelectedProcess]=useState<string>(restore?saved.process??'':initialBatch?.process??'')
+  const [skuRef,setSkuRef]=useState<string>(restore?saved.skuRef??'':initialBatch?.skuRef??'')
+  const [colour,setColour]=useState<string>(restore?saved.colour??'':''),[colourProcess,setColourProcess]=useState<string>(restore?saved.colourProcess??'':'')
+  const sku=articles.find(a=>a.key===skuRef)
+  const [sentAt,setSentAt]=useState<string>(restore?saved.sentAt??'2026-08-27T16:00':'2026-08-27T16:00')
+  const [sendNote,setSendNote]=useState<string>(restore?saved.note??'':'')
   const [notice,setNotice]=useState('')
   const [returnInputs,setReturnInputs]=useState<Record<string,{good:string[];bs:string[]}>>({})
   const [returnTimes,setReturnTimes]=useState<Record<string,string>>({})
@@ -58,27 +68,34 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
   const scopedReady=readyBatches.filter((batch)=>matchesLaundryMandor(batch,mandorFilter))
   const scopedDeliveries=deliveries.filter((delivery)=>matchesLaundryMandor(delivery,mandorFilter))
 
-  const visibleReady=scopedReady.filter((batch)=>batch.vendor!=='Belum dipilih').filter((batch)=>vendorFilter==='Semua laundry'||batch.vendor===vendorFilter).filter((batch)=>!patternFilter||batch.pattern?.id===patternFilter).filter((batch)=>`${batch.parentId} ${batch.id} ${batch.model} ${batch.material} ${batch.mandor} ${batch.vendor} ${batch.note} ${patternSnapshotLabel(batch.pattern)}`.toLowerCase().includes(query.toLowerCase())).sort((a,b)=>b.sequence-a.sequence)
+  const visibleReady=scopedReady.filter((batch)=>vendorFilter==='Semua laundry'||batch.vendor===vendorFilter).filter((batch)=>!patternFilter||batch.pattern?.id===patternFilter).filter(batch=>browseMatch(query,batch.parentId,batch.id,'batch '+Number(batch.id.split('-').at(-1)),batch.skuRef,batch.model,batch.material,batch.mandor,batch.vendor,batch.note,patternSnapshotLabel(batch.pattern),...batch.sizeLabels)).sort((a,b)=>b.sequence-a.sequence)
   const groupedReady=Array.from(visibleReady.reduce((groups,batch)=>groups.set(batch.parentId,[...(groups.get(batch.parentId)??[]),batch]),new Map<string,LaundryReadyBatch[]>()).entries())
   const selectedBatches=readyBatches.filter((batch)=>selectedIds.includes(batch.id))
   const selectedParent=selectedBatches[0]?.parentId??''
   const selectedVendor=selectedBatches[0]?.vendor??''
   const selectedTotal=selectedBatches.reduce((sum,batch)=>sum+(sendSizeInputs[batch.id]??batch.sizes.map(String)).reduce((subtotal,value)=>subtotal+cellQuantity(value),0),0)
-  const estimatedCost=selectedTotal*(laundryRates[selectedProcess]??0)
-  const visibleDeliveries=scopedDeliveries.filter((delivery)=>vendorFilter==='Semua laundry'||delivery.vendor===vendorFilter).filter((delivery)=>!patternFilter||delivery.pattern?.id===patternFilter).filter((delivery)=>`${delivery.id} ${delivery.parentId} ${delivery.batchId} ${delivery.model} ${delivery.material} ${delivery.mandor} ${delivery.vendor} ${patternSnapshotLabel(delivery.pattern)}`.toLowerCase().includes(query.toLowerCase())).sort((a,b)=>b.sequence-a.sequence)
+  const rate=laundryRates[selectedProcess]
+  const estimatedCost=rate===undefined?null:selectedTotal*rate
+  const reference=sku&&deliveries.filter(d=>d.skuRef===sku.key&&d.vendor===selectedVendor&&d.reversed<d.qty&&d.sentAt).find(d=>d.colourProcess||d.targetColor||d.process)
+  const useSku=()=>{if(!sku)return;setColour(reference?.targetColor??sku.colour);setColourProcess(reference?.colourProcess??'');if(reference?.process)setSelectedProcess(reference.process)}
+  function changeVendor(vendor:string){
+    if(!laundryVendorNames.includes(vendor))return
+    setReadyBatches(current=>current.map(b=>selectedIds.includes(b.id)?{...b,vendor}:b))
+    onDraftVendor(selectedIds,vendor)
+    if(vendorFilter!=='Semua laundry')setVendorFilter(vendor)
+    setNotice('')
+  }
+  const visibleDeliveries=scopedDeliveries.filter((delivery)=>vendorFilter==='Semua laundry'||delivery.vendor===vendorFilter).filter((delivery)=>!patternFilter||delivery.pattern?.id===patternFilter).filter(d=>browseMatch(query,d.id,d.parentId,d.batchId,d.skuRef,d.model,d.material,d.mandor,d.vendor,d.targetColor,d.colourProcess,d.process,patternSnapshotLabel(d.pattern),...d.sizeLabels)).sort((a,b)=>b.sequence-a.sequence)
   const outsideQty=scopedDeliveries.reduce((sum,delivery)=>sum+laundryOutstanding(delivery),0)
   const partialCount=scopedDeliveries.filter((delivery)=>laundryDeliveryStatus(delivery)==='Kembali sebagian').length
   const totalBs=scopedDeliveries.reduce((sum,delivery)=>sum+delivery.bs,0)
 
   const toggleBatch=(batch:LaundryReadyBatch)=>{
     setNotice('')
-    setSelectedIds((current)=>{
-      if(current.includes(batch.id))return current.filter((id)=>id!==batch.id)
-      const currentBatch=readyBatches.find((item)=>current.includes(item.id))
-      if(currentBatch&&(currentBatch.parentId!==batch.parentId||currentBatch.vendor!==batch.vendor)){setSelectedProcess(batch.process);return[batch.id]}
-      setSelectedProcess(batch.process)
-      return[...current,batch.id]
-    })
+    if(selectedIds.includes(batch.id)){setSelectedIds(selectedIds.filter(id=>id!==batch.id));return}
+    const replace=!selectedBatches.length||selectedParent!==batch.parentId||selectedVendor!==batch.vendor
+    if(replace){setSelectedProcess(batch.process);setSkuRef(batch.skuRef??'');setColour('');setColourProcess('');setSendNote('')}
+    setSelectedIds(replace?[batch.id]:[...selectedIds,batch.id])
   }
 
   const postDelivery=()=>{
@@ -86,21 +103,22 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
       const sizes=(sendSizeInputs[batch.id]??batch.sizes.map(String)).map((value,index)=>Math.min(batch.sizes[index],cellQuantity(value))) as QtyTuple
       return{batch,sizes,qty:sizes.reduce((sum,value)=>sum+value,0)}
     }).filter((row)=>row.qty>0)
-    if(posted.length===0)return
+    if(!posted.length||!laundryVendorNames.includes(selectedVendor)||!sentAt)return
     const startNo=deliveries.length+12
     const [physicalDate,physicalTime]=sentAt.split('T')
     const physicalSentAt=physicalDate==='2026-08-27'?`27 Agu 2026 · ${physicalTime}`:`${physicalDate} · ${physicalTime}`
     setDeliveries((current)=>[
-      ...posted.map(({batch,qty,sizes},index)=>({id:`LDR-260827-${String(startNo+index).padStart(3,'0')}`,parentId:batch.parentId,sequence:batch.sequence,batchId:batch.id,plannedBrand:batch.plannedBrand,pattern:batch.pattern,model:batch.model,material:batch.material,mandor:batch.mandor,vendor:batch.vendor,process:selectedProcess,sentAt:physicalSentAt,qty,sizes,sizeLabels:batch.sizeLabels,good:0,bs:0,goodSizes:sizes.map(() => 0),bsSizes:sizes.map(() => 0),reversed:0,reversedSizes:sizes.map(() => 0)})),
+      ...posted.map(({batch,qty,sizes},index)=>({id:`LDR-260827-${String(startNo+index).padStart(3,'0')}`,parentId:batch.parentId,sequence:batch.sequence,batchId:batch.id,plannedBrand:batch.plannedBrand,pattern:batch.pattern,model:batch.model,material:batch.material,mandor:batch.mandor,vendor:selectedVendor,process:selectedProcess,skuRef:skuRef||undefined,targetColor:colour.trim()||null,colourProcess:colourProcess||null,sendNote:sendNote.trim()||null,sentAt:physicalSentAt,qty,sizes,sizeLabels:batch.sizeLabels,good:0,bs:0,goodSizes:sizes.map(() => 0),bsSizes:sizes.map(() => 0),reversed:0,reversedSizes:sizes.map(() => 0)})),
       ...current,
     ])
     const sentById=new Map(posted.map((row)=>[row.batch.id,row.sizes]))
     setReadyBatches((current)=>current.flatMap((batch)=>{const sent=sentById.get(batch.id)??batch.sizes.map(() => 0);const sizes=batch.sizes.map((value,index)=>Math.max(0,value-sent[index])) as QtyTuple;const remaining=sizes.reduce((sum,value)=>sum+value,0);return remaining<=0?[]:[{...batch,qty:remaining,sizes}]}))
     setSendSizeInputs((current)=>{const next={...current};posted.forEach(({batch,sizes})=>{const remaining=batch.sizes.map((value,index)=>Math.max(0,value-sizes[index])) as QtyTuple;if(remaining.some((value)=>value>0))next[batch.id]=remaining.map(String) as string[];else delete next[batch.id]});return next})
+    sessionStorage.removeItem('erp.demo.laundry.ticket.v1')
     onPosted(posted.map(({batch})=>batch.id))
     setSelectedIds([])
     setNotice(`${posted.reduce((sum,row)=>sum+row.qty,0)} pcs dicatat keluar ke ${selectedVendor}.`)
-    setActiveTab('return')
+    setQuery('');setActiveTab('return')
   }
 
   const emptyReturnDraft=(delivery: LaundryDelivery)=>({good:delivery.sizeLabels.map(() => ''),bs:delivery.sizeLabels.map(() => '')})
@@ -190,13 +208,19 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
         </div>
         <aside className="laundry-ticket"><div className="laundry-section-head"><div><span>SURAT KIRIM</span><h2>Review sebelum keluar</h2></div></div>
           {selectedBatches.length>0?<div className="laundry-ticket-content">
-            <div className="laundry-destination"><span>TUJUAN TERPILIH</span><strong>{selectedVendor}</strong><small>{selectedParent} · {selectedBatches[0].material}</small></div>
-            <label><span>PROSES LAUNDRY</span><select value={selectedProcess} onChange={(event)=>setSelectedProcess(event.target.value)}>{laundryProcesses.map((process)=><option value={process} key={process}>{process}</option>)}</select></label>
+            <div className="laundry-destination"><label>Laundry terpilih<select aria-label="Laundry terpilih" value={selectedVendor==='Belum dipilih'?'':selectedVendor} onChange={e=>changeVendor(e.target.value)}><option value="" disabled>Pilih laundry tujuan</option>{laundryVendorNames.map(v=><option key={v}>{v}</option>)}</select></label><small>{selectedParent} · {selectedBatches[0].material}</small></div>
+            <label><span>Jenis cucian</span><select aria-label="Jenis cucian" value={selectedProcess} onChange={e=>setSelectedProcess(e.target.value)}><option value="">Belum ditentukan</option>{laundryProcesses.map(process=><option key={process}>{process}</option>)}</select></label>
+            <fieldset className="laundry-colour-fields"><legend>Warna & proses warna (opsional)</legend>
+              <label>Referensi SKU<select aria-label="Referensi SKU laundry" value={skuRef} onChange={e=>setSkuRef(e.target.value)}><option value="">Kosong</option>{articles.map(a=><option key={a.key} value={a.key}>{a.key} · {a.colour}</option>)}</select></label>
+              {sku&&<div><button type="button" className="soft-btn" onClick={useSku}>Ambil dari SKU</button><small>{reference?'Riwayat '+selectedVendor+' · '+reference.id:'Warna Master SKU · '+sku.colour}</small></div>}
+              <label>Proses warna<select aria-label="Proses warna" value={colourProcess} onChange={e=>setColourProcess(e.target.value)}><option value="">Kosong</option>{['Celup','Celup ulang','Tinting'].map(v=><option key={v}>{v}</option>)}</select></label>
+              <label>Warna target<input aria-label="Warna target" value={colour} onChange={e=>setColour(e.target.value)} placeholder="Kosong atau isi warna"/></label>
+            </fieldset>
             <label><span>WAKTU FISIK DIKIRIM</span><input type="datetime-local" value={sentAt} onChange={(event)=>setSentAt(event.target.value)}/></label>
             <label><span>CATATAN · OPSIONAL</span><input value={sendNote} onChange={(event)=>setSendNote(event.target.value)} placeholder="Contoh: pisahkan warna maroon"/></label>
-            <div className="laundry-cost-review"><p><span>Batch terpilih</span><b>{selectedBatches.length} batch</b></p><p><span>Qty dikirim</span><b>{selectedTotal} pcs</b></p><p><span>Tarif estimasi</span><b>{money(laundryRates[selectedProcess]??0)} / pcs</b></p><div><span>ESTIMASI BIAYA</span><strong>{money(estimatedCost)}</strong></div></div>
+            <div className="laundry-cost-review"><p><span>Batch terpilih</span><b>{selectedBatches.length} batch</b></p><p><span>Qty dikirim</span><b>{selectedTotal} pcs</b></p><p><span>Tarif estimasi</span><b>{rate===undefined?'Belum diketahui':money(rate)+' / pcs'}</b></p><div><span>ESTIMASI BIAYA</span><strong>{estimatedCost===null?'Belum diketahui':money(estimatedCost)}</strong></div></div>
             <p className="laundry-estimate-note">Tarif disimpan sebagai snapshot estimasi. Stok baru berpindah dari Sewing ke Laundry saat pengiriman diposting.</p>
-            <div className="laundry-ticket-actions"><button type="button" className="soft-btn" onClick={()=>setNotice('Draft surat kirim tersimpan di layar ini.')}>Simpan draft</button><button type="button" className="primary-btn" disabled={selectedTotal<=0} onClick={postDelivery}>Catat dikirim <Icon name="arrow"/></button></div>
+            <div className="laundry-ticket-actions"><button type="button" className="soft-btn" onClick={()=>{sessionStorage.setItem('erp.demo.laundry.ticket.v1',JSON.stringify({ids:selectedIds,quantities:sendSizeInputs,process:selectedProcess,skuRef,colour,colourProcess,sentAt,note:sendNote}));setNotice('Draft surat kirim tersimpan.')}}>Simpan draft</button><button type="button" className="primary-btn" disabled={selectedTotal<=0||!sentAt||!laundryVendorNames.includes(selectedVendor)} onClick={postDelivery}>Catat dikirim <Icon name="arrow"/></button></div>
           </div>:<div className="laundry-empty ticket"><Icon name="boxes"/><strong>Belum ada batch dipilih</strong><small>Tekan batch di kiri. Surat kirim otomatis mengikuti Batch Produksi dan laundry tujuan.</small></div>}
         </aside>
       </div>:<div className="laundry-return-pane">
@@ -214,7 +238,7 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
           const inputTotal=inputGood.reduce((sum,value)=>sum+value,0)+inputBs.reduce((sum,value)=>sum+value,0)
           const reversedStatus=status==='Kembali ke WIP'||status==='Sisa kembali WIP'
           return <article className={`laundry-return-card ${reversedStatus?'reversed':''}`} key={delivery.id}>
-          <header><span>{String(index+1).padStart(2,'0')}</span><div><small>{delivery.plannedBrand ? `MEREK RENCANA · ${delivery.plannedBrand}` : 'MEREK BELUM DITENTUKAN'} · {delivery.id}</small><h3>{delivery.parentId} · Batch {delivery.batchId}</h3><p>{delivery.model} · {delivery.material}</p><p className="laundry-pattern-snapshot">POLA · {patternSnapshotLabel(delivery.pattern)}</p></div><em className={status==='Selesai'?'done':status==='Kembali sebagian'?'partial':reversedStatus?'reversed':''}>{status}</em><div><strong>{delivery.vendor}</strong><small>{delivery.process}</small></div></header>
+          <header><span>{String(index+1).padStart(2,'0')}</span><div><small>{delivery.plannedBrand ? `MEREK RENCANA · ${delivery.plannedBrand}` : 'MEREK BELUM DITENTUKAN'} · {delivery.id}</small><h3>{delivery.parentId} · Batch {delivery.batchId}</h3><p>{delivery.model} · {delivery.material}</p>{(delivery.skuRef||delivery.targetColor||delivery.colourProcess)&&<p>{[delivery.skuRef,delivery.colourProcess,delivery.targetColor].filter(Boolean).join(' · ')}</p>}{delivery.sendNote&&<p>{delivery.sendNote}</p>}<p className="laundry-pattern-snapshot">POLA · {patternSnapshotLabel(delivery.pattern)}</p></div><em className={status==='Selesai'?'done':status==='Kembali sebagian'?'partial':reversedStatus?'reversed':''}>{status}</em><div><strong>{delivery.vendor}</strong><small>{delivery.process||'Jenis cucian belum ditentukan'}</small></div></header>
           <div className="laundry-return-body"><div className="laundry-return-facts"><div className="laundry-mandor-hero"><Icon name="user"/><span><small>MANDOR PENANGGUNG JAWAB</small><strong>{laundryMandorOf(delivery)}</strong></span></div><div className="laundry-counts"><span><small>DIKIRIM</small><strong>{delivery.qty} pcs</strong></span><span><small>SUDAH KEMBALI</small><strong>{received} pcs</strong></span><span><small>MASIH DI LUAR</small><strong>{outstanding} pcs</strong></span></div><div className="laundry-progress"><span style={{width:`${progress}%`}}/></div><p><Icon name="calendar"/> Dikirim {delivery.sentAt}</p>{received>0&&<><small>Akumulasi: <b className="good">{delivery.good} Good</b> · <b className="bs">{delivery.bs} BS</b></small><button type="button" className="laundry-open-qc" onClick={()=>onOpenQc(delivery.parentId,delivery.batchId)}><Icon name="audit"/><span><strong>Buka QC & Final SKU</strong><small>{received} pcs sudah bisa diperiksa sekarang</small></span><Icon name="arrow"/></button></>}{delivery.reversed>0&&<small className="reversed-note"><b>{delivery.reversed} pcs kembali ke WIP</b> · {delivery.reverseNote}</small>}{outstanding>0&&<button type="button" className="laundry-reverse-btn" onClick={()=>setPendingReverse(delivery)}><Icon name="reset"/><span><strong>Kembalikan ke WIP</strong><small>{outstanding} pcs bisa pilih laundry lain</small></span></button>}</div>
             {outstanding>0?<div className="laundry-return-entry size-mode" data-keyboard-grid><div className="laundry-return-entry-head"><span>TERIMA PER SIZE</span><small>Good ke QC dan Stuck dihitung persis per ukuran.</small></div><div className="laundry-return-size-head"><span>Size</span><span>Dikirim</span><span>Kembali</span><span>Good → QC</span><span>BS</span><span>Stuck sesudah</span></div><div className="laundry-return-size-rows">{delivery.sizeLabels.map((size,sizeIndex)=><div className="laundry-return-size-row" key={size}><strong>{size}</strong><span>{delivery.sizes[sizeIndex]}</span><span>{returnedSizes[sizeIndex]}</span><label><input inputMode="numeric" data-grid-row={sizeIndex} data-grid-col={0} value={values.good[sizeIndex]} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>updateReturn(delivery,sizeIndex,'good',event.target.value)} placeholder="0"/></label><label className="bs"><input inputMode="numeric" data-grid-row={sizeIndex} data-grid-col={1} value={values.bs[sizeIndex]} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>updateReturn(delivery,sizeIndex,'bs',event.target.value)} placeholder="0"/></label><strong className="stuck">{Math.max(0,outstandingSizes[sizeIndex]-inputGood[sizeIndex]-inputBs[sizeIndex])}</strong></div>)}</div><label className="return-time"><span>WAKTU FISIK KEMBALI</span><input type="datetime-local" value={returnTimes[delivery.id]??'2026-08-27T17:30'} onChange={(event)=>setReturnTimes((current)=>({...current,[delivery.id]:event.target.value}))}/></label><div className="laundry-return-action"><span>Total input <b>{inputTotal} pcs</b> · sisa <b>{Math.max(0,outstanding-inputTotal)} pcs</b></span><button type="button" className="primary-btn" disabled={inputTotal<=0} onClick={()=>postReturn(delivery)}>Catat kembali <Icon name="arrow"/></button></div></div>:<div className="laundry-return-done"><Icon name={delivery.reversed>0?'reset':'check'}/><strong>{delivery.reversed>0?'Qty aktif sudah kembali ke WIP':'Pengiriman selesai'}</strong><small>{delivery.reversed>0?`${delivery.reversed} pcs siap dipilihkan laundry baru · histori lama tetap ada`:`${delivery.good} Good sudah bisa dibuka di QC · ${delivery.bs} BS tercatat`}</small></div>}
           </div>

@@ -1,3 +1,4 @@
+import {browseMatch} from '../browseMatch'
 import {dayOk,lastWarehouseDay} from './warehouseDay'
 import {useState} from 'react'
 import RecordTable from '../RecordTable'
@@ -55,6 +56,32 @@ export default function PocketFabric(){
     },'Pengeluaran tercatat. Saldo roll dan biaya periode sudah diperbarui.')
     if(ok)setQty('')
   }
+  const [rollQuery,setRollQuery]=useState(''),[whole,setWhole]=useState<string[]>([])
+  const [wholeReview,setWholeReview]=useState<{roll:string;qty:number;unit:PocketUnit;rate:number}[]|null>(null)
+  const shownRolls=rolls.filter(r=>browseMatch(rollQuery,r.id,r.name,r.receipt,r.unit,r.date))
+  function selectRoll(r:PocketRoll){setRoll(r.id);if(r.date>day)setDay(r.date);setQty('');setMsg('')}
+  function wholeLines(b:Book){
+    if(!dayOk(day)||!reason.trim()||!whole.length)throw Error('Pilih roll, tanggal dan alasan pemakaian.')
+    if(active(b,day,day))throw Error('Periode sudah dibagikan.')
+    return whole.map(id=>{
+      const r=pocketRolls().find(x=>x.id===id)
+      if(!r||r.date>day)throw Error('Roll belum diterima pada tanggal ini.')
+      const qty=balance(b,r,day)
+      if(qty<=0||qty!==balance(b,r))throw Error('Saldo roll berubah atau sudah ada pemakaian sesudah tanggal ini.')
+      return {roll:id,qty,unit:r.unit,rate:r.rate}
+    })
+  }
+  function saveWhole(){
+    if(!wholeReview)return
+    const ok=mutate(b=>{
+      const rows=wholeLines(b)
+      if(JSON.stringify(rows)!==JSON.stringify(wholeReview))throw Error('Saldo roll berubah. Buka review lagi.')
+      const issues=rows.map((r,i)=>({id:'KT-'+String(b.issues.length+i+1).padStart(3,'0')+'-OUT',roll:r.roll,unit:r.unit,date:day,
+        qty:r.qty,cents:Math.round(r.qty*r.rate*100/units),reason:reason.trim()}))
+      return {...b,issues:[...b.issues,...issues]}
+    },wholeReview.length+' roll dikeluarkan. Rincian panjang dan biaya tersimpan per roll.')
+    if(ok){setWhole([]);setWholeReview(null)}
+  }
   function post(){if(!preview)return;mutate(b=>{const current=planAllocation(b,start,end);if(!allocReason.trim()||JSON.stringify(current)!==JSON.stringify(preview))throw Error('Periksa ulang pratinjau dan isi alasan.')
     return {...b,allocations:[...b.allocations,{...current,id:'BAGI-'+String(b.allocations.length+1).padStart(3,'0'),reason:allocReason.trim()}]}
   },'Biaya dibagikan. Saldo roll tetap sama.')}
@@ -65,7 +92,14 @@ export default function PocketFabric(){
   },undo.kind==='period'?'Pembagian dibalik. Biaya kembali ke periode.':'Pemakaian dibalik. Panjang kembali ke saldo roll.');if(ok)setUndo(null)}
   return <><section className="hero-copy compact"><div className="eyebrow">Gudang</div><h1>Kain kantong</h1><p>Catat kain keluar dari gudang. Biayanya bisa dibagi ke hasil jahit satu periode.</p></section>
     <section className="panel wh-pocket-use"><header className="wh-section-head"><div><span>GUDANG BAHAN</span><h2>Pemakaian roll</h2></div><a className="soft-btn" href={receiptPath}><ArrowDownLeft size={16}/>Terima pembelian kain kantong</a></header>
-    <div className="wh-columns"><div className="wh-side"><header><Ruler size={18}/><h3>Roll yang dipakai</h3></header><label>Roll<select aria-label="Roll" value={rollId} onChange={e=>{setRoll(e.target.value);const next=rolls.find(r=>r.id===e.target.value);if(next&&next.date>day)setDay(next.date);setQty('');setMsg('')}}>{rolls.map(r=><option key={r.id} value={r.id}>{r.id} · {r.name} · {r.unit}</option>)}</select></label><div className="wh-stock"><div><small>{roll.location} · {roll.name}</small><span>Saldo gudang</span></div><strong>{fmt(left/units)} {roll.unit}</strong></div><small>Nilai per {roll.unit} · {amountText(roll.rate)}</small></div>
+    <section className="pocket-roll-register" aria-label="Daftar pemakaian per roll"><div className="wh-section-head"><div><h3>Pemakaian per roll</h3><small>Centang untuk menghabiskan seluruh sisa. Pilih nomor roll untuk memakai sebagian.</small></div><label>Cari roll<input type="search" value={rollQuery} onChange={e=>setRollQuery(e.target.value)} placeholder="Nomor roll atau surat jalan"/></label></div>
+    <div className="pocket-roll-lines">{shownRolls.map(r=>{const residual=balance(book,r);return <div key={r.id} className="pocket-roll-line">
+      <label><input type="checkbox" aria-label={'Pakai seluruh '+r.id} disabled={residual<=0} checked={whole.includes(r.id)} onChange={e=>setWhole(e.target.checked?[...whole,r.id]:whole.filter(id=>id!==r.id))}/></label>
+      <button type="button" className="gar-text" onClick={()=>selectRoll(r)}><strong>{r.id}</strong><small>{r.name} · {r.receipt}</small></button>
+      <span>Masuk <b>{fmt(r.length)} {r.unit}</b></span><span>Terpakai <b>{fmt(r.length-residual/units)} {r.unit}</b></span><span>Sisa <b>{fmt(residual/units)} {r.unit}</b></span></div>})}
+      {!shownRolls.length&&<p>Roll tidak ditemukan.</p>}</div><div className="owner-payroll-actions"><button className="soft-btn" disabled={!whole.length} onClick={()=>{try{setWholeReview(wholeLines(read()));setMsg('')}catch(e){setMsg((e as Error).message)}}}>Pakai seluruh sisa · {whole.length} roll</button></div></section>
+    {wholeReview&&<ReasonDialog title="Pemakaian roll utuh" closeLabel="Kembali" onClose={()=>setWholeReview(null)}><p>{day} · {reason}</p>{wholeReview.map(r=><p key={r.roll}><b>{r.roll}</b> · {fmt(r.qty/units)} {r.unit} keluar · sisa 0 {r.unit}</p>)}<button className="primary-btn" onClick={saveWhole}>Catat {wholeReview.length} roll keluar</button>{msg&&<p role="status">{msg}</p>}</ReasonDialog>}
+    <div className="wh-columns"><div className="wh-side"><header><Ruler size={18}/><h3>Roll yang dipakai</h3></header><label>Roll<select aria-label="Roll" value={rollId} onChange={e=>{const next=rolls.find(r=>r.id===e.target.value);if(next)selectRoll(next)}}>{rolls.map(r=><option key={r.id} value={r.id}>{r.id} · {r.name} · {r.unit}</option>)}</select></label><div className="wh-stock"><div><small>{roll.location} · {roll.name}</small><span>Saldo gudang</span></div><strong>{fmt(left/units)} {roll.unit}</strong></div><small>Nilai per {roll.unit} · {amountText(roll.rate)}</small></div>
     <div className="wh-side"><header><ArrowUpRight size={18}/><h3>Kain keluar</h3></header><div className="wh-fields"><label>Cara mencatat<select value={mode} onChange={e=>{setMode(e.target.value);setQty('')}}><option value="keluar">Jumlah keluar</option><option value="sisa">Hitung sisa roll</option></select></label><label>{(mode==='sisa'?'Sisa fisik':'Keluar')+' ('+roll.unit+')'}<input inputMode="decimal" placeholder="0" value={qty} onChange={e=>setQty(e.target.value)}/></label><label>Tanggal pemakaian<input type="date" value={day} min={roll.date} max={lastWarehouseDay()} onChange={e=>setDay(e.target.value)}/></label><label>Alasan pemakaian<input value={reason} onChange={e=>setReason(e.target.value)}/></label></div><button className="primary-btn" type="button" onClick={issue}>Catat pemakaian</button></div></div>
     <div className="wh-roll-ledger"><h3>Mutasi roll · {roll.id}</h3><div className="wh-register-row"><span><strong>Masuk · {fmt(roll.length)} {roll.unit}</strong><small>{roll.date} · {roll.receipt}</small></span><a href={receiptPath+'&surat='+encodeURIComponent(roll.receipt)}>Lihat penerimaan</a></div>
     {book.issues.filter(i=>i.roll===roll.id).map(i=><div className="wh-register-row" key={i.id}><span><strong>Keluar · {fmt(i.qty/units)} {roll.unit}</strong><small>{i.date} · {i.id} · {i.reason}</small></span><span>{i.reversal?'Dibalik · '+i.reversal:'Posted'}</span></div>)}</div></section>

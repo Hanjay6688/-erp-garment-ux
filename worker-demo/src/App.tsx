@@ -1,3 +1,4 @@
+import {RecordFinder} from './demo/RecordFinder'
 import {
   PAGE_PERMISSION_BY_ID,
   SENSITIVE_ACTION_PERMISSION,
@@ -316,9 +317,11 @@ function ErpApp() {
     'Warna hitam · cek sambungan samping',
   ])
   const [laundryPrefill,setLaundryPrefill] = useState<LaundryPrefill|null>(null)
-  const [laundryReadyBatches,setLaundryReadyBatches] = useState<LaundryReadyBatch[]>(laundryReadySeeds)
-  const [laundryDeliveries,setLaundryDeliveries] = useState<LaundryDelivery[]>(laundryDeliverySeeds)
-  const [laundryDrafts,setLaundryDrafts] = useState<Record<string,string>>({})
+  const [savedLaundry]=useState(()=>{try{return demoAccess?JSON.parse(sessionStorage.getItem('erp.demo.laundry.book.v1')??'null'):null}catch{return null}})
+  const [laundryReadyBatches,setLaundryReadyBatches] = useState<LaundryReadyBatch[]>(()=>Array.isArray(savedLaundry?.ready)?savedLaundry.ready:laundryReadySeeds)
+  const [laundryDeliveries,setLaundryDeliveries] = useState<LaundryDelivery[]>(()=>Array.isArray(savedLaundry?.deliveries)?savedLaundry.deliveries:laundryDeliverySeeds)
+  const [laundryDrafts,setLaundryDrafts] = useState<Record<string,string>>(savedLaundry?.drafts??{})
+  useEffect(()=>{if(demoAccess)sessionStorage.setItem('erp.demo.laundry.book.v1',JSON.stringify({ready:laundryReadyBatches,deliveries:laundryDeliveries,drafts:laundryDrafts}))},[demoAccess,laundryReadyBatches,laundryDeliveries,laundryDrafts])
   const [wipReverseNotice,setWipReverseNotice] = useState<string|null>(null)
   const [qcSeedId,setQcSeedId] = useState('POT-260826-041::041-02')
   const [qcResult,setQcResult] = useState<QcFinalResult|null>(null)
@@ -485,8 +488,9 @@ function ErpApp() {
     <main className="main-panel">
       <header className="topbar"><button className="mobile-menu" aria-label="Buka menu" onClick={() => setMobileNav(true)}><Icon name="menu" /></button><div className="top-title"><div className="top-icon"><Icon name="dashboard" /></div><div><strong>{title}</strong></div></div><div className="top-actions"><RuntimeBadge/><UxTampilanToggle value={uxTampilan} onChange={chooseUxTampilan}/><button className="round-btn" aria-label="Cari menu" aria-expanded={menuSearch !== null} onClick={() => setMenuSearch(menuSearch === null ? '' : null)}><Icon name="search"/></button><RuntimeIdentity/></div></header>
       {menuSearch !== null && <section className="menu-finder panel" role="search" aria-label="Cari menu ERP" onKeyDown={event => { if (event.key === 'Escape') setMenuSearch(null) }}>
-        <label>Cari menu<input autoFocus type="search" value={menuSearch} placeholder="Nama menu…" onChange={event => setMenuSearch(event.target.value)}/></label><button type="button" className="soft-btn" onClick={() => setMenuSearch(null)}>Tutup</button>
-        <div>{searchable.filter(label => label.toLocaleLowerCase('id').includes(menuSearch.trim().toLocaleLowerCase('id'))).map(label => <button type="button" className="soft-btn" key={label} onClick={() => {chooseSubmenu(label);setMenuSearch(null)}}>{label}</button>)}{!searchable.some(label => label.toLowerCase().includes(menuSearch.trim().toLowerCase())) && <p>Tidak ada menu yang cocok.</p>}</div>
+        <label>Cari menu<input autoFocus type="search" value={menuSearch} placeholder={demoAccess?"Menu, nomor dokumen, roll atau SKU…":"Nama menu…"} onChange={event => setMenuSearch(event.target.value)}/></label><button type="button" className="soft-btn" onClick={() => setMenuSearch(null)}>Tutup</button>
+        <div>{searchable.filter(label => label.toLocaleLowerCase('id').includes(menuSearch.trim().toLocaleLowerCase('id'))).map(label => <button type="button" className="soft-btn" key={label} onClick={() => {chooseSubmenu(label);setMenuSearch(null)}}>{label}</button>)}{!demoAccess && !searchable.some(label => label.toLowerCase().includes(menuSearch.trim().toLowerCase())) && <p>Tidak ada menu yang cocok.</p>}</div>
+        {demoAccess&&<RecordFinder query={menuSearch} ready={laundryReadyBatches} deliveries={laundryDeliveries}/>}
       </section>}
       <div className="page-wrap" data-keyboard-scope onKeyDown={handleErgonomicKeyboard}>
         {!(demoAccess || isPageAllowed(accessBundle, page)) ? <AccessDenied permission={PAGE_PERMISSION_BY_ID[page] ?? 'route.unowned'} roleName={identity.status === 'AUTHORIZED' ? identity.profile.roleName : 'Tidak diketahui'} /> : isScreenHidden(runtime.mode, page) ? <ScreenNotConnected label={SCREEN_ACTIVATION[page]?.label ?? title}/> : <>
@@ -611,6 +615,7 @@ function ErpApp() {
           setReadyBatches={setLaundryReadyBatches}
           deliveries={laundryDeliveries}
           setDeliveries={setLaundryDeliveries}
+          onDraftVendor={(ids,vendor)=>setLaundryDrafts(current=>({...current,...Object.fromEntries(ids.map(id=>[id,vendor]))}))}
           onPosted={(batchIds)=>setLaundryDrafts((current)=>{const next={...current};batchIds.forEach((batchId)=>delete next[batchId]);return next})}
           onReturnToWip={(batchId,vendor,qty)=>{
             setLaundryDrafts((current)=>{const next={...current};delete next[batchId];return next})

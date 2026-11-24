@@ -1,3 +1,4 @@
+import {browseMatch} from '../browseMatch'
 import { distribution, pickupsIn, total } from './planner/distribution'
 import RecordTable from '../RecordTable'
 import { AdviceBox, DestinationChoice } from './planner/ProductionAdvice'
@@ -228,7 +229,7 @@ function PickupWorkbench({batchNotes:oldNotes,setBatchNotes:setOldNotes,active,s
   const normalizedQueueQuery=queueQuery.trim().toLowerCase()
   const visibleQueueItems=queueItems.filter((item)=>{
     const statusMatch=queueFilter==='ALL'||(queueFilter==='PICKED'?item.status==='PICKED':item.status!=='PICKED')
-    const queryMatch=!normalizedQueueQuery||`${item.id} ${item.model} ${item.material} ${item.supplier} ${item.mandor??''} ${item.pattern?.code??''} ${item.pattern?.revision??''} ${item.pattern?.name??''}`.toLowerCase().includes(normalizedQueueQuery)
+    const queryMatch=browseMatch(normalizedQueueQuery,item.id,item.model,item.material,item.supplier,item.mandor,item.pattern?.code,item.pattern?.revision,item.pattern?.name,...item.sizes,...item.rolls.flatMap(r=>[r.id,...r.batchNumbers]))
     const patternMatch=!queuePatternId||item.pattern?.id===queuePatternId
     return statusMatch&&patternMatch&&queryMatch
   })

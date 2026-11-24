@@ -1,15 +1,17 @@
+import {dayOk} from '../warehouseDay'
 import { articles, type Article, type Session, type StockChange, type StockEvent } from './model'
 export {articles,type Article} from './model'
 import {stockAt,convertStock} from './conversion'
 import {skuByKey,nativePosition,mainFg,pairOf} from '../skuCatalog'
 export {stockAt} from './conversion'
-export function rangeChange(session:Session,action:StockEvent['action'],article:Article,values:Record<string,string>,reason:string,id:string,expected?:Record<string,number>,notes?:string):Session {
+export function rangeChange(session:Session,action:StockEvent['action'],article:Article,values:Record<string,string>,reason:string,id:string,expected?:Record<string,number>,notes?:string,date='2026-11-24',physicalTime=''):Session {
+  if(!dayOk(date)||(physicalTime&&!/^([01]\d|2[0-3]):[0-5]\d$/.test(physicalTime)))throw Error('Periksa tanggal dan jam fisik.')
   if(action==='convert'){
     const partner=pairOf(session,article.key)
     if(!partner)throw Error('Pilih SKU tujuan.')
-    return convertStock(session,{source:article.key,target:partner,values,sizeMap:Object.fromEntries(article.sizes.map(x=>[x,x])),...nativePosition(article),date:'2026-11-24',reason,notes},id,expected?Object.fromEntries([article,skuByKey(partner)!].flatMap(a=>a.sizes.map(size=>[a.key+'|'+size,a.key===article.key?expected[size]:stockAt(a,size,session)]))):undefined)
+    return convertStock(session,{source:article.key,target:partner,values,sizeMap:Object.fromEntries(article.sizes.map(x=>[x,x])),...nativePosition(article),date,physicalTime,reason,notes},id,expected?Object.fromEntries([article,skuByKey(partner)!].flatMap(a=>a.sizes.map(size=>[a.key+'|'+size,a.key===article.key?expected[size]:stockAt(a,size,session)]))):undefined)
   }
-  const intent=JSON.stringify([action,article.key,Object.entries(values).filter(([,v])=>v.trim()).sort(([a],[b])=>a.localeCompare(b)),reason.trim(),notes?.trim()||null])
+  const intent=JSON.stringify([action,article.key,Object.entries(values).filter(([,v])=>v.trim()).sort(([a],[b])=>a.localeCompare(b)),reason.trim(),notes?.trim()||null,...(date!=='2026-11-24'||physicalTime?[date,physicalTime]:[])])
   const previous=session.stockEvents?.find(e=>e.id===id)
   if(previous){if(previous.intent&&previous.intent!==intent)throw Error('Permintaan ini sudah dipakai dengan isi berbeda.');return session}
   const known=articles.find(a=>a.key===article.key)
@@ -28,7 +30,7 @@ export function rangeChange(session:Session,action:StockEvent['action'],article:
 
   }
   if(!changes.length)throw Error('Isi setidaknya satu ukuran yang berubah.')
-  return {...session,stockEvents:[...(session.stockEvents??[]),{id,action,intent,date:'2026-11-24',reason:reason.trim(),notes:notes?.trim()||null,changes}]}
+  return {...session,stockEvents:[...(session.stockEvents??[]),{id,action,intent,date,physicalTime:physicalTime||undefined,recordedAt:new Date().toISOString(),reason:reason.trim(),notes:notes?.trim()||null,changes}]}
 }
 
 export function reverseRange(session:Session,originalId:string,id:string,reason:string):Session {

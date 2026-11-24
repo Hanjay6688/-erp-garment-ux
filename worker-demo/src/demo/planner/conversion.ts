@@ -17,7 +17,7 @@ function availableOnDate(s:Session,a:Article,size:string,m:MoveInput,current:num
   const reservedAfter=sales.filter(row=>row.day>m.date).reduce((n,row)=>n+(row.delta[a.sizes.indexOf(size)]??0),0)
   return Math.min(current,current-stockAfter-reservedAfter)
 }
-export type MoveInput={source:string;target:string;values:Record<string,string>;sizeMap:Record<string,string>;location:string;grade:string;date:string;reason:string;notes?:string}
+export type MoveInput={source:string;target:string;values:Record<string,string>;sizeMap:Record<string,string>;location:string;grade:string;date:string;physicalTime?:string;reason:string;notes?:string}
 export function moveSnapshot(s:Session,m:MoveInput) {
   const out:Record<string,number>={}
   for(const key of [m.source,m.target]){
@@ -49,7 +49,8 @@ export function convertStock(s:Session,m:MoveInput,id:string,expected?:Record<st
     if(row)row.delta+=qty
     else changes.push({key:b.key,size:targetSize,delta:qty,location:m.location,grade:m.grade})
   }
+  if(m.physicalTime&&!/^([01]\d|2[0-3]):[0-5]\d$/.test(m.physicalTime))throw Error('Jam fisik tidak valid.')
   if(!changes.length)throw Error('Isi setidaknya satu ukuran yang berubah.')
   for(const c of changes)c.after=balances[c.key+'|'+c.size]+c.delta
-  return {...s,stockEvents:[...(s.stockEvents??[]),{id,action:'convert',date:m.date,recordedAt:new Date().toISOString(),intent,reason:m.reason.trim(),notes:m.notes?.trim()||null,changes}]}
+  return {...s,stockEvents:[...(s.stockEvents??[]),{id,action:'convert',date:m.date,physicalTime:m.physicalTime||undefined,recordedAt:new Date().toISOString(),intent,reason:m.reason.trim(),notes:m.notes?.trim()||null,changes}]}
 }
