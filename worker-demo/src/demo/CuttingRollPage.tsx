@@ -1,0 +1,424 @@
+import { Icon } from '../components/AppIcon'
+import CuttingPatternPicker, { hasCanonicalPattern } from '../CuttingPatternPicker'
+import type { CuttingPatternChoice } from '../CuttingPatternPicker'
+import { Field, MultiCheckFilter } from './controls'
+import {
+  cuttingSizes,
+  drawingLabel,
+  fabricRollCatalog,
+  fabricRollMaterials,
+  fabricRollSuppliers,
+  initialCuttingSizeSlots,
+} from './cuttingAllocation'
+import type { CuttingSizeSlot, FabricRoll } from './cuttingAllocation'
+import { cleanDecimalInput, dozenPieces, formatQuantity, parseDecimal } from './format'
+import type { QtyTuple } from './productionModel'
+import { productSizes } from './stockModel'
+import { ChevronDown } from 'lucide-react'
+import { useMemo, useRef, useState } from 'react'
+import type {
+  CSSProperties,
+  ClipboardEvent as ReactClipboardEvent,
+  KeyboardEvent as ReactKeyboardEvent,
+  PointerEvent as ReactPointerEvent,
+} from 'react'
+
+const cuttingSizeOptions = [...productSizes].sort((left,right)=>(Number(left)||0)-(Number(right)||0))
+
+export function CuttingRollPage() {
+  const [query,setQuery]=useState('')
+  const [selectedPattern,setSelectedPattern]=useState<CuttingPatternChoice|null>(null)
+  const [sizeNotice,setSizeNotice]=useState('')
+  const [selectedSuppliers,setSelectedSuppliers]=useState([...fabricRollSuppliers])
+  const [selectedMaterials,setSelectedMaterials]=useState([...fabricRollMaterials])
+  const [selectedRollIds,setSelectedRollIds]=useState(()=>fabricRollCatalog.slice(0,9).map((roll)=>roll.id))
+  const [rollYardUsage,setRollYardUsage]=useState<Record<string,string>>(()=>Object.fromEntries(fabricRollCatalog.map((roll)=>[roll.id,String(roll.yards).replace('.',',')])))
+  const [sizeSlots,setSizeSlots]=useState<CuttingSizeSlot[]>(()=>initialCuttingSizeSlots.map((slot)=>({...slot})))
+  const nextSlotKeyRef=useRef(initialCuttingSizeSlots.length+1)
+  const [allocations,setAllocations]=useState<Record<string,number[]>>(()=>Object.fromEntries(fabricRollCatalog.map((roll)=>[roll.id,[...roll.allocation]])))
+  const [fillRange,setFillRange]=useState<{source:number;target:number}|null>(null)
+  const fillRangeRef=useRef<{source:number;target:number}|null>(null)
+  const fillDraggedRef=useRef(false)
+  const [columnFillRange,setColumnFillRange]=useState<{source:number;target:number}|null>(null)
+  const columnFillRangeRef=useRef<{source:number;target:number}|null>(null)
+  const columnFillDraggedRef=useRef(false)
+  const selectedIdSet=useMemo(()=>new Set(selectedRollIds),[selectedRollIds])
+  const visibleRolls=useMemo(()=>fabricRollCatalog.filter((roll)=>{
+    const matchesQuery=`${roll.id} roll ${roll.sequence} ${roll.supplier} ${roll.material} ${roll.yards}`.toLowerCase().includes(query.toLowerCase())
+    return matchesQuery&&selectedSuppliers.includes(roll.supplier)&&selectedMaterials.includes(roll.material)
+  }),[query,selectedSuppliers,selectedMaterials])
+  const selectedRolls=fabricRollCatalog.filter((roll)=>selectedIdSet.has(roll.id))
+  const rollUsageRows=selectedRolls.map((roll)=>{
+    const input=rollYardUsage[roll.id]??''
+    const used=parseDecimal(input)
+    const valid=input.trim()!==''&&used>0&&used<=roll.yards
+    return {roll,input,used,balance:Math.max(0,roll.yards-used),valid,partial:valid&&used<roll.yards}
+  })
+  const totalSourceYards=selectedRolls.reduce((sum,roll)=>sum+roll.yards,0)
+  const totalUsedYards=rollUsageRows.reduce((sum,row)=>sum+(row.valid?row.used:0),0)
+  const totalBalanceYards=rollUsageRows.reduce((sum,row)=>sum+(row.valid?row.balance:row.roll.yards),0)
+  const yardUsageValid=rollUsageRows.length>0&&rollUsageRows.every((row)=>row.valid)
+  const partialRollCount=rollUsageRows.filter((row)=>row.partial).length
+  const displayedSizeSlots=useMemo(()=>sizeSlots.map((slot,slotIndex)=>{
+    const sameSizeCount=sizeSlots.filter((candidate)=>candidate.size===slot.size).length
+    const drawingNo=sizeSlots.slice(0,slotIndex+1).filter((candidate)=>candidate.size===slot.size).length
+    return {...slot,drawingNo,image:sameSizeCount>1?drawingLabel(drawingNo):''}
+  }),[sizeSlots])
+  const selectedCuttingSizes=cuttingSizeOptions.filter((size)=>sizeSlots.some((slot)=>slot.size===size))
+  const slotTotals=sizeSlots.map((_,slotIndex)=>selectedRolls.reduce((sum,roll)=>sum+(allocations[roll.id]?.[slotIndex]??0),0))
+  const sizeTotalByName=Object.fromEntries(selectedCuttingSizes.map((size)=>[size,sizeSlots.reduce((sum,slot,slotIndex)=>sum+(slot.size===size?slotTotals[slotIndex]:0),0)])) as Record<string,number>
+  const totalPieces=slotTotals.reduce((sum,qty)=>sum+qty,0)
+  const slotGridStyle={'--cutting-slot-count':displayedSizeSlots.length} as CSSProperties
+  const sizeSummaryStyle={'--cutting-size-columns':Math.min(3,Math.max(1,selectedCuttingSizes.length))} as CSSProperties
+  const allVisibleSelected=visibleRolls.length>0&&visibleRolls.every((roll)=>selectedIdSet.has(roll.id))
+  const toggleRoll=(id:string)=>setSelectedRollIds((current)=>current.includes(id)?current.filter((rollId)=>rollId!==id):fabricRollCatalog.filter((roll)=>current.includes(roll.id)||roll.id===id).map((roll)=>roll.id))
+  const toggleVisible=()=>setSelectedRollIds((current)=>{
+    const next=new Set(current)
+    visibleRolls.forEach((roll)=>allVisibleSelected?next.delete(roll.id):next.add(roll.id))
+    return fabricRollCatalog.filter((roll)=>next.has(roll.id)).map((roll)=>roll.id)
+  })
+  const updateRollYardUsage=(rollId:string,value:string)=>setRollYardUsage((current)=>({...current,[rollId]:cleanDecimalInput(value)}))
+  const useFullRoll=(roll:FabricRoll)=>setRollYardUsage((current)=>({...current,[roll.id]:String(roll.yards).replace('.',',')}))
+  const activateSize=(size:string)=>{
+    if(sizeSlots.some((slot)=>slot.size===size))return
+    const targetOrder=cuttingSizeOptions.indexOf(size)
+    const firstLaterSlot=sizeSlots.findIndex((slot)=>cuttingSizeOptions.indexOf(slot.size)>targetOrder)
+    const insertIndex=firstLaterSlot<0?sizeSlots.length:firstLaterSlot
+    const nextSlot={key:`${size}-${nextSlotKeyRef.current++}`,size}
+    setSizeSlots((current)=>[...current.slice(0,insertIndex),nextSlot,...current.slice(insertIndex)])
+    setAllocations((current)=>Object.fromEntries(Object.entries(current).map(([rollId,row])=>[rollId,[...row.slice(0,insertIndex),0,...row.slice(insertIndex)]])))
+    setSizeNotice(`Size ${size} aktif. Satu kolom multiplier baru sudah disiapkan.`)
+    setColumnFillRange(null)
+    columnFillRangeRef.current=null
+  }
+  const deactivateSize=(size:string)=>{
+    if(selectedCuttingSizes.length<=1){setSizeNotice('Minimal satu ukuran harus tetap dipilih.');return}
+    const matchingIndexes=sizeSlots.map((slot,index)=>slot.size===size?index:-1).filter((index)=>index>=0)
+    const hasQuantity=selectedRolls.some((roll)=>matchingIndexes.some((index)=>(allocations[roll.id]?.[index]??0)>0))
+    if(hasQuantity){setSizeNotice(`Size ${size} belum bisa dilepas. Kosongkan hasil potong pada kolom size ini dulu.`);return}
+    const removed=new Set(matchingIndexes)
+    setSizeSlots((current)=>current.filter((_,index)=>!removed.has(index)))
+    setAllocations((current)=>Object.fromEntries(Object.entries(current).map(([rollId,row])=>[rollId,row.filter((_,index)=>!removed.has(index))])))
+    setSizeNotice(`Size ${size} dilepas karena seluruh hasil potongnya masih kosong.`)
+    setColumnFillRange(null)
+    columnFillRangeRef.current=null
+  }
+  const toggleCuttingSize=(size:string)=>sizeSlots.some((slot)=>slot.size===size)?deactivateSize(size):activateSize(size)
+  const addSizeSlot=(size:string)=>{
+    let insertIndex=sizeSlots.length
+    sizeSlots.forEach((slot,index)=>{if(slot.size===size)insertIndex=index+1})
+    const nextSlot={key:`${size}-${nextSlotKeyRef.current++}`,size}
+    setSizeSlots((current)=>[...current.slice(0,insertIndex),nextSlot,...current.slice(insertIndex)])
+    setAllocations((current)=>Object.fromEntries(Object.entries(current).map(([rollId,row])=>[rollId,[...row.slice(0,insertIndex),0,...row.slice(insertIndex)]])))
+    setColumnFillRange(null)
+    columnFillRangeRef.current=null
+  }
+  const removeSizeSlot=(size:string)=>{
+    const matchingIndexes=sizeSlots.map((slot,index)=>slot.size===size?index:-1).filter((index)=>index>=0)
+    if(matchingIndexes.length<=1)return
+    const removeIndex=matchingIndexes[matchingIndexes.length-1]
+    const mergeIndex=matchingIndexes[matchingIndexes.length-2]
+    setSizeSlots((current)=>current.filter((_,index)=>index!==removeIndex))
+    setAllocations((current)=>Object.fromEntries(Object.entries(current).map(([rollId,row])=>{
+      const next=[...row]
+      next[mergeIndex]=(next[mergeIndex]??0)+(next[removeIndex]??0)
+      next.splice(removeIndex,1)
+      return [rollId,next]
+    })))
+    setColumnFillRange(null)
+    columnFillRangeRef.current=null
+  }
+  const updateAllocation=(roll:FabricRoll,slotIndex:number,value:string)=>setAllocations((current)=>{
+    const next=[...(current[roll.id]??sizeSlots.map((_,index)=>roll.allocation[index]??0))]
+    const normalized=value.replace(/[^0-9]/g,'').replace(/^0+(?=\d)/,'')
+    next[slotIndex]=normalized===''?0:Math.max(0,Math.round(Number(normalized)||0))
+    return {...current,[roll.id]:next}
+  })
+  const focusAllocationCell=(rollIndex:number,slotIndex:number)=>{
+    const input=document.querySelector<HTMLInputElement>(`[data-cutting-row="${rollIndex}"][data-cutting-slot="${slotIndex}"]`)
+    if(!input)return
+    input.focus()
+    input.select()
+  }
+  const handleAllocationKey=(event:ReactKeyboardEvent<HTMLInputElement>,rollIndex:number,slotIndex:number)=>{
+    if(event.ctrlKey||event.metaKey||event.altKey)return
+    let nextRoll=rollIndex
+    let nextSlot=slotIndex
+    if(event.key==='Enter')nextRoll+=event.shiftKey?-1:1
+    else if(event.key==='ArrowDown')nextRoll+=1
+    else if(event.key==='ArrowUp')nextRoll-=1
+    else if(event.key==='ArrowRight')nextSlot+=1
+    else if(event.key==='ArrowLeft')nextSlot-=1
+    else return
+    if(nextRoll<0||nextRoll>=selectedRolls.length||nextSlot<0||nextSlot>=sizeSlots.length)return
+    event.preventDefault()
+    focusAllocationCell(nextRoll,nextSlot)
+  }
+  const pasteAllocationGrid=(event:ReactClipboardEvent<HTMLInputElement>,startRoll:number,startSlot:number)=>{
+    const clipboard=event.clipboardData.getData('text').replace(/\r/g,'').replace(/\n+$/,'')
+    if(!clipboard)return
+    event.preventDefault()
+    const pastedRows=clipboard.split('\n').map((line)=>line.split('\t'))
+    setAllocations((current)=>{
+      const next={...current}
+      pastedRows.forEach((cells,rowOffset)=>{
+        const roll=selectedRolls[startRoll+rowOffset]
+        if(!roll)return
+        const row=[...(next[roll.id]??sizeSlots.map((_,index)=>roll.allocation[index]??0))]
+        cells.forEach((cell,columnOffset)=>{
+          const slotIndex=startSlot+columnOffset
+          if(slotIndex>=sizeSlots.length)return
+          const normalized=cell.trim().replace(/[^0-9]/g,'').replace(/^0+(?=\d)/,'')
+          row[slotIndex]=normalized===''?0:Math.max(0,Math.round(Number(normalized)||0))
+        })
+        next[roll.id]=row
+      })
+      return next
+    })
+  }
+  const fillRowsFromSource=(sourceIndex:number,targetIndex:number)=>{
+    if(targetIndex===sourceIndex)return
+    setAllocations((current)=>{
+      const sourceRoll=selectedRolls[sourceIndex]
+      if(!sourceRoll)return current
+      const sourceValues=[...(current[sourceRoll.id]??sizeSlots.map((_,index)=>sourceRoll.allocation[index]??0))]
+      const next={...current}
+      const start=Math.min(sourceIndex,targetIndex)
+      const end=Math.max(sourceIndex,targetIndex)
+      for(let rowIndex=start;rowIndex<=end;rowIndex+=1){
+        if(rowIndex===sourceIndex)continue
+        const targetRoll=selectedRolls[rowIndex]
+        if(targetRoll)next[targetRoll.id]=[...sourceValues]
+      }
+      return next
+    })
+  }
+  const beginRowFill=(event:ReactPointerEvent<HTMLButtonElement>,sourceIndex:number)=>{
+    event.preventDefault()
+    event.currentTarget.setPointerCapture(event.pointerId)
+    fillDraggedRef.current=false
+    const range={source:sourceIndex,target:sourceIndex}
+    fillRangeRef.current=range
+    setFillRange(range)
+  }
+  const moveRowFill=(event:ReactPointerEvent<HTMLButtonElement>)=>{
+    const range=fillRangeRef.current
+    if(!range)return
+    const rowElement=document.elementFromPoint(event.clientX,event.clientY)?.closest<HTMLElement>('[data-allocation-row-index]')
+    const hoveredIndex=Number(rowElement?.dataset.allocationRowIndex)
+    if(!Number.isFinite(hoveredIndex))return
+    const target=Math.max(0,Math.min(selectedRolls.length-1,hoveredIndex))
+    if(target===range.target)return
+    const nextRange={source:range.source,target}
+    fillRangeRef.current=nextRange
+    setFillRange(nextRange)
+  }
+  const finishRowFill=(event:ReactPointerEvent<HTMLButtonElement>)=>{
+    const range=fillRangeRef.current
+    if(range&&range.target!==range.source){
+      fillRowsFromSource(range.source,range.target)
+      fillDraggedRef.current=true
+    }
+    fillRangeRef.current=null
+    setFillRange(null)
+    if(event.currentTarget.hasPointerCapture(event.pointerId))event.currentTarget.releasePointerCapture(event.pointerId)
+  }
+  const cancelRowFill=(event:ReactPointerEvent<HTMLButtonElement>)=>{
+    fillRangeRef.current=null
+    setFillRange(null)
+    if(event.currentTarget.hasPointerCapture(event.pointerId))event.currentTarget.releasePointerCapture(event.pointerId)
+  }
+  const clickRowFill=(sourceIndex:number)=>{
+    if(fillDraggedRef.current){fillDraggedRef.current=false;return}
+    const targetIndex=sourceIndex<selectedRolls.length-1?sourceIndex+1:sourceIndex-1
+    fillRowsFromSource(sourceIndex,targetIndex)
+  }
+  const fillColumnsFromSource=(sourceSlot:number,targetSlot:number)=>{
+    if(targetSlot===sourceSlot)return
+    setAllocations((current)=>{
+      const next={...current}
+      const start=Math.min(sourceSlot,targetSlot)
+      const end=Math.max(sourceSlot,targetSlot)
+      selectedRolls.forEach((roll)=>{
+        const row=[...(current[roll.id]??sizeSlots.map((_,index)=>roll.allocation[index]??0))]
+        const sourceValue=row[sourceSlot]
+        for(let slotIndex=start;slotIndex<=end;slotIndex+=1){
+          if(slotIndex!==sourceSlot)row[slotIndex]=sourceValue
+        }
+        next[roll.id]=row
+      })
+      return next
+    })
+  }
+  const beginColumnFill=(event:ReactPointerEvent<HTMLButtonElement>,sourceSlot:number)=>{
+    event.preventDefault()
+    event.currentTarget.setPointerCapture(event.pointerId)
+    columnFillDraggedRef.current=false
+    const range={source:sourceSlot,target:sourceSlot}
+    columnFillRangeRef.current=range
+    setColumnFillRange(range)
+  }
+  const moveColumnFill=(event:ReactPointerEvent<HTMLButtonElement>)=>{
+    const range=columnFillRangeRef.current
+    if(!range)return
+    const slotElement=document.elementFromPoint(event.clientX,event.clientY)?.closest<HTMLElement>('[data-column-fill-slot]')
+    const hoveredSlot=Number(slotElement?.dataset.columnFillSlot)
+    if(!Number.isFinite(hoveredSlot))return
+    const target=Math.max(0,Math.min(sizeSlots.length-1,hoveredSlot))
+    if(target===range.target)return
+    const nextRange={source:range.source,target}
+    columnFillRangeRef.current=nextRange
+    setColumnFillRange(nextRange)
+  }
+  const finishColumnFill=(event:ReactPointerEvent<HTMLButtonElement>)=>{
+    const range=columnFillRangeRef.current
+    if(range&&range.target!==range.source){
+      fillColumnsFromSource(range.source,range.target)
+      columnFillDraggedRef.current=true
+    }
+    columnFillRangeRef.current=null
+    setColumnFillRange(null)
+    if(event.currentTarget.hasPointerCapture(event.pointerId))event.currentTarget.releasePointerCapture(event.pointerId)
+  }
+  const cancelColumnFill=(event:ReactPointerEvent<HTMLButtonElement>)=>{
+    columnFillRangeRef.current=null
+    setColumnFillRange(null)
+    if(event.currentTarget.hasPointerCapture(event.pointerId))event.currentTarget.releasePointerCapture(event.pointerId)
+  }
+  const clickColumnFill=(sourceSlot:number)=>{
+    if(columnFillDraggedRef.current){columnFillDraggedRef.current=false;return}
+    const targetSlot=sourceSlot<sizeSlots.length-1?sourceSlot+1:sourceSlot-1
+    fillColumnsFromSource(sourceSlot,targetSlot)
+  }
+  return <>
+    <section className="hero-copy compact cutting-hero"><div className="eyebrow">PRODUKSI · CUTTING</div><h1>Buat Potongan</h1><p>Ambil roll, catat hasil potong per roll dan size, lalu simpan sebagai WIP Potongan. Batch mandor belum dibuat di tahap ini.</p></section>
+    <section className="cutting-flow-rail panel" aria-label="Alur Buat Potongan">{['Pilih roll','Tentukan yard used','Catat hasil per roll','Simpan ke WIP'].map((label,index)=><div className={index===0?'active':''} key={label}><span>{String(index+1).padStart(2,'0')}</span><strong>{label}</strong>{index<3&&<Icon name="arrow"/>}</div>)}</section>
+    <section className="roll-first-layout">
+      <div className="panel roll-catalog-panel">
+        <div className="cutting-panel-head"><div><span>01 · SUMBER KAIN</span><h2>Pilih roll yang mau dibagi</h2><p>Satu roll tetap satu baris. Urutan dan yard asal tidak digabung.</p></div><span className="selection-pill">{selectedRolls.length} dipilih</span></div>
+        <div className="roll-catalog-toolbar"><div className="roll-search"><Icon name="search"/><input value={query} onChange={(event)=>setQuery(event.target.value)} placeholder="Cari roll, pabrik, bahan, atau yard..."/></div><div className="roll-filters"><MultiCheckFilter label="Pabrik" options={fabricRollSuppliers} selected={selectedSuppliers} onChange={setSelectedSuppliers}/><MultiCheckFilter label="Bahan" options={fabricRollMaterials} selected={selectedMaterials} onChange={setSelectedMaterials}/></div></div>
+        <div className="roll-list-caption"><span>{visibleRolls.length} roll tersedia</span><button type="button" onClick={toggleVisible}>{allVisibleSelected?'Batalkan hasil tampil':'Pilih semua hasil'}</button></div>
+        <div className="cutting-roll-list">{visibleRolls.map((roll)=>{const selected=selectedIdSet.has(roll.id);return <button type="button" aria-pressed={selected} className={`stock-roll-row ${selected?'selected':''}`} key={roll.id} onClick={()=>toggleRoll(roll.id)}><span className="roll-select-box">{selected&&<Icon name="check"/>}</span><span className="stock-roll-seq">{String(roll.sequence).padStart(2,'0')}</span><span className="stock-roll-name"><strong>{roll.material}</strong><small>{roll.supplier} · {roll.id} · masuk {roll.receivedAt}</small></span><span className="stock-roll-yard"><strong>{formatQuantity(roll.yards,2)} yd</strong><small>{selected?'Masuk pembagian':'Siap dipilih'}</small></span></button>})}{visibleRolls.length===0&&<div className="catalog-empty"><Icon name="search"/><strong>Roll tidak ditemukan</strong><small>Periksa pencarian atau pilihan filter pabrik dan bahan.</small></div>}</div>
+      </div>
+      <aside className="panel cutting-live-summary">
+        <div className="eyebrow">BATCH PRODUKSI</div><h2>Kulot Lucy · Size {selectedCuttingSizes.join(', ')}</h2><p>Hasil cutting ini belum didistribusikan ke batch Mandor.</p>
+        <div className="cutting-summary-main"><div><span>YARD USED</span><strong>{formatQuantity(totalUsedYards,2)} yd</strong><small>{selectedRolls.length} roll · {partialRollCount} split</small></div><div><span>TOTAL POTONGAN</span><strong>{totalPieces} pcs</strong><small>{dozenPieces(totalPieces)}</small></div></div>
+        <div className="cutting-summary-sizes" style={sizeSummaryStyle}>{selectedCuttingSizes.map((size)=><div key={size}><span>SIZE {size}</span><strong>{sizeTotalByName[size]} pcs</strong><small>{dozenPieces(sizeTotalByName[size])}</small></div>)}</div>
+        <div className="po-preview"><Icon name="warehouse"/><div><strong>Tujuan berikutnya: WIP Potongan</strong><span>Setelah disimpan, hasil ini menunggu mandor mengambil. Pembagian batch dilakukan saat pickup.</span></div></div>
+        <button type="button" className="primary-btn cutting-next" disabled={selectedRolls.length===0} onClick={()=>document.getElementById('roll-issue-workbench')?.scrollIntoView({behavior:'smooth',block:'start'})}>Atur yard yang dipakai <Icon name="arrow"/></button>
+      </aside>
+    </section>
+    <section className="panel roll-issue-workbench" id="roll-issue-workbench" data-keyboard-scope>
+      <div className="cutting-panel-head roll-issue-head"><div><span>02 · YARD USED PER ROLL</span><h2>Pakai seluruh roll atau ambil sebagian</h2><p>Default-nya satu roll dipakai utuh. Kalau hanya dipakai sebagian, masukkan yard aktual; sisanya tetap menjadi Stock On Hand pada nomor roll yang sama.</p></div><span className={yardUsageValid?'issue-ready-pill':'issue-error-pill'}>{yardUsageValid?'Siap dipotong':'Periksa yard'}</span></div>
+      <div className="roll-issue-rule"><Icon name="audit"/><div><strong>Golden rule: whole roll first</strong><span>Split hanya saat memang dibutuhkan di lapangan. Identitas roll tidak berubah dan total yard harus tetap rekonsiliasi.</span></div></div>
+      <div className="roll-issue-table-head"><span>ROLL SOURCE</span><span>STOCK ON HAND</span><span>USED FOR CUTTING</span><span>REMAINING</span><span>STATUS</span></div>
+      <div className="roll-issue-list" data-keyboard-grid>{rollUsageRows.map(({roll,input,used,balance,valid,partial},index)=><article className={`${valid?'':'invalid'} ${partial?'partial':''}`} key={roll.id}>
+        <div className="roll-issue-identity"><span>{String(index+1).padStart(2,'0')}</span><div><strong>{roll.id} · {roll.material}</strong><small>{roll.supplier} · masuk {roll.receivedAt}</small></div></div>
+        <div className="roll-issue-number"><small>STOCK ON HAND</small><strong>{formatQuantity(roll.yards,2)} yd</strong></div>
+        <label className="roll-used-input"><span>USED FOR CUTTING</span><div><input data-grid-row={index} data-grid-col={0} inputMode="decimal" value={input} placeholder="0" aria-invalid={!valid} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>updateRollYardUsage(roll.id,event.target.value)}/><b>yd</b></div></label>
+        <div className="roll-issue-number remaining"><small>REMAINING</small><strong>{valid?formatQuantity(balance,2):'—'} yd</strong></div>
+        <div className="roll-issue-state"><em className={!valid?'error':partial?'split':'whole'}>{!valid?'INVALID':partial?'SPLIT':'WHOLE ROLL'}</em><button type="button" disabled={valid&&!partial&&used===roll.yards} onClick={()=>useFullRoll(roll)}>Use full roll</button></div>
+      </article>)}{selectedRolls.length===0&&<div className="allocation-empty"><Icon name="ruler"/><strong>Belum ada roll dipilih</strong><small>Pilih roll pada Browse Roll di atas.</small></div>}</div>
+      <div className="roll-issue-footer"><div><span>SOURCE SELECTED<strong>{formatQuantity(totalSourceYards,2)} yd</strong></span><i>−</i><span>USED<strong>{formatQuantity(totalUsedYards,2)} yd</strong></span><i>=</i><span className="remaining">REMAINING<strong>{formatQuantity(totalBalanceYards,2)} yd</strong></span></div><button type="button" className="primary-btn" disabled={!yardUsageValid} onClick={()=>document.getElementById('allocation-workbench')?.scrollIntoView({behavior:'smooth',block:'start'})}>Lanjut catat hasil <Icon name="arrow"/></button></div>
+    </section>
+    <section className="panel allocation-workbench" id="allocation-workbench">
+      <div className="cutting-panel-head allocation-head"><div><span>03 · HASIL POTONG PER ROLL</span><h2>Susun slot size sesuai gambar hari ini</h2><p>Satu size boleh punya satu, dua, tiga, atau lebih slot. Label gambar hanya muncul kalau size tersebut berulang.</p></div><span className="draft-pill">Draft</span></div>
+      <div className="cutting-meta-grid"><Field label="Merek rencana · opsional · tidak mengikat"><select className="erp-input" defaultValue=""><option value="">Merek belum ditentukan</option><option>Vivo</option><option>Widie</option></select></Field><Field label="Model"><input className="erp-input" defaultValue="Kulot Lucy"/></Field><CuttingPatternPicker value={selectedPattern} onChange={setSelectedPattern}/><Field label="Tanggal potong"><input className="erp-input" type="date" defaultValue="2026-08-27"/></Field><div className="future-po-field"><span>KODE POTONGAN</span><strong>POT otomatis</strong><small>saat hasil masuk WIP</small></div></div>
+      <div className="cutting-size-picker">
+        <div className="cutting-size-picker-copy"><span>PILIH UKURAN</span><strong>Centang hanya size yang dipotong hari ini</strong><small>Multiplier kolom baru muncul untuk ukuran terpilih. Size yang sudah berisi hasil tidak bisa dilepas diam-diam.</small></div>
+        <div className="cutting-size-options">{cuttingSizeOptions.map((size)=>{const checked=selectedCuttingSizes.includes(size);return <label className={checked?'active':''} key={size}><input type="checkbox" checked={checked} onChange={()=>toggleCuttingSize(size)}/><span>{checked&&<Icon name="check"/>}</span><strong>{size}</strong><small>{checked?`${sizeSlots.filter((slot)=>slot.size===size).length} kolom`:'Tidak dipakai'}</small></label>})}</div>
+        {sizeNotice&&<div className="cutting-size-notice" role="status"><Icon name="audit"/><span>{sizeNotice}</span><button type="button" aria-label="Tutup pemberitahuan ukuran" onClick={()=>setSizeNotice('')}><Icon name="close"/></button></div>}
+      </div>
+      <div className="size-slot-builder"><div className="size-slot-builder-copy"><span>MULTIPLIER KOLOM</span><strong>Tambah atau kurangi gambar per size terpilih</strong><small>Tombol minus menggabungkan isi kolom terakhir ke kolom sebelumnya—total size tetap aman.</small></div><div className="size-slot-controls">{selectedCuttingSizes.map((size)=>{const count=sizeSlots.filter((slot)=>slot.size===size).length;return <div className="size-slot-control" key={size}><div><span>SIZE {size}</span><strong>{count===1?'1 kolom':`${count} kolom`}</strong><small>{count===1?'Tanpa label gambar':`Gambar A–${drawingLabel(count)}`}</small></div><div><button type="button" disabled={count<=1} aria-label={`Kurangi slot Size ${size}`} title="Gabungkan kolom terakhir ke kolom sebelumnya" onClick={()=>removeSizeSlot(size)}>−</button><b>{count}</b><button type="button" aria-label={`Tambah slot Size ${size}`} title="Tambah kolom gambar baru" onClick={()=>addSizeSlot(size)}>+</button></div></div>})}</div></div>
+      <div className="cutting-grid-shortcuts"><span><kbd>Enter</kbd> turun</span><span><kbd>Tab</kbd> ke kanan</span><span><kbd>↑ ↓ ← →</kbd> pindah sel</span><span><Icon name="drag"/> Tarik baris ke atas / bawah</span><span>Tarik kolom ke kiri / kanan</span><span>Paste blok Excel didukung</span></div>
+      <div className="column-fill-toolbar"><div><span>FILL SATU KOLOM</span><small>Klik untuk satu kolom · tarik kiri/kanan untuk beberapa</small></div><div className="column-fill-grid" style={slotGridStyle}>{displayedSizeSlots.map((slot,slotIndex)=>{const isSource=columnFillRange?.source===slotIndex;const isPreview=Boolean(columnFillRange&&slotIndex!==columnFillRange.source&&slotIndex>=Math.min(columnFillRange.source,columnFillRange.target)&&slotIndex<=Math.max(columnFillRange.source,columnFillRange.target));const drawingCopy=slot.image?` gambar ${slot.image}`:'';return <button type="button" tabIndex={-1} data-column-fill-slot={slotIndex} className={`${isSource?'fill-source':''} ${isPreview?'fill-preview':''}`} key={slot.key} aria-label={`Salin seluruh kolom size ${slot.size}${drawingCopy}`} title="Klik: salin ke kolom sebelah · tarik: isi beberapa kolom" onPointerDown={(event)=>beginColumnFill(event,slotIndex)} onPointerMove={moveColumnFill} onPointerUp={finishColumnFill} onPointerCancel={cancelColumnFill} onClick={()=>clickColumnFill(slotIndex)}><span>{slot.size}{slot.image&&<small>{slot.image}</small>}</span><Icon name="drag"/></button>})}</div><span>{displayedSizeSlots.length} kolom aktif</span></div>
+      <div className="slot-legend"><div><span>SLOT UKURAN</span><small>Jumlah gambar mengikuti susunan di atas</small></div>{displayedSizeSlots.map((slot)=><span key={slot.key}><strong>{slot.size}</strong>{slot.image&&<small>Gbr {slot.image}</small>}</span>)}<b>TOTAL</b></div>
+      <div className="allocation-roll-list">{selectedRolls.map((roll,index)=>{
+        const row=allocations[roll.id]??sizeSlots.map((_,slotIndex)=>roll.allocation[slotIndex]??0)
+        const rowTotal=row.reduce((sum,qty)=>sum+qty,0)
+        const isFillSource=fillRange?.source===index
+        const isFillPreview=Boolean(fillRange&&index!==fillRange.source&&index>=Math.min(fillRange.source,fillRange.target)&&index<=Math.max(fillRange.source,fillRange.target))
+        return <article data-allocation-row-index={index} className={`allocation-roll-row ${isFillSource?'fill-source':''} ${isFillPreview?'fill-preview':''}`} key={roll.id}>
+          <div className="allocation-roll-identity"><span>{String(index+1).padStart(2,'0')}</span><div><strong>Roll {String(roll.sequence).padStart(2,'0')} · {roll.material}</strong><small>{formatQuantity(rollUsageRows[index]?.used??0,2)} yd used · {formatQuantity(rollUsageRows[index]?.balance??roll.yards,2)} yd remaining</small></div></div>
+          <div className="allocation-slot-grid" style={slotGridStyle}>{displayedSizeSlots.map((slot,slotIndex)=>{
+            const isColumnSource=columnFillRange?.source===slotIndex
+            const isColumnPreview=Boolean(columnFillRange&&slotIndex!==columnFillRange.source&&slotIndex>=Math.min(columnFillRange.source,columnFillRange.target)&&slotIndex<=Math.max(columnFillRange.source,columnFillRange.target))
+            const drawingCopy=slot.image?`, gambar ${slot.image}`:''
+            return <label className={`${isColumnSource?'column-fill-source':''} ${isColumnPreview?'column-fill-preview':''}`} key={slot.key}><span>{slot.size}{slot.image&&<small>{slot.image}</small>}</span><input data-cutting-row={index} data-cutting-slot={slotIndex} aria-label={`Roll ${roll.sequence}, size ${slot.size}${drawingCopy}`} inputMode="numeric" type="text" pattern="[0-9]*" value={row[slotIndex]??0} onFocus={(event)=>{if((row[slotIndex]??0)===0){const input=event.currentTarget;requestAnimationFrame(()=>input.select())}}} onClick={(event)=>{if((row[slotIndex]??0)===0)event.currentTarget.select()}} onKeyDown={(event)=>handleAllocationKey(event,index,slotIndex)} onPaste={(event)=>pasteAllocationGrid(event,index,slotIndex)} onChange={(event)=>updateAllocation(roll,slotIndex,event.target.value)}/></label>
+          })}</div>
+          <div className="allocation-row-total"><span>TOTAL ROLL</span><strong>{rowTotal} pcs</strong><small>{dozenPieces(rowTotal)}</small></div>
+          <button type="button" tabIndex={-1} className="row-fill-handle" aria-label={`Salin isi Roll ${roll.sequence} ke baris atas atau bawah`} title="Klik: salin ke baris terdekat · tarik: isi ke atas atau bawah" onPointerDown={(event)=>beginRowFill(event,index)} onPointerMove={moveRowFill} onPointerUp={finishRowFill} onPointerCancel={cancelRowFill} onClick={()=>clickRowFill(index)}><Icon name="drag"/><span/></button>
+        </article>
+      })}{selectedRolls.length===0&&<div className="allocation-empty"><Icon name="ruler"/><strong>Belum ada roll dipilih</strong><small>Pilih minimal satu roll di bagian atas untuk mulai membagi ukuran.</small></div>}</div>
+      <div className="cutting-totals-row">{selectedCuttingSizes.map((size)=><div key={size}><span>JUMLAH SIZE {size}</span><strong>{sizeTotalByName[size]} pcs</strong></div>)}<div><span>TOTAL BATCH</span><strong>{totalPieces} pcs</strong><small>{dozenPieces(totalPieces)}</small></div></div>
+      <section className="cutting-wip-destination" aria-label="Tujuan hasil cutting">
+        <div><span>04 · SIMPAN HASIL CUTTING</span><h2>Masuk WIP Produksi, belum menjadi Batch Distribusi</h2><p>Jejak roll, yard issued, sisa roll, dan size tetap melekat pada Batch Produksi. Mandor serta Batch Distribusi baru dicatat saat fisik benar-benar diambil.</p></div>
+        <div className="cutting-wip-card"><span className="wip-state-dot"/><div><small>STATUS SETELAH DISIMPAN</small><strong>Menunggu mandor mengambil</strong><span>{selectedRolls.length} roll · {formatQuantity(totalUsedYards,2)} yd used · {totalPieces} pcs · {selectedPattern ? `Pola ${selectedPattern.code}/${selectedPattern.revision}` : 'Pola wajib dipilih sebelum simpan'}</span></div></div>
+      </section>
+      <div className="allocation-footer"><small>Frontend Potongan masih simulasi · writer terhubung wajib mengirim `pattern_id`; backend menolak transaksi aplikasi tanpa Pola dan mengikat snapshot kode/nama/revisi.</small><div><button type="button" className="soft-btn" disabled={!hasCanonicalPattern(selectedPattern)}>Simpan draft cutting</button><button type="button" className="primary-btn" disabled={!hasCanonicalPattern(selectedPattern)||!yardUsageValid||totalPieces===0}>Simpan Potongan ke WIP <Icon name="arrow"/></button></div></div>
+    </section>
+  </>
+}
+
+export function RollBatchQuickMenu({rollId,batchCount,currentBatch,split,onAssign}:{rollId:string;batchCount:number;currentBatch:number|null;split:boolean;onAssign:(batchIndex:number)=>void}) {
+  const label=split?'Pecah':currentBatch===null?'Pilih':String(currentBatch+1)
+  return <label className="roll-batch-quick"><span className="sr-only">Pilih batch untuk {rollId}</span><select aria-label={`Pilih batch untuk ${rollId}`} value={!split&&currentBatch!==null?String(currentBatch):''} onChange={(event)=>onAssign(Number(event.target.value))}><option value="" disabled>Batch: {label}</option>{Array.from({length:batchCount},(_,batchIndex)=><option value={batchIndex} key={batchIndex}>Batch: {batchIndex+1}</option>)}</select><ChevronDown/></label>
+}
+
+type UnassignedRollCardProps = {
+  row: { roll: FabricRoll; sizes: QtyTuple; quantity: number }
+  batchCount: number
+  onAssignWhole: (rollId: string, targetBatch: number) => void
+  onOpenSplit: (rollId: string) => void
+  onDragStart: (event: ReactPointerEvent<HTMLButtonElement>, rollId: string) => void
+  onDragMove: (event: ReactPointerEvent<HTMLButtonElement>) => void
+  onDragEnd: (event: ReactPointerEvent<HTMLButtonElement>) => void
+  onDragCancel: (event: ReactPointerEvent<HTMLButtonElement>) => void
+}
+
+export function UnassignedRollCard({
+  row,
+  batchCount,
+  onAssignWhole,
+  onOpenSplit,
+  onDragStart,
+  onDragMove,
+  onDragEnd,
+  onDragCancel,
+}: UnassignedRollCardProps) {
+  const rollLabel = `Roll ${String(row.roll.sequence).padStart(2, '0')}`
+  const instructionId = `wip-roll-${row.roll.id.replace(/[^a-zA-Z0-9_-]/g, '-')}-instruction`
+
+  return <article className="wip-roll-token" aria-labelledby={`${instructionId}-title`}>
+    <div className="wip-roll-token-body">
+      <div className="wip-roll-token-total">
+        <span>PANJANG ROLL</span>
+        <strong>{formatQuantity(row.roll.yards, 2)}<small>yd</small></strong>
+        <em>{row.quantity} pcs hasil potong</em>
+      </div>
+      <div className="wip-roll-token-sizes" aria-label={`Rincian ukuran ${rollLabel}`}>
+        {cuttingSizes.map((size, index) => <span key={size}><small>SIZE {size}</small><strong>{row.sizes[index]}</strong><em>pcs</em></span>)}
+      </div>
+      <p id={`${instructionId}-title`} className="wip-roll-token-code">{rollLabel} · {row.roll.id}</p>
+      <p id={instructionId}>Pindahkan utuh lewat pilihan Batch. Drag hanya alternatif desktop.</p>
+    </div>
+    <footer className="wip-roll-token-actions">
+      <RollBatchQuickMenu rollId={row.roll.id} batchCount={batchCount} currentBatch={null} split={false} onAssign={(batchIndex) => onAssignWhole(row.roll.id, batchIndex)}/>
+      <button type="button" className="wip-roll-split-btn" onClick={() => onOpenSplit(row.roll.id)}><Icon name="ruler"/><span><strong>Atur pecahan</strong><small>Bagi size manual</small></span><Icon name="arrow"/></button>
+      <button
+        type="button"
+        className="wip-roll-drag-handle"
+        aria-label={`Tarik ${rollLabel} ke batch`}
+        aria-describedby={instructionId}
+        title="Tahan lalu tarik ke kartu batch"
+        onPointerDown={(event) => onDragStart(event, row.roll.id)}
+        onPointerMove={onDragMove}
+        onPointerUp={onDragEnd}
+        onPointerCancel={onDragCancel}
+      >
+        <Icon name="drag"/>
+        <span className="sr-only">Tarik ke batch</span>
+      </button>
+    </footer>
+  </article>
+}

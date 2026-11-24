@@ -1,0 +1,508 @@
+import { Suspense, lazy, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  AlertTriangle, CheckCircle2, History, LoaderCircle, PackageCheck, RefreshCw,
+  RotateCcw, Search, Send, ShieldCheck, Undo2, Waves,
+} from 'lucide-react'
+import { useAuth } from './auth/AuthProvider'
+import { useTransactionSource } from './TransactionSourceNavigation'
+import type { TransactionDocument } from './transactionSource'
+import { SENSITIVE_ACTION_PERMISSION, hasPermission } from './auth/accessCatalog'
+import { Cp6ActionBlocked, Cp6PermissionNotice } from './Cp6PermissionNotice'
+import { CP6_BUSINESS_TIME_LABEL, cp6WibPhysicalTimeToIso, formatCp6WibDateTime } from './cp6BusinessTime'
+import { normalizeClientError } from './lib/clientError'
+import {
+  findLaundryRateAt, productEffectiveAt, totalReadyToSend,
+  type Cp6LaundryBsProductSearchPage, type Cp6Product, type LaundryQcWorkspace,
+} from './laundryQcModel'
+import { useLaundryQcWorkspace } from './useLaundryQcWorkspace'
+import type { Json } from './types/database.preconnect'
+import { parseQuantityInput } from './quantityInput'
+import './connected-laundry-qc.css'
+import { Cp6Kpi } from './components/Cp6Kpi'
+import { isConnectedRuntime } from './config/runtime'
+import { useRetainedFormInput, useRetainedInput, type RetainedFormInput } from './useRetainedFormInput'
+import LaundryReceiptDependencies from './LaundryReceiptDependencies'
+
+const LaundryBdPanel = lazy(() => import('./LaundryBdPanel'))
+
+type RunAction = (
+  action: 'POST_DELIVERY' | 'POST_RECEIPT' | 'POST_FAILED_WASH' | 'REVERSE_DELIVERY' | 'REVERSE_RECEIPT',
+  payload: Json,
+  expectedVersion: number | null,
+  retireCommittedForm: () => void,
+) => Promise<boolean>
+type SearchLaundryBsProducts = (
+  deliveryBatchSizeLineId: string, physicalAt: string, query: string,
+  afterSortKey?: string | null,
+) => Promise<Cp6LaundryBsProductSearchPage>
+
+const parseQuantity = (value: string) => parseQuantityInput(value)
+const quantity = (value: string) => parseQuantity(value) ?? 0
+const money = (value: number) => `Rp${Math.round(value).toLocaleString('id-ID')}`
+const statusLabel: Record<string, string> = {
+  DRAFT: 'Draft', SENT: 'Dikirim', PARTIAL_RETURN: 'Kembali sebagian',
+  RECEIVED: 'Selesai diterima', POSTED: 'Tersimpan', REVERSED: 'Dibatalkan',
+}
+const status = (value: string) => statusLabel[value] ?? value.replaceAll('_', ' ')
+
+function SendLaundryForm({ workspace, writerLocked, canCreate, canPost, onAction, inputs }: {
+  workspace: LaundryQcWorkspace; writerLocked: boolean; canCreate: boolean; canPost: boolean; onAction: RunAction; inputs: RetainedFormInput
+}) {
+  const [batchId, setBatchId] = useRetainedInput(inputs, 'send.batchId', '')
+  const [vendorId, setVendorId] = useRetainedInput(inputs, 'send.vendorId', '')
+  const [processId, setProcessId] = useRetainedInput(inputs, 'send.processId', '')
+  const [targetColor, setTargetColor] = useRetainedInput(inputs, 'send.targetColor', '')
+  const [physicalAt, setPhysicalAt] = useRetainedInput(inputs, 'send.physicalAt', '')
+  const [reason, setReason] = useRetainedInput(inputs, 'send.reason', '')
+  const [notes, setNotes] = useRetainedInput(inputs, 'send.notes', '')
+  const [confirmed, setConfirmed] = useState(false)
+  const [quantities, setQuantities] = useRetainedInput<Record<string, string>>(inputs, 'send.quantities', {})
+  useEffect(() => setConfirmed(false), [workspace])
+  const actionAllowed = canCreate && canPost
+  const actionLocked = writerLocked || !actionAllowed
+  const batch = workspace.ready_batches.find((row) => row.distribution_batch_id === batchId) ?? null
+  const physicalIso = cp6WibPhysicalTimeToIso(physicalAt)
+  const rate = findLaundryRateAt(workspace, vendorId, processId, physicalIso ?? '')
+  const selectedLines = batch?.sizes.map((row) => ({
+    size_id: row.size_id,
+    qty_sent_pcs: quantity(quantities[row.size_id] ?? '0'),
+  })).filter((row) => row.qty_sent_pcs > 0) ?? []
+  const total = selectedLines.reduce((sum, row) => sum + row.qty_sent_pcs, 0)
+  const invalidQuantity = batch?.sizes.some((row) =>
+    parseQuantity(quantities[row.size_id] ?? '0') === null) ?? false
+  const over = batch?.sizes.some((row) =>
+    quantity(quantities[row.size_id] ?? '0') > row.available_qty_pcs) ?? false
+  const valid = Boolean(batch && workspace.readiness.laundry_writer_ready && actionAllowed
+    && vendorId && processId && targetColor.trim() && physicalIso && rate
+    && total > 0 && !invalidQuantity && !over && total <= batch.group_unsent_ready_qty_pcs
+    && reason.trim().length >= 4 && confirmed)
+
+  const fillReady = () => {
+    if (!batch) return
+    let remaining = batch.group_unsent_ready_qty_pcs
+    const next: Record<string, string> = {}
+    batch.sizes.forEach((row) => {
+      const take = Math.min(row.available_qty_pcs, remaining)
+      next[row.size_id] = String(take)
+      remaining -= take
+    })
+    setQuantities(next)
+    setConfirmed(false)
+  }
+
+  return <section className="clq-panel">
+    <header><div><span>KIRIM FISIK · JAHIT → LAUNDRY</span><h2>Catat barang yang benar-benar keluar</h2><p>Jumlah dimulai dari nol. “Isi dari sisa siap” hanya membantu menyalin batas data server; operator tetap mencocokkan fisiknya.</p></div><Send/></header>
+    <Cp6ActionBlocked allowed={actionAllowed} action="pengiriman Laundry" requirement="izin Buat dan Post Laundry"/>
+    {!workspace.readiness.laundry_writer_ready ? <div className="clq-warning"><AlertTriangle/><span><strong>Master Laundry belum lengkap.</strong> Lengkapi vendor, proses, dan tarif yang berlaku. Sistem tidak memakai data contoh sebagai pengganti.</span></div> : null}
+    <div className="clq-form-grid">
+      <label className="wide"><span>BATCH DISTRIBUSI DARI DATA SERVER</span><select aria-label="BATCH DISTRIBUSI AUTHORITATIVE" value={batchId} disabled={actionLocked} onChange={(event) => {
+        setBatchId(event.target.value); setQuantities({}); setConfirmed(false)
+      }}><option value="">Pilih batch yang fisiknya dikirim…</option>{workspace.ready_batches.map((row) => <option key={row.distribution_batch_id} value={row.distribution_batch_id}>{row.po_number} · {row.group_number} · Batch {row.batch_no} · siap {row.group_unsent_ready_qty_pcs} pcs</option>)}</select></label>
+      <label><span>VENDOR LAUNDRY</span><select value={vendorId} disabled={actionLocked} onChange={(event) => { setVendorId(event.target.value); setConfirmed(false) }}><option value="">Pilih vendor…</option>{workspace.lookups.vendors.map((row) => <option key={row.id} value={row.id}>{row.code} · {row.name}</option>)}</select></label>
+      <label><span>PROSES CUCI YANG DIMINTA</span><select aria-label="PROSES CUCI TARGET" value={processId} disabled={actionLocked} onChange={(event) => { setProcessId(event.target.value); setConfirmed(false) }}><option value="">Pilih proses…</option>{workspace.lookups.wash_processes.map((row) => <option key={row.id} value={row.id}>{row.code} · {row.name}</option>)}</select></label>
+      <label><span>WARNA YANG DIMINTA</span><input aria-label="WARNA TARGET" value={targetColor} disabled={actionLocked} onChange={(event) => { setTargetColor(event.target.value); setConfirmed(false) }} placeholder="Contoh: Navy"/></label>
+      <label><span>WAKTU FISIK KELUAR · WIB</span><input aria-label="WAKTU FISIK KELUAR" type="datetime-local" value={physicalAt} disabled={actionLocked} onChange={(event) => { setPhysicalAt(event.target.value); setConfirmed(false) }}/><small>Wajib diisi operator · {CP6_BUSINESS_TIME_LABEL}</small></label>
+      <label className="wide"><span>BUKTI / ALASAN SERAH TERIMA</span><input aria-label="ALASAN / BUKTI SERAH TERIMA" value={reason} disabled={actionLocked} onChange={(event) => { setReason(event.target.value); setConfirmed(false) }} placeholder="Contoh: surat jalan diterima dan jumlah dihitung bersama vendor"/></label>
+      <label className="wide"><span>INSTRUKSI KHUSUS · OPSIONAL</span><textarea value={notes} disabled={actionLocked} onChange={(event) => setNotes(event.target.value)} placeholder="Catatan proses, warna, atau penanganan khusus"/></label>
+    </div>
+    {batch ? <div className="clq-line-editor"><header><div><strong>{batch.model_code} · {batch.group_number} · Batch {batch.batch_no}</strong><small>{batch.contractor_name} · Pola {batch.pattern_code ?? 'data lama tidak tercatat'}</small></div><button type="button" disabled={actionLocked} onClick={fillReady}>Isi dari sisa siap</button></header>{batch.sizes.map((row) => <label key={row.size_id}><span><b>Ukuran {row.size_code}</b><small>Dibagi {row.allocated_qty_pcs} · sudah dikirim {row.sent_qty_pcs} · bisa dikirim {row.available_qty_pcs}</small></span><input aria-label={`Qty kirim size ${row.size_code}`} inputMode="numeric" disabled={actionLocked} value={quantities[row.size_id] ?? '0'} onChange={(event) => {
+      setQuantities((current) => ({ ...current, [row.size_id]: event.target.value })); setConfirmed(false)
+    }}/></label>)}</div> : <div className="clq-empty"><Waves/><strong>Pilih batch yang akan dikirim</strong><small>Pilihan hanya berasal dari pembagian yang sudah tersimpan dan hasil jahit yang tersedia.</small></div>}
+    <div className="clq-impact"><ShieldCheck/><span><strong>{total} pcs · tarif {rate ? money(rate.rate_per_pcs) : 'belum tersedia untuk waktu ini'}</strong><small>Perkiraan biaya {rate ? money(total * rate.rate_per_pcs) : 'belum dapat dihitung'}. Saat disimpan, server memperbarui WIP, biaya Laundry, HPP, jurnal, dan laporan sekaligus. Jika satu gagal, semuanya batal.</small></span></div>
+    {batch && (invalidQuantity || over || total > batch.group_unsent_ready_qty_pcs) ? <div className="clq-warning"><AlertTriangle/><span>{invalidQuantity ? 'Qty harus bilangan bulat pcs. Input mentah tetap ditampilkan dan tidak diubah diam-diam.' : over ? 'Qty melebihi sisa data server pada salah satu batch/ukuran. Angka tidak diubah diam-diam; koreksi input fisiknya.' : `Qty ${total} melebihi output jahit belum terkirim ${batch.group_unsent_ready_qty_pcs}. Kurangi jumlah; server juga akan menolak.`}</span></div> : null}
+    <label className="clq-confirm"><input type="checkbox" checked={confirmed} disabled={actionLocked} onChange={(event) => setConfirmed(event.target.checked)}/><span>Saya sudah mencocokkan vendor, batch, ukuran, jumlah, warna, dan waktu dengan serah-terima fisik.</span></label>
+    <footer><button className="primary" aria-label="Post pengiriman atomic" disabled={actionLocked || !valid} onClick={() => {
+      if (!batch || !physicalIso) return
+      void onAction('POST_DELIVERY', {
+        distribution_batch_id: batch.distribution_batch_id, vendor_id: vendorId,
+        wash_process_id: processId, target_dyeing_color: targetColor.trim(),
+        physical_at: physicalIso, reason: reason.trim(), notes: notes.trim() || null,
+        lines: selectedLines,
+      }, batch.cutting_group_row_version, () => { setBatchId(''); setQuantities({}); setConfirmed(false) })
+    }}><Send/> Catat pengiriman</button></footer>
+  </section>
+}
+
+export function LaundryBsProductSelector({ sourceId, modelId, sizeId, sizeCode, physicalIso, disabled,
+  value, catalog, searchProducts, onResolved, onChange }: {
+  sourceId: string; modelId: string; sizeId: string; sizeCode: string
+  physicalIso: string | null; disabled: boolean; value: string; catalog: Cp6Product[]
+  searchProducts: SearchLaundryBsProducts; onResolved: (products: Cp6Product[]) => void
+  onChange: (productId: string) => void
+}) {
+  const [query, setQuery] = useState('')
+  const [fetched, setFetched] = useState<Cp6Product[]>([])
+  const [cursor, setCursor] = useState<string | null>(null)
+  const [hasMore, setHasMore] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const requestRef = useRef(0)
+  useEffect(() => {
+    requestRef.current += 1
+    setLoading(false)
+    setFetched([])
+    setCursor(null)
+    setHasMore(false)
+    setError('')
+    return () => { requestRef.current += 1 }
+  }, [physicalIso, sourceId])
+  const options = useMemo(() => {
+    const merged = new Map<string, Cp6Product>()
+    ;[...catalog, ...fetched].forEach((product) => {
+      if (physicalIso && product.model_id === modelId && product.size_id === sizeId
+        && productEffectiveAt(product, physicalIso)) merged.set(product.id, product)
+    })
+    return [...merged.values()].sort((left, right) => [
+      left.brand_name, left.sku, left.model_name, left.color, left.size_code, left.id,
+    ].join('\u001f').localeCompare([
+      right.brand_name, right.sku, right.model_name, right.color, right.size_code, right.id,
+    ].join('\u001f'), 'id'))
+  }, [catalog, fetched, modelId, physicalIso, sizeId])
+  const runSearch = async (after: string | null) => {
+    if (!physicalIso) {
+      setError('Isi waktu fisik penerimaan agar versi SKU yang berlaku bisa dibuktikan.')
+      return
+    }
+    const requestId = ++requestRef.current
+    setLoading(true)
+    setError('')
+    try {
+      const page = await searchProducts(sourceId, physicalIso, query, after)
+      if (requestId !== requestRef.current) return
+      if (page.products.some((product) => product.model_id !== modelId || product.size_id !== sizeId)) {
+        throw new Error('Server mengembalikan SKU di luar Model/ukuran sumber Laundry.')
+      }
+      setFetched((current) => after === null ? page.products
+        : [...new Map([...current, ...page.products].map((product) => [product.id, product])).values()])
+      onResolved(page.products)
+      setCursor(page.next_cursor)
+      setHasMore(page.has_more)
+    } catch (failure) {
+      if (requestId === requestRef.current) {
+        const message = failure instanceof Error
+          && failure.message === 'Server mengembalikan SKU di luar Model/ukuran sumber Laundry.'
+          ? failure.message
+          : normalizeClientError(failure).message
+        setError(message)
+      }
+    } finally {
+      if (requestId === requestRef.current) setLoading(false)
+    }
+  }
+  return <div className="clq-product-selector product">
+    <span>MEREK → NOMOR SKU → MODEL UNTUK BS {value ? '· TERPILIH' : '· WAJIB'}</span>
+    <div className="clq-product-search"><input aria-label={`Cari SKU BS size ${sizeCode}`}
+      value={query} disabled={disabled || !physicalIso} placeholder="Cari Merek, nomor SKU, model, atau warna…"
+      onChange={(event) => {
+        requestRef.current += 1
+        setLoading(false)
+        setQuery(event.target.value)
+        setFetched([])
+        setCursor(null)
+        setHasMore(false)
+        setError('')
+      }}/><button type="button" disabled={disabled || !physicalIso || loading}
+        onClick={() => void runSearch(null)}>{loading ? <LoaderCircle className="spin"/> : <Search/>} Cari SKU</button></div>
+    <select aria-label={`SKU BS size ${sizeCode}`} value={value} disabled={disabled || !physicalIso}
+      onChange={(event) => onChange(event.target.value)}>
+      <option value="">Pilih Merek · Nomor SKU · Model…</option>
+      {options.map((product) => <option key={product.id} value={product.id}>{product.brand_name} · {product.sku} · {product.model_name} · {product.color}</option>)}
+    </select>
+    {hasMore && cursor ? <button className="clq-load-more" type="button" disabled={disabled || loading}
+      onClick={() => void runSearch(cursor)}>Muat 50 SKU berikutnya</button> : null}
+    {error ? <small className="bad">{error}</small> : <small>Pencarian terikat pada baris pengiriman, Model, ukuran, dan waktu fisik ini; tidak dibatasi 500 produk awal.</small>}
+  </div>
+}
+
+function ReturnLaundryForm({ workspace, writerLocked, canPost, onAction, searchProducts, inputs }: {
+  workspace: LaundryQcWorkspace; writerLocked: boolean; canPost: boolean; onAction: RunAction
+  searchProducts: SearchLaundryBsProducts; inputs: RetainedFormInput
+}) {
+  const candidates = workspace.deliveries.filter((row) => ['SENT', 'PARTIAL_RETURN'].includes(row.status)
+    && row.physical_outstanding_qty_pcs > 0 && row.active_claim_qty_pcs === 0)
+  const blockedByClaim = workspace.deliveries.filter((row) => ['SENT', 'PARTIAL_RETURN'].includes(row.status)
+    && row.physical_outstanding_qty_pcs > 0 && row.active_claim_qty_pcs > 0).length
+  const [deliveryId, setDeliveryId] = useRetainedInput(inputs, 'return.deliveryId', '')
+  const [processId, setProcessId] = useRetainedInput(inputs, 'return.processId', '')
+  const [physicalAt, setPhysicalAt] = useRetainedInput(inputs, 'return.physicalAt', '')
+  const [reason, setReason] = useRetainedInput(inputs, 'return.reason', '')
+  const [confirmed, setConfirmed] = useState(false)
+  const [good, setGood] = useRetainedInput<Record<string, string>>(inputs, 'return.good', {})
+  const [bs, setBs] = useRetainedInput<Record<string, string>>(inputs, 'return.bs', {})
+  const [products, setProducts] = useRetainedInput<Record<string, string>>(inputs, 'return.products', {})
+  const [resolvedProducts, setResolvedProducts] = useState<Record<string, Cp6Product>>({})
+  useEffect(() => setConfirmed(false), [workspace])
+  const actionLocked = writerLocked || !canPost
+  const delivery = candidates.find((row) => row.delivery_id === deliveryId) ?? null
+  const physicalIso = cp6WibPhysicalTimeToIso(physicalAt)
+  const productCatalog = useMemo(() => {
+    const merged = new Map(workspace.lookups.products.map((product) => [product.id, product]))
+    Object.values(resolvedProducts).forEach((product) => merged.set(product.id, product))
+    return [...merged.values()]
+  }, [resolvedProducts, workspace.lookups.products])
+  const rate = delivery ? findLaundryRateAt(workspace, delivery.vendor_id, processId, physicalIso ?? '') : null
+  const lines = delivery?.sizes.map((row) => ({
+    delivery_batch_size_line_id: row.delivery_batch_size_line_id,
+    qty_good_received: quantity(good[row.delivery_batch_size_line_id] ?? '0'),
+    qty_bs_laundry: quantity(bs[row.delivery_batch_size_line_id] ?? '0'),
+    bs_product_id: products[row.delivery_batch_size_line_id] || null,
+  })).filter((row) => row.qty_good_received + row.qty_bs_laundry > 0) ?? []
+  const over = delivery?.sizes.some((row) => {
+    const key = row.delivery_batch_size_line_id
+    return quantity(good[key] ?? '0') + quantity(bs[key] ?? '0') > row.outstanding_qty_pcs
+  }) ?? false
+  const invalidQuantity = delivery?.sizes.filter((row) => row.outstanding_qty_pcs > 0).some((row) => {
+    const key = row.delivery_batch_size_line_id
+    return parseQuantity(good[key] ?? '0') === null || parseQuantity(bs[key] ?? '0') === null
+  }) ?? false
+  const bsInvalidProduct = lines.some((row) => {
+    if (row.qty_bs_laundry <= 0 || !row.bs_product_id || !delivery) return row.qty_bs_laundry > 0
+    const source = delivery.sizes.find((item) => item.delivery_batch_size_line_id === row.delivery_batch_size_line_id)
+    return !source || !productCatalog.some((product) => product.id === row.bs_product_id
+      && product.model_id === delivery.model_id && product.size_id === source.size_id
+      && productEffectiveAt(product, physicalIso ?? ''))
+  })
+  const total = lines.reduce((sum, row) => sum + row.qty_good_received + row.qty_bs_laundry, 0)
+  const valid = Boolean(delivery && canPost && workspace.readiness.laundry_writer_ready && processId
+    && physicalIso && rate && total > 0 && !invalidQuantity && !over && !bsInvalidProduct
+    && reason.trim().length >= 4 && confirmed)
+  const reset = () => { setDeliveryId(''); setGood({}); setBs({}); setProducts({}); setResolvedProducts({}); setConfirmed(false) }
+
+  return <section className="clq-panel">
+    <header><div><h2>Terima barang Laundry</h2><p>Isi jumlah Good dan BS per ukuran. Sisa kiriman tetap tercatat di vendor.</p></div></header>
+    <Cp6ActionBlocked allowed={canPost} action="penerimaan Laundry" requirement="izin Post Laundry"/>
+    {blockedByClaim > 0 ? <div className="clq-warning"><AlertTriangle/><span><strong>{blockedByClaim} pengiriman masih punya klaim STUCK/MISSING aktif.</strong> Batalkan atau tolak klaim melalui alur resmi sebelum mencatat barang yang ternyata kembali.</span></div> : null}
+    <div className="clq-form-grid">
+      <label className="wide"><span>SURAT KIRIM YANG KEMBALI</span><select aria-label="SURAT KIRIM AKTIF" value={deliveryId} disabled={actionLocked} onChange={(event) => { reset(); setDeliveryId(event.target.value) }}><option value="">Pilih pengiriman yang kembali…</option>{candidates.map((row) => <option key={row.delivery_id} value={row.delivery_id}>{row.delivery_number} · {row.vendor_name} · {row.po_number} · belum kembali {row.physical_outstanding_qty_pcs} pcs</option>)}</select></label>
+      <label><span>PROSES CUCI SEBENARNYA</span><select aria-label="PROSES AKTUAL" value={processId} disabled={actionLocked} onChange={(event) => { setProcessId(event.target.value); setConfirmed(false) }}><option value="">Pilih hasil proses…</option>{workspace.lookups.wash_processes.map((row) => <option key={row.id} value={row.id}>{row.code} · {row.name}</option>)}</select></label>
+      <label><span>WAKTU FISIK KEMBALI · WIB</span><input aria-label="WAKTU FISIK KEMBALI" type="datetime-local" value={physicalAt} disabled={actionLocked} onChange={(event) => { setPhysicalAt(event.target.value); setProducts({}); setResolvedProducts({}); setConfirmed(false) }}/><small>Wajib diisi operator · {CP6_BUSINESS_TIME_LABEL}. Ganti waktu akan mengosongkan SKU BS.</small></label>
+      <label className="wide"><span>BUKTI / ALASAN PENERIMAAN</span><input aria-label="ALASAN / BUKTI PENERIMAAN" value={reason} disabled={actionLocked} onChange={(event) => { setReason(event.target.value); setConfirmed(false) }} placeholder="Contoh: jumlah dihitung bersama vendor dan surat jalan cocok"/></label>
+    </div>
+    {delivery ? <div className="clq-return-editor">
+      <header>
+        <div>
+          <strong>{delivery.delivery_number} · {delivery.vendor_name}</strong>
+          <small>{delivery.po_number} · {delivery.model_code} · {delivery.group_number} · Batch {delivery.batch_no}</small>
+        </div>
+        <em>{delivery.physical_outstanding_qty_pcs} pcs belum kembali</em>
+      </header>
+      {delivery.sizes.map((row) => {
+        const key = row.delivery_batch_size_line_id
+        const summary = <div><b>Ukuran {row.size_code}</b><small>Dikirim {row.qty_sent_pcs} · sudah kembali {row.good_returned_qty_pcs + row.bs_returned_qty_pcs} · belum kembali {row.outstanding_qty_pcs}</small></div>
+        if (row.outstanding_qty_pcs === 0) return <article key={key}>{summary}<strong>Semua sudah kembali</strong></article>
+        const goodQty = quantity(good[key] ?? '0')
+        const bsQty = quantity(bs[key] ?? '0')
+        return <article key={key}>
+          {summary}
+          <label><span>GOOD</span><input aria-label={`Good kembali size ${row.size_code}`} inputMode="numeric" disabled={actionLocked} value={good[key] ?? '0'} onChange={(event) => { setGood((current) => ({ ...current, [key]: event.target.value })); setConfirmed(false) }}/></label>
+          <label><span>BS LAUNDRY</span><input aria-label={`BS Laundry size ${row.size_code}`} inputMode="numeric" disabled={actionLocked} value={bs[key] ?? '0'} onChange={(event) => { setBs((current) => ({ ...current, [key]: event.target.value })); setConfirmed(false) }}/></label>
+          <LaundryBsProductSelector sourceId={key} modelId={delivery.model_id} sizeId={row.size_id} sizeCode={row.size_code} physicalIso={physicalIso} disabled={actionLocked || bsQty === 0} value={products[key] ?? ''} catalog={productCatalog} searchProducts={searchProducts} onResolved={(found) => setResolvedProducts((current) => ({ ...current, ...Object.fromEntries(found.map((product) => [product.id, product])) }))} onChange={(productId) => { setProducts((current) => ({ ...current, [key]: productId })); setConfirmed(false) }}/>
+          <strong className={goodQty + bsQty > row.outstanding_qty_pcs ? 'bad' : ''}>Belum kembali {Math.max(0, row.outstanding_qty_pcs - goodQty - bsQty)}</strong>
+        </article>
+      })}
+    </div> : <div className="clq-empty"><PackageCheck/><strong>Pilih surat kirim yang kembali</strong><small>Penerimaan boleh sebagian; jumlah yang belum kembali tetap tercatat dan tidak ditimpa.</small></div>}
+    <div className="clq-impact"><ShieldCheck/><span><strong>{total} pcs kembali · tarif {rate ? money(rate.rate_per_pcs) : 'belum tersedia untuk waktu ini'}</strong><small>Server mengecek tarif lagi, memisahkan Good ke antrean QC dan BS ke kasus BS, lalu memperbarui biaya, HPP, jurnal, dan laporan sekaligus.</small></span></div>
+    {invalidQuantity || over || bsInvalidProduct ? <div className="clq-warning"><AlertTriangle/><span>{invalidQuantity ? 'Good dan BS harus bilangan bulat pcs. Input mentah tidak diubah; tombol simpan tetap terkunci.' : over ? 'Good + BS melebihi jumlah yang belum kembali pada salah satu ukuran.' : 'Setiap Laundry-BS wajib punya SKU aktif pada waktu fisik dengan model dan ukuran yang sama.'}</span></div> : null}
+    <label className="clq-confirm"><input type="checkbox" checked={confirmed} disabled={actionLocked} onChange={(event) => setConfirmed(event.target.checked)}/><span>Saya sudah menghitung fisik per ukuran; Good dan BS benar, sisanya memang belum kembali.</span></label>
+    <footer><button className="primary" aria-label="Post penerimaan atomic" disabled={actionLocked || !valid} onClick={() => {
+      if (!delivery || !physicalIso) return
+      void onAction('POST_RECEIPT', {
+        delivery_id: delivery.delivery_id, wash_process_id: processId,
+        physical_at: physicalIso, reason: reason.trim(), lines,
+      }, delivery.row_version, reset)
+    }}><CheckCircle2/> Catat penerimaan</button></footer>
+  </section>
+}
+
+type FailedWashCustody = '' | 'RETRY_AT_VENDOR' | 'RETURN_UNPROCESSED'
+
+function FailedWashForm({ workspace, writerLocked, canPost, onAction, inputs }: {
+  workspace: LaundryQcWorkspace; writerLocked: boolean; canPost: boolean; onAction: RunAction; inputs: RetainedFormInput
+}) {
+  const candidates = workspace.deliveries.filter((row) => ['SENT', 'PARTIAL_RETURN'].includes(row.status)
+    && row.physical_outstanding_qty_pcs > 0 && row.active_claim_qty_pcs === 0)
+  const [deliveryId, setDeliveryId] = useRetainedInput(inputs, 'failed.deliveryId', '')
+  const [processId, setProcessId] = useRetainedInput(inputs, 'failed.processId', '')
+  const [custodyOutcome, setCustodyOutcome] = useRetainedInput<FailedWashCustody>(inputs, 'failed.custodyOutcome', '')
+  const [physicalAt, setPhysicalAt] = useRetainedInput(inputs, 'failed.physicalAt', '')
+  const [reason, setReason] = useRetainedInput(inputs, 'failed.reason', '')
+  const [confirmed, setConfirmed] = useState(false)
+  const [quantities, setQuantities] = useRetainedInput<Record<string, string>>(inputs, 'failed.quantities', {})
+  const [priceUnknown, setPriceUnknown] = useRetainedInput(inputs, 'failed.priceUnknown', false)
+  useEffect(() => setConfirmed(false), [workspace])
+  const actionLocked = writerLocked || !canPost
+  const delivery = candidates.find((row) => row.delivery_id === deliveryId) ?? null
+  const physicalIso = cp6WibPhysicalTimeToIso(physicalAt)
+  const rate = delivery ? findLaundryRateAt(workspace, delivery.vendor_id, processId, physicalIso ?? '') : null
+  // OW-08b (LAU-DEC04): only when no vendor rate is effective at all may the attempt be recorded with its price unknown (never zero);
+  // two or more effective rates stay refused. The server counts the rates again.
+  const at = physicalIso ? new Date(physicalIso).getTime() : NaN
+  const noRate = Boolean(delivery && processId && Number.isFinite(at)) && !workspace.lookups.rate_versions.some((row) => row.vendor_id === delivery?.vendor_id
+    && row.wash_process_id === processId && new Date(row.effective_from).getTime() <= at && (row.effective_to === null || new Date(row.effective_to).getTime() > at))
+  const unknownPrice = noRate && priceUnknown
+  const lines = delivery?.sizes.map((row) => ({
+    delivery_batch_size_line_id: row.delivery_batch_size_line_id,
+    qty_attempted_pcs: quantity(quantities[row.delivery_batch_size_line_id] ?? '0'),
+  })).filter((row) => row.qty_attempted_pcs > 0) ?? []
+  const total = lines.reduce((sum, row) => sum + row.qty_attempted_pcs, 0)
+  const invalidQuantity = delivery?.sizes.some((row) =>
+    parseQuantity(quantities[row.delivery_batch_size_line_id] ?? '0') === null) ?? false
+  const over = delivery?.sizes.some((row) =>
+    quantity(quantities[row.delivery_batch_size_line_id] ?? '0') > row.outstanding_qty_pcs) ?? false
+  const fullReturnEligible = Boolean(delivery && delivery.status === 'SENT'
+    && delivery.returned_qty_pcs === 0 && delivery.physical_outstanding_qty_pcs === delivery.qty_sent_pcs)
+  const fullReturnExact = Boolean(delivery && lines.length === delivery.sizes.length
+    && delivery.sizes.every((row) => quantity(quantities[row.delivery_batch_size_line_id] ?? '0') === row.qty_sent_pcs))
+  const valid = Boolean(delivery && canPost && workspace.readiness.laundry_writer_ready
+    && processId && custodyOutcome && physicalIso && (rate || unknownPrice) && total > 0 && !invalidQuantity && !over
+    && (custodyOutcome !== 'RETURN_UNPROCESSED' || fullReturnEligible && fullReturnExact)
+    && reason.trim().length >= 4 && confirmed)
+  const reset = () => {
+    setDeliveryId(''); setProcessId(''); setCustodyOutcome(''); setPhysicalAt('')
+    setReason(''); setQuantities({}); setPriceUnknown(false); setConfirmed(false)
+  }
+  const fillOutstanding = () => {
+    if (!delivery) return
+    setQuantities(Object.fromEntries(delivery.sizes.map((row) => [
+      row.delivery_batch_size_line_id,
+      String(custodyOutcome === 'RETURN_UNPROCESSED' ? row.qty_sent_pcs : row.outstanding_qty_pcs),
+    ])))
+    setConfirmed(false)
+  }
+
+  return <section className="clq-panel">
+    <header><div><span>JASA GAGAL CUCI · BIAYA TANPA GOOD / BS PALSU</span><h2>Catat attempt yang benar-benar ditagih vendor</h2><p>Pakai hanya bila vendor memang berhak menagih jasa yang gagal. Sistem menyimpan biaya attempt tanpa memalsukan penerimaan barang.</p></div><AlertTriangle/></header>
+    <Cp6ActionBlocked allowed={canPost} action="jasa gagal cuci berbayar" requirement="izin Post Laundry"/>
+    <div className="clq-form-grid">
+      <label className="wide"><span>SURAT KIRIM YANG MENGALAMI GAGAL CUCI</span><select aria-label="SURAT KIRIM GAGAL CUCI" value={deliveryId} disabled={actionLocked} onChange={(event) => {
+        setDeliveryId(event.target.value); setCustodyOutcome(''); setQuantities({}); setConfirmed(false)
+      }}><option value="">Pilih pengiriman aktif…</option>{candidates.map((row) => <option key={row.delivery_id} value={row.delivery_id}>{row.delivery_number} · {row.vendor_name} · {row.po_number} · di vendor {row.physical_outstanding_qty_pcs} pcs</option>)}</select></label>
+      <label><span>PROSES YANG GAGAL TETAPI DITAGIH</span><select aria-label="PROSES GAGAL CUCI" value={processId} disabled={actionLocked} onChange={(event) => { setProcessId(event.target.value); setConfirmed(false) }}><option value="">Pilih proses/tagihan…</option>{workspace.lookups.wash_processes.map((row) => <option key={row.id} value={row.id}>{row.code} · {row.name}</option>)}</select></label>
+      <label><span>POSISI FISIK SETELAH KEJADIAN</span><select aria-label="POSISI FISIK GAGAL CUCI" value={custodyOutcome} disabled={actionLocked || !delivery} onChange={(event) => {
+        const next = event.target.value as FailedWashCustody
+        setCustodyOutcome(next)
+        setQuantities(next === 'RETURN_UNPROCESSED' && delivery
+          ? Object.fromEntries(delivery.sizes.map((row) => [row.delivery_batch_size_line_id, String(row.qty_sent_pcs)]))
+          : {})
+        setConfirmed(false)
+      }}><option value="">Pilih posisi fisik…</option><option value="RETRY_AT_VENDOR">Tetap di vendor untuk dicoba lagi</option><option value="RETURN_UNPROCESSED" disabled={!fullReturnEligible}>Seluruh pengiriman kembali tanpa diproses</option></select></label>
+      <label><span>WAKTU KEJADIAN FISIK · WIB</span><input aria-label="WAKTU GAGAL CUCI" type="datetime-local" value={physicalAt} disabled={actionLocked} onChange={(event) => { setPhysicalAt(event.target.value); setConfirmed(false) }}/><small>Wajib diisi operator · {CP6_BUSINESS_TIME_LABEL}</small></label>
+      <label className="wide"><span>BUKTI / ALASAN TAGIHAN</span><input aria-label="ALASAN TAGIHAN GAGAL CUCI" value={reason} disabled={actionLocked} onChange={(event) => { setReason(event.target.value); setConfirmed(false) }} placeholder="Contoh: kimia habis setelah proses dimulai; vendor menagih satu attempt"/></label>
+    </div>
+    {delivery ? <div className="clq-line-editor"><header><div><strong>{delivery.delivery_number} · {delivery.vendor_name}</strong><small>{delivery.model_code} · {delivery.group_number} · Batch {delivery.batch_no}</small></div><button type="button" disabled={actionLocked || !custodyOutcome} onClick={fillOutstanding}>{custodyOutcome === 'RETURN_UNPROCESSED' ? 'Isi seluruh kiriman' : 'Isi seluruh yang di vendor'}</button></header>{delivery.sizes.filter((row) => row.outstanding_qty_pcs > 0).map((row) => <label key={row.delivery_batch_size_line_id}><span><b>Ukuran {row.size_code}</b><small>Dikirim {row.qty_sent_pcs} · masih di vendor {row.outstanding_qty_pcs}</small></span><input aria-label={`Qty gagal cuci size ${row.size_code}`} inputMode="numeric" disabled={actionLocked || custodyOutcome === 'RETURN_UNPROCESSED'} value={quantities[row.delivery_batch_size_line_id] ?? '0'} onChange={(event) => {
+      setQuantities((current) => ({ ...current, [row.delivery_batch_size_line_id]: event.target.value })); setConfirmed(false)
+    }}/></label>)}</div> : <div className="clq-empty"><Waves/><strong>Pilih pengiriman yang gagal dicuci</strong><small>Jumlah dimulai dari nol dan tidak pernah diturunkan otomatis agar input fisik tidak berubah diam-diam.</small></div>}
+    {noRate ? <label className="clq-confirm"><input type="checkbox" aria-label="Tarif vendor belum diketahui" checked={priceUnknown} disabled={actionLocked} onChange={(event) => { setPriceUnknown(event.target.checked); setConfirmed(false) }}/><span>Tarif vendor belum diketahui: catat attempt ini sekarang, harganya diisi nanti. Biayanya belum dihitung (bukan nol), HPP PO ini belum final, dan tutup buku sampai tanggal kejadian tertahan sampai owner/admin mengisi harga di Laundry › Harga & tagihan › Harga belum diketahui.</span></label> : null}
+    <div className="clq-impact"><ShieldCheck/><span><strong>{total} pcs attempt · {rate ? `${money(rate.rate_per_pcs)}/pcs · biaya ${money(total * rate.rate_per_pcs)}` : unknownPrice ? 'tarif vendor belum diketahui · biaya belum dihitung, bukan nol · HPP belum final' : 'tarif authoritative belum cocok'}</strong><small>{custodyOutcome === 'RETRY_AT_VENDOR' ? 'Fisik tetap tercatat di Laundry. Attempt berikutnya boleh menjadi biaya kedua hanya bila benar-benar terjadi.' : custodyOutcome === 'RETURN_UNPROCESSED' ? 'Seluruh fisik kembali ke Jahit. Pengiriman lama ditutup append-only dan kirim ulang wajib menjadi dokumen baru.' : 'Pilih posisi fisik; biaya dan custody tidak boleh diasumsikan.'}</small></span></div>
+    {invalidQuantity || over || custodyOutcome === 'RETURN_UNPROCESSED' && (!fullReturnEligible || !fullReturnExact) ? <div className="clq-warning"><AlertTriangle/><span>{invalidQuantity ? 'Qty attempt harus bilangan bulat pcs; input tidak diubah diam-diam.' : over ? 'Qty attempt melebihi fisik yang masih berada pada vendor.' : 'Kembali tanpa diproses wajib seluruh pengiriman asli, per ukuran, tanpa penerimaan parsial sebelumnya. Gunakan alur penerimaan biasa untuk barang yang hanya kembali sebagian.'}</span></div> : null}
+    <label className="clq-confirm"><input type="checkbox" checked={confirmed} disabled={actionLocked} onChange={(event) => setConfirmed(event.target.checked)}/><span>Saya sudah mencocokkan bukti tagihan, proses, jumlah per ukuran, waktu, dan posisi fisik. Tidak ada Good atau BS yang diterima dari attempt ini.</span></label>
+    <footer><button className="primary" aria-label="Post jasa gagal cuci atomic" disabled={actionLocked || !valid} onClick={() => {
+      if (!delivery || !physicalIso || !custodyOutcome) return
+      void onAction('POST_FAILED_WASH', {
+        delivery_id: delivery.delivery_id, wash_process_id: processId,
+        custody_outcome: custodyOutcome, physical_at: physicalIso,
+        reason: reason.trim(), lines, ...(rate ? {} : { price_status: 'UNKNOWN' }),
+      }, delivery.row_version, reset)
+    }}><ShieldCheck/> Catat attempt berbayar</button></footer>
+  </section>
+}
+
+function LaundryHistory({ workspace, writerLocked, canReverse, onAction, inputs, source, current }: {
+  workspace: LaundryQcWorkspace; writerLocked: boolean; canReverse: boolean; onAction: RunAction; inputs: RetainedFormInput; source: TransactionDocument | null; current: boolean
+}) {
+  const [reasons, setReasons] = useRetainedInput<Record<string, string>>(inputs, 'history.reasons', {})
+  const setReason = (key: string, value: string) => setReasons((current) => ({ ...current, [key]: value }))
+  return <section className="clq-history">
+    <header><History/><div><span>RIWAYAT TRANSAKSI</span><h2>Dokumen tidak dihapus; kesalahan dibalik dengan catatan baru</h2></div></header>
+    <Cp6ActionBlocked allowed={canReverse} action="koreksi riwayat Laundry" requirement="izin Reverse Laundry"/>
+    {workspace.deliveries.length === 0 ? <div className="clq-empty"><History/><strong>Belum ada pengiriman CP6</strong><small>Data lama yang belum punya hubungan lengkap tetap dipisahkan dan tidak ditebak.</small></div> : workspace.deliveries.map((delivery) => <article key={delivery.delivery_line_id} data-laundry-delivery-id={delivery.delivery_id} data-source-focus={delivery.delivery_id === source?.id ? 'true' : undefined}>
+      {delivery.delivery_id === source?.id ? <strong>Pengiriman asal dari transaksi produksi</strong> : null}
+      <header><div><small>{formatCp6WibDateTime(delivery.physical_at)} · versi {delivery.row_version}</small><strong>{delivery.delivery_number} · {delivery.vendor_name}</strong><span>{delivery.po_number} · {delivery.group_number} · Batch {delivery.batch_no} · {delivery.qty_sent_pcs} pcs</span></div><em>{delivery.returned_unprocessed_qty_pcs > 0 ? 'Kembali tanpa proses' : status(delivery.status)}</em></header>
+      <div className="clq-history-facts"><span><small>GOOD / BS KEMBALI</small><b>{delivery.returned_qty_pcs}</b></span><span><small>KEMBALI TANPA PROSES</small><b>{delivery.returned_unprocessed_qty_pcs}</b></span><span><small>MASIH DI VENDOR</small><b>{delivery.physical_outstanding_qty_pcs}</b></span><span><small>KLAIM AKTIF</small><b>{delivery.active_claim_qty_pcs}</b></span><span><small>TARIF SAAT DIKIRIM</small><b>{delivery.estimated_rate_snapshot === null ? 'Belum diketahui' : money(delivery.estimated_rate_snapshot)}</b></span></div>
+      {delivery.receipts.map((receipt) => {
+        const failedAttempt = receipt.event_kind === 'FAILED_WASH_ATTEMPT'
+        const custody = receipt.custody_outcome === 'RETURN_UNPROCESSED'
+          ? 'seluruh fisik kembali tanpa diproses' : 'fisik tetap di vendor'
+        return <div className="clq-reversal" key={receipt.id} data-laundry-receipt-id={receipt.id} data-source-focus={delivery.delivery_id === source?.id && receipt.id === source?.focus?.id ? 'true' : undefined}><span>{delivery.delivery_id === source?.id && receipt.id === source?.focus?.id ? <strong>Penerimaan asal yang dipilih</strong> : null}<small>{receipt.number} · versi {receipt.row_version}</small><strong>{failedAttempt ? `Cuci gagal berbayar · ${custody}` : 'Penerimaan fisik'} · {status(receipt.status)} · {formatCp6WibDateTime(receipt.physical_at)}</strong>{failedAttempt ? <small>{receipt.attempted_qty_pcs} pcs · {receipt.process_name} · tarif {receipt.actual_rate === null ? (receipt.cost_status === 'PENDING' ? 'vendor belum diketahui' : 'tidak ada') : money(receipt.actual_rate)} · biaya {receipt.actual_cost === null ? (receipt.cost_status === 'PENDING' ? 'belum dihitung, bukan nol' : 'tidak ada') : money(receipt.actual_cost)}</small> : null}{failedAttempt && receipt.status === 'POSTED' && receipt.actual_rate === null && receipt.cost_status === 'PENDING' ? <small>HPP PO belum final; isi harganya di Harga & tagihan › Harga belum diketahui.</small> : null}<small>{receipt.reversal_blocker ?? (failedAttempt && receipt.custody_outcome === 'RETURN_UNPROCESSED' ? 'Biaya dapat dibalik; fakta fisik kembali tetap dipertahankan.' : 'Siap dibalik secara authoritative.')}</small>{!failedAttempt && receipt.status === 'POSTED' && !receipt.reversible ? <LaundryReceiptDependencies receiptId={receipt.id} receiptNumber={receipt.number} receiptRevision={receipt.row_version} current={current}/>: null}</span><input aria-label={`Alasan reversal ${receipt.number}`} value={reasons[receipt.id] ?? ''} disabled={writerLocked || !canReverse || !receipt.reversible} onChange={(event) => setReason(receipt.id, event.target.value)} placeholder="Alasan pembatalan · wajib"/><button disabled={writerLocked || !canReverse || !receipt.reversible || (reasons[receipt.id] ?? '').trim().length < 4} onClick={() => void onAction('REVERSE_RECEIPT', { receipt_id: receipt.id, reason: reasons[receipt.id].trim() }, receipt.row_version, () => setReason(receipt.id, ''))}><Undo2/> {failedAttempt ? 'Batalkan biaya attempt' : 'Batalkan penerimaan'}</button></div>
+      })}
+      <div className="clq-reversal"><span><small>{delivery.returned_unprocessed_qty_pcs > 0 ? 'FAKTA FISIK SUDAH DIKEMBALIKAN' : 'GAGAL CUCI TANPA TAGIHAN'}</small><strong>{delivery.returned_unprocessed_qty_pcs > 0 ? 'Histori pengiriman lama tetap disimpan; kirim ulang dengan dokumen baru' : 'Batalkan surat kirim, lalu buat pengiriman baru'}</strong><small>{delivery.reversal_blocker ?? 'Siap dibalik secara authoritative.'}</small></span><input aria-label={`Alasan reversal ${delivery.delivery_number}`} value={reasons[delivery.delivery_id] ?? ''} disabled={writerLocked || !canReverse || !delivery.reversible} onChange={(event) => setReason(delivery.delivery_id, event.target.value)} placeholder="Bukti seluruh barang kembali"/><button disabled={writerLocked || !canReverse || !delivery.reversible || (reasons[delivery.delivery_id] ?? '').trim().length < 4} onClick={() => void onAction('REVERSE_DELIVERY', { delivery_id: delivery.delivery_id, reason: reasons[delivery.delivery_id].trim() }, delivery.row_version, () => setReason(delivery.delivery_id, ''))}><RotateCcw/> Batalkan pengiriman</button></div>
+    </article>)}
+  </section>
+}
+
+export default function ConnectedLaundryPage() {
+  const source = useTransactionSource('LAUNDRY')
+  return <LaundryWorkspace key={source?.key ?? 'menu'} initialSource={source?.document ?? null}/>
+}
+
+function LaundryWorkspace({ initialSource }: { initialSource: TransactionDocument | null }) {
+  const { runtime, identity } = useAuth()
+  const access = identity.status === 'AUTHORIZED' ? identity : null
+  const canCreate = hasPermission(access, 'production.laundry.create')
+  const canPost = hasPermission(access, SENSITIVE_ACTION_PERMISSION.postLaundry)
+  const canReverse = hasPermission(access, SENSITIVE_ACTION_PERMISSION.reverseLaundry)
+  const roleName = identity.status === 'AUTHORIZED' ? identity.profile.roleName : 'Tanpa role'
+  const bridge = useLaundryQcWorkspace('LAUNDRY', initialSource?.number ?? '')
+  const inputScope = JSON.stringify([isConnectedRuntime(runtime) ? runtime.projectRef : null,
+    access?.profile.id, access?.profile.authUserId, access?.profile.rowVersion, access?.profile.roleRowVersion, access?.permissions])
+  const inputs = useRetainedFormInput(inputScope, bridge.committedSequence)
+  const collectionTruncated = Boolean(bridge.workspace && (
+    bridge.workspace.collection_window.ready_batches_truncated
+    || bridge.workspace.collection_window.deliveries_truncated
+  ))
+  const [tab, setTab] = useState<'SEND' | 'RETURN' | 'FAILED' | 'HISTORY' | 'PRICING'>(initialSource ? 'HISTORY' : 'SEND')
+  const sourcePresent = !initialSource || Boolean(bridge.workspace?.deliveries.some(row => row.delivery_id === initialSource.id
+    && (!initialSource.focus || row.receipts.some(receipt => receipt.id === initialSource.focus?.id))))
+  // CP6-06 (M:3825, unknown is not zero): without a loaded workspace every KPI stays unknown instead of 0.
+  const kpis = useMemo(() => bridge.workspace ? {
+    ready: totalReadyToSend(bridge.workspace.ready_batches),
+    outside: bridge.workspace.deliveries.reduce((sum, row) => sum + row.physical_outstanding_qty_pcs, 0),
+    claims: bridge.workspace.deliveries.reduce((sum, row) => sum + row.active_claim_qty_pcs, 0),
+    legacy: bridge.workspace.legacy_unlinked.delivery_count,
+  } : null, [bridge.workspace])
+  const onAction: RunAction = bridge.runAction
+
+  useEffect(() => {
+    if (bridge.committedSequence > 0 && !bridge.workspaceStale) {
+      bridge.acknowledgeCommittedFormRetired(bridge.committedSequence)
+    }
+  }, [bridge.acknowledgeCommittedFormRetired, bridge.committedSequence, bridge.workspaceStale])
+
+  return <div className="connected-laundry-qc-page">
+    <section className="clq-hero"><div><h1>Laundry</h1><p>Catat kiriman dan barang yang kembali per ukuran.</p></div><div><button disabled={bridge.loading || Boolean(bridge.pending) || bridge.corruptedEnvelope} onClick={() => void bridge.load()}><RefreshCw/> Muat ulang data</button></div></section>
+    {bridge.error ? <div className="clq-alert error"><AlertTriangle/><span>{bridge.error}</span>{bridge.pending && !bridge.corruptedEnvelope ? <button aria-label="Reconcile UUID lama" onClick={() => void bridge.reconcile()} disabled={bridge.busy}><RefreshCw/> Cek status transaksi</button> : bridge.committedRefreshRequired || bridge.workspaceStale && !bridge.corruptedEnvelope ? <button onClick={() => void bridge.load()} disabled={bridge.busy}><RefreshCw/> Refetch</button> : null}</div> : null}
+    {bridge.notice ? <div className="clq-alert notice"><CheckCircle2/><span>{bridge.notice}</span></div> : null}
+    {collectionTruncated ? <div className="clq-warning" role="status"><AlertTriangle/><span><strong>Daftar server dibatasi agar halaman tetap stabil.</strong> Hasil yang tampil bukan seluruh histori. Persempit kata kunci pada kolom Cari sampai peringatan ini hilang sebelum menyimpulkan transaksi tidak ada.</span></div> : null}
+    {bridge.busy ? <div className="clq-busy"><LoaderCircle className="spin"/> Menjaga transaksi tetap satu kali…</div> : null}
+    <nav className="clq-tabs clq-laundry-tabs" aria-label="Tugas Laundry">
+      <button type="button" className={tab === 'SEND' ? 'active' : ''} aria-pressed={tab === 'SEND'} onClick={() => setTab('SEND')}>Kirim ke Laundry</button>
+      <button type="button" className={tab === 'RETURN' ? 'active' : ''} aria-pressed={tab === 'RETURN'} onClick={() => setTab('RETURN')}>Terima kembali</button>
+      <button type="button" className={tab === 'FAILED' ? 'active' : ''} aria-pressed={tab === 'FAILED'} onClick={() => setTab('FAILED')}>Cuci gagal berbayar</button>
+      <button type="button" className={tab === 'HISTORY' ? 'active' : ''} aria-pressed={tab === 'HISTORY'} onClick={() => setTab('HISTORY')}>Riwayat & koreksi</button>
+      <button type="button" className={tab === 'PRICING' ? 'active' : ''} aria-pressed={tab === 'PRICING'} onClick={() => setTab('PRICING')}>Harga & tagihan</button>
+      <label><Search aria-hidden="true"/><input aria-label="Cari PO, Potongan, atau vendor" value={bridge.query} onChange={(event) => bridge.search(event.target.value)} placeholder="Cari PO, Potongan, atau vendor…"/></label>
+    </nav>
+    <details className="clq-laundry-overview">
+      <summary>Ringkasan dan hak kerja</summary>
+      <div className="clq-laundry-overview-content">
+        <section className="clq-kpis"><Cp6Kpi label="SIAP DIKIRIM" value={kpis?.ready} note="pcs selesai jahit, belum dikirim"/><Cp6Kpi label="DI LUAR PABRIK" value={kpis?.outside} note="pcs belum kembali"/><Cp6Kpi label="TERIKAT KLAIM" value={kpis?.claims} note="Stuck/Missing aktif"/><Cp6Kpi label="DATA LAMA TERPISAH" value={kpis?.legacy} note="tidak ditebak atau digabung"/></section>
+        <Cp6PermissionNotice roleName={roleName} capabilities={[
+          { label: 'Kirim Laundry', allowed: canCreate && canPost, requirement: 'Buat + Post Laundry' },
+          { label: 'Terima Laundry', allowed: canPost, requirement: 'Post Laundry' },
+          { label: 'Gagal cuci berbayar', allowed: canPost, requirement: 'Post Laundry' },
+          { label: 'Koreksi riwayat', allowed: canReverse, requirement: 'Reverse Laundry' },
+        ]}/>
+      </div>
+    </details>
+    {/* The pricing tab reads its own workspace; a Laundry/QC read that failed or is still loading only locks its priced-send section. */}
+    {tab === 'PRICING' ? <Suspense fallback={<div className="clq-loading"><LoaderCircle className="spin"/> Memuat harga laundry…</div>}><LaundryBdPanel laundry={bridge.workspace ?? null} onPosted={() => void bridge.load()}/></Suspense>
+      : bridge.loading && !bridge.workspace ? <div className="clq-loading"><LoaderCircle className="spin"/> Memuat data resmi…</div> : bridge.workspace ? <>
+      {tab === 'SEND' ? <SendLaundryForm key={`send-${inputScope}-${bridge.committedSequence}`} inputs={inputs} workspace={bridge.workspace} writerLocked={bridge.writerLocked} canCreate={canCreate} canPost={canPost} onAction={onAction}/> : null}
+      {tab === 'RETURN' ? <ReturnLaundryForm key={`return-${inputScope}-${bridge.committedSequence}`} inputs={inputs} workspace={bridge.workspace} writerLocked={bridge.writerLocked} canPost={canPost} onAction={onAction} searchProducts={bridge.searchLaundryBsProducts}/> : null}
+      {tab === 'FAILED' ? <FailedWashForm key={`failed-${inputScope}-${bridge.committedSequence}`} inputs={inputs} workspace={bridge.workspace} writerLocked={bridge.writerLocked} canPost={canPost} onAction={onAction}/> : null}
+      {initialSource && !sourcePresent ? <p role="alert">Pengiriman atau penerimaan asal belum ditemukan pada hasil terbaru. Buka ulang sumber produksi sebelum membatalkannya.</p> : null}
+      {tab === 'HISTORY' ? <LaundryHistory key={`history-${inputScope}-${bridge.committedSequence}`} inputs={inputs} workspace={bridge.workspace} writerLocked={bridge.writerLocked || !sourcePresent} canReverse={canReverse} onAction={onAction} source={initialSource} current={!bridge.loading && !bridge.workspaceStale && !bridge.busy && !bridge.pending && sourcePresent}/> : null}
+    </> : <div className="clq-loading"><AlertTriangle/> Data belum tersedia; semua tombol transaksi tetap terkunci.</div>}
+    <section className="clq-rare-case"><AlertTriangle/><div><strong>Jangan campur dua kejadian cuci gagal.</strong><p>Tanpa tagihan: batalkan surat kirim setelah seluruh fisik kembali. Dengan tagihan: gunakan “Cuci gagal berbayar”; setiap attempt punya biaya sendiri, sementara posisi fisik tetap dicatat terpisah dan tidak pernah dibuat menjadi Good/BS palsu.</p></div></section>
+  </div>
+}

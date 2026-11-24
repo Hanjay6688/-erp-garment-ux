@@ -1,0 +1,14 @@
+.asw-tabs { display: flex; flex-wrap: wrap; gap: .65rem; }
+.asw-tabs button {
+  min-height: 44px;
+  max-width: 100%;
+  padding: .6rem .85rem;
+  border: 1px solid var(--control-border);
+  border-radius: .5rem;
+  background: var(--panel);
+  color: var(--text);
+  white-space: normal;
+  cursor: pointer;
+}
+.asw-tabs button[aria-pressed="true"] { background: var(--panel); color: var(--text); border-color: var(--control-border); }
+.asw-tabs button:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }

@@ -1,0 +1,211 @@
+{
+  "LEGACY_DOCUMENT": {
+    "label": "Dokumen lama yang sudah lunas penuh",
+    "required": [
+      "balance_type",
+      "party_code",
+      "document_number",
+      "document_date",
+      "original_amount",
+      "settled_before_cutover"
+    ],
+    "fields": {
+      "balance_type": "Jenis saldo dokumen",
+      "party_code": "Kode pihak",
+      "document_number": "Nomor dokumen asal",
+      "document_date": "Tanggal dokumen asal",
+      "original_amount": "Nominal dokumen awal",
+      "settled_before_cutover": "Sudah dibayar sebelum saldo awal",
+      "notes": "Catatan"
+    }
+  },
+  "OPENING_CUSTOMER_CREDIT": {
+    "label": "Kredit retur pelanggan yang belum dikembalikan",
+    "required": [
+      "customer_code",
+      "coa_account_code",
+      "document_number",
+      "document_date",
+      "original_amount",
+      "settled_before_cutover",
+      "amount"
+    ],
+    "fields": {
+      "customer_code": "Kode pelanggan",
+      "coa_account_code": "Kode akun kredit pelanggan",
+      "document_number": "Nomor nota retur/kredit",
+      "document_date": "Tanggal nota retur/kredit",
+      "original_amount": "Nominal kredit asal",
+      "settled_before_cutover": "Sudah dikembalikan sebelum saldo awal",
+      "amount": "Sisa kredit",
+      "notes": "Catatan"
+    }
+  },
+  "OPENING_SALE_RETURN": {
+    "label": "Hak retur penjualan lama yang barangnya belum kembali",
+    "required": [
+      "customer_code",
+      "return_number",
+      "invoice_document_number",
+      "product_sku",
+      "qty",
+      "credit_unit_price",
+      "unit_cost",
+      "credit_coa_account_code"
+    ],
+    "fields": {
+      "customer_code": "Kode pelanggan",
+      "return_number": "Nomor persetujuan retur",
+      "invoice_document_number": "Nomor invoice asal",
+      "product_sku": "Kode produk",
+      "brand_code": "Kode merek",
+      "model_code": "Kode model",
+      "color_name": "Warna",
+      "size_code": "Kode ukuran",
+      "qty": "Jumlah pcs boleh diretur",
+      "credit_unit_price": "Kredit per pcs",
+      "unit_cost": "Nilai persediaan per pcs",
+      "credit_coa_account_code": "Kode akun kredit pelanggan",
+      "notes": "Catatan"
+    }
+  },
+  "OPEN_PURCHASE_ORDER": {
+    "label": "PO pembelian yang belum diterima penuh saat saldo awal",
+    "required": [
+      "po_number",
+      "po_line_number",
+      "po_date",
+      "supplier_code",
+      "location_code",
+      "material_sku",
+      "ordered_qty",
+      "received_before_cutover_qty",
+      "cancelled_before_cutover_qty",
+      "remaining_qty",
+      "unit_price"
+    ],
+    "fields": {
+      "po_number": "Nomor PO pembelian",
+      "po_line_number": "Nomor baris PO",
+      "po_date": "Tanggal PO",
+      "supplier_code": "Kode supplier",
+      "location_code": "Kode gudang tujuan",
+      "material_sku": "Kode bahan",
+      "ordered_qty": "Jumlah dipesan",
+      "received_before_cutover_qty": "Sudah diterima sebelum saldo awal",
+      "cancelled_before_cutover_qty": "Sudah dibatalkan sebelum saldo awal",
+      "remaining_qty": "Sisa yang masih ditunggu",
+      "unit_price": "Harga estimasi per satuan",
+      "expected_date": "Perkiraan tanggal datang",
+      "notes": "Catatan"
+    }
+  },
+  "OPENING_PAYROLL_ENTITLEMENT": {
+    "label": "Hak upah, absensi, atau reimburse sebelum saldo awal yang belum disetujui",
+    "required": [
+      "kind",
+      "contractor_code",
+      "document_number",
+      "line_number",
+      "document_date",
+      "rate"
+    ],
+    "fields": {
+      "kind": "Jenis hak (SEWING_WORK/ATTENDANCE/ACCESSORY_REIMBURSEMENT)",
+      "contractor_code": "Kode mandor",
+      "document_number": "Nomor dokumen hutang mandor",
+      "line_number": "Nomor baris",
+      "document_date": "Tanggal hak timbul",
+      "rate": "Tarif",
+      "po_number": "Nomor PO (upah jahit)",
+      "work_component_code": "Kode komponen kerja",
+      "earned_qty": "Jumlah dikerjakan",
+      "paid_before_qty": "Jumlah sudah dibayar sebelum saldo awal",
+      "carry_qty": "Jumlah komponen dibawa (carry)",
+      "worker_name": "Nama pekerja (absensi)",
+      "period_start": "Awal periode absensi",
+      "period_end": "Akhir periode absensi",
+      "days": "Jumlah hari dibayar",
+      "category_code": "Kode kategori aksesori",
+      "good_qty": "Jumlah GOOD",
+      "paid_before_amount": "Nominal sudah dibayar sebelum saldo awal",
+      "notes": "Catatan"
+    }
+  },
+  "OPENING_REWORK": {
+    "label": "Rework yang masih di mandor atau laundry saat saldo awal",
+    "required": [
+      "rework_number",
+      "bs_source_key",
+      "destination_type",
+      "sent_date",
+      "qty_sent_original",
+      "qty_returned_before_cutover",
+      "qty_open"
+    ],
+    "fields": {
+      "rework_number": "Nomor rework asal",
+      "bs_source_key": "Kode rincian BS asal (opening_source_key baris BS)",
+      "destination_type": "Tujuan rework (CONTRACTOR/LAUNDRY)",
+      "contractor_code": "Kode mandor rework",
+      "vendor_code": "Kode laundry rework",
+      "sent_date": "Tanggal kirim rework",
+      "qty_sent_original": "Jumlah dikirim",
+      "qty_returned_before_cutover": "Sudah kembali sebelum saldo awal",
+      "qty_open": "Masih di rework saat saldo awal",
+      "notes": "Catatan"
+    }
+  },
+  "OPENING_REWORK_COMPONENT": {
+    "label": "Komponen upah rework terbuka",
+    "required": [
+      "rework_number",
+      "work_component_code",
+      "completed_before_bs_qty",
+      "qty_performed",
+      "rate_per_pcs"
+    ],
+    "fields": {
+      "rework_number": "Nomor rework asal",
+      "work_component_code": "Kode komponen kerja",
+      "completed_before_bs_qty": "Pcs yang komponennya sudah selesai sebelum BS",
+      "qty_performed": "Pcs yang akan dikerjakan",
+      "rate_per_pcs": "Tarif per pcs"
+    }
+  },
+  "OPEN_SALES_DRAFT": {
+    "label": "Draf penjualan yang masih terbuka saat saldo awal (dengan reservasi)",
+    "required": [
+      "draft_number",
+      "line_number",
+      "draft_date",
+      "customer_code",
+      "location_code",
+      "product_sku",
+      "qty_pcs",
+      "unit_price"
+    ],
+    "fields": {
+      "draft_number": "Nomor draf penjualan",
+      "line_number": "Nomor baris draf",
+      "draft_date": "Tanggal draf lama",
+      "customer_code": "Kode pelanggan",
+      "location_code": "Kode gudang barang jadi",
+      "product_sku": "Kode produk",
+      "qty_pcs": "Jumlah pcs yang direservasi",
+      "unit_price": "Harga per pcs",
+      "discount_amount": "Potongan baris",
+      "due_date": "Jatuh tempo",
+      "payment_terms": "Syarat pembayaran",
+      "notes": "Catatan"
+    }
+  },
+  "_extend": {
+    "UNINVOICED_RECEIPT": {
+      "fields": {
+        "invoice_document_number": "Nomor invoice asal untuk bagian yang sudah ditagih",
+        "invoiced_qty": "Jumlah yang sudah ditagih sebelum saldo awal"
+      }
+    }
+  }
+}

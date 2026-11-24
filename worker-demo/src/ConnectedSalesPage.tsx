@@ -1,0 +1,195 @@
+import {useTransactionSource} from './TransactionSourceNavigation'
+import {useCallback,useEffect,useLayoutEffect,useMemo,useRef,useState} from 'react'
+import {useAuth} from './auth/AuthProvider'
+import {isConnectedRuntime} from './config/runtime'
+import {getUatSupabaseClient} from './lib/supabase'
+import {normalizeClientError} from './lib/clientError'
+import {formatCp6WibDateTime} from './cp6BusinessTime'
+import {formatReceiptDecimal as numberText} from './procurementContract'
+import {parseSalesRead,parseSalesOutcome,salesStatuses,type SalesRead,type SalesStatus} from './salesReadContract'
+import {parseNoteCorrectionOutcome,parseNoteCorrectionWorkspace,type NoteCorrectionWorkspace} from './noteCorrectionContract'
+import {useProductionMutation,type ProductionMutationHandlers} from './useProductionMutation'
+import ProductionRecoveryNotice from './ProductionRecoveryNotice'
+import SalesDraftPanel from './SalesDraftPanel'
+import SalesPaymentPanel from './SalesPaymentPanel'
+import SalesReturnPanel from './SalesReturnPanel'
+import SalesChainReversalPanel from './SalesChainReversalPanel'
+import CustomerCreditPanel from './CustomerCreditPanel'
+import {parseCreditRecovery,parseCreditOutcome} from './customerCreditContract'
+import {parseSalesChainOutcome,type SalesChainPayload} from './salesChainContract'
+import type {Json} from './types/database.preconnect'
+import {Pencil,Trash2} from 'lucide-react'
+import RecordTools,{orderRecordPage,type RecordPageOrder} from './RecordTools'
+import TransactionDependencyNotice,{type TransactionDependencyStep} from './TransactionDependencyNotice'
+import SalesInvoiceDependencies from './SalesInvoiceDependencies'
+import {parsePaymentCorrectionOutcome} from './salesPaymentCorrectionContract'
+import {parseReturnCorrectionOutcome} from './salesReturnCorrectionContract'
+import {parseSettlementOutcome,type RecoveryPayload as ReturnSettlementPayload} from './salesReturnSettlementContract'
+import {useRetainedFormInput} from './useRetainedFormInput'
+import type {NoteCreditBasis} from './salesCorrectionCreditContract'
+import './procurement-connected.css'
+const labels:Record<SalesStatus,string>={DRAFT:'Draft · stok dipesan',POSTED:'Belum lunas',PARTIAL_PAID:'Dibayar sebagian',PAID:'Lunas',CANCELLED:'Draft dibatalkan',REVERSED:'Penjualan dibatalkan'}
+const money=(v:string)=>`Rp${numberText(v)}`
+type View='sales-invoice'|'sales-allocation'|'sales-payments'|'sales-returns'
+export default function ConnectedSalesPage({view='sales-invoice',initialSaleId=null}:{view?:View;initialSaleId?:string|null}){
+ const source=useTransactionSource('SALE')
+ const {runtime,identity}=useAuth()
+ if(!isConnectedRuntime(runtime)||identity.status!=='AUTHORIZED'||!identity.permissions.includes('sales.invoice.view'))return <section className="panel" role="alert">Hak melihat invoice diperlukan.</section>
+ if(initialSaleId!==null&&!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(initialSaleId))return <section className="panel" role="alert">Referensi invoice tidak sah. Buka kembali dokumen sumber.</section>
+ const selected=source?.document.id??initialSaleId?.toLowerCase()??null
+ return <Workspace key={`${source?.key??'menu'}:${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}:${view}:${selected??''}`} view={view} initialSaleId={selected} focus={source?.document.focus??null}/>
+}
+function Workspace({view,initialSaleId,focus}:{view:View;initialSaleId:string|null;focus:import('./transactionSource').TransactionDocument['focus']}){
+ const {runtime,identity}=useAuth();if(!isConnectedRuntime(runtime)||identity.status!=='AUTHORIZED')throw Error('Sesi penjualan belum siap.')
+ const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime]),finance=identity.permissions.includes('finance.ar.view')
+ const mutation=useProductionMutation('SALES'),{beginRead,currentReadTicket,finishRead,isReadCurrent,run,reconcile,invalidate}=mutation
+ const [data,setData]=useState<SalesRead|null>(null),[busy,setBusy]=useState(false),[error,setError]=useState(''),[q,setQ]=useState(''),[status,setStatus]=useState('')
+ const [draft,setDraft]=useState<{initial:NonNullable<SalesRead['detail']>|null;key:string;correction?:boolean;creditBasis?:NoteCreditBasis}|null>(null)
+ const [history,setHistory]=useState<NoteCorrectionWorkspace|null>(null),[historyBusy,setHistoryBusy]=useState(false)
+ const openedFocus=useRef(false)
+ const invoiceHeading=useRef<HTMLHeadingElement>(null)
+ const invoiceFocusTarget=useRef<string|null>(null)
+ const returnHeading=useRef<HTMLHeadingElement>(null)
+ const balanceLine=useRef<HTMLParagraphElement>(null)
+ const confirmedReturn=useRef<{saleId:string;rowVersion:string}|null>(null)
+ const [cash,setCash]=useState<{source:NonNullable<SalesRead['detail']>;key:string}|null>(null)
+ const [returns,setReturns]=useState<{source:NonNullable<SalesRead['detail']>;key:string}|null>(null)
+ const [chain,setChain]=useState<{source:NonNullable<SalesRead['detail']>;key:string}|null>(null)
+ const [credit,setCredit]=useState<{source:NonNullable<SalesRead['detail']>;key:string}|null>(null)
+ const [reviewed,setReviewed]=useState(false),[reason,setReason]=useState('Invoice dan barang sudah diperiksa')
+ const [listOrder,setListOrder]=useState<RecordPageOrder>('SOURCE'),reverseReview=useRef<HTMLDivElement>(null)
+ const requested=useRef({q:'',status:'',offset:0,sale_id:initialSaleId}),sequence=useRef(0),historySequence=useRef(0)
+ const returnInputs=useRetainedFormInput([runtime.projectRef,identity.profile.id,identity.profile.rowVersion,identity.profile.roleRowVersion,identity.permissions.join('|'),requested.current.sale_id??''].join(':'),mutation.committedSequence)
+ const [returnTarget,setReturnTarget]=useState<{sale_id:string;id:string;page_offset:number}|null>(null)
+ const invalidReturn=useCallback((message:string)=>{setData(null);setError(message);invalidate()},[invalidate])
+ const invalidSettlement=useCallback((message:string)=>{setReturns(null);invalidReturn(message)},[invalidReturn])
+ const load=useCallback(async()=>{
+  const query={...requested.current},s=++sequence.current,ticket=beginRead();++historySequence.current;setHistory(null);setHistoryBusy(false);setBusy(true);setData(null);setError('');setReviewed(false)
+  try{const r=await client.rpc('erp_cp7_get_sales_v1',{p_query:{...query,status:query.status||null,limit:25}});if(s!==sequence.current||!isReadCurrent(ticket))return false;if(r.error)throw r.error
+   const d=parseSalesRead(r.data,finance);if(d.page.offset!==query.offset||d.page.limit!==25||(d.detail?.id??null)!==query.sale_id)throw Error('Pilihan invoice berubah. Muat ulang invoice.')
+   const receipt=confirmedReturn.current
+   if(receipt&&d.detail?.id===receipt.saleId&&BigInt(d.detail.row_version)<BigInt(receipt.rowVersion))
+    throw Error('Pembetulan sudah tersimpan. Muat ulang untuk membaca saldo dari versi invoice terbaru.')
+   setData(d);return finishRead(ticket)
+  }catch(e){if(s===sequence.current&&isReadCurrent(ticket))setError(normalizeClientError(e).message);return false}finally{if(s===sequence.current)setBusy(false)}
+ },[client,finance,beginRead,finishRead,isReadCurrent])
+ useEffect(()=>{void load();return()=>{++sequence.current;++historySequence.current}},[load])
+ const visible=mutation.workspaceStale?null:data,d=visible?.detail,f=d?.financial
+ useEffect(()=>{
+  if(!d||invoiceFocusTarget.current!==d.id)return
+  invoiceFocusTarget.current=null
+  invoiceHeading.current?.focus()
+ },[d])
+ useLayoutEffect(()=>{
+  const receipt=confirmedReturn.current
+  const line=balanceLine.current
+  if(!receipt||!d||!line||d.id!==receipt.saleId||BigInt(d.row_version)<BigInt(receipt.rowVersion))return
+  confirmedReturn.current=null
+  line.focus({preventScroll:true})
+  line.scrollIntoView?.({block:'center',behavior:'instant'})
+ },[d])
+ const returnFormKey=returns?.key
+ useEffect(()=>{
+  const heading=returnHeading.current
+  if(returnFormKey&&heading){
+   heading.focus({preventScroll:true})
+   heading.scrollIntoView?.({block:'center'})
+  }
+ },[returnFormKey])
+ useEffect(()=>{if(!focus||openedFocus.current||!d||d.id!==initialSaleId||mutation.workspaceStale)return;openedFocus.current=true;const value={source:d,key:crypto.randomUUID()};if(focus.kind==='SALES_PAYMENT')setCash(value);else if(focus.kind==='SALES_RETURN')setReturns(value)},[focus,d,initialSaleId,mutation.workspaceStale])
+ const envelope=(value:Json)=>{const p=value as {document:Json;expected_version:string|null};if(!p||typeof p!=='object'||p.expected_version!==null&&typeof p.expected_version!=='string'||!p.document||typeof p.document!=='object'||Array.isArray(p.document))throw Error('Permintaan invoice belum lengkap.');return p}
+ const outcome=(v:unknown,e:{payload:Json;id:string;action:string})=>{if(['CREDIT_APPLY','CREDIT_REFUND','CREDIT_UNDO'].includes(e.action)){const r=parseCreditOutcome(v,e.id,parseCreditRecovery(e.payload,e.action));return {...r,sale_id:r.source_sale_id}}const payload=envelope(e.payload),document=payload.document as {sale_id?:string;payment_id?:string;return_id?:string;sale_date?:string};if(e.action==='RETURN_SETTLEMENT'){if(payload.expected_version===null)throw Error('Versi invoice asal diperlukan.');return parseSettlementOutcome(v,e.id,payload as ReturnSettlementPayload)}return e.action==='SALE_CHAIN_REVERSE'?parseSalesChainOutcome(v,e.id,document as SalesChainPayload):e.action==='RETURN_CORRECT'?parseReturnCorrectionOutcome(v,e.id,document.sale_id??'',document.return_id??''):e.action==='PAYMENT_CORRECT'?parsePaymentCorrectionOutcome(v,e.id,document.sale_id??'',document.payment_id??''):e.action==='CORRECT'?parseNoteCorrectionOutcome(v,e.id,document.sale_id??'',document.sale_date??''):parseSalesOutcome(v,e.id,e.action,document.sale_id??null,document.payment_id??null,document.return_id??null)}
+ const handlers:ProductionMutationHandlers={
+   send:e=>{if(['CREDIT_APPLY','CREDIT_REFUND','CREDIT_UNDO'].includes(e.action)){const p=parseCreditRecovery(e.payload,e.action);return client.rpc('erp_cp7_customer_credit_command_v1',{p_payload:p.document,p_request:e.id,p_expected_versions:p.review.expected_versions})}const p=envelope(e.payload);if(e.action==='RETURN_SETTLEMENT'){if(p.expected_version===null)throw Error('Versi invoice asal diperlukan.');return client.rpc('erp_cp7_settle_sales_return_v1',{p_payload:p.document,p_request:e.id,p_expected:p.expected_version})}if(e.action==='SALE_CHAIN_REVERSE'){if(p.expected_version===null)throw Error('Versi invoice asal diperlukan.');return client.rpc('erp_cp7_reverse_sales_chain_v1',{p_payload:p.document,p_request:e.id,p_expected:p.expected_version})}if(e.action==='RETURN_CORRECT'){if(p.expected_version===null)throw Error('Versi invoice asal diperlukan.');return client.rpc('erp_cp7_correct_sales_return_v1',{p_payload:p.document,p_request:e.id,p_expected:p.expected_version})}if(e.action==='PAYMENT_CORRECT'){if(p.expected_version===null)throw Error('Versi invoice asal diperlukan.');return client.rpc('erp_cp7_correct_sales_payment_v1',{p_payload:p.document,p_request:e.id,p_expected:p.expected_version})}if(e.action==='CORRECT'){if(p.expected_version===null)throw Error('Versi nota asal diperlukan.');return client.rpc('erp_cp7_correct_note_v1',{p_payload:p.document,p_request:e.id,p_expected:p.expected_version})}if(['CREATE','EDIT'].includes(e.action)&&p.document&&typeof p.document==='object'&&!Array.isArray(p.document)&&Object.prototype.hasOwnProperty.call(p.document,'mandor_buyer'))return client.rpc('erp_cp7_save_mandor_shop_sale_v1',{p_action:e.action,p_payload:p.document,p_request:e.id,p_expected:p.expected_version});return client.rpc('erp_cp7_save_sale_v1',{p_action:e.action,p_payload:p.document,p_request:e.id,p_expected:p.expected_version})},
+  validate:(v,e)=>{outcome(v,e)},
+   retire:(v,e)=>{const r=outcome(v,e);if(e.action==='RETURN_CORRECT'&&'return_id'in r&&'return_page_offset'in r&&typeof r.row_version==='string'){
+     invoiceFocusTarget.current=null
+     confirmedReturn.current={saleId:r.sale_id,rowVersion:r.row_version}
+     setReturnTarget({sale_id:r.sale_id,id:String(r.return_id),page_offset:Number(r.return_page_offset)})
+   }else if(e.action==='CORRECT')setReturnTarget(null);++historySequence.current;requested.current.sale_id=r.sale_id;setData(null);setHistory(null);setReviewed(false);setDraft(null);setCash(null);setReturns(null);setChain(null);setCredit(null)},reload:load,
+ }
+ const canPost=finance&&identity.permissions.includes('sales.invoice.post'),canCancel=finance&&identity.permissions.includes('sales.invoice.edit_draft'),locked=busy||historyBusy||mutation.writerLocked
+ const canCreate=finance&&identity.permissions.includes('sales.invoice.create'),canEdit=finance&&identity.permissions.includes('sales.invoice.edit_draft')
+ const canReturn=finance&&identity.permissions.includes('sales.return.view'),canReverseSale=finance&&identity.permissions.includes('sales.invoice.reverse')&&['OWNER','ADMIN'].includes(identity.profile.role)
+ const canChain=canReverseSale&&['sales.payment.view','sales.payment.reverse','sales.return.view','sales.return.reverse','finance.hpp.view'].every(p=>identity.permissions.includes(p))
+ const chainStale=!!chain&&(!d||d.id!==chain.source.id||d.row_version!==chain.source.row_version||d.review_token!==chain.source.review_token)
+ const canCorrect=canReverseSale&&['sales.invoice.create','sales.invoice.edit_draft','sales.invoice.post','finance.hpp.view'].every(p=>identity.permissions.includes(p))
+ const returnStale=!!returns&&(!d||d.id!==returns.source.id||d.row_version!==returns.source.row_version||d.review_token!==returns.source.review_token)
+ const title=view==='sales-payments'?'Pembayaran Pelanggan':view==='sales-returns'?'Retur Penjualan':'Penjualan & Invoice'
+ const canCash=finance&&identity.permissions.includes('sales.payment.view')
+ const cashStale=!!cash&&(!d||d.id!==cash.source.id||d.row_version!==cash.source.row_version||d.review_token!==cash.source.review_token)
+ const stale=!!draft?.initial&&(!d||d.id!==draft.initial.id||d.row_version!==draft.initial.row_version||d.review_token!==draft.initial.review_token||(draft.correction?!['POSTED','PARTIAL_PAID','PAID'].includes(d.status):d.status!=='DRAFT'))
+ async function loadHistory(openEdit=false){
+  if(!d||!canCorrect||locked)return
+  const ticket=currentReadTicket();if(!ticket)return
+  const source=d.id,s=++historySequence.current,parent=sequence.current;setHistory(null);setHistoryBusy(true);setError('')
+  try{const r=await client.rpc('erp_cp7_get_note_correction_v2',{p_sale:source});if(s!==historySequence.current||parent!==sequence.current||!isReadCurrent(ticket))return;if(r.error)throw r.error
+   const h=parseNoteCorrectionWorkspace(r.data,source);if(h.current_sale_id===source&&(h.current.detail?.row_version!==d.row_version||h.current.detail?.review_token!==d.review_token))throw Error('Nota berubah. Muat ulang dan periksa nota terbaru.');setHistory(h)
+   if(openEdit&&h.current_sale_id===source)setDraft({initial:d,key:crypto.randomUUID(),correction:true,creditBasis:h.credit_carry})
+  }catch(e){if(s===historySequence.current&&parent===sequence.current&&isReadCurrent(ticket)){setHistory(null);setData(null);invalidate();setError(normalizeClientError(e).message)}}finally{if(s===historySequence.current)setHistoryBusy(false)}
+ }
+ const actionLocked=locked||!!draft||!!cash||!!returns||!!chain||!!credit||!!credit
+ const nonzero=(value:string|undefined)=>value!==undefined&&!/^0+(?:\.0+)?$/.test(value)
+ const openNoteCorrection=()=>{
+  if(!d||actionLocked)return
+  if(nonzero(f?.paid_total)){void loadHistory(true);return}
+  setDraft({initial:d,key:crypto.randomUUID(),correction:true})
+ }
+ const deleteSteps:TransactionDependencyStep[]=d&&canReverseSale?[
+  ...(nonzero(f?.paid_total)?[{key:'PAYMENTS',message:`Pembayaran ${d.number} masih aktif. Buka daftar pembayaran lalu batalkan pembayaran yang tercatat.`,buttonLabel:`Buka pembayaran ${d.number}`,onOpen:canCash?()=>setCash({source:d,key:crypto.randomUUID()}):undefined,disabled:actionLocked}]:[]),
+  ...(nonzero(d.returned_qty)?[{key:'RETURNS',message:`Retur ${d.number} masih aktif. Buka daftar retur lalu batalkan retur yang tercatat; periksa pemakaian barang atau refund yang menghalanginya.`,buttonLabel:`Buka retur ${d.number}`,onOpen:canReturn?()=>setReturns({source:d,key:crypto.randomUUID()}):undefined,disabled:actionLocked}]:[]),
+ ]:[]
+ const write=(action:'POST'|'CANCEL'|'SALE_REVERSE')=>{if(d?.review_token&&!actionLocked&&reviewed&&reason.trim().length>=5&&(action!=='SALE_REVERSE'||!deleteSteps.length))void run(action,{document:{sale_id:d.id,review_token:d.review_token,change_reason:reason.trim()},expected_version:d.row_version},null,handlers)}
+ const openInvoice=(id:string)=>{
+  confirmedReturn.current=null
+  invoiceFocusTarget.current=id
+  requested.current.sale_id=id
+  void load()
+ }
+ const browse=()=>{setQ('');setStatus('');requested.current={q:'',status:'',offset:0,sale_id:null};void load()}
+ return <section className="cproc csales">
+  <header className="panel cproc-heading"><div><div className="eyebrow">PENJUALAN</div><h1>{title}</h1><p>{view==='sales-payments'?'Pilih invoice untuk mencatat atau memeriksa pembayaran pelanggan.':view==='sales-returns'?'Pilih invoice asal untuk mencatat barang kembali dan nilai retur.':'Periksa invoice, barang yang dipesan, retur, dan sisa pembayaran.'}</p></div><button disabled={busy||mutation.busy} onClick={()=>void load()}>Muat ulang invoice</button></header>
+  {canCreate?<button className="primary-btn" disabled={locked||!!draft||!!cash||!!returns||!!chain||!!credit||!!credit} onClick={()=>setDraft({initial:null,key:crypto.randomUUID()})}>Buat invoice</button>:null}
+  <ProductionRecoveryNotice recovery={mutation} onReconcile={()=>reconcile(handlers)} className="panel"/>
+  {error?<p className="panel" role="alert">{error}</p>:null}{busy?<p role="status">Memuat invoice…</p>:null}
+  {draft?<SalesDraftPanel key={draft.key} initial={draft.initial} correction={draft.correction} creditBasis={draft.creditBasis} readFence={mutation} locked={locked} stale={stale} onClose={()=>setDraft(null)} onSave={(action,document,version)=>{if(!locked&&!stale)void run(draft.correction?'CORRECT':action,{document,expected_version:version},null,handlers)}}/>:null}
+  {cash?<SalesPaymentPanel key={cash.key} source={cash.source} locked={locked} stale={cashStale} onClose={()=>setCash(null)} onSave={(action,document,version)=>{if(!locked&&!cashStale)void run(action,{document,expected_version:version},null,handlers)}}/>:null}
+  {returns?<SalesReturnPanel key={returns.key} headingRef={returnHeading} source={returns.source} locked={locked} stale={returnStale} inputs={returnInputs} readFence={mutation} correctedFocus={returnTarget?.sale_id===returns.source.id?returnTarget:null} onInvalid={invalidReturn} settlement={{pendingEnvelope:Boolean(mutation.pending)||mutation.externalMutationBlocked||mutation.corruptedEnvelope,onInvalid:invalidSettlement,onIntent:payload=>{if(!locked&&!returnStale&&payload.document.sale_id===returns.source.id&&payload.expected_version===returns.source.row_version&&payload.document.review_token===returns.source.review_token)void run('RETURN_SETTLEMENT',payload,null,handlers)}}} onClose={()=>{setReturns(null);invoiceHeading.current?.focus()}} onSave={(action,document,version)=>{if(!locked&&!returnStale)void run(action,{document,expected_version:version},null,handlers)}}/>:null}
+  {chain?<SalesChainReversalPanel key={chain.key} source={chain.source} locked={locked} stale={chainStale} readFence={mutation} onInvalid={invalidReturn} onClose={()=>setChain(null)} onSave={(document,version)=>{if(!locked&&!chainStale)void run('SALE_CHAIN_REVERSE',{document,expected_version:version},null,handlers)}}/>:null}
+  {credit?<CustomerCreditPanel key={credit.key} source={d?.id===credit.source.id?d:credit.source} locked={locked} stale={!d||d.id!==credit.source.id||mutation.workspaceStale} pendingEnvelope={Boolean(mutation.pending)||mutation.externalMutationBlocked||mutation.corruptedEnvelope} readFence={mutation} onInvalid={invalidReturn} onClose={()=>setCredit(null)} onIntent={payload=>{if(!locked&&d?.id===credit.source.id&&payload.review.selection.source_sale_id===d.id&&payload.review.expected_versions[d.id]===d.row_version)void run(`CREDIT_${payload.document.action}`,payload as unknown as Json,null,handlers)}}/>:null}
+  <RecordTools title="invoice" busy={busy||mutation.busy} order={listOrder} onOrder={setListOrder} onBrowse={browse} submitLabel="Cari invoice" onSubmit={e=>{e.preventDefault();requested.current={q:q.trim(),status,offset:0,sale_id:null};void load()}}
+   search={<label>Cari nomor invoice atau pelanggan<input aria-label="Cari invoice" value={q} maxLength={120} onChange={e=>setQ(e.target.value)}/></label>}
+   filters={<label>Status invoice<select value={status} aria-label="Status invoice" onChange={e=>setStatus(e.target.value)}><option value="">Semua status</option>{salesStatuses.map(s=><option key={s} value={s}>{labels[s]}</option>)}</select></label>}/>
+  <div className="cproc-layout"><section className="panel" aria-label="Daftar invoice"><h2>Daftar invoice</h2>
+   {visible?.page.rows.length===0?<p>Belum ada invoice sesuai pencarian.</p>:null}
+   {orderRecordPage(visible?.page.rows,listOrder,r=>`${r.number} ${r.customer_name}`).map(r=><button className="cproc-receipt" key={r.id} aria-pressed={r.id===d?.id} disabled={busy||mutation.busy} onClick={()=>openInvoice(r.id)}><span><strong>{r.number}</strong><small>{r.customer_name} · {numberText(r.qty_pcs)} PCS</small><small>{formatCp6WibDateTime(r.physical_at)}</small></span><span><small>{labels[r.status]}</small>{r.financial?<strong>{money(r.financial.net_total)}</strong>:null}</span></button>)}
+   {visible?<div className="cproc-pagination"><span>Total {visible.page.total}</span><button disabled={busy||mutation.busy||visible.page.offset===0} onClick={()=>{requested.current.offset=Math.max(0,visible.page.offset-25);void load()}}>Invoice sebelumnya</button><button disabled={busy||mutation.busy||visible.page.next_offset===null} onClick={()=>{requested.current.offset=visible.page.next_offset??0;void load()}}>Invoice berikutnya</button></div>:null}
+  </section><aside className="panel" aria-label="Rincian invoice">{d?<>
+   <div className="eyebrow">{labels[d.status]}</div><h2 ref={invoiceHeading} tabIndex={-1}>{d.number}</h2><p>{d.customer_name} · {d.location_name??'Lokasi belum tercatat'}</p><p>{formatCp6WibDateTime(d.physical_at)}{d.due_date?` · jatuh tempo ${d.due_date}`:''}</p>
+   {canReturn&&['POSTED','PARTIAL_PAID','PAID'].includes(d.status)?<button type="button" className={view==='sales-returns'?'primary-btn':undefined} disabled={actionLocked} onClick={()=>setReturns({source:d,key:crypto.randomUUID()})}>Retur fisik invoice</button>:null}
+   {(d.status==='DRAFT'&&(canEdit||canCancel)||canReverseSale&&['POSTED','PARTIAL_PAID','PAID'].includes(d.status))?<div className="transaction-tools" aria-label={`Edit atau hapus ${d.number}`}><strong>Tindakan transaksi</strong>
+    {d.status==='DRAFT'&&canEdit?<button disabled={actionLocked} onClick={()=>setDraft({initial:d,key:crypto.randomUUID()})}><Pencil aria-hidden="true"/>Edit draft invoice</button>:null}
+    {canCorrect&&['POSTED','PARTIAL_PAID','PAID'].includes(d.status)?<button className="primary-btn" title="Edit jumlah, harga dan isi nota" disabled={actionLocked} onClick={openNoteCorrection}><Pencil aria-hidden="true"/>Benerin nota</button>:null}
+    {(d.status==='DRAFT'?canCancel:canReverseSale)?<button type="button" disabled={actionLocked} onClick={()=>{reverseReview.current?.scrollIntoView?.({block:'center',behavior:'smooth'});reverseReview.current?.querySelector<HTMLInputElement>('input:not([type=checkbox])')?.focus()}}><Trash2 aria-hidden="true"/>Hapus / batalkan invoice</button>:null}
+   </div>:null}
+   <TransactionDependencyNotice documentNumber={d.number} steps={deleteSteps}/>
+   {deleteSteps.length>0?<SalesInvoiceDependencies source={d} current={!mutation.workspaceStale} locked={actionLocked}/>:null}
+   <p>{numberText(d.qty_pcs)} PCS dalam invoice · {numberText(d.reserved_qty)} PCS masih dipesan · {numberText(d.returned_qty)} PCS sudah diretur.</p>
+   {d.status==='DRAFT'?<p>Draft memesan stok siap jual. Piutang dan penjualan terbentuk saat invoice disahkan.</p>:null}
+   {f?<div className="cproc-review" aria-label="Nilai invoice"><p>Bruto <strong>{money(f.gross_total)}</strong></p><p>Retur <strong>{money(f.return_total)}</strong> · bersih <strong>{money(f.net_total)}</strong></p><p>Pelunasan efektif invoice <strong>{money(f.paid_total)}</strong></p>{f.open_balance!==null?<p ref={balanceLine} tabIndex={-1}>Sisa pembayaran <strong>{money(f.open_balance)}</strong></p>:<p>{f.state==='DRAFT_PREVIEW'?'Nilai draft belum menjadi piutang.':'Dokumen ini sudah dibatalkan.'}</p>}</div>:null}
+   {canCash&&['POSTED','PARTIAL_PAID','PAID'].includes(d.status)?<button disabled={locked||!!draft||!!cash||!!returns||!!chain||!!credit||!!credit} onClick={()=>setCash({source:d,key:crypto.randomUUID()})}>Pembayaran invoice</button>:null}
+   {finance&&identity.permissions.includes('sales.return.view')&&['POSTED','PARTIAL_PAID','PAID'].includes(d.status)?<button disabled={actionLocked} onClick={()=>setCredit({source:d,key:crypto.randomUUID()})}>Saldo kredit pelanggan</button>:null}
+   {d.notes?<p>{d.notes}</p>:null}
+   {canCorrect&&d.status!=='DRAFT'&&d.status!=='CANCELLED'?<button disabled={locked||!!draft||!!cash||!!returns||!!chain||!!credit||!!credit} onClick={()=>void loadHistory()}>Riwayat pembetulan nota</button>:null}
+   {historyBusy?<p role="status">Memuat riwayat pembetulan…</p>:null}
+   {history?<section className="cproc-review" aria-label="Riwayat pembetulan nota"><h3>Nota {history.original_note_number}</h3>{history.history.length===0?<p>Belum pernah dibetulkan.</p>:history.history.map(h=><article key={h.revision_id}><strong>Pembetulan {h.revision}</strong><p>{h.reason}</p><p>Dibetulkan oleh {h.actor_display_name??`pengguna ${h.actor_id}`} <small>· nama profil saat ini</small></p><small>Kejadian {formatCp6WibDateTime(h.effective_at)} · dibetulkan {formatCp6WibDateTime(h.recorded_at)}</small></article>)}{history.current_sale_id!==d.id?<button disabled={actionLocked} onClick={()=>{requested.current.sale_id=history.current_sale_id;void load()}}>Buka nota yang berlaku</button>:<p>Yang tampil adalah nota yang berlaku saat ini.</p>}
+    {history.credit_carry&&<><p>Saldo kredit terpakai {money(history.credit_carry.transfer_amount)} · nilai minimum nota pengganti {money(history.credit_carry.minimum_replacement_net)}.</p>
+     {history.credit_carry.consumers.map(event=><p key={event.event_id}>Riwayat kredit {event.event_id} · {money(event.amount)} · transaksi {event.economic_date} · buku {event.transaction_date}.</p>)}
+    </>}
+   </section>:null}
+   {d.items.map(i=><article className="cproc-item" key={i.id}><h3>{i.commercial_sku} · {i.size_code}</h3><p>{i.product_name} · {i.brand_name} · {numberText(i.qty_pcs)} PCS</p>{i.financial?<p>{money(i.financial.unit_price)} per PCS · potongan {money(i.financial.discount)} · jumlah <strong>{money(i.financial.line_total)}</strong></p>:null}<small>SKU fisik {i.product_sku}. Kelompok invoice mengikuti tanggal transaksi.</small>{i.notes?<p>{i.notes}</p>:null}</article>)}
+   {d.status==='DRAFT'&&(canPost||canCancel)?<div ref={reverseReview} className="cproc-review"><label>Catatan tindakan<input aria-label="Catatan tindakan invoice" maxLength={1000} disabled={locked} value={reason} onChange={e=>{setReason(e.target.value);setReviewed(false)}}/></label><label className="cproc-check"><input type="checkbox" aria-label="Invoice sudah diperiksa" disabled={locked} checked={reviewed} onChange={e=>setReviewed(e.target.checked)}/>Pelanggan, barang, harga, dan tanggal sudah saya periksa.</label><p>Pengesahan mencatat penjualan dan piutang. Pembatalan draft mengembalikan barang yang dipesan ke stok siap jual.</p>{canPost?<button className="primary-btn" disabled={locked||!!draft||!!cash||!!returns||!!chain||!!credit||!reviewed||reason.trim().length<5} onClick={()=>write('POST')}>Sahkan invoice</button>:null}{canCancel?<button disabled={locked||!!draft||!!cash||!!returns||!!chain||!!credit||!reviewed||reason.trim().length<5} onClick={()=>write('CANCEL')}>Batalkan draft invoice</button>:null}</div>:null}
+   {canReverseSale&&['POSTED','PARTIAL_PAID','PAID'].includes(d.status)?<div ref={reverseReview} className="cproc-review"><h3>Batalkan seluruh penjualan</h3><p>Untuk memperbaiki jumlah atau harga, pilih Benerin nota. Pembatalan seluruh penjualan membalik penjualan, piutang, stok, dan HPP. Pembayaran dan retur aktif dapat dibatalkan satu per satu, atau melalui pembatalan rantai sekaligus.</p><label>Alasan pembatalan<input aria-label="Alasan pembatalan penjualan" value={reason} maxLength={1000} disabled={locked} onChange={e=>{setReason(e.target.value);setReviewed(false)}}/></label><label className="cproc-check"><input type="checkbox" aria-label="Pembatalan penjualan sudah diperiksa" disabled={locked} checked={reviewed} onChange={e=>setReviewed(e.target.checked)}/>Invoice dan alasan pembatalan sudah saya periksa.</label><button disabled={actionLocked||deleteSteps.length>0||!reviewed||reason.trim().length<5} onClick={()=>write('SALE_REVERSE')}>Batalkan penjualan tercatat</button>{canChain?<button type="button" disabled={actionLocked} onClick={()=>setChain({source:d,key:crypto.randomUUID()})}>Periksa pembatalan rantai</button>:null}</div>:null}
+  </>:<><h2>Rincian invoice</h2><p>Pilih invoice untuk memeriksa barang dan pembayaran yang tercatat.</p></>}</aside></div>
+ </section>
+}

@@ -1,0 +1,86 @@
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App'
+import { AuthProvider } from './auth/AuthProvider'
+import { AuthGate, RuntimeConfigurationFailure } from './auth/AuthGate'
+import {
+  consumeInviteAcceptanceUrl,
+  createInviteAcceptanceAttempt,
+  InviteAcceptancePage,
+  INVITE_ACCEPTANCE_PATH,
+  isInviteAcceptancePath,
+  isInviteSensitiveNavigation,
+} from './auth/InviteAcceptance'
+import { isUatRuntime, parseRuntimeConfig } from './config/runtime'
+import { getUatInviteSupabaseClient, getUatSupabaseClient } from './lib/supabase'
+import './theme.css'
+import './styles.css'
+import './auth/auth.css'
+import './brand-books.css'
+import './movement-book.css'
+import './global-readability.css'
+import './procurement.css'
+import './laundry.css'
+import './workspace-refinements.css'
+import './ux-corrections.css'
+import './wip-control.css'
+import './layout-resilience.css'
+import './cutting-reminders.css'
+import './quick-ui-layout-fixes.css'
+import './wip-roll-operational.css'
+import './ux-rapih.css'
+import './worker-theme.css'
+import { applyUxTampilan, readUxTampilan } from './uxTampilan'
+
+applyUxTampilan(readUxTampilan())
+
+const root = ReactDOM.createRoot(document.getElementById('root')!)
+
+const inviteSensitiveNavigation = isInviteSensitiveNavigation(globalThis.location)
+let inviteRequest: ReturnType<typeof consumeInviteAcceptanceUrl> | null = null
+if (inviteSensitiveNavigation) {
+  try {
+    inviteRequest = consumeInviteAcceptanceUrl(globalThis.location, globalThis.history)
+  } catch {
+    globalThis.location.replace(INVITE_ACCEPTANCE_PATH)
+  }
+}
+
+try {
+  // Never pass the complete Vite environment object to client code. Only these
+  // browser-safe values can participate in the bundle; the disposable API port
+  // must stay undefined in a UAT artifact (scripts/assert-uat-auth-artifact.mjs).
+  const runtime = parseRuntimeConfig({
+    VITE_ERP_RUNTIME_MODE: import.meta.env.VITE_ERP_RUNTIME_MODE,
+    VITE_DISPOSABLE_API_PORT: import.meta.env.VITE_DISPOSABLE_API_PORT,
+    VITE_SUPABASE_URL: import.meta.env.VITE_SUPABASE_URL,
+    VITE_SUPABASE_PUBLISHABLE_KEY: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+    VITE_SUPABASE_ANON_KEY: import.meta.env.VITE_SUPABASE_ANON_KEY,
+  }, { mode: import.meta.env.MODE, pageOrigin: globalThis.location.origin })
+  if (inviteSensitiveNavigation) {
+    if (!inviteRequest || !isUatRuntime(runtime) || !isInviteAcceptancePath(globalThis.location.pathname)) {
+      throw new Error('Tautan undangan hanya boleh diproses pada route UAT Auth yang tepat.')
+    }
+    const client = getUatInviteSupabaseClient(runtime)
+    const applicationClient = getUatSupabaseClient(runtime)
+    const attempt = createInviteAcceptanceAttempt(client, inviteRequest, {
+      clearApplicationSession: () => applicationClient.auth.signOut({ scope: 'local' }),
+    })
+    const leaveInviteFlow = () => globalThis.location.replace('/')
+    root.render(
+      <React.StrictMode>
+        <InviteAcceptancePage attempt={attempt} onComplete={leaveInviteFlow} onExit={leaveInviteFlow} />
+      </React.StrictMode>,
+    )
+  } else {
+    root.render(
+      <React.StrictMode>
+        <AuthProvider runtime={runtime}>
+          <AuthGate><App /></AuthGate>
+        </AuthProvider>
+      </React.StrictMode>,
+    )
+  }
+} catch (error) {
+  root.render(<RuntimeConfigurationFailure error={error} />)
+}

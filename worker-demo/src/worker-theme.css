@@ -1,0 +1,49 @@
+/* Tampilan baru / lama switch (works in both looks). */
+.ux-tampilan-toggle { display:flex; align-items:center; gap:2px; padding:3px; border:1px solid rgba(255,255,255,.14); border-radius:999px; background:rgba(255,255,255,.03); }
+.ux-tampilan-toggle button { min-height:28px; padding:0 10px; border:0; border-radius:999px; background:transparent; color:#aab3c8; font-size:11.5px; font-weight:650; white-space:nowrap; cursor:pointer; }
+.ux-tampilan-toggle button.active { background:#2c3557; color:#f2f4ff; box-shadow:inset 0 0 0 1px rgba(140,155,255,.35); }
+.ux-tampilan-toggle button:focus-visible { outline:2px solid #8f9cff; outline-offset:1px; }
+.ux-tampilan-toggle.in-sidebar { display:none; margin-top:12px; justify-content:center; }
+.ux-tampilan-toggle.in-sidebar button { flex:1; }
+@media (max-width: 860px) { .top-actions .ux-tampilan-toggle { display:none; } .ux-tampilan-toggle.in-sidebar { display:flex; } }
+
+/* The demo's original dark colours also apply to the newer operational screens. */
+:root.ux-rapih { --sidebar-bg: rgba(11,14,24,.94); --control-border: var(--card-border-strong); --accent-bg: #26325a; --success-bg: #173a32; --warning-bg: #392e22; --danger-bg: #39232e; --disabled-bg: #232b45; --blue: #8fa0ff; --blue-2: #7184ff; --green: #93e2c2; --amber: #f3cd8c; --red: #ff9fae; --cyan: #76d7e8; --on-accent: #fff; --focus: var(--accent); }
+.ux-rapih body { background: radial-gradient(circle at 76% -20%,rgba(98,111,221,.14),transparent 30%),var(--page-bg); }
+.ux-rapih .sidebar, .ux-rapih .cp7-sidebar { background: var(--sidebar-bg); --text: #f4f6fb; --muted: #a7b0c4; --soft: #d3d9e6; }
+.ux-rapih .cp7-shell { font-family: var(--font-sans); }
+.ux-rapih .cp7-shell h2 { font-size: var(--fs-lg); }
+.ux-rapih .cp7-shell .cp7-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--card-radius); }
+.ux-rapih .cp7-facts { grid-template-columns: repeat(auto-fit,minmax(min(100%,9.5rem),max-content)); column-gap: 1.5rem; }
+.analysis-links a { display: block; font-size: 14px; color: var(--soft); text-decoration: none; padding: 9px 12px; border-radius: 8px; }
+.analysis-links a:is(:hover,:focus-visible) { background: var(--panel-3); color: var(--text); }
+.dashboard-period { color: var(--muted); font-size: 13px; white-space: nowrap; }
+.wb-panel { width: fit-content; max-width: 100%; padding: clamp(16px,3vw,26px); }
+.wb-panel header, .wb-actions, .wb-panel :is(a,button,label) { display: flex; align-items: center; gap: 9px; }
+.wb-panel header { border-bottom: 1px solid var(--line-strong); padding-bottom: 13px; }
+.wb-panel header h2 { margin: 0; }
+.wb-actions { flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.wb-actions a { text-decoration: none; }
+.wb-file { position: relative; overflow: hidden; cursor: pointer; }
+.wb-file input { position: absolute; inset: 0; opacity: 0; width: 100%; cursor: pointer; }
+.wb-file:focus-within { outline: 2px solid var(--focus); outline-offset: 2px; }
+.wb-panel [role=status]:empty { display: none; }
+.wb-panel [role=status], .wb-panel li { color: var(--soft); overflow-wrap: anywhere; line-height: 1.48; }
+.wb-table { border-collapse: collapse; width: auto; max-width: 100%; margin: 12px 0 18px; font-variant-numeric: tabular-nums; }
+.wb-table :is(td,th) { padding: 8px 14px; text-align: left; border-bottom: 1px solid var(--line-strong); }
+.wb-table thead { background: var(--panel-2); }
+.wb-table th[scope=row] { font-weight: 400; }
+.wb-table :is(td,th):last-child { text-align: right; }
+@media (max-width: 480px) { .wb-actions { align-items: stretch; flex-direction: column; } .wb-actions > * { justify-content: center; } }
+.menu-finder { display:grid; grid-template-columns: minmax(0,1fr) auto; align-items:end; gap:12px; margin: 12px clamp(16px,3vw,34px); padding:16px; }
+.menu-finder label { display:grid; gap:6px; }
+.menu-finder input { width:100%; min-height:40px; border:1px solid var(--control-border); background:var(--panel-2); border-radius:8px; color:var(--text); padding:6px 10px; }
+.menu-finder > div { grid-column:1/-1; display:flex; flex-wrap:wrap; gap:8px; max-height:16rem; overflow:auto; }
+/* Share measured columns across the ledger. Short statuses get only the space they use. */
+@supports (grid-template-columns: subgrid) {
+  .ux-rapih .biz-table.cash { display: grid; grid-template-columns: max-content minmax(9rem,1fr) minmax(13rem,1.65fr) minmax(7rem,max-content) max-content max-content; column-gap: 0; overflow-x: auto; }
+  .ux-rapih .biz-table.cash > :is(.biz-table-head,article) { display: grid; grid-template-columns: subgrid; grid-column: 1/-1; min-width: 0; gap: 0; align-items: center; }
+  .ux-rapih .biz-table.cash > :is(.biz-table-head,article) > * { padding-inline: 9px; min-width: 0; }
+  .ux-rapih .biz-table.cash > article > :is(strong,span):not(.biz-pill) { overflow-wrap: anywhere; white-space: normal; }
+  .ux-rapih .biz-table.cash > :is(.biz-table-head,article) > :nth-child(5) { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+}

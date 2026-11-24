@@ -16,7 +16,7 @@
     "proof:cp45:render": "node scripts/render-cp45-source-hashes.mjs",
     "proof:cp5:render": "node scripts/render-cp5-source-hashes.mjs",
     "prebuild": "node scripts/build-preflight.mjs && npm run check:source && npm run check:access && npm run check:css && npm run check:ux-rapih",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && node scripts/build-worker-target.mjs",
     "postbuild": "node scripts/scan-client-artifacts.mjs dist",
     "test": "vitest run --exclude 'tests/browser/**'",
     "test:browser:cp45": "playwright test tests/browser/cp45.spec.ts",
@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "2.112.4",
+    "jszip": "3.10.1",
     "lucide-react": "1.37.0",
     "react": "19.2.8",
     "react-dom": "19.2.8"
