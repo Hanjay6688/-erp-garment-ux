@@ -5,6 +5,8 @@ export const cuttingForms = {
 
 export const productionForms = {
   ...cuttingForms,
+  'master-accessory':{name:'Master Aksesori',path:'/master/aksesori/'},
+  'contractor-issue':{name:'Nota Ambil Mandor',path:'/keuangan/nota-ambil-mandor/'},
   'brand-conversion':{name:'Ganti Merek',path:'/gudang/ganti-merek/'},
   'stock-adjustment':{name:'Stock Adjustment',path:'/gudang/stock-adjustment/'},
   'master-products':{name:'Master SKU',path:'/master/produk-sku/'},

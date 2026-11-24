@@ -1,3 +1,4 @@
+import { sizeRangeLabel } from './sizeRangeLabel'
 import {useEffect,useRef,useState} from 'react'
 import {parseFgWorkspace,type FgRow} from './fgContract'
 import {parseSkuMaster,type SkuGroup} from './skuMaster'
@@ -64,7 +65,7 @@ export default function FgRangeEntry({client,finance,disabled,add}:{client:Clien
  }
  return <section className="panel"><h2>Hitung satu seri SKU</h2>
    <form onSubmit={e=>{e.preventDefault();void search(query,1)}}><label>Cari merek atau SKU<input value={query} onChange={e=>setQuery(e.target.value)}/></label><button disabled={disabled||busy}>Cari seri master</button></form>
-   <label>SKU dan warna<select aria-label="Seri SKU penyesuaian" value={group?.id??''} onChange={e=>void choose(groups.find(g=>g.id===e.target.value))}><option value="">Pilih SKU</option>{groups.map(g=><option value={g.id} key={g.id}>{g.brand_name} {g.sku} · {g.color_name} · {g.members.map(m=>m.size).join(', ')}</option>)}</select></label>
+   <label>SKU dan warna<select aria-label="Seri SKU penyesuaian" value={group?.id??''} onChange={e=>void choose(groups.find(g=>g.id===e.target.value))}><option value="">Pilih SKU</option>{groups.map(g=><option value={g.id} key={g.id}>{g.brand_name} {g.sku} · {g.color_name} · {sizeRangeLabel(g.members.map(m => m.size))}</option>)}</select></label>
    {pages>1&&<div><button disabled={busy||page<=1} onClick={()=>void search(query,page-1)}>Sebelumnya</button> {page}/{pages} <button disabled={busy||page>=pages} onClick={()=>void search(query,page+1)}>Berikutnya</button></div>}
    {group&&<><label>Gudang dan grade<select aria-label="Gudang dan grade seri" value={scope} onChange={e=>{setScope(e.target.value);setAmounts({});setLots({})}}><option value="">Pilih gudang dan grade</option>{choices.map(([key,r])=><option key={key} value={key}>{r.location_name} · {r.quality_grade}</option>)}</select></label><div className="cproc-grid">{group.members.map(m=><div key={m.id}><strong>Ukuran {m.size}</strong>{positions(m.size).length>1&&<label>Lot<select aria-label={'Lot ukuran '+m.size} value={lots[m.size]??''} onChange={e=>{setLots({...lots,[m.size]:e.target.value});setAmounts({...amounts,[m.id]:''})}}><option value="">Pilih lot yang dihitung</option>{positions(m.size).map(r=><option key={r.lot_id} value={r.lot_id!}>{r.lot_number}</option>)}</select></label>}
     <label>Fisik · {line(m.size)?.lot_number??'lot belum tersedia'}<input aria-label={'Hitung fisik ukuran '+m.size} disabled={disabled||busy||!line(m.size)} inputMode="numeric" placeholder="Lewati" value={amounts[m.id]??''} onChange={e=>setAmounts({...amounts,[m.id]:e.target.value})}/></label></div>)}</div><button disabled={disabled||busy} onClick={apply}>Masukkan selisih ke draft</button></>}

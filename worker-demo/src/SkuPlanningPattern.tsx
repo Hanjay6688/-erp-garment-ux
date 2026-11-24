@@ -1,3 +1,4 @@
+import { sizeRangeLabel } from './sizeRangeLabel'
 import {useEffect,useMemo,useRef,useState} from 'react'
 import {useAuth} from './auth/AuthProvider'
 import {isConnectedRuntime} from './config/runtime'
@@ -45,7 +46,7 @@ function Editor({group,canEdit,storageKey}:{group:SkuGroup;canEdit:boolean;stora
     sessionStorage.removeItem(storageKey);setHeld(false);setMessage(cmd.p_pattern?'Pola rencana SKU tersimpan.':'Pola rencana SKU dikosongkan.');await load(query,page)
   }catch(e){setMessage(e instanceof Error?e.message:'Hasil simpan belum diketahui.')}finally{posting.current=false;setBusy(false)}}
   const options=data?.options??[],stored=data?.pattern
-  return <section className="panel"><h2>Pola rencana · {group.brand_name} {group.sku}</h2><p>{group.color_name} · {group.members.map(m=>m.size).join(' / ')}</p>
+  return <section className="panel"><h2>Pola rencana · {group.brand_name} {group.sku}</h2><p>{group.color_name} · {sizeRangeLabel(group.members.map(m => m.size))}</p>
     <form onSubmit={e=>{e.preventDefault();void load(query,0)}}><label>Cari pola<input maxLength={100} value={query} onChange={e=>setQuery(e.target.value)}/></label><button disabled={busy||held}>Cari</button></form>
     {data&&<><label>Pola rencana · opsional<select aria-label="Pola rencana master" value={selected} disabled={busy||held||!canEdit} onChange={e=>setSelected(e.target.value)}><option value="">Belum ditentukan</option>{stored&&!options.some(p=>p.id===stored.id)&&<option value={stored.id}>{stored.name} · {stored.revision}{stored.active?'':' · nonaktif'}</option>}{options.map(p=><option key={p.id} value={p.id}>{p.name} · {p.code} · {p.revision}</option>)}</select></label>
     {data.total>25&&<div><button disabled={busy||held||!page} onClick={()=>void load(query,Math.max(0,page-25))}>Sebelumnya</button><button disabled={busy||held||page+25>=data.total} onClick={()=>void load(query,page+25)}>Berikutnya</button></div>}</>}

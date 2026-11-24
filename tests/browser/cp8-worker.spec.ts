@@ -237,3 +237,69 @@ for(const width of [390,1440])test(`jelajah seluruh menu operasional pada ${widt
   }
   console.log('ERP_UI_MENU_AUDIT '+width+' '+JSON.stringify(results));expect(results.length).toBeGreaterThan(35);expect(failures).toEqual([])
 })
+
+test('Nota Afui: harga tanggal nota, Gratis Special dan stok Kancing Metal', async ({ page }) => {
+  await page.setViewportSize({width: 1440, height: 960})
+  const master = '/master/aksesori/', notes = '/keuangan/nota-ambil-mandor/'
+  const metal = 'Kancing Jeans 17 mm · Metal'
+  await page.goto(master)
+  await page.getByRole('button',{name:new RegExp(metal)}).click()
+  const special = page.locator('.mm-price-matrix .special')
+  await expect(special).toContainText('Ikuti harga normal · Rp495/pcs')
+  await page.getByLabel('Harga berlaku pada').fill('2026-11-22')
+  await expect(special).toContainText('Afui · Kancing · Rp450/pcs')
+  await expect(special).toContainText('Mulai 2026-11-22')
+  await page.getByLabel('Mandor untuk harga khusus').selectOption('Epi')
+  await expect(special).toContainText('Ikuti harga normal · Rp495/pcs')
+  await page.getByRole('button',{name:/Label Woven Vivo/}).click()
+  await expect(special).toContainText('Harga master belum diatur')
+
+  for (const [date, price, total, remaining, free] of [
+    ['2026-11-20','Rp495','Rp3.465','3.193',false],
+    ['2026-11-22','Rp450','Rp3.150','3.186',false],
+    ['2026-11-24','Rp0','Rp0','3.179',true],
+  ] as const) {
+    await page.goto(notes)
+    await page.getByRole('button',{name:'Nota baru'}).click()
+    await page.getByLabel('Tanggal nota').fill(date)
+    await page.getByRole('button',{name:'Browse aksesori'}).click()
+    const catalog = page.getByRole('dialog',{name:'Browse aksesori'})
+    await catalog.locator('article').filter({hasText:metal}).getByRole('button',{name:'Tambah'}).click()
+    await catalog.getByRole('button',{name:'Selesai memilih'}).click()
+    const basis = page.getByLabel('Dasar harga '+metal)
+    await expect(basis.locator('option[value="FREE"]')).toHaveCount(free ? 1 : 0)
+    await basis.selectOption(free ? 'FREE' : 'MASTER')
+    const row = page.locator('.ci-lines article').filter({hasText:metal})
+    await expect(row).toContainText(price+'/pcs')
+    await expect(row).toContainText('Reimburse Rp500/pcs')
+    await expect(row).toContainText('Moving avg Rp690')
+    await page.getByLabel('Jumlah ambil '+metal).fill('7')
+    await page.getByLabel('Alasan nota').fill('Gladi harga')
+    await expect(page.locator('.ci-equation .result')).toContainText(total)
+    await page.getByRole('button',{name:'Review & post'}).click()
+    await page.getByRole('dialog',{name:'Review nota'}).getByRole('button',{name:'Post simulasi'}).click()
+    await expect(page.getByText(/diposting sebagai simulasi/)).toBeVisible()
+    await page.goto(master)
+    await page.getByRole('button',{name:new RegExp(metal)}).click()
+    await expect(page.locator('.mm-identity.accessory')).toContainText(remaining+' pcs')
+    await expect(page.locator('.mm-identity.accessory')).toContainText(/Rp\s*690/)
+  }
+  // A cleared override follows a later normal price. No note or PO is required for either price edit.
+  await page.getByLabel('Harga berlaku pada').fill('2026-11-25')
+  await page.getByRole('button',{name:'Atur harga khusus'}).click()
+  let edit = page.getByRole('dialog')
+  await edit.getByLabel('Nominal tarif').fill('')
+  await edit.getByLabel('Alasan perubahan harga').fill('Akhiri harga Afui')
+  await edit.getByRole('button',{name:'Simpan versi simulasi'}).click()
+  await expect(special).toContainText('Ikuti harga normal · Rp495/pcs')
+  await page.getByLabel('Harga berlaku pada').fill('2026-11-26')
+  await page.locator('.mm-price-matrix article').filter({hasText:'MANDOR BELI DARI KITA'}).getByRole('button').click()
+  edit = page.getByRole('dialog')
+  await edit.getByLabel('Nominal tarif').fill('520')
+  await edit.getByLabel('Alasan perubahan harga').fill('Tarif kategori baru')
+  await edit.getByRole('button',{name:'Simpan versi simulasi'}).click()
+  await expect(special).toContainText('Ikuti harga normal · Rp520/pcs')
+  await page.getByLabel('Harga berlaku pada').fill('2026-11-22')
+  await expect(special).toContainText('Afui · Kancing · Rp450/pcs')
+
+})

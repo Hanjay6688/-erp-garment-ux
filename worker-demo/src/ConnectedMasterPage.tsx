@@ -132,9 +132,17 @@ function MasterPanel({ kind, onSelected }: { kind: MasterKind; onSelected?: (id:
     if (!canSubmit || !data) return
     void run(action, { kind, payload: masterPayload(action, reason, action === 'CREATE' ? null : selected, fields) }, null, handlers)
   }
+  const inherited = mode === 'SET_MANDOR_PRICE' && Boolean(price.contractor_id) && price.price.trim() === ''
+  const priceRows = Array.isArray(selected?.entity.prices) ? selected.entity.prices as Record<string,unknown>[] : []
+  const at = Date.parse(price.effective_date+'T00:00:00+07:00')
+  const effectivePrices = priceRows.filter(row => Date.parse(String(row.effective_from)) <= at
+    && (!row.effective_to || Date.parse(String(row.effective_to)) > at))
+  const regular = effectivePrices.find(row => !row.contractor_id)
+  const regularText = regular ? 'Ikuti harga normal · '+rupiah(String(regular.price))+'/'+String(regular.uom).toLowerCase() : 'Harga master belum diatur'
+  const decimals = mode === 'SET_BENCHMARK' ? /^[0-9]{1,12}(\.[0-9]{1,6})?$/ : /^[0-9]{1,12}(\.[0-9]{1,4})?$/
   const priceProblem = mode === 'SET_BENCHMARK' || mode === 'SET_MANDOR_PRICE'
-    ? (!/^[0-9]{1,12}(\.[0-9]{1,4})?$/.test(price.price.trim()) || (mode === 'SET_BENCHMARK' && Number(price.price) <= 0) ? 'Harga harus angka (pakai titik untuk desimal).'
-      : !/^\d{4}-\d{2}-\d{2}$/.test(price.effective_date) ? 'Tanggal mulai berlaku wajib diisi.' : mode === 'SET_MANDOR_PRICE' && !price.uom ? 'Satuan harga wajib dipilih.' : '')
+    ? (!inherited && (!decimals.test(price.price.trim()) || Number(price.price) <= 0) ? 'Isi harga lebih dari nol.'
+      : !/^\d{4}-\d{2}-\d{2}$/.test(price.effective_date) ? 'Tanggal mulai berlaku wajib diisi.' : mode === 'SET_MANDOR_PRICE' && !inherited && !price.uom ? 'Satuan harga wajib dipilih.' : '')
     : ''
   const reviewBlock = (what: string) => <>
     <label>Alasan<input aria-label={`Alasan ${what}`} value={reason} maxLength={1000} disabled={!writable} onChange={e => { setReason(e.target.value); setReviewed(false) }}/></label>
@@ -223,7 +231,7 @@ function MasterPanel({ kind, onSelected }: { kind: MasterKind; onSelected?: (id:
               <option value="">Semua mandor (harga umum)</option>
               {(Array.isArray(data.options.mandors) ? data.options.mandors as Record<string, unknown>[] : []).map(m => <option key={String(m.id)} value={String(m.id)}>{String(m.code)} · {String(m.name)}</option>)}
             </select></label> : null}
-            <label>{mode === 'SET_BENCHMARK' ? `Harga acuan per ${String(selected.entity.unit)}` : 'Harga'}<input aria-label={mode === 'SET_BENCHMARK' ? 'Harga acuan' : 'Harga ke mandor'} inputMode="decimal" value={price.price} disabled={!writable}
+            <label>{mode === 'SET_BENCHMARK' ? `Harga acuan per ${String(selected.entity.unit)}` : price.contractor_id ? 'Harga khusus (boleh kosong)' : 'Harga normal kategori'}<input aria-label={mode === 'SET_BENCHMARK' ? 'Harga acuan' : 'Harga ke mandor'} inputMode="decimal" value={price.price} disabled={!writable}
               onChange={e => { setPrice(p => ({ ...p, price: e.target.value })); setReviewed(false) }}/></label>
             {mode === 'SET_MANDOR_PRICE' ? <label>Satuan harga<select aria-label="Satuan harga ke mandor" value={price.uom} disabled={!writable}
               onChange={e => { setPrice(p => ({ ...p, uom: e.target.value })); setReviewed(false) }}>
@@ -233,11 +241,11 @@ function MasterPanel({ kind, onSelected }: { kind: MasterKind; onSelected?: (id:
               onChange={e => { setPrice(p => ({ ...p, effective_date: e.target.value })); setReviewed(false) }}/></label>
             {mode === 'SET_MANDOR_PRICE' ? <label>Catatan (boleh kosong)<input aria-label="Catatan harga ke mandor" value={price.notes} maxLength={1000} disabled={!writable}
               onChange={e => setPrice(p => ({ ...p, notes: e.target.value }))}/></label> : null}
-            {priceProblem ? <p className="cmd-problems">{priceProblem}</p> : null}
+            {inherited && <p>{regularText}</p>}{priceProblem ? <p className="cmd-problems">{priceProblem}</p> : null}
             {reviewBlock(mode === 'SET_BENCHMARK' ? 'harga acuan' : 'harga ke mandor')}
             <button type="button" className="primary-btn" disabled={!canSubmit || priceProblem !== ''} onClick={() => submit(mode, mode === 'SET_BENCHMARK'
               ? { price: price.price.trim(), effective_date: price.effective_date }
-              : { contractor_id: price.contractor_id || null, price: price.price.trim(), uom: price.uom, effective_date: price.effective_date, notes: price.notes.trim() || null })}>
+              : { contractor_id: price.contractor_id || null, price: inherited ? null : price.price.trim(), uom: inherited ? null : price.uom, effective_date: price.effective_date, notes: price.notes.trim() || null })}>
               {mode === 'SET_BENCHMARK' ? 'Simpan harga acuan' : 'Simpan harga ke mandor'}</button>
             <button type="button" onClick={() => { setMode('VIEW'); resetForm() }}>Batal</button>
           </section> : null}
