@@ -37,3 +37,14 @@ it('shows only real contiguous SKU members, including a single size',()=>{
  expect(sizeRangeLabel(['M','S','L'])).toBe('S–L')
  expect(sizeRangeLabel(['ONE SIZE'])).toBe('ONE SIZE')
 })
+
+it('uses the native PCS and decimal price rules for packages and free billing',async()=>{
+ const {validAccessoryRetail,exactAccessoryQuantity,micro,previewAccessoryLine}=await import('../worker-demo/src/accessoryIssue')
+ expect(exactAccessoryQuantity(7n,micro('12'))).toBe(false)
+ expect(exactAccessoryQuantity(3n,micro('12'))).toBe(true)
+ expect(validAccessoryRetail('0')).toBe(false)
+ expect(validAccessoryRetail('3,25')).toBe(true)
+ expect(validAccessoryRetail('3,251')).toBe(false)
+ const item={id:'button',sku:'B',name:'Kancing',unit:'PCS',category:'Kancing',stock:'12',price_version_id:'v1',master_price:'0.000000',price_unit:'PCS',factor:'1.000000'}
+ expect(previewAccessoryLine({material_id:item.id,qty:'7',mode:'MASTER',manual_price:''},item).payload).toBeNull()
+})

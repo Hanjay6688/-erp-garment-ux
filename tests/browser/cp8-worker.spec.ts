@@ -153,11 +153,16 @@ test('seri per roll, pencarian dropdown, draft kosong dan alasan dialog',async({
   await page.getByRole('textbox',{name:'Roll 1, size 31',exact:true}).fill('4')
   await page.getByRole('textbox',{name:'Roll 1, size 32',exact:true}).fill('5')
   await page.getByRole('textbox',{name:'Roll 1, size 33',exact:true}).fill('2')
+  for (const [size,qty] of [['31','4'],['32','5'],['33','2']]) {
+    await expect(page.getByRole('textbox',{name:'Roll 1, size '+size,exact:true})).toHaveValue(qty)
+  }
   await page.getByRole('button',{name:'Simpan draft cutting'}).click()
   await page.reload()
   await expect(page.getByLabel('SKU rencana',{exact:true})).toHaveValue('')
   await expect(page.getByLabel('Merek rencana',{exact:true})).toHaveValue('')
-  await expect(page.getByRole('textbox',{name:'Roll 1, size 33',exact:true})).toHaveValue('2')
+  for (const [size,qty] of [['31','4'],['32','5'],['33','2']]) {
+    await expect(page.getByRole('textbox',{name:'Roll 1, size '+size,exact:true})).toHaveValue(qty)
+  }
   await page.getByRole('button',{name:'Simpan Potongan ke WIP'}).click()
   await page.getByRole('link',{name:'Bagi POT-D01',exact:true}).click()
   await expect(page.locator('.wip-selected-head')).toContainText('Merek dan SKU belum ditentukan')
