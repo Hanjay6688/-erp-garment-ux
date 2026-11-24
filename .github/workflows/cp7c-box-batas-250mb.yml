@@ -75,7 +75,10 @@ jobs:
                   stored = nightly.read_marker(remote, marker, files[marker])
                   proof = nightly.receipt_for(night, stored["captured_at"], size, sha)
               reference = work / "reference.json"
-              reference.write_text(json.dumps(proof), encoding="utf-8")
+              export_record = {"captured_at": proof["captured_at"], "ciphertext_bytes": size, "ciphertext_sha256": sha}
+              reference.write_text(json.dumps(export_record), encoding="utf-8")
+              if nightly.read_export(reference, night) != proof:
+                  raise ValueError("Tanda terima sumber berbeda dari arsip sintetis.")
               result = nightly.backup(remote, source, reference, night, work / "state")
               name = proof["archive"]
               physical = "box:" + test_folder
