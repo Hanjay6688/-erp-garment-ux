@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   simulate:
-    name: Integritas dan kirim ulang, data dummy 100 MB
+    name: Integritas backup sintetis dan pecah-gabung 250 MB
     runs-on: ubuntu-24.04
     timeout-minutes: 8
     steps:
@@ -28,3 +28,11 @@ jobs:
       - name: Jalankan tes dengan penyimpanan simulasi
         run: |
           "$RUNNER_TEMP/checks/bin/python" qualification/cp7c-backup-sintetis/test_transfer.py -v
+      - name: Uji pecah-gabung Box dengan data buatan sampai 600 MB
+        run: |
+          if ! command -v rclone >/dev/null; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq --no-install-recommends rclone
+          fi
+          rclone version
+          "$RUNNER_TEMP/checks/bin/python" qualification/cp7c-backup-sintetis/test_box_parts.py -v
