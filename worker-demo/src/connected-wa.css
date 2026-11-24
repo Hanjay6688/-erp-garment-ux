@@ -1,0 +1,98 @@
+/* WA-4: the Pengingat sistem and Sambungan WhatsApp tabs of the Reminder menu. Dark panels like the rest of the connected
+   pages; every row wraps or stacks at phone width (390 px) and nothing hides overflow (best practice D17). The message body
+   scrolls vertically inside its own box and wraps its lines, so it never widens the page. */
+.csys, .cwa { padding: 14px 16px; display: grid; gap: 12px; min-width: 0; color: var(--text); font-size: 13px; line-height: 1.5; }
+.csys p, .cwa p { margin: 0; overflow-wrap: anywhere; }
+.csys h2, .cwa h2 { margin: 4px 0 6px; font-size: 18px; color: var(--text); }
+.cwa h3 { margin: 0 0 8px; font-size: 14px; color: var(--text); }
+.csys small, .cwa small { color: var(--muted); font-size: 13px; overflow-wrap: anywhere; }
+.csys-head, .cwa-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.csys-head > div, .cwa-head > div { min-width: 0; flex: 1 1 280px; display: grid; gap: 4px; }
+.csys-head p, .cwa-head p { color: var(--text); }
+.csys button, .cwa button:not(.primary-btn):not(.soft-btn) { min-height: 38px; padding: 0 12px; border: 1px solid var(--line); border-radius: 9px;
+  background: var(--blue); color: var(--on-accent); font-size: 13px; cursor: pointer; }
+.csys button:disabled, .cwa button:disabled { opacity: 1; cursor: not-allowed; }
+.cwa .primary-btn, .cwa .soft-btn { min-height: 40px; font-size: 13px; }
+.csys-alert, .csys-loading { padding: 10px 12px; border-radius: 10px; background: var(--panel); }
+.csys-alert { color: var(--text); background: var(--danger-bg); }
+.csys-note { padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--warning-bg); display: grid; gap: 6px; }
+.csys-note strong { color: var(--amber); }
+.csys-note button { justify-self: start; }
+.csys-meta, .cwa-meta { color: var(--muted); }
+.csys-analysis { padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); display: grid; gap: 4px; }
+.csys-analysis strong { color: var(--text); }
+.csys-filters { display: flex; gap: 6px; flex-wrap: wrap; }
+.csys-filters button { flex: 1 1 150px; }
+.csys-filters button.active { background: var(--accent-bg); border-color: var(--control-border); color: var(--text); }
+.csys-none { color: var(--text); }
+.csys-group { border: 1px solid var(--line); border-radius: 12px; padding: 12px; display: grid; gap: 8px; min-width: 0; }
+.csys-group > header { display: flex; gap: 8px; justify-content: space-between; align-items: baseline; flex-wrap: wrap; }
+.csys-group > header strong { color: var(--text); font-size: 13.5px; }
+.csys-group > header span { color: var(--text); font-size: 13px; }
+.csys-group ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.csys-source { color: var(--text); font-size: 13px; }
+.csys-source.bad { color: var(--text); }
+.csys-row { padding: 10px 12px; border-radius: 10px; background: var(--panel); border: 1px solid var(--line);
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 12px; align-items: start; }
+.csys-row.resolved { background: var(--panel); }
+.csys-row-main { display: grid; gap: 3px; min-width: 0; }
+.csys-row-main strong { color: var(--text); overflow-wrap: anywhere; }
+.csys-row-main p { color: var(--text); }
+.csys-analysis-line { color: var(--text) !important; }
+.csys-resolved { color: var(--text) !important; }
+.csys-wa, .cwa-chip { padding: 3px 8px; border-radius: 999px; font-size: 13px; font-weight: 650; white-space: normal; overflow-wrap: anywhere; max-width: 100%;
+  background: var(--panel); color: var(--text); }
+.csys-wa.ok, .cwa-chip.ok { background: var(--success-bg); color: var(--green); }
+.csys-wa.wait, .cwa-chip.wait { background: var(--panel); color: var(--text); }
+.csys-wa.bad, .cwa-chip.bad { background: var(--danger-bg); color: var(--text); }
+.csys-wa.off { background: var(--panel); color: var(--text); }
+.cwa-loading { color: var(--text); }
+.cwa-note { padding: 10px 12px; border-radius: 10px; display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+.cwa-note.ok { color: var(--green); background: var(--success-bg); }
+.cwa-note.bad { color: var(--muted); background: var(--danger-bg); }
+.cwa-block { border: 1px solid var(--line); border-radius: 12px; padding: 12px; display: grid; gap: 10px; min-width: 0; }
+.cwa-status { margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr)); gap: 8px; }
+.cwa-status > div { padding: 8px 10px; border-radius: 9px; background: var(--panel); min-width: 0; }
+.cwa-status dt { color: var(--text); font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.cwa-status dd { margin: 2px 0 0; color: var(--text); overflow-wrap: anywhere; }
+.cwa-status dd.on { color: var(--green); font-weight: 700; }
+.cwa-status dd.off { color: var(--amber); font-weight: 700; }
+.cwa-warn { padding: 10px 12px; border-radius: 10px; color: var(--amber); background: var(--warning-bg); border: 1px solid var(--line); }
+.cwa-ticks { margin: 0; padding-left: 18px; display: grid; gap: 3px; color: var(--text); }
+.cwa-ticks strong { color: var(--text); }
+.cwa-steps { margin: 0; padding-left: 20px; display: grid; gap: 6px; color: var(--text); }
+.cwa-steps b { color: var(--text); }
+.cwa-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 10px; }
+.cwa-field { display: grid; gap: 5px; min-width: 0; }
+.cwa-field > span { color: var(--text); font-size: 13px; font-weight: 750; letter-spacing: .06em; }
+.cwa input:not([type="checkbox"]), .cwa select { width: 100%; min-width: 0; height: 40px; padding: 0 10px; box-sizing: border-box; border: 1px solid var(--control-border);
+  border-radius: 9px; background: var(--panel); color: var(--text); font-size: 13px; }
+.cwa input:disabled, .cwa select:disabled { opacity: 1; }
+.cwa input[type="checkbox"] { width: 18px; height: 18px; margin: 2px 0 0; flex: 0 0 auto; accent-color: #7d8fff; }
+.cwa-check { display: flex; gap: 8px; align-items: flex-start; color: var(--text); cursor: pointer; }
+.cwa-check span { min-width: 0; overflow-wrap: anywhere; }
+.cwa-fieldset { margin: 0; padding: 10px 12px 12px; border: 1px solid var(--line); border-radius: 10px; display: grid; gap: 8px; min-width: 0; }
+.cwa-fieldset legend { padding: 0 6px; color: var(--text); font-weight: 700; font-size: 13px; }
+.cwa-hint { color: var(--muted); }
+.cwa-problem { color: var(--text); }
+.cwa-times { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr)); gap: 8px; }
+.cwa-time { display: flex; gap: 6px; min-width: 0; }
+.cwa-time input { flex: 1 1 auto; }
+.cwa-time button { flex: 0 0 auto; }
+.cwa-kinds { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 8px; }
+.cwa-actions { display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }
+.cwa-history { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.cwa-dispatch { padding: 10px 12px; border-radius: 10px; background: var(--panel); border: 1px solid var(--line); display: grid; gap: 6px; min-width: 0; }
+.cwa-dispatch-head { display: flex; gap: 8px; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+.cwa-dispatch-head strong { color: var(--text); }
+.cwa-body { margin: 0; max-height: 220px; overflow: auto; padding: 8px 10px; border-radius: 8px; background: var(--panel); border: 1px solid var(--line); color: var(--text);
+  font: 12px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
+.cwa-resolve { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; padding: 8px 10px; border-radius: 9px; background: var(--danger-bg); }
+.cwa-resolve p { flex: 1 1 100%; color: var(--text); }
+@media (max-width: 620px) {
+  .csys, .cwa { padding: 12px; }
+  .csys-row { grid-template-columns: minmax(0, 1fr); }
+  .csys-wa { justify-self: start; }
+  .csys-head > button, .cwa-head > button { width: 100%; }
+  .cwa-actions > button, .cwa-resolve button { flex: 1 1 auto; }
+}

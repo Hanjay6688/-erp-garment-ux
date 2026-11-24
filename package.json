@@ -16,10 +16,10 @@
     "proof:cp45:render": "node scripts/render-cp45-source-hashes.mjs",
     "proof:cp5:render": "node scripts/render-cp5-source-hashes.mjs",
     "prebuild": "node scripts/build-preflight.mjs && npm run check:source && npm run check:access && npm run check:css && npm run check:ux-rapih",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && node scripts/build-worker-target.mjs",
     "postbuild": "node scripts/scan-client-artifacts.mjs dist",
     "test": "vitest run --exclude 'tests/browser/**'",
-    "test:browser:cp45": "playwright test tests/browser/cp45.spec.ts",
+    "test:browser:cp45": "npm run test:browser:worker && playwright test tests/browser/cp45.spec.ts",
     "test:browser:precp5": "playwright test tests/browser/cutting-bridge.spec.ts",
     "test:browser:cp5": "playwright test --config playwright.cp5.config.ts",
     "test:security": "npm run check:source && npm run check:access && npm run check:css && npm run check:cp5 && npm run check:backend && node scripts/test-build-preflight.mjs && node scripts/test-uat-auth-assertions.mjs",
@@ -35,10 +35,12 @@
     "deploy": "npm run build && wrangler deploy",
     "cf:preview": "npm run build && wrangler versions upload",
     "deploy:uat-auth": "npm run check:uat-auth-target && npm run check:uat-auth-release-env && npm run build:uat-auth && npm run check:uat-auth-target && npm run check:uat-auth-release-env && node scripts/run-uat-auth-wrangler.mjs deploy",
-    "cf:preview:uat-auth": "npm run check:uat-auth-target && npm run check:uat-auth-release-env && npm run build:uat-auth && npm run check:uat-auth-target && npm run check:uat-auth-release-env && node scripts/run-uat-auth-wrangler.mjs preview"
+    "cf:preview:uat-auth": "npm run check:uat-auth-target && npm run check:uat-auth-release-env && npm run build:uat-auth && npm run check:uat-auth-target && npm run check:uat-auth-release-env && node scripts/run-uat-auth-wrangler.mjs preview",
+    "test:browser:worker": "playwright test --config playwright.worker-demo.config.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "2.112.4",
+    "jszip": "3.10.1",
     "lucide-react": "1.37.0",
     "react": "19.2.8",
     "react-dom": "19.2.8"

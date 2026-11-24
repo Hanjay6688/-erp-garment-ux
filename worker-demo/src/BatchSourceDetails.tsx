@@ -1,0 +1,78 @@
+import {useEffect, useRef, useState} from 'react'
+import type {AnalysisResult} from './cp7/contract'
+import {formatFact} from './cp7/workspace'
+import {formatCp6WibDateTime} from './cp6BusinessTime'
+
+type Source = AnalysisResult['sources'][number]
+type Edge = AnalysisResult['allocation_edges'][number]
+type Scenario = AnalysisResult['scenario']
+type Label = {key:string;sku:string;name:string}
+const stageNames:Record<string,string> = {
+  LAUNDRY_OUTSTANDING:'Di laundry', LAUNDRY_RETURNED:'Kembali dari laundry', SEWING:'Jahit', CUT:'Potong',
+  CUTTING:'Potong', FINISHING:'Finishing', QC:'Pemeriksaan mutu', PRE_LAUNDRY:'Sebelum laundry',
+}
+const referenceNames:Record<string,string> = {
+  'erp.laundry_delivery_lines':'Baris kirim laundry','erp.laundry_receipt_lines':'Baris terima laundry',
+  'erp.cutting_groups':'Kelompok potong','erp.initial_import_production_sources':'Sumber awal WIP',
+  'erp.products':'Versi produk','CUTTING_PATTERN':'Pola',
+}
+export type BatchContext = {runId:string;scope:string;scenario?:Scenario;labels:Label[]}
+export type BatchDetailProps = BatchContext & {source:Source;edges:Edge[];targets:string[];reasons:string[];review?:{targets:string[];open:(target:string)=>void};onBack:()=>void}
+
+export function BatchButton({sourceKey,expanded,onOpen}:{sourceKey:string;expanded:boolean;onOpen:(button:HTMLButtonElement)=>void}) {
+  return <button type="button" aria-expanded={expanded} onClick={e=>onOpen(e.currentTarget)}
+    onKeyDown={e=>{if(e.key==='Enter'){e.preventDefault();if(!e.repeat)e.currentTarget.click()}}}>Buka rincian batch {sourceKey}</button>
+}
+
+export function BatchSourceDetails({source:s,edges,targets,reasons,labels,runId,scope,scenario,review,onBack}:BatchDetailProps) {
+  const heading=useRef<HTMLHeadingElement>(null)
+  useEffect(()=>{heading.current?.focus()},[s.source_key])
+  const origins=s.refs.filter(r=>r.kind==='erp.material_rolls'||r.kind==='CUTTING_PATTERN')
+  return <section aria-label={'Rincian batch '+s.source_key}>
+    <h4 ref={heading} tabIndex={-1}>Rincian batch {s.source_key}</h4>
+    <p>Run {runId} · cakupan {scope}{scenario&&<> · skenario {scenario.id} versi {scenario.version}</>}</p>
+    <p>Tahap {stageNames[s.stage]??s.stage} · ukuran {s.size_id}</p>
+    <p>Fisik {formatFact(s.physical_remaining)} · proyeksi {formatFact(s.eligible_projected)} · alokasi seluruh tujuan {formatFact(s.allocated)}</p>
+    <p>{s.eta?'ETA '+formatCp6WibDateTime(s.eta)+' · '+(s.eta_basis==='ASSUMED'?'asumsi':'jadwal terkonfirmasi'):'ETA belum diketahui'}</p>
+    <ul>{s.refs.map((r,i)=><li key={i}>{r.kind==='erp.material_rolls'?'Roll '+r.id+' · bahan '+r.revision:
+      (referenceNames[r.kind]??r.kind)+' '+r.id+' · revisi '+r.revision}</li>)}</ul>
+    {!origins.some(r=>r.kind==='erp.material_rolls')&&<p>Asal roll dan bahan belum tercatat pada arsip ini.</p>}
+    {!origins.some(r=>r.kind==='CUTTING_PATTERN')&&<p>Pola dan revisinya belum tercatat pada arsip ini.</p>}
+    <ul>{targets.map(k=>{const label=labels.find(l=>l.key===k);const allocated=edges.filter(e=>e.target_key===k)
+      return <li key={k}>{label?label.sku+' · '+label.name:k} · target {k}
+        {allocated.length?allocated.map((e,i)=><span key={i}> · {e.match==='CONFIRMED_TARGET'?'terarah':'alokasi bersyarat'} {formatFact(e.projected_output_qty)}</span>):' · belum ada alokasi'}{review?.targets.includes(k)&&<button type="button" onClick={()=>review.open(k)}>Periksa rencana potong {label?.sku??k}</button>}</li>})}</ul>
+    {reasons.map(s=><p key={s}>{s}</p>)}
+    <button type="button" onClick={onBack}>Kembali ke daftar batch</button>
+  </section>
+}
+
+type ReadActions=(key:string,signal:AbortSignal)=>Promise<AnalysisResult['actions']>
+export function ReportBatchSources({analysis,labels,runId,readActions,onReview}:{
+  analysis:Pick<AnalysisResult,'sources'|'scope'|'scenario'|'actions'|'allocation_edges'>;labels:Label[];runId:string;readActions?:ReadActions;onReview?:(target:string,source:string)=>void
+}) {
+  const [selected,setSelected]=useState<string|null>(null)
+  const trigger=useRef<HTMLButtonElement|null>(null)
+  const [loaded,setLoaded]=useState<{key:string;actions:AnalysisResult['actions'];error?:string}|null>(null)
+  useEffect(()=>{
+    if(!selected||!readActions)return
+    const abort=new AbortController()
+    readActions(selected,abort.signal).then(actions=>{if(!abort.signal.aborted)setLoaded({key:selected,actions})},
+      e=>{if(!abort.signal.aborted)setLoaded({key:selected,actions:[],error:e instanceof Error?e.message:'Rincian belum dapat dibaca.'})})
+    return ()=>abort.abort()
+  },[selected,readActions])
+  const source=analysis.sources.find(s=>s.source_key===selected)
+  if(!analysis.sources.length)return null
+  const edges=source?analysis.allocation_edges.filter(e=>e.source_key===source.source_key):[]
+  const current=loaded?.key===selected?loaded:null
+  const actions=source?(current?.actions??analysis.actions).filter(a=>a.source_keys.includes(source.source_key)):[]
+  const targets=[...new Set([...edges.map(e=>e.target_key),...actions.flatMap(a=>a.target_keys)])]
+  return <section aria-label="Asal batch laporan"><h4>Sumber batch laporan</h4>
+    {analysis.sources.map(s=><BatchButton key={s.source_key} sourceKey={s.source_key} expanded={selected===s.source_key}
+      onOpen={button=>{trigger.current=button;setLoaded(null);setSelected(selected===s.source_key?null:s.source_key)}}/>)}
+    {source&&readActions&&!current&&<p role="status">Membaca tindakan dari halaman arsip…</p>}
+    {current?.error&&<p role="alert">{current.error}</p>}
+    {source&&(!readActions||current&&!current.error)&&<BatchSourceDetails source={source} edges={edges} targets={targets} review={onReview?{targets,open:target=>onReview(target,source.source_key)}:undefined}
+      reasons={[...new Set(actions.flatMap(a=>a.display_priority.basis))]} labels={labels} scenario={analysis.scenario}
+      runId={runId} scope={analysis.scope.allocation_scope_id} onBack={()=>{setSelected(null);trigger.current?.focus()}}/>}
+  </section>
+}

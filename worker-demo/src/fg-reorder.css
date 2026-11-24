@@ -1,0 +1,53 @@
+/* SS-1: Titik pesan ulang on Ringkasan Barang Jadi. A dark panel like the stock section above it (inputs and buttons from
+   .cproc); every coloured box sets its own text colour (best practice D17a), and every row wraps or stacks at phone width
+   (390 px) without hiding overflow (D17). */
+.cfr-panel { display: grid; gap: 14px; min-width: 0; }
+.cfr h2 { margin: 4px 0 8px; font-size: 20px; color: var(--text); }
+.cfr h3 { margin: 0; font-size: 17px; color: var(--text); overflow-wrap: anywhere; }
+.cfr p { margin: 0; overflow-wrap: anywhere; }
+.cfr-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+.cfr-head > div:first-child { flex: 1 1 320px; min-width: 0; display: grid; gap: 6px; }
+.cfr-run { color: var(--text) !important; }
+.cfr-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.cfr-note { padding: 10px 12px; border-radius: 10px; }
+.cfr-note.ok { color: var(--green) !important; background: var(--success-bg); }
+.cfr-note.bad { color: var(--muted) !important; background: var(--danger-bg); }
+.cfr-filters { display: flex; gap: 8px; flex-wrap: wrap; }
+.cfr-filters button { flex: 1 1 170px; }
+.cfr .cfr-filters button.active[aria-pressed="true"] { background: var(--accent-bg); border-color: var(--control-border); color: var(--text); }
+.cfr-search { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 10px; align-items: end; }
+.cfr-none { color: var(--text) !important; }
+.cfr-list { display: grid; gap: 12px; min-width: 0; }
+.cfr-row { display: grid; gap: 10px; min-width: 0; padding: 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); color: var(--text); }
+.cfr-row > header { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; flex-wrap: wrap; }
+.cfr-row > header > div { min-width: 0; display: grid; gap: 2px; }
+.cfr-row small { color: var(--muted) !important; overflow-wrap: anywhere; }
+.cfr-chip { padding: 4px 10px; border-radius: 999px; font-size: 13px; font-weight: 700; max-width: 100%; overflow-wrap: anywhere; }
+.cfr-chip.warn { background: var(--warning-bg); color: var(--amber); }
+.cfr-chip.ok { background: var(--success-bg); color: var(--green); }
+.cfr-chip.off { background: var(--panel); color: var(--text); }
+.cfr-row dl { margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); gap: 10px; }
+.cfr-row dl > div { min-width: 0; padding: 8px 10px; border-radius: 9px; background: var(--panel); }
+.cfr-row dt { font-size: 13px; color: var(--text); }
+.cfr-row dd { margin: 4px 0 0; font-size: 19px; font-weight: 650; color: var(--text); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.cfr-why { color: var(--text) !important; }
+.cfr-source { color: var(--text) !important; font-size: 13px; }
+.cfr .target-demand-details { display: grid; gap: 6px; min-width: 0; margin-block: 10px; }
+.cfr .target-demand-details h5 { margin: 0; color: var(--text); font-size: 14px; }
+.cfr-formula summary { cursor: pointer; color: var(--text); font-size: 13px; }
+.cfr-formula ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 4px; color: var(--text); font-size: 13px; overflow-wrap: anywhere; }
+.cfr-manual { padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
+.cfr-manual fieldset, .cfr-settings fieldset { gap: 12px !important; }
+.cfr-manual legend { padding: 0; font-weight: 700; color: var(--text); }
+.cfr-problem { color: var(--text) !important; }
+.cfr-settings { display: grid; gap: 10px; padding: 14px; border: 1px solid var(--line); border-radius: 12px; min-width: 0; }
+.cfr-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 12px; }
+.cfr-wide { grid-column: 1 / -1; }
+@media (max-width: 640px) {
+  .cfr-search { grid-template-columns: 1fr; }
+  .cfr-row { padding: 12px; }
+  .cfr-row dd { font-size: 17px; }
+}
+
+/* Rule choices stay inside the material editor on narrow viewports. */
+.cfr-manual select { width: 100%; min-width: 0; max-width: 100%; }

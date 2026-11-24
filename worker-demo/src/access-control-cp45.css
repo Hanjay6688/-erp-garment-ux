@@ -1,0 +1,174 @@
+.user-access-actions {
+  grid-column: 2;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 7px;
+}
+
+.user-list .user-access-actions select {
+  grid-column: auto;
+  width: 100%;
+}
+
+.user-access-actions button {
+  padding: 7px 9px;
+  font-size: 13px;
+}
+
+@media (max-width: 520px) {
+  .user-access-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* The shell is dark while this workspace uses light cards. Own foreground
+   colors here so role, user, and audit facts cannot disappear on white. */
+.access-hero h1 {
+  color: var(--text);
+}
+
+.access-hero span {
+  color: var(--text);
+}
+
+.access-hero p {
+  color: var(--text);
+}
+
+.access-panel,
+.role-editor {
+  color: #352b26;
+}
+
+.access-panel strong,
+.access-panel dd,
+.role-editor strong,
+.role-editor h2 {
+  color: #352b26;
+}
+
+.access-panel input,
+.access-panel select,
+.role-editor input,
+.role-editor textarea {
+  color: #352b26;
+  background: var(--panel);
+}
+
+.access-panel input::placeholder,
+.role-editor input::placeholder,
+.role-editor textarea::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+
+.access-panel button,
+.role-editor button,
+.user-access-actions select {
+  min-height: 40px;
+}
+
+.role-list footer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(105px, 1fr));
+}
+
+.role-list footer button,
+.role-list dl div,
+.user-list small,
+.audit-panel article small,
+.permission-matrix label small {
+  font-size: 13px;
+}
+
+.access-mode-banner {
+  min-height: 54px;
+  padding: 11px 14px;
+  border: 1px solid;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.access-mode-banner.manage {
+  border-color: var(--line);
+  background: var(--panel);
+  color: var(--text);
+}
+
+.access-mode-banner.view {
+  border-color: var(--line);
+  background: var(--panel);
+  color: var(--text);
+}
+
+.access-mode-banner > svg {
+  width: 20px;
+  flex: 0 0 auto;
+}
+
+.access-mode-banner span {
+  display: grid;
+  gap: 3px;
+}
+
+.access-mode-banner small {
+  color: inherit;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.access-panel button:focus-visible,
+.access-panel input:focus-visible,
+.access-panel select:focus-visible,
+.role-editor button:focus-visible,
+.role-editor input:focus-visible,
+.role-editor textarea:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.role-title > span > strong,
+.user-list article > div > strong,
+.audit-panel article > strong {
+  color: #2f2723;
+}
+
+.audit-panel > div > p {
+  color: var(--text);
+}
+
+.permission-dependency-warning {
+  margin: 0 20px 16px;
+  padding: 11px 13px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: var(--warning-bg);
+  color: var(--amber);
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+}
+
+.permission-dependency-warning svg {
+  width: 18px;
+  flex: 0 0 auto;
+}
+
+.permission-dependency-warning span {
+  display: grid;
+  gap: 3px;
+}
+
+.permission-dependency-warning small {
+  color: var(--amber);
+  line-height: 1.4;
+}
+
+@media (max-width: 560px) {
+  .permission-dependency-warning {
+    margin-left: 12px;
+    margin-right: 12px;
+  }
+}

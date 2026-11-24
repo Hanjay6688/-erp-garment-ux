@@ -1,0 +1,47 @@
+.initial-import { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; min-width: 0; color: var(--text, #e9eff8); }
+.initial-import > *, .initial-import label { min-width: 0; }
+.initial-import .panel { padding: 20px; background: var(--panel); border: 1px solid var(--line); }
+.initial-import h1 { margin: 5px 0 8px; font-size: 25px; }
+.initial-import p { margin: 6px 0; line-height: 1.55; }
+.initial-import-heading, .initial-import-toolbar, .initial-import-message { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.initial-import-heading { justify-content: space-between; }
+.initial-import-toolbar label { display: grid; gap: 7px; font-size: 13px; }
+.initial-import button, .initial-import-upload { display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 10px 14px; min-height: 42px; color: var(--text); background: var(--panel); border: 1px solid var(--control-border); border-radius: 8px; cursor: pointer; }
+.initial-import button.primary { background: var(--blue); border-color: var(--control-border); }
+.initial-import button:disabled { opacity: 1; cursor: not-allowed; }
+.initial-import input, .initial-import select { min-width: 0; max-width: 100%; padding: 10px; min-height: 42px; background: var(--panel); color: var(--text); border: 1px solid var(--control-border); border-radius: 6px; }
+.initial-import input:focus-visible, .initial-import select:focus-visible, .initial-import button:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.initial-import-message { padding: 14px; border: 1px solid var(--line); background: var(--panel); border-radius: 9px; }
+.initial-import-help { color: var(--text); font-size: 13px; }
+.initial-import .initial-import-upload { position: relative; display: inline-flex; }
+.initial-import-upload input { max-width: 235px; padding: 5px; }
+.initial-import .initial-import-table { padding: 0; overflow: auto; max-height: 530px; }
+.initial-import table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.initial-import th, .initial-import td { padding: 9px 11px; border-bottom: 1px solid var(--line); text-align: left; }
+.initial-import thead th { position: sticky; top: 0; z-index: 1; background: var(--panel); white-space: nowrap; }
+.initial-import td input { width: 165px; }
+.initial-import-table > p { padding: 20px; }
+.initial-import-pagination { display: flex; align-items: center; justify-content: center; gap: 16px; }
+.initial-import-errors { border-color: var(--line) !important; }
+.initial-import-errors li { margin: 7px 0; }
+@media (max-width: 640px) { .initial-import .panel { padding: 14px; } .initial-import .initial-import-table { padding: 0; } .initial-import-toolbar > label { width: 100%; } .initial-import-toolbar > button { flex-grow: 1; } }
+.initial-import-advances { padding: 20px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+.initial-import-advances h2, .initial-import-advances p { margin: 0; }
+.initial-import-advances label { display: grid; gap: 6px; }
+.initial-import-advances li { padding: 6px 0; }
+.initial-import-advances li button { margin-left: 12px; }
+
+/* Vendor money actions remain legible while native disabled guards prevent submission. */
+.initial-import [aria-label="Pembayaran vendor laundry"] button:disabled { opacity: 1; border-style: dashed; }
+
+/* Unknown-price actions remain legible while disabled; pricing still requires explicit review. */
+.initial-import [aria-label="Cuci gagal harga belum diketahui"] button:disabled { opacity: 1; border-style: dashed; }
+
+/* Theme foreground for primary actions; disabled guards remain native. */
+.initial-import button.primary{color:var(--on-accent)}
+
+/* Scroll table data independently so captions and pending actions stay visible. */
+.initial-import .initial-import-history { overflow: visible; max-height: none; }
+.initial-import-history > h2 { margin: 0; padding: 16px 20px 0; }
+.initial-import-scroll { min-width: 0; max-width: 100%; max-height: 530px; overflow: auto; overscroll-behavior-x: contain; }
+.initial-import-scroll:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }

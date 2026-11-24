@@ -1,0 +1,70 @@
+import { versionedUuidText } from './lib/contractPatterns'
+import {financeDate,parseFinanceSnapshot,type FinanceDates,type FinanceReport,type FinanceComparisonSnapshot} from './financeReportContract'
+import {sameRecordList,type RecordList} from './recordList'
+import type {RecordPageOrder} from './RecordTools'
+export type AnalysisDates=FinanceDates&{compare_from:string;compare_to:string}
+/** OW-09: cash entries searched, filtered and ordered over the whole period before the page is cut. */
+export type CashEntryList={entry_q:string;entry_status:CashEntry['status']|null;entry_order:RecordPageOrder}
+export type CashEntrySums={debit:string;credit:string;net:string}
+export type CashEntry={id:string;journal_number:string;source_type:string;source_id:string|null;reversal_of_id:string|null;status:'POSTED'|'REVERSED';economic_date:string;transaction_date:string;posting_at:string;debit:string;credit:string;net:string}
+export type FinanceComparison={contract_version:'cp7.finance-analysis.v1';captured_at:string;knowledge_basis:'CURRENT_RECORDED_KNOWLEDGE';historical_knowledge:'NOT_RECONSTRUCTED';dates:AnalysisDates;comparison:{basis:'NATIVE_OWNER_REPORT_OPERANDS';formula_version:'GROWTH_POSITIVE_BASE_AND_GROSS_MARGIN_PP_V2';rounding_scale:4;current:FinanceComparisonSnapshot;baseline:FinanceComparisonSnapshot;revenue_growth_pct:string|null;gross_margin_change_pp:string|null}}
+export type FinanceAnalysis=FinanceComparison&{comparison:{current:FinanceReport['snapshot'];baseline:FinanceReport['snapshot']};cash:{basis:'GL_TRANSACTION_DATE_ALL_CONFIGURED_CASH_COA';account_scope:'DISTINCT_COA_INCLUDING_INACTIVE_CASH_ACCOUNTS_AND_CASH_MAPPING';opening:string;closing:string;debit:string;credit:string;net_change:string;ledger_net:string;source_difference:string;reconciled:boolean;entries:{rows:CashEntry[];total:string;offset:number;limit:25;next_offset:number|null;list?:RecordList<CashEntry['status']>;sums?:CashEntrySums}}}
+const fail=():never=>{throw Error('Perbandingan atau arus kas belum lengkap. Muat ulang dengan tanggal yang sama.')}
+const text=(v:unknown):v is string=>typeof v==='string'
+const decimal=(v:unknown,scale=2):v is string=>text(v)&&new RegExp(`^-?(0|[1-9][0-9]{0,40})(\\.[0-9]{1,${scale}})?$`).test(v)
+const whole=(v:unknown):v is string=>text(v)&&/^(0|[1-9][0-9]{0,20})$/.test(v)
+const uuid=(v:unknown)=>text(v)&&versionedUuidText.test(v)
+const timestamp=(v:unknown)=>text(v)&&/^\d{4}-\d{2}-\d{2}T/.test(v)&&Number.isFinite(Date.parse(v))
+function closed(value:unknown,keys:string[]){if(!value||typeof value!=='object'||Array.isArray(value))return fail();const r=value as Record<string,unknown>;if(keys.some(k=>!(k in r))||Object.keys(r).some(k=>!keys.includes(k)))fail();return r}
+function cents(v:unknown){if(!decimal(v))return fail();const negative=v.startsWith('-'),[a,b='']=v.replace(/^-/,'').split('.');return BigInt(a+b.padEnd(2,'0'))*(negative?-1n:1n)}
+function checkedComparison(value:unknown,dates:AnalysisDates,comparisonOnly:boolean){
+ const keys=['contract_version','captured_at','knowledge_basis','historical_knowledge','dates','comparison']
+ const r=closed(value,comparisonOnly?keys:[...keys,'cash'])
+ if(r.contract_version!=='cp7.finance-analysis.v1'||!timestamp(r.captured_at)||r.knowledge_basis!=='CURRENT_RECORDED_KNOWLEDGE'||r.historical_knowledge!=='NOT_RECONSTRUCTED')fail()
+ const d=closed(r.dates,['from','to','as_of','compare_from','compare_to']);if(Object.entries(dates).some(([k,v])=>!financeDate(v)||d[k]!==v)||dates.from>dates.to||dates.to>dates.as_of||dates.compare_from>dates.compare_to||dates.compare_to>=dates.from)fail()
+ const c=closed(r.comparison,['basis','formula_version','rounding_scale','current','baseline','revenue_growth_pct','gross_margin_change_pp'])
+ if(c.basis!=='NATIVE_OWNER_REPORT_OPERANDS'||c.formula_version!=='GROWTH_POSITIVE_BASE_AND_GROSS_MARGIN_PP_V2'||c.rounding_scale!==4)fail()
+ const baselineDates={from:dates.compare_from,to:dates.compare_to,as_of:dates.compare_to}
+ const current=comparisonOnly?parseFinanceSnapshot(c.current,dates,true):parseFinanceSnapshot(c.current,dates)
+ const baseline=comparisonOnly?parseFinanceSnapshot(c.baseline,baselineDates,true):parseFinanceSnapshot(c.baseline,baselineDates)
+ if(![c.revenue_growth_pct,c.gross_margin_change_pp].every(x=>x===null||decimal(x,4)))fail()
+ if((c.revenue_growth_pct===null)!==(cents(baseline.performance.sales_revenue_gl)<=0n)||(c.gross_margin_change_pp===null)!==(cents(baseline.performance.sales_revenue_gl)<=0n||cents(current.performance.sales_revenue_gl)<=0n))fail()
+ return r
+}
+export function parseFinanceComparison(value:unknown,dates:AnalysisDates):FinanceComparison{
+ return checkedComparison(value,dates,true) as unknown as FinanceComparison
+}
+export function parseFinanceAnalysis(value:unknown,dates:AnalysisDates,offset=0,list?:CashEntryList):FinanceAnalysis{
+ const r=checkedComparison(value,dates,false)
+ const cash=closed(r.cash,['basis','account_scope','opening','closing','debit','credit','net_change','ledger_net','source_difference','reconciled','entries'])
+ if(cash.basis!=='GL_TRANSACTION_DATE_ALL_CONFIGURED_CASH_COA'||cash.account_scope!=='DISTINCT_COA_INCLUDING_INACTIVE_CASH_ACCOUNTS_AND_CASH_MAPPING'||typeof cash.reconciled!=='boolean')fail()
+ for(const k of ['opening','closing','debit','credit','net_change','ledger_net','source_difference'])if(!decimal(cash[k]))fail()
+ if(cents(cash.debit)<0n||cents(cash.credit)<0n||cents(cash.net_change)!==cents(cash.closing)-cents(cash.opening)||cents(cash.ledger_net)!==cents(cash.debit)-cents(cash.credit)||cents(cash.source_difference)!==cents(cash.net_change)-cents(cash.ledger_net)||cash.reconciled!==(cents(cash.source_difference)===0n))fail()
+ const page=closed(cash.entries,['rows','total','offset','limit','next_offset',...(list?['list','sums']:[])]);if(!Array.isArray(page.rows)||page.rows.length>25||!whole(page.total)||page.offset!==offset||page.limit!==25)return fail()
+ let matchingTotals:{debit:bigint;credit:bigint}|undefined
+ if(list){
+  // The count and the sums belong to the same matching set as the rows; with no filter they are the whole period.
+  if(!sameRecordList(page.list,{q:list.entry_q,status:list.entry_status,order:list.entry_order}))fail()
+  const s=closed(page.sums,['debit','credit','net'])
+  const debit=cents(s.debit),credit=cents(s.credit),periodDebit=cents(cash.debit),periodCredit=cents(cash.credit)
+  if(debit<0n||credit<0n||debit>periodDebit||credit>periodCredit||cents(s.net)!==debit-credit)fail()
+  if(page.total==='0'&&(debit!==0n||credit!==0n)||!list.entry_q&&!list.entry_status&&(debit!==periodDebit||credit!==periodCredit))fail()
+  matchingTotals={debit,credit}
+ }
+ const end=BigInt(offset+page.rows.length),total=BigInt(page.total);if(page.rows.length&&end>total||end<total&&(!page.rows.length||page.next_offset!==Number(end))||end>=total&&page.next_offset!==null)fail()
+ const ids=new Set()
+ let pageDebit=0n,pageCredit=0n
+ for(const value of page.rows){
+  const e=closed(value,['id','journal_number','source_type','source_id','reversal_of_id','status','economic_date','transaction_date','posting_at','debit','credit','net'])
+  const debit=cents(e.debit),credit=cents(e.credit)
+  if(!uuid(e.id)||ids.has(e.id)||!text(e.journal_number)||!text(e.source_type)||e.source_id!==null&&!uuid(e.source_id)||e.reversal_of_id!==null&&!uuid(e.reversal_of_id)||!['POSTED','REVERSED'].includes(String(e.status))||!financeDate(e.economic_date)||!financeDate(e.transaction_date)||String(e.transaction_date)<dates.from||String(e.transaction_date)>dates.to||list?.entry_status&&e.status!==list.entry_status||!timestamp(e.posting_at)||debit<0n||credit<0n||cents(e.net)!==debit-credit)fail()
+  ids.add(e.id)
+  pageDebit+=debit;pageCredit+=credit
+ }
+ if(matchingTotals){
+  const complete=offset===0&&end===total
+  if(pageDebit>matchingTotals.debit||pageCredit>matchingTotals.credit
+   ||complete&&(pageDebit!==matchingTotals.debit||pageCredit!==matchingTotals.credit))fail()
+ }
+ return r as unknown as FinanceAnalysis
+}
