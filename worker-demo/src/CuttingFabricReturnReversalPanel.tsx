@@ -1,3 +1,4 @@
+import RecordTable from './RecordTable'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useAuth } from './auth/AuthProvider'
 import { hasPermission } from './auth/accessCatalog'
@@ -97,10 +98,10 @@ export default function CuttingFabricReturnReversalPanel({ source, parentReady, 
       {busy ? <p role="status">Memeriksa kain kembali dan pemakaian sesudahnya…</p> : null}
       {error ? <p role="alert">{error}</p> : null}
       {current && data.blockers.length ? <div role="alert"><p>Kain kembali belum bisa dibatalkan:</p><ul>{data.blockers.map(b => <li key={b.kind + b.id}>{blockerText(b, unit)}</li>)}</ul></div> : null}
-      {current && data.returned.length ? <div className="cpick-table-wrap"><table aria-label="Kain kembali yang tercatat"><thead><tr><th>Roll</th><th>Kain kembali</th><th>Waktu</th><th>Di gudang sekarang</th>{correcting ? <th>Jumlah yang benar</th> : null}</tr></thead><tbody>{data.returned.map(r =>
+      {current && data.returned.length ? <div className="cpick-table-wrap"><RecordTable aria-label="Kain kembali yang tercatat"><thead><tr><th>Roll</th><th>Kain kembali</th><th>Waktu</th><th>Di gudang sekarang</th>{correcting ? <th>Jumlah yang benar</th> : null}</tr></thead><tbody>{data.returned.map(r =>
         <tr key={r.cuttingGroupRollId}><th>{r.rollNumber}<br/><small>{r.materialSku}{r.materialName ? ` · ${r.materialName}` : ''}</small></th><td>{qtyText(r.qtyReturned)} {r.unitCode ?? ''}</td><td>{formatCp6WibDateTime(r.returnedAt)}</td><td>{qtyText(r.availableNow)} {r.unitCode ?? ''}</td>
           {correcting ? <td><input aria-label={`Jumlah benar roll ${r.rollNumber}`} inputMode="decimal" value={qty[r.cuttingGroupRollId] ?? ''} disabled={disabled} onChange={e => { const v = e.target.value; setQty(c => ({ ...c, [r.cuttingGroupRollId]: v })); setReviewed(false) }}/></td> : null}</tr>)}</tbody>
-        <tfoot><tr><th colSpan={correcting ? 4 : 3}>{correcting ? 'Nilai lama → nilai baru' : 'Biaya PO naik lagi'}</th><th>{correcting ? `${rupiah(oldCents)} → ${rupiah(newCents)}` : rupiah(oldCents)}</th></tr></tfoot></table></div> : null}
+        <tfoot><tr><th colSpan={correcting ? 4 : 3}>{correcting ? 'Nilai lama → nilai baru' : 'Biaya PO naik lagi'}</th><th>{correcting ? `${rupiah(oldCents)} → ${rupiah(newCents)}` : rupiah(oldCents)}</th></tr></tfoot></RecordTable></div> : null}
       {current && data.eligible ? <fieldset className="cp7-choice"><legend>Yang mau dilakukan</legend>
         <label><input type="radio" name="reversal-mode" checked={!correcting} disabled={disabled} onChange={() => { setCorrecting(false); setReviewed(false) }}/>Batalkan saja</label>
         <label><input type="radio" name="reversal-mode" checked={correcting} disabled={disabled} onChange={() => { setCorrecting(true); setReviewed(false) }}/>Betulkan jumlahnya</label>

@@ -27,6 +27,8 @@ export type PreconnectDatabase = {
       }
     }
     Functions: {
+      erp_cp8_get_sku_pattern_v1: {Args:{p_group:string|null;p_product:string|null;p_query:string;p_offset:number};Returns:Json}
+      erp_cp8_save_sku_pattern_v1: {Args:{p_group:string;p_pattern:string|null;p_version:number;p_request:string};Returns:Json}
       erp_cp8_get_conversion_range_v1: { Args:{p_query:Json}; Returns:Json }
       erp_cp8_conversion_range_v1: { Args:{p_action:string;p_payload:Json;p_request:string}; Returns:Json }
       erp_cp7_get_staged_production_schedule_v1: CurrentDisposableDatabase['public']['Functions']['erp_cp7_get_staged_production_schedule_v1']

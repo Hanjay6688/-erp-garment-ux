@@ -27,5 +27,17 @@ export function rangeChange(session:Session,action:StockEvent['action'],article:
     }
   }
   if(!changes.length)throw Error('Isi setidaknya satu ukuran yang berubah.')
-  return {...session,stockEvents:[...(session.stockEvents??[]),{id,action,intent,reason:reason.trim(),notes:notes?.trim()||null,changes}]}
+  return {...session,stockEvents:[...(session.stockEvents??[]),{id,action,intent,date:'2026-11-24',reason:reason.trim(),notes:notes?.trim()||null,changes}]}
+}
+
+export function reverseRange(session:Session,originalId:string,id:string,reason:string):Session {
+  const events=session.stockEvents??[],before=events.findIndex(e=>e.id===originalId),original=events[before],note=reason.trim()
+  if(!original||original.reverses||!id||!note)throw Error('Pilih transaksi asal dan isi alasan pembalikan.')
+  const replay=events.find(e=>e.id===id)
+  if(replay){if(replay.reverses!==originalId||replay.reason!==note)throw Error('Isi pembalikan berbeda.');return session}
+  if(events.some(e=>e.reverses===originalId))throw Error('Transaksi sudah dibalik.')
+  const samePosition=(a:StockChange,b:StockChange)=>a.key===b.key&&a.size===b.size
+  if(events.slice(before+1).some(e=>!e.reverses&&!events.some(r=>r.reverses===e.id)&&e.changes.some(c=>original.changes.some(o=>samePosition(c,o)))))throw Error('Masih ada transaksi lanjutan untuk ukuran ini. Periksa transaksi terbaru.')
+  const changes=original.changes.map(c=>({...c,delta:-c.delta}));for(const c of changes){const a=articles.find(a=>a.key===c.key);if(!a||stockAt(a,c.size,session)+c.delta<0)throw Error('Stok saat ini tidak cukup untuk pembalikan.')}
+  return {...session,stockEvents:[...events,{id,action:original.action,date:'2026-11-24',reverses:original.id,reason:note,changes}]}
 }

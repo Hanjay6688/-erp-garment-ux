@@ -8,3 +8,4 @@
 .select-search [role=option]:is(:hover,[data-cursor=true]) {outline:1px solid currentColor;outline-offset:-2px}
 .select-search [role=option][aria-selected=true] {font-weight:700}
 .select-search [role=option]:disabled {opacity:.5}
+.select-search .select-clear-choice{display:block;margin:.35rem 0 .55rem;padding:.35rem .65rem;border:1px solid var(--control-border,#8490a3);border-radius:6px;background:var(--panel,#fff);color:var(--text,#172033)}

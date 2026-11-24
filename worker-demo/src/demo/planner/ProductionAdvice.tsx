@@ -99,8 +99,13 @@ export function AdviceBox({mode,session,onCut,onPickup,selected}:{mode:'cut'|'pi
   </section>
 }
 export function ActionTable({rows,onDetail}:{rows:Plan[];onDetail:(sku:string)=>void}) {
-  return <div className="gar-list">{rows.map(row=><article key={row.product.sku} className="gar-plan" data-sku={row.product.sku}>
+  const [from,setFrom]=useState(''),[until,setUntil]=useState(''),[order,setOrder]=useState('')
+  const visible=rows.filter(r=>(!from||r.product.due>=from)&&(!until||r.product.due<=until))
+  if(order==='due')visible.sort((a,b)=>a.product.due.localeCompare(b.product.due))
+  if(order==='short')visible.sort((a,b)=>b.short-a.short)
+  if(order==='sku')visible.sort((a,b)=>a.product.sku.localeCompare(b.product.sku,'id',{numeric:true}))
+  return <><details className="erp-table-tools"><summary>Filter dan urutkan pesanan</summary><div><label>Tenggat mulai<input type="date" max={until||undefined} value={from} onChange={e=>setFrom(e.target.value)}/></label><label>Tenggat sampai<input type="date" min={from||undefined} value={until} onChange={e=>setUntil(e.target.value)}/></label><label>Urutan pesanan<select value={order} onChange={e=>setOrder(e.target.value)}><option value="">Urutan Planner</option><option value="due">Tenggat terdekat</option><option value="short">Kekurangan terbesar</option><option value="sku">Nomor SKU</option></select></label><button type="button" disabled={!from&&!until&&!order} onClick={()=>{setFrom('');setUntil('');setOrder('')}}>Reset</button></div></details>{!visible.length&&<p role="status">Tidak ada pesanan pada rentang ini.</p>}<div className="gar-list">{visible.map(row=><article key={row.product.sku} className="gar-plan" data-sku={row.product.sku}>
     <div><h3>{row.product.brand} {row.product.sku} <span>· {seriesLabel(seriesFor(row.product))}</span></h3><p>{row.reference?patternFor(row.reference).name:'Pola belum ditentukan'} · {routesLabel(row)}</p><small>{row.product.customer} · {row.product.need} pcs · {day(row.product.due)}</small></div>
     <div><strong>{action(row)}</strong></div><button type="button" className="gar-button" aria-haspopup="dialog" onClick={()=>onDetail(row.product.sku)}>Lihat alasan</button>
-  </article>)}</div>
+  </article>)}</div></>
 }

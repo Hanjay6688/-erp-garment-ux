@@ -213,3 +213,13 @@ test('memilih SKU potongan mengisi identitas master termasuk ukuran khusus dan n
   await page.getByLabel('SKU rencana',{exact:true}).selectOption('66001')
   await expect(page.getByText('Biru muda · Rentang 28–30 · Kulot Kecil')).toBeVisible()
 })
+test('draft bisa diedit dan dibuang, riwayat posted difilter dan dikoreksi tanpa menghapus bukti',async({page})=>{
+  await page.goto('/gudang/ganti-merek/')
+  const f=page.getByRole('region',{name:'Ganti Merek',exact:true});await f.getByLabel('Jumlah ukuran 31').fill('1');await f.getByLabel('Alasan transaksi').fill('Uji edit draft')
+  await f.getByRole('button',{name:'Simpan draft form'}).click();await f.getByLabel('Jumlah ukuran 31').fill('2');await f.getByRole('button',{name:'Edit draft tersimpan'}).click();await expect(f.getByLabel('Jumlah ukuran 31')).toHaveValue('1')
+  await f.getByRole('button',{name:'Hapus draft',exact:true}).click();await expect(page.getByRole('dialog')).not.toContainText('Periksa jumlah');await page.getByRole('button',{name:'Kembali',exact:true}).click()
+  await f.getByRole('button',{name:'Periksa jumlah'}).click();await f.getByRole('button',{name:'Simpan transaksi latihan'}).click()
+  const history=f.locator('.document-history');await expect(history).toContainText('Posted');await history.getByText('Filter dan urutkan',{exact:false}).click();await history.getByLabel('Tanggal fisik mulai').fill('2026-11-25');await expect(history).toContainText('Tidak ada baris');await history.getByRole('button',{name:'Reset'}).click()
+  await history.getByRole('button',{name:'Balikkan transaksi'}).click();const d=page.getByRole('dialog');await expect(d).not.toContainText('Simpan draft form');await d.getByLabel('Alasan pembalikan').fill('Koreksi demo');await d.getByRole('button',{name:'Simpan pembalikan'}).click()
+  await expect(history.getByRole('row')).toHaveCount(3);await expect(history).toContainText('Sudah dibalik');await expect(history).toContainText('Koreksi demo')
+})

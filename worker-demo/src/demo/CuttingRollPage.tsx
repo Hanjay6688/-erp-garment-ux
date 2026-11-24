@@ -2,6 +2,7 @@ import { Icon } from '../components/AppIcon'
 import CuttingPatternPicker, { hasCanonicalPattern } from '../CuttingPatternPicker'
 import type { CuttingPatternChoice } from '../CuttingPatternPicker'
 import { Field, MultiCheckFilter } from './controls'
+import {ReasonDialog} from './planner/ReasonDialog'
 import { AdviceBox, pickupPath } from './planner/ProductionAdvice'
 import { articles, articleChoice, cutArticle, planningPattern, rangeLabel, cutRolls, lotLabel, lotPattern, modelSeries, patternFor, plan, productFor, recordCut, rolls, seriesLabel, suggestedCut, yardsLeft, type Plan } from './planner/model'
 import { usePlannerSession, changeSession } from './planner/session'
@@ -35,6 +36,10 @@ export function CuttingRollPage() {
   const session=usePlannerSession()
   const fabricRollCatalog:FabricRoll[]=rolls.map((roll,index)=>({...roll,sequence:index+1,yards:yardsLeft(roll.id,session),receivedAt:'23 Nov 2026',allocation:[0,0,0,0,0,0]}))
   const [draft]=useState(readDraft)
+  const [savedDraft,setSavedDraft]=useState(Boolean(draft)),[deleteDraft,setDeleteDraft]=useState(false)
+  function restoreDraft(){const d=readDraft();if(!d){setSavedDraft(false);return}
+    setSku(d.sku);setBrand(d.brand);setModel(d.model);setDate(d.date);setNotes(d.notes??'');setEta(d.eta??'');setSelectedPattern(d.selectedPattern);setSelectedRollIds(d.ids);setSizeSlots(d.slots);setRollYardUsage(d.yards);setAllocations(d.amounts);setSavedId('');setSizeNotice('');requestId.current=crypto.randomUUID();setNotice('Draft dibuka untuk diedit.')
+  }
   const [sku,setSku]=useState(draft?.sku??'')
   const [brand,setBrand]=useState(draft?.brand??'')
   const hasSampleRoll=!draft&&yardsLeft('ORI-021',session)>=27
@@ -145,14 +150,14 @@ export function CuttingRollPage() {
         rolls:rollUsageRows.map(({roll,used})=>({id:roll.id,yards:used,quantities:sizeSlots.map((_,i)=>allocations[roll.id]?.[i]??0)})),
       }))
       const id=next.cuts.find(l=>l.requestId===requestId.current)!.id
-      sessionStorage.removeItem(draftKey)
+      sessionStorage.removeItem(draftKey);setSavedDraft(false)
       setSavedId(id);setNotice(id+' tersimpan. '+totalPieces+' pcs sekarang menunggu mandor. Saran potong sudah dihitung ulang.')
     } catch(error){setNotice((error as Error).message)}
   }
   function storeDraft(){
     if(sku && brand && linked?.brand!==brand){setNotice('Periksa kecocokan merek dan SKU rencana.');return}
     const data:CuttingDraft={sku,brand,model,date,eta,notes,selectedPattern,ids:selectedRollIds,yards:rollYardUsage,slots:sizeSlots,amounts:allocations}
-    sessionStorage.setItem(draftKey,JSON.stringify(data));setNotice('Draft tersimpan di tab ini. Jumlah WIP tetap sama sampai hasil potong disimpan.')
+    sessionStorage.setItem(draftKey,JSON.stringify(data));setSavedDraft(true);setNotice('Draft tersimpan di tab ini. Jumlah WIP tetap sama sampai hasil potong disimpan.')
   }
   const slotGridStyle={'--cutting-slot-count':displayedSizeSlots.length} as CSSProperties
   const sizeSummaryStyle={'--cutting-size-columns':Math.min(3,Math.max(1,selectedCuttingSizes.length))} as CSSProperties
@@ -379,7 +384,7 @@ export function CuttingRollPage() {
   const clearForm=()=>{
     setSku('');setBrand('');setModel('');setSelectedPattern(null);setSelectedRollIds([]);setSizeSlots([]);setAllocations({});setEta('');setNotes('');setSizeNotice('')
     setRollYardUsage(Object.fromEntries(fabricRollCatalog.map(r=>[r.id,String(r.yards)])))
-    setSavedId('');requestId.current=crypto.randomUUID();sessionStorage.removeItem(draftKey)
+    setSavedId('');requestId.current=crypto.randomUUID()
     setNotice('Form kosong siap diisi.')
   }
   const heading=<section className="hero-copy compact cutting-hero"><div className="eyebrow">PRODUKSI · CUTTING</div><h1>Buat Potongan</h1><p>Pilih model dan serinya, lalu catat hasil potong dari roll yang dipakai.</p>{!savedId&&<button type="button" className="gar-text" onClick={clearForm}>Mulai form kosong</button>}</section>
@@ -463,6 +468,8 @@ export function CuttingRollPage() {
         <div><span>04 · SIMPAN HASIL CUTTING</span><h2>Masuk WIP Produksi, belum menjadi Batch Distribusi</h2><p>Jejak roll, yard issued, sisa roll, dan size tetap melekat pada Batch Produksi. Mandor serta Batch Distribusi baru dicatat saat fisik benar-benar diambil.</p></div>
         <div className="cutting-wip-card"><span className="wip-state-dot"/><div><small>STATUS SETELAH DISIMPAN</small><strong>Menunggu mandor mengambil</strong><span>{selectedRolls.length} roll · {formatQuantity(totalUsedYards,2)} yd used · {totalPieces} pcs · {selectedPattern ? `Pola ${selectedPattern.code}/${selectedPattern.revision}` : 'Pola wajib dipilih sebelum simpan'}</span></div></div>
       </section>
+      {savedDraft&&<div className="document-actions"><strong>Draft potongan</strong><button type="button" onClick={restoreDraft}>Edit draft tersimpan</button><button type="button" onClick={()=>setDeleteDraft(true)}>Hapus draft</button></div>}
+      {deleteDraft&&<ReasonDialog title="Hapus draft potongan?" closeLabel="Kembali" onClose={()=>setDeleteDraft(false)}><p>Draft ini bisa dibuang sebelum hasil potongan masuk ke WIP.</p><button type="button" onClick={()=>{sessionStorage.removeItem(draftKey);setSavedDraft(false);setDeleteDraft(false);clearForm();setNotice('Draft potongan dihapus.')}}>Ya, hapus draft ini</button></ReasonDialog>}
       <div className="allocation-footer"><small>Latihan per pesanan · hasil simpan berlaku di tab ini.</small><div><button type="button" className="soft-btn" onClick={storeDraft} disabled={Boolean(savedId)||!series||!hasCanonicalPattern(selectedPattern)||!date||!yardUsageValid||!selectedRolls.every(r=>allocations[r.id]?.some(n=>n>0))}>Simpan draft cutting</button><button type="button" className="primary-btn" onClick={storeCut} disabled={Boolean(savedId)||!hasCanonicalPattern(selectedPattern)||!series||!date||!yardUsageValid||!selectedRolls.every(r=>allocations[r.id]?.some(n=>n>0))}>Simpan Potongan ke WIP <Icon name="arrow"/></button></div></div>
       {notice&&<p className="gar-success">{notice} {savedId&&<a href={pickupPath+'?pot='+savedId}>Buka Bagi Potongan</a>}</p>}
     </section>

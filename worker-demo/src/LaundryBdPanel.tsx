@@ -1,3 +1,4 @@
+import RecordTable from './RecordTable'
 // BD (LAU-05b, LAU-DEC01..06, ALL-W05): laundry prices, priced deliveries, unknown prices, vendor invoices and opening
 // uninvoiced laundry work, on the Laundry page. BD writes and the BE redye-price facade use one request id
 // (the server replays it); the server checks permissions, policies, capacity and versions again.
@@ -129,9 +130,9 @@ function Policies({ data, locked, send }: { data: LaundryBdWorkspace; locked: bo
   const select = (k: string, label: string, options: [string, string][]) => <label key={k}>{label}<select aria-label={label} value={f[k] ?? ''} disabled={locked} onChange={e => setF(v => ({ ...v, [k]: e.target.value }))}>
     <option value="">Pilih…</option>{options.map(([v, l]) => <option key={v} value={v}>{l}</option>)}</select></label>
   return <section className="initial-import-table" aria-label="Kebijakan laundry">
-    <table><thead><tr><th>Kebijakan</th><th>Status</th><th>Nilai</th><th>Versi</th><th>Diubah</th></tr></thead><tbody>{data.policies.map(p =>
+    <RecordTable><thead><tr><th>Kebijakan</th><th>Status</th><th>Nilai</th><th>Versi</th><th>Diubah</th></tr></thead><tbody>{data.policies.map(p =>
       <tr key={p.key}><td>{p.key} · {LAU_POLICY_LABEL[p.key]}</td><td>{policyStatus(p)}</td>
-        <td>{policyValueText(p, data.accounts ?? [])}</td><td>{p.version}</td><td>{p.set_at} · {p.reason}</td></tr>)}</tbody></table>
+        <td>{policyValueText(p, data.accounts ?? [])}</td><td>{p.version}</td><td>{p.set_at} · {p.reason}</td></tr>)}</tbody></RecordTable>
     {data.is_owner ? <div className="initial-import-toolbar">
       <label>Kebijakan<select aria-label="Kebijakan yang diubah" value={key} disabled={locked} onChange={e => { setKey(e.target.value as LauPolicyKey); setF({}); setPick({}) }}>
         {LAU_POLICY_KEYS.map(k => <option key={k} value={k}>{k} · {LAU_POLICY_LABEL[k]}</option>)}</select></label>
@@ -181,9 +182,9 @@ function Master({ data, vendor, locked, send }: { data: LaundryBdWorkspace; vend
       <button type="button" disabled={!can || (Boolean(f.minimum?.trim()) && !moneyInput(f.minimum))} onClick={() => send('SAVE_VENDOR_TERMS', { vendor_id: vendor, pricing_mode: f.mode,
         pricing_unit: f.unit, minimum_charge: f.minimum?.trim() ? normalizeMoney(f.minimum) : null, expected_version: v.terms_version, reason: reason.trim() })}>Simpan ketentuan</button></div>
     <h4>Komponen</h4>
-    <table><thead><tr><th>Komponen</th><th>Harga berlaku</th><th>Aktif</th></tr></thead><tbody>{components.map(c => <tr key={c.id}><td>{c.code} · {c.name}</td>
+    <RecordTable><thead><tr><th>Komponen</th><th>Harga berlaku</th><th>Aktif</th></tr></thead><tbody>{components.map(c => <tr key={c.id}><td>{c.code} · {c.name}</td>
       <td>{c.current ? `${BD_RATE_LABEL[c.current.status]}${c.current.status === 'KNOWN' ? ` · ${rupiah(c.current.rate)}` : ''} sejak ${c.current.from} · ${c.current.reason}` : 'Belum ada versi harga'}</td>
-      <td>{c.is_active ? 'Ya' : 'Tidak'}</td></tr>)}</tbody></table>
+      <td>{c.is_active ? 'Ya' : 'Tidak'}</td></tr>)}</tbody></RecordTable>
     <div className="initial-import-toolbar">{field('component_code', 'Kode komponen')}{field('component_name', 'Nama komponen')}
       <button type="button" disabled={!can || !f.component_code?.trim() || !f.component_name?.trim()} onClick={() => send('SAVE_COMPONENT', { vendor_id: vendor,
         component_code: f.component_code.trim(), component_name: f.component_name.trim(), is_active: true, reason: reason.trim() })}>Tambah komponen</button></div>
@@ -195,8 +196,8 @@ function Master({ data, vendor, locked, send }: { data: LaundryBdWorkspace; vend
         send('SAVE_COMPONENT_RATE', { component_id: f.component_id, rate_status: f.rate_status ?? 'KNOWN', effective_from: from, reason: reason.trim(),
           ...((f.rate_status ?? 'KNOWN') === 'KNOWN' ? { rate_per_pcs: normalizeMoney(f.component_rate) } : f.rate_status === 'UNKNOWN' ? {} : { rate_per_pcs: '0.00' }) })}>Simpan versi harga komponen</button></div>
     <h4>Paket</h4>
-    <table><thead><tr><th>Paket</th><th>Isi</th><th>Harga berlaku</th></tr></thead><tbody>{packages.map(p => <tr key={p.id}><td>{p.code} · {p.name}</td>
-      <td>{p.component_ids.map(id => components.find(c => c.id === id)?.code ?? id).join(', ')}</td><td>{p.current_rate === null ? '—' : rupiah(p.current_rate)}</td></tr>)}</tbody></table>
+    <RecordTable><thead><tr><th>Paket</th><th>Isi</th><th>Harga berlaku</th></tr></thead><tbody>{packages.map(p => <tr key={p.id}><td>{p.code} · {p.name}</td>
+      <td>{p.component_ids.map(id => components.find(c => c.id === id)?.code ?? id).join(', ')}</td><td>{p.current_rate === null ? '—' : rupiah(p.current_rate)}</td></tr>)}</tbody></RecordTable>
     <div className="initial-import-toolbar">{field('package_code', 'Kode paket')}{field('package_name', 'Nama paket')}
       <fieldset><legend>Isi paket</legend>{components.map(c => <label key={c.id}><input type="checkbox" checked={pkgComponents.includes(c.id)} disabled={locked}
         onChange={e => setPkgComponents(x => e.target.checked ? [...x, c.id] : x.filter(y => y !== c.id))}/>{c.code}</label>)}</fieldset>
@@ -207,8 +208,8 @@ function Master({ data, vendor, locked, send }: { data: LaundryBdWorkspace; vend
       <button type="button" disabled={!can || !f.package_id || !from || !moneyInput(f.package_rate ?? '')} onClick={() => from && send('SAVE_PACKAGE_RATE', { package_id: f.package_id,
         rate_per_pcs: normalizeMoney(f.package_rate), effective_from: from, reason: reason.trim() })}>Simpan versi harga paket</button></div>
     <h4>Tarif proses</h4>
-    <table><thead><tr><th>Proses</th><th>Tarif</th><th>Berlaku</th></tr></thead><tbody>{data.process_rates.filter(r => r.vendor_id === vendor).map(r => <tr key={r.id}>
-      <td>{data.processes.find(p => p.id === r.wash_process_id)?.name ?? r.wash_process_id}</td><td>{rupiah(r.rate)}</td><td>{r.from} – {r.to ?? 'sekarang'}</td></tr>)}</tbody></table>
+    <RecordTable><thead><tr><th>Proses</th><th>Tarif</th><th>Berlaku</th></tr></thead><tbody>{data.process_rates.filter(r => r.vendor_id === vendor).map(r => <tr key={r.id}>
+      <td>{data.processes.find(p => p.id === r.wash_process_id)?.name ?? r.wash_process_id}</td><td>{rupiah(r.rate)}</td><td>{r.from} – {r.to ?? 'sekarang'}</td></tr>)}</tbody></RecordTable>
     <div className="initial-import-toolbar"><label>Proses<select aria-label="Proses tarif" value={f.process_id ?? ''} disabled={locked} onChange={e => set({ process_id: e.target.value })}>
       <option value="">Pilih…</option>{data.processes.map(p => <option key={p.id} value={p.id}>{p.code} · {p.name}</option>)}</select></label>{field('process_rate', 'Tarif per PCS')}
       <button type="button" disabled={!can || !f.process_id || !from || !moneyInput(f.process_rate ?? '')} onClick={() => from && send('SAVE_PROCESS_RATE', { vendor_id: vendor,
@@ -367,12 +368,12 @@ function Payables({ payables, locked, send }: { payables: BdPayables; locked: bo
         : 'Tidak cocok: periksa pelunasan dan klaim vendor ini'}</dd></div>
     </dl>
     {l.receivable_balance !== undefined && <p>Saldo kredit belum dipakai sudah mencakup piutang dari koreksi invoice. Piutang itu bisa memotong tagihan vendor yang sama atau dikembalikan ke kas/bank.</p>}
-    <table aria-label="Tagihan vendor"><thead><tr><th>Tagihan</th><th>Tanggal</th><th>Total</th><th>Dibayar kas</th><th>Kredit klaim</th><th>Kredit koreksi</th><th>Sisa</th><th>Status</th></tr></thead>
+    <RecordTable aria-label="Tagihan vendor"><thead><tr><th>Tagihan</th><th>Tanggal</th><th>Total</th><th>Dibayar kas</th><th>Kredit klaim</th><th>Kredit koreksi</th><th>Sisa</th><th>Status</th></tr></thead>
       <tbody>{payables.documents.map(d => <tr key={d.id}><td>{d.number}{d.kind === 'OPENING_PAYABLE' ? ' (saldo awal)' : ''}{d.corrects ? ` (koreksi naik atas ${d.corrects})` : ''}</td><td>{d.date}</td><td>{rupiah(d.total)}</td>
-        <td>{rupiah(d.paid_cash)}</td><td>{rupiah(d.claim_credit)}</td><td>{rupiah(d.correction_credit)}</td><td>{rupiah(d.remaining)}</td><td>{cents(d.remaining) === 0 ? 'Lunas' : d.status}</td></tr>)}</tbody></table>
-    <table aria-label="Sumber potongan vendor"><thead><tr><th>Sumber</th><th>Berlaku sejak</th><th>Kredit</th><th>Terpakai</th><th>Tersedia</th>{hasReceivable && <th>Bagian piutang</th>}</tr></thead>
+        <td>{rupiah(d.paid_cash)}</td><td>{rupiah(d.claim_credit)}</td><td>{rupiah(d.correction_credit)}</td><td>{rupiah(d.remaining)}</td><td>{cents(d.remaining) === 0 ? 'Lunas' : d.status}</td></tr>)}</tbody></RecordTable>
+    <RecordTable aria-label="Sumber potongan vendor"><thead><tr><th>Sumber</th><th>Berlaku sejak</th><th>Kredit</th><th>Terpakai</th><th>Tersedia</th>{hasReceivable && <th>Bagian piutang</th>}</tr></thead>
       <tbody>{payables.credits.map(c => <tr key={c.id}><td>{CREDIT_SOURCE_LABEL[c.kind]} · {creditName(c)}</td><td>{c.approved_date}</td><td>{rupiah(c.amount)}</td>
-        <td>{rupiah(c.applied)}</td><td>{rupiah(c.available)}</td>{hasReceivable && <td>{c.receivable === undefined ? '—' : rupiah(c.receivable)}</td>}</tr>)}</tbody></table>
+        <td>{rupiah(c.applied)}</td><td>{rupiah(c.available)}</td>{hasReceivable && <td>{c.receivable === undefined ? '—' : rupiah(c.receivable)}</td>}</tr>)}</tbody></RecordTable>
     <div className="initial-import-toolbar">
       <label>Tagihan dilunasi<select aria-label="Tagihan dilunasi" value={docId} disabled={locked} onChange={e => setDocId(e.target.value)}>
         <option value="">Pilih tagihan…</option>{open.map(d => <option key={d.id} value={d.id}>{d.number} · sisa {rupiah(d.remaining)}</option>)}</select></label>
@@ -394,11 +395,11 @@ function Payables({ payables, locked, send }: { payables: BdPayables; locked: bo
     {hasReceivable && <VendorRefunds payables={payables} locked={locked} send={send}/>}
     <h4>Riwayat pelunasan</h4>
     <Reason value={undoReason} set={setUndoReason} locked={locked} label="Alasan pembatalan"/>
-    <table aria-label="Riwayat pelunasan vendor"><thead><tr><th>Tagihan</th><th>Tanggal</th><th>Cara</th><th>Nominal</th><th>Rujukan</th><th>Status</th><th></th></tr></thead>
+    <RecordTable aria-label="Riwayat pelunasan vendor"><thead><tr><th>Tagihan</th><th>Tanggal</th><th>Cara</th><th>Nominal</th><th>Rujukan</th><th>Status</th><th></th></tr></thead>
       <tbody>{payables.documents.flatMap(d => d.settlements.map(x => <tr key={x.id}><td>{d.number}</td><td>{x.date}</td><td>{METHOD_LABEL[x.method]}</td><td>{rupiah(x.amount)}</td>
         <td>{x.reference ?? '—'}</td><td>{x.status === 'POSTED' ? 'Diposting' : 'Dibatalkan'}</td>
         <td>{x.status === 'POSTED' && x.method !== 'CREDIT' && <button type="button" disabled={locked || undoReason.trim().length < 4} onClick={() => send('REVERSE_VENDOR_SETTLEMENT', {
-          target_kind: d.kind, settlement_id: x.id, reason: undoReason.trim() })}>Batalkan {x.number}</button>}</td></tr>))}</tbody></table>
+          target_kind: d.kind, settlement_id: x.id, reason: undoReason.trim() })}>Batalkan {x.number}</button>}</td></tr>))}</tbody></RecordTable>
   </section>
 }
 
@@ -425,10 +426,10 @@ function VendorRefunds({ payables, locked, send }: { payables: BdPayables; locke
       })}>Catat uang diterima dari vendor</button>
     </div>
     <Reason value={undoReason} set={setUndoReason} locked={locked} label="Alasan pembatalan pengembalian vendor"/>
-    <table aria-label="Riwayat pengembalian vendor"><thead><tr><th>Koreksi asal</th><th>Tanggal</th><th>Nominal</th><th>Status</th><th/></tr></thead>
+    <RecordTable aria-label="Riwayat pengembalian vendor"><thead><tr><th>Koreksi asal</th><th>Tanggal</th><th>Nominal</th><th>Status</th><th/></tr></thead>
       <tbody>{payables.refunds!.map(r => <tr key={r.id}><td>{r.source_number}</td><td>{r.date}</td><td>{rupiah(r.amount)}</td>
         <td>{r.status === 'POSTED' ? 'Diposting' : 'Dibatalkan'}</td><td>{r.status === 'POSTED' && <button type="button" disabled={locked || undoReason.trim().length < 4}
-          onClick={() => send('REVERSE_VENDOR_REFUND', { refund_id: r.id, reason: undoReason.trim() })}>Batalkan pengembalian {r.source_number}</button>}</td></tr>)}</tbody></table>
+          onClick={() => send('REVERSE_VENDOR_REFUND', { refund_id: r.id, reason: undoReason.trim() })}>Batalkan pengembalian {r.source_number}</button>}</td></tr>)}</tbody></RecordTable>
   </section>
 }
 
@@ -441,14 +442,14 @@ function UnknownPrices({ data, locked, send }: { data: LaundryBdWorkspace; locke
     {pending.filter(d => d.charges.length === 0).map(d => <p key={d.delivery_line_id}>{d.delivery_number} · {d.qty_sent} PCS · biaya belum diketahui. Catat nilai aktual pada Invoice vendor setelah barang diterima.</p>)}
     {pending.some(d => d.has_invoice) && <p>Sebagian biaya sudah ditagih. Lengkapi kontra bon; perubahan biaya tertagih memakai dokumen koreksi.</p>}
     <Reason value={reason} set={setReason} locked={locked}/>
-    {pending.length === 0 ? <p>Tidak ada harga laundry yang belum diketahui.</p> : <table><thead><tr><th>Kiriman</th><th>Rincian</th><th>PCS</th><th>Harga diketahui</th><th>Isi harga</th></tr></thead>
+    {pending.length === 0 ? <p>Tidak ada harga laundry yang belum diketahui.</p> : <RecordTable><thead><tr><th>Kiriman</th><th>Rincian</th><th>PCS</th><th>Harga diketahui</th><th>Isi harga</th></tr></thead>
       <tbody>{pending.flatMap(d => d.charges.map(c => <tr key={c.id}><td>{d.delivery_number} · {d.physical_local}</td><td>{CHARGE_KIND_LABEL[c.kind]} · {c.label}</td><td>{c.covered_qty}</td>
         <td>{c.rate_status === 'KNOWN' ? rupiah(c.amount) : BD_RATE_LABEL[c.rate_status]}{c.price_reason ? ` · ${c.price_reason}` : ''}</td>
         <td>{c.rate_status === 'UNKNOWN' && !d.has_invoice && data.can_set_price && <><select aria-label={`Status harga ${c.label}`} disabled={locked} value={resolution[c.id] ?? 'KNOWN'}
           onChange={e => setResolution(x => ({ ...x, [c.id]: e.target.value }))}>{BD_RATE_STATUSES.filter(s => s !== 'UNKNOWN').map(s => <option key={s} value={s}>{BD_RATE_LABEL[s]}</option>)}</select>
           {(resolution[c.id] ?? 'KNOWN') === 'KNOWN' && <input aria-label={`Harga per PCS ${c.label}`} value={rate[c.id] ?? ''} disabled={locked} onChange={e => setRate(x => ({ ...x, [c.id]: e.target.value }))}/>}
           <button type="button" disabled={locked || ((resolution[c.id] ?? 'KNOWN') === 'KNOWN' && !moneyInput(rate[c.id] ?? '')) || !reason.trim()} onClick={() => send('SET_CHARGE_PRICE', { charge_line_id: c.id,
-            rate_status: resolution[c.id] ?? 'KNOWN', rate_per_pcs: (resolution[c.id] ?? 'KNOWN') === 'KNOWN' ? normalizeMoney(rate[c.id]) : '0.00', reason: reason.trim() })}>Isi harga {c.label}</button></>}</td></tr>))}</tbody></table>}
+            rate_status: resolution[c.id] ?? 'KNOWN', rate_per_pcs: (resolution[c.id] ?? 'KNOWN') === 'KNOWN' ? normalizeMoney(rate[c.id]) : '0.00', reason: reason.trim() })}>Isi harga {c.label}</button></>}</td></tr>))}</tbody></RecordTable>}
     <FailedWashPrices data={data} locked={locked} send={send}/>
     <PendingCost data={data}/>
   </section>
@@ -465,7 +466,7 @@ function FailedWashPrices({ data, locked, send }: { data: LaundryBdWorkspace; lo
     <p>Biaya cuci gagal ini belum dihitung, bukan nol. HPP PO-nya belum final dan tutup buku sampai tanggal kejadian tertahan sampai harganya diisi. Harga diisi sekali saja oleh owner/admin; pilih Gratis atau Tidak ditagih (nol) bila vendor memang tidak menagih.</p>
     {Array.isArray(dec02) && !dec02.includes('FAILED_ATTEMPT') && rows.some(waits) && <p role="status">Kebijakan LAU-DEC02 saat ini tidak menagihkan cuci gagal ke invoice vendor; harganya tetap perlu diisi agar biaya dan HPP lengkap.</p>}
     {rows.some(waits) && (data.can_set_price ? <Reason value={reason} set={setReason} locked={locked} label="Alasan harga cuci gagal"/> : <p>Harga cuci gagal hanya dapat diisi owner/admin yang berhak mengelola HPP.</p>)}
-    {rows.length === 0 ? <p>Tidak ada cuci gagal dengan harga vendor belum diketahui.</p> : <table aria-label="Daftar cuci gagal harga belum diketahui"><thead><tr><th>Cuci gagal</th><th>Kiriman · PO</th><th>Proses</th><th>PCS</th><th>Harga</th><th>Isi harga</th></tr></thead>
+    {rows.length === 0 ? <p>Tidak ada cuci gagal dengan harga vendor belum diketahui.</p> : <RecordTable aria-label="Daftar cuci gagal harga belum diketahui"><thead><tr><th>Cuci gagal</th><th>Kiriman · PO</th><th>Proses</th><th>PCS</th><th>Harga</th><th>Isi harga</th></tr></thead>
       <tbody>{rows.map(x => { const status = resolution[x.attempt_id] ?? 'KNOWN', typed = rate[x.attempt_id] ?? ''
         return <tr key={x.attempt_id}><td>{x.receipt_number} · {x.physical_local.replace('T', ' ')}{x.attempt_status === 'POSTED' ? '' : ' · dibatalkan'}</td><td>{x.vendor_code} · {x.delivery_number} · {x.po_number}</td><td>{x.process_name ?? '—'}</td><td>{x.qty}</td>
           <td>{x.price_status === 'UNKNOWN' ? (waits(x) ? 'Belum diketahui · biaya belum dihitung · HPP belum final' : 'Tidak diisi; cuci gagal sudah dibatalkan tanpa biaya')
@@ -474,7 +475,7 @@ function FailedWashPrices({ data, locked, send }: { data: LaundryBdWorkspace; lo
             {BD_RATE_STATUSES.filter(s => s !== 'UNKNOWN').map(s => <option key={s} value={s}>{BD_RATE_LABEL[s]}</option>)}</select>
             {status === 'KNOWN' && <input aria-label={`Harga per PCS cuci gagal ${x.receipt_number}`} value={typed} disabled={locked} onChange={e => setRate(v => ({ ...v, [x.attempt_id]: e.target.value }))}/>}
             <button type="button" disabled={locked || reason.trim().length < 4 || (status === 'KNOWN' && (!moneyInput(typed) || Number(normalizeMoney(typed)) <= 0))} onClick={() => send('SET_FAILED_WASH_PRICE', {
-              failed_wash_attempt_id: x.attempt_id, rate_status: status, rate_per_pcs: status === 'KNOWN' ? normalizeMoney(typed) : '0.00', reason: reason.trim() })}>Isi harga cuci gagal {x.receipt_number}</button></>}</td></tr> })}</tbody></table>}
+              failed_wash_attempt_id: x.attempt_id, rate_status: status, rate_per_pcs: status === 'KNOWN' ? normalizeMoney(typed) : '0.00', reason: reason.trim() })}>Isi harga cuci gagal {x.receipt_number}</button></>}</td></tr> })}</tbody></RecordTable>}
   </section>
 }
 
@@ -485,12 +486,12 @@ function PendingCost({ data }: { data: LaundryBdWorkspace }) {
   return <section aria-label="HPP belum final">
     <h4>HPP belum final karena harga laundry belum diketahui</h4>
     <p>HPP barang ini baru memuat bagian harga yang sudah diketahui. Setelah harga diisi, HPP lot, stok, dan HPP penjualan yang sudah terjadi dihitung ulang, lalu tutup buku tidak lagi tertahan.</p>
-    {goods.length === 0 ? <p>Tidak ada barang jadi dengan HPP belum final.</p> : <table aria-label="Barang jadi HPP belum final"><thead><tr><th>Barang</th><th>Lot</th><th>PO</th><th>Stok</th><th>Terjual</th><th>HPP per PCS sejauh ini</th><th>Status</th></tr></thead>
+    {goods.length === 0 ? <p>Tidak ada barang jadi dengan HPP belum final.</p> : <RecordTable aria-label="Barang jadi HPP belum final"><thead><tr><th>Barang</th><th>Lot</th><th>PO</th><th>Stok</th><th>Terjual</th><th>HPP per PCS sejauh ini</th><th>Status</th></tr></thead>
       <tbody>{goods.map(g => <tr key={g.lot_id}><td>{g.sku} · {g.product_name}</td><td>{g.lot_number}</td><td>{g.po_number}</td><td>{g.qty_now}</td><td>{g.qty_sold}</td>
-        <td>{rupiah(g.hpp_per_pcs_so_far)}</td><td>HPP belum final</td></tr>)}</tbody></table>}
-    {sales.length > 0 && <table aria-label="Penjualan saat harga laundry belum diketahui"><thead><tr><th>Penjualan</th><th>Tanggal</th><th>Barang</th><th>PCS</th><th>HPP saat dijual</th><th>Status HPP</th></tr></thead>
+        <td>{rupiah(g.hpp_per_pcs_so_far)}</td><td>HPP belum final</td></tr>)}</tbody></RecordTable>}
+    {sales.length > 0 && <RecordTable aria-label="Penjualan saat harga laundry belum diketahui"><thead><tr><th>Penjualan</th><th>Tanggal</th><th>Barang</th><th>PCS</th><th>HPP saat dijual</th><th>Status HPP</th></tr></thead>
       <tbody>{sales.map(x => <tr key={x.id}><td>{x.sale_number}</td><td>{x.sale_date}</td><td>{x.sku} · {x.product_name}</td><td>{x.qty}</td><td>{rupiah(x.unit_hpp_at_sale)}</td>
-        <td>{x.hpp_state === 'NOT_FINAL' ? 'HPP belum final' : 'Sudah dihitung ulang dengan harga laundry'}</td></tr>)}</tbody></table>}
+        <td>{x.hpp_state === 'NOT_FINAL' ? 'HPP belum final' : 'Sudah dihitung ulang dengan harga laundry'}</td></tr>)}</tbody></RecordTable>}
   </section>
 }
 
@@ -539,11 +540,11 @@ function Invoices({ data, vendor, locked, send, loadMore, canSetRedye }: { data:
       amount: signed(l.amount),
       ...(l.source.startsWith('r:') ? { receipt_line_id: l.source.slice(2) } : l.source.startsWith('d:') ? { rework_service_id: l.source.slice(2) } : { opening_uninvoiced_id: l.source.slice(2) }) })) })
   return <section className="initial-import-table" aria-label="Invoice vendor laundry">
-    {redye.length > 0 && <section aria-label="Jasa celup ulang"><h3>Jasa celup ulang</h3><p>Tarif diikat pada waktu kirim. Invoice mengganti estimasi; selisih mengikuti biaya produk.</p><table><thead><tr><th>Order / proses</th><th>Hasil</th><th>Tarif per PCS</th><th>Biaya kini</th></tr></thead><tbody>{redye.map(x => <tr key={x.id}><td>{x.number} · {x.process}<br/>{x.status}</td><td>{x.good} GOOD · {x.bs} BS</td><td>{x.price_known ? rupiah(x.rate) : 'Belum diketahui'}{!x.price_known && canSetRedye && x.status !== 'CANCELLED' && <><input aria-label={`Tarif celup ${x.number}`} value={redyeRates[x.id] ?? ''} disabled={locked} onChange={e => setRedyeRates(v => ({ ...v, [x.id]: e.target.value }))}/><button type="button" disabled={locked || !moneyInput(redyeRates[x.id] ?? '') || !reason.trim()} onClick={() => send('SET_REDYE_PRICE', { service_id: x.id, rate: normalizeMoney(redyeRates[x.id]), reason: reason.trim() })}>Isi tarif celup {x.number}</button></>}</td><td>{x.price_known ? rupiah(x.cost) : 'HPP belum final'}</td></tr>)}</tbody></table><p>Pengisian tarif memakai alasan pada formulir di bawah.</p></section>}
+    {redye.length > 0 && <section aria-label="Jasa celup ulang"><h3>Jasa celup ulang</h3><p>Tarif diikat pada waktu kirim. Invoice mengganti estimasi; selisih mengikuti biaya produk.</p><RecordTable><thead><tr><th>Order / proses</th><th>Hasil</th><th>Tarif per PCS</th><th>Biaya kini</th></tr></thead><tbody>{redye.map(x => <tr key={x.id}><td>{x.number} · {x.process}<br/>{x.status}</td><td>{x.good} GOOD · {x.bs} BS</td><td>{x.price_known ? rupiah(x.rate) : 'Belum diketahui'}{!x.price_known && canSetRedye && x.status !== 'CANCELLED' && <><input aria-label={`Tarif celup ${x.number}`} value={redyeRates[x.id] ?? ''} disabled={locked} onChange={e => setRedyeRates(v => ({ ...v, [x.id]: e.target.value }))}/><button type="button" disabled={locked || !moneyInput(redyeRates[x.id] ?? '') || !reason.trim()} onClick={() => send('SET_REDYE_PRICE', { service_id: x.id, rate: normalizeMoney(redyeRates[x.id]), reason: reason.trim() })}>Isi tarif celup {x.number}</button></>}</td><td>{x.price_known ? rupiah(x.cost) : 'HPP belum final'}</td></tr>)}</tbody></RecordTable><p>Pengisian tarif memakai alasan pada formulir di bawah.</p></section>}
 
     <div className="initial-import-toolbar"><label>Cari invoice yang dimuat<input aria-label="Cari invoice yang dimuat" value={invoiceSearch} onChange={e => setInvoiceSearch(e.target.value)}/></label>
       <span>{invoices.length} invoice dimuat</span>{data.pagination.invoice_next && <button type="button" disabled={locked} onClick={() => loadMore('invoices')}>Muat invoice berikutnya</button>}</div>
-    <table><thead><tr><th>Invoice</th><th>Vendor</th><th>Tanggal</th><th>Total</th><th>Dibayar</th><th>Status</th><th/></tr></thead><tbody>{visibleInvoices.map(i => <tr key={i.invoice_id}>
+    <RecordTable><thead><tr><th>Invoice</th><th>Vendor</th><th>Tanggal</th><th>Total</th><th>Dibayar</th><th>Status</th><th/></tr></thead><tbody>{visibleInvoices.map(i => <tr key={i.invoice_id}>
       <td>{i.invoice_number}{i.document_kind !== 'INVOICE' ? ` · koreksi ${i.document_kind === 'CORRECTION_UP' ? 'naik' : 'turun'} atas ${i.corrects_invoice_number}` : ''}</td><td>{i.vendor_code}</td><td>{i.invoice_date}</td><td>{rupiah(i.header_total)}</td><td>{rupiah(i.paid)}</td><td>{i.status}{i.variance_mode ? ` · selisih ${i.variance_mode === 'PRODUCT_COST' ? 'ke biaya produk' : 'ke akun selisih'}` : ''}</td>
       <td>{i.status === 'DRAFT' && <><button type="button" disabled={locked} onClick={() => edit(i)}>Ubah draf {i.invoice_number}</button>
         {i.document_kind === 'CORRECTION_DOWN' && data.vendor_receivable_accounts && <label>Akun piutang vendor
@@ -555,7 +556,7 @@ function Invoices({ data, vendor, locked, send, loadMore, canSetRedye }: { data:
         })}>Posting {i.invoice_number}</button>
         <button type="button" disabled={locked} onClick={() => send('CANCEL_INVOICE_DRAFT', { invoice_id: i.invoice_id, expected_version: i.row_version })}>Batalkan draf {i.invoice_number}</button></>}
         {i.status === 'POSTED' && <button type="button" disabled={locked || !reason.trim() || i.paid !== '0.00'} onClick={() => send('REVERSE_INVOICE', { invoice_id: i.invoice_id,
-          expected_version: i.row_version, reason: reason.trim() })}>Batalkan invoice {i.invoice_number}</button>}</td></tr>)}</tbody></table>
+          expected_version: i.row_version, reason: reason.trim() })}>Batalkan invoice {i.invoice_number}</button>}</td></tr>)}</tbody></RecordTable>
     <Reason value={reason} set={setReason} locked={locked} label="Alasan pembatalan invoice"/>
     {!vendor ? <p>Pilih vendor untuk membuat draf invoice.</p> : <>
       <h4>{editing ? `Ubah draf ${editing.invoice_number}` : 'Draf invoice baru'}</h4>
@@ -599,12 +600,12 @@ function Opening({ data, locked, send }: { data: LaundryBdWorkspace; locked: boo
   return <section className="initial-import-table" aria-label="Laundry saldo awal belum ditagih">
     <p>Hasil laundry yang sudah kembali sebelum saldo awal tetapi belum ditagih vendor. Estimasi yang terbukti menjadi akrual saldo awal; tanpa estimasi nilainya belum diketahui dan tutup buku tertahan sampai estimasi diisi atau invoice vendor menagihnya.</p>
     <Reason value={reason} set={setReason} locked={locked}/>
-    {data.opening_uninvoiced.length === 0 ? <p>Tidak ada laundry saldo awal yang belum ditagih.</p> : <table><thead><tr><th>Terima lama</th><th>Vendor</th><th>Kategori</th><th>Qty</th><th>Ditagih</th><th>Estimasi</th><th>Dilepas</th><th>Status</th></tr></thead>
+    {data.opening_uninvoiced.length === 0 ? <p>Tidak ada laundry saldo awal yang belum ditagih.</p> : <RecordTable><thead><tr><th>Terima lama</th><th>Vendor</th><th>Kategori</th><th>Qty</th><th>Ditagih</th><th>Estimasi</th><th>Dilepas</th><th>Status</th></tr></thead>
       <tbody>{data.opening_uninvoiced.map(u => <tr key={u.id}><td>{u.document_number} · {u.receipt_date}{u.po_number ? ` · ${u.po_number}` : ''}</td><td>{u.vendor_code}</td><td>{CATEGORY_LABEL[u.category]}</td>
         <td>{u.qty}</td><td>{u.billed}</td><td>{u.estimate_status === 'UNKNOWN' ? 'Belum diketahui' : rupiah(u.estimated_amount)}</td><td>{rupiah(u.released)}</td>
         <td>{u.invoiced ? 'Ditagih penuh' : u.estimate_status === 'UNKNOWN' ? <>{data.can_set_price && u.billed === 0 && <><input aria-label={`Estimasi ${u.document_number}`} value={estimate[u.id] ?? ''} disabled={locked}
           onChange={e => setEstimate(x => ({ ...x, [u.id]: e.target.value }))}/><button type="button" disabled={locked || !moneyInput(estimate[u.id] ?? '') || !reason.trim()} onClick={() =>
             send('SET_OPENING_ESTIMATE', { opening_uninvoiced_id: u.id, expected_version: u.row_version, estimated_amount: normalizeMoney(estimate[u.id]), reason: reason.trim() })}>Isi estimasi {u.document_number}</button></>}
-          </> : 'Menunggu invoice vendor'}</td></tr>)}</tbody></table>}
+          </> : 'Menunggu invoice vendor'}</td></tr>)}</tbody></RecordTable>}
   </section>
 }

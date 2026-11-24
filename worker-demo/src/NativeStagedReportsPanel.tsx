@@ -1,3 +1,4 @@
+import RecordTable from './RecordTable'
 import type {PlanContext} from './nativePlanDraft'
 import {ReportBatchSources} from './BatchSourceDetails'
 import {parseAnalysisPageSet,parseAnalysisHeader,parseAnalysisPage,parseStagedCheck} from './nativeAnalysisPages'
@@ -141,9 +142,9 @@ function Reports({onPlan,staged,blocked:outer,financeAccess,scope,actor}:Props&{
    {section?<pre aria-label="Bagian laporan bertahap" data-section-index={section.index}>{section.body}</pre>:null}
    {index&&index.rows.some(r=>r.id!==report.id)?<div aria-label="Pembanding periode laporan bertahap"><label>Bandingkan dengan laporan<select aria-label="Laporan pembanding" value={compareWith} disabled={blocked} onChange={e=>{setCompareWith(e.target.value);setComparison(null)}}><option value="">Pilih laporan pembanding</option>{index.rows.filter(r=>r.id!==report.id).map(r=><option key={r.id} value={r.id}>{r.title} · versi {r.revision} · periode {r.query.from_date} s.d. {r.query.through_date}</option>)}</select></label>
     <button disabled={blocked||!compareWith} onClick={compare}>Bandingkan dengan laporan ini</button></div>:<p>Muat laporan bertahap tersimpan untuk memilih laporan pembanding.</p>}
-   {comparison&&comparison.afterId===report.id&&comparison.beforeId===compareWith?<div className="responsive-table"><table aria-label="Pembanding laporan bertahap"><caption>Laporan pembanding (tanggal laporan {comparison.beforeDate}) dan laporan ini (tanggal laporan {comparison.afterDate}). Selisih = laporan ini dikurangi pembanding; hanya angka keuangan resmi yang tersimpan di kedua laporan.</caption>
+   {comparison&&comparison.afterId===report.id&&comparison.beforeId===compareWith?<div className="responsive-table"><RecordTable aria-label="Pembanding laporan bertahap"><caption>Laporan pembanding (tanggal laporan {comparison.beforeDate}) dan laporan ini (tanggal laporan {comparison.afterDate}). Selisih = laporan ini dikurangi pembanding; hanya angka keuangan resmi yang tersimpan di kedua laporan.</caption>
     <thead><tr><th>Angka</th><th>Pembanding</th><th>Laporan ini</th><th>Selisih</th></tr></thead><tbody>{comparison.rows.map(r=><tr key={r.metricId} data-metric={r.metricId}><td>{r.label}</td><td data-label="Pembanding">{compareValue(r.before)}</td><td data-label="Laporan ini">{compareValue(r.after)}</td>
-    <td data-label="Selisih">{r.difference.state==='UNKNOWN'?stagedReportComparisonReason[r.difference.reason]:`Rp${formatReceiptDecimal(r.difference.value)}${r.difference.state==='ASSUMED'?' (asumsi)':''}`}</td></tr>)}</tbody></table></div>:null}
+    <td data-label="Selisih">{r.difference.state==='UNKNOWN'?stagedReportComparisonReason[r.difference.reason]:`Rp${formatReceiptDecimal(r.difference.value)}${r.difference.state==='ASSUMED'?' (asumsi)':''}`}</td></tr>)}</tbody></RecordTable></div>:null}
    <details><summary>Identitas laporan</summary><p>Analisis {report.runId} · identitas {report.identityHash}</p><p>Hash laporan {report.reportHash} · diterbitkan {formatCp6WibDateTime(report.publishedAt)}.</p></details>
   </article>:null}
  </section>

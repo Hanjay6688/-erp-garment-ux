@@ -1,3 +1,4 @@
+import RecordTable from '../RecordTable'
 import { AdviceBox, DestinationChoice } from './planner/ProductionAdvice'
 import { cutRolls, day, lotLabel, lotPattern, lotSeries, lotsIn, patterns, seriesLabel, recordPickup, rolls, waitingLots, type Lot, type Session } from './planner/model'
 import { changeSession, usePlannerSession } from './planner/session'
@@ -448,7 +449,7 @@ function PickupWorkbench({batchNotes:oldNotes,setBatchNotes:setOldNotes,active,s
       </div>
       <div className="wip-detail-section-head"><div><span>LINEAGE HASIL POTONG</span><strong>Bahan, yard, dan ukuran per gambar</strong><small>Kolom ukuran sama seperti saat hasil dicatat di Buat Potongan.</small></div><em>Geser tabel →</em></div>
       <div className="wip-detail-table">
-        <table aria-label={`Detail roll dan hasil potong ${queueDetailItem.id}`}>
+        <RecordTable aria-label={`Detail roll dan hasil potong ${queueDetailItem.id}`}>
           <thead><tr><th>Bahan & kode roll</th><th>Yard asal</th><th>Dipakai</th><th>Sisa</th>{queueDetailSlots.map((slot)=><th key={`${slot.size}-${slot.image}`}>Size {slot.size}<small>{slot.image}</small></th>)}<th>Total</th><th>Masuk batch</th></tr></thead>
           <tbody>{queueDetailItem.rolls.map((roll)=><tr key={roll.id}>
             <th scope="row"><strong>{roll.material}</strong><small>{roll.id} · kode roll sumber</small></th>
@@ -457,7 +458,7 @@ function PickupWorkbench({batchNotes:oldNotes,setBatchNotes:setOldNotes,active,s
             <td className="wip-detail-total">{pickupRollTotal(roll)} <small>pcs</small></td>
             <td><em className={roll.batchNumbers.length?'assigned':'waiting'}>{roll.batchNumbers.length?roll.batchNumbers.map((batch)=>`Batch ${batch}`).join(' + '):'Belum dibagi'}</em></td>
           </tr>)}</tbody>
-        </table>
+        </RecordTable>
       </div>
       <footer><span><Icon name="audit"/> Detail ini menampilkan lineage Pola, roll, dan ukuran tanpa mengubah pembagian.</span><button type="button" className="primary-btn" onClick={()=>setQueueDetailId(null)}>Tutup detail</button></footer>
     </section></div>:null}

@@ -62,6 +62,12 @@ function ChoiceList({select,initial,close}:{select:HTMLSelectElement;initial:str
     select.dispatchEvent(new Event('input',{bubbles:true}));select.dispatchEvent(new Event('change',{bubbles:true}))
     if(select.multiple)refresh(x=>x+1);else close()
   }
+  const empty=Array.from(select.options).findIndex(o=>o.value===''&&!o.disabled&&!o.hidden&&!o.closest('optgroup')?.disabled)
+  function clear(){
+    if(!select.multiple){if(empty>=0)choose(empty);return}
+    for(const option of Array.from(select.options))if(!option.disabled&&!option.closest('optgroup')?.disabled)option.selected=false
+    select.dispatchEvent(new Event('input',{bubbles:true}));select.dispatchEvent(new Event('change',{bubbles:true}));refresh(n=>n+1)
+  }
   function move(step:number) {
     const index=Math.max(0,Math.min(eligible.length-1,cursor+step))
     setCursor(index)
@@ -75,6 +81,7 @@ function ChoiceList({select,initial,close}:{select:HTMLSelectElement;initial:str
         if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();move(e.key==='ArrowDown'?1:-1)}
         if(e.key==='Enter'&&!e.nativeEvent.isComposing){e.preventDefault();if(current)choose(current.index)}
       }}/>
+    {!select.required&&(select.multiple||empty>=0)&&<button type="button" className="select-clear-choice" onClick={clear}>Kosongkan pilihan</button>}
     <div id={identifier} role="listbox" aria-label={title} aria-multiselectable={select.multiple||undefined}>
       {shown.map(o=><button key={o.index} type="button" id={identifier+'-'+o.index} role="option" aria-selected={o.selected} disabled={o.disabled} data-cursor={current?.index===o.index} onClick={()=>choose(o.index)}>{o.group&&<small>{o.group} · </small>}{o.label||'Kosongkan'}{o.selected&&<span aria-hidden="true"> ✓</span>}</button>)}
     </div>{!shown.length&&<p role="status">Pilihan tidak ditemukan.</p>}

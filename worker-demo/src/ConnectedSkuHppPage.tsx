@@ -1,3 +1,4 @@
+import RecordTable from './RecordTable'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useAuth } from './auth/AuthProvider'
 import { SENSITIVE_ACTION_PERMISSION } from './auth/accessCatalog'
@@ -68,10 +69,10 @@ function Workspace() {
       onInvalid={message => { setData(null); setError(message); setChoiceCommits(n => n + 1) }}
       onCommitted={async () => { setChoiceCommits(n => n + 1); return load() }}/>: null}
     {data && <><p>Posisi {formatCp6WibDateTime(data.at)}. Biaya memakai versi yang sudah tercatat pada waktu itu; status kelengkapan diperiksa saat ini.</p>
-      <div className="panel"><table><thead><tr><th>SKU</th><th>Stok PCS</th><th>Nilai stok</th><th>HPP / PCS</th><th>Status biaya</th></tr></thead><tbody>{data.groups.map(g => <tr key={g.group_key}><td><button onClick={() => setSelected(g.group_key)}>{g.brand_name} · {g.sku}</button></td><td>{g.qty}</td><td>{skuMoney(g.value)}</td><td>{skuMoney(g.hpp_per_pcs)}</td><td>{g.provisional ? 'Belum lengkap' : 'Tercatat'}</td></tr>)}</tbody></table>
+      <div className="panel"><RecordTable><thead><tr><th>SKU</th><th>Stok PCS</th><th>Nilai stok</th><th>HPP / PCS</th><th>Status biaya</th></tr></thead><tbody>{data.groups.map(g => <tr key={g.group_key}><td><button onClick={() => setSelected(g.group_key)}>{g.brand_name} · {g.sku}</button></td><td>{g.qty}</td><td>{skuMoney(g.value)}</td><td>{skuMoney(g.hpp_per_pcs)}</td><td>{g.provisional ? 'Belum lengkap' : 'Tercatat'}</td></tr>)}</tbody></RecordTable>
       {data.groups.length === 0 && <p>Tidak ada stok SKU yang cocok.</p>}
       <button disabled={busy || data.page <= 1} onClick={() => { filters.current.page--; void load() }}>Sebelumnya</button><span> Halaman {data.page} · {data.total} SKU </span><button disabled={busy || data.page * 50 >= data.total} onClick={() => { filters.current.page++; void load() }}>Berikutnya</button></div>
-      {active && <section className="panel"><h2>Rincian {active.sku}</h2><table><thead><tr><th>Ukuran</th><th>Lot</th><th>Grade</th><th>PCS tersisa</th><th>Nilai sisa</th></tr></thead><tbody>{active.lots.map(l => <tr key={`${l.lot_id}:${l.product_id}:${l.location_id}:${l.grade}`}><td>{l.size}</td><td>{l.lot_number}</td><td>{l.grade}</td><td>{l.qty}</td><td>{skuMoney(l.value)}{l.provisional ? ' · sementara' : ''}</td></tr>)}</tbody></table></section>}
+      {active && <section className="panel"><h2>Rincian {active.sku}</h2><RecordTable><thead><tr><th>Ukuran</th><th>Lot</th><th>Grade</th><th>PCS tersisa</th><th>Nilai sisa</th></tr></thead><tbody>{active.lots.map(l => <tr key={`${l.lot_id}:${l.product_id}:${l.location_id}:${l.grade}`}><td>{l.size}</td><td>{l.lot_number}</td><td>{l.grade}</td><td>{l.qty}</td><td>{skuMoney(l.value)}{l.provisional ? ' · sementara' : ''}</td></tr>)}</tbody></RecordTable></section>}
     </>}
   </section>
 }

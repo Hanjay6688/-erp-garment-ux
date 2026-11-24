@@ -1,3 +1,4 @@
+import RecordTable from './RecordTable'
 /** Parent owns source reads, mutation UUID and recovery for return settlement. */
 import {useEffect, useMemo, useRef, useState} from 'react'
 import {cp6WibDateTimeInput, cp6WibPhysicalTimeToIso} from './cp6BusinessTime'
@@ -245,8 +246,8 @@ export default function SalesReturnSettlementSection<TTicket>(props: SettlementS
       {!result.has_recognition_effect ? <p>Retur ini tidak membentuk saldo kredit pelanggan.</p> : null}
       {result.return_projection.journal_effect === 'NO_JOURNAL' ? <p>Retur fisik tanpa jurnal baru.</p> : <p>Tanggal pengakuan retur: {result.return_projection.economic_date}; tanggal buku retur: <span data-return-book-date>{result.return_projection.planned_book_date}</span>.</p>}
       {result.return_projection.prior_causal.state === 'DATED' ? <p>Batas tanggal buku sumber: {result.return_projection.prior_causal.causal_book_floor}.</p> : <p>Sumber sebelumnya telah diperiksa tanpa tanggal buku penjualan atau retur yang mendahului.</p>}
-      {result.components.length ? <table aria-label="Tanggal pengakuan kredit retur"><thead><tr><th>Pengakuan</th><th>Tanggal pengakuan</th><th>Tanggal buku</th><th>Nilai</th></tr></thead><tbody>{result.components.map(c => <tr key={c.component_key}><th>{c.signed_amount.startsWith('-') ? 'Penyesuaian pengakuan kredit' : 'Pengakuan kredit'}</th><td>{c.economic_date}</td><td>{c.book_date}</td><td data-signed-amount={c.signed_amount}>{money(c.signed_amount)}</td></tr>)}</tbody></table> : null}
-      <table aria-label="Ringkasan invoice sebelum dan sesudah retur"><thead><tr><th>Nilai</th><th>Sebelum</th><th>Sesudah</th></tr></thead><tbody>{totalLabels.map(([key, label]) => <tr key={key} data-total={key}><th>{label}</th><td>{money(result.totals.before[key])}</td><td>{money(result.totals.after[key])}</td></tr>)}</tbody></table>
+      {result.components.length ? <RecordTable aria-label="Tanggal pengakuan kredit retur"><thead><tr><th>Pengakuan</th><th>Tanggal pengakuan</th><th>Tanggal buku</th><th>Nilai</th></tr></thead><tbody>{result.components.map(c => <tr key={c.component_key}><th>{c.signed_amount.startsWith('-') ? 'Penyesuaian pengakuan kredit' : 'Pengakuan kredit'}</th><td>{c.economic_date}</td><td>{c.book_date}</td><td data-signed-amount={c.signed_amount}>{money(c.signed_amount)}</td></tr>)}</tbody></RecordTable> : null}
+      <RecordTable aria-label="Ringkasan invoice sebelum dan sesudah retur"><thead><tr><th>Nilai</th><th>Sebelum</th><th>Sesudah</th></tr></thead><tbody>{totalLabels.map(([key, label]) => <tr key={key} data-total={key}><th>{label}</th><td>{money(result.totals.before[key])}</td><td>{money(result.totals.after[key])}</td></tr>)}</tbody></RecordTable>
       {result.refund_projection ? <p>Batas pengembalian pada waktu dipilih: {result.refund_projection.safe_capacity === null ? 'Belum diketahui' : money(result.refund_projection.safe_capacity)}.{result.refund_projection.book_date ? ` Tanggal buku pengembalian: ${result.refund_projection.book_date}.` : ''}</p> : null}
       {result.readiness.issues.map(code => <p role="alert" key={code}>{issueLabels[code]}</p>)}
     </section> : null}

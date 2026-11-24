@@ -1,3 +1,4 @@
+import RecordTable from './RecordTable'
 import { useRef, useState } from 'react'
 import JSZip from 'jszip'
 import { Download, FileSpreadsheet, Upload } from 'lucide-react'
@@ -69,7 +70,7 @@ export default function MigrationWorkbook() {
       </div>
       <p role="status" aria-live="polite">{message}</p>
       {Boolean(result?.errorCount) && <ul>{result!.errors.map((error, index) => <li key={index}>{error}</li>)}</ul>}
-      {Boolean(result?.files.length) && <><table className="wb-table"><thead><tr><th scope="col">Tab Excel</th><th scope="col">Baris</th></tr></thead><tbody>{result!.files.map(item => <tr key={item.key}><th scope="row">{item.name}</th><td>{item.rows.toLocaleString('id-ID')}</td></tr>)}</tbody></table>
+      {Boolean(result?.files.length) && <><RecordTable className="wb-table"><thead><tr><th scope="col">Tab Excel</th><th scope="col">Baris</th></tr></thead><tbody>{result!.files.map(item => <tr key={item.key}><th scope="row">{item.name}</th><td>{item.rows.toLocaleString('id-ID')}</td></tr>)}</tbody></RecordTable>
         <button className="primary-btn" type="button" onClick={() => void download()} disabled={packing}><Download size={17}/>Unduh paket CSV</button></>}
     </div>
   </section>

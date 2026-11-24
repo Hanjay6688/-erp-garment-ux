@@ -30,3 +30,12 @@ it('refuses changed values on a retry without changing a stock receipt',()=>{
   const article=articles[0],s=rangeChange(emptySession,'adjust',article,{32:'1'},'Hitung','a1')
   expect(()=>rangeChange(s,'adjust',article,{32:'0'},'Hitung','a1')).toThrow('isi berbeda')
 })
+it('reverses every size once, preserves the posted receipt and prevents an unbalanced undo',async()=>{
+  const {reverseRange}=await import('../worker-demo/src/demo/planner/inventory'),article=articles[0]
+  const posted=rangeChange(emptySession,'convert',article,{31:'1',32:'2'},'Tukar merek','original')
+  const later=rangeChange(posted,'adjust',article,{32:'0'},'Opname','later')
+  expect(()=>reverseRange(later,'original','reverse','Koreksi')).toThrow('lanjutan')
+  const undone=reverseRange(posted,'original','reverse','Koreksi')
+  expect(reverseRange(undone,'original','reverse','Koreksi')).toBe(undone)
+  expect(undone.stockEvents?.length).toBe(2);expect(stockAt(article,'31',undone)).toBe(stockAt(article,'31',emptySession));expect(stockAt(article,'32',undone)).toBe(stockAt(article,'32',emptySession))
+})

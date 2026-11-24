@@ -1,3 +1,4 @@
+import RecordTable from './RecordTable'
 import { useState } from 'react'
 import type { Json } from './types/database.preconnect'
 import type { InitialImportBB } from './initialImportBB'
@@ -36,7 +37,7 @@ export function OpeningBalancesPanel({ bb, cashAccounts, locked, manage }: { bb:
     <h2>Pelunasan saldo awal</h2>
     <p>Pelunasan dan nota potongan hanya boleh sejak tanggal saldo awal dan tanggal dokumennya, tidak di masa depan, dan tidak melebihi sisa pada tanggal itu maupun sesudahnya. Pembayaran sebelum saldo awal tidak membentuk kas baru.</p>
     <label>Dokumen<select aria-label="Dokumen saldo awal" disabled={locked} value={selected.balance_id} onChange={e => { setSelectedId(e.target.value); setOperation('SETTLE'); setAmount(''); setPayrollId('') }}>{bb.opening_balances.map(b => <option key={b.balance_id} value={b.balance_id}>{BALANCE_LABEL[b.balance_type] ?? b.balance_type} · {b.party_name} · {b.document_number || 'tanpa nomor'}</option>)}</select></label>
-    <div className="initial-import-table"><table><thead><tr><th>Nominal asal</th><th>Dibayar sebelum saldo awal</th><th>Saldo awal</th><th>Dilunasi sesudahnya</th><th>Dijanjikan ke payroll</th><th>Sisa</th><th>Tersedia</th></tr></thead><tbody><tr>{[selected.original_amount, selected.settled_before_cutover, selected.opening_amount, selected.settled_amount, selected.reserved_amount, selected.remaining_amount, selected.available_amount].map((v, i) => <td key={i}>{money(v)}</td>)}</tr></tbody></table></div>
+    <div className="initial-import-table"><RecordTable><thead><tr><th>Nominal asal</th><th>Dibayar sebelum saldo awal</th><th>Saldo awal</th><th>Dilunasi sesudahnya</th><th>Dijanjikan ke payroll</th><th>Sisa</th><th>Tersedia</th></tr></thead><tbody><tr>{[selected.original_amount, selected.settled_before_cutover, selected.opening_amount, selected.settled_amount, selected.reserved_amount, selected.remaining_amount, selected.available_amount].map((v, i) => <td key={i}>{money(v)}</td>)}</tr></tbody></RecordTable></div>
     <div className="initial-import-toolbar">
       <label>Tindakan<select aria-label="Tindakan saldo awal" disabled={locked} value={op} onChange={e => { setOperation(e.target.value); setAmount('') }}>{operations.map(v => <option key={v} value={v}>{labels[v]}</option>)}</select></label>
       {op === 'SETTLE' && <label>Rekening kas/bank<select aria-label="Rekening pelunasan" disabled={locked} value={cashId} onChange={e => setCashId(e.target.value)}><option value="">Pilih rekening</option>{cashAccounts.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}</select></label>}
@@ -116,7 +117,7 @@ export function PurchaseCommitmentsPanel({ bb, locked, manage }: { bb: InitialIm
     <h2>PO pembelian yang masih terbuka</h2>
     <p>Sisa PO dibuat sebagai draft penerimaan native. Terima barang melalui halaman pembelian bahan; batalkan sisa yang tidak akan datang di sini.</p>
     <label>PO<select aria-label="PO pembelian terbuka" disabled={locked} value={selected.id} onChange={e => { setSelectedId(e.target.value); setLineId('') }}>{bb.purchase_commitments.map(c => <option key={c.id} value={c.id}>{c.po_number} · {c.supplier_name}</option>)}</select></label>
-    <div className="initial-import-table"><table><thead><tr><th>Baris</th><th>Bahan</th><th>Dipesan</th><th>Sisa</th><th>Harga</th></tr></thead><tbody>{selected.lines.map(l => <tr key={l.id}><td>{l.line_number}</td><td>{l.material_sku}</td><td>{l.ordered_qty}</td><td>{l.remaining_qty}</td><td>{l.unit_price}</td></tr>)}</tbody></table></div>
+    <div className="initial-import-table"><RecordTable><thead><tr><th>Baris</th><th>Bahan</th><th>Dipesan</th><th>Sisa</th><th>Harga</th></tr></thead><tbody>{selected.lines.map(l => <tr key={l.id}><td>{l.line_number}</td><td>{l.material_sku}</td><td>{l.ordered_qty}</td><td>{l.remaining_qty}</td><td>{l.unit_price}</td></tr>)}</tbody></RecordTable></div>
     {selected.drafts.length > 0 && <p>Penerimaan: {selected.drafts.map(d => `${d.purchase_number} (${d.status})`).join(', ')}</p>}
     <div className="initial-import-toolbar">
       <label>Baris<select aria-label="Baris PO dibatalkan" disabled={locked} value={line?.id ?? ''} onChange={e => setLineId(e.target.value)}><option value="">Pilih baris</option>{selected.lines.map(l => <option key={l.id} value={l.id}>{l.line_number} · {l.material_sku} · sisa {l.remaining_qty}</option>)}</select></label>
@@ -140,7 +141,7 @@ export function PayrollEntitlementsPanel({ bb, locked, manage }: { bb: InitialIm
   return <section className="panel initial-import-advances" aria-label="Hak upah sebelum saldo awal">
     <h2>Hak upah sebelum saldo awal</h2>
     <p>Nominalnya dibayar lewat dokumen hutang mandor di Pelunasan saldo awal. Komponen yang dibawa (carry) dibayar lewat payroll setelah pekerjaannya selesai, tidak melebihi jumlah carry.</p>
-    <div className="initial-import-table"><table><thead><tr><th>Jenis</th><th>Mandor</th><th>Dokumen</th><th>Nominal</th><th>Tarif</th><th>Carry</th><th>Sisa carry</th></tr></thead><tbody>{bb.payroll_entitlements.map(e => <tr key={e.id}><td>{kinds[e.kind]}</td><td>{e.contractor_name}</td><td>{e.document_number}/{e.line_number}</td><td>{money(e.amount)}</td><td>{money(e.rate)}</td><td>{e.carry_qty}</td><td>{e.carry_remaining}</td></tr>)}</tbody></table></div>
+    <div className="initial-import-table"><RecordTable><thead><tr><th>Jenis</th><th>Mandor</th><th>Dokumen</th><th>Nominal</th><th>Tarif</th><th>Carry</th><th>Sisa carry</th></tr></thead><tbody>{bb.payroll_entitlements.map(e => <tr key={e.id}><td>{kinds[e.kind]}</td><td>{e.contractor_name}</td><td>{e.document_number}/{e.line_number}</td><td>{money(e.amount)}</td><td>{money(e.rate)}</td><td>{e.carry_qty}</td><td>{e.carry_remaining}</td></tr>)}</tbody></RecordTable></div>
     {selected && <div className="initial-import-toolbar">
       <label>Carry<select aria-label="Hak upah carry" disabled={locked} value={selected.id} onChange={e => { setSelectedId(e.target.value); setPayrollId('') }}>{carried.map(e => <option key={e.id} value={e.id}>{e.contractor_name} · {e.document_number}/{e.line_number}</option>)}</select></label>
       <label>Payroll draft<select aria-label="Payroll carry" disabled={locked} value={payroll?.id ?? ''} onChange={e => { setPayrollId(e.target.value); setQty(selected.carry_lines.find(l => l.payroll_id === e.target.value)?.qty ?? '') }}><option value="">Pilih payroll mandor ini</option>{payrolls.map(p => <option key={p.id} value={p.id}>{p.payroll_number} · s.d. {p.period_end}</option>)}</select></label>
@@ -157,7 +158,7 @@ export function OpenSalesDraftsPanel({ bb }: { bb: InitialImportBB }) {
   return <section className="panel initial-import-advances" aria-label="Draf penjualan terbuka saldo awal">
     <h2>Draf penjualan yang masih terbuka saat saldo awal</h2>
     <p>Setiap draf menjadi draf penjualan native dengan nomor aslinya dan mereservasi stok sekali. Ubah tanggal invoice ke tanggal nyata, edit, batalkan, atau posting melalui halaman Penjualan; tanggal sebelum saldo awal dan pergantian pelanggan ditolak.</p>
-    <div className="initial-import-table"><table><thead><tr><th>Draf</th><th>Pelanggan</th><th>Tanggal draf lama</th><th>Tanggal invoice</th><th>Baris</th><th>Direservasi</th><th>Status</th></tr></thead><tbody>{bb.open_sales_drafts.map(d => <tr key={d.sale_id}><td>{d.draft_number}</td><td>{d.customer_code} · {d.customer_name}</td><td>{d.draft_date}</td><td>{d.sale_date}</td><td>{d.lines.map(l => `${l.product_sku} ${l.qty_pcs} pcs @ ${l.unit_price}`).join('; ')}</td><td>{d.reserved_qty_pcs} pcs</td><td>{status[d.status]}</td></tr>)}</tbody></table></div>
+    <div className="initial-import-table"><RecordTable><thead><tr><th>Draf</th><th>Pelanggan</th><th>Tanggal draf lama</th><th>Tanggal invoice</th><th>Baris</th><th>Direservasi</th><th>Status</th></tr></thead><tbody>{bb.open_sales_drafts.map(d => <tr key={d.sale_id}><td>{d.draft_number}</td><td>{d.customer_code} · {d.customer_name}</td><td>{d.draft_date}</td><td>{d.sale_date}</td><td>{d.lines.map(l => `${l.product_sku} ${l.qty_pcs} pcs @ ${l.unit_price}`).join('; ')}</td><td>{d.reserved_qty_pcs} pcs</td><td>{status[d.status]}</td></tr>)}</tbody></RecordTable></div>
   </section>
 }
 
@@ -166,7 +167,7 @@ export function OpeningReworksPanel({ bb }: { bb: InitialImportBB }) {
   return <section className="panel initial-import-advances" aria-label="Rework terbuka saldo awal">
     <h2>Rework yang masih di luar saat saldo awal</h2>
     <p>Setiap rework menjadi order rework native untuk sisa pcs-nya. Selesaikan, catat hasil baik/BS, atau batalkan melalui halaman BS/Rework; upah komponen dihitung saat rework selesai.</p>
-    <div className="initial-import-table"><table><thead><tr><th>Rework</th><th>BS</th><th>Tujuan</th><th>Dikirim (asal)</th><th>Kembali sebelum saldo awal</th><th>Sisa di rework</th><th>Status</th></tr></thead><tbody>{bb.opening_reworks.map(r => <tr key={r.id}><td>{r.legacy_rework_number} → {r.rework_number}</td><td>{r.bs_number}</td><td>{r.destination_type === 'CONTRACTOR' ? 'Mandor' : 'Laundry'} {r.holder_name}</td><td>{r.qty_sent_original} pcs · {r.legacy_sent_date}</td><td>{r.qty_returned_before_cutover} pcs</td><td>{r.qty_open} pcs</td><td>{r.status}{r.qty_good_returned + r.qty_bs_returned > 0 ? ` · baik ${r.qty_good_returned}, BS ${r.qty_bs_returned}` : ''}</td></tr>)}</tbody></table></div>
+    <div className="initial-import-table"><RecordTable><thead><tr><th>Rework</th><th>BS</th><th>Tujuan</th><th>Dikirim (asal)</th><th>Kembali sebelum saldo awal</th><th>Sisa di rework</th><th>Status</th></tr></thead><tbody>{bb.opening_reworks.map(r => <tr key={r.id}><td>{r.legacy_rework_number} → {r.rework_number}</td><td>{r.bs_number}</td><td>{r.destination_type === 'CONTRACTOR' ? 'Mandor' : 'Laundry'} {r.holder_name}</td><td>{r.qty_sent_original} pcs · {r.legacy_sent_date}</td><td>{r.qty_returned_before_cutover} pcs</td><td>{r.qty_open} pcs</td><td>{r.status}{r.qty_good_returned + r.qty_bs_returned > 0 ? ` · baik ${r.qty_good_returned}, BS ${r.qty_bs_returned}` : ''}</td></tr>)}</tbody></RecordTable></div>
   </section>
 }
 
@@ -179,12 +180,12 @@ export function OpeningAccessoriesPanel({ bc }: { bc: InitialImportBC }) {
   return <section className="panel initial-import-advances" aria-label="Aksesori saldo awal">
     <h2>Aksesori saldo awal</h2>
     <p>Baris nota mandor lama dan aksesori yang bukan stok siap pakai. Penerimaan kembali, pemeriksaan, kredit retur, dan penilaian dicatat di Gudang · Aksesori; jumlah dan nominal asal di sini tidak berubah.</p>
-    {bc.accessory_note_lines.length > 0 && <div className="initial-import-table"><table><thead><tr><th>Nota lama</th><th>Baris</th><th>Aksesori</th><th>Jumlah</th><th>Nominal asal</th><th>Sudah kembali</th><th>Sisa piutang dokumen</th></tr></thead>
+    {bc.accessory_note_lines.length > 0 && <div className="initial-import-table"><RecordTable><thead><tr><th>Nota lama</th><th>Baris</th><th>Aksesori</th><th>Jumlah</th><th>Nominal asal</th><th>Sudah kembali</th><th>Sisa piutang dokumen</th></tr></thead>
       <tbody>{bc.accessory_note_lines.map(n => <tr key={n.line_id}><td>{n.document_number}</td><td>{n.line_number}</td><td>{n.material_sku}</td><td>{pcs(n.qty)}</td>
-        <td>{money(n.line_amount)}</td><td>{pcs(n.returned)}</td><td>{money(n.remaining_receivable)}</td></tr>)}</tbody></table></div>}
-    {bc.accessory_custody.length > 0 && <div className="initial-import-table"><table><thead><tr><th>Kode opname</th><th>Jenis</th><th>Aksesori / pelanggan</th><th>Jumlah</th><th>Menunggu periksa</th><th>Layak</th><th>Rusak</th><th>Status nilai</th></tr></thead>
+        <td>{money(n.line_amount)}</td><td>{pcs(n.returned)}</td><td>{money(n.remaining_receivable)}</td></tr>)}</tbody></RecordTable></div>}
+    {bc.accessory_custody.length > 0 && <div className="initial-import-table"><RecordTable><thead><tr><th>Kode opname</th><th>Jenis</th><th>Aksesori / pelanggan</th><th>Jumlah</th><th>Menunggu periksa</th><th>Layak</th><th>Rusak</th><th>Status nilai</th></tr></thead>
       <tbody>{bc.accessory_custody.map(c => <tr key={c.kind + c.key}><td>{c.key}</td><td>{CUSTODY_LABEL[c.kind]}</td><td>{c.material_sku || c.customer_code}{c.holder ? ` · ${c.holder}` : ''}</td>
-        <td>{pcs(c.qty)}</td><td>{c.waiting === null ? '—' : pcs(c.waiting)}</td><td>{c.usable === null ? '—' : pcs(c.usable)}</td><td>{c.damaged === null ? '—' : pcs(c.damaged)}</td><td>{c.value_status}</td></tr>)}</tbody></table></div>}
+        <td>{pcs(c.qty)}</td><td>{c.waiting === null ? '—' : pcs(c.waiting)}</td><td>{c.usable === null ? '—' : pcs(c.usable)}</td><td>{c.damaged === null ? '—' : pcs(c.damaged)}</td><td>{c.value_status}</td></tr>)}</tbody></RecordTable></div>}
   </section>
 }
 
@@ -194,14 +195,14 @@ export function OpeningLaundryPanel({ bd }: { bd: InitialImportBD }) {
   return <section className="panel initial-import-advances" aria-label="Laundry saldo awal">
     <h2>Laundry saldo awal</h2>
     <p>Klaim laundry lama dan hasil laundry yang sudah kembali sebelum saldo awal tetapi belum ditagih vendor. Klaim dilanjutkan pada rincian WIP laundry di atas; tagihan dan estimasi yang belum diketahui dicatat di tab Harga & tagihan pada halaman Laundry.</p>
-    {bd.laundry_claims.length > 0 && <div className="initial-import-table"><table><thead><tr><th>Klaim</th><th>PO · rincian WIP</th><th>Laundry</th><th>Jenis</th><th>Diklaim</th><th>Sudah kembali</th><th>Tanggal</th><th>Kirim lama</th><th>Kompensasi</th></tr></thead>
+    {bd.laundry_claims.length > 0 && <div className="initial-import-table"><RecordTable><thead><tr><th>Klaim</th><th>PO · rincian WIP</th><th>Laundry</th><th>Jenis</th><th>Diklaim</th><th>Sudah kembali</th><th>Tanggal</th><th>Kirim lama</th><th>Kompensasi</th></tr></thead>
       <tbody>{bd.laundry_claims.map(c => <tr key={c.claim_id}><td>{c.claim_number}{c.cancelled ? ' (dibatalkan)' : ''}</td><td>{c.po_number} · {c.source_key}</td><td>{c.vendor_code}</td>
         <td>{CLAIM_TYPE_LABEL[c.claim_type]}</td><td>{c.qty_claimed} pcs</td><td>{c.recovered} pcs</td><td>{c.claim_date}</td><td>{c.dispatch_number ?? '—'}</td>
-        <td>{c.compensation_amount === null ? '—' : money(c.compensation_amount)}</td></tr>)}</tbody></table></div>}
-    {bd.laundry_uninvoiced.length > 0 && <div className="initial-import-table"><table><thead><tr><th>Terima lama</th><th>Laundry</th><th>Kategori</th><th>Jumlah</th><th>Sudah ditagih</th><th>Estimasi</th><th>Estimasi dilepas</th><th>Status</th></tr></thead>
+        <td>{c.compensation_amount === null ? '—' : money(c.compensation_amount)}</td></tr>)}</tbody></RecordTable></div>}
+    {bd.laundry_uninvoiced.length > 0 && <div className="initial-import-table"><RecordTable><thead><tr><th>Terima lama</th><th>Laundry</th><th>Kategori</th><th>Jumlah</th><th>Sudah ditagih</th><th>Estimasi</th><th>Estimasi dilepas</th><th>Status</th></tr></thead>
       <tbody>{bd.laundry_uninvoiced.map(u => <tr key={u.id}><td>{u.document_number} · {u.receipt_date}</td><td>{u.vendor_code}</td><td>{UNINVOICED_CATEGORY_LABEL[u.category]}</td>
         <td>{u.qty} pcs</td><td>{u.billed} pcs</td><td>{u.estimated_amount === null ? 'Belum diketahui' : money(u.estimated_amount)}</td><td>{money(u.released)}</td>
-        <td>{u.invoiced ? 'Sudah ditagih penuh' : u.estimate_status === 'UNKNOWN' ? 'Nilai belum diketahui · tutup buku tertahan' : 'Menunggu invoice vendor'}</td></tr>)}</tbody></table></div>}
+        <td>{u.invoiced ? 'Sudah ditagih penuh' : u.estimate_status === 'UNKNOWN' ? 'Nilai belum diketahui · tutup buku tertahan' : 'Menunggu invoice vendor'}</td></tr>)}</tbody></RecordTable></div>}
   </section>
 }
 
