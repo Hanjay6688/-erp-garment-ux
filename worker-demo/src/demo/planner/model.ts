@@ -1,3 +1,4 @@
+import { sizeRangeLabel } from '../../sizeRangeLabel'
 import sample from './sample.json'
 import projection from './projection.json'
 import { drawingLabel } from '../cuttingAllocation'
@@ -13,7 +14,7 @@ export const modelSeries: Record<string, Series> = {
   'Cutbray Jumbo': {name:'Jumbo',sizes:['34','35','36']},
   'Cutbray Lucy': {name:'Kecil',sizes:['28','29','30']},
 }
-export const rangeLabel = (sizes: string[]) => sizes.length>1 ? sizes[0]+'–'+sizes[sizes.length-1] : sizes[0]
+export const rangeLabel = sizeRangeLabel
 export const seriesLabel = (series: Series) => 'Seri '+series.name+' · '+rangeLabel(series.sizes)
 export function seriesFor(product: Product): Series {
   return { name:modelSeries[patternFor(product.routes[0].pattern).name].name,sizes:product.sizes }

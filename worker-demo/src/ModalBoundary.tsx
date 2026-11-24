@@ -11,7 +11,7 @@ export default function ModalBoundary(){
     function update(){
       for(const [layer,state] of opened){if(!layer.isConnected||!state.dialog.isConnected){opened.delete(layer);if(state.trigger?.isConnected)state.trigger.focus({preventScroll:true})}}
       for(const layer of document.querySelectorAll<HTMLElement>(selector)){
-        const d=layer.querySelector<HTMLElement>('[role="dialog"]');if(!d||d.closest(selector)!==layer||opened.has(layer))continue
+        const d=layer.querySelector<HTMLElement>('[role="dialog"],[role="alertdialog"]');if(!d||d.closest(selector)!==layer||opened.has(layer))continue
         const trigger=document.activeElement instanceof HTMLElement?document.activeElement:null
         layer.classList.add('erp-modal-boundary');opened.set(layer,{dialog:d,trigger})
         if(typeof layer.showPopover==='function'){layer.popover='manual';layer.showPopover()}
