@@ -3,47 +3,39 @@ import {useState} from 'react'
 import {fgQuantity} from '../fgQuantity'
 import type {Product} from '../productCatalog'
 import RecordTable from '../RecordTable'
-import {saleMoves} from './saleBook'
-import {initialMovements,productKey,movementProductKey} from './stockModel'
+import {comparePhysical,fgActivity,type FgMovement} from './fgTimeline'
+import {stockAt} from './planner/conversion'
 import {type Session} from './planner/model'
-import {atPosition,nativePosition,skuByKey} from './skuCatalog'
+import {skuByKey} from './skuCatalog'
 import {matchesPeriod,PeriodFilter,periodFor} from './PeriodFilter'
 import {ReasonDialog} from './planner/ReasonDialog'
 import './warehouseForms.css'
 
-type Row={id:string;ref:string;when:string;day:string;type:string;note:string;delta:number[];balance:number[];sequence?:string;physicalTime?:string}
-const months=['jan','feb','mar','apr','mei','jun','jul','agu','sep','okt','nov','des']
-function isoDate(text:string){const [d,m,y]=text.split(' ');return y+'-'+String(months.indexOf(m.toLowerCase())+1).padStart(2,'0')+'-'+d.padStart(2,'0')}
-function clockOf(row:Row){return (row.physicalTime??row.when.match(/(?:^|[^0-9])([0-2]\d[:.][0-5]\d)(?:$|\s)/)?.[1]??'').replace('.',':')}
-function chronological(a:Row,b:Row){return a.day.localeCompare(b.day)||clockOf(a).localeCompare(clockOf(b))||(a.sequence??'').localeCompare(b.sequence??'')}
+type Row=FgMovement
 export function historyRows(p:Product,s:Session):Row[]{
-  const key=p.brand+' '+p.code,a=skuByKey(key)!
-  const pos=nativePosition(a),home=pos.grade===p.grade&&pos.location===p.location
-  const old=home?initialMovements.filter(m=>movementProductKey(m)===productKey(p)).map(m=>({...m,when:m.date,day:isoDate(m.date)})):[]
-  let balance=p.sizes.map(x=>home?a.opening[x]??0:0)
-  const opening:Row[] = old.length?old:[{id:'awal-'+key,ref:'Saldo awal',when:'Saldo pembukaan',day:'',type:'Saldo awal',note:p.location,delta:balance.map(()=>0),balance:[...balance]}]
-  const newRows:Row[]=home?saleMoves(productKey(p)).map(m=>({...m,sequence:m.recordedAt})):[]
-  for(const e of s.stockEvents??[]){
-    const changes=e.changes.filter(c=>c.key===key&&atPosition(c,p.location,p.grade))
-    if(!changes.length)continue
-    const delta=p.sizes.map(size=>changes.filter(c=>c.size===size).reduce((n,c)=>n+c.delta,0))
-    const day=e.date??'2026-11-24'
-    newRows.push({id:e.id,ref:e.id,when:day,day,physicalTime:e.physicalTime,type:e.reverses?'Pembalikan':e.action==='adjust'?'Stock Adjustment':'Ganti Merek',note:e.reason,delta,balance:[],sequence:e.recordedAt})
+  const article=skuByKey(p.brand+' '+p.code,s)!
+  const rows=fgActivity(article,s,p.location,p.grade)
+  rows.sort((a,b)=>comparePhysical(a,b)||(a.sequence??'').localeCompare(b.sequence??'')).reverse()
+  let balance=p.sizes.map(size=>stockAt(article,size,s,p.location,p.grade))
+  for(const row of rows){
+    row.balance=balance
+    balance=balance.map((n,i)=>n-row.delta[i])
   }
-  newRows.sort(chronological)
-  for(const row of newRows){balance=balance.map((n,i)=>n+row.delta[i]);row.balance=[...balance]}
-  return [...newRows.reverse(),...opening].sort((a,b)=>chronological(b,a))
+  if(!rows.some(r=>r.fromOpeningBook)){
+    rows.push({id:'awal-'+article.key,ref:'Saldo awal',day:'',physicalTime:'',type:'Saldo awal',note:p.location,delta:balance.map(()=>0),balance})
+  }
+  return rows
 }
 function movementWhen(row:Row){
   if(!row.day)return 'Tanggal fisik belum tercatat'
   const date=new Intl.DateTimeFormat('id-ID',{day:'numeric',month:'short',year:'numeric',timeZone:'Asia/Jakarta'}).format(new Date(row.day+'T06:00:00Z'))
-  const time=clockOf(row)
+  const time=row.physicalTime
   return date+(time?' · '+time.replace('.',':')+' WIB':' · jam fisik belum tercatat')
 }
 function recordedWhen(value:string){return new Intl.DateTimeFormat('id-ID',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit',hourCycle:'h23',timeZone:'Asia/Jakarta'}).format(new Date(value))+' WIB'}
 export function FgHistory({product,session}:{product:Product;session:Session}){
   const rows=historyRows(product,session),[q,setQ]=useState(''),[sort,setSort]=useState('new'),[period,setPeriod]=useState(()=>periodFor('all',rows[0]?.day||'2026-11-24')),[detail,setDetail]=useState<Row|null>(null)
-  const visible=rows.filter(r=>matchesPeriod(r.day,period)&&browseMatch(q,r.ref,r.type,r.note,r.day,movementWhen(r)))
+  const visible=rows.filter(r=>(r.day||(!period.start&&!period.end))&&matchesPeriod(r.day,period)&&browseMatch(q,r.ref,r.type,r.note,r.day,movementWhen(r)))
   if(sort==='old')visible.reverse()
   return <section className="fg-history"><h3>Riwayat stok · {product.brand} {product.code}</h3><div className="wh-fields"><label>Cari dokumen atau transaksi<input value={q} onChange={e=>setQ(e.target.value)}/></label><label>Urutan riwayat<select value={sort} onChange={e=>setSort(e.target.value)}><option value="new">Terbaru dulu</option><option value="old">Terlama dulu</option></select></label></div>
   <PeriodFilter label="Periode mutasi" value={period} onChange={setPeriod}/>

@@ -2,8 +2,8 @@
 import {beforeEach,describe,expect,it} from 'vitest'
 import {emptySession} from '../worker-demo/src/demo/planner/model'
 import {convertStock,moveSnapshot,type MoveInput} from '../worker-demo/src/demo/planner/conversion'
-import {reverseRange} from '../worker-demo/src/demo/planner/inventory'
-import {pairOf,pairSku,mainFg} from '../worker-demo/src/demo/skuCatalog'
+import {rangeChange,reverseRange} from '../worker-demo/src/demo/planner/inventory'
+import {pairOf,pairSku,mainFg,skuByKey} from '../worker-demo/src/demo/skuCatalog'
 import {fgProducts,fgTotals} from '../worker-demo/src/demo/fgOverview'
 import {historyRows} from '../worker-demo/src/demo/FgHistory'
 import {pocketRolls,prepareReceipt,receivePocket,reverseReceipt,type ReceiptDraft} from '../worker-demo/src/demo/pocketReceipts'
@@ -37,6 +37,23 @@ describe('Warehouse workflows',()=>{
   it('does not move a newly received size before its physical date',()=>{
     const first=convertStock(emptySession,move,'F')
     expect(()=>convertStock(first,{...move,source:move.target,target:'Vivo 73003',values:{33:'1'},sizeMap:{33:'34'},date:'2026-11-23'},'B')).toThrow('stok asal')
+  })
+  it('places a backdated count between two physical movements and shows the resulting balance at each time',()=>{
+    const article=skuByKey('Vivo 73001',emptySession)!
+    const s=rangeChange(emptySession,'adjust',article,{'28':'103'},'Hitung pagi','opname',undefined,'','2026-08-27','10:00')
+    const product=fgProducts(s).find(p=>p.brand==='Vivo'&&p.code==='73001')!
+    const rows=historyRows(product,s)
+    expect(rows.map(r=>[r.id,r.physicalTime,r.delta[0],r.balance[0]])).toEqual([
+      ['MV-1052','13:44',-8,95],['opname','10:00',-1,103],['MV-1048','17:06',-12,104]
+    ])
+    expect(product.stocks[0]).toBe(95)
+  })
+  it('keeps missing legacy physical dates empty and distinguishes different physical times on a retry',()=>{
+    const doc=convertStock(emptySession,{...move,physicalTime:'09:15'},'timed')
+    expect(()=>convertStock(doc,{...move,physicalTime:'09:16'},'timed')).toThrow('isi berbeda')
+    const legacy={...doc,stockEvents:doc.stockEvents!.map(e=>({...e,date:undefined,physicalTime:undefined}))}
+    const product=fgProducts(legacy).find(p=>p.brand==='Vivo'&&p.code==='93001')!
+    expect(historyRows(product,legacy).find(r=>r.id==='timed')?.day).toBe('')
   })
   const receipt:ReceiptDraft={request:'pr1',number:'SJ-UJI-01',supplier:'Sinaran',location:'Gudang Bahan',material:'Kain kantong hitam',day:'2026-11-24',unit:'m',rate:'9000',reason:'Surat jalan',notes:'',rolls:[{number:'U-01',qty:'19,5'},{number:'U-02',qty:'7'},{number:'',qty:''}]}
   it('uses the matching yard benchmark when blank and requires a price for an unpriced unit',()=>{

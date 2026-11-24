@@ -644,8 +644,8 @@
       "sha256": "7a7ff7b2a744eda4011d1a08949d52a8000aa2c0923c2ff993c64183b37aba33"
     },
     "tests/warehouse-sku-roll.test.ts": {
-      "bytes": 4312,
-      "sha256": "ea1cd0305ba8a232c0c9b61943b185995786dc58455e4cbe74cb209178ef6838"
+      "bytes": 5520,
+      "sha256": "8d93f0ac84e8773eb4b77c5861ab8157e895f4aaa8cbaaa8ec0045c6c4d9d1b0"
     },
     "tests/worker-accessory-price.test.ts": {
       "bytes": 3467,
@@ -1632,8 +1632,8 @@
       "sha256": "b10c0784976c1c1f42d6aab02c07e6423a3e8236b6cdad9dfa98b95a13918097"
     },
     "worker-demo/src/demo/FgHistory.tsx": {
-      "bytes": 6015,
-      "sha256": "a5902baa6ce42e2ce2b0e480c2b897b3c9ff97d5b24bc3c62323c65669cf60d7"
+      "bytes": 4653,
+      "sha256": "447af2632625ef270a165e648d31e56a23945b956ff7c105a940c8d9a00adb5b"
     },
     "worker-demo/src/demo/FgRegister.tsx": {
       "bytes": 1963,
@@ -1676,8 +1676,8 @@
       "sha256": "0f151abcc3cc59978ef841da7878402fd9b300e49164638ec44db1a8bdcc12fe"
     },
     "worker-demo/src/demo/SkuRangePage.tsx": {
-      "bytes": 9737,
-      "sha256": "33fa9bff89eedf4ed37529c4da97f2bffb31c8f65f74f727eab56585505519c3"
+      "bytes": 10077,
+      "sha256": "e98675bdbc58d5e9efeee0c0c6ccbb2d62263341873005a4c8a0c3892e029d3d"
     },
     "worker-demo/src/demo/StockPages.tsx": {
       "bytes": 17197,
@@ -1706,6 +1706,10 @@
     "worker-demo/src/demo/fgOverview.ts": {
       "bytes": 1449,
       "sha256": "2896aabe43ec2e35a24376697601887a8310c154f1d368cc0562e3ac27dcb070"
+    },
+    "worker-demo/src/demo/fgTimeline.ts": {
+      "bytes": 2426,
+      "sha256": "1dca2d6fd2b5c2833d3df1ebd29c15d0ec49f73816b4b97ac16eded54ef0b394"
     },
     "worker-demo/src/demo/format.ts": {
       "bytes": 909,
@@ -1740,8 +1744,8 @@
       "sha256": "afd43664dd1e9d3b7b26d2973409c107a89ba221a4fb2898ff5ccdf2c039c2d2"
     },
     "worker-demo/src/demo/planner/conversion.ts": {
-      "bytes": 4108,
-      "sha256": "d52d0cf6bdf9b587b3f57f9ef0a7cb3b6897beba58fe75e76e5b5d7c8ba063e0"
+      "bytes": 3959,
+      "sha256": "24b07757fbd980059446fe20cce8daea4c2cc990aaa2f482647005a936c37026"
     },
     "worker-demo/src/demo/planner/distribution.test.ts": {
       "bytes": 6861,
@@ -1752,8 +1756,8 @@
       "sha256": "0f38c812e7d648f2584a5b9373e8be921eb62c600dd4cc3b726a74ba45f1c930"
     },
     "worker-demo/src/demo/planner/inventory.ts": {
-      "bytes": 4180,
-      "sha256": "3e5beb996ef85e4c259fb1b2c84746ca514facbf1a567296d6c2d68d97f3c206"
+      "bytes": 4612,
+      "sha256": "bf625ec0a172c62a69107abf4503f57379c9db9404e307be11928eb8742b896d"
     },
     "worker-demo/src/demo/planner/model.ts": {
       "bytes": 23266,
