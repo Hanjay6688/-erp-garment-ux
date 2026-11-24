@@ -636,8 +636,8 @@
       "sha256": "8dcafcf1ead9dec38713f7a75f317eed63de1bf64a666e0e354c540e913a7ab4"
     },
     "tests/browser/cp8-worker.spec.ts": {
-      "bytes": 20753,
-      "sha256": "6ea48ce2280108a43e88bae2f1bd8c3d2003d7ba643f3e831824b1c382f0994f"
+      "bytes": 21931,
+      "sha256": "008aac53f588f6c35610d572d660350c3fed4831b09628c40a5d85637f3de177"
     },
     "tests/worker-accessory-price.test.ts": {
       "bytes": 2691,
@@ -788,8 +788,8 @@
       "sha256": "1d8c2b0bf257b2574cb0d59c7633af4345b35c5b9794fc2bde86e9fbd4800b54"
     },
     "worker-demo/src/ConnectedMasterPage.tsx": {
-      "bytes": 27501,
-      "sha256": "72e2e99a36c7ebed7029434d11e7a3ece6ab310b512f9acdafd2b327e7dc5885"
+      "bytes": 28390,
+      "sha256": "e93bbca940bebda22b841e5e5a865a634057832cb204c280dcfedc0ae854b7f0"
     },
     "worker-demo/src/ConnectedMaterialCountPage.tsx": {
       "bytes": 23573,
@@ -984,8 +984,8 @@
       "sha256": "740069caa4c65fdbfd94dcf24b6b9632aced7fc09f50653aeb656b57a1816920"
     },
     "worker-demo/src/MaterialMasterPages.tsx": {
-      "bytes": 43320,
-      "sha256": "d01d723c974f648ef8b1912de8df491aa2106d9fbf57329a90479f354f6a4ccf"
+      "bytes": 43745,
+      "sha256": "15a23272c8c43a3be7cbb5916baf75cca1aa0f5833b6f4c7b83c3dd5a9df6e02"
     },
     "worker-demo/src/MaterialNamePanel.tsx": {
       "bytes": 7058,
@@ -1636,8 +1636,8 @@
       "sha256": "562fdf5c310dd85e4ea88d2557962a063475b0f5fd7197822b6123215bed6325"
     },
     "worker-demo/src/demo/accessoryPricing.ts": {
-      "bytes": 9078,
-      "sha256": "0cbf6aae7d739b0ad98baa03eba1e6adafb7bdf32bc905767bd5e4d1a7a4cd7c"
+      "bytes": 9108,
+      "sha256": "1acd73b6f804058b2acc2c4be9e998314cb77d01389466104e6f89485fffe5c4"
     },
     "worker-demo/src/demo/controls.tsx": {
       "bytes": 2756,

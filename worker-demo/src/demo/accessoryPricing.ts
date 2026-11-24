@@ -1,10 +1,10 @@
 import {useSyncExternalStore} from 'react'
-export type PriceHistory={id:string;amount:number;uom?:string;effectiveFrom:string;effectiveTo?:string;note:string;status:'CURRENT'|'SUPERSEDED'|'CANCELLED'}
+export type PriceHistory={id:string;amount:number;uom?:string;effectiveFrom:string;effectiveTo?:string;note:string;reason?:string;status:'CURRENT'|'SUPERSEDED'|'CANCELLED'}
 export type AccessoryMaster={id:string;code:string;name:string;category:string;stockUom:string;purchaseUom:string;conversion:number;movingAverage:number;stock:number;active:boolean;rowVersion:number}
 export type AccessoryRate={category:string;sellingPrices:PriceHistory[];reimbursementPrices:PriceHistory[]}
 export const contractorNames=['Afui','Epi','Selo','Afat']
 export const fixtureDate='2026-11-24'
-export type SpecialRate={mandor:string;category:string;start:string;amount:number|null;unit:string;id:string}
+export type SpecialRate={mandor:string;category:string;start:string;amount:number|null;unit:string;id:string;reason?:string}
 export type AccessoryBook={items:AccessoryMaster[];rates:AccessoryRate[];special:SpecialRate[];free:{mandor:string;categories:string[];start:string;end:string|null;version:string}[]}
 export const accessorySeeds:AccessoryMaster[]=[
   {id:'acc-btn-silver',code:'ACC-BTN-017-SLV',name:'Kancing Jeans 17 mm · Silver',category:'Kancing',stockUom:'pcs',purchaseUom:'gross',conversion:144,movingAverage:620,stock:4800,active:true,rowVersion:7},
