@@ -27,6 +27,8 @@ export type PreconnectDatabase = {
       }
     }
     Functions: {
+      erp_cp8_get_conversion_range_v1: { Args:{p_query:Json}; Returns:Json }
+      erp_cp8_conversion_range_v1: { Args:{p_action:string;p_payload:Json;p_request:string}; Returns:Json }
       erp_cp7_get_staged_production_schedule_v1: CurrentDisposableDatabase['public']['Functions']['erp_cp7_get_staged_production_schedule_v1']
       erp_cp7_save_staged_production_schedule_v1: CurrentDisposableDatabase['public']['Functions']['erp_cp7_save_staged_production_schedule_v1']
       erp_cp7_request_bounded_staged_analysis_v1: CurrentDisposableDatabase['public']['Functions']['erp_cp7_request_bounded_staged_analysis_v1']

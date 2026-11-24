@@ -37,7 +37,8 @@ export function CuttingRollPage() {
   const [draft]=useState(readDraft)
   const [sku,setSku]=useState(draft?.sku??'')
   const [brand,setBrand]=useState(draft?.brand??'')
-  const [model,setModel]=useState(draft?.model??'')
+  const hasSampleRoll=!draft&&yardsLeft('ORI-021',session)>=27
+  const [model,setModel]=useState(draft?.model??(hasSampleRoll?'Kulot Jumbo':''))
   const [date,setDate]=useState(draft?.date??'2026-11-24')
   const [notes,setNotes]=useState(draft?.notes??'')
   const [eta,setEta]=useState(draft?.eta??'')
@@ -53,11 +54,11 @@ export function CuttingRollPage() {
   const [sizeNotice,setSizeNotice]=useState('')
   const [selectedSuppliers,setSelectedSuppliers]=useState([...fabricRollSuppliers])
   const [selectedMaterials,setSelectedMaterials]=useState([...fabricRollMaterials])
-  const [selectedRollIds,setSelectedRollIds]=useState(()=>draft?.ids??[])
-  const [rollYardUsage,setRollYardUsage]=useState<Record<string,string>>(()=>draft?.yards??Object.fromEntries(fabricRollCatalog.map((roll)=>[roll.id,String(roll.yards).replace('.',',')])))
-  const [sizeSlots,setSizeSlots]=useState<CuttingSizeSlot[]>(()=>draft?.slots??[])
+  const [selectedRollIds,setSelectedRollIds]=useState(()=>draft?.ids??(hasSampleRoll?['ORI-021']:[]))
+  const [rollYardUsage,setRollYardUsage]=useState<Record<string,string>>(()=>draft?.yards??Object.fromEntries(fabricRollCatalog.map((roll)=>[roll.id,String(hasSampleRoll&&roll.id==='ORI-021'?27:roll.yards).replace('.',',')])))
+  const [sizeSlots,setSizeSlots]=useState<CuttingSizeSlot[]>(()=>draft?.slots??(hasSampleRoll?blankSlots(modelSeries['Kulot Jumbo'].sizes):[]))
   const nextSlotKeyRef=useRef(initialCuttingSizeSlots.length+1)
-  const [allocations,setAllocations]=useState<Record<string,number[]>>(()=>draft?.amounts??{})
+  const [allocations,setAllocations]=useState<Record<string,number[]>>(()=>draft?.amounts??(hasSampleRoll?{'ORI-021':[4,8,6]}:{}))
   const [fillRange,setFillRange]=useState<{source:number;target:number}|null>(null)
   function useAdvice(row:Plan, material?:string, scroll=true) {
     const p=row.product, {route,roll,qty}=suggestedCut(row,session,material)
@@ -155,7 +156,7 @@ export function CuttingRollPage() {
     return fabricRollCatalog.filter((roll)=>next.has(roll.id)).map((roll)=>roll.id)
   })
   const updateRollYardUsage=(rollId:string,value:string)=>setRollYardUsage((current)=>({...current,[rollId]:cleanDecimalInput(value)}))
-  const useFullRoll=(roll:FabricRoll)=>setRollYardUsage((current)=>({...current,[roll.id]:String(roll.yards).replace('.',',')}))
+  const useFullRoll=(roll:FabricRoll)=>setRollYardUsage((current)=>({...current,[roll.id]:String(hasSampleRoll&&roll.id==='ORI-021'?27:roll.yards).replace('.',',')}))
   const activateSize=(size:string)=>{
     if(sizeSlots.some((slot)=>slot.size===size))return
     const targetOrder=cuttingSizeOptions.indexOf(size)
@@ -367,7 +368,13 @@ export function CuttingRollPage() {
     const targetSlot=sourceSlot<sizeSlots.length-1?sourceSlot+1:sourceSlot-1
     fillColumnsFromSource(sourceSlot,targetSlot)
   }
-  const heading=<section className="hero-copy compact cutting-hero"><div className="eyebrow">PRODUKSI · CUTTING</div><h1>Buat Potongan</h1><p>Pilih model dan serinya, lalu catat hasil potong dari roll yang dipakai.</p></section>
+  const clearForm=()=>{
+    setSku('');setBrand('');setModel('');setSelectedPattern(null);setSelectedRollIds([]);setSizeSlots([]);setAllocations({});setEta('');setNotes('');setSizeNotice('')
+    setRollYardUsage(Object.fromEntries(fabricRollCatalog.map(r=>[r.id,String(r.yards)])))
+    setSavedId('');requestId.current=crypto.randomUUID();sessionStorage.removeItem(draftKey)
+    setNotice('Form kosong siap diisi.')
+  }
+  const heading=<section className="hero-copy compact cutting-hero"><div className="eyebrow">PRODUKSI · CUTTING</div><h1>Buat Potongan</h1><p>Pilih model dan serinya, lalu catat hasil potong dari roll yang dipakai.</p>{!savedId&&<button type="button" className="gar-text" onClick={clearForm}>Mulai form kosong</button>}</section>
   const saved=session.cuts.find(lot=>lot.id===savedId)
   if(saved)return <>{heading}<div className="gar-success" role="status">{notice} <a href={pickupPath+'?pot='+saved.id}>Bagi {saved.id}</a></div>
     <section className="panel gar-panel"><div className="gar-panel-head"><h2>{saved.id} · {lotLabel(saved)}</h2><span>Menunggu mandor</span></div>

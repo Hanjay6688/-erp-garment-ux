@@ -731,6 +731,10 @@
       "bytes": 9286,
       "sha256": "0a7e7e93f8d72bb429be119f126b732ba76058d02988b97d415d707b1624157a"
     },
+    "worker-demo/src/ConnectedConversionRange.tsx": {
+      "bytes": 7474,
+      "sha256": "7767b8a6d176d267a0d6de7820ba2074dd1595ff3b73f1d49ba66d75ee29c9a3"
+    },
     "worker-demo/src/ConnectedCustomerHistoryPage.tsx": {
       "bytes": 15514,
       "sha256": "e59dff6fd4d14b5a8e75c392f964ca13becf5bba5cc5447fa81b7393bdad9973"
@@ -816,8 +820,8 @@
       "sha256": "cdc86d94895c10b7d153a8b0b77525dbcaa9e22e8c7a8579c0e6e6aef692b3e7"
     },
     "worker-demo/src/ConnectedProductConversionPage.tsx": {
-      "bytes": 19732,
-      "sha256": "5fea97c3ad7d16c065efc32a7234d65509a4e927ddf6759502c09ed5b3c35a7a"
+      "bytes": 20247,
+      "sha256": "9a7bd152c643407c9c8ec6d1e8136dee4bf28da1b803ae963616f7d915e7897f"
     },
     "worker-demo/src/ConnectedQcFinalPage.tsx": {
       "bytes": 30286,
@@ -1588,8 +1592,8 @@
       "sha256": "aa212d7eb5f31cacf4dd82c73c7e995ee63049b9cf09a480724b48c7f77de9a8"
     },
     "worker-demo/src/demo/CuttingRollPage.tsx": {
-      "bytes": 43275,
-      "sha256": "0ffba8064053379a5b790f0e26836d59efe5c483698198d413c2eb4258035ad2"
+      "bytes": 44090,
+      "sha256": "ec5db4deca21d2895890d9095a555aa9977a35027005d4cd882778808ef217a7"
     },
     "worker-demo/src/demo/LaundryPage.tsx": {
       "bytes": 26506,
@@ -2436,8 +2440,8 @@
       "sha256": "aea98af3a3956b8ef2164fd2dcb4b452e16f1db2965d1b687e2a6098d34732bf"
     },
     "worker-demo/src/types/database.preconnect.ts": {
-      "bytes": 33501,
-      "sha256": "c84cba47dcff36e173894da572d2840f1159b48362c2a5d5d7480e6c1879a0f3"
+      "bytes": 33686,
+      "sha256": "25d706f829c53da4cf581a2e461f0e0dca631107bf21457a23fc0b4df7fc8db0"
     },
     "worker-demo/src/useFinancialRecoveryGate.ts": {
       "bytes": 1151,
