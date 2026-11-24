@@ -5,6 +5,9 @@ export const cuttingForms = {
 
 export const productionForms = {
   ...cuttingForms,
+  'fg-summary':{name:'Ringkasan Barang Jadi',path:'/gudang/barang-jadi/'},
+  'stock-card':{name:'Kartu stok FG',path:'/gudang/kartu-stok-fg/'},
+
   'pocket-fabric':{name:'Kain kantong',path:'/gudang/kain-kantong/'},
   'finance-payroll':{name:'Payroll & Kasbon',path:'/keuangan/payroll-kasbon/'},
   'fg-handoff':{name:'Susun Nota FG',path:'/produksi/susun-nota-fg/'},

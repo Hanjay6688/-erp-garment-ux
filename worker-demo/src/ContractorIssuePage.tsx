@@ -42,7 +42,7 @@ export default function ContractorIssuePage() {
   const [periodFilter,setPeriodFilter] = useState<PeriodFilter>('Semua tanggal')
   const [dateFrom,setDateFrom] = useState('2026-08-01')
   const [dateTo,setDateTo] = useState('2026-08-28')
-  const [showSettled,setShowSettled] = useState(false)
+  const [showSettled,setShowSettled] = useState(()=>!!new URLSearchParams(location.search).get('nota'))
   const [catalogOpen,setCatalogOpen] = useState(false)
   const [catalogQuery,setCatalogQuery] = useState('')
   const [catalogCategory,setCatalogCategory] = useState('Semua kategori')
@@ -67,7 +67,7 @@ export default function ContractorIssuePage() {
       && (showSettled || !document.settledAt)
   }), [documents,effectiveFrom,effectiveTo,mandorFilter,query,showSettled,statusFilter])
   const ordered=[...visible].sort((a,b)=>sort==='lama'?a.issuedOn.localeCompare(b.issuedOn):sort==='mandor'?a.mandor.localeCompare(b.mandor):b.issuedOn.localeCompare(a.issuedOn))
-  const original=visible.find(d=>d.number===selectedNumber)??ordered[0]??null
+  const original=visible.find(d=>d.number===selectedNumber)??(new URLSearchParams(location.search).get('nota')===selectedNumber?null:ordered[0])??null
   const selected=original?.status==='DRAFT'?{...original,lines:original.lines.map(l=>priceLine(book,original,l,documents))}:original
   const availableCatalog = catalog.filter((item) => {
     const searchMatches = `${item.id} ${item.item} ${item.category}`.toLowerCase().includes(catalogQuery.toLowerCase())
@@ -123,6 +123,7 @@ export default function ContractorIssuePage() {
 
   return <>
     <section className="hero-copy compact ci-hero"><div><div className="eyebrow">KEUANGAN · KASBON MANDOR</div><h1>Nota Ambil Aksesori</h1><p>Catat aksesori detail yang benar-benar diambil mandor. Posting mengurangi Stock On Hand dan membentuk kasbon yang direkonsiliasi saat payroll.</p></div><button className="primary-btn" onClick={createDraft}><Plus/> Nota baru</button></section>
+    {new URLSearchParams(location.search).get('dari')==='payroll'&&<a className="gar-button" href="/keuangan/payroll-kasbon/">Kembali ke Payroll &amp; Kasbon</a>}
     <section className="ci-metrics"><article><span>DRAFT AKTIF</span><strong>{documents.filter((item)=>item.status==='DRAFT').length}</strong><small>Belum mengubah stok</small></article><article><span>BELUM DISELESAIKAN</span><strong>{postedOpen.length}</strong><small>Masih masuk rekonsiliasi payroll</small></article><article><span>KASBON TERBUKA</span><strong>{money(postedOpen.reduce((sum,item)=>sum+documentTotal(item),0))}</strong><small>Harga jual snapshot</small></article><article><span>OTOMATIS DISEMBUNYIKAN</span><strong>{settledCount} nota</strong><small>Sudah lunas · tetap bisa dibuka</small></article></section>
     <section className="panel ci-filter-bar">
       <label className="ci-search"><Search/><input value={query} onChange={(event)=>setQuery(event.target.value)} placeholder="Cari nota, mandor, Batch Produksi..."/></label>

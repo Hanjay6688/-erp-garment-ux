@@ -62,7 +62,7 @@ export function DestinationChoice({lot}:{lot:Lot}) {
     <button type="button" className="gar-button" disabled={!sku||!eta} onClick={()=>{try{changeSession(s=>setDestination(s,lot.id,sku,eta))}catch(e){setMessage((e as Error).message)}}}>Simpan tujuan</button>{message&&<p role="alert">{message}</p>}
   </details>
 }
-export function AdviceBox({mode,session,onCut,onPickup,selected}:{mode:'cut'|'pickup';session:Session;onCut?:(row:Plan,material?:string)=>void;onPickup?:(lot:Lot)=>void;selected?:string}) {
+export function AdviceBox({mode,session,onCut,onPickup,selected,initiallyOpen=false}:{initiallyOpen?:boolean;mode:'cut'|'pickup';session:Session;onCut?:(row:Plan,material?:string)=>void;onPickup?:(lot:Lot)=>void;selected?:string}) {
   const [opened,setOpened]=useState('')
   const [material,setMaterial]=useState<Record<string,string>>(()=>{
     const q=new URLSearchParams(window.location.search),sku=q.get('sku'),fabric=q.get('bahan')
@@ -74,7 +74,7 @@ export function AdviceBox({mode,session,onCut,onPickup,selected}:{mode:'cut'|'pi
     :waitingLots(session).map(lot=>({id:lot.id,lot,row:plans.find(r=>r.product.sku===lot.sku)}))
   const detail=entries.find(entry=>entry.id===opened)
   return <section className="panel gar-panel" aria-label={mode==='cut'?'Saran buat potongan':'Saran bagi potongan'}>
-    <details className="planner-disclosure"><summary>{mode==='cut'?'Planner · Saran buat potongan':'Planner · Saran bagi potongan'}</summary>
+    <details className="planner-disclosure" open={initiallyOpen||undefined}><summary>{mode==='cut'?'Planner · Saran buat potongan':'Planner · Saran bagi potongan'}</summary>
     <div className="gar-panel-head"><div><p className="gar-kicker">Planner · Selasa 24 Nov 2026</p><h2>{mode==='cut'?'Yang perlu dipotong':'Potongan yang dibagi dulu'}</h2></div><a href="/analisis/planner/">Lihat semua SKU</a></div>
     {!entries.length&&<p className="gar-empty">{mode==='cut'?'Kebutuhan pesanan sudah tertutup.':'Semua potongan sudah diambil mandor.'}</p>}
     {entries.map(({id,row,lot})=>{

@@ -28,7 +28,7 @@ import type { QtyTuple } from './demo/productionModel'
 import { sewingWipSeeds } from './demo/sewingModel'
 import { SewingWipPage } from './demo/SewingWipPage'
 import { chronologicalMovements } from './demo/stockModel'
-import { Movements, StockCard } from './demo/StockPages'
+import { Movements } from './demo/StockPages'
 import { regularFgNotaCardId } from './fgNota'
 import type { ReadyFgNotaCard, RegularFgNotaSnapshot } from './fgNota'
 import type { FinanceView } from './FinancePages'
@@ -120,7 +120,7 @@ type NotaOrigin = 'MENU' | 'QC' | 'BS_REWORK' | 'PAYROLL'
 
 const nav: Record<NavSection, string[]> = {
   Produksi: ['Buat Potongan', 'Bagi Potongan', 'WIP & Sewing', 'Laundry', 'QC & Final SKU', 'Susun Nota FG', 'Barang BS & Rework'],
-  Gudang: ['Ringkasan Gudang', 'Pembelian & Penerimaan', 'Bahan & Roll', 'Kain kantong', 'Aksesori', 'Ringkasan Barang Jadi', 'Mutasi Barang Jadi · Vivo', 'Mutasi Barang Jadi · Widie', 'Kartu Stok FG', 'Stock Adjustment', 'Ganti Merek'],
+  Gudang: ['Ringkasan Gudang', 'Pembelian & Penerimaan', 'Bahan & Roll', 'Kain kantong', 'Aksesori', 'Ringkasan Barang Jadi', 'Mutasi Barang Jadi · Vivo', 'Mutasi Barang Jadi · Widie', 'Stock Adjustment'],
   Penjualan: ['Penjualan & Invoice', 'Semua Invoice', 'Retur Penjualan', 'Pembayaran Pelanggan', 'Riwayat Pelanggan'],
   Keuangan: ['Ringkasan Keuangan', 'Kas & Bank', 'Hutang Supplier & Vendor', 'Piutang Pelanggan', 'Payroll & Kasbon', 'Absensi & Rate Harian', 'Nota Ambil Aksesori', 'HPP & Rekalkulasi', 'Jurnal & Transaksi Lain', 'Laporan & Tutup Buku'],
   'Master Data': ['Kain & Benchmark', 'Aksesori & Harga Mandor', 'Produk & SKU', 'Pelanggan', 'Supplier & Vendor', 'Mandor', 'Gudang & Lokasi', 'Pola'],
@@ -236,7 +236,11 @@ function ErpApp() {
   const accessBundle = identity.status === 'AUTHORIZED' ? identity : null
   const demoAccess = identity.status === 'DEMO'
   // Owner D15-2: in the Enteng build a menu without a connected screen is hidden (src/screenActivation.ts).
-  const canSeeNavLabel = (label: string) => (demoAccess || isNavLabelAllowed(accessBundle, label)) && !isNavLabelHidden(runtime.mode, label)
+  const canSeeNavLabel = (label: string) => {
+    if(!demoAccess && label==='Stock Adjustment' && isPageAllowed(accessBundle,'brand-conversion')&&!isScreenHidden(runtime.mode,'brand-conversion'))return true
+    if(!demoAccess && label==='Ringkasan Barang Jadi' && isPageAllowed(accessBundle,'stock-card')&&!isScreenHidden(runtime.mode,'stock-card'))return true
+    return (demoAccess || isNavLabelAllowed(accessBundle, label)) && !isNavLabelHidden(runtime.mode, label)
+  }
   const [page, setRoutedPage] = useState<Page>(() => demoAccess
     ? (cuttingFormAt(globalThis.location.pathname) ?? (['/migrasi', '/migrasi/'].includes(globalThis.location.pathname) ? 'admin-import' : 'dashboard'))
     : (firstAllowedPageId(accessBundle, Object.keys(PAGE_PERMISSION_BY_ID).filter(id => !isScreenHidden(runtime.mode, id) && !(id in redirectedPages))) as Page | null) ?? 'dashboard')
@@ -248,6 +252,8 @@ function ErpApp() {
   }
   const [reportTab, setReportTab] = useState<FinanceReportTab>('REPORT')
   const setPageState = (requested: Page) => {
+    if(!demoAccess&&requested==='stock-adjustment'&&!isPageAllowed(accessBundle,requested)&&isPageAllowed(accessBundle,'brand-conversion'))requested='brand-conversion'
+    if(!demoAccess&&requested==='fg-summary'&&!isPageAllowed(accessBundle,requested)&&isPageAllowed(accessBundle,'stock-card'))requested='stock-card'
     const redirect = redirectedPages[requested]
     setReportTab(redirect?.reportTab ?? 'REPORT')
     setRoutedPage(redirect?.page ?? requested)
@@ -460,7 +466,7 @@ function ErpApp() {
           const financeTarget=financePageByLabel[item]
           const masterTarget=businessMasterPageByLabel[item]
           const operationsTarget=operationsPageByLabel[item]
-          const active = (salesTarget !== undefined && page === salesTarget) || (financeTarget !== undefined && page === financeTarget) || (masterTarget !== undefined && page === masterTarget) || (operationsTarget !== undefined && page === operationsTarget) || (item === 'Kartu Stok FG' && page === 'stock-card') || (item === 'Mutasi Barang Jadi · Vivo' && page === 'movements-vivo') || (item === 'Mutasi Barang Jadi · Widie' && page === 'movements-widie') || (item === 'Pembelian & Penerimaan' && page === 'procurement') || (item === 'Ringkasan Gudang' && page === 'warehouse-dashboard') || (item === 'Kain kantong' && page === 'pocket-fabric') || (item === 'Bahan & Roll' && page === 'materials-rolls') || (item === 'Aksesori' && page === 'accessories') || (item === 'Ringkasan Barang Jadi' && page === 'fg-summary') || (item === 'Stock Adjustment' && page === 'stock-adjustment') || (item === 'Ganti Merek' && page === 'brand-conversion') || (item === 'Buat Potongan' && page === 'cutting-roll') || (item === 'Bagi Potongan' && page === 'mandor-wip') || (item === 'Nota Ambil Aksesori' && page === 'contractor-issue') || (item === 'WIP & Sewing' && page === 'sewing-wip') || (item === 'QC & Final SKU' && page === 'qc') || (item === 'Susun Nota FG' && page === 'fg-handoff') || (item === 'Barang BS & Rework' && page === 'bs-rework') || (item === 'Laundry' && page === 'laundry') || (item === 'HPP & Rekalkulasi' && page === 'hpp') || (item === 'Kain & Benchmark' && page === 'master-fabric') || (item === 'Aksesori & Harga Mandor' && page === 'master-accessory') || (item === 'Pola' && page === 'master-pattern')
+          const active = (salesTarget !== undefined && page === salesTarget) || (financeTarget !== undefined && page === financeTarget) || (masterTarget !== undefined && page === masterTarget) || (operationsTarget !== undefined && page === operationsTarget) || (item === 'Kartu Stok FG' && page === 'stock-card') || (item === 'Mutasi Barang Jadi · Vivo' && page === 'movements-vivo') || (item === 'Mutasi Barang Jadi · Widie' && page === 'movements-widie') || (item === 'Pembelian & Penerimaan' && page === 'procurement') || (item === 'Ringkasan Gudang' && page === 'warehouse-dashboard') || (item === 'Kain kantong' && page === 'pocket-fabric') || (item === 'Bahan & Roll' && page === 'materials-rolls') || (item === 'Aksesori' && page === 'accessories') || (item === 'Ringkasan Barang Jadi' && (page === 'fg-summary'||page==='stock-card')) || (item === 'Stock Adjustment' && (page === 'stock-adjustment'||page==='brand-conversion')) || (item === 'Ganti Merek' && page === 'brand-conversion') || (item === 'Buat Potongan' && page === 'cutting-roll') || (item === 'Bagi Potongan' && page === 'mandor-wip') || (item === 'Nota Ambil Aksesori' && page === 'contractor-issue') || (item === 'WIP & Sewing' && page === 'sewing-wip') || (item === 'QC & Final SKU' && page === 'qc') || (item === 'Susun Nota FG' && page === 'fg-handoff') || (item === 'Barang BS & Rework' && page === 'bs-rework') || (item === 'Laundry' && page === 'laundry') || (item === 'HPP & Rekalkulasi' && page === 'hpp') || (item === 'Kain & Benchmark' && page === 'master-fabric') || (item === 'Aksesori & Harga Mandor' && page === 'master-accessory') || (item === 'Pola' && page === 'master-pattern')
           return <button key={item} className={active ? 'sub-active' : ''} onClick={() => chooseSubmenu(item)}>• {item}</button>
         })}</div>}
       </div>)}
@@ -494,11 +500,12 @@ function ErpApp() {
         />}
         {isSalesView(page) && <Suspense fallback={<WorkspaceFallback label="Penjualan"/>}>{page==='sales-history'&&runtime.mode!=='DEMO_SIMULATION'?<ConnectedCustomerHistoryPage/>:runtime.mode!=='DEMO_SIMULATION'&&(page==='sales-invoice'||page==='sales-allocation'||page==='sales-payments'||page==='sales-returns')?<ConnectedSalesPage view={page} initialSaleId={page==='sales-invoice'&&invoiceSourceScope!==null&&invoiceSource?.scope===invoiceSourceScope?invoiceSource.saleId:null}/>:<SalesPages view={page} onNavigate={(next)=>setPage(next)} />}</Suspense>}
         {isFinanceView(page) && <Suspense fallback={<WorkspaceFallback label="Keuangan"/>}>{page === 'finance-overview' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedFinanceOverviewPage onNavigate={(next)=>setPage(next)}/> : page === 'finance-reports' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedFinanceReportPage tab={reportTab} onTab={setReportTab}/> : page === 'finance-cash' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedCashLedgerPage/> : page === 'finance-journal' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedJournalPage/> : page === 'finance-ar' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedReceivablesPage onOpenInvoice={(saleId)=>{if(invoiceSourceScope!==null){setSourceEpoch(value=>value+1);setInvoiceSource({saleId,scope:invoiceSourceScope});setPageState('sales-invoice')}}}/> : page === 'finance-ap' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedSupplierCreditPage onLaundry={()=>setPage('laundry')}/> : page === 'finance-payroll' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedPayrollPage/> : <FinancePages view={page} onNavigate={(next)=>setPage(next)} onSalesPayment={()=>setPage('sales-payments')} onAttendance={()=>setPage('operations-attendance')} onOpenFg={()=>{setNotaOrigin('PAYROLL');setNotaFocus(null);setPage('fg-handoff')}} />}</Suspense>}
-        {page === 'stock-card' && (runtime.mode === 'DEMO_SIMULATION' ? <StockCard /> : <Suspense fallback={<WorkspaceFallback label="Kartu stok FG"/>}><ConnectedFgStockPage purpose="CARD" onOpenMaster={()=>setPage('master-products')}/></Suspense>)}
+        {page === 'stock-card' && (runtime.mode === 'DEMO_SIMULATION' ? <Suspense fallback={<WorkspaceFallback label="Ringkasan Barang Jadi"/>}><WarehousePages view="fg-summary" onNavigate={setPage}/></Suspense> : <Suspense fallback={<WorkspaceFallback label="Kartu stok FG"/>}><ConnectedFgStockPage purpose="CARD" onOpenMaster={()=>setPage('master-products')}/></Suspense>)}
         {page === 'fg-summary' && runtime.mode !== 'DEMO_SIMULATION' && <Suspense fallback={<WorkspaceFallback label="Barang jadi"/>}><ConnectedFgStockPage onOpenMaster={()=>setPage('master-products')}/></Suspense>}
         {page === 'movements-vivo' && (runtime.mode === 'DEMO_SIMULATION' ? <Movements bookName="Vivo" bookBrands={vivoBookBrands} setBookBrands={setVivoBookBrands} movements={movements} setMovements={setMovements} /> : <Suspense fallback={<WorkspaceFallback label="Buku mutasi Vivo"/>}><ConnectedFgBookPage bookName="Vivo"/></Suspense>)}
         {page === 'movements-widie' && (runtime.mode === 'DEMO_SIMULATION' ? <Movements bookName="Widie" bookBrands={widieBookBrands} setBookBrands={setWidieBookBrands} movements={movements} setMovements={setMovements} /> : <Suspense fallback={<WorkspaceFallback label="Buku mutasi Widie"/>}><ConnectedFgBookPage bookName="Widie"/></Suspense>)}
         {page === 'procurement' && (runtime.mode === 'DEMO_SIMULATION' ? <ProcurementPage /> : <Suspense fallback={<WorkspaceFallback label="Penerimaan"/>}><ConnectedProcurementPage/></Suspense>)}
+        {(page==='stock-adjustment'||page==='brand-conversion')&&<nav className="owner-workspace-tabs" aria-label="Jenis penyesuaian gudang">{(['stock-adjustment','brand-conversion'] as const).filter(id=>demoAccess||isPageAllowed(accessBundle,id)&&!isScreenHidden(runtime.mode,id)).map(id=><button type="button" key={id} aria-pressed={page===id} onClick={()=>setPage(id)}>{id==='stock-adjustment'?'Cek fisik / adjustment':'Ganti Merek'}</button>)}</nav>}
         {page === 'brand-conversion' && runtime.mode !== 'DEMO_SIMULATION' && <Suspense fallback={<WorkspaceFallback label="Ganti Merek"/>}><ConnectedProductConversionPage/></Suspense>}
         {page === 'accessories' && runtime.mode !== 'DEMO_SIMULATION' && <Suspense fallback={<WorkspaceFallback label="Aksesori"/>}><ConnectedAccessoryServicePage/></Suspense>}
         {page === 'stock-adjustment' && runtime.mode !== 'DEMO_SIMULATION' && <Suspense fallback={<WorkspaceFallback label="Hitung fisik"/>}><ConnectedStockAdjustmentPage/></Suspense>}

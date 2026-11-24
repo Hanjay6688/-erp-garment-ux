@@ -1,4 +1,5 @@
-import {postedPayrollCards,savePostedFg} from './demo/payrollSources'
+import PostedFgDetail from './demo/PostedFgDetail'
+import {payForSource,postedPayrollCards,savePostedFg} from './demo/payrollSources'
 import { useMemo, useState } from 'react'
 import { ArrowLeft, ArrowRight, Check, CheckCircle2, FileText, ShieldCheck, UserRound, Wrench } from 'lucide-react'
 import type { QcFinalResult } from './QcFinalPage'
@@ -124,7 +125,8 @@ export default function FgNotaPage({
   }, [result, eligibleResults])
   const focusedResult = focus?.kind === 'REGULAR' ? allResults.find((item) => regularFgNotaCardId(item) === focus.id) : undefined
   const focusedRepair = focus?.kind === 'REPAIR' ? repairCards.find((item) => item.id === focus.id) : undefined
-  const initialMandor = focusedResult?.mandor ?? focusedRepair?.mandor ?? allResults[0]?.mandor ?? repairCards[0]?.mandor ?? ''
+  const requestedMandor=origin==='PAYROLL'?sessionStorage.getItem('erp.owner.payroll.mandor'):null
+  const initialMandor = focusedResult?.mandor ?? focusedRepair?.mandor ?? requestedMandor ?? allResults[0]?.mandor ?? repairCards[0]?.mandor ?? ''
   const [selectedMandor, setSelectedMandor] = useState(initialMandor)
   const [regularIds, setRegularIds] = useState<string[]>([])
   const [repairIds, setRepairIds] = useState<string[]>([])
@@ -141,7 +143,7 @@ export default function FgNotaPage({
   } | null>(null)
 
   const postedIds = useMemo(() => new Set([...postedCardIds,...postedPayrollCards()]), [postedCardIds])
-  const mandors = Array.from(new Set([...allResults.map((item) => item.mandor), ...repairCards.map((item) => item.mandor)])).filter(Boolean)
+  const mandors = Array.from(new Set([...(requestedMandor?[requestedMandor]:[]),...allResults.map((item) => item.mandor), ...repairCards.map((item) => item.mandor)])).filter(Boolean)
   const activeResult = focusedResult?.mandor === selectedMandor
     ? focusedResult
     : allResults.find((item) => item.mandor === selectedMandor)
@@ -184,6 +186,7 @@ export default function FgNotaPage({
     setRepairIds((current) => current.includes(id) ? current.filter((item) => item !== id) : [...current, id])
     setNoteReviewed(false)
   }
+  const [payMessage,setPayMessage]=useState('')
   const [postedNumber,setPostedNumber]=useState('')
   const postNota = () => {
     if (!editable || selectedIds.length === 0 || noteTotal <= 0 || !noteReviewed) return
@@ -209,6 +212,8 @@ export default function FgNotaPage({
   const queueCount = regularCards.length + visibleRepairCards.length
   const availableCount = [...regularCards, ...visibleRepairCards].filter((card) => !postedIds.has(card.id)).length
 
+  const openedNumber=new URLSearchParams(location.search).get('nota')
+  if(openedNumber)return <PostedFgDetail number={openedNumber}/>
   return <>
     <section className="hero-copy compact fg-handoff-hero">
       <div><div className="eyebrow">PRODUKSI · HALAMAN ANTREAN NOTA FG</div><h1>Susun Nota FG</h1><p>Buka langsung tanpa lewat QC. Card FG Reguler, Bikin Bagus, dan Susulan Good tetap membawa sumbernya lalu dikelompokkan per Mandor.</p></div>
@@ -216,7 +221,7 @@ export default function FgNotaPage({
     </section>
     <div className="handoff-flow-strip"><span className="done"><b>1</b>QC / rework terkunci</span><i/><span className="done"><b>2</b>Card siap</span><i/><span className="active"><b>3</b>Susun Nota FG</span><i/><span><b>4</b>Payroll</span></div>
     <div className={`handoff-queue-banner ${queueCount === 0 ? 'empty' : ''}`}><FileText/><div><strong>{focusedId ? `${focusedId} dibuka dari sumbernya` : 'Antrean Nota FG mandiri'}</strong><span>Card yang sudah masuk Nota tetap terkunci. Ganti Mandor akan mengosongkan draft supaya nota tidak mencampur penerima.</span></div>{mandors.length > 0 ? <label className="nota-mandor-filter"><span>MANDOR NOTA</span><select value={selectedMandor} disabled={!editable} onChange={(event) => changeMandor(event.target.value)}>{mandors.map((mandor) => <option key={mandor}>{mandor}</option>)}</select><small>{availableCount} siap · {queueCount - availableCount} posted</small></label> : <em>Belum ada card</em>}</div>
-    {noteStatus === 'POSTED' && <div className="handoff-success"><CheckCircle2/><div><strong>Nota FG sudah posted dan card terkunci</strong><span>{postedNumber} · {money(displayTotal)} · masuk antrean Payroll, belum mengubah kas.</span></div><button type="button" className="soft-btn" onClick={startNextNota}>Susun nota berikutnya <ArrowRight/></button></div>}
+    {noteStatus === 'POSTED' && <div className="handoff-success"><CheckCircle2/><div><strong>Nota FG sudah posted dan card terkunci</strong><span>{postedNumber} · {money(displayTotal)} · masuk antrean Payroll, belum mengubah kas.</span></div><button type="button" className="primary-btn" onClick={()=>{try{payForSource(postedNumber,sessionStorage.getItem('erp.owner.payroll.focus'),true);location.assign('/keuangan/payroll-kasbon/')}catch(e){setPayMessage((e as Error).message)}}}>Masukkan ke payroll · {money(displayTotal)}</button>{payMessage&&<p role="alert">{payMessage}</p>}<button type="button" className="soft-btn" onClick={startNextNota}>Susun nota berikutnya <ArrowRight/></button></div>}
     <section className="handoff-layout">
       <div className="panel handoff-workbench">
         {activeResult ? <>

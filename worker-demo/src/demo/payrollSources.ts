@@ -64,3 +64,21 @@ export function choosePayrollSource(notes:PayDraft[],payId:string,number:string,
   }else{fgNotes=fgNotes.filter(d=>d.number!==number);accessoryNotes=accessoryNotes.filter(d=>d.number!==number)}
   return notes.map(doc=>doc.number===payId?totalPay({...n,fgNotes,accessoryNotes,status:'DRAFT'}):doc)
 }
+export function payForSource(number:string,preferredId:string|null,include:boolean){
+  const source=allPayrollSources().find(s=>s.doc.number===number)
+  if(!source)throw Error('Nota posted belum tersedia untuk pembayaran.')
+  let notes=readPayDrafts()
+  const used=notes.find(n=>n.status!=='REVERSED'&&[...n.fgNotes,...n.accessoryNotes].some(d=>d.number===number))
+  const eligible=(n:PayDraft)=>editablePayroll(n)&&matchMandor(n.contractor,source.mandor)&&source.day<=cutoff(n)
+  let target=used??notes.find(n=>n.number===preferredId&&eligible(n))??notes.find(eligible)
+  if(!target){
+    const start=new Date(source.day+'T12:00:00Z');start.setUTCDate(start.getUTCDate()-(start.getUTCDay()+6)%7);const end=new Date(start);end.setUTCDate(start.getUTCDate()+6)
+    const name='Mandor '+normalizeMandor(source.mandor)
+    target=newPayDraft(name,start.toISOString().slice(0,10),end.toISOString().slice(0,10))
+    if(notes.some(n=>n.number===target!.number))throw Error('Periode sudah dikunci. Buat draft periode berikut untuk mandor ini.')
+    notes=[target,...notes]
+  }
+  if(include&&!used)notes=choosePayrollSource(notes,target.number,number,true)
+  savePayDrafts(notes);sessionStorage.setItem('erp.owner.payroll.focus',target.number)
+  return target.number
+}
