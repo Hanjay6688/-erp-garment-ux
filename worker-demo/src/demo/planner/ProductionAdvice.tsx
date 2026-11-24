@@ -25,13 +25,14 @@ export function productionReason(row: Plan) {
 }
 export function SourceDetail({ row }: {row: Plan}) {
   const p = row.product
+  const session=usePlannerSession()
   return <div className="gar-detail">
     <p className="gar-lead"><strong>{p.customer}</strong> memesan <strong>{p.need} pcs</strong> untuk {day(p.due)}. Permintaan ini untuk ukuran <strong>{p.size}</strong> di {seriesLabel(seriesFor(p))}.</p>
     <dl className="gar-counts">{[['Pesanan',p.need],['Stok siap jual',p.fg],['WIP tujuan pasti',row.confirmed],['WIP potensial',row.potential],['Sisa perlu potong',row.short]].map(([label,value])=><div key={label}><dt>{label}</dt><dd>{value} <small>pcs</small></dd></div>)}</dl>
     <p>{row.base > row.short ? <>Kalau hanya mengandalkan stok dan WIP yang pasti, masih kurang <strong>{row.base} pcs</strong>. Setelah memakai WIP potensial yang cocok, sisanya <strong>{row.short} pcs</strong>.</> : productionReason(row)}</p>
     <h3>Barangnya ada di mana?</h3>
     <ul className="gar-lots">{row.lots.map(lot=><li key={lot.id}><div><strong>{stageName[lot.stage]} · {lot.qty} pcs</strong><small>{lot.id}{lot.group?' / '+lot.group:''} · {lot.place}{lot.roll ? ' · roll ' + lot.roll : ''}</small></div><div>{lotPattern(lot).name} · {lot.material}<small>Uk. {lot.size} · {lot.kind === 'directed' ? 'Tujuan pasti' : lot.kind==='elsewhere'?'Untuk pesanan lain':'Tujuan perlu dipastikan'}</small></div><div className={lot.eta && lot.eta>p.due?'gar-late':''}>Siap {day(lot.eta)}<small>{lot.kind==='elsewhere'?'Di luar kebutuhan SKU ini':!lot.eta?'Tanggal belum diketahui':lot.eta>p.due?'Lewat tenggat':'Masuk hitungan tenggat'}</small></div></li>)}</ul>
-    {row.review.length>0&&<><h3>Potongan yang perlu dipastikan</h3>{row.review.map(l=><p key={l.id}>{l.id} · {stageName[l.stage]} · {eligiblePieces(l,p)} pcs cocok untuk ukuran {p.size} · {lotLabel(l)}. Tujuan dan tanggal siap perlu diperiksa sebelum mengurangi kebutuhan.</p>)}</>}
+    {row.review.length>0&&<><h3>Potongan yang perlu dipastikan</h3>{row.review.map(l=><p key={l.id}>{l.id} · {stageName[l.stage]} · {eligiblePieces(l,p,session)} pcs cocok untuk ukuran {p.size} · {lotLabel(l)}. Tujuan dan tanggal siap perlu diperiksa sebelum mengurangi kebutuhan.</p>)}</>}
     {row.late>0&&<p className="gar-warn">{row.late} pcs tiba sesudah pesanan harus siap. Jumlah itu dikeluarkan dari hitungan di atas.</p>}
     <details><summary>Pesanan, pola dan bahan</summary><p>{p.order} · {p.brand} {p.sku} · rentang jual {p.range} · ukuran fisik {p.size} · {p.colour} · {p.finish}.</p><ul>{p.routes.map(r=><li key={r.material}>{row.reference?patternFor(row.reference).name:'Pola belum ditentukan'} · {row.reference?patternFor(row.reference).revision:''} · {r.material}</li>)}</ul></details>
   </div>

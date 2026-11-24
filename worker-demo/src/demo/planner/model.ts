@@ -22,10 +22,10 @@ export type CutSlot = { size:string; image:string; qty:number }
 export type CutRoll = { id:string; material:string; sourceYards:number; usedYards:number; remainingYards:number; slots:CutSlot[] }
 export type Lot = {
   id: string; sku: string | null; brand?: string | null; patternSnapshot?: ProductionPatternSnapshot; stage: string; kind: string; qty: number; size: string
-  series?: Series; outputs?: CutRoll[]; date?: string; notes?: string | null; model?: string; location?: string;
+  series?: Series; outputs?: CutRoll[]; intent?: string; date?: string; notes?: string | null; model?: string; location?: string;
   pattern: string; material: string; eta: string | null; place: string; roll?: string; usedYards?: number; sourceYards?: number; remainingYards?: number; group?: string; requestId?: string
 }
-export type Pickup = { id: string; mandor: string; at: string; batches: {qty: number; note: string; sizes?: Record<string,number>; sources?: {rollId:string;size:string;qty:number}[]}[] }
+export type Pickup = { id: string; mandor: string; at: string; batches: {qty: number; note: string; sizes?: Record<string,number>; sources?: {rollId:string;size:string;qty:number;slot?:number}[]}[] }
 type Destination = { id: string; sku: string; eta: string }
 export type StockChange = { key:string; size:string; delta:number }
 export type StockEvent = { id:string; action:'adjust'|'convert'; reason:string; notes?:string|null; changes:StockChange[] }
@@ -145,7 +145,9 @@ type CutInput = {
   slots: string[]; rolls: {id:string; yards:number; quantities:number[]}[]
 }
 export function recordCut(session: Session, input: CutInput): Session {
-  if (session.cuts.some(lot => lot.requestId === input.requestId)) return session
+  const previous=session.cuts.find(lot=>lot.requestId===input.requestId)
+  const intent=JSON.stringify(input)
+  if(previous){if(previous.intent&&previous.intent!==intent)throw Error('Permintaan potong sudah dipakai dengan isi berbeda.');return session}
   const sku = input.sku?.trim() || null
   const brand = input.brand?.trim() || null
   const product = productFor(sku)
@@ -167,7 +169,7 @@ export function recordCut(session: Session, input: CutInput): Session {
   const usedSizes=[...new Set(outputs.flatMap(r=>r.slots.filter(s=>s.qty>0).map(s=>s.size)))]
   const qty=outputs.reduce((sum,r)=>sum+r.slots.reduce((n,s)=>n+s.qty,0),0)
   const lot:Lot={
-    id:'POT-D'+String(session.cuts.length+1).padStart(2,'0'), requestId:input.requestId,
+    id:'POT-D'+String(session.cuts.length+1).padStart(2,'0'), requestId:input.requestId,intent,
     sku,brand,pattern:pattern.code,patternSnapshot:{...pattern},series:{name:series.name,sizes:[...series.sizes]},
     date:input.date, model:input.model,location:input.location,notes:input.notes?.trim()||null,outputs,qty,
     size:usedSizes.join(', '),material:[...new Set(outputs.map(r=>r.material))].join(' / '),
@@ -203,6 +205,21 @@ export function recordPickup(session: Session, pickup: Pickup): Session {
       if ([...new Set([...Object.keys(mix),...Object.keys(batch.sizes)])].some(size=>(mix[size]??0)!==(batch.sizes?.[size]??0))) throw Error('Rincian ukuran batch tidak cocok dengan roll.')
     }
     if ([...quantities.values()].some(q=>q!==0)) throw Error('Jumlah tiap roll dan ukuran harus cocok dengan potongan asal.')
+  }
+  // Assignments retain the actual drawing in addition to the size totals.
+  if(pickup.batches.every(b=>b.sources)){
+    const remaining=cutRolls(lot).flatMap(r=>r.slots.map((s,i)=>({rollId:r.id,size:s.size,slot:i+1,qty:s.qty})))
+    const batches=pickup.batches.map(b=>({...b,sources:b.sources!.flatMap(source=>{
+      let need=source.qty
+      const split=[]
+      for(const entry of remaining){
+        if(entry.rollId!==source.rollId||entry.size!==source.size||!entry.qty||!need)continue
+        const qty=Math.min(entry.qty,need);split.push({...entry,qty});need-=qty;entry.qty-=qty
+      }
+      if(need)throw Error('Hasil gambar tidak cukup untuk alokasi.')
+      return split
+    })}))
+    return {...session,pickups:[...session.pickups,{...pickup,batches}]}
   }
   return {...session, pickups:[...session.pickups,pickup]}
 }

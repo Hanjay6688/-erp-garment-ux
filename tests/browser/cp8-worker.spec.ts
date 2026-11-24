@@ -147,7 +147,7 @@ test('seri per roll, pencarian dropdown, draft kosong dan alasan dialog',async({
   await advice.getByRole('button',{name:'Isi form · 18 pcs'}).click()
   await page.getByLabel('SKU rencana',{exact:true}).click()
   await page.getByRole('combobox',{name:'Cari SKU rencana'}).fill('belum')
-  await page.getByRole('option',{name:'Belum ditentukan'}).click()
+  await page.getByRole('dialog').getByRole('option',{name:'Belum ditentukan'}).click()
   await page.getByLabel('Merek rencana',{exact:true}).selectOption('')
   await page.getByLabel('Perkiraan siap',{exact:true}).fill('')
   await page.getByRole('textbox',{name:'Roll 1, size 31',exact:true}).fill('4')

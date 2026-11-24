@@ -636,8 +636,8 @@
       "sha256": "8dcafcf1ead9dec38713f7a75f317eed63de1bf64a666e0e354c540e913a7ab4"
     },
     "tests/browser/cp8-worker.spec.ts": {
-      "bytes": 12964,
-      "sha256": "31debca772e0de0187b1b53dee92c509fcd85e5e335e281337b1648a6b392bf8"
+      "bytes": 12984,
+      "sha256": "3f5b790d0f7a4d0fd724a0596aee4d032822f6b1bd64b7b6d723f640d4b046cb"
     },
     "tests/worker-inventory-range.test.ts": {
       "bytes": 1933,
@@ -744,8 +744,8 @@
       "sha256": "d0dd71d4b1f7ff528fad411bbb133b80dfb52f137b64102174b758a4a2969659"
     },
     "worker-demo/src/ConnectedFgAdjustmentPage.tsx": {
-      "bytes": 16420,
-      "sha256": "95fd133c8a9fb3ddb1c97619d924a8a04e99585c10923e332a1ac8350e1fd853"
+      "bytes": 17695,
+      "sha256": "0d7e00f5cb5009ff56c508e55ae2047e0f20cbd9108092abf802c12068fc1148"
     },
     "worker-demo/src/ConnectedFgBookPage.tsx": {
       "bytes": 15650,
@@ -902,6 +902,10 @@
     "worker-demo/src/FgNotaPage.tsx": {
       "bytes": 22270,
       "sha256": "a0664db802a9f1dc52ee8123c99c3aa99c32c276b6ff7d19ffe775c6b40600ac"
+    },
+    "worker-demo/src/FgRangeEntry.tsx": {
+      "bytes": 6063,
+      "sha256": "b972698799abcafb8f4c1d2c016400c9c026d16fec0806ad19685d09faa17624"
     },
     "worker-demo/src/FgReorderPanel.tsx": {
       "bytes": 22475,
@@ -1632,8 +1636,8 @@
       "sha256": "ad6cb289bd83b5925a5757337cfa367c5f7b62ad649f0dbf00f2ecafa9716d93"
     },
     "worker-demo/src/demo/planner/ProductionAdvice.tsx": {
-      "bytes": 10920,
-      "sha256": "2df28ccff089256afc335e8667b98c86214ce5a244e3e2fe3df34a3d7079ab87"
+      "bytes": 10964,
+      "sha256": "84178660e09452731972ef708d481969be06ae03f0dc33f7b9ea202cea5b4589"
     },
     "worker-demo/src/demo/planner/ReasonDialog.tsx": {
       "bytes": 1021,
@@ -1648,8 +1652,8 @@
       "sha256": "90fab035e8a1819c9fbbb9b77c0f1af0d07bb7bc8b182f02260ec370ea4a5015"
     },
     "worker-demo/src/demo/planner/model.ts": {
-      "bytes": 15103,
-      "sha256": "23723de5d2451924ef3ea43ef9fc9161bfa40c0aec11ea7dafd1b94fb3f40e23"
+      "bytes": 16081,
+      "sha256": "96e581246c8486a1c239d10aa4e6c7ab2ffd3901cbb7680626009728bd77dbad"
     },
     "worker-demo/src/demo/planner/planner.css": {
       "bytes": 6591,
