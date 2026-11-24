@@ -32,6 +32,13 @@ export type LaundryDelivery = {
   good:number; bs:number; goodSizes:QtyTuple; bsSizes:QtyTuple; reversed:number; reversedSizes:QtyTuple; reverseNote?:string
 }
 
+export function laundryPhysicalTime(value:string){
+  const [day,time]=value.split(' · ')
+  if(/^\d{4}-\d{2}-\d{2}$/.test(day))return day+'T'+(time??'00:00')
+  const [d,m,y]=day.split(' '),month=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'].indexOf(m)+1
+  return month&&y?y+'-'+String(month).padStart(2,'0')+'-'+d.padStart(2,'0')+'T'+(time??'00:00'):''
+}
+
 export const laundryProcesses = ['Stone Wash','Bio Wash','Enzyme Wash']
 
 export const laundryRates:Record<string,number> = {'Stone Wash':6500,'Bio Wash':5500,'Enzyme Wash':6000}

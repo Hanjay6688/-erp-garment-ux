@@ -1,5 +1,6 @@
 import {browseMatch} from '../browseMatch'
-import {articles} from './planner/model'
+import {allSkus} from './skuCatalog'
+import {usePlannerSession} from './planner/session'
 import { StageLots } from './planner/StageLots'
 import { Icon } from '../components/AppIcon'
 import { cellQuantity } from './cuttingAllocation'
@@ -11,6 +12,7 @@ import {
   laundryOutstandingSizes,
   laundryProcesses,
   laundryRates,
+  laundryPhysicalTime,
   laundryReadyFromDelivery,
   laundryReadyFromSewingBatch,
   laundryReturnedSizes,
@@ -35,6 +37,7 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
   onReturnToWip:(batchId:string,vendor:string,qty:number)=>void
   onOpenQc:(parentId:string,batchId:string)=>void
 }) {
+  const articles=allSkus(usePlannerSession(),true)
   const linkQuery=new URLSearchParams(location.search).get('cari')??''
   const [saved]=useState(()=>{try{return JSON.parse(sessionStorage.getItem('erp.demo.laundry.ticket.v1')??'null')}catch{return null}})
   const linked=linkQuery?readyBatches.find(b=>browseMatch(linkQuery,b.id,b.parentId,b.skuRef,b.vendor)):undefined
@@ -76,7 +79,8 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
   const selectedTotal=selectedBatches.reduce((sum,batch)=>sum+(sendSizeInputs[batch.id]??batch.sizes.map(String)).reduce((subtotal,value)=>subtotal+cellQuantity(value),0),0)
   const rate=laundryRates[selectedProcess]
   const estimatedCost=rate===undefined?null:selectedTotal*rate
-  const reference=sku&&deliveries.filter(d=>d.skuRef===sku.key&&d.vendor===selectedVendor&&d.reversed<d.qty&&d.sentAt).find(d=>d.colourProcess||d.targetColor||d.process)
+  const reference=sku&&deliveries.filter(d=>d.skuRef===sku.key&&d.vendor===selectedVendor&&d.reversed<d.qty&&laundryPhysicalTime(d.sentAt)<=sentAt&&(d.colourProcess||d.targetColor||d.process))
+    .sort((a,b)=>laundryPhysicalTime(b.sentAt).localeCompare(laundryPhysicalTime(a.sentAt)))[0]
   const useSku=()=>{if(!sku)return;setColour(reference?.targetColor??sku.colour);setColourProcess(reference?.colourProcess??'');if(reference?.process)setSelectedProcess(reference.process)}
   function changeVendor(vendor:string){
     if(!laundryVendorNames.includes(vendor))return

@@ -28,3 +28,9 @@
 .finder-records a {display:grid;gap:2px;border:1px solid var(--line);border-radius:5px;padding:7px 10px;color:var(--text);text-decoration:none}
 .finder-records a span {color:var(--soft);font-size:.8rem}
 @media(max-width:520px){.pocket-roll-line{grid-template-columns:auto 1fr 1fr 1fr;padding:8px}.pocket-roll-line button{grid-column:2/-1}.pocket-roll-line span:first-of-type{grid-column:2}.pocket-roll-line span{font-size:.76rem}}
+@media(max-width:860px){
+  .topbar.topbar {grid-template-columns:44px minmax(0,1fr) 40px 44px}
+  .topbar .top-actions>button[aria-label="Cari menu"] {display:grid;grid-row:1;grid-column:3;place-self:center;width:40px;height:40px}
+  .topbar .top-actions>:is(.owner,.auth-identity) {grid-column:4}
+  .topbar .top-actions>.runtime-badge {grid-column:2/5}
+}

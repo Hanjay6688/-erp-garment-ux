@@ -1,3 +1,4 @@
+import {browseMatch} from './browseMatch'
 import {fgProducts,fgTotals,piecesIn,positionKey} from './demo/fgOverview'
 import {dozenPieces,fgQuantity} from './fgQuantity'
 import {FgHistory} from './demo/FgHistory'
@@ -173,7 +174,7 @@ function SelectFilter({ label, value, options, onChange }: { label: string; valu
     document.addEventListener('keydown',closeOnEscape)
     return()=>{document.removeEventListener('mousedown',closeOnOutside);document.removeEventListener('keydown',closeOnEscape)}
   },[open])
-  return <div className={`wh-filter ${open?'open':''}`} ref={rootRef}><span>{label}</span><button type="button" aria-haspopup="listbox" aria-expanded={open} onClick={()=>{setFilterQuery('');setOpen(current=>!current)}}><strong>{displayValue}</strong><ChevronDown/></button>{open&&<div className="wh-filter-menu" role="listbox" aria-label={`Filter ${label}`}><input autoFocus aria-label={'Cari '+label} placeholder="Ketik untuk mencari…" value={filterQuery} onChange={e=>setFilterQuery(e.target.value)}/>{choices.filter(o=>o.toLowerCase().includes(filterQuery.trim().toLowerCase())).map((option)=>{const active=option===value;return <button type="button" role="option" aria-selected={active} className={active?'active':''} key={option} onClick={()=>{onChange(option);setOpen(false)}}><span>{option==='Semua'?`Semua ${label.toLowerCase()}`:option}</span>{active&&<Check/>}</button>})}</div>}</div>
+  return <div className={`wh-filter ${open?'open':''}`} ref={rootRef}><span>{label}</span><button type="button" aria-haspopup="listbox" aria-expanded={open} onClick={()=>{setFilterQuery('');setOpen(current=>!current)}}><strong>{displayValue}</strong><ChevronDown/></button>{open&&<div className="wh-filter-menu" role="listbox" aria-label={`Filter ${label}`}><input autoFocus aria-label={'Cari '+label} placeholder="Ketik untuk mencari…" value={filterQuery} onChange={e=>setFilterQuery(e.target.value)}/>{choices.filter(o=>browseMatch(filterQuery,o)).map((option)=>{const active=option===value;return <button type="button" role="option" aria-selected={active} className={active?'active':''} key={option} onClick={()=>{onChange(option);setOpen(false)}}><span>{option==='Semua'?`Semua ${label.toLowerCase()}`:option}</span>{active&&<Check/>}</button>})}</div>}</div>
 }
 
 function MetricCard({ label, value, note, tone='neutral', icon: Glyph=Boxes }: { label: string; value: string; note: string; tone?: Tone; icon?: typeof Boxes }) {
@@ -264,7 +265,7 @@ function MaterialsRollsPage() {
   const selectedHealth = prototypeStockHealth('FABRIC', selected.stockOnHandYards, 'yd', selected.id)
   const visibleMaterials = useMemo(()=>materials.filter((item)=>{
     const health = prototypeStockHealth('FABRIC', item.stockOnHandYards, 'yd', item.id)
-    return `${item.material} ${item.supplier} ${item.location}`.toLowerCase().includes(query.toLowerCase()) && (supplier==='Semua'||item.supplier===supplier) && (status==='Semua'||getStockHealthLabel(health)===status)
+    return browseMatch(query,item.id,item.material,item.supplier,item.location,...fabricRolls.filter(r=>r.material===item.material).map(r=>r.id)) && (supplier==='Semua'||item.supplier===supplier) && (status==='Semua'||getStockHealthLabel(health)===status)
   }),[query,supplier,status])
   const visibleRolls = fabricRolls.filter((roll)=>roll.material===selected.material)
   const estimatedCount = visibleRolls.filter((roll)=>roll.costState==='ESTIMATED').length
@@ -298,7 +299,7 @@ function AccessoriesPage() {
   const [returnTarget,setReturnTarget] = useState<SupplierReturnTarget|null>(null)
   const visible = useMemo(()=>accessories.filter((item)=>{
     const health = prototypeStockHealth('ACCESSORY', item.physical, item.unit, item.id)
-    return `${item.name} ${item.category} ${item.supplier} ${item.id}`.toLowerCase().includes(query.toLowerCase()) && (category==='Semua'||item.category===category) && (status==='Semua'||getStockHealthLabel(health)===status)
+    return browseMatch(query,item.name,item.category,item.supplier,item.id) && (category==='Semua'||item.category===category) && (status==='Semua'||getStockHealthLabel(health)===status)
   }),[query,category,status])
   const selected = accessories.find((item)=>item.id===selectedId) ?? accessories[0]
   const available = selected.physical
@@ -344,7 +345,7 @@ function FinishedGoodsSummaryPage() {
   const [location,setLocation] = useState('Semua')
   const [sizeFilter,setSizeFilter]=useState<string[]>([])
   const [selectedKey,setSelectedKey] = useState(new URLSearchParams(window.location.search).get('sku')??`${products[0].brand}::${products[0].code}`)
-  const scoped = useMemo(()=>products.filter((item)=>`${item.brand} ${item.code} ${item.name} ${item.color} ${item.range}`.toLowerCase().includes(query.toLowerCase()) && (!sizeFilter.length||item.sizes.some(s=>sizeFilter.includes(s))) && (grade==='Semua'||item.grade===grade) && (location==='Semua'||item.location===location)),[products,query,grade,location,sizeFilter])
+  const scoped = useMemo(()=>products.filter((item)=>browseMatch(query,item.brand,item.code,item.name,item.color,item.range,...item.sizes) && (!sizeFilter.length||item.sizes.some(s=>sizeFilter.includes(s))) && (grade==='Semua'||item.grade===grade) && (location==='Semua'||item.location===location)),[products,query,grade,location,sizeFilter])
   const visible=scoped.filter(p=>brand==='Semua'||p.brand===brand)
   const filteredTotals=fgTotals(visible,sizeFilter)
   const filtered=!!query.trim()||brand!=='Semua'||grade!=='Semua'||location!=='Semua'||sizeFilter.length>0

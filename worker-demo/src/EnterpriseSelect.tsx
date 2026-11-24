@@ -1,3 +1,4 @@
+import {browseMatch} from './browseMatch'
 import { useEffect, useId, useRef, useState } from 'react'
 import { Check, ChevronDown } from 'lucide-react'
 import './enterprise-select.css'
@@ -57,7 +58,7 @@ export default function EnterpriseSelect({
       {open && (
         <div className="enterprise-select-menu" role="listbox" aria-labelledby={labelId}>
           <input autoFocus aria-label={'Cari '+label} placeholder="Ketik untuk mencari…" value={query} onChange={e=>setQuery(e.target.value)}/>
-          {options.filter(o=>o.toLocaleLowerCase().includes(query.trim().toLocaleLowerCase())).map((option) => {
+          {options.filter(o=>browseMatch(query,o)).map((option) => {
             const active = option === value
             return (
               <button
