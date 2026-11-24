@@ -110,6 +110,10 @@ export function buildQcSeeds(deliveries:LaundryDelivery[]):QcSeed[] {
 
 const vendorProcess = (vendor:string) => vendor==='Laundry Intan'?'Bio Wash':vendor==='Cemerlang Wash'?'Enzyme Wash':'Stone Wash'
 
+export function laundryReadyFromRows(parent:SewingParentSeed&{skuRef?:string},batch:SewingBatchSeed&{line?:{mandor:string;at:string}},vendor:string):LaundryReadyBatch{
+  return {id:batch.id,parentId:parent.id,sequence:parent.sequence,plannedBrand:parent.plannedBrand,skuRef:parent.skuRef,pattern:parent.pattern,model:parent.model,material:parent.material,
+    mandor:batch.line?.mandor??parent.mandor,pickupAt:batch.line?.at??parent.pickupAt,sewingDoneAt:'Siap kirim',vendor,process:vendorProcess(vendor),qty:batch.qty,sizes:batch.sizes,sizeLabels:parent.sizes,note:batch.note}
+}
 export function laundryReadyFromSewingBatch(batchId:string,vendor:string,snapshot?:{qty:number;sizes:QtyTuple}):LaundryReadyBatch|null {
   const parent=sewingWipSeeds.find((item)=>item.batches.some((batch)=>batch.id===batchId))
   const batch=parent?.batches.find((item)=>item.id===batchId)
