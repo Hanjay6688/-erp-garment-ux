@@ -223,3 +223,17 @@ test('draft bisa diedit dan dibuang, riwayat posted difilter dan dikoreksi tanpa
   await history.getByRole('button',{name:'Balikkan transaksi'}).click();const d=page.getByRole('dialog');await expect(d).not.toContainText('Simpan draft form');await d.getByLabel('Alasan pembalikan').fill('Koreksi demo');await d.getByRole('button',{name:'Simpan pembalikan'}).click()
   await expect(history.getByRole('row')).toHaveCount(3);await expect(history).toContainText('Sudah dibalik');await expect(history).toContainText('Koreksi demo')
 })
+for(const width of [390,1440])test(`jelajah seluruh menu operasional pada ${width}px`,async({page})=>{
+  test.setTimeout(180000);await page.setViewportSize({width,height:900})
+  const sidebar=page.locator('aside.sidebar'),failures:string[]=[],results:{menu:string;heading:string;over:number;selects:number;empty:string[]}[]=[]
+  page.on('pageerror',e=>failures.push(e.message))
+  async function home(){await page.goto('/');const b=page.getByRole('button',{name:'Buka menu',exact:true});if(await b.isVisible()&&!await sidebar.evaluate(x=>x.classList.contains('sidebar-open')))await b.click()}
+  await home();const groups=await sidebar.locator('.nav-section>.nav-main>span:first-of-type').allTextContents()
+  for(const raw of groups){const group=raw.trim();if(!group)continue;await home();
+    const tab=sidebar.locator('.nav-section>.nav-main').filter({hasText:new RegExp('^'+group.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'))}).first()
+    const nodes=tab.locator('..').locator('.submenu button');if(!await nodes.count())await tab.click();const labels=await nodes.allTextContents()
+    for(const name of labels.map(s=>s.trim())){if(!name)continue;await test.step(group+' / '+name,async()=>{await home();if(!await nodes.count())await tab.click();await nodes.filter({hasText:name}).first().click();await expect(page.locator('h1:visible,h2:visible').first()).toBeVisible();await expect(page.locator('main [aria-busy="true"]')).toHaveCount(0)
+      const state=await page.evaluate(()=>({heading:[...document.querySelectorAll('h1,h2')].filter(x=>x.getClientRects().length).slice(0,2).map(x=>x.textContent?.trim()).join(' · '),over:Math.max(0,document.documentElement.scrollWidth-document.documentElement.clientWidth),selects:document.querySelectorAll('select').length,empty:[...document.querySelectorAll('select')].filter(el=>{const l=el.labels?.[0]?.cloneNode(true) as Element|undefined;l?.querySelectorAll('select,input').forEach(x=>x.remove());return /opsional|boleh kosong|tidak wajib/i.test(l?.textContent??'')&&el.getClientRects().length>0&&!Array.from(el.options).some(o=>o.value===''&&!o.disabled)&&!el.multiple}).map(el=>el.getAttribute('aria-label')||'Pilihan opsional')}));results.push({menu:name,...state})})}
+  }
+  console.log('ERP_UI_MENU_AUDIT '+width+' '+JSON.stringify(results));expect(results.length).toBeGreaterThan(35);expect(failures).toEqual([])
+})
