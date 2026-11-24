@@ -3,7 +3,7 @@ import CuttingPatternPicker, { hasCanonicalPattern } from '../CuttingPatternPick
 import type { CuttingPatternChoice } from '../CuttingPatternPicker'
 import { Field, MultiCheckFilter } from './controls'
 import { AdviceBox, pickupPath } from './planner/ProductionAdvice'
-import { day, patternFor, plan, productFor, products, recordCut, rolls, yardsLeft, type Plan } from './planner/model'
+import { day, patternFor, plan, productFor, products, recordCut, rolls, suggestedCut, yardsLeft, type Plan } from './planner/model'
 import { usePlannerSession, changeSession } from './planner/session'
 import {
   cuttingSizes,
@@ -57,12 +57,13 @@ export function CuttingRollPage() {
   const [allocations,setAllocations]=useState<Record<string,number[]>>(()=>draft?.amounts??{'ORI-021':[18]})
   const [fillRange,setFillRange]=useState<{source:number;target:number}|null>(null)
   function useAdvice(row:Plan, scroll=true) {
-    const p=row.product, route=p.routes[0], roll=rolls.find(r=>r.material===route.material)!
+    const p=row.product, {route,roll,qty}=suggestedCut(row,session)
+    if(!qty)return
     setSku(p.sku);setBrand(p.brand);setModel(patternFor(route.pattern).name);setDate('2026-11-24')
     setSelectedPattern(patternFor(route.pattern));setSelectedRollIds([roll.id])
     setSelectedSuppliers([...fabricRollSuppliers]);setSelectedMaterials([...fabricRollMaterials]);setQuery('')
-    setSizeSlots([{key:p.size+'-saran',size:p.size}]);setAllocations({[roll.id]:[row.short]})
-    setRollYardUsage({[roll.id]:String(Math.min(yardsLeft(roll.id,session),row.short*roll.yardPerPiece))})
+    setSizeSlots([{key:p.size+'-saran',size:p.size}]);setAllocations({[roll.id]:[qty]})
+    setRollYardUsage({[roll.id]:String(qty*roll.yardPerPiece)})
     requestId.current=crypto.randomUUID()
     setSavedId('');setNotice('Form terisi untuk '+p.brand+' '+p.sku+'. Periksa jumlah dan yard sebelum menyimpan.')
     if(scroll) requestAnimationFrame(()=>formRef.current?.scrollIntoView({block:'start'}))
@@ -340,10 +341,16 @@ export function CuttingRollPage() {
     const targetSlot=sourceSlot<sizeSlots.length-1?sourceSlot+1:sourceSlot-1
     fillColumnsFromSource(sourceSlot,targetSlot)
   }
-  return <>
-    <section className="hero-copy compact cutting-hero"><div className="eyebrow">PRODUKSI · CUTTING</div><h1>Buat Potongan</h1><p>Pilih saran untuk mengisi roll, pola, ukuran, dan jumlah. Simpan sesudah kain benar-benar dipotong.</p></section>
+  const heading=<section className="hero-copy compact cutting-hero"><div className="eyebrow">PRODUKSI · CUTTING</div><h1>Buat Potongan</h1><p>Pilih saran untuk mengisi roll, pola, ukuran, dan jumlah. Simpan sesudah kain benar-benar dipotong.</p></section>
+  const saved=session.cuts.find(lot=>lot.id===savedId)
+  if(saved)return <>{heading}<div className="gar-success" role="status">{notice} <a href={pickupPath+'?pot='+saved.id}>Bagi {saved.id}</a></div>
+    <section className="panel gar-panel"><div className="gar-panel-head"><h2>{saved.id} · {linked?.brand} {saved.sku}</h2><span>Menunggu mandor</span></div>
+      <p>{saved.qty} pcs ukuran {saved.size} · {patternFor(saved.pattern).name} · {saved.material}.</p><p>Roll {saved.roll} · {saved.sourceYards} yd sebelum dipotong · dipakai {saved.usedYards} yd · sisa {saved.remainingYards} yd.</p>
+      <div className="gar-actions"><a className="gar-button" href="/analisis/planner/">Lihat perubahan di Planner</a><button type="button" className="gar-button" disabled>Simpan Potongan ke WIP · sudah tersimpan</button></div></section>
+    <AdviceBox mode="cut" session={session} onCut={useAdvice}/></>
+  return <>{heading}
     <AdviceBox mode="cut" session={session} onCut={useAdvice}/>
-    {notice&&<div role="status" className="gar-success">{notice} {savedId&&<a href={pickupPath+'?pot='+savedId}>Bagi {savedId}</a>}</div>}
+    {notice&&<div role="status" className="gar-success">{notice}</div>}
     <section className="cutting-flow-rail panel" aria-label="Alur Buat Potongan">{['Pilih roll','Tentukan yard used','Catat hasil per roll','Simpan ke WIP'].map((label,index)=><div className={index===0?'active':''} key={label}><span>{String(index+1).padStart(2,'0')}</span><strong>{label}</strong>{index<3&&<Icon name="arrow"/>}</div>)}</section>
     <section className="roll-first-layout">
       <div className="panel roll-catalog-panel">

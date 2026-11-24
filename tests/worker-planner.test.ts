@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { confirmDestination, emptySession, lotsIn, plan, plansIn, productFor, recordCut, recordPickup, waitingLots, yardsLeft } from '../worker-demo/src/demo/planner/model'
+import { confirmDestination, emptySession, lotsIn, plan, plansIn, productFor, recordCut, recordPickup, suggestedCut, waitingLots, yardsLeft } from '../worker-demo/src/demo/planner/model'
 
 const cut = {requestId:'draft-1',sku:'93001',patternId:'contoh-kulot-jumbo',size:'32',roll:'ORI-021',qty:18,yards:27,date:'2026-11-24'}
 const pickup = {id:'POT-017',mandor:'Mandor Epi',at:'2026-11-24T10:30',batches:[{qty:24,note:'Biru muda'}]}
@@ -13,6 +13,9 @@ describe('November garment orders',()=>{
     const first=recordCut(emptySession,{...cut,qty:6,yards:9})
     expect(recordCut(first,{...cut,qty:6,yards:9})).toBe(first)
     expect(yardsLeft('ORI-021',first)).toBe(51)
+    expect(first.cuts[0]).toMatchObject({sourceYards:60,usedYards:9,remainingYards:51})
+    const lowFabric=recordCut(emptySession,{...cut,qty:6,yards:57})
+    expect(suggestedCut(plan(productFor('93001')!,lowFabric),lowFabric).qty).toBe(2)
     expect(plan(productFor('93001')!,first).short).toBe(12)
     const full=recordCut(first,{...cut,requestId:'second',qty:12,yards:18})
     expect(plan(productFor('93001')!,full)).toMatchObject({short:0,base:42,potential:42})

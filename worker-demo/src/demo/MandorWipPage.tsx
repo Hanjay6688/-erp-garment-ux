@@ -78,7 +78,7 @@ export function MandorWipPage(props:NotesProps) {
   const [chosen,setChosen]=useState(()=>new URLSearchParams(window.location.search).get('pot')??'')
   const [archive,setArchive]=useState(()=>!new URLSearchParams(window.location.search).has('pot') && localStorage.getItem('atelier.pickup.period')==='2026-08')
   const [receipt,setReceipt]=useState('')
-  const active=currentLots.find(l=>l.id===chosen)??currentLots[0]
+  const active=chosen?currentLots.find(l=>l.id===chosen):currentLots[0]
   const workRef=useRef<HTMLDivElement>(null)
   function choose(lot:Lot) {
     setArchive(false);localStorage.removeItem('atelier.pickup.period');setReceipt('');setChosen(lot.id)
@@ -90,10 +90,11 @@ export function MandorWipPage(props:NotesProps) {
     <section className="hero-copy compact cutting-hero"><div className="eyebrow">PRODUKSI · PICKUP MANDOR</div><h1>Bagi Potongan</h1><p>Serahkan potongan yang sudah ada. Pilih nomornya, tentukan mandor, lalu catat pengambilan.</p></section>
     <AdviceBox mode="pickup" session={session} onPickup={choose} selected={chosen}/>
     {receipt&&<div role="status" className="gar-success">{receipt} <a href="/analisis/stock/">Lihat stok dan WIP</a></div>}
+    {chosen&&!active&&!receipt&&<p className="gar-success">Potongan {chosen} sudah diambil atau tidak ada di antrean. Pilih nomor yang masih menunggu di atas.</p>}
     {history.length>0&&<details className="panel gar-panel"><summary>Sudah diambil dalam latihan ({history.length})</summary>{history.map(l=>{
       const pickup=session.pickups.find(x=>x.id===l.id)!
       return <p key={l.id}><strong>{l.id} · {l.qty} pcs</strong> · {productFor(l.sku)!.brand} {l.sku} · {l.place} · Jahit · {pickup.at.slice(11)} WIB · {pickup.batches.map((b,i)=>'Batch '+(i+1)+' ('+b.qty+' pcs'+(b.note?', '+b.note:'')+')').join(', ')}</p>})}</details>}
-    <div ref={workRef}>{(active||archive)&&<PickupWorkbench key={archive?'archive':active.id} {...props} active={archive?undefined:active} session={session} onSelect={choose} onReceipt={setReceipt}/>}</div>
+    <div ref={workRef}>{(active||archive)&&<PickupWorkbench key={archive?'archive':active?.id} {...props} active={archive?undefined:active} session={session} onSelect={choose} onReceipt={setReceipt}/>}</div>
     <button type="button" className="gar-text" onClick={()=>{setArchive(!archive);if(archive)localStorage.removeItem('atelier.pickup.period');else localStorage.setItem('atelier.pickup.period','2026-08')}}>{archive?'Kembali ke potongan November':'Arsip contoh Agustus'}</button>
   </>
 }
@@ -196,7 +197,7 @@ function PickupWorkbench({batchNotes:oldNotes,setBatchNotes:setOldNotes,active,s
   const queueItems:PickupQueueItem[]=active ? liveLots.map(l=>{
     const p=productFor(l.sku)!,roll=sourceRoll(l), pickup=session.pickups.find(event=>event.id===l.id)
     return {id:l.id,model:p.brand+' '+p.sku,material:l.material,supplier:roll.supplier,sizes:[l.size],pattern:patternFor(l.pattern),status:pickup?'PICKED':'READY',mandor:pickup?.mandor,pickupAt:pickup?.at,
-      rolls:[{id:roll.id,sequence:1,material:roll.material,sourceYards:roll.yards,usedYards:roll.yards,remainingYards:0,slots:[{size:l.size,image:'',qty:l.qty}],batchNumbers:pickup?.batches.map((_,i)=>i+1)??[]}]}
+      rolls:[{id:roll.id,sequence:1,material:roll.material,sourceYards:l.sourceYards??roll.yards,usedYards:l.usedYards!,remainingYards:l.remainingYards??0,slots:[{size:l.size,image:'',qty:l.qty}],batchNumbers:pickup?.batches.map((_,i)=>i+1)??[]}]}
   }) : archiveItems
   const normalizedQueueQuery=queueQuery.trim().toLowerCase()
   const visibleQueueItems=queueItems.filter((item)=>{

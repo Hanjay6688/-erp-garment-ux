@@ -5,7 +5,7 @@ export const { products, patterns, rolls } = sample
 export type Product = typeof products[number]
 export type Lot = {
   id: string; sku: string; stage: string; kind: string; qty: number; size: string
-  pattern: string; material: string; eta: string; place: string; roll?: string; usedYards?: number; requestId?: string
+  pattern: string; material: string; eta: string; place: string; roll?: string; usedYards?: number; sourceYards?: number; remainingYards?: number; group?: string; requestId?: string
 }
 export type Pickup = { id: string; mandor: string; at: string; batches: {qty: number; note: string}[] }
 export type Session = { cuts: Lot[]; pickups: Pickup[]; confirmed: string[] }
@@ -56,6 +56,13 @@ export function confirmDestination(session: Session, id:string): Session {
   if(!lot) throw Error('Tujuan jahitan ini sudah pasti.')
   return {...session,confirmed:[...session.confirmed,id]}
 }
+export function suggestedCut(row: Plan, session: Session) {
+  const options=row.product.routes.flatMap(route=>rolls.filter(r=>r.material===route.material).map(roll=>{
+    const available=yardsLeft(roll.id,session)
+    return {route,roll,available,qty:Math.min(row.short,Math.floor(available/roll.yardPerPiece))}
+  }))
+  return options.sort((a,b)=>b.qty-a.qty)[0]
+}
 type CutInput = { requestId: string; sku: string; patternId: string; size: string; roll: string; qty: number; yards: number; date: string }
 export function recordCut(session: Session, input: CutInput): Session {
   if (session.cuts.some(l=>l.requestId===input.requestId)) return session
@@ -68,7 +75,7 @@ export function recordCut(session: Session, input: CutInput): Session {
   const row = plan(product,session)
   if (!Number.isSafeInteger(input.qty) || input.qty < 1 || input.qty > row.short) throw Error('Sisa yang perlu dipotong untuk pesanan ini ' + row.short + ' pcs.')
   if (!Number.isFinite(input.yards) || input.yards <= 0 || input.yards > yardsLeft(roll.id,session)) throw Error('Periksa jumlah yard terhadap sisa roll.')
-  const lot: Lot = {requestId:input.requestId,id: 'POT-D' + String(session.cuts.length + 1).padStart(2,'0'), sku: product.sku, stage: 'cut', kind: 'candidate', qty: input.qty, size: input.size, pattern: pattern.code, material: roll.material, eta: product.due, place: 'Meja potong', roll: roll.id, usedYards: input.yards}
+  const lot: Lot = {requestId:input.requestId,id: 'POT-D' + String(session.cuts.length + 1).padStart(2,'0'), sku: product.sku, stage: 'cut', kind: 'candidate', qty: input.qty, size: input.size, pattern: pattern.code, material: roll.material, eta: product.due, place: 'Meja potong', roll: roll.id, usedYards: input.yards, sourceYards:yardsLeft(roll.id,session), remainingYards:yardsLeft(roll.id,session)-input.yards}
   return {...session, cuts: [...session.cuts,lot]}
 }
 export function recordPickup(session: Session, pickup: Pickup): Session {

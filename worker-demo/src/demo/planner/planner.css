@@ -52,3 +52,5 @@
 @media(max-width:760px){.gar-plan{grid-template-columns:1fr auto}.gar-plan>div:nth-child(2){grid-column:1/-1;grid-row:2}.gar-plan>button{grid-column:2;grid-row:1}.gar-lots li{grid-template-columns:1fr 1fr}.gar-lots li>div:last-child{grid-column:1/-1}.gar-plan,.gar-box {padding:12px}}
 @media(max-width:440px){.gar-plan {grid-template-columns:1fr}.gar-plan>button,.gar-plan>div:nth-child(2){grid-column:auto;grid-row:auto}.gar-lots li{grid-template-columns:1fr;gap:4px}.gar-plan p{margin:2px 0}.gar-dictionary li{grid-template-columns:1fr}.gar-advice-line{align-items:flex-start}.gar-panel-head{align-items:flex-start}.gar-work .cp7-search input{max-width:100%}}
 .gar-archive-heading {font:inherit;font-size:.95rem;font-weight:600;color:var(--muted);margin:18px 0 8px}
+
+.gar-fabric {display:block;margin-top:4px}

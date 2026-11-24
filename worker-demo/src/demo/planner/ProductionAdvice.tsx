@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { ArrowRight, ChevronDown } from 'lucide-react'
 import { cuttingForms, productionForms } from '../../demoCuttingRoutes'
-import { action, day, patternFor, plan, plansIn, productFor, stageName, waitingLots, type Lot, type Plan, type Session } from './model'
+import { action, day, patternFor, plan, plansIn, productFor, stageName, suggestedCut, waitingLots, type Lot, type Plan, type Session } from './model'
 import './planner.css'
 
 export const cutPath = cuttingForms['cutting-roll'].path
@@ -10,10 +10,16 @@ export function routesLabel(row: Plan) {
   return row.product.routes.map(r => r.material).join(' / ')
 }
 export function productionReason(row: Plan) {
-  if (row.short) return 'Dari ' + row.product.need + ' pcs, ' + row.product.fg + ' sudah siap, ' + row.confirmed + ' akan selesai tepat waktu, dan ' + row.potential + ' dari potongan yang cocok. Sisanya ' + row.short + ' pcs.'
-  if (row.queue.length) return 'Sisa kebutuhan bisa diisi dari potongan yang sudah ada. Beri tujuan saat diserahkan ke mandor.'
-  if (row.check) return 'Tanyakan ke ' + row.check.place + ' apakah ' + row.check.qty + ' pcs ini akan jadi ' + row.product.brand + ' ' + row.product.sku + '.'
-  return 'Stok jadi dan produksi dengan tujuan pasti sudah cukup untuk pesanan ini.'
+  const p=row.product
+  const stages=['cut','sewing','laundry','qc'].flatMap(stage=>{
+    const qty=row.lots.filter(l=>l.stage===stage && l.eta<=p.due).reduce((sum,l)=>sum+l.qty,0)
+    const where:Record<string,string>={cut:'di meja potong',sewing:'sedang dijahit',laundry:'di laundry',qc:'di QC'}
+    return qty?[qty+' pcs '+where[stage]]:[]
+  })
+  if (row.short) return 'Pesanan '+p.need+' pcs. Ada '+p.fg+' pcs siap jual, '+stages.join(' dan ')+'. Masih kurang '+row.short+' pcs.'
+  if (row.check) return 'Tanyakan ke '+row.check.place+' apakah '+row.check.qty+' pcs ini untuk '+p.brand+' '+p.sku+'.'+(row.late?' Ada '+row.late+' pcs lain yang baru siap sesudah tenggat.':'')
+  if (row.queue.length) return (p.fg?p.fg+' pcs sudah siap jual. ':'')+stages.join(' dan ')+'. Serahkan potongan yang ada ke mandor.'
+  return (p.fg?p.fg+' pcs siap jual, ':'')+stages.join(' dan ')+'. Cukup untuk pesanan '+p.need+' pcs.' 
 }
 export function SourceDetail({ row }: {row: Plan}) {
   const p = row.product
@@ -22,7 +28,7 @@ export function SourceDetail({ row }: {row: Plan}) {
     <dl className="gar-counts">{[['Pesanan',p.need],['Stok siap jual',p.fg],['WIP tujuan pasti',row.confirmed],['WIP potensial',row.potential],['Sisa perlu potong',row.short]].map(([label,value])=><div key={label}><dt>{label}</dt><dd>{value} <small>pcs</small></dd></div>)}</dl>
     <p>{row.base > row.short ? <>Kalau hanya mengandalkan stok dan WIP yang pasti, masih kurang <strong>{row.base} pcs</strong>. Setelah memakai WIP potensial yang cocok, sisanya <strong>{row.short} pcs</strong>.</> : productionReason(row)}</p>
     <h3>Barangnya ada di mana?</h3>
-    <ul className="gar-lots">{row.lots.map(lot=><li key={lot.id}><div><strong>{stageName[lot.stage]} · {lot.qty} pcs</strong><small>{lot.id} · {lot.place}{lot.roll ? ' · roll ' + lot.roll : ''}</small></div><div>{patternFor(lot.pattern).name} · {lot.material}<small>Uk. {lot.size} · {lot.kind === 'directed' ? 'Tujuan pasti' : 'Tujuan perlu dipastikan'}</small></div><div className={lot.eta>p.due?'gar-late':''}>Siap {day(lot.eta)}<small>{lot.eta>p.due?'Lewat tenggat':'Masuk hitungan tenggat'}</small></div></li>)}</ul>
+    <ul className="gar-lots">{row.lots.map(lot=><li key={lot.id}><div><strong>{stageName[lot.stage]} · {lot.qty} pcs</strong><small>{lot.id}{lot.group?' / '+lot.group:''} · {lot.place}{lot.roll ? ' · roll ' + lot.roll : ''}</small></div><div>{patternFor(lot.pattern).name} · {lot.material}<small>Uk. {lot.size} · {lot.kind === 'directed' ? 'Tujuan pasti' : 'Tujuan perlu dipastikan'}</small></div><div className={lot.eta>p.due?'gar-late':''}>Siap {day(lot.eta)}<small>{lot.eta>p.due?'Lewat tenggat':'Masuk hitungan tenggat'}</small></div></li>)}</ul>
     {row.late>0&&<p className="gar-warn">{row.late} pcs tiba sesudah pesanan harus siap. Jumlah itu dikeluarkan dari hitungan di atas.</p>}
     <details><summary>Pesanan, pola dan bahan</summary><p>{p.order} · {p.brand} {p.sku} · rentang jual {p.range} · ukuran fisik {p.size} · {p.colour} · {p.finish}.</p><ul>{p.routes.map(r=><li key={r.material}>{patternFor(r.pattern).name} · {patternFor(r.pattern).revision} · {r.material}</li>)}</ul></details>
   </div>
@@ -45,11 +51,13 @@ export function AdviceBox({mode, session, onCut, onPickup, selected}: {mode:'cut
     {!entries.length&&<p className="gar-empty">{mode==='cut'?'Kebutuhan tambahan sudah tertutup. Potongan yang tersedia bisa dilanjutkan ke mandor.':'Semua potongan contoh sudah diambil mandor.'}</p>}
     {entries.map(({row,lot})=>{
       const p=row.product, id=lot?.id??p.sku
+      const suggestion=lot?undefined:suggestedCut(row,session)
       return <article className="gar-advice" key={id}><div className="gar-advice-line"><div>
         <h3>{lot ? lot.id+' · ' : ''}{p.brand} {p.sku} <span>· Uk. {p.size}</span></h3>
         <p>{patternFor(lot?.pattern??p.routes[0].pattern).name} · {lot?.material??routesLabel(row)} · {lot?.qty??row.short} pcs</p>
         <small>{lot ? p.customer+' perlu '+p.need+' pcs. Potongan ini belum diambil.' : productionReason(row)} Siap {day(p.due)}.</small>
-      </div><button type="button" className="gar-button primary" onClick={()=>lot ? onPickup?.(lot) : onCut?.(row)}>{lot ? (selected===id?'Lihat pembagian '+id:'Pilih '+id) : 'Isi form · '+row.short+' pcs'} <ArrowRight size={15}/></button></div>
+        {suggestion&&<small className="gar-fabric">Roll {suggestion.roll.id} · tersedia {suggestion.available} yd · rencana pakai {suggestion.qty*suggestion.roll.yardPerPiece} yd{suggestion.qty<row.short?' · bahan cukup untuk '+suggestion.qty+' pcs':''}</small>}
+      </div><button type="button" className="gar-button primary" disabled={Boolean(suggestion && !suggestion.qty)} onClick={()=>lot ? onPickup?.(lot) : onCut?.(row)}>{lot ? (selected===id?'Lihat pembagian '+id:'Pilih '+id) : suggestion?.qty ? 'Isi form · '+suggestion.qty+' pcs' : 'Bahan perlu disiapkan'} <ArrowRight size={15}/></button></div>
       <button type="button" className="gar-text" aria-expanded={opened===id} onClick={()=>setOpened(opened===id?'':id)}>Kenapa {lot?'dibagi':'dipotong'}? <ChevronDown size={14}/></button>
       {opened===id&&<SourceDetail row={row}/>}</article>
     })}
