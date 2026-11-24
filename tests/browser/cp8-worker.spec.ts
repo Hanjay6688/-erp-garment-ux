@@ -30,7 +30,25 @@ for (const width of [320, 390, 768, 1440]) {
     await expect(page.getByText(/Draft tersimpan\. Mutasi RESERVE INVOICE/)).toContainText('−72 pcs')
     await openGroup(page,'Keuangan')
     await page.getByRole('button',{name:/• Kas & Bank/}).click()
-    await expect(page.locator('.biz-table.cash > article').first()).toBeVisible()
+    const cashRows = page.locator('.biz-table.cash > article')
+    await expect(cashRows.first()).toBeVisible()
+    // Measure rendered text, including wrapped lines and nested dates, inside the scrollable table.
+    const gaps = await cashRows.evaluateAll(rows => rows.flatMap(row => {
+      const ink = Array.from(row.children, cell => {
+        const walker = document.createTreeWalker(cell, NodeFilter.SHOW_TEXT)
+        const bounds: DOMRect[] = []
+        for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+          if (!node.textContent?.trim()) continue
+          const range = document.createRange()
+          range.selectNodeContents(node)
+          bounds.push(...Array.from(range.getClientRects()))
+        }
+        return { left: Math.min(...bounds.map(box => box.left)), right: Math.max(...bounds.map(box => box.right)) }
+      })
+      return ink.slice(1).map((cell, index) => cell.left - ink[index].right)
+    }))
+    expect(gaps.length).toBeGreaterThan(0)
+    expect(Math.min(...gaps), 'Jarak tulisan antarkolom kas').toBeGreaterThanOrEqual(6)
     await pageFits(page)
     await openGroup(page,'Pengaturan & Audit')
     await page.getByRole('button',{name:/• Impor data awal/}).click()
