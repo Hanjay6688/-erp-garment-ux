@@ -5,7 +5,7 @@ import {type Article,type Session,type StockChange} from './model'
 
 export function stockAt(a:Article,size:string,s:Session,location=nativePosition(a).location,grade=nativePosition(a).grade) {
   const home=nativePosition(a),p=productCatalog.find(p=>p.brand===a.brand&&p.code===a.sku)
-  const opening=location===home.location&&grade===home.grade?(p?baseSaleStock(p,readInvoices())[a.sizes.indexOf(size)]:a.opening[size]):0
+  const opening=location===home.location&&grade===home.grade?(p?baseSaleStock(p,readInvoices())[p.sizes.indexOf(size)]:a.opening[size]):0
   return (opening??0)+positionDelta(s,a.key,size,location,grade)
 }
 export type MoveInput={source:string;target:string;values:Record<string,string>;sizeMap:Record<string,string>;location:string;grade:string;date:string;reason:string;notes?:string}

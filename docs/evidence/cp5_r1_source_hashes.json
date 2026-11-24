@@ -744,8 +744,8 @@
       "sha256": "0a7e7e93f8d72bb429be119f126b732ba76058d02988b97d415d707b1624157a"
     },
     "worker-demo/src/ConnectedConversionRange.tsx": {
-      "bytes": 7474,
-      "sha256": "7767b8a6d176d267a0d6de7820ba2074dd1595ff3b73f1d49ba66d75ee29c9a3"
+      "bytes": 10014,
+      "sha256": "45f4e08a489f9ba0ed082df604ac86c17e05f11248c4ec321d26889c7e35773b"
     },
     "worker-demo/src/ConnectedCustomerHistoryPage.tsx": {
       "bytes": 15514,
@@ -1616,8 +1616,8 @@
       "sha256": "aa212d7eb5f31cacf4dd82c73c7e995ee63049b9cf09a480724b48c7f77de9a8"
     },
     "worker-demo/src/demo/BrandConversionForm.tsx": {
-      "bytes": 8603,
-      "sha256": "d3ed25aebbda644472236bc851a9b8a3c11059f4a633376bb26b66cc586469c9"
+      "bytes": 8607,
+      "sha256": "124931c942488adc003ee9977ec6479bc06753ecd9b9d1c4d47a2db3473ea502"
     },
     "worker-demo/src/demo/CuttingRollPage.tsx": {
       "bytes": 46721,
@@ -1644,8 +1644,8 @@
       "sha256": "f7a454f304d2694e7058c096937955f7f9a5f0251f3d53718bcb32b46b421676"
     },
     "worker-demo/src/demo/PocketFabric.tsx": {
-      "bytes": 10575,
-      "sha256": "72d7ef2fc5f06e648bfc894d7814e2e690d41652beaee705d2763b8812de6dde"
+      "bytes": 10593,
+      "sha256": "e92ee92b68572b0f536092542448cd34199e37e89c8fc6bd8fb4ed4b46961255"
     },
     "worker-demo/src/demo/PocketReceiptForm.tsx": {
       "bytes": 7849,
@@ -1664,8 +1664,8 @@
       "sha256": "7686324bcfc23b9e1dfe39b5cb217bdd9c67a830f61f5002286e9276705c6030"
     },
     "worker-demo/src/demo/SkuRangePage.tsx": {
-      "bytes": 9408,
-      "sha256": "18eab70f37125cc84d8e2585bafcfabd70ea1baa14d479220389a64123d2dbc2"
+      "bytes": 9459,
+      "sha256": "39f761f8dfe49f44d7e8611b5ba28ec70a2837fe143d9bb60fcc9367dd7ef578"
     },
     "worker-demo/src/demo/StockPages.tsx": {
       "bytes": 17197,
@@ -1725,7 +1725,7 @@
     },
     "worker-demo/src/demo/planner/conversion.ts": {
       "bytes": 3327,
-      "sha256": "58bb0dc05c5929376756f72693334d80c9dfaa7f3dba64e5db9961bb0a6fb25a"
+      "sha256": "425f47d364e31fb319516c4960ff8aa5de0be93a01545711664f9fa25b51e851"
     },
     "worker-demo/src/demo/planner/inventory.ts": {
       "bytes": 3857,

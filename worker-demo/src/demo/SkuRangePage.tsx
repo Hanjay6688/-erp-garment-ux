@@ -17,8 +17,9 @@ export function SkuRangePage({mode,historyOnly=false}:{mode:'master'|'adjust'|'c
   const events=(session.stockEvents??[]).filter(e=>e.action===mode)
 
   const options=mode==='master'?allSkus(session,true):articles
-  const [key,setKey]=useState(()=>options.find(a=>a.key===new URLSearchParams(location.search).get('sku'))?.key??options[0].key)
-  const article=options.find(a=>a.key===key)!
+  const [selectedKey,setKey]=useState(()=>options.find(a=>a.key===new URLSearchParams(location.search).get('sku'))?.key??options[0].key)
+  const article=options.find(a=>a.key===selectedKey)??options[0]
+  const key=article.key
   const target=articles.find(a=>a.key===article.pair)
   const order=products.find(p=>p.brand===article.brand&&p.sku===article.sku)
   const defaultRef=order?recipePattern(order,session):session.patternRefs?.[key]??null
