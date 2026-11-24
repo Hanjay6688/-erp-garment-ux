@@ -1,7 +1,7 @@
 import { useEffect, useId, useRef, useState } from 'react'
 import './select-search.css'
 
-const fold=(value:string)=>value.normalize('NFKD').replace(/\p{M}/gu,'').toLocaleLowerCase('id').trim()
+import {browseMatch} from './browseMatch'
 function optionsFor(select:HTMLSelectElement) {
   return Array.from(select.options).map((option,index)=>({
     index,value:option.value,label:option.label,selected:option.selected,
@@ -42,8 +42,7 @@ function ChoiceList({select,initial,close}:{select:HTMLSelectElement;initial:str
   const [,refresh]=useState(0)
   const dialog=useRef<HTMLDialogElement>(null),input=useRef<HTMLInputElement>(null)
   const identifier=useId(),title=searchLabel(select)
-  const terms=fold(query).split(/\s+/).filter(Boolean)
-  const shown=optionsFor(select).filter(o=>!o.hidden&&terms.every(term=>fold(o.group+' '+o.label).includes(term)))
+  const shown=optionsFor(select).filter(o=>!o.hidden&&browseMatch(query,o.label,o.group,o.value))
   const eligible=shown.filter(o=>!o.disabled),current=eligible[Math.min(cursor,eligible.length-1)]
   const closeRef=useRef(close);closeRef.current=close
   useEffect(()=>{
