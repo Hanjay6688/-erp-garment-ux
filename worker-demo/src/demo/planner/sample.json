@@ -7,10 +7,10 @@
     { "id": "contoh-cutbray-lucy", "code": "CL", "revision": "R3", "name": "Cutbray Lucy" }
   ],
   "products": [
-    { "sku": "93001", "brand": "Vivo", "size": "32", "range": "31–33", "colour": "Biru tua", "finish": "Bilas ringan", "need": 72, "fg": 12, "due": "2026-11-27", "order": "PS-201", "customer": "Toko Melati", "routes": [{"pattern": "KJ", "material": "1069 Ori"}] },
-    { "sku": "66001", "brand": "Widie", "size": "31", "range": "31–33", "colour": "Biru muda", "finish": "Cuci muda", "need": 36, "fg": 12, "due": "2026-11-26", "order": "PS-202", "customer": "Toko Seroja", "routes": [{"pattern": "KK", "material": "Lucy"}] },
-    { "sku": "66002", "brand": "Vivo", "size": "34", "range": "34–36", "colour": "Biru tua", "finish": "Bilas ringan", "need": 60, "fg": 0, "due": "2026-11-27", "order": "PS-203", "customer": "Toko Kenanga", "routes": [{"pattern": "CJ", "material": "1069 KW"}] },
-    { "sku": "66003", "brand": "Widie", "size": "30", "range": "28–30", "colour": "Hitam", "finish": "Bilas hitam", "need": 24, "fg": 6, "due": "2026-11-27", "order": "PS-204", "customer": "Toko Anggrek", "routes": [{"pattern": "CL", "material": "Belleza"}, {"pattern": "CL", "material": "Black Virgo"}] }
+    { "sku": "93001", "brand": "Vivo", "size": "32", "range": "31–33", "sizes": ["31","32","33"], "colour": "Biru tua", "finish": "Bilas ringan", "need": 72, "fg": 12, "due": "2026-11-27", "order": "PS-201", "customer": "Toko Melati", "routes": [{"pattern": "KJ", "material": "1069 Ori"}] },
+    { "sku": "66001", "brand": "Widie", "size": "28", "range": "28–30", "sizes": ["28","29","30"], "colour": "Biru muda", "finish": "Cuci muda", "need": 36, "fg": 12, "due": "2026-11-26", "order": "PS-202", "customer": "Toko Seroja", "routes": [{"pattern": "KK", "material": "Lucy"}] },
+    { "sku": "66002", "brand": "Vivo", "size": "34", "range": "34–36", "sizes": ["34","35","36"], "colour": "Biru tua", "finish": "Bilas ringan", "need": 60, "fg": 0, "due": "2026-11-27", "order": "PS-203", "customer": "Toko Kenanga", "routes": [{"pattern": "CJ", "material": "1069 KW"}] },
+    { "sku": "66003", "brand": "Widie", "size": "30", "range": "28–30", "sizes": ["28","29","30"], "colour": "Hitam", "finish": "Bilas hitam", "need": 24, "fg": 6, "due": "2026-11-27", "order": "PS-204", "customer": "Toko Anggrek", "routes": [{"pattern": "CL", "material": "Belleza"}, {"pattern": "CL", "material": "Black Virgo"}] }
   ],
   "rolls": [
     {"id":"ORI-021","material":"1069 Ori","supplier":"Sinaran","yards":60,"yardPerPiece":1.5},
@@ -22,7 +22,7 @@
   "lots": [
     {"id":"POT-021","sku":"93001","stage":"cut","kind":"candidate","qty":24,"size":"32","pattern":"KJ","material":"1069 Ori","eta":"2026-11-27","place":"Meja potong","roll":"ORI-018","sourceYards":50,"usedYards":36,"remainingYards":14},
     {"id":"LND-031","sku":"93001","stage":"laundry","kind":"directed","qty":18,"size":"32","pattern":"KJ","material":"1069 Ori","eta":"2026-11-26","place":"Laundry Bintang"},
-    {"id":"POT-017","sku":"66001","stage":"cut","kind":"candidate","qty":24,"size":"31","pattern":"KK","material":"Lucy","eta":"2026-11-26","place":"Meja potong","roll":"LCY-015","sourceYards":45,"usedYards":30,"remainingYards":15},
+    {"id":"POT-017","sku":"66001","stage":"cut","kind":"candidate","qty":24,"size":"28","pattern":"KK","material":"Lucy","eta":"2026-11-26","place":"Meja potong","roll":"LCY-015","sourceYards":45,"usedYards":30,"remainingYards":15},
     {"id":"JHT-040","group":"PO-040","sku":"66002","stage":"sewing","kind":"directed","qty":24,"size":"34","pattern":"CJ","material":"1069 KW","eta":"2026-11-27","place":"Mandor Epi"},
     {"id":"LND-040","group":"PO-040","sku":"66002","stage":"laundry","kind":"directed","qty":36,"size":"34","pattern":"CJ","material":"1069 KW","eta":"2026-11-26","place":"Laundry Melati"},
     {"id":"QC-012","sku":"66003","stage":"qc","kind":"directed","qty":6,"size":"30","pattern":"CL","material":"Belleza","eta":"2026-11-25","place":"Meja QC"},

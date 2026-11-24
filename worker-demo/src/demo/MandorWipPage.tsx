@@ -1,5 +1,5 @@
-import { AdviceBox } from './planner/ProductionAdvice'
-import { day, lotsIn, patternFor, patterns, productFor, recordPickup, rolls, waitingLots, type Lot, type Session } from './planner/model'
+import { AdviceBox, DestinationChoice } from './planner/ProductionAdvice'
+import { cutRolls, day, lotLabel, lotPattern, lotSeries, lotsIn, patterns, seriesLabel, recordPickup, rolls, waitingLots, type Lot, type Session } from './planner/model'
 import { changeSession, usePlannerSession } from './planner/session'
 import { Icon } from '../components/AppIcon'
 import { Field } from './controls'
@@ -11,7 +11,7 @@ import {
   createSizeAllocationMatrix,
   cuttingSizes as archiveSizes,
   fabricRollCatalog,
-  rollSizeQuantities,
+  quantitiesForRoll,
 } from './cuttingAllocation'
 import type { AllocationMatrix, FabricRoll, RollBatchSizeMatrix } from './cuttingAllocation'
 import { RollBatchQuickMenu, UnassignedRollCard } from './CuttingRollPage'
@@ -67,14 +67,12 @@ const pairedPickupSlots = (sizes: readonly string[], quantities: readonly number
 ])
 
 type NotesProps = {batchNotes: string[]; setBatchNotes: (updater:(current:string[])=>string[])=>void}
-function sizeBand(lot:Lot) {
-  const [start,end]=productFor(lot.sku)!.range.split('–').map(Number)
-  return Array.from({length:end-start+1},(_,i)=>String(start+i))
-}
-function sourceRoll(lot: Lot): FabricRoll {
-  const allocation:FabricRoll['allocation']=[0,0,0,0,0,0]
-  allocation[sizeBand(lot).indexOf(lot.size)*2]=lot.qty
-  return {id:lot.roll!,sequence:1,material:lot.material,supplier:rolls.find(r=>r.material===lot.material)!.supplier,yards:lot.usedYards!,receivedAt:'24 Nov 2026',allocation}
+function sourceRolls(lot:Lot):FabricRoll[] {
+  return cutRolls(lot).map((r,i)=>({
+    id:r.id,sequence:i+1,material:r.material,supplier:rolls.find(x=>x.material===r.material)?.supplier??'',
+    yards:r.usedYards,receivedAt:'',allocation:[0,0,0,0,0,0],
+    sizeQuantities:lotSeries(lot).sizes.map(size=>r.slots.reduce((n,slot)=>n+(slot.size===size?slot.qty:0),0)),
+  }))
 }
 export function MandorWipPage(props:NotesProps) {
   const session=usePlannerSession()
@@ -97,7 +95,7 @@ export function MandorWipPage(props:NotesProps) {
     {chosen&&!active&&!receipt&&<p className="gar-success">Potongan {chosen} sudah diambil atau tidak ada di antrean. Pilih nomor yang masih menunggu di atas.</p>}
     {history.length>0&&<details className="panel gar-panel"><summary>Sudah diambil dalam latihan ({history.length})</summary>{history.map(l=>{
       const pickup=session.pickups.find(x=>x.id===l.id)!
-      return <p key={l.id}><strong>{l.id} · {l.qty} pcs</strong> · {productFor(l.sku)!.brand} {l.sku} · {l.place} · Jahit · {pickup.at.slice(11)} WIB · {pickup.batches.map((b,i)=>'Batch '+(i+1)+' ('+b.qty+' pcs'+(b.note?', '+b.note:'')+')').join(', ')}</p>})}</details>}
+      return <p key={l.id}><strong>{l.id} · {l.qty} pcs</strong> · {lotLabel(l)} · {l.place} · Jahit · {pickup.at.slice(11)} WIB · {pickup.batches.map((b,i)=>'Batch '+(i+1)+' ('+b.qty+' pcs'+(b.note?', '+b.note:'')+')').join(', ')}</p>})}</details>}
     <div ref={workRef}>{(active||archive)&&<PickupWorkbench key={archive?'archive':active?.id} {...props} active={archive?undefined:active} session={session} onSelect={choose} onReceipt={setReceipt}/>}</div>
     <button type="button" className="gar-text" onClick={()=>{setArchive(!archive);if(archive)localStorage.removeItem('atelier.pickup.period');else localStorage.setItem('atelier.pickup.period','2026-08')}}>{archive?'Kembali ke potongan November':'Arsip contoh Agustus'}</button>
   </>
@@ -105,13 +103,13 @@ export function MandorWipPage(props:NotesProps) {
 function PickupWorkbench({batchNotes:oldNotes,setBatchNotes:setOldNotes,active,session,onSelect,onReceipt}: NotesProps & {active?:Lot;session:Session;onSelect:(lot:Lot)=>void;onReceipt:(status:string)=>void}) {
   const [notes,setNotes]=useState<string[]>([''])
   const batchNotes=active?notes:oldNotes, setBatchNotes=active?setNotes:setOldNotes
-  const cuttingSizes=active?sizeBand(active):archiveSizes
-  const wipRolls=active?[sourceRoll(active)]:fabricRollCatalog.slice(0,9)
+  const cuttingSizes=active?lotSeries(active).sizes:archiveSizes
+  const wipRolls=active?sourceRolls(active):fabricRollCatalog.slice(0,9)
   const wipRollRows = wipRolls.map((roll) => {
-    const sizes = rollSizeQuantities(roll.allocation)
+    const sizes = quantitiesForRoll(roll)
     return { roll, sizes, quantity: sizes.reduce((sum, qty) => sum + qty, 0) }
   })
-  const wipSizeTotals = wipRollRows.reduce<QtyTuple>((totals, row) => totals.map((qty, index) => qty + row.sizes[index]) as QtyTuple, [0, 0, 0])
+  const wipSizeTotals = wipRollRows.reduce<QtyTuple>((totals, row) => totals.map((qty, index) => qty + row.sizes[index]) as QtyTuple, cuttingSizes.map(()=>0))
   const wipTotal = wipSizeTotals.reduce((sum, qty) => sum + qty, 0)
   const [mandor,setMandor] = useState('Mandor Afat')
   const [pickupAt,setPickupAt] = useState(active?'2026-11-24T10:30':'2026-08-27T10:30')
@@ -159,6 +157,21 @@ function PickupWorkbench({batchNotes:oldNotes,setBatchNotes:setOldNotes,active,s
     return usedBatches.length === 1 && row.sizes.every((source, sizeIndex) => cellQuantity(usedBatches[0][sizeIndex]) === source)
   })
   const unassignedRollRows = wipRollRows.filter((row) => (rollBatchMatrix[row.roll.id] ?? []).every((sizes) => sizes.reduce((sum, value) => sum + cellQuantity(value), 0) === 0))
+  function batchesForPickup() {
+    const remaining=wipRollRows.map(row=>[...row.sizes])
+    return batchTotals.map((qty,batchIndex)=>{
+      const sizes=Object.fromEntries(cuttingSizes.map((size,i)=>[size,batchSizeMix[batchIndex][i]]))
+      const sources:{rollId:string;size:string;qty:number}[]=[]
+      cuttingSizes.forEach((size,i)=>{
+        let needed=sizes[size]
+        wipRollRows.forEach((row,j)=>{
+          const take=allocationMode==='roll'?cellQuantity(rollBatchMatrix[row.roll.id]?.[batchIndex]?.[i]):Math.min(remaining[j][i],needed)
+          if(take>0){sources.push({rollId:row.roll.id,size,qty:take});remaining[j][i]-=take;needed-=take}
+        })
+      })
+      return {qty,note:batchNotes[batchIndex]??'',sizes,sources}
+    })
+  }
   const archiveItems:PickupQueueItem[] = [
     {
       id:'POT-260827-042',model:'Kulot Lucy',material:'Lucy',supplier:'Sinaran',sizes:cuttingSizes,pattern:simulationPatternSnapshots.lucyRegular,status:'READY',
@@ -169,7 +182,7 @@ function PickupWorkbench({batchNotes:oldNotes,setBatchNotes:setOldNotes,active,s
         sourceYards:row.roll.yards,
         usedYards:row.roll.yards,
         remainingYards:0,
-        slots:pairedPickupSlots(cuttingSizes,row.roll.allocation),
+        slots:pairedPickupSlots(archiveSizes,row.roll.allocation),
         batchNumbers:(rollBatchMatrix[row.roll.id]??[]).flatMap((sizes,batchIndex)=>sizes.some((value)=>cellQuantity(value)>0)?[batchIndex+1]:[]),
       })),
     },
@@ -198,11 +211,13 @@ function PickupWorkbench({batchNotes:oldNotes,setBatchNotes:setOldNotes,active,s
       ],
     },
   ]
-  const liveLots=lotsIn(session).filter(l=>l.roll)
+  const liveLots=lotsIn(session).filter(l=>cutRolls(l).length)
   const queueItems:PickupQueueItem[]=active ? liveLots.map(l=>{
-    const p=productFor(l.sku)!,roll=sourceRoll(l), pickup=session.pickups.find(event=>event.id===l.id)
-    return {id:l.id,model:p.brand+' '+p.sku,material:l.material,supplier:roll.supplier,sizes:[l.size],pattern:patternFor(l.pattern),status:pickup?'PICKED':'READY',mandor:pickup?.mandor,pickupAt:pickup?.at,
-      rolls:[{id:roll.id,sequence:1,material:roll.material,sourceYards:l.sourceYards??roll.yards,usedYards:l.usedYards!,remainingYards:l.remainingYards??0,slots:[{size:l.size,image:'',qty:l.qty}],batchNumbers:pickup?.batches.map((_,i)=>i+1)??[]}]}
+    const pickup=session.pickups.find(event=>event.id===l.id)
+    return {id:l.id,model:lotLabel(l),material:l.material,supplier:[...new Set(sourceRolls(l).map(r=>r.supplier))].join(' / '),
+      sizes:lotSeries(l).sizes,pattern:lotPattern(l),status:pickup?'PICKED':'READY',mandor:pickup?.mandor,pickupAt:pickup?.at,
+      rolls:cutRolls(l).map((r,i)=>({...r,sequence:i+1,batchNumbers:pickup?.batches.flatMap((b,j)=>!b.sources||b.sources.some(s=>s.rollId===r.id)?[j+1]:[])??[]})),
+    }
   }) : archiveItems
   const normalizedQueueQuery=queueQuery.trim().toLowerCase()
   const visibleQueueItems=queueItems.filter((item)=>{
@@ -239,7 +254,7 @@ function PickupWorkbench({batchNotes:oldNotes,setBatchNotes:setOldNotes,active,s
       if (nextCount === 1 && !currentHasQuantity) return createRollBatchSizeMatrix(wipRolls, 1)
       return Object.fromEntries(wipRolls.map((roll) => {
         const currentBatches = current[roll.id] ?? []
-        const resized = Array.from({ length: nextCount }, (_, batchIndex) => currentBatches[batchIndex] ? [...currentBatches[batchIndex]] : ['0', '0', '0'])
+        const resized = Array.from({ length: nextCount }, (_, batchIndex) => currentBatches[batchIndex] ? [...currentBatches[batchIndex]] : cuttingSizes.map(()=>'0'))
         return [roll.id, resized]
       }))
     })
@@ -270,7 +285,7 @@ function PickupWorkbench({batchNotes:oldNotes,setBatchNotes:setOldNotes,active,s
     setAllocationMessage('')
     setRollAllocationTouched(true)
     setRollBatchMatrix((current) => {
-      const rollBatches = (current[rollId] ?? Array.from({ length: batchCount }, () => ['0', '0', '0'])).map((sizes) => [...sizes])
+      const rollBatches = (current[rollId] ?? Array.from({ length: batchCount }, () => cuttingSizes.map(()=>'0'))).map((sizes) => [...sizes])
       rollBatches[batchIndex][sizeIndex] = normalized
       return { ...current, [rollId]: rollBatches }
     })
@@ -294,13 +309,13 @@ function PickupWorkbench({batchNotes:oldNotes,setBatchNotes:setOldNotes,active,s
     if (!sourceRow) return
     setRollBatchMatrix((current) => ({
       ...current,
-      [rollId]: Array.from({ length: batchCount }, (_, batchIndex) => batchIndex === targetBatch ? sourceRow.sizes.map(String) : ['0', '0', '0']),
+      [rollId]: Array.from({ length: batchCount }, (_, batchIndex) => batchIndex === targetBatch ? sourceRow.sizes.map(String) : cuttingSizes.map(()=>'0')),
     }))
     setRollAllocationTouched(true)
     setAllocationMessage(`Roll ${String(sourceRow.roll.sequence).padStart(2,'0')} masuk ke Batch ${String(targetBatch+1).padStart(2,'0')}.`)
   }
   const unassignRoll = (rollId: string) => {
-    setRollBatchMatrix((current) => ({ ...current, [rollId]: Array.from({ length: batchCount }, () => ['0', '0', '0']) }))
+    setRollBatchMatrix((current) => ({ ...current, [rollId]: Array.from({ length: batchCount }, () => cuttingSizes.map(()=>'0')) }))
     setRollAllocationTouched(true)
     if (splitEditorRollId === rollId) setSplitEditorRollId(null)
     setAllocationMessage('')
@@ -370,7 +385,7 @@ function PickupWorkbench({batchNotes:oldNotes,setBatchNotes:setOldNotes,active,s
       </aside>
 
       <div className="panel wip-batch-workspace">
-        <div className="wip-selected-head"><div><span>WIP TERPILIH</span><h2>{selectedQueueItem.id} · {selectedQueueItem.model}</h2><p>{wipTotal} pcs dari {wipRolls.length} roll · {active?'ukuran '+active.size+' · siap '+day(productFor(active.sku)!.due):'selesai potong 27 Agu 2026'}</p><div className="wip-selected-pattern" data-pattern-snapshot={selectedQueueItem.pattern?.id??'legacy-null'}><Icon name="audit"/><span><small>POLA SNAPSHOT · TERKUNCI</small><strong>{patternSnapshotLabel(selectedQueueItem.pattern)}</strong></span></div></div><span className="wip-waiting-pill"><span/> Belum diambil</span></div>
+        {active&&(!active.sku||!active.eta)&&<DestinationChoice lot={active}/>}<div className="wip-selected-head"><div><span>WIP TERPILIH</span><h2>{selectedQueueItem.id} · {selectedQueueItem.model}</h2><p>{wipTotal} pcs dari {wipRolls.length} roll · {active?seriesLabel(lotSeries(active))+' · hasil ukuran '+active.size+' · '+day(active.eta):'selesai potong 27 Agu 2026'}</p><div className="wip-selected-pattern" data-pattern-snapshot={selectedQueueItem.pattern?.id??'legacy-null'}><Icon name="audit"/><span><small>POLA SNAPSHOT · TERKUNCI</small><strong>{patternSnapshotLabel(selectedQueueItem.pattern)}</strong></span></div></div><span className="wip-waiting-pill"><span/> Belum diambil</span></div>
         <div className="pickup-meta-grid">
           <Field label="Diambil oleh / mandor"><select className="erp-input" value={mandor} onChange={(event)=>setMandor(event.target.value)}><option>Mandor Afat</option><option>Mandor Epi</option><option>Mandor Selo</option><option>Mandor Afui</option></select></Field>
           <Field label="Tanggal & waktu ambil"><input className="erp-input" type="datetime-local" value={pickupAt} onChange={(event)=>setPickupAt(event.target.value)}/></Field>
@@ -417,7 +432,7 @@ function PickupWorkbench({batchNotes:oldNotes,setBatchNotes:setOldNotes,active,s
         <div className="wip-source-audit"><Icon name={sourcesExact?'check':'history'}/><div><strong>{sourcesExact?'Pembagian cocok dengan seluruh sumber':'Masih ada sumber roll atau size yang tidak cocok'}</strong><span>{sourceChecks.filter((source)=>source.assigned!==source.total).map((source)=>`${source.key}: ${source.assigned}/${source.total}`).join(' · ')||`${wipRollRows.length} roll · Size ${cuttingSizes.join('/')} seluruhnya rekonsiliasi`}</span></div></div>
         <section className={`pickup-final-review ${isReady?'ready':'blocked'}`} aria-label="Review akhir pickup"><div className="pickup-review-head"><Icon name={isReady?'check':'history'}/><div><span>04 · REVIEW SEBELUM POSTING</span><strong>{isReady?'Siap dicatat sebagai pickup mandor':'Belum siap diposting'}</strong><small>{isReady?'Sesudah konfirmasi, PO masuk tahap SEWING.':'Rapikan pembagian sampai sumber, size, dan total seluruh batch pas.'}</small></div></div><div className="pickup-review-facts"><div><span>MANDOR</span><strong>{mandor||'Belum dipilih'}</strong></div><div><span>WAKTU AMBIL</span><strong>{pickupReviewAt}</strong></div><div><span>POLA SNAPSHOT</span><strong>{selectedQueueItem.pattern ? `${selectedQueueItem.pattern.code} · ${selectedQueueItem.pattern.revision}` : 'Histori lama'}</strong></div><div><span>PEMBAGIAN</span><strong>{allocationMode==='roll'?'Per roll':'Awal per size'}</strong></div><div><span>TOTAL</span><strong>{effectiveBatchCount} batch · {assignedTotal} pcs</strong></div></div><div className="pickup-review-batches">{batchTotals.map((total,batchIndex)=><div className={total>0?'filled':'empty'} key={batchIndex}><span>BATCH {String(batchIndex+1).padStart(2,'0')}</span><strong>{total} pcs</strong><small>{batchNotes[batchIndex]||'Belum ada catatan mandor'}</small><em>{cuttingSizes.map((size,sizeIndex)=>`${size}: ${batchSizeMix[batchIndex][sizeIndex]}`).join(' · ')}</em></div>)}</div><div className="pickup-review-next"><Icon name="arrow"/><span><strong>Setelah posting: SEWING</strong> · Pola snapshot ikut Batch Produksi; Laundry baru boleh dicatat ketika batch benar-benar dikirim keluar.</span></div></section>
         <div className="allocation-footer"><small>{active?'Catatan latihan disimpan di tab ini.':'Arsip Agustus · contoh pembagian per roll dan ukuran.'}</small>{active&&<button type="button" className="primary-btn" disabled={!isReady} onClick={()=>{
-          try {changeSession(current=>recordPickup(current,{id:active.id,mandor,at:pickupAt,batches:batchTotals.map((qty,i)=>({qty,note:batchNotes[i]??''}))}));onReceipt(active.id+' · '+active.qty+' pcs sudah diserahkan ke '+mandor+' untuk dijahit. Potongan ini keluar dari antrean.');window.scrollTo(0,0)}
+          try {changeSession(current=>recordPickup(current,{id:active.id,mandor,at:pickupAt,batches:batchesForPickup()}));onReceipt(active.id+' · '+active.qty+' pcs sudah diserahkan ke '+mandor+' untuk dijahit. Potongan ini keluar dari antrean.');window.scrollTo(0,0)}
           catch(error){onReceipt((error as Error).message)}
         }}>Catat pickup {active.id} <Icon name="arrow"/></button>}</div>
       </div>

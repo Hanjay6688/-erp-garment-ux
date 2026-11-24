@@ -5,6 +5,7 @@ import {
   RotateCcw, Ruler, Search, ShieldCheck, SlidersHorizontal,
   Sparkles, Tag, Truck, Warehouse, X,
 } from 'lucide-react'
+import { SkuRangePage } from './demo/SkuRangePage'
 import { productCatalog } from './productCatalog'
 import { StockHealthExplainability, getStockHealthLabel, type StockLineageLink } from './stock/StockHealthExplainability'
 import { calculateStockHealth, createUnconfiguredPrototypeStock, type StockHealthResult } from './stock/stockHealth'
@@ -166,6 +167,7 @@ function SearchBox({ value, onChange, placeholder }: { value: string; onChange: 
 function SelectFilter({ label, value, options, onChange }: { label: string; value: string; options: string[]; onChange: (value: string) => void }) {
   const [open,setOpen] = useState(false)
   const rootRef = useRef<HTMLDivElement>(null)
+  const [filterQuery,setFilterQuery]=useState('')
   const choices = ['Semua', ...options.filter((option)=>option!=='Semua')]
   const displayValue = value==='Semua' ? `Semua ${label.toLowerCase()}` : value
   useEffect(()=>{
@@ -176,7 +178,7 @@ function SelectFilter({ label, value, options, onChange }: { label: string; valu
     document.addEventListener('keydown',closeOnEscape)
     return()=>{document.removeEventListener('mousedown',closeOnOutside);document.removeEventListener('keydown',closeOnEscape)}
   },[open])
-  return <div className={`wh-filter ${open?'open':''}`} ref={rootRef}><span>{label}</span><button type="button" aria-haspopup="listbox" aria-expanded={open} onClick={()=>setOpen((current)=>!current)}><strong>{displayValue}</strong><ChevronDown/></button>{open&&<div className="wh-filter-menu" role="listbox" aria-label={`Filter ${label}`}>{choices.map((option)=>{const active=option===value;return <button type="button" role="option" aria-selected={active} className={active?'active':''} key={option} onClick={()=>{onChange(option);setOpen(false)}}><span>{option==='Semua'?`Semua ${label.toLowerCase()}`:option}</span>{active&&<Check/>}</button>})}</div>}</div>
+  return <div className={`wh-filter ${open?'open':''}`} ref={rootRef}><span>{label}</span><button type="button" aria-haspopup="listbox" aria-expanded={open} onClick={()=>{setFilterQuery('');setOpen(current=>!current)}}><strong>{displayValue}</strong><ChevronDown/></button>{open&&<div className="wh-filter-menu" role="listbox" aria-label={`Filter ${label}`}><input autoFocus aria-label={'Cari '+label} placeholder="Ketik untuk mencari…" value={filterQuery} onChange={e=>setFilterQuery(e.target.value)}/>{choices.filter(o=>o.toLowerCase().includes(filterQuery.trim().toLowerCase())).map((option)=>{const active=option===value;return <button type="button" role="option" aria-selected={active} className={active?'active':''} key={option} onClick={()=>{onChange(option);setOpen(false)}}><span>{option==='Semua'?`Semua ${label.toLowerCase()}`:option}</span>{active&&<Check/>}</button>})}</div>}</div>
 }
 
 function MetricCard({ label, value, note, tone='neutral', icon: Glyph=Boxes }: { label: string; value: string; note: string; tone?: Tone; icon?: typeof Boxes }) {
@@ -223,8 +225,8 @@ export default function WarehousePages({ view, onNavigate }: { view: WarehouseVi
   if (view === 'materials-rolls') return <MaterialsRollsPage/>
   if (view === 'accessories') return <AccessoriesPage/>
   if (view === 'fg-summary') return <FinishedGoodsSummaryPage/>
-  if (view === 'stock-adjustment') return <Suspense fallback={<InventoryControlFallback/>}><StockAdjustmentPage/></Suspense>
-  return <Suspense fallback={<InventoryControlFallback/>}><BrandConversionPage/></Suspense>
+  if (view === 'stock-adjustment') return <Suspense fallback={<InventoryControlFallback/>}><SkuRangePage mode="adjust"/><details className="panel gar-panel"><summary>Bahan, aksesori dan riwayat Agustus</summary><StockAdjustmentPage/></details></Suspense>
+  return <Suspense fallback={<InventoryControlFallback/>}><SkuRangePage mode="convert"/><details className="panel gar-panel"><summary>Riwayat konversi Agustus</summary><BrandConversionPage/></details></Suspense>
 }
 
 function InventoryControlFallback() {

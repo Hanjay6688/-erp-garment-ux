@@ -33,7 +33,10 @@ type SelectedRoll = {
   consumed: string
 }
 
-type SizeSlot = { key: string; sizeId: string; sizeCode: string }
+type SizeSlot = { key: string; sizeId: string; sizeCode: string; drawingNo?: number; labelOverride?: string | null }
+function slotLabel(slot:SizeSlot, slots:SizeSlot[]) {
+  return slot.labelOverride || ('Size '+slot.sizeCode+(slots.filter(s=>s.sizeId===slot.sizeId).length>1 || (slot.drawingNo??1)>1 ? ' · Gambar '+(slot.drawingNo??1):''))
+}
 
 const numeric = (raw: string) => parseQuantityInput(raw, 'MEASURE') ?? Number.NaN
 const count = (raw: string) => parseQuantityInput(raw) ?? Number.NaN
@@ -266,9 +269,10 @@ export default function ConnectedCuttingPage() {
   }
 
   const toggleSize = (sizeId: string, sizeCode: string) => {
-    const existing = slots.find((slot) => slot.sizeId === sizeId)
+    const existing = slots.slice().reverse().find(slot => slot.sizeId === sizeId)
     if (existing) {
       if (slots.length === 1) return
+      if (Object.values(yields).some(values=>count(values[existing.key]??'0')>0)) { setNotice('Kosongkan hasil gambar ini sebelum melepasnya.'); return }
       setSlots((current) => current.filter((slot) => slot.key !== existing.key))
       setYields((current) => Object.fromEntries(Object.entries(current).map(([rollId, values]) => {
         const next = { ...values }
@@ -280,6 +284,13 @@ export default function ConnectedCuttingPage() {
     setSlots((current) => [...current, { key: globalThis.crypto.randomUUID(), sizeId, sizeCode }])
   }
 
+  const addDrawing = (sizeId:string, sizeCode:string) => {
+    setSlots(current=>{
+      const drawingNo=Math.max(0,...current.filter(s=>s.sizeId===sizeId).map(s=>s.drawingNo??1))+1
+      const index=current.reduce((last,s,i)=>s.sizeId===sizeId?i:last,-1)+1
+      return [...current.slice(0,index),{key:globalThis.crypto.randomUUID(),sizeId,sizeCode,drawingNo},...current.slice(index)]
+    })
+  }
   const toggleRoll = (roll: CuttingWorkspaceRoll) => {
     if (selectedIds.has(roll.id)) {
       setSelectedRolls((current) => { const next = { ...current }; delete next[roll.id]; return next })
@@ -295,7 +306,7 @@ export default function ConnectedCuttingPage() {
     selectionRef.current = { orderId: draft.po_id, draftId: draft.cutting_group_id, draftVersion: draft.row_version }
     selectionReadyRef.current = false
     const nextSlots = draft.size_slots.map((slot) => ({
-      key: `slot-${slot.slot_no}-${slot.size_id}`, sizeId: slot.size_id, sizeCode: slot.size_code,
+      key: `slot-${slot.slot_no}-${slot.size_id}`, sizeId: slot.size_id, sizeCode: slot.size_code, drawingNo:slot.drawing_no, labelOverride:slot.label_override,
     }))
     const nextRolls: Record<string, SelectedRoll> = {}
     const nextYields: Record<string, Record<string, string>> = {}
@@ -333,7 +344,7 @@ export default function ConnectedCuttingPage() {
     source_location_id: locationId,
     cut_at: cutAtIso ?? '',
     notes: notes.trim() || null,
-    size_slots: slots.map((slot, index) => ({ slot_no: index + 1, size_id: slot.sizeId, drawing_no: 1 })),
+    size_slots: slots.map((slot, index) => ({ slot_no: index + 1, size_id: slot.sizeId, drawing_no: slot.drawingNo??1, ...(slot.labelOverride?{label_override:slot.labelOverride}:{}) })),
     rolls: selected.map((item) => ({
       roll_id: item.roll.id,
       qty_issued: item.issued,
@@ -426,7 +437,7 @@ export default function ConnectedCuttingPage() {
     const d = read?.selected
     if (!d || d.id !== id) { setError('Draf PO otomatis tidak ditemukan lagi. Muat ulang.'); return }
     const c = d.cutting
-    const nextSlots = c.size_slots.map(slot => ({ key: `auto-${slot.slot_no}-${slot.size_id}`, sizeId: slot.size_id,
+    const nextSlots = c.size_slots.map(slot => ({ key: `auto-${slot.slot_no}-${slot.size_id}`, sizeId: slot.size_id, drawingNo:slot.drawing_no,
       sizeCode: d.model.sizes.find(size => size.id === slot.size_id)?.code ?? '?' }))
     const nextRolls: Record<string, SelectedRoll> = {}, nextYields: Record<string, Record<string, string>> = {}
     c.rolls.forEach(r => {
@@ -484,12 +495,12 @@ export default function ConnectedCuttingPage() {
       <main className="ccut-form">
         <section className="ccut-card"><header><span>01 · IDENTITAS KANONIK</span><strong>PO, Pola, waktu, dan gudang sumber</strong></header><fieldset className="ccut-po-mode" disabled={writerLocked || draftId !== null || autoDraft !== null}><legend>Production Order</legend><label><input type="radio" name="ccut-po-mode" checked={poMode === 'AUTO'} onChange={() => changeMode('AUTO')}/>PO baru otomatis</label><label><input type="radio" name="ccut-po-mode" checked={poMode === 'EXISTING'} onChange={() => changeMode('EXISTING')}/>PO yang sudah ada</label></fieldset>{poMode === 'AUTO' ? <><div className="ccut-search"><Search/><input aria-label="Cari model" maxLength={80} value={modelQuery} onChange={event => setModelQuery(event.target.value)} onKeyDown={event => { if (event.key === 'Enter') void loadAuto({ q: modelQuery, draftId: null }) }} placeholder="Kode atau nama model…"/><button disabled={saving} onClick={() => void loadAuto({ q: modelQuery, draftId: null })}>Cari model</button></div><p className="ccut-auto-note">Nomor PO dibuat otomatis saat potongan disahkan, dalam satu simpan dengan posting potongan. Draf belum membuat PO dan belum mengubah stok maupun keuangan.</p></> : <><div className="ccut-search"><Search/><input aria-label="Cari PO" maxLength={200} value={orderQuery} onChange={event => setOrderQuery(event.target.value)} onKeyDown={event => { if (event.key === 'Enter') searchOrders() }} placeholder="Nomor PO, model, mandor…"/><button disabled={loading || saving} onClick={searchOrders}>Cari PO</button></div><div className="ccut-pagination"><span>{pageLabel(workspace?.order_page.offset, workspace?.orders.length, workspace?.order_page.total)}</span><div><button aria-label="PO sebelumnya" disabled={loading || !workspace || workspace.order_page.offset === 0} onClick={() => void load(locationId || null, rollQuery, rollOffset, { orderOffset: Math.max(0, selectorsRef.current.orderOffset - 50) })}>Sebelumnya</button><button aria-label="PO berikutnya" disabled={loading || !workspace || workspace.order_page.offset + workspace.orders.length >= workspace.order_page.total} onClick={() => void load(locationId || null, rollQuery, rollOffset, { orderOffset: selectorsRef.current.orderOffset + 50 })}>Berikutnya</button></div></div></>}<div className="ccut-fields">{poMode === 'AUTO' ? <label>Model<select aria-label="Model potongan" value={modelId} disabled={autoDraft !== null && writerLocked} onChange={(event) => changeModel(event.target.value)}><option value="">Pilih model…</option>{autoModels.map((m) => <option value={m.id} key={m.id}>{m.code} · {m.name}</option>)}</select></label> : <label>Production Order<select value={orderId} disabled={draftId !== null} onChange={(event) => changeOrder(event.target.value)}><option value="">Pilih PO…</option>{orderId && !selectedOrder && <option value={orderId} disabled>PO terpilih tidak tersedia</option>}{orderOptions.map((order) => <option value={order.id} key={order.id}>{order.po_number} · {order.model_code} · {order.model_name}</option>)}</select></label>}<label>Waktu potong (WIB)<input type="datetime-local" value={cutAt} max={cp6WibDateTimeInput()} onChange={(event) => setCutAt(event.target.value)}/></label><label>Gudang bahan<select value={locationId} onChange={(event) => { setLocationId(event.target.value); setRollOffset(0); setSelectedRolls({}); setYields({}); if (selected.length > 0) setNotice('Pilihan roll dikosongkan karena gudang bahan berubah.') }}><option value="">Pilih gudang…</option>{workspace?.locations.map((location) => <option value={location.id} key={location.id}>{location.code} · {location.name}</option>)}</select></label><label>Catatan<input value={notes} onChange={(event) => setNotes(event.target.value)} placeholder="Opsional"/></label></div><CuttingPatternPicker value={pattern} onChange={setPattern} suspended={!formFactsReady} onAuthorityLost={onAuthorityLost}/></section>
 
-        <section className="ccut-card"><header><span>02 · UKURAN AKTIF</span><strong>{poMode === 'AUTO' ? 'Kolom hasil potong sesuai model' : 'Kolom hasil potong sesuai model PO'}</strong></header><div className="ccut-size-list">{availableSizes.map((size) => <button className={slots.some((slot) => slot.sizeId === size.id) ? 'active' : ''} onClick={() => toggleSize(size.id, size.code)} key={size.id}>{size.code}</button>)}{(poMode === 'AUTO' ? autoModel !== null : Boolean(orderId)) && availableSizes.length === 0 ? <span>Model ini belum memiliki ukuran aktif.</span> : null}</div></section>
+        <section className="ccut-card"><header><span>02 · SERI POTONGAN</span><strong>{availableSizes.length?'Seri model · '+availableSizes.map(size=>size.code).join(' / '):'Seri ukuran dari model'}</strong></header><details><summary>Atur ukuran dan gambar</summary><div className="ccut-size-list">{availableSizes.map((size) => <span key={size.id}><button className={slots.some((slot) => slot.sizeId === size.id) ? 'active' : ''} onClick={() => toggleSize(size.id, size.code)} aria-pressed={slots.some(slot=>slot.sizeId===size.id)}>{size.code}</button>{slots.some(s=>s.sizeId===size.id)&&<button type="button" aria-label={'Tambah gambar ukuran '+size.code} onClick={()=>addDrawing(size.id,size.code)}>+ Gambar</button>}</span>)}{(poMode === 'AUTO' ? autoModel !== null : Boolean(orderId)) && availableSizes.length === 0 ? <span>Model ini belum memiliki ukuran aktif.</span> : null}</div></details></section>
 
         <section className="ccut-card"><header><span>03 · ROLL FISIK</span><strong>{workspace?.roll_total ?? '—'} tersedia di lokasi</strong></header><div className="ccut-search"><Search/><input value={rollQuery} onChange={(event) => setRollQuery(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') { setRollOffset(0); void load(locationId || null, rollQuery, 0) } }} placeholder="Nomor roll, bahan, supplier…"/><button onClick={() => { setRollOffset(0); void load(locationId || null, rollQuery, 0) }}>Cari</button></div><div className="ccut-roll-catalog">{loading ? <span><LoaderCircle className="spin"/> Memuat roll…</span> : workspace?.rolls.map((roll) => <button className={selectedIds.has(roll.id) ? 'active' : ''} onClick={() => toggleRoll(roll)} key={roll.id}><span><strong>{roll.roll_number}</strong><small>{roll.material_sku} · {roll.material_name}</small></span><em>{roll.available_qty} {roll.unit_code}</em></button>)}</div><footer className="ccut-pagination"><span>{workspace?.roll_total ? `${rollOffset + 1}–${rollOffset + workspace.rolls.length} dari ${workspace.roll_total}` : '0 roll'}</span><div><button disabled={loading || rollOffset === 0} onClick={() => void load(locationId || null, rollQuery, Math.max(0, rollOffset - 100))}>Sebelumnya</button><button disabled={loading || !workspace || rollOffset + workspace.rolls.length >= workspace.roll_total} onClick={() => void load(locationId || null, rollQuery, rollOffset + 100)}>Berikutnya</button></div></footer></section>
 
         {draftId && selectedOrder && <SkuWaveReferences waveId={draftId} modelId={selectedOrder.model_id}/>}
-        <section className="ccut-card wide"><header><span>04 · HASIL PER ROLL & SIZE</span><strong>Angka sumber direkonsiliasi backend</strong></header>{!formFactsReady ? <p data-cutting-form-retired>Muat ulang sumber sebelum memeriksa jumlah roll dan hasil rencana. Isian operator tetap disimpan.</p> : selected.length === 0 ? <div className="ccut-empty">Pilih minimal satu roll dari gudang bahan.</div> : <div className="ccut-table-wrap"><table><thead><tr><th>Roll</th><th>Keluar</th><th>Terpakai</th><th>Sisa</th>{slots.map((slot) => <th key={slot.key}>Size {slot.sizeCode}</th>)}<th>Total pcs</th></tr></thead><tbody>{selected.map((item) => { const consumed = numeric(item.consumed); const rowPieces = slots.reduce((sum, slot) => sum + count(yields[item.roll.id]?.[slot.key] ?? '0'), 0); return <tr key={item.roll.id}><th><strong>{item.roll.roll_number}</strong><small>{item.roll.material_name}</small></th><td>{item.issued} {item.roll.unit_code}</td><td><input aria-label={`${item.roll.roll_number} terpakai`} aria-invalid={parseQuantityInput(item.consumed, 'MEASURE', item.issued) === null} inputMode="decimal" value={item.consumed} onChange={(event) => setSelectedRolls((current) => ({ ...current, [item.roll.id]: { ...current[item.roll.id], consumed: event.target.value } }))}/></td><td className={consumed > item.issued ? 'bad' : ''}>{display(item.issued - consumed, 2)}</td>{slots.map((slot) => <td key={slot.key}><input aria-label={`${item.roll.roll_number} Size ${slot.sizeCode}`} aria-invalid={parseQuantityInput(yields[item.roll.id]?.[slot.key] ?? '0') === null} inputMode="numeric" value={yields[item.roll.id]?.[slot.key] ?? '0'} onFocus={(event) => event.currentTarget.select()} onChange={(event) => setYields((current) => ({ ...current, [item.roll.id]: { ...current[item.roll.id], [slot.key]: event.target.value } }))}/></td>)}<td><strong>{display(rowPieces)}</strong></td></tr>})}</tbody></table></div>}</section>
+        <section className="ccut-card wide"><header><span>04 · HASIL PER ROLL & SIZE</span><strong>Angka sumber direkonsiliasi backend</strong></header>{!formFactsReady ? <p data-cutting-form-retired>Muat ulang sumber sebelum memeriksa jumlah roll dan hasil rencana. Isian operator tetap disimpan.</p> : selected.length === 0 ? <div className="ccut-empty">Pilih minimal satu roll dari gudang bahan.</div> : <div className="ccut-table-wrap"><table><thead><tr><th>Roll</th><th>Keluar</th><th>Terpakai</th><th>Sisa</th>{slots.map((slot) => <th key={slot.key}>{slotLabel(slot,slots)}</th>)}<th>Total pcs</th></tr></thead><tbody>{selected.map((item) => { const consumed = numeric(item.consumed); const rowPieces = slots.reduce((sum, slot) => sum + count(yields[item.roll.id]?.[slot.key] ?? '0'), 0); return <tr key={item.roll.id}><th><strong>{item.roll.roll_number}</strong><small>{item.roll.material_name}</small></th><td>{item.issued} {item.roll.unit_code}</td><td><input aria-label={`${item.roll.roll_number} terpakai`} aria-invalid={parseQuantityInput(item.consumed, 'MEASURE', item.issued) === null} inputMode="decimal" value={item.consumed} onChange={(event) => setSelectedRolls((current) => ({ ...current, [item.roll.id]: { ...current[item.roll.id], consumed: event.target.value } }))}/></td><td className={consumed > item.issued ? 'bad' : ''}>{display(item.issued - consumed, 2)}</td>{slots.map((slot) => <td key={slot.key}><input aria-label={`${item.roll.roll_number} ${slotLabel(slot,slots)}`} aria-invalid={parseQuantityInput(yields[item.roll.id]?.[slot.key] ?? '0') === null} inputMode="numeric" value={yields[item.roll.id]?.[slot.key] ?? '0'} onFocus={(event) => event.currentTarget.select()} onChange={(event) => setYields((current) => ({ ...current, [item.roll.id]: { ...current[item.roll.id], [slot.key]: event.target.value } }))}/></td>)}<td><strong>{display(rowPieces)}</strong></td></tr>})}</tbody></table></div>}</section>
 
         {/* Reading suggestions is also the path to reconcile a pending plan.
             Active sends block this entry; every write keeps its recovery lock. */}

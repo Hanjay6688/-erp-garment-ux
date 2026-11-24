@@ -15,6 +15,7 @@ export type FabricRoll = {
   material: string
   yards: number
   receivedAt: string
+  sizeQuantities?: number[]
   allocation: SlotAllocation
 }
 
@@ -41,6 +42,8 @@ export const rollSizeQuantities = (allocation: SlotAllocation): QtyTuple => [
   allocation[0] + allocation[1], allocation[2] + allocation[3], allocation[4] + allocation[5],
 ]
 
+export const quantitiesForRoll = (roll:FabricRoll) => roll.sizeQuantities ?? rollSizeQuantities(roll.allocation)
+
 export const cellQuantity = (value: string | undefined) => Math.max(0, Math.round(Number(value) || 0))
 
 export const balancedBatchTargets = (total: number, count: number) => {
@@ -63,7 +66,7 @@ function allocateWholeSources(sources: { key: string; qty: number }[], count: nu
 function createRollAllocationMatrix(rolls: FabricRoll[], count: number): AllocationMatrix {
   return allocateWholeSources(rolls.map(roll => ({
     key: roll.id,
-    qty: rollSizeQuantities(roll.allocation).reduce((sum, qty) => sum + qty, 0),
+    qty: quantitiesForRoll(roll).reduce((sum, qty) => sum + qty, 0),
   })), count)
 }
 
@@ -76,14 +79,14 @@ export function createRollBatchSizeMatrix(rolls: FabricRoll[], count: number): R
   const wholeRollPlan = createRollAllocationMatrix(rolls, count)
   return Object.fromEntries(rolls.map((roll) => {
     const assignedBatch = (wholeRollPlan[roll.id] ?? []).findIndex((value) => cellQuantity(value) > 0)
-    const sourceSizes = rollSizeQuantities(roll.allocation)
-    return [roll.id, Array.from({ length: count }, (_, batchIndex) => batchIndex === assignedBatch ? sourceSizes.map(String) : ['0', '0', '0'])]
+    const sourceSizes = quantitiesForRoll(roll)
+    return [roll.id, Array.from({ length: count }, (_, batchIndex) => batchIndex === assignedBatch ? sourceSizes.map(String) : sourceSizes.map(()=>'0'))]
   }))
 }
 
 export function createEmptyRollBatchSizeMatrix(rolls: FabricRoll[], count: number): RollBatchSizeMatrix {
   const safeCount = Math.max(1, count)
-  return Object.fromEntries(rolls.map((roll) => [roll.id, Array.from({ length: safeCount }, () => ['0', '0', '0'])]))
+  return Object.fromEntries(rolls.map((roll) => [roll.id, Array.from({ length: safeCount }, () => quantitiesForRoll(roll).map(()=>'0'))]))
 }
 
 export const fabricRollCatalog: FabricRoll[] = [
