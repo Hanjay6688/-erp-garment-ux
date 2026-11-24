@@ -636,8 +636,8 @@
       "sha256": "8dcafcf1ead9dec38713f7a75f317eed63de1bf64a666e0e354c540e913a7ab4"
     },
     "tests/browser/cp8-worker.spec.ts": {
-      "bytes": 39179,
-      "sha256": "e9f02cdafde59856062da21503a20e2c3056908c8e3e9f16924632a429ab7f1a"
+      "bytes": 39981,
+      "sha256": "edd597d86d9d2d154f969e34b0df3363c1cb31f6959fda036d0c5efc8b839d0d"
     },
     "tests/fg-quantity.test.ts": {
       "bytes": 1251,
@@ -948,8 +948,8 @@
       "sha256": "05600a6138f4be9ab6e1013ed52469470bea1c952b4d636e1759ff5a8ed93ca3"
     },
     "worker-demo/src/InventoryControlPages.tsx": {
-      "bytes": 21570,
-      "sha256": "aa1ef8c2f3a66c25e2d703236b178acaca580c8e0d3eb659b8db7aa51d7bfdf1"
+      "bytes": 24265,
+      "sha256": "40491d264569c9958cc9b5f1f94620290e1c8ebca02043debe0b0d409fec0355"
     },
     "worker-demo/src/LaundryBdPanel.tsx": {
       "bytes": 71911,
