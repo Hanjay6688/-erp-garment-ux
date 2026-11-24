@@ -2,8 +2,9 @@ import { Icon } from '../components/AppIcon'
 import CuttingPatternPicker, { hasCanonicalPattern } from '../CuttingPatternPicker'
 import type { CuttingPatternChoice } from '../CuttingPatternPicker'
 import { Field, MultiCheckFilter } from './controls'
+import {ReasonDialog} from './planner/ReasonDialog'
 import { AdviceBox, pickupPath } from './planner/ProductionAdvice'
-import { day, patternFor, plan, productFor, products, recordCut, rolls, suggestedCut, yardsLeft, type Plan } from './planner/model'
+import { articles, articleChoice, cutArticle, planningPattern, rangeLabel, cutRolls, lotLabel, lotPattern, modelSeries, patternFor, plan, productFor, recordCut, rolls, seriesLabel, suggestedCut, yardsLeft, type Plan } from './planner/model'
 import { usePlannerSession, changeSession } from './planner/session'
 import {
   cuttingSizes,
@@ -13,7 +14,6 @@ import {
 import type { CuttingSizeSlot, FabricRoll } from './cuttingAllocation'
 import { cleanDecimalInput, dozenPieces, formatQuantity, parseDecimal } from './format'
 import type { QtyTuple } from './productionModel'
-import { productSizes } from './stockModel'
 import { ChevronDown } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type {
@@ -23,11 +23,11 @@ import type {
   PointerEvent as ReactPointerEvent,
 } from 'react'
 
-const cuttingSizeOptions = [...productSizes].sort((left,right)=>(Number(left)||0)-(Number(right)||0))
+const blankSlots = (sizes: string[]) => sizes.map(size=>({key:crypto.randomUUID(),size}))
 
 const fabricRollSuppliers=Array.from(new Set(rolls.map(roll=>roll.supplier)))
 const fabricRollMaterials=rolls.map(roll=>roll.material)
-type CuttingDraft = { sku:string; brand:string; model:string; date:string; selectedPattern:CuttingPatternChoice|null; ids:string[]; yards:Record<string,string>; slots:CuttingSizeSlot[]; amounts:Record<string,number[]> }
+type CuttingDraft = { sku:string; brand:string; model:string; date:string; notes?:string; eta?:string; selectedPattern:CuttingPatternChoice|null; ids:string[]; yards:Record<string,string>; slots:CuttingSizeSlot[]; amounts:Record<string,number[]> }
 const draftKey='atelier.cutting-draft.nov24.1'
 function readDraft(): CuttingDraft|null {
   try {return JSON.parse(sessionStorage.getItem(draftKey)??'null')} catch {return null}
@@ -36,33 +36,44 @@ export function CuttingRollPage() {
   const session=usePlannerSession()
   const fabricRollCatalog:FabricRoll[]=rolls.map((roll,index)=>({...roll,sequence:index+1,yards:yardsLeft(roll.id,session),receivedAt:'23 Nov 2026',allocation:[0,0,0,0,0,0]}))
   const [draft]=useState(readDraft)
-  const [sku,setSku]=useState(draft?.sku??'93001')
-  const [brand,setBrand]=useState(draft?.brand??'Vivo')
-  const [model,setModel]=useState(draft?.model??'Kulot Jumbo')
+  const [savedDraft,setSavedDraft]=useState(Boolean(draft)),[deleteDraft,setDeleteDraft]=useState(false)
+  function restoreDraft(){const d=readDraft();if(!d){setSavedDraft(false);return}
+    setSku(d.sku);setBrand(d.brand);setModel(d.model);setDate(d.date);setNotes(d.notes??'');setEta(d.eta??'');setSelectedPattern(d.selectedPattern);setSelectedRollIds(d.ids);setSizeSlots(d.slots);setRollYardUsage(d.yards);setAllocations(d.amounts);setSavedId('');setSizeNotice('');requestId.current=crypto.randomUUID();setNotice('Draft dibuka untuk diedit.')
+  }
+  const [sku,setSku]=useState(draft?.sku??'')
+  const [brand,setBrand]=useState(draft?.brand??'')
+  const hasSampleRoll=!draft&&yardsLeft('ORI-021',session)>=27
+  const [model,setModel]=useState(draft?.model??(hasSampleRoll?'Kulot Jumbo':''))
   const [date,setDate]=useState(draft?.date??'2026-11-24')
+  const [notes,setNotes]=useState(draft?.notes??'')
+  const [eta,setEta]=useState(draft?.eta??'')
+  const linked=cutArticle(sku)
+  const series=linked&&linked.model===model ? {name:linked.sizes.length===1?'khusus':modelSeries[model].name,sizes:linked.sizes} : modelSeries[model]
+  const cuttingSizeOptions=series?.sizes??[]
   const [notice,setNotice]=useState('')
   const [savedId,setSavedId]=useState('')
   const requestId=useRef(crypto.randomUUID())
-  const linked=productFor(sku)
   const formRef=useRef<HTMLElement>(null)
   const [query,setQuery]=useState('')
   const [selectedPattern,setSelectedPattern]=useState<CuttingPatternChoice|null>(draft?.selectedPattern??null)
   const [sizeNotice,setSizeNotice]=useState('')
   const [selectedSuppliers,setSelectedSuppliers]=useState([...fabricRollSuppliers])
   const [selectedMaterials,setSelectedMaterials]=useState([...fabricRollMaterials])
-  const [selectedRollIds,setSelectedRollIds]=useState(()=>draft?.ids??['ORI-021'])
-  const [rollYardUsage,setRollYardUsage]=useState<Record<string,string>>(()=>draft?.yards??Object.fromEntries(fabricRollCatalog.map((roll)=>[roll.id,String(roll.id==='ORI-021'?Math.min(27,roll.yards):roll.yards).replace('.',',')])))
-  const [sizeSlots,setSizeSlots]=useState<CuttingSizeSlot[]>(()=>draft?.slots??[{key:'32-1',size:'32'}])
+  const [selectedRollIds,setSelectedRollIds]=useState(()=>draft?.ids??(hasSampleRoll?['ORI-021']:[]))
+  const [rollYardUsage,setRollYardUsage]=useState<Record<string,string>>(()=>draft?.yards??Object.fromEntries(fabricRollCatalog.map((roll)=>[roll.id,String(hasSampleRoll&&roll.id==='ORI-021'?27:roll.yards).replace('.',',')])))
+  const [sizeSlots,setSizeSlots]=useState<CuttingSizeSlot[]>(()=>draft?.slots??(hasSampleRoll?blankSlots(modelSeries['Kulot Jumbo'].sizes):[]))
   const nextSlotKeyRef=useRef(initialCuttingSizeSlots.length+1)
-  const [allocations,setAllocations]=useState<Record<string,number[]>>(()=>draft?.amounts??{'ORI-021':[18]})
+  const [allocations,setAllocations]=useState<Record<string,number[]>>(()=>draft?.amounts??(hasSampleRoll?{'ORI-021':[4,8,6]}:{}))
   const [fillRange,setFillRange]=useState<{source:number;target:number}|null>(null)
   function useAdvice(row:Plan, material?:string, scroll=true) {
     const p=row.product, {route,roll,qty}=suggestedCut(row,session,material)
-    if(!qty)return
+    if(!qty||!row.reference)return
     setSku(p.sku);setBrand(p.brand);setModel(patternFor(route.pattern).name);setDate('2026-11-24')
-    setSelectedPattern(patternFor(route.pattern));setSelectedRollIds([roll.id])
+    setSelectedPattern(patternFor(row.reference));setSelectedRollIds([roll.id])
     setSelectedSuppliers([...fabricRollSuppliers]);setSelectedMaterials([...fabricRollMaterials]);setQuery('')
-    setSizeSlots([{key:p.size+'-saran',size:p.size}]);setAllocations({[roll.id]:[qty]})
+    const sizes=modelSeries[patternFor(route.pattern).name].sizes
+    setSizeSlots(blankSlots(sizes));setAllocations({[roll.id]:sizes.map(size=>size===p.size?qty:0)})
+    setEta(p.due);setNotes('');setSizeNotice('')
     setRollYardUsage({[roll.id]:String(qty*roll.yardPerPiece)})
     requestId.current=crypto.randomUUID()
     setSavedId('');setNotice('Form terisi untuk '+p.brand+' '+p.sku+'. Periksa jumlah dan yard sebelum menyimpan.')
@@ -70,7 +81,11 @@ export function CuttingRollPage() {
   }
   useEffect(()=>{
     const p=productFor(new URLSearchParams(window.location.search).get('sku')??'')
-    if(p){const row=plan(p,session);if(row.short>0)useAdvice(row,new URLSearchParams(window.location.search).get('bahan')??undefined,false)}
+    if(p){
+      const row=plan(p,session)
+      if(row.short>0&&row.reference&&!row.review.length)useAdvice(row,new URLSearchParams(window.location.search).get('bahan')??undefined,false)
+      window.history.replaceState(window.history.state,'',window.location.pathname)
+    }
   },[])
   const fillRangeRef=useRef<{source:number;target:number}|null>(null)
   const fillDraggedRef=useRef(false)
@@ -103,21 +118,46 @@ export function CuttingRollPage() {
   const slotTotals=sizeSlots.map((_,slotIndex)=>selectedRolls.reduce((sum,roll)=>sum+(allocations[roll.id]?.[slotIndex]??0),0))
   const sizeTotalByName=Object.fromEntries(selectedCuttingSizes.map((size)=>[size,sizeSlots.reduce((sum,slot,slotIndex)=>sum+(slot.size===size?slotTotals[slotIndex]:0),0)])) as Record<string,number>
   const totalPieces=slotTotals.reduce((sum,qty)=>sum+qty,0)
+  function selectModel(name:string,sizes=modelSeries[name]?.sizes??[],fromArticle=false) {
+    if(!fromArticle&&linked&&name!==linked.model){setSizeNotice('Kosongkan SKU rencana dulu untuk memilih model lain.');return false}
+    if(name===model&&sizes.length===new Set(sizeSlots.map(s=>s.size)).size&&sizeSlots.every(s=>sizes.includes(s.size)))return true
+    if(sizeSlots.some((slot,i)=>!sizes.includes(slot.size)&&Object.values(allocations).some(values=>values[i]>0))){
+      setSizeNotice('Kosongkan hasil ukuran di luar seri baru sebelum mengganti model.');return false
+    }
+    const newSlots=sizes.flatMap(size=>{
+      const same=sizeSlots.filter(slot=>slot.size===size)
+      return same.length ? same : blankSlots([size])
+    })
+    setAllocations(current=>Object.fromEntries(Object.entries(current).map(([id,values])=>[id,newSlots.map(slot=>values[sizeSlots.indexOf(slot)]??0)])))
+    setModel(name);setSizeSlots(newSlots);setSizeNotice('');return true
+  }
+  function selectSku(value:string) {
+    if(!value){setSku('');setSizeNotice('');return}
+    const article=cutArticle(value)
+    if(!article)return
+    if(!selectModel(article.model,article.sizes,true))return
+    setSku(value)
+    const ref=planningPattern(article,session)
+    if(!selectedPattern&&ref)setSelectedPattern(patternFor(ref))
+  }
   function storeCut() {
     if(savedId)return
     try {
-      if(!linked||brand!==linked.brand||!selectedPattern||model.trim().toLowerCase()!==selectedPattern.name.toLowerCase())throw Error('Periksa merek, SKU, dan nama pola di form.')
-      if(selectedRolls.length!==1||selectedCuttingSizes.length!==1)throw Error('Untuk latihan per pesanan ini, pilih satu roll dan satu ukuran fisik.')
-      const roll=selectedRolls[0]
-      const next=changeSession(current=>recordCut(current,{requestId:requestId.current,sku,patternId:selectedPattern.id,size:selectedCuttingSizes[0],roll:roll.id,qty:totalPieces,yards:rollUsageRows[0].used,date}))
+      if(!selectedPattern||!series)throw Error('Pilih model, seri dan pola.')
+      const next=changeSession(current=>recordCut(current,{
+        requestId:requestId.current,sku:linked?.sku,articleKey:linked?.key,brand,model,series,pattern:selectedPattern,date,notes,eta,
+        location:'Gudang Kain',slots:sizeSlots.map(slot=>slot.size),
+        rolls:rollUsageRows.map(({roll,used})=>({id:roll.id,yards:used,quantities:sizeSlots.map((_,i)=>allocations[roll.id]?.[i]??0)})),
+      }))
       const id=next.cuts.find(l=>l.requestId===requestId.current)!.id
-      sessionStorage.removeItem(draftKey)
+      sessionStorage.removeItem(draftKey);setSavedDraft(false)
       setSavedId(id);setNotice(id+' tersimpan. '+totalPieces+' pcs sekarang menunggu mandor. Saran potong sudah dihitung ulang.')
     } catch(error){setNotice((error as Error).message)}
   }
   function storeDraft(){
-    const data:CuttingDraft={sku,brand,model,date,selectedPattern,ids:selectedRollIds,yards:rollYardUsage,slots:sizeSlots,amounts:allocations}
-    sessionStorage.setItem(draftKey,JSON.stringify(data));setNotice('Draft tersimpan di tab ini. Jumlah WIP tetap sama sampai hasil potong disimpan.')
+    if(sku && brand && linked?.brand!==brand){setNotice('Periksa kecocokan merek dan SKU rencana.');return}
+    const data:CuttingDraft={sku,brand,model,date,eta,notes,selectedPattern,ids:selectedRollIds,yards:rollYardUsage,slots:sizeSlots,amounts:allocations}
+    sessionStorage.setItem(draftKey,JSON.stringify(data));setSavedDraft(true);setNotice('Draft tersimpan di tab ini. Jumlah WIP tetap sama sampai hasil potong disimpan.')
   }
   const slotGridStyle={'--cutting-slot-count':displayedSizeSlots.length} as CSSProperties
   const sizeSummaryStyle={'--cutting-size-columns':Math.min(3,Math.max(1,selectedCuttingSizes.length))} as CSSProperties
@@ -129,7 +169,7 @@ export function CuttingRollPage() {
     return fabricRollCatalog.filter((roll)=>next.has(roll.id)).map((roll)=>roll.id)
   })
   const updateRollYardUsage=(rollId:string,value:string)=>setRollYardUsage((current)=>({...current,[rollId]:cleanDecimalInput(value)}))
-  const useFullRoll=(roll:FabricRoll)=>setRollYardUsage((current)=>({...current,[roll.id]:String(roll.yards).replace('.',',')}))
+  const useFullRoll=(roll:FabricRoll)=>setRollYardUsage((current)=>({...current,[roll.id]:String(hasSampleRoll&&roll.id==='ORI-021'?27:roll.yards).replace('.',',')}))
   const activateSize=(size:string)=>{
     if(sizeSlots.some((slot)=>slot.size===size))return
     const targetOrder=cuttingSizeOptions.indexOf(size)
@@ -341,11 +381,17 @@ export function CuttingRollPage() {
     const targetSlot=sourceSlot<sizeSlots.length-1?sourceSlot+1:sourceSlot-1
     fillColumnsFromSource(sourceSlot,targetSlot)
   }
-  const heading=<section className="hero-copy compact cutting-hero"><div className="eyebrow">PRODUKSI · CUTTING</div><h1>Buat Potongan</h1><p>Pilih saran untuk mengisi roll, pola, ukuran, dan jumlah. Simpan sesudah kain benar-benar dipotong.</p></section>
+  const clearForm=()=>{
+    setSku('');setBrand('');setModel('');setSelectedPattern(null);setSelectedRollIds([]);setSizeSlots([]);setAllocations({});setEta('');setNotes('');setSizeNotice('')
+    setRollYardUsage(Object.fromEntries(fabricRollCatalog.map(r=>[r.id,String(r.yards)])))
+    setSavedId('');requestId.current=crypto.randomUUID()
+    setNotice('Form kosong siap diisi.')
+  }
+  const heading=<section className="hero-copy compact cutting-hero"><div className="eyebrow">PRODUKSI · CUTTING</div><h1>Buat Potongan</h1><p>Pilih model dan serinya, lalu catat hasil potong dari roll yang dipakai.</p>{!savedId&&<button type="button" className="gar-text" onClick={clearForm}>Mulai form kosong</button>}</section>
   const saved=session.cuts.find(lot=>lot.id===savedId)
   if(saved)return <>{heading}<div className="gar-success" role="status">{notice} <a href={pickupPath+'?pot='+saved.id}>Bagi {saved.id}</a></div>
-    <section className="panel gar-panel"><div className="gar-panel-head"><h2>{saved.id} · {linked?.brand} {saved.sku}</h2><span>Menunggu mandor</span></div>
-      <p>{saved.qty} pcs ukuran {saved.size} · {patternFor(saved.pattern).name} · {saved.material}.</p><p>Roll {saved.roll} · {saved.sourceYards} yd sebelum dipotong · dipakai {saved.usedYards} yd · sisa {saved.remainingYards} yd.</p>
+    <section className="panel gar-panel"><div className="gar-panel-head"><h2>{saved.id} · {lotLabel(saved)}</h2><span>Menunggu mandor</span></div>
+      <p>{saved.qty} pcs · {seriesLabel(saved.series!)} · {lotPattern(saved).name}</p>{cutRolls(saved).map(r=><div key={r.id}><p>Roll {r.id} · {r.sourceYards} yd sebelum dipotong · dipakai {r.usedYards} yd · sisa {r.remainingYards} yd.</p><small>{r.slots.filter(s=>s.qty>0).map(s=>s.size+s.image+' = '+s.qty+' pcs').join(' · ')}</small></div>)}
       <div className="gar-actions"><a className="gar-button" href="/analisis/planner/">Lihat perubahan di Planner</a><button type="button" className="gar-button" disabled>Simpan Potongan ke WIP · sudah tersimpan</button></div></section>
     <AdviceBox mode="cut" session={session} onCut={useAdvice}/></>
   return <>{heading}
@@ -360,7 +406,7 @@ export function CuttingRollPage() {
         <div className="cutting-roll-list">{visibleRolls.map((roll)=>{const selected=selectedIdSet.has(roll.id);return <button type="button" aria-pressed={selected} className={`stock-roll-row ${selected?'selected':''}`} key={roll.id} onClick={()=>toggleRoll(roll.id)}><span className="roll-select-box">{selected&&<Icon name="check"/>}</span><span className="stock-roll-seq">{String(roll.sequence).padStart(2,'0')}</span><span className="stock-roll-name"><strong>{roll.material}</strong><small>{roll.supplier} · {roll.id} · masuk {roll.receivedAt}</small></span><span className="stock-roll-yard"><strong>{formatQuantity(roll.yards,2)} yd</strong><small>{selected?'Masuk pembagian':'Siap dipilih'}</small></span></button>})}{visibleRolls.length===0&&<div className="catalog-empty"><Icon name="search"/><strong>Roll tidak ditemukan</strong><small>Periksa pencarian atau pilihan filter pabrik dan bahan.</small></div>}</div>
       </div>
       <aside className="panel cutting-live-summary">
-        <div className="eyebrow">BATCH PRODUKSI</div><h2>{brand} {sku} · {model}</h2><p>Ukuran {selectedCuttingSizes.join(', ')}{linked?' · '+linked.customer+' · '+day(linked.due):''}</p><p>Hasil cutting ini belum didistribusikan ke batch Mandor.</p>
+        <div className="eyebrow">BATCH PRODUKSI</div><h2>{model||'Potongan baru'}</h2><p>{series?seriesLabel(series):'Seri belum dipilih'}{linked?' · '+linked.key+' · '+linked.colour:''}</p><p>Hasil cutting ini belum didistribusikan ke batch Mandor.</p>
         <div className="cutting-summary-main"><div><span>YARD USED</span><strong>{formatQuantity(totalUsedYards,2)} yd</strong><small>{selectedRolls.length} roll · {partialRollCount} split</small></div><div><span>TOTAL POTONGAN</span><strong>{totalPieces} pcs</strong><small>{dozenPieces(totalPieces)}</small></div></div>
         <div className="cutting-summary-sizes" style={sizeSummaryStyle}>{selectedCuttingSizes.map((size)=><div key={size}><span>SIZE {size}</span><strong>{sizeTotalByName[size]} pcs</strong><small>{dozenPieces(sizeTotalByName[size])}</small></div>)}</div>
         <div className="po-preview"><Icon name="warehouse"/><div><strong>Tujuan berikutnya: WIP Potongan</strong><span>Setelah disimpan, hasil ini menunggu mandor mengambil. Pembagian batch dilakukan saat pickup.</span></div></div>
@@ -381,17 +427,22 @@ export function CuttingRollPage() {
       <div className="roll-issue-footer"><div><span>SOURCE SELECTED<strong>{formatQuantity(totalSourceYards,2)} yd</strong></span><i>−</i><span>USED<strong>{formatQuantity(totalUsedYards,2)} yd</strong></span><i>=</i><span className="remaining">REMAINING<strong>{formatQuantity(totalBalanceYards,2)} yd</strong></span></div><button type="button" className="primary-btn" disabled={!yardUsageValid} onClick={()=>document.getElementById('allocation-workbench')?.scrollIntoView({behavior:'smooth',block:'start'})}>Lanjut catat hasil <Icon name="arrow"/></button></div>
     </section>
     <section ref={formRef} className="panel allocation-workbench" id="allocation-workbench">
-      <div className="cutting-panel-head allocation-head"><div><span>03 · HASIL POTONG PER ROLL</span><h2>Susun slot size sesuai gambar hari ini</h2><p>Satu size boleh punya satu, dua, tiga, atau lebih slot. Label gambar hanya muncul kalau size tersebut berulang.</p></div><span className="draft-pill">Draft</span></div>
-      <div className="cutting-meta-grid"><Field label="SKU rencana"><select aria-label="SKU rencana" className="erp-input" value={sku} onChange={e=>{const p=productFor(e.target.value)!;setSku(p.sku);setBrand(p.brand);setModel(patternFor(p.routes[0].pattern).name);setSavedId('')}}>{products.map(p=><option key={p.sku} value={p.sku}>{p.brand} {p.sku}</option>)}</select></Field>
-        <Field label="Merek rencana"><select aria-label="Merek rencana" className="erp-input" value={brand} onChange={e=>setBrand(e.target.value)}><option>Vivo</option><option>Widie</option></select></Field>
-        <Field label="Model"><input className="erp-input" value={model} onChange={e=>setModel(e.target.value)}/></Field><CuttingPatternPicker value={selectedPattern} onChange={value=>{setSelectedPattern(value);if(value)setModel(value.name)}}/>
-        <Field label="Tanggal potong"><input className="erp-input" type="date" value={date} onChange={e=>setDate(e.target.value)}/></Field></div>
-      <div className="cutting-size-picker">
-        <div className="cutting-size-picker-copy"><span>PILIH UKURAN</span><strong>Centang hanya size yang dipotong hari ini</strong><small>Multiplier kolom baru muncul untuk ukuran terpilih. Size yang sudah berisi hasil tidak bisa dilepas diam-diam.</small></div>
+      <div className="cutting-panel-head allocation-head"><div><span>03 · HASIL POTONG PER ROLL</span><h2>Catat hasil satu seri</h2><p>Pilih seri sekali. Isi jumlah aktual pada kolom roll. Ukuran tanpa hasil boleh nol.</p></div><span className="draft-pill">Draft</span></div>
+      <div className="cutting-meta-grid">
+        <Field label="Model dan seri · wajib"><select required aria-label="Model dan seri" className="erp-input" value={model} onChange={e=>selectModel(e.target.value)}><option value="">Pilih model dan seri</option>{Object.entries(modelSeries).map(([name,set])=><option key={name} value={name}>{name} · {seriesLabel(linked&&linked.model===name&&series?series:set)}</option>)}</select></Field>
+        <CuttingPatternPicker value={selectedPattern} onChange={setSelectedPattern}/>
+        <Field label="Merek rencana · opsional"><select aria-label="Merek rencana" className="erp-input" value={brand} onChange={e=>{const next=e.target.value;setBrand(next);if(next&&linked&&linked.brand!==next)setSku('')}}><option value="">Belum ditentukan</option><option>Vivo</option><option>Widie</option></select></Field>
+        <Field label="SKU rencana · opsional"><select aria-label="SKU rencana" className="erp-input" value={sku} onChange={e=>selectSku(e.target.value)}><option value="">Belum ditentukan</option>{articles.filter(a=>!brand||a.brand===brand).map(a=><option key={a.key} value={articleChoice(a)}>{a.key} · {a.colour}</option>)}</select></Field>
+        {linked&&<Field label="Identitas dari Master SKU"><span>{linked.colour} · {linked.sizes.length===1?'Ukuran khusus':'Rentang'} {rangeLabel(linked.sizes)} · {planningPattern(linked,session)?patternFor(planningPattern(linked,session)!).name:'Pola rencana kosong'}</span></Field>}
+        <Field label="Lokasi sumber"><span>Gudang Kain</span></Field>
+        <Field label="Tanggal potong · wajib"><input aria-label="Tanggal potong" required max="2026-11-24" className="erp-input" type="date" value={date} onChange={e=>setDate(e.target.value)}/></Field>
+        <Field label="Perkiraan siap · opsional"><input aria-label="Perkiraan siap" className="erp-input" type="date" value={eta} onChange={e=>setEta(e.target.value)}/></Field>
+        <Field label="Catatan · opsional"><input aria-label="Catatan potongan" className="erp-input" value={notes} onChange={e=>setNotes(e.target.value)}/></Field></div>
+      {sizeNotice&&<p role="status" className="cutting-size-notice">{sizeNotice}</p>}
+      <details className="cutting-size-picker"><summary>Atur anggota seri dan gambar</summary>
         <div className="cutting-size-options">{cuttingSizeOptions.map((size)=>{const checked=selectedCuttingSizes.includes(size);return <label className={checked?'active':''} key={size}><input type="checkbox" checked={checked} onChange={()=>toggleCuttingSize(size)}/><span>{checked&&<Icon name="check"/>}</span><strong>{size}</strong><small>{checked?`${sizeSlots.filter((slot)=>slot.size===size).length} kolom`:'Tidak dipakai'}</small></label>})}</div>
-        {sizeNotice&&<div className="cutting-size-notice" role="status"><Icon name="audit"/><span>{sizeNotice}</span><button type="button" aria-label="Tutup pemberitahuan ukuran" onClick={()=>setSizeNotice('')}><Icon name="close"/></button></div>}
-      </div>
       <div className="size-slot-builder"><div className="size-slot-builder-copy"><span>MULTIPLIER KOLOM</span><strong>Tambah atau kurangi gambar per size terpilih</strong><small>Tombol minus menggabungkan isi kolom terakhir ke kolom sebelumnya—total size tetap aman.</small></div><div className="size-slot-controls">{selectedCuttingSizes.map((size)=>{const count=sizeSlots.filter((slot)=>slot.size===size).length;return <div className="size-slot-control" key={size}><div><span>SIZE {size}</span><strong>{count===1?'1 kolom':`${count} kolom`}</strong><small>{count===1?'Tanpa label gambar':`Gambar A–${drawingLabel(count)}`}</small></div><div><button type="button" disabled={count<=1} aria-label={`Kurangi slot Size ${size}`} title="Gabungkan kolom terakhir ke kolom sebelumnya" onClick={()=>removeSizeSlot(size)}>−</button><b>{count}</b><button type="button" aria-label={`Tambah slot Size ${size}`} title="Tambah kolom gambar baru" onClick={()=>addSizeSlot(size)}>+</button></div></div>})}</div></div>
+      </details>
       <div className="cutting-grid-shortcuts"><span><kbd>Enter</kbd> turun</span><span><kbd>Tab</kbd> ke kanan</span><span><kbd>↑ ↓ ← →</kbd> pindah sel</span><span><Icon name="drag"/> Tarik baris ke atas / bawah</span><span>Tarik kolom ke kiri / kanan</span><span>Paste blok Excel didukung</span></div>
       <div className="column-fill-toolbar"><div><span>FILL SATU KOLOM</span><small>Klik untuk satu kolom · tarik kiri/kanan untuk beberapa</small></div><div className="column-fill-grid" style={slotGridStyle}>{displayedSizeSlots.map((slot,slotIndex)=>{const isSource=columnFillRange?.source===slotIndex;const isPreview=Boolean(columnFillRange&&slotIndex!==columnFillRange.source&&slotIndex>=Math.min(columnFillRange.source,columnFillRange.target)&&slotIndex<=Math.max(columnFillRange.source,columnFillRange.target));const drawingCopy=slot.image?` gambar ${slot.image}`:'';return <button type="button" tabIndex={-1} data-column-fill-slot={slotIndex} className={`${isSource?'fill-source':''} ${isPreview?'fill-preview':''}`} key={slot.key} aria-label={`Salin seluruh kolom size ${slot.size}${drawingCopy}`} title="Klik: salin ke kolom sebelah · tarik: isi beberapa kolom" onPointerDown={(event)=>beginColumnFill(event,slotIndex)} onPointerMove={moveColumnFill} onPointerUp={finishColumnFill} onPointerCancel={cancelColumnFill} onClick={()=>clickColumnFill(slotIndex)}><span>{slot.size}{slot.image&&<small>{slot.image}</small>}</span><Icon name="drag"/></button>})}</div><span>{displayedSizeSlots.length} kolom aktif</span></div>
       <div className="slot-legend"><div><span>SLOT UKURAN</span><small>Jumlah gambar mengikuti susunan di atas</small></div>{displayedSizeSlots.map((slot)=><span key={slot.key}><strong>{slot.size}</strong>{slot.image&&<small>Gbr {slot.image}</small>}</span>)}<b>TOTAL</b></div>
@@ -417,7 +468,9 @@ export function CuttingRollPage() {
         <div><span>04 · SIMPAN HASIL CUTTING</span><h2>Masuk WIP Produksi, belum menjadi Batch Distribusi</h2><p>Jejak roll, yard issued, sisa roll, dan size tetap melekat pada Batch Produksi. Mandor serta Batch Distribusi baru dicatat saat fisik benar-benar diambil.</p></div>
         <div className="cutting-wip-card"><span className="wip-state-dot"/><div><small>STATUS SETELAH DISIMPAN</small><strong>Menunggu mandor mengambil</strong><span>{selectedRolls.length} roll · {formatQuantity(totalUsedYards,2)} yd used · {totalPieces} pcs · {selectedPattern ? `Pola ${selectedPattern.code}/${selectedPattern.revision}` : 'Pola wajib dipilih sebelum simpan'}</span></div></div>
       </section>
-      <div className="allocation-footer"><small>Latihan per pesanan · hasil simpan berlaku di tab ini.</small><div><button type="button" className="soft-btn" onClick={storeDraft} disabled={Boolean(savedId)||!hasCanonicalPattern(selectedPattern)}>Simpan draft cutting</button><button type="button" className="primary-btn" onClick={storeCut} disabled={Boolean(savedId)||!hasCanonicalPattern(selectedPattern)||!yardUsageValid||totalPieces===0}>Simpan Potongan ke WIP <Icon name="arrow"/></button></div></div>
+      {savedDraft&&<div className="document-actions"><strong>Draft potongan</strong><button type="button" onClick={restoreDraft}>Edit draft tersimpan</button><button type="button" onClick={()=>setDeleteDraft(true)}>Hapus draft</button></div>}
+      {deleteDraft&&<ReasonDialog title="Hapus draft potongan?" closeLabel="Kembali" onClose={()=>setDeleteDraft(false)}><p>Draft ini bisa dibuang sebelum hasil potongan masuk ke WIP.</p><button type="button" onClick={()=>{sessionStorage.removeItem(draftKey);setSavedDraft(false);setDeleteDraft(false);clearForm();setNotice('Draft potongan dihapus.')}}>Ya, hapus draft ini</button></ReasonDialog>}
+      <div className="allocation-footer"><small>Latihan per pesanan · hasil simpan berlaku di tab ini.</small><div><button type="button" className="soft-btn" onClick={storeDraft} disabled={Boolean(savedId)||!series||!hasCanonicalPattern(selectedPattern)||!date||!yardUsageValid||!selectedRolls.every(r=>allocations[r.id]?.some(n=>n>0))}>Simpan draft cutting</button><button type="button" className="primary-btn" onClick={storeCut} disabled={Boolean(savedId)||!hasCanonicalPattern(selectedPattern)||!series||!date||!yardUsageValid||!selectedRolls.every(r=>allocations[r.id]?.some(n=>n>0))}>Simpan Potongan ke WIP <Icon name="arrow"/></button></div></div>
       {notice&&<p className="gar-success">{notice} {savedId&&<a href={pickupPath+'?pot='+savedId}>Buka Bagi Potongan</a>}</p>}
     </section>
   </>

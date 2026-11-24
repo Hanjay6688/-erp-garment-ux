@@ -1,3 +1,4 @@
+import RecordTable from './RecordTable'
 import {useCallback,useEffect,useRef,useState} from 'react'
 import {formatCp6WibDateTime} from './cp6BusinessTime'
 import {formatReceiptDecimal} from './procurementContract'
@@ -22,7 +23,7 @@ export function AnalysisFinanceSummary({data,allowed,progressOnly=false}:{data:A
   {financeFiguresVisible(data,allowed)&&r&&!progressOnly?<>
    <p>Laporan resmi dibaca {formatCp6WibDateTime(r.reportReadAt)}; periode {r.dates.from} sampai {r.dates.to}, posisi buku per {r.dates.asOf}. Jam pembacaan laporan dan data operasional ditampilkan terpisah.</p>
    <p>Angka berasal dari pembaca yang sama dengan Laporan Keuangan.</p>
-   <div className="responsive-table"><table><thead><tr><th>Angka laporan resmi</th><th>Nilai</th></tr></thead><tbody>{r.metrics.map(m=><tr key={m.id} data-finance-metric={m.id}><td>{analysisFinanceMetricLabel(m.id)}</td><td>{m.value.state==='KNOWN'?`Rp${formatReceiptDecimal(m.value.value)}`:'Belum diketahui'}</td></tr>)}</tbody></table></div>
+   <div className="responsive-table"><RecordTable><thead><tr><th>Angka laporan resmi</th><th>Nilai</th></tr></thead><tbody>{r.metrics.map(m=><tr key={m.id} data-finance-metric={m.id}><td>{analysisFinanceMetricLabel(m.id)}</td><td>{m.value.state==='KNOWN'?`Rp${formatReceiptDecimal(m.value.value)}`:'Belum diketahui'}</td></tr>)}</tbody></RecordTable></div>
   </>:null}
  </>
 }

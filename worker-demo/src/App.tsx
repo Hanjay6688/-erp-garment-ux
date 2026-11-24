@@ -51,6 +51,7 @@ import type { KeyboardEvent as ReactKeyboardEvent } from 'react'
 import { applyUxTampilan, readUxTampilan, saveUxTampilan, type UxTampilan } from './uxTampilan'
 import { UxTampilanToggle } from './UxTampilanToggle'
 import { StageLots } from './demo/planner/StageLots'
+import { SkuRangePage } from './demo/SkuRangePage'
 import { cuttingFormAt, productionForms } from './demoCuttingRoutes'
 
 export { UnassignedRollCard } from './demo/CuttingRollPage'
@@ -254,7 +255,7 @@ function ErpApp() {
   const setPage=(next:Page)=>{if(next!==page)setInvoiceSource(null);setSourceEpoch(value=>value+1);setPageState(next)}
   const [invoiceSource,setInvoiceSource] = useState<{saleId:string;scope:string}|null>(null)
   const invoiceSourceScope=runtime.mode!=='DEMO_SIMULATION'&&identity.status==='AUTHORIZED'?`${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`:null
-  const [expanded, setExpanded] = useState<NavSection | null>(() => demoAccess && cuttingFormAt(window.location.pathname) ? 'Produksi' : null)
+  const [expanded, setExpanded] = useState<NavSection | null>(() => demoAccess && cuttingFormAt(window.location.pathname) ? (window.location.pathname.startsWith('/gudang/')?'Gudang':window.location.pathname.startsWith('/master/')?'Master Data':'Produksi') : null)
   useEffect(() => {
     if (!demoAccess) return
     const openedForm = cuttingFormAt(window.location.pathname)
@@ -607,7 +608,7 @@ function ErpApp() {
         />}
         {page === 'hpp' && <Suspense fallback={<WorkspaceFallback label="HPP & Rekalkulasi"/>}>{runtime.mode === 'DEMO_SIMULATION' ? <HppPage /> : <ConnectedSkuHppPage/>}</Suspense>}
         {(page === 'master-fabric' || page === 'master-accessory') && <Suspense fallback={<WorkspaceFallback label="Master Material"/>}>{runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedMasterPage view={page}/> : <MaterialMasterPages view={page}/>}</Suspense>}
-        {(page === 'master-products' || page === 'master-customers' || page === 'master-partners' || page === 'master-workforce' || page === 'master-locations') && <Suspense fallback={<WorkspaceFallback label="Master Data"/>}>{page === 'master-products' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedSkuMasterPage/> : page !== 'master-products' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedMasterPage view={page}/> : <MasterDataPages view={page}/>}</Suspense>}
+        {(page === 'master-products' || page === 'master-customers' || page === 'master-partners' || page === 'master-workforce' || page === 'master-locations') && <Suspense fallback={<WorkspaceFallback label="Master Data"/>}>{page === 'master-products' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedSkuMasterPage/> : page !== 'master-products' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedMasterPage view={page}/> : <>{page==='master-products'&&<SkuRangePage mode="master"/>}<MasterDataPages view={page}/></>}</Suspense>}
         {page === 'master-pattern' && <Suspense fallback={<WorkspaceFallback label="Master Pola"/>}><PatternPage/></Suspense>}
         {page === 'admin-access' && <Suspense fallback={<WorkspaceFallback label="Pengguna & Hak Akses"/>}><AccessControlPage/></Suspense>}
         {page === 'pocket-fabric' && <Suspense fallback={<WorkspaceFallback label="Kain kantong"/>}><ConnectedPocketFabricPage/></Suspense>}

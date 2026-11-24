@@ -1,6 +1,8 @@
+import ModalBoundary from './ModalBoundary'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
+import SelectSearch from './SelectSearch'
 import { AuthProvider } from './auth/AuthProvider'
 import { AuthGate, RuntimeConfigurationFailure } from './auth/AuthGate'
 import {
@@ -76,7 +78,7 @@ try {
     root.render(
       <React.StrictMode>
         <AuthProvider runtime={runtime}>
-          <AuthGate><App /></AuthGate>
+          <AuthGate><App /><SelectSearch/><ModalBoundary/></AuthGate>
         </AuthProvider>
       </React.StrictMode>,
     )

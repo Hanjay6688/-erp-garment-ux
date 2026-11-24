@@ -1,3 +1,4 @@
+import RecordTable from './RecordTable'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useAuth } from './auth/AuthProvider'
 import { isConnectedRuntime } from './config/runtime'
@@ -102,7 +103,7 @@ function Report({ report: r }: { report: AccessoryPeriodReport }) {
     <p>{r.counts.issue_items} detail pengambilan · {r.counts.lots} lot GOOD · {r.counts.snapshots} snapshot standar.</p>
     {r.counts.issues_without_po > 0 && <p>{r.counts.issues_without_po} detail pengambilan belum terhubung ke PO. Jumlah tetap masuk ke mandor dan kategorinya.</p>}
     {r.counts.unallocated_lots > 0 && <p role="alert">{r.counts.unallocated_lots} lot GOOD pada periode ini belum memiliki penerima mandor yang terbukti. Selisih ditahan sampai sumbernya jelas.</p>}
-    {r.rows.length === 0 ? <p>Tidak ada baris kategori untuk dibandingkan.{r.lot_sources.some(l => l.explicit_zero) ? ' Ada sumber BOM kosong atau rework tanpa aksesori yang dinyatakan secara eksplisit.' : ''}</p> : <div className="asr-scroll"><table>
+    {r.rows.length === 0 ? <p>Tidak ada baris kategori untuk dibandingkan.{r.lot_sources.some(l => l.explicit_zero) ? ' Ada sumber BOM kosong atau rework tanpa aksesori yang dinyatakan secara eksplisit.' : ''}</p> : <div className="asr-scroll"><RecordTable>
       <caption>Jumlah pengambilan dan standar per kategori dalam periode</caption>
       <thead><tr><th>Kategori</th><th>Diambil</th><th>Standar GOOD</th><th>Selisih jumlah periode</th><th>Nilai stok diambil</th><th>Tagihan nota</th><th>HPP standar tersedia</th><th>Penggantian standar tersedia</th></tr></thead>
       <tbody>{r.rows.map(row => <tr key={row.category_id ?? 'unknown'}>
@@ -111,7 +112,7 @@ function Report({ report: r }: { report: AccessoryPeriodReport }) {
         <td>{number(row.actual_inventory_cost, true)}</td><td>{number(row.actual_receivable, true)}</td>
         <td>{number(row.standard_hpp_cost, true)}</td><td>{number(row.standard_reimbursement, true)}</td>
       </tr>)}</tbody>
-    </table></div>}
+    </RecordTable></div>}
     <p>Nilai stok diambil, tagihan nota, HPP standar dan penggantian mandor mengikuti dasar masing-masing. Nilai tersedia dari sumber parsial tetap diberi status belum lengkap.</p>
     <details className="asr-source"><summary>Jejak sumber pengambilan ({r.actual_sources.length})</summary>
       {r.actual_sources.map(s => <article key={s.id} aria-label={`Sumber pengambilan ${s.issue_number}`}>

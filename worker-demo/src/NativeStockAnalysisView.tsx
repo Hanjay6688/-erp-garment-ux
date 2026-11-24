@@ -1,3 +1,4 @@
+import RecordTable from './RecordTable'
 import {StockCoverage} from './StockCoverage'
 import { useEffect, useRef } from 'react'
 import { formatFact } from './cp7/workspace'
@@ -26,14 +27,14 @@ export default function NativeStockAnalysisView({ data, visibleTargets, detailTa
     <h3>Stok dan kebutuhan produksi</h3>
     <p>Angka mengikuti analisis seluruh produk yang sudah diperiksa. Stok proses dan usulan produksi ditampilkan terpisah dari barang jadi yang sudah ada.</p>
     <p>{rows.length} dari {data.analysis.recommendations.length} produk. Pencarian hanya menyaring tampilan.</p>
-    <div className="responsive-table"><table><thead><tr><th>Produk</th><th>Stok fisik</th><th>Target</th><th>Kurang setelah stok proses terikat</th><th>Kurang setelah pembagian global</th><th>Rincian</th></tr></thead>
+    <div className="responsive-table"><RecordTable><thead><tr><th>Produk</th><th>Stok fisik</th><th>Target</th><th>Kurang setelah stok proses terikat</th><th>Kurang setelah pembagian global</th><th>Rincian</th></tr></thead>
       <tbody>{rows.map(r => <tr key={r.target.key} data-analysis-target={r.target.key}>
         <td><strong>{analysisProductLabel(r, data)}</strong></td><td data-label="Stok fisik"><Fact name="actual_fg" value={r.actual_fg}/><StockCoverage item={r} metrics={data.analysis.metrics} timeline={data.analysis.timeline}/></td>
         <td data-label="Target"><Fact name="target_qty" value={r.target_qty}/></td>
         <td data-label="Kurang setelah stok proses terikat"><Fact name="q_base" value={r.q_base}/></td>
         <td data-label="Kurang setelah pembagian global"><Fact name="q_conditional" value={r.q_conditional}/></td>
         <td><button disabled={blocked || data.state !== 'UNCHANGED'} onClick={() => onInspect(r.target.key)}>Periksa rincian stok {analysisProductLabel(r, data)}</button></td>
-      </tr>)}</tbody></table></div>
+      </tr>)}</tbody></RecordTable></div>
     {detail ? <dialog ref={dialog} className="native-analysis-popup" aria-label={`Rincian stok ${analysisProductLabel(detail, data)}`}
       data-run-id={data.runId} data-source-hash={data.analysis.snapshot.source_hash} data-semantic-hash={data.analysis.semantic_hash}
       data-analysis-target={detail.target.key} onCancel={onClose} onClose={onClose}>

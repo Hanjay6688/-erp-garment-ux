@@ -1,3 +1,4 @@
+import RecordTable from './RecordTable'
 import {useEffect, useMemo, useRef, useState} from 'react'
 import {useAuth} from './auth/AuthProvider'
 import {getUatSupabaseClient} from './lib/supabase'
@@ -182,7 +183,7 @@ function Workspace({groupId,sourceKey,parentBusy,onAuthorityLost}:Props) {
         <p>Rentang empiris {display(e.interval.lower_pcs)}–{display(e.interval.upper_pcs)} pcs; tengah {display(e.interval.center_pcs)} pcs.</p>
         <p>{e.basis==='WITH_RECORDED_WIDTH'?'Memakai lebar kain yang dicatat.':'Lebar belum menjadi dasar penilaian; variasinya tetap berada dalam rentang.'}</p>
         <p>{e.status==='PREDICTION_ONLY'?'Hasil fisik belum diposting; ini perkiraan dari rencana pemakaian kain.':e.status==='WITHIN_EMPIRICAL_INTERVAL'?'Hasil nyata berada dalam rentang empiris.':'Hasil nyata berada di luar rentang empiris. Periksa kejadian ini; penyebabnya belum diketahui.'}</p>
-        <table><thead><tr><th>Kelompok</th><th>Kejadian berbeda</th></tr></thead><tbody>{([['Belajar','train'],['Kalibrasi','calibration'],['Pemeriksaan terpisah','holdout']]as const).map(([label,key])=><tr key={key}><td>{label}</td><td>{new Set(e.folds[key].map(r=>r.batch_key)).size}</td></tr>)}</tbody></table>
+        <RecordTable><thead><tr><th>Kelompok</th><th>Kejadian berbeda</th></tr></thead><tbody>{([['Belajar','train'],['Kalibrasi','calibration'],['Pemeriksaan terpisah','holdout']]as const).map(([label,key])=><tr key={key}><td>{label}</td><td>{new Set(e.folds[key].map(r=>r.batch_key)).size}</td></tr>)}</tbody></RecordTable>
       </>:<p>{reasonText(e.reason)}</p>}</div>:null}
     </>:<p>Simpan atau pilih draft potongan, lalu muat sumber penilaian.</p>}
   </section>

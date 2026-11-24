@@ -56,3 +56,18 @@
 .gar-fabric {display:block;margin-top:4px}
 
 .gar-material {display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:.85rem;margin:8px 0}.gar-material select {color:var(--text);background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:6px 10px;font:inherit}
+.gar-modal {box-sizing:border-box;width:min(620px,calc(100% - 24px));max-height:85dvh;overflow:auto;border:1px solid var(--line,#bbc6d1);border-radius:13px;padding:clamp(16px,3vw,26px);background:var(--panel,#fff);color:var(--text,#192737);font:inherit;overscroll-behavior:contain}
+.gar-modal::backdrop {background:rgb(15 23 42 / .48)}
+.gar-modal>header {display:flex;align-items:center;justify-content:space-between;gap:1em;margin-bottom:1rem}
+.gar-modal>header h2 {margin:0;font-size:1.2rem}
+.gar-destination {margin:12px 0;padding:12px;border:1px solid var(--line,#bbc6d1);border-radius:8px}
+.gar-destination label {display:inline-grid;gap:4px;margin:10px 10px 4px 0}
+details.cutting-size-picker {display:block}
+details.cutting-size-picker>summary {cursor:pointer;font-weight:600}
+details.cutting-size-picker[open]>summary {margin-bottom:12px}
+.sku-range {margin-block:12px}
+.sku-size-slots,.sku-range-fields {display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,155px),1fr));gap:12px;margin:16px 0}
+.sku-size-slots label,.sku-range label,.sku-range-fields>div {display:grid;align-content:start;gap:5px}
+.sku-range select,.sku-range input {box-sizing:border-box;width:100%;padding:8px;border:1px solid var(--line,#c0cbd8);border-radius:6px;background:var(--panel,#fff);color:inherit;font:inherit}
+.sku-size-slots label {padding:10px;border:1px solid var(--line,#c0cbd8);border-radius:6px}
+.sku-range-field {max-width:360px}

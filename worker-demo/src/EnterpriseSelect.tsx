@@ -20,6 +20,7 @@ export default function EnterpriseSelect({
   disabled = false,
 }: EnterpriseSelectProps) {
   const [open, setOpen] = useState(false)
+  const [query,setQuery]=useState('')
   const rootRef = useRef<HTMLDivElement>(null)
   const labelId = useId()
 
@@ -48,14 +49,15 @@ export default function EnterpriseSelect({
         aria-expanded={open}
         aria-labelledby={labelId}
         disabled={disabled}
-        onClick={() => setOpen((current) => !current)}
+        onClick={() => {setQuery('');setOpen(current=>!current)}}
       >
         <strong>{value}</strong>
         <ChevronDown />
       </button>
       {open && (
         <div className="enterprise-select-menu" role="listbox" aria-labelledby={labelId}>
-          {options.map((option) => {
+          <input autoFocus aria-label={'Cari '+label} placeholder="Ketik untuk mencari…" value={query} onChange={e=>setQuery(e.target.value)}/>
+          {options.filter(o=>o.toLocaleLowerCase().includes(query.trim().toLocaleLowerCase())).map((option) => {
             const active = option === value
             return (
               <button

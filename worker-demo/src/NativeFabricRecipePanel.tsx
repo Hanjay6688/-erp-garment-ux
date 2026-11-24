@@ -1,3 +1,4 @@
+import {parseSkuPattern} from './SkuPlanningPattern'
 import {useEffect,useMemo,useRef,useState} from 'react'
 import {useAuth} from './auth/AuthProvider'
 import {getUatSupabaseClient} from './lib/supabase'
@@ -67,6 +68,19 @@ function Recipes(props:Props&{project:string;profile:string;actor:string;canWrit
   send({id:crypto.randomUUID(),payload:{run_id:data.analysis.runId,target_key:form.target,source_hash:data.analysis.analysis.snapshot.source_hash,expected_revision:data.revision,config,reason:form.reason.trim()}})
  }catch(e){setError(normalizeClientError(e).message)}}
  const targetOptions=props.context?.analysis.recommendations.filter(r=>r.target.kind==='PRODUCT')??[]
+ const currentTarget=targetOptions.find(r=>r.target.key===form.target)?.target
+ async function useMasterPattern(){
+  if(!data||currentTarget?.kind!=='PRODUCT'||!currentTarget.product_id||blocked)return
+  const generation=props.generation,previousTarget=form.target
+  const r=await client.rpc('erp_cp8_get_sku_pattern_v1',{p_group:null,p_product:currentTarget.product_id,p_query:'',p_offset:0})
+  if(!mounted.current||!props.isReadCurrent(generation))return
+  if(r.error){setError('Pola Master SKU belum bisa dibaca.');return}
+  try{const master=parseSkuPattern(r.data),p=master.pattern
+   if(!p||!p.active){setMessage('Master SKU belum memiliki pola rencana aktif.');return}
+   if(!data.patterns.some(x=>x.id===p.id)){setMessage('Pola master '+p.name+' · '+p.revision+' belum ada di halaman pola ini. Buka halaman pola yang sesuai.');return}
+   setForm(f=>f.target===previousTarget?{...f,pattern:p.id}:f);setReviewed(false);setMessage('Pola dari Master SKU · '+p.name+' · '+p.revision)
+  }catch{setError('Identitas pola Master SKU belum bisa dipastikan.')}
+ }
  return <section aria-label="Review pemakaian kain"><h3>Review pemakaian kain</h3>
   <p>Pilih bahan ERP dan isi pemakaian per PCS untuk produk dan ukuran yang direview. Angka ini merupakan asumsi rencana, bukan pemasangan, alokasi bahan, atau hasil potong aktual.</p>
   {busy?<p role="status">Memeriksa sumber dan izin resep kain…</p>:null}{error||recovery.error?<p role="alert">{error||recovery.error}</p>:null}{message?<p role="status">{message}</p>:null}
@@ -80,6 +94,7 @@ function Recipes(props:Props&{project:string;profile:string;actor:string;canWrit
    <fieldset disabled={blocked||!props.canWrite}>
     <label>Bahan kain yang direview<select aria-label="Bahan kain yang direview" value={form.material} onChange={e=>edit({material:e.target.value,rate:''})}><option value="">Pilih bahan kain</option>{data.materials.map(m=><option key={m.id} value={m.id}>{m.sku} · {m.name} · {m.unit}</option>)}</select></label>
     <label>Pola resep kain (opsional)<select aria-label="Pola resep kain" value={form.pattern} onChange={e=>edit({pattern:e.target.value})}><option value="">Pola belum dipilih</option>{data.patterns.map(p=><option key={p.id} value={p.id}>{p.code} · {p.name} · {p.revision}</option>)}</select></label>
+    <button type="button" onClick={()=>void useMasterPattern()}>Ambil pola Master SKU</button>
     <label>Pemakaian kain per PCS<input aria-label="Pemakaian kain per PCS" inputMode="decimal" value={form.rate} maxLength={19} onChange={e=>edit({rate:e.target.value})}/></label><p>Satuan: {data.materials.find(m=>m.id===form.material)?.unit??'pilih bahan terlebih dahulu'} per PCS. Tidak ada angka bawaan.</p>
     <label>Mulai berlaku resep kain (WIB)<input aria-label="Mulai berlaku resep kain WIB" type="datetime-local" step="1" value={form.from} onChange={e=>edit({from:e.target.value})}/></label>
     <p>Tanggal mulai boleh dimundurkan paling lama satu tahun.</p>

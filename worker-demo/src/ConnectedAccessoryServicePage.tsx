@@ -1,3 +1,4 @@
+import RecordTable from './RecordTable'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useAuth } from './auth/AuthProvider'
 import { isConnectedRuntime } from './config/runtime'
@@ -97,17 +98,17 @@ function ServiceWorkspace() {
           <label>Lokasi<select aria-label="Lokasi stok aksesori" value={filters.current.location_id} onChange={e => refresh({ location_id: e.target.value, page: 1 })}>
             <option value="">Semua lokasi</option>{data.locations.map(l => <option key={l.id} value={l.id}>{l.name} · {l.label}</option>)}</select></label>
           <button disabled={locked}>Cari stok</button></form>
-        <table><thead><tr><th>Aksesori</th><th>Lokasi</th><th>Keadaan</th><th>Jumlah</th><th>Nilai</th><th>Terakhir</th><th/></tr></thead><tbody>{data.stock.map(s =>
+        <RecordTable><thead><tr><th>Aksesori</th><th>Lokasi</th><th>Keadaan</th><th>Jumlah</th><th>Nilai</th><th>Terakhir</th><th/></tr></thead><tbody>{data.stock.map(s =>
           <tr key={s.material_id + s.location_id}><td>{s.sku} · {s.name}<br/><small>{s.category}</small></td><td>{s.location}</td><td>{s.bucket}</td>
             <td>{displayQty(s.qty)} {s.unit}</td><td>{displayRupiah(s.value)}</td><td>{s.updated_local}</td>
-            <td><button type="button" disabled={locked} onClick={() => refresh({ card: [s.material_id, s.location_id] })}>Kartu stok {s.sku}</button></td></tr>)}</tbody></table>
+            <td><button type="button" disabled={locked} onClick={() => refresh({ card: [s.material_id, s.location_id] })}>Kartu stok {s.sku}</button></td></tr>)}</tbody></RecordTable>
         {data.stock.length === 0 && <p>Tidak ada stok aksesori yang cocok.</p>}
         <p>Halaman {data.page} dari {pages(data.stock_total)} · {data.stock_total} baris stok
           <button type="button" disabled={locked || data.page <= 1} onClick={() => refresh({ page: data.page - 1 })}>Sebelumnya</button>
           <button type="button" disabled={locked || data.page >= pages(Math.max(data.stock_total, data.documents_total))} onClick={() => refresh({ page: data.page + 1 })}>Berikutnya</button></p>
-        {data.card && <section aria-label="Kartu stok aksesori"><h2>Kartu stok</h2><table><thead><tr><th>Waktu fisik</th><th>Dicatat</th><th>Jenis</th><th>Sebelum</th><th>Jumlah</th><th>Sesudah</th></tr></thead>
+        {data.card && <section aria-label="Kartu stok aksesori"><h2>Kartu stok</h2><RecordTable><thead><tr><th>Waktu fisik</th><th>Dicatat</th><th>Jenis</th><th>Sebelum</th><th>Jumlah</th><th>Sesudah</th></tr></thead>
           <tbody>{data.card.rows.map(r => <tr key={r.movement_id}><td>{r.physical_local}</td><td>{r.recorded_local}</td><td>{r.movement_type} · {r.source_type}</td>
-            <td>{displayQty(r.before)}</td><td>{displayQty(r.qty)}</td><td>{displayQty(r.after)}</td></tr>)}</tbody></table>
+            <td>{displayQty(r.before)}</td><td>{displayQty(r.qty)}</td><td>{displayQty(r.after)}</td></tr>)}</tbody></RecordTable>
           <p>{data.card.rows.length} dari {data.card.total} gerakan. <button type="button" onClick={() => refresh({ card: null })}>Tutup kartu stok</button></p></section>}
       </section>}
       {tab === 'record' && <RecordForm data={data} locked={locked} canStock={canStock} send={send} search={refresh}/>}
@@ -292,7 +293,7 @@ function RecordForm({ data, locked, canStock, send, search }: { data: AccessoryS
         : <>{choice('note_line', 'Baris nota', [...(data.notes ?? []).map(n => [`NOTE:${n.item_id}`, `${n.number} · ${n.contractor} · ${n.sku} · ${displayQty(n.qty)} PCS · kembali ${displayQty(n.returned)}`] as [string, string]),
           ...(data.opening_notes ?? []).map(n => [`OPENING:${n.line_id}`, `${n.number} (saldo awal) · ${n.contractor} · ${n.sku} · ${displayQty(n.qty)} PCS · kembali ${displayQty(n.returned)}`] as [string, string])])}
           {input('qty', 'Jumlah PCS kembali', 'numeric')}</>}</div>}
-    {multi && <div className="initial-import-table"><table><thead><tr><th>Aksesori</th><th>{action === 'COUNT_POST' ? 'Jumlah hitung' : 'Jumlah PCS'}</th>
+    {multi && <div className="initial-import-table"><RecordTable><thead><tr><th>Aksesori</th><th>{action === 'COUNT_POST' ? 'Jumlah hitung' : 'Jumlah PCS'}</th>
       {action === 'INTERNAL_USE' && <><th>Waktu pakai (WIB)</th><th>Tujuan</th><th>Titipan pelanggan</th></>}
       {action === 'RECEIVE_RETURN' && f.source_kind !== 'SERVICE_LEFTOVER' && <th>Barang yang ditunggu</th>}<th/></tr></thead>
       <tbody>{lines.map((l, i) => <tr key={i}>
@@ -308,7 +309,7 @@ function RecordForm({ data, locked, canStock, send, search }: { data: AccessoryS
         {action === 'RECEIVE_RETURN' && f.source_kind !== 'SERVICE_LEFTOVER' && <td><select aria-label={`Barang ditunggu baris ${i + 1}`} disabled={locked} value={l.outstanding}
           onChange={e => setLine(i, { outstanding: e.target.value })}><option value="">Bukan barang yang ditunggu</option>
           {data.outstanding.filter(o => o.material_id === l.material_id).map(o => <option key={o.id} value={o.id}>{o.holder || o.reference} · sisa {displayQty(String(Number(o.expected) - Number(o.received)))}</option>)}</select></td>}
-        <td><button type="button" disabled={locked || lines.length === 1} onClick={() => setLines(ls => ls.filter((_, j) => j !== i))}>Hapus baris {i + 1}</button></td></tr>)}</tbody></table>
+        <td><button type="button" disabled={locked || lines.length === 1} onClick={() => setLines(ls => ls.filter((_, j) => j !== i))}>Hapus baris {i + 1}</button></td></tr>)}</tbody></RecordTable>
       <button type="button" disabled={locked || lines.length >= 100} onClick={() => setLines(ls => [...ls, emptyLine()])}>Tambah baris</button>
       <div className="initial-import-toolbar"><label>Cari aksesori lain<input aria-label="Cari aksesori transaksi" maxLength={120} disabled={locked}
         onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); search({ query: (e.target as HTMLInputElement).value.trim() }) } }}/></label></div></div>}
@@ -325,18 +326,18 @@ function RecordForm({ data, locked, canStock, send, search }: { data: AccessoryS
 function Returns({ data }: { data: AccessoryServiceWorkspace }) {
   return <section className="panel initial-import-table" aria-label="Barang kembali dan titipan">
     <h2>Barang kembali</h2><p>Barang yang menunggu pemeriksaan, titipan belum dinilai, dan milik mandor tidak dihitung sebagai stok siap pakai.</p>
-    <table><thead><tr><th>Dokumen / referensi</th><th>Aksesori</th><th>Asal</th><th>Diterima</th><th>Menunggu</th><th>Layak</th><th>Rusak</th><th>Dikredit</th><th>Status nilai</th></tr></thead>
+    <RecordTable><thead><tr><th>Dokumen / referensi</th><th>Aksesori</th><th>Asal</th><th>Diterima</th><th>Menunggu</th><th>Layak</th><th>Rusak</th><th>Dikredit</th><th>Status nilai</th></tr></thead>
       <tbody>{data.lots.map(l => <tr key={l.id}><td>{l.document || l.reference || 'Saldo awal'}</td><td>{l.sku} · {l.name}</td><td>{l.source_kind} · {l.owner_kind === 'MANDOR' ? 'Milik mandor' : 'Perusahaan'}</td>
-        <td>{l.received_local}</td><td>{displayQty(l.state.waiting)}</td><td>{displayQty(l.state.usable)}</td><td>{displayQty(l.state.damaged)}</td><td>{displayQty(l.state.credited)}</td><td>{l.value_status}</td></tr>)}</tbody></table>
+        <td>{l.received_local}</td><td>{displayQty(l.state.waiting)}</td><td>{displayQty(l.state.usable)}</td><td>{displayQty(l.state.damaged)}</td><td>{displayQty(l.state.credited)}</td><td>{l.value_status}</td></tr>)}</tbody></RecordTable>
     {data.lots.length === 0 && <p>Belum ada barang kembali.</p>}
-    <h2>Belum kembali</h2><table><thead><tr><th>Pemegang</th><th>Keterangan</th><th>Ditunggu</th><th>Sudah diterima</th><th>Status</th></tr></thead>
-      <tbody>{data.outstanding.map(o => <tr key={o.id}><td>{o.holder || '—'}</td><td>{o.description || o.reference}</td><td>{displayQty(o.expected)}</td><td>{displayQty(o.received)}</td><td>{o.label}</td></tr>)}</tbody></table>
+    <h2>Belum kembali</h2><RecordTable><thead><tr><th>Pemegang</th><th>Keterangan</th><th>Ditunggu</th><th>Sudah diterima</th><th>Status</th></tr></thead>
+      <tbody>{data.outstanding.map(o => <tr key={o.id}><td>{o.holder || '—'}</td><td>{o.description || o.reference}</td><td>{displayQty(o.expected)}</td><td>{displayQty(o.received)}</td><td>{o.label}</td></tr>)}</tbody></RecordTable>
     {data.outstanding.length === 0 && <p>Tidak ada barang yang ditunggu.</p>}
-    <h2>Titipan pelanggan</h2><table><thead><tr><th>Pelanggan</th><th>Barang</th><th>Jumlah</th><th>Diterima</th><th>Status</th></tr></thead>
-      <tbody>{data.customer_custody.map(c => <tr key={c.id}><td>{c.customer}</td><td>{c.description}</td><td>{displayQty(c.qty)}</td><td>{c.received_local}</td><td>{c.returned ? 'Sudah dikembalikan' : 'Milik pelanggan — dititipkan'}</td></tr>)}</tbody></table>
+    <h2>Titipan pelanggan</h2><RecordTable><thead><tr><th>Pelanggan</th><th>Barang</th><th>Jumlah</th><th>Diterima</th><th>Status</th></tr></thead>
+      <tbody>{data.customer_custody.map(c => <tr key={c.id}><td>{c.customer}</td><td>{c.description}</td><td>{displayQty(c.qty)}</td><td>{c.received_local}</td><td>{c.returned ? 'Sudah dikembalikan' : 'Milik pelanggan — dititipkan'}</td></tr>)}</tbody></RecordTable>
     {data.customer_custody.length === 0 && <p>Tidak ada titipan pelanggan.</p>}
-    <h2>Selisih hitung pos</h2><table><thead><tr><th>Buku</th><th>Hitung</th><th>Selisih</th><th>Status</th></tr></thead>
-      <tbody>{data.variances.map(v => <tr key={v.id}><td>{displayQty(v.book)}</td><td>{displayQty(v.counted)}</td><td>{displayQty(v.variance)}</td><td>{v.resolved ? 'Sudah diputuskan' : v.label}</td></tr>)}</tbody></table>
+    <h2>Selisih hitung pos</h2><RecordTable><thead><tr><th>Buku</th><th>Hitung</th><th>Selisih</th><th>Status</th></tr></thead>
+      <tbody>{data.variances.map(v => <tr key={v.id}><td>{displayQty(v.book)}</td><td>{displayQty(v.counted)}</td><td>{displayQty(v.variance)}</td><td>{v.resolved ? 'Sudah diputuskan' : v.label}</td></tr>)}</tbody></RecordTable>
     {data.variances.length === 0 && <p>Tidak ada selisih hitung.</p>}
   </section>
 }
@@ -361,9 +362,9 @@ function Documents({ data, locked, filters, query, setQuery, refresh, send, page
         <option value="">Semua</option>{SERVICE_ACTIONS.map(a => <option key={a} value={a}>{ACTION_LABEL[a]}</option>)}</select></label>
       <label>Status<select aria-label="Status dokumen aksesori" disabled={locked} value={filters.status} onChange={e => refresh({ status: e.target.value, page: 1 })}>
         <option value="">Semua</option><option value="POSTED">Disahkan</option><option value="REVERSED">Dibatalkan</option></select></label></div>
-    <table><thead><tr><th>Nomor</th><th>Jenis</th><th>Waktu fisik</th><th>Dicatat</th><th>Status</th><th>Alasan</th><th/></tr></thead>
+    <RecordTable><thead><tr><th>Nomor</th><th>Jenis</th><th>Waktu fisik</th><th>Dicatat</th><th>Status</th><th>Alasan</th><th/></tr></thead>
       <tbody>{data.documents.map(x => <tr key={x.id}><td>{x.number}</td><td>{ACTION_LABEL[x.action as ServiceAction] ?? x.action}</td><td>{x.physical_local}</td><td>{x.recorded_local}</td>
-        <td>{x.status === 'POSTED' ? 'Disahkan' : 'Dibatalkan'}</td><td>{x.reason}</td><td><button type="button" disabled={locked} onClick={() => { setReview(false); refresh({ document_id: x.id }) }}>Buka {x.number}</button></td></tr>)}</tbody></table>
+        <td>{x.status === 'POSTED' ? 'Disahkan' : 'Dibatalkan'}</td><td>{x.reason}</td><td><button type="button" disabled={locked} onClick={() => { setReview(false); refresh({ document_id: x.id }) }}>Buka {x.number}</button></td></tr>)}</tbody></RecordTable>
     {data.documents.length === 0 && <p>Belum ada dokumen yang cocok.</p>}
     <p>Halaman {data.page} dari {pages(data.documents_total)} · {data.documents_total} dokumen
       <button type="button" disabled={locked || data.page <= 1} onClick={() => refresh({ page: data.page - 1 })}>Dokumen sebelumnya</button>
@@ -371,14 +372,14 @@ function Documents({ data, locked, filters, query, setQuery, refresh, send, page
     {d && <section aria-label="Detail dokumen aksesori"><h2>{d.number} · {ACTION_LABEL[d.action as ServiceAction] ?? d.action} · {d.status === 'POSTED' ? 'Disahkan' : 'Dibatalkan'}</h2>
       {Object.keys(d.policy_versions).length > 0 && <p>Kebijakan yang dipakai: {Object.entries(d.policy_versions).map(([k, v]) => `${k} versi ${String(v)}`).join(', ')}</p>}
       {d.reversal_reason && <p>Alasan pembatalan: {d.reversal_reason}</p>}
-      {d.events.length > 0 && <table><thead><tr><th>Kejadian</th><th>Kondisi</th><th>Jumlah</th><th>Layak</th><th>Rusak</th><th>Pemeriksa</th><th>Nominal</th><th>Kurangi tagihan</th><th>Dibawa payroll</th><th>Refund</th></tr></thead>
+      {d.events.length > 0 && <RecordTable><thead><tr><th>Kejadian</th><th>Kondisi</th><th>Jumlah</th><th>Layak</th><th>Rusak</th><th>Pemeriksa</th><th>Nominal</th><th>Kurangi tagihan</th><th>Dibawa payroll</th><th>Refund</th></tr></thead>
         <tbody>{d.events.map(e => <tr key={e.id}><td>{e.kind}</td><td>{e.condition ?? '—'}</td><td>{displayQty(e.qty)}</td><td>{e.qty_usable === null ? '—' : displayQty(e.qty_usable)}</td>
           <td>{e.qty_damaged === null ? '—' : displayQty(e.qty_damaged)}</td><td>{e.inspector ?? '—'}</td><td>{e.amount === null ? '—' : displayRupiah(e.amount)}</td>
-          <td>{e.unpaid === null ? '—' : displayRupiah(e.unpaid)}</td><td>{e.carry === null ? '—' : displayRupiah(e.carry)}</td><td>{e.refund === null ? '—' : displayRupiah(e.refund)}</td></tr>)}</tbody></table>}
+          <td>{e.unpaid === null ? '—' : displayRupiah(e.unpaid)}</td><td>{e.carry === null ? '—' : displayRupiah(e.carry)}</td><td>{e.refund === null ? '—' : displayRupiah(e.refund)}</td></tr>)}</tbody></RecordTable>}
       <p>{d.links.length} transaksi tertaut: {d.links.map(k => k.kind).join(', ') || '—'}</p>
-      {d.events.some(e => e.carry_payroll_lines && e.carry_payroll_lines.length > 0) && <table aria-label="Hak mandor di payroll"><thead><tr><th>Payroll</th><th>Periode sampai</th><th>Status</th><th>Hak mandor</th></tr></thead>
+      {d.events.some(e => e.carry_payroll_lines && e.carry_payroll_lines.length > 0) && <RecordTable aria-label="Hak mandor di payroll"><thead><tr><th>Payroll</th><th>Periode sampai</th><th>Status</th><th>Hak mandor</th></tr></thead>
         <tbody>{d.events.flatMap(e => (e.carry_payroll_lines ?? []).map(t => <tr key={`${e.id}-${t.payroll_id}`}><td>{t.payroll_number}</td><td>{t.period_end}</td>
-          <td>{t.status}</td><td>{displayRupiah(t.amount)}</td></tr>))}</tbody></table>}
+          <td>{t.status}</td><td>{displayRupiah(t.amount)}</td></tr>))}</tbody></RecordTable>}
       {carry && d.status === 'POSTED' && <div className="initial-import-toolbar" aria-label="Bawa kredit ke payroll"><span>Hak mandor yang belum dibayar: {displayRupiah(carry.carry_remaining)} · dibayar sekali penuh lewat payroll berikutnya</span>
         <label>Payroll berikutnya<select aria-label="Payroll kredit retur" disabled={locked} value={payroll} onChange={e => setPayroll(e.target.value)}>
           <option value="">Pilih payroll</option>{d.carry_payrolls.filter(p => p.is_next).map(p => <option key={p.id} value={p.id}>{p.number} · {p.status} · {p.period_end}</option>)}</select></label>
@@ -407,9 +408,9 @@ function Settings({ data, locked, send }: { data: AccessoryServiceWorkspace; loc
     ...(operation === 'SET' && typeof value !== 'string' ? { value } : {}) })
   return <section className="panel initial-import-advances" aria-label="Kebijakan aksesori">
     <h2>Kebijakan aksesori</h2><p>Keputusan owner dan isian yang berlaku di aplikasi ditampilkan terpisah. Transaksi yang membutuhkan pengaturan tetap menunggu sampai nilainya diterapkan.</p>
-    <div className="initial-import-table"><table><thead><tr><th>Kebijakan</th><th>Status</th><th>Versi</th><th>Isi</th></tr></thead><tbody>{data.policies.map(p =>
+    <div className="initial-import-table"><RecordTable><thead><tr><th>Kebijakan</th><th>Status</th><th>Versi</th><th>Isi</th></tr></thead><tbody>{data.policies.map(p =>
       <tr key={p.key}><td>{p.key} · {POLICY_LABEL[p.key]}</td><td>{policyStatus(p)}</td><td>{p.version}</td>
-        <td>{policyValueText(p, [...(data.accounts ?? []), ...(data.categories ?? [])])}</td></tr>)}</tbody></table></div>
+        <td>{policyValueText(p, [...(data.accounts ?? []), ...(data.categories ?? [])])}</td></tr>)}</tbody></RecordTable></div>
     {data.is_admin ? <>
       <p>{policy.status === 'SET' ? 'Nilai yang berlaku terlihat pada tabel. Perubahan memakai pilihan baru di bawah.' : POLICY_EFFECT[key]}</p>
       {policy.status !== 'SET' && ownerChoice(key) && <button type="button" disabled={locked} onClick={() => {

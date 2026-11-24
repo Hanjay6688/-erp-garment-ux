@@ -1,3 +1,4 @@
+import RecordTable from './RecordTable'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useAuth } from './auth/AuthProvider'
 import { isConnectedRuntime } from './config/runtime'
@@ -189,9 +190,9 @@ function SupplierTransferWorkspaceView({ supplierId, currentPurchaseId, parentRe
         <p>Keterangan: {selected.note}</p>
         <p>Kas keluar satu kali: jurnal {selected.journal.number} · tanggal pembukuan {selected.journal.accounting_date}{selected.journal.period_shifted ? ' · beralih ke periode terbuka' : ''}</p>
         {selected.inverse ? <p>Pembalik {selected.inverse.number} · tanggal pembukuan {selected.inverse.accounting_date}. Catatan asli tetap disimpan.</p> : null}
-        <table><thead><tr><th>Penerimaan</th><th>Dibayar dari transfer ini</th></tr></thead>
+        <RecordTable><thead><tr><th>Penerimaan</th><th>Dibayar dari transfer ini</th></tr></thead>
           <tbody>{selected.allocations.map(a => <tr key={a.purchase_id}><td>{a.purchase_number}</td><td>{money(a.amount)}</td></tr>)}</tbody>
-          <tfoot><tr><td>Total</td><td>{money(selected.amount)}</td></tr></tfoot></table>
+          <tfoot><tr><td>Total</td><td>{money(selected.amount)}</td></tr></tfoot></RecordTable>
         {selected.previous_id ? <button disabled={readBusy} onClick={() => { setMode('NONE'); seek({ transfer_id: selected.previous_id }) }}>Buka transfer sebelum koreksi</button> : null}
         {selected.replacement_id ? <button disabled={readBusy} onClick={() => { setMode('NONE'); seek({ transfer_id: selected.replacement_id }) }}>Buka transfer pengganti</button> : null}
         {data.can_write && selected.status === 'POSTED' && mode === 'NONE' ? <>
@@ -209,14 +210,14 @@ function SupplierTransferWorkspaceView({ supplierId, currentPurchaseId, parentRe
           <label>Cari nomor penerimaan<input aria-label="Cari penerimaan untuk transfer" maxLength={120} value={purchaseSearch}
             onChange={e => setPurchaseSearch(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); seek({ purchase_q: purchaseSearch.trim(), purchase_offset: 0 }) } }}/></label>
           <button type="button" onClick={() => seek({ purchase_q: purchaseSearch.trim(), purchase_offset: 0 })}>Cari penerimaan untuk transfer</button>
-          <table aria-label="Penerimaan yang masih punya utang"><thead><tr><th>Penerimaan</th><th>{mode === 'CORRECT' ? 'Bisa dibayar (termasuk alokasi lama)' : 'Sisa utang'}</th><th>Dibayar</th></tr></thead>
+          <RecordTable aria-label="Penerimaan yang masih punya utang"><thead><tr><th>Penerimaan</th><th>{mode === 'CORRECT' ? 'Bisa dibayar (termasuk alokasi lama)' : 'Sisa utang'}</th><th>Dibayar</th></tr></thead>
             <tbody>{data.receipts.rows.map(r => {
               const payable = mode === 'CORRECT' ? r.payable_after_release : r.remaining, own = allocations[r.id]
               return <tr key={r.id} data-transfer-receipt-id={r.id}><td>{r.number}<br/><small>diterima {formatCp6WibDateTime(r.physical_at)}</small></td><td>{money(payable)}</td>
                 <td><input aria-label={`Dibayar untuk ${r.number}`} inputMode="decimal" value={own?.amount ?? ''}
                   onChange={e => e.target.value.trim() === '' ? drop(r.id) : choose(r, e.target.value)}/>
                   <button type="button" onClick={() => choose(r, payable)}>Bayar penuh {r.number}</button></td></tr>
-            })}</tbody></table>
+            })}</tbody></RecordTable>
           {!data.receipts.rows.length ? <p>Tidak ada penerimaan dengan sisa utang sesuai pencarian.</p> : null}
           <div className="cproc-pagination"><span>Total {data.receipts.total} penerimaan</span>
             <button type="button" disabled={!data.receipts.offset} onClick={() => seek({ purchase_offset: Math.max(0, data.receipts.offset - 25) })}>Penerimaan sebelumnya</button>
