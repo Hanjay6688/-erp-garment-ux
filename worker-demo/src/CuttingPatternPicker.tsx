@@ -7,6 +7,7 @@ import { getUatSupabaseClient } from './lib/supabase'
 import { normalizeClientError } from './lib/clientError'
 import { parsePatternRows, type PatternRow } from './patternModel'
 import './cutting-pattern-picker.css'
+import { patterns as garmentPatterns } from './demo/planner/model'
 
 export type CuttingPatternChoice = Pick<PatternRow, 'id' | 'code' | 'revision' | 'name'>
 
@@ -15,6 +16,7 @@ export function hasCanonicalPattern(value: CuttingPatternChoice | null): value i
 }
 
 const demoPatterns: PatternRow[] = [
+  ...garmentPatterns.map((pattern,index)=>({...pattern, sort_order:index, is_active:true, row_version:1, updated_at:'',updated_by:null,usage_count:0})),
   { id: 'demo-pattern-reg-r1', code: 'REG', revision: 'R1', name: 'Regular', sort_order: 10, is_active: true, row_version: 1, updated_at: '', updated_by: null, usage_count: 0 },
   { id: 'demo-pattern-jumbo-r2', code: 'JUMBO', revision: 'R2', name: 'Jumbo', sort_order: 20, is_active: true, row_version: 1, updated_at: '', updated_by: null, usage_count: 0 },
 ]

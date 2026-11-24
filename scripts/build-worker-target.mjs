@@ -11,7 +11,7 @@ if (demo) {
   execFileSync(process.execPath, [resolve(root, 'node_modules/typescript/bin/tsc'), '-p', resolve(project, 'tsconfig.app.json')], { stdio: 'inherit' })
   await build({ root: project, envDir: root, configFile: resolve(root, 'vite.config.ts'), build: { outDir: resolve(root,'dist'), emptyOutDir: true } })
   // Each published entry also opens on a direct link or browser refresh.
-  const routes = ['migrasi','cp7-preview', ...['planner','stock','cutting','report','reminders','ai','whatsapp','methods'].map(page => 'analisis/' + page)]
+  const routes = ['migrasi','cp7-preview','produksi/buat-potongan','produksi/bagi-potongan','produksi/jahit','produksi/laundry','produksi/qc', ...['planner','stock','cutting','report','reminders','ai','whatsapp','methods'].map(page => 'analisis/' + page)]
   for (const route of routes) {
     const directory = resolve(root, 'dist', route)
     await mkdir(directory, { recursive: true })

@@ -1,0 +1,26 @@
+{
+  "66001": {
+    "base": 24,
+    "conditional": 0,
+    "directed": 0,
+    "candidate": 24
+  },
+  "66002": {
+    "base": 0,
+    "conditional": 0,
+    "directed": 60,
+    "candidate": 0
+  },
+  "66003": {
+    "base": 12,
+    "conditional": 0,
+    "directed": 6,
+    "candidate": 12
+  },
+  "93001": {
+    "base": 42,
+    "conditional": 18,
+    "directed": 18,
+    "candidate": 24
+  }
+}

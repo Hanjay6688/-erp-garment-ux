@@ -7,6 +7,10 @@ import { createAnalysisReadPort, formatFact, projectShell, reasonLabel, refuseOp
 import type { ExampleMode, PreviewAccess, ShellState, ShellView } from './workspace'
 import { channelReadiness, previewWhatsApp, sendWhatsApp } from './notification'
 import { benchmarks } from './benchmarks'
+import OwnerAnalysis from './OwnerAnalysis'
+import { Forms, SourceDetail as GarmentDetail, cutPath, pickupPath } from '../demo/planner/ProductionAdvice'
+import { emptySession, plan, productFor } from '../demo/planner/model'
+import { usePlannerSession, changeSession } from '../demo/planner/session'
 import './shell.css'
 
 const pages = [
@@ -33,7 +37,34 @@ export default function Cp7Shell({ runtimeMode }: { runtimeMode: RuntimeMode }) 
   if (runtimeMode !== 'DEMO_SIMULATION') return <main className="cp7-shell cp7-unavailable"><ShieldCheck /><h1>Integrasi CP7 belum dibuka</h1><p>Data operasional belum terhubung. Sambungan sedang disiapkan dan diuji.</p><a href="/">Kembali ke ERP</a></main>
   const location = globalThis.location.pathname.replace(/\/+$/, '')
   const route = pages.find(item => location === `/analisis/${item.id}`)?.id
-  return <PreviewWorkspace entry={route} />
+  return route ? <OwnerWorkspace initial={route}/> : <PreviewWorkspace/>
+}
+
+function OwnerWorkspace({initial}: {initial: Page}) {
+  const [page,setPage]=useState(initial)
+  const [access,setAccess]=useState('OWNER')
+  const [detail,setDetail]=useState<string|null>(null)
+  const session=usePlannerSession()
+  const selected=detail && productFor(detail)
+  const row=selected ? plan(selected,session) : null
+  useEffect(()=>{
+    const back=()=>{const item=pages.find(p=>'/analisis/'+p.id+'/'===window.location.pathname);if(item){setPage(item.id);setDetail(null)}}
+    window.addEventListener('popstate',back)
+    return ()=>window.removeEventListener('popstate',back)
+  },[])
+  function navigate(id:Page){
+    if(id!==page) window.history.pushState(null,'','/analisis/'+id+'/')
+    setPage(id);setDetail(null);window.scrollTo(0,0)
+  }
+  return <div className="cp7-shell"><aside className="cp7-sidebar">
+    <a className="cp7-back" href="/"><ArrowLeft size={16}/> Kembali ke ERP</a>
+    <div className="cp7-brand">ATELIER <span>GARMENT ERP</span></div>
+    <nav aria-label="Analisis dan Planner">{pages.map(({id,label,icon:Icon})=><button key={id} aria-current={id===page?'page':undefined} onClick={()=>navigate(id)}><Icon size={19}/><span>{label}</span></button>)}</nav>
+  </aside><main className="cp7-main"><header className="cp7-header"><div><span className="cp7-eyebrow">ANALISIS &amp; PLANNER</span><h1>{pages.find(p=>p.id===page)!.label}</h1></div><span className="cp7-tag">Data contoh · 24 Nov 2026</span></header>
+    {access==='DENIED' ? <Empty title="Akses contoh ditolak" text="Pilih hak akses yang sesuai untuk melihat data latihan."/> : page==='methods' ? <Methods/> : <OwnerAnalysis key={page} page={page} onDetail={setDetail} copy={(text,label)=><CopyText text={text} label={label}/>}/>}
+    <details className="gar-box gar-work"><summary>Pengaturan contoh</summary><div className="cp7-controls"><label>Hak akses contoh<select value={access} onChange={e=>{setAccess(e.target.value);setDetail(null)}}><option value="OWNER">Owner</option><option value="OPERATIONS">Operasional</option><option value="DENIED">Tanpa akses</option></select></label>
+      {access!=='DENIED'&&(session.cuts.length>0||session.pickups.length>0||session.confirmed.length>0)&&<button className="gar-button" onClick={()=>{sessionStorage.removeItem('atelier.cutting-draft.nov24.1');changeSession(()=>emptySession)}}>Ulangi latihan dari awal</button>}</div></details>
+  </main>{row&&access!=='DENIED'&&<Dialog title={row.product.brand+' '+row.product.sku+' · Ukuran '+row.product.size} onClose={()=>setDetail(null)}><GarmentDetail row={row}/><Forms row={row}/></Dialog>}</div>
 }
 
 function PreviewWorkspace({ entry }: { entry?: Page }) {
@@ -105,7 +136,7 @@ function PreviewWorkspace({ entry }: { entry?: Page }) {
         {!view.analysis && !['whatsapp', 'methods'].includes(page) ? <Empty title={loading ? 'Menyiapkan contoh' : state.kind === 'EMPTY' ? 'Ruang kerja siap menerima data' : 'Hasil belum dapat ditampilkan'} text="Stok, WIP, biaya, dan rekomendasi belum dibaca. Kosong di sini tidak berarti nol atau semua aman."><button className="cp7-button cp7-primary" disabled={loading} onClick={() => void loadExample('FRAMEWORK')}>Lihat contoh framework <ArrowUpRight size={17} /></button></Empty> : <>
           {page === 'planner' && <><div className="cp7-section-heading"><h2>Tindakan yang perlu ditinjau</h2><span>{actions.length} tindakan terlihat · {rows.length} target ukuran</span></div><ActionList view={view} actions={actions} onDetail={setDetail} /></>}
           {page === 'stock' && <><div className="cp7-section-heading"><h2>Per ukuran fisik</h2><span>FG, WIP dan kebutuhan ditampilkan terpisah</span></div>{rows.length ? rows.map(row => <TargetCard key={row.target.key} row={row} onDetail={setDetail} />) : <Empty title="Tidak ada hasil filter" text="Filter tidak mengubah analisis atau stok." />}</>}
-          {page === 'cutting' && <CuttingPreview view={view} onDetail={setDetail} />}
+          {page === 'cutting' && <><div className="cp7-actions"><a className="cp7-button" href={cutPath}>Buka Buat Potongan</a><a className="cp7-button" href={pickupPath}>Buka Bagi Potongan</a></div><ActionList view={view} onDetail={setDetail}/></>}
           {page === 'report' && <ReportPreview view={view} concise={Boolean(entry)} />}
           {page === 'reminders' && <Reminders view={view} onDetail={setDetail} />}
           {page === 'ai' && <><div className="cp7-section-heading"><h2>Tanya AI V1</h2><span>Salin, lalu tempel sendiri</span></div><p className="cp7-muted">Prompt memakai angka, asumsi, dan sumber dari analisis yang sedang dibuka.</p><CopyText key={`${access}-${state.kind}`} text={view.prompt} label="Prompt Tanya AI" /><a className="cp7-button cp7-link" href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer">Buka ChatGPT <ArrowUpRight size={17} /></a><p className="cp7-footnote">Tautan dibuka tanpa membawa isi prompt. Jawaban AI tidak menyimpan atau menerapkan transaksi.</p></>}
@@ -170,11 +201,6 @@ function SourceDetail({ view, targetKey }: { view: ShellView; targetKey: string 
     <details><summary>Timeline skenario</summary><div className="cp7-table-scroll"><table><thead><tr><th>Tanggal</th><th>Demand</th><th>Saldo proyeksi</th><th>Gap pertama</th></tr></thead><tbody>{analysis.timeline.filter(item => item.target_key === targetKey).map(item => <tr key={item.date}><td>{item.date}</td><td>{formatFact(item.demand)}</td><td>{formatFact(item.balance_end)}</td><td>{item.first_gap_at ? dateLabel(item.first_gap_at) : 'Tidak tercatat pada contoh'}</td></tr>)}</tbody></table></div><p>Mode {analysis.timeline[0]?.mode}; urutan harian memakai kebijakan contoh, bukan kepastian jam fisik.</p></details>
     <details><summary>Referensi angka</summary><ul>{[row.actual_fg, row.q_base, row.q_conditional].flatMap((fact, index) => fact.refs.map(ref => <li key={`${index}-${ref.kind}-${ref.id}`}>{ref.kind}/{ref.id} · revisi {ref.revision}</li>))}</ul></details>
   </div>
-}
-
-function CuttingPreview({ view, onDetail }: { view: ShellView; onDetail: (key: string) => void }) {
-  const [openedFrom, setOpenedFrom] = useState<string | null>(null)
-  return <><div className="cp7-card"><h2>Rekomendasi di Buat / Bagi Potongan</h2><p className="cp7-muted">Coba panel yang sama dari dua pintu masuk. Pemasangan ke form transaksi menunggu sambungan CP6.</p><div className="cp7-actions"><button className="cp7-button" onClick={() => setOpenedFrom('Buat Potongan')}>Dari Buat Potongan</button><button className="cp7-button" onClick={() => setOpenedFrom('Bagi Potongan')}>Dari Bagi Potongan</button></div></div>{openedFrom && <div className="cp7-card"><div className="cp7-card-heading"><h2>Rekomendasi Produksi</h2><button className="cp7-button" onClick={() => setOpenedFrom(null)}>Tutup panel</button></div><p className="cp7-muted">Dibuka dari {openedFrom} · belum menyimpan draft.</p><ActionList view={view} onDetail={onDetail} /></div>}</>
 }
 
 function CopyText({ text, label }: { text: string; label: string }) {

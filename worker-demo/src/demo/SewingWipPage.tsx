@@ -1,3 +1,4 @@
+import { StageLots } from './planner/StageLots'
 import { Icon } from '../components/AppIcon'
 import type { QcFinalResult } from '../QcFinalPage'
 import type { WipControlMode, WipControlParent, WipControlResult } from '../WipBatchControlLayer'
@@ -154,6 +155,8 @@ export function SewingWipPage({
 
   return <>
     <section className="hero-copy compact sewing-hero"><div className="eyebrow">PRODUKSI · SETELAH PICKUP</div><h1>WIP & Sewing</h1><p>Seluruh pekerjaan jahit dikelompokkan berdasarkan Batch Produksi. Mandor menyelesaikan setiap Batch Distribusi, lalu tujuan laundry dapat dipilih ketika kuantitas jahitan sudah penuh.</p></section>
+    <StageLots stage="sewing"/>
+    <h2 className="gar-archive-heading">Arsip latihan Agustus</h2>
     <div className="sewing-simulation-strip"><ShieldCheck/><strong>DATA SIMULASI</strong><span>Filter demo mengikuti seluruh child sampai Final SKU lengkap; mode UAT membaca status authoritative dari backend.</span></div>
     {reverseNotice&&<div className="sewing-reverse-notice"><Icon name="reset"/><div><strong>Kembali ke WIP</strong><span>{reverseNotice}</span></div><button type="button" aria-label="Tutup pemberitahuan" onClick={onClearReverseNotice}><Icon name="close"/></button></div>}
     {controlNotice&&<div className="wip-control-notice"><ShieldCheck/><div><strong>{controlNotice.title}</strong><span>{controlNotice.message} Backend belum berubah selama mode simulasi.</span></div><button type="button" aria-label="Tutup pemberitahuan" onClick={()=>setControlNotice(null)}><X/></button></div>}
