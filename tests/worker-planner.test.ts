@@ -40,4 +40,14 @@ describe('November garment orders',()=>{
     expect(lotsIn(change)).toHaveLength(lotsIn(emptySession).length)
     expect(()=>confirmDestination(change,'JHT-044')).toThrow()
   })
+  it('opens only the new shortage when the sewing lot belongs to another order',()=>{
+    const changed=confirmDestination(emptySession,'JHT-044','elsewhere')
+    const row=plan(productFor('66003')!,changed)
+    expect(row).toMatchObject({confirmed:6,potential:0,base:12,short:12,late:12})
+    expect(suggestedCut(row,changed,'Black Virgo').roll.id).toBe('BVG-025')
+    const made=recordCut(changed,{...cut,sku:'66003',patternId:'contoh-cutbray-lucy',size:'30',roll:'BVG-025',qty:12,yards:15})
+    expect(plan(row.product,made)).toMatchObject({base:12,short:0,potential:12})
+    expect(waitingLots(made).find(l=>l.id==='POT-D01')).toMatchObject({size:'30',material:'Black Virgo'})
+  })
+
 })

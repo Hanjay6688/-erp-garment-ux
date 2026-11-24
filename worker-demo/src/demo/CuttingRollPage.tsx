@@ -56,8 +56,8 @@ export function CuttingRollPage() {
   const nextSlotKeyRef=useRef(initialCuttingSizeSlots.length+1)
   const [allocations,setAllocations]=useState<Record<string,number[]>>(()=>draft?.amounts??{'ORI-021':[18]})
   const [fillRange,setFillRange]=useState<{source:number;target:number}|null>(null)
-  function useAdvice(row:Plan, scroll=true) {
-    const p=row.product, {route,roll,qty}=suggestedCut(row,session)
+  function useAdvice(row:Plan, material?:string, scroll=true) {
+    const p=row.product, {route,roll,qty}=suggestedCut(row,session,material)
     if(!qty)return
     setSku(p.sku);setBrand(p.brand);setModel(patternFor(route.pattern).name);setDate('2026-11-24')
     setSelectedPattern(patternFor(route.pattern));setSelectedRollIds([roll.id])
@@ -70,7 +70,7 @@ export function CuttingRollPage() {
   }
   useEffect(()=>{
     const p=productFor(new URLSearchParams(window.location.search).get('sku')??'')
-    if(p){const row=plan(p,session);if(row.short>0)useAdvice(row,false)}
+    if(p){const row=plan(p,session);if(row.short>0)useAdvice(row,new URLSearchParams(window.location.search).get('bahan')??undefined,false)}
   },[])
   const fillRangeRef=useRef<{source:number;target:number}|null>(null)
   const fillDraggedRef=useRef(false)
@@ -429,6 +429,7 @@ export function RollBatchQuickMenu({rollId,batchCount,currentBatch,split,onAssig
 }
 
 type UnassignedRollCardProps = {
+  sizeLabels?: readonly string[]
   row: { roll: FabricRoll; sizes: QtyTuple; quantity: number }
   batchCount: number
   onAssignWhole: (rollId: string, targetBatch: number) => void
@@ -440,6 +441,7 @@ type UnassignedRollCardProps = {
 }
 
 export function UnassignedRollCard({
+  sizeLabels=cuttingSizes,
   row,
   batchCount,
   onAssignWhole,
@@ -460,7 +462,7 @@ export function UnassignedRollCard({
         <em>{row.quantity} pcs hasil potong</em>
       </div>
       <div className="wip-roll-token-sizes" aria-label={`Rincian ukuran ${rollLabel}`}>
-        {cuttingSizes.map((size, index) => <span key={size}><small>SIZE {size}</small><strong>{row.sizes[index]}</strong><em>pcs</em></span>)}
+        {sizeLabels.map((size, index) => <span key={size}><small>SIZE {size}</small><strong>{row.sizes[index]}</strong><em>pcs</em></span>)}
       </div>
       <p id={`${instructionId}-title`} className="wip-roll-token-code">{rollLabel} · {row.roll.id}</p>
       <p id={instructionId}>Pindahkan utuh lewat pilihan Batch. Drag hanya alternatif desktop.</p>

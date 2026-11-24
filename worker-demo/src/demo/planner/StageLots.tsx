@@ -15,10 +15,10 @@ export function StageLots({stage}:{stage:'sewing'|'laundry'|'qc'}) {
     {filter&&<button type="button" className="gar-text" onClick={()=>setFilter('')}>SKU {filter} · Tampilkan semua</button>}
     <ul className="gar-lots">{shown.map(l=>{
       const p=productFor(l.sku)!
-      return <li key={l.id} id={l.id}><div><strong>{p.brand} {p.sku} · {l.qty} pcs</strong><small>{l.id} · {l.place} · Uk. {l.size}</small></div>
+      return <li key={l.id} id={l.id}><div><strong>{l.kind==='elsewhere'?'Pesanan lain':p.brand+' '+p.sku} · {l.qty} pcs</strong><small>{l.id} · {l.place} · Uk. {l.size}</small></div>
         <div>{patternFor(l.pattern).name} · {l.material}<small>{p.colour} · {p.finish}</small></div>
         <div>Siap {day(l.eta)}<small>{l.eta>p.due?'Lewat tenggat '+day(p.due):'Tenggat '+day(p.due)}</small>
-          {l.kind==='candidate'?<button type="button" className="gar-button" onClick={()=>{try{changeSession(s=>confirmDestination(s,l.id));setMessage(l.id+' · tujuan '+p.brand+' '+p.sku+' sudah pasti. '+l.qty+' pcs tetap di jahit.')}catch(e){setMessage((e as Error).message)}}}>Pastikan tujuan {p.sku}</button>:<small>Tujuan pasti · {stageName[stage]}</small>}</div>
+          {l.kind==='candidate'?<div className="gar-actions"><button type="button" className="gar-button" onClick={()=>{try{changeSession(s=>confirmDestination(s,l.id));setMessage(l.id+' · tujuan '+p.brand+' '+p.sku+' sudah pasti. '+l.qty+' pcs tetap di jahit.')}catch(e){setMessage((e as Error).message)}}}>Pastikan tujuan {p.sku}</button><button type="button" className="gar-button" onClick={()=>{try{changeSession(s=>confirmDestination(s,l.id,'elsewhere'));setMessage(l.id+' · '+l.qty+' pcs tetap dijahit untuk pesanan lain. Planner sudah menghitung ulang '+p.sku+'.')}catch(e){setMessage((e as Error).message)}}}>Untuk pesanan lain</button></div>:<small>{l.kind==='elsewhere'?'Tujuan pesanan lain':'Tujuan pasti'} · {stageName[stage]}</small>}</div>
       </li>
     })}</ul>
     {message&&<p className="gar-success" role="status">{message}</p>}

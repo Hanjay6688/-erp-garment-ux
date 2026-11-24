@@ -8,7 +8,7 @@ function parse(value: string): Session {
   if (!value) return emptySession
   try {
     const data = JSON.parse(value)
-    return Array.isArray(data.cuts) && Array.isArray(data.pickups) ? {...data, confirmed:Array.isArray(data.confirmed)?data.confirmed:[]} : emptySession
+    return Array.isArray(data.cuts) && Array.isArray(data.pickups) ? {...data, confirmed:Array.isArray(data.confirmed)?data.confirmed:[],elsewhere:Array.isArray(data.elsewhere)?data.elsewhere:[]} : emptySession
   } catch { return emptySession }
 }
 function subscribe(update: () => void) {

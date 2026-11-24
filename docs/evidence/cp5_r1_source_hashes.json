@@ -636,12 +636,12 @@
       "sha256": "8dcafcf1ead9dec38713f7a75f317eed63de1bf64a666e0e354c540e913a7ab4"
     },
     "tests/browser/cp8-worker.spec.ts": {
-      "bytes": 6877,
-      "sha256": "e02f984d8e893eaf4cba98180676ecf1bb4fc73bd9c382404d8c3e0d6decbe82"
+      "bytes": 8498,
+      "sha256": "e6aed0525fb73f173346ab9b5f435e64998e4e046fc65782acf07175a04af2aa"
     },
     "tests/worker-planner.test.ts": {
-      "bytes": 3129,
-      "sha256": "34a0eb79fbff1fb2774c478126c71f6ad4b91fa1ad0fad20165ebb7538c581e1"
+      "bytes": 3816,
+      "sha256": "dd3711af946c8466e4340c673346c36c1b90f2a585b8a427ec7d99d4f0ef5dc8"
     },
     "worker-demo/index.html": {
       "bytes": 494,
@@ -1468,12 +1468,12 @@
       "sha256": "2ceb77eca2925bbdefb20a842d4979df7a6220d4ae7824deb98946270f9867c0"
     },
     "worker-demo/src/cp7/Cp7Shell.tsx": {
-      "bytes": 25134,
-      "sha256": "2221381dcb5d7207519fc375e9abe96fdef8ddb53e72ac7f586e7ea40c1943e2"
+      "bytes": 25162,
+      "sha256": "c4255268bb97a7dff9e9e9d04a2b2c6e6eecae46a363e28a10523eabb1f3a195"
     },
     "worker-demo/src/cp7/OwnerAnalysis.tsx": {
-      "bytes": 5493,
-      "sha256": "9ae6a12ef4e76f9c6bf9396433cbbb201204d4339b5a97212753692f4a7b05f8"
+      "bytes": 5561,
+      "sha256": "e58733a33fc791c94190d7288c1dc4ad9825c17d0a749623568ba1d4c830c3a4"
     },
     "worker-demo/src/cp7/benchmarks.ts": {
       "bytes": 2773,
@@ -1576,16 +1576,16 @@
       "sha256": "aa212d7eb5f31cacf4dd82c73c7e995ee63049b9cf09a480724b48c7f77de9a8"
     },
     "worker-demo/src/demo/CuttingRollPage.tsx": {
-      "bytes": 41537,
-      "sha256": "71c3e3278ec579c8a9a3e597564f16d5266d5f24565d8771326a59c15fae12f6"
+      "bytes": 41690,
+      "sha256": "83a4bc8fe9b57f682144e3e53cf72a7817b042a5b921aacca5f24f3d76e8bdc6"
     },
     "worker-demo/src/demo/LaundryPage.tsx": {
       "bytes": 26506,
       "sha256": "1ab8c593abdf4dec4126d1c9ac3baa9df9d3f8941e9da619d6adcd2770729b72"
     },
     "worker-demo/src/demo/MandorWipPage.tsx": {
-      "bytes": 47154,
-      "sha256": "e67de4315aaef41bfcd604a42c18cc6aab6c44e8af20279f534f39e0dae14227"
+      "bytes": 47466,
+      "sha256": "3d7831873e075b49a95a4f26289815789b023e45724ee15b1fc74d79bd8e4f8f"
     },
     "worker-demo/src/demo/ProcurementPage.tsx": {
       "bytes": 10678,
@@ -1604,8 +1604,8 @@
       "sha256": "070e87387774e5c52af815e2f55089abfe49d91cc10f663a690805a5ac851fb1"
     },
     "worker-demo/src/demo/cuttingAllocation.ts": {
-      "bytes": 5242,
-      "sha256": "a6eb6c5e793d53aaec0b6d42f24393b66d820a751e74bf2bb6a28f8b8d23bc91"
+      "bytes": 5282,
+      "sha256": "628f6bce302eabba0cdbef24ee79247ee73ac9a2c92843fa99cdaeb8f129fa70"
     },
     "worker-demo/src/demo/format.ts": {
       "bytes": 989,
@@ -1620,20 +1620,20 @@
       "sha256": "ad6cb289bd83b5925a5757337cfa367c5f7b62ad649f0dbf00f2ecafa9716d93"
     },
     "worker-demo/src/demo/planner/ProductionAdvice.tsx": {
-      "bytes": 7433,
-      "sha256": "d4922fd4b283db08bc412cf15ce9e77c4743a3e2186ff6b132d47c54dfceae63"
+      "bytes": 7975,
+      "sha256": "c70123b428c54cffb05c55b87d65d57ae3c41a49247aa39f5bf89b4a060576f3"
     },
     "worker-demo/src/demo/planner/StageLots.tsx": {
-      "bytes": 2036,
-      "sha256": "2ffca8325a3c5338e40acc4cf48dfb14fe72647f3a4c3dea50d56dc15bf261b3"
+      "bytes": 2461,
+      "sha256": "7ad5782f165db032c86adc7e9c584483cc67aea6bbe683fcbb0f53e3284feb32"
     },
     "worker-demo/src/demo/planner/model.ts": {
-      "bytes": 6560,
-      "sha256": "ba55d9fa4379d72efb8646878a5e9dee37c65c671fad4a6d91631441c603e465"
+      "bytes": 7015,
+      "sha256": "be5e3dfb429b408b162b8f57ffaff46635018a0540f01f484461644f38d0cd03"
     },
     "worker-demo/src/demo/planner/planner.css": {
-      "bytes": 4907,
-      "sha256": "fca57fa3430ae7220e4705cbd2a49ea6b5edac45b7b3f24ad940709bd0803023"
+      "bytes": 5150,
+      "sha256": "631f088fee1332054f7c2db443c7c5c05417f6e19c18cec28bf242294e41de4d"
     },
     "worker-demo/src/demo/planner/projection.json": {
       "bytes": 384,
@@ -1644,8 +1644,8 @@
       "sha256": "b7542657edd3644b596fa4abd9dbff7ea6e1157919de60ef4f2f4b903e62ed94"
     },
     "worker-demo/src/demo/planner/session.ts": {
-      "bytes": 1033,
-      "sha256": "79ea6214133917252113991aadc4b93dd8511076884e5be8035e9dfd7cf648a5"
+      "bytes": 1091,
+      "sha256": "423a687a6cc2cafe079d1703b4c85f1182d2c08a583dd517b4f65b070f35bdee"
     },
     "worker-demo/src/demo/productionModel.ts": {
       "bytes": 966,

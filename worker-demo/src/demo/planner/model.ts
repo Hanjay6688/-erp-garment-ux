@@ -8,8 +8,8 @@ export type Lot = {
   pattern: string; material: string; eta: string; place: string; roll?: string; usedYards?: number; sourceYards?: number; remainingYards?: number; group?: string; requestId?: string
 }
 export type Pickup = { id: string; mandor: string; at: string; batches: {qty: number; note: string}[] }
-export type Session = { cuts: Lot[]; pickups: Pickup[]; confirmed: string[] }
-export const emptySession: Session = { cuts: [], pickups: [], confirmed: [] }
+export type Session = { cuts: Lot[]; pickups: Pickup[]; confirmed: string[]; elsewhere: string[] }
+export const emptySession: Session = { cuts: [], pickups: [], confirmed: [], elsewhere: [] }
 export const stageName: Record<string, string> = { cut: 'Meja potong', sewing: 'Jahit', laundry: 'Laundry', qc: 'QC' }
 export const productFor = (sku: string) => products.find(p => p.sku === sku)
 export function patternFor(code: string) { return patterns.find(p => p.code === code)! }
@@ -20,6 +20,7 @@ export function lotsIn(session: Session): Lot[] {
   return [...sample.lots, ...session.cuts].map(lot => {
     const pickup = session.pickups.find(p => p.id === lot.id)
     if (pickup) return {...lot, stage: 'sewing', kind: 'directed', place: pickup.mandor}
+    if(session.elsewhere.includes(lot.id))return {...lot,kind:'elsewhere'}
     return session.confirmed.includes(lot.id) ? {...lot, kind:'directed'} : lot
   })
 }
@@ -29,9 +30,10 @@ export function plan(product: Product, session: Session) {
   const newOnTime = session.cuts.filter(lot => lot.sku === product.sku && lot.eta <= product.due).reduce((sum, lot) => sum + lot.qty, 0)
   const picked = lots.filter(lot => lot.eta <= product.due && (session.pickups.some(p => p.id === lot.id) || session.confirmed.includes(lot.id))).reduce((sum, lot) => sum + lot.qty, 0)
   const confirmed = initial.directed + picked
-  const potential = initial.candidate + newOnTime - picked
+  const elsewhere=lots.filter(lot=>lot.kind==='elsewhere' && lot.eta<=product.due).reduce((sum,lot)=>sum+lot.qty,0)
+  const potential = initial.candidate + newOnTime - picked - elsewhere
   const base = Math.max(0, initial.base - picked)
-  const short = Math.max(0, initial.conditional - newOnTime)
+  const short = Math.max(0, initial.base - initial.candidate - newOnTime + elsewhere)
   const queue = lots.filter(lot => lot.stage === 'cut' && lot.eta <= product.due)
   const check = lots.find(lot => lot.kind === 'candidate' && lot.stage !== 'cut' && lot.eta <= product.due)
   const late = lots.filter(lot => lot.eta > product.due).reduce((sum, lot) => sum + lot.qty, 0)
@@ -51,17 +53,17 @@ export function waitingLots(session: Session) {
 export function yardsLeft(id: string, session: Session) {
   return (rolls.find(r => r.id === id)?.yards ?? 0) - session.cuts.filter(l => l.roll === id).reduce((sum, l) => sum + (l.usedYards ?? 0), 0)
 }
-export function confirmDestination(session: Session, id:string): Session {
+export function confirmDestination(session: Session, id:string, destination:'order'|'elsewhere'='order'): Session {
   const lot=lotsIn(session).find(l=>l.id===id && l.stage==='sewing' && l.kind==='candidate')
   if(!lot) throw Error('Tujuan jahitan ini sudah pasti.')
-  return {...session,confirmed:[...session.confirmed,id]}
+  return destination==='order' ? {...session,confirmed:[...session.confirmed,id]} : {...session,elsewhere:[...session.elsewhere,id]}
 }
-export function suggestedCut(row: Plan, session: Session) {
+export function suggestedCut(row: Plan, session: Session, material?:string) {
   const options=row.product.routes.flatMap(route=>rolls.filter(r=>r.material===route.material).map(roll=>{
     const available=yardsLeft(roll.id,session)
     return {route,roll,available,qty:Math.min(row.short,Math.floor(available/roll.yardPerPiece))}
   }))
-  return options.sort((a,b)=>b.qty-a.qty)[0]
+  return options.find(option=>option.roll.material===material) ?? options.sort((a,b)=>b.qty-a.qty)[0]
 }
 type CutInput = { requestId: string; sku: string; patternId: string; size: string; roll: string; qty: number; yards: number; date: string }
 export function recordCut(session: Session, input: CutInput): Session {

@@ -54,3 +54,5 @@
 .gar-archive-heading {font:inherit;font-size:.95rem;font-weight:600;color:var(--muted);margin:18px 0 8px}
 
 .gar-fabric {display:block;margin-top:4px}
+
+.gar-material {display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:.85rem;margin:8px 0}.gar-material select {color:var(--text);background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:6px 10px;font:inherit}

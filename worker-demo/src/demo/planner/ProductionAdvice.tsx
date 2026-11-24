@@ -12,14 +12,14 @@ export function routesLabel(row: Plan) {
 export function productionReason(row: Plan) {
   const p=row.product
   const stages=['cut','sewing','laundry','qc'].flatMap(stage=>{
-    const qty=row.lots.filter(l=>l.stage===stage && l.eta<=p.due).reduce((sum,l)=>sum+l.qty,0)
+    const qty=row.lots.filter(l=>l.stage===stage && l.kind!=='elsewhere' && l.eta<=p.due).reduce((sum,l)=>sum+l.qty,0)
     const where:Record<string,string>={cut:'di meja potong',sewing:'sedang dijahit',laundry:'di laundry',qc:'di QC'}
     return qty?[qty+' pcs '+where[stage]]:[]
   })
   if (row.short) return 'Pesanan '+p.need+' pcs. Ada '+p.fg+' pcs siap jual, '+stages.join(' dan ')+'. Masih kurang '+row.short+' pcs.'
   if (row.check) return 'Tanyakan ke '+row.check.place+' apakah '+row.check.qty+' pcs ini untuk '+p.brand+' '+p.sku+'.'+(row.late?' Ada '+row.late+' pcs lain yang baru siap sesudah tenggat.':'')
   if (row.queue.length) return (p.fg?p.fg+' pcs sudah siap jual. ':'')+stages.join(' dan ')+'. Serahkan potongan yang ada ke mandor.'
-  return (p.fg?p.fg+' pcs siap jual, ':'')+stages.join(' dan ')+'. Cukup untuk pesanan '+p.need+' pcs.' 
+  return (p.fg?p.fg+' pcs siap jual, ':'')+stages.join(' dan ')+'. Cukup untuk pesanan '+p.need+' pcs.'
 }
 export function SourceDetail({ row }: {row: Plan}) {
   const p = row.product
@@ -28,7 +28,7 @@ export function SourceDetail({ row }: {row: Plan}) {
     <dl className="gar-counts">{[['Pesanan',p.need],['Stok siap jual',p.fg],['WIP tujuan pasti',row.confirmed],['WIP potensial',row.potential],['Sisa perlu potong',row.short]].map(([label,value])=><div key={label}><dt>{label}</dt><dd>{value} <small>pcs</small></dd></div>)}</dl>
     <p>{row.base > row.short ? <>Kalau hanya mengandalkan stok dan WIP yang pasti, masih kurang <strong>{row.base} pcs</strong>. Setelah memakai WIP potensial yang cocok, sisanya <strong>{row.short} pcs</strong>.</> : productionReason(row)}</p>
     <h3>Barangnya ada di mana?</h3>
-    <ul className="gar-lots">{row.lots.map(lot=><li key={lot.id}><div><strong>{stageName[lot.stage]} · {lot.qty} pcs</strong><small>{lot.id}{lot.group?' / '+lot.group:''} · {lot.place}{lot.roll ? ' · roll ' + lot.roll : ''}</small></div><div>{patternFor(lot.pattern).name} · {lot.material}<small>Uk. {lot.size} · {lot.kind === 'directed' ? 'Tujuan pasti' : 'Tujuan perlu dipastikan'}</small></div><div className={lot.eta>p.due?'gar-late':''}>Siap {day(lot.eta)}<small>{lot.eta>p.due?'Lewat tenggat':'Masuk hitungan tenggat'}</small></div></li>)}</ul>
+    <ul className="gar-lots">{row.lots.map(lot=><li key={lot.id}><div><strong>{stageName[lot.stage]} · {lot.qty} pcs</strong><small>{lot.id}{lot.group?' / '+lot.group:''} · {lot.place}{lot.roll ? ' · roll ' + lot.roll : ''}</small></div><div>{patternFor(lot.pattern).name} · {lot.material}<small>Uk. {lot.size} · {lot.kind === 'directed' ? 'Tujuan pasti' : lot.kind==='elsewhere'?'Untuk pesanan lain':'Tujuan perlu dipastikan'}</small></div><div className={lot.eta>p.due?'gar-late':''}>Siap {day(lot.eta)}<small>{lot.kind==='elsewhere'?'Di luar kebutuhan SKU ini':lot.eta>p.due?'Lewat tenggat':'Masuk hitungan tenggat'}</small></div></li>)}</ul>
     {row.late>0&&<p className="gar-warn">{row.late} pcs tiba sesudah pesanan harus siap. Jumlah itu dikeluarkan dari hitungan di atas.</p>}
     <details><summary>Pesanan, pola dan bahan</summary><p>{p.order} · {p.brand} {p.sku} · rentang jual {p.range} · ukuran fisik {p.size} · {p.colour} · {p.finish}.</p><ul>{p.routes.map(r=><li key={r.material}>{patternFor(r.pattern).name} · {patternFor(r.pattern).revision} · {r.material}</li>)}</ul></details>
   </div>
@@ -41,8 +41,9 @@ export function Forms({row}: {row:Plan}) {
     {row.queue.length>0&&<a className="gar-button" href={pickupPath+'?pot='+row.queue[0].id}>Buka Bagi Potongan <ArrowRight size={15}/></a>}
   </div>
 }
-export function AdviceBox({mode, session, onCut, onPickup, selected}: {mode:'cut'|'pickup';session:Session;onCut?:(row:Plan)=>void;onPickup?:(lot:Lot)=>void;selected?:string}) {
+export function AdviceBox({mode, session, onCut, onPickup, selected}: {mode:'cut'|'pickup';session:Session;onCut?:(row:Plan,material?:string)=>void;onPickup?:(lot:Lot)=>void;selected?:string}) {
   const [opened,setOpened]=useState('')
+  const [material,setMaterial]=useState<Record<string,string>>({})
   const cuts=plansIn(session).filter(r=>r.short>0)
   const queue=waitingLots(session)
   const entries=mode==='cut' ? cuts.map(row=>({row,lot:null as Lot|null})) : queue.map(lot=>({row:plan(productFor(lot.sku)!,session),lot}))
@@ -51,13 +52,14 @@ export function AdviceBox({mode, session, onCut, onPickup, selected}: {mode:'cut
     {!entries.length&&<p className="gar-empty">{mode==='cut'?'Kebutuhan tambahan sudah tertutup. Potongan yang tersedia bisa dilanjutkan ke mandor.':'Semua potongan contoh sudah diambil mandor.'}</p>}
     {entries.map(({row,lot})=>{
       const p=row.product, id=lot?.id??p.sku
-      const suggestion=lot?undefined:suggestedCut(row,session)
+      const suggestion=lot?undefined:suggestedCut(row,session,material[p.sku])
       return <article className="gar-advice" key={id}><div className="gar-advice-line"><div>
         <h3>{lot ? lot.id+' · ' : ''}{p.brand} {p.sku} <span>· Uk. {p.size}</span></h3>
         <p>{patternFor(lot?.pattern??p.routes[0].pattern).name} · {lot?.material??routesLabel(row)} · {lot?.qty??row.short} pcs</p>
         <small>{lot ? p.customer+' perlu '+p.need+' pcs. Potongan ini belum diambil.' : productionReason(row)} Siap {day(p.due)}.</small>
+        {suggestion&&p.routes.length>1&&<label className="gar-material">Pilih bahan untuk {p.sku}<select value={suggestion.roll.material} onChange={e=>setMaterial({...material,[p.sku]:e.target.value})}>{p.routes.map(route=><option key={route.material}>{route.material}</option>)}</select></label>}
         {suggestion&&<small className="gar-fabric">Roll {suggestion.roll.id} · tersedia {suggestion.available} yd · rencana pakai {suggestion.qty*suggestion.roll.yardPerPiece} yd{suggestion.qty<row.short?' · bahan cukup untuk '+suggestion.qty+' pcs':''}</small>}
-      </div><button type="button" className="gar-button primary" disabled={Boolean(suggestion && !suggestion.qty)} onClick={()=>lot ? onPickup?.(lot) : onCut?.(row)}>{lot ? (selected===id?'Lihat pembagian '+id:'Pilih '+id) : suggestion?.qty ? 'Isi form · '+suggestion.qty+' pcs' : 'Bahan perlu disiapkan'} <ArrowRight size={15}/></button></div>
+      </div><button type="button" className="gar-button primary" disabled={Boolean(suggestion && !suggestion.qty)} onClick={()=>lot ? onPickup?.(lot) : onCut?.(row,suggestion?.roll.material)}>{lot ? (selected===id?'Lihat pembagian '+id:'Pilih '+id) : suggestion?.qty ? 'Isi form · '+suggestion.qty+' pcs' : 'Bahan perlu disiapkan'} <ArrowRight size={15}/></button></div>
       <button type="button" className="gar-text" aria-expanded={opened===id} onClick={()=>setOpened(opened===id?'':id)}>Kenapa {lot?'dibagi':'dipotong'}? <ChevronDown size={14}/></button>
       {opened===id&&<SourceDetail row={row}/>}</article>
     })}

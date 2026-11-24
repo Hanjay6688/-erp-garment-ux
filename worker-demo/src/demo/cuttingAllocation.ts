@@ -67,8 +67,8 @@ function createRollAllocationMatrix(rolls: FabricRoll[], count: number): Allocat
   })), count)
 }
 
-export function createSizeAllocationMatrix(sizeTotals: QtyTuple, count: number): AllocationMatrix {
-  const sources = cuttingSizes.map((size, index) => ({ key: size, qty: sizeTotals[index] }))
+export function createSizeAllocationMatrix(sizeTotals: QtyTuple, count: number, sizeNames: readonly string[]=cuttingSizes): AllocationMatrix {
+  const sources = sizeNames.map((size, index) => ({ key: size, qty: sizeTotals[index] }))
   return allocateWholeSources(sources, Math.max(1, count))
 }
 

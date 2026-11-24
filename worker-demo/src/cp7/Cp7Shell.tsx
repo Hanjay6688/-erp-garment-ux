@@ -63,7 +63,7 @@ function OwnerWorkspace({initial}: {initial: Page}) {
   </aside><main className="cp7-main"><header className="cp7-header"><div><span className="cp7-eyebrow">ANALISIS &amp; PLANNER</span><h1>{pages.find(p=>p.id===page)!.label}</h1></div><span className="cp7-tag">Data contoh · 24 Nov 2026</span></header>
     {access==='DENIED' ? <Empty title="Akses contoh ditolak" text="Pilih hak akses yang sesuai untuk melihat data latihan."/> : page==='methods' ? <Methods/> : <OwnerAnalysis key={page} page={page} onDetail={setDetail} copy={(text,label)=><CopyText text={text} label={label}/>}/>}
     <details className="gar-box gar-work"><summary>Pengaturan contoh</summary><div className="cp7-controls"><label>Hak akses contoh<select value={access} onChange={e=>{setAccess(e.target.value);setDetail(null)}}><option value="OWNER">Owner</option><option value="OPERATIONS">Operasional</option><option value="DENIED">Tanpa akses</option></select></label>
-      {access!=='DENIED'&&(session.cuts.length>0||session.pickups.length>0||session.confirmed.length>0)&&<button className="gar-button" onClick={()=>{sessionStorage.removeItem('atelier.cutting-draft.nov24.1');changeSession(()=>emptySession)}}>Ulangi latihan dari awal</button>}</div></details>
+      {access!=='DENIED'&&(session.cuts.length>0||session.pickups.length>0||session.confirmed.length>0||session.elsewhere.length>0)&&<button className="gar-button" onClick={()=>{sessionStorage.removeItem('atelier.cutting-draft.nov24.1');changeSession(()=>emptySession)}}>Ulangi latihan dari awal</button>}</div></details>
   </main>{row&&access!=='DENIED'&&<Dialog title={row.product.brand+' '+row.product.sku+' · Ukuran '+row.product.size} onClose={()=>setDetail(null)}><GarmentDetail row={row}/><Forms row={row}/></Dialog>}</div>
 }
 

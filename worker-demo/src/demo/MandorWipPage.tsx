@@ -9,7 +9,7 @@ import {
   createEmptyRollBatchSizeMatrix,
   createRollBatchSizeMatrix,
   createSizeAllocationMatrix,
-  cuttingSizes,
+  cuttingSizes as archiveSizes,
   fabricRollCatalog,
   rollSizeQuantities,
 } from './cuttingAllocation'
@@ -67,9 +67,13 @@ const pairedPickupSlots = (sizes: readonly string[], quantities: readonly number
 ])
 
 type NotesProps = {batchNotes: string[]; setBatchNotes: (updater:(current:string[])=>string[])=>void}
+function sizeBand(lot:Lot) {
+  const [start,end]=productFor(lot.sku)!.range.split('–').map(Number)
+  return Array.from({length:end-start+1},(_,i)=>String(start+i))
+}
 function sourceRoll(lot: Lot): FabricRoll {
   const allocation:FabricRoll['allocation']=[0,0,0,0,0,0]
-  allocation[cuttingSizes.indexOf(lot.size)*2]=lot.qty
+  allocation[sizeBand(lot).indexOf(lot.size)*2]=lot.qty
   return {id:lot.roll!,sequence:1,material:lot.material,supplier:rolls.find(r=>r.material===lot.material)!.supplier,yards:lot.usedYards!,receivedAt:'24 Nov 2026',allocation}
 }
 export function MandorWipPage(props:NotesProps) {
@@ -101,6 +105,7 @@ export function MandorWipPage(props:NotesProps) {
 function PickupWorkbench({batchNotes:oldNotes,setBatchNotes:setOldNotes,active,session,onSelect,onReceipt}: NotesProps & {active?:Lot;session:Session;onSelect:(lot:Lot)=>void;onReceipt:(status:string)=>void}) {
   const [notes,setNotes]=useState<string[]>([''])
   const batchNotes=active?notes:oldNotes, setBatchNotes=active?setNotes:setOldNotes
+  const cuttingSizes=active?sizeBand(active):archiveSizes
   const wipRolls=active?[sourceRoll(active)]:fabricRollCatalog.slice(0,9)
   const wipRollRows = wipRolls.map((roll) => {
     const sizes = rollSizeQuantities(roll.allocation)
@@ -114,7 +119,7 @@ function PickupWorkbench({batchNotes:oldNotes,setBatchNotes:setOldNotes,active,s
   const [batchCount,setBatchCount] = useState(active?1:3)
   const [allocationMode,setAllocationMode] = useState<WipAllocationMode>('roll')
   const [rollBatchMatrix,setRollBatchMatrix] = useState<RollBatchSizeMatrix>(() => active ? createRollBatchSizeMatrix(wipRolls,1) : createEmptyRollBatchSizeMatrix(wipRolls,3))
-  const [sizeMatrix,setSizeMatrix] = useState<AllocationMatrix>(() => createSizeAllocationMatrix(wipSizeTotals, active?1:3))
+  const [sizeMatrix,setSizeMatrix] = useState<AllocationMatrix>(() => createSizeAllocationMatrix(wipSizeTotals, active?1:3,cuttingSizes))
   const [rollAllocationTouched,setRollAllocationTouched] = useState(false)
   const [sizeAllocationTouched,setSizeAllocationTouched] = useState(false)
   const [batchResizeMessage,setBatchResizeMessage] = useState('')
@@ -240,7 +245,7 @@ function PickupWorkbench({batchNotes:oldNotes,setBatchNotes:setOldNotes,active,s
     })
     setSizeMatrix((current) => sizeAllocationTouched
       ? Object.fromEntries(cuttingSizes.map((size) => [size, Array.from({ length: nextCount }, (_, batchIndex) => current[size]?.[batchIndex] ?? '0')]))
-      : createSizeAllocationMatrix(wipSizeTotals, nextCount))
+      : createSizeAllocationMatrix(wipSizeTotals, nextCount,cuttingSizes))
     setBatchNotes((current) => Array.from({ length: nextCount }, (_, batchIndex) => current[batchIndex] ?? ''))
     setBatchCountInput(String(nextCount))
     setBatchCount(nextCount)
@@ -391,7 +396,7 @@ function PickupWorkbench({batchNotes:oldNotes,setBatchNotes:setOldNotes,active,s
 
         {allocationMode==='roll'?<div className="golden-roll-rule"><Icon name="boxes"/><div><span>GOLDEN RULE</span><strong>Bagi per roll kalau bisa jangan dipisah</strong><small>{wholeRolls.length} roll utuh · {splitRolls.length} roll terpecah · {unassignedRollRows.length} belum ditempatkan.</small></div><div><button type="button" onClick={tidyWholeRolls}>Susun otomatis tanpa pecah</button></div></div>:<div className="golden-roll-rule size-mode"><Icon name="ruler"/><div><span>PEMBAGIAN AWAL PER SIZE</span><strong>Size utuh dikelompokkan dulu, lalu bebas lu pecah atau gabung</strong><small>Contoh 2 batch: Size 31 sendiri, Size 32+33 bersama. Total setiap size tetap harus sama dengan sumber.</small></div></div>}
 
-        {allocationMode==='roll'&&<section className={`wip-roll-tray ${unassignedRollRows.length===0?'all-assigned':''}`}><div className="wip-roll-tray-head"><div><span>ROLL BELUM DITEMPATKAN</span><strong>{unassignedRollRows.length===0?'Semua roll sudah masuk batch':'Tarik roll atau pilih nomor batch'}</strong><small>{unassignedRollRows.length===0?'Kalau mau pindah, tarik dari kartu batch atau pakai pilihan Batch.':'Pilihan Batch lebih mudah dipakai di HP dan tetap memasukkan roll secara utuh.'}</small></div><span>{unassignedRollRows.length} roll tersisa</span></div><p className="sr-only" role="status" aria-live="polite">{allocationMessage}</p>{unassignedRollRows.length>0?<div className="wip-roll-token-grid">{unassignedRollRows.map((row)=><UnassignedRollCard key={row.roll.id} row={row} batchCount={batchCount} onAssignWhole={assignWholeRoll} onOpenSplit={(rollId)=>{setSplitEditorRollId(rollId);setAllocationMessage('')}} onDragStart={beginRollDrag} onDragMove={moveRollDrag} onDragEnd={finishRollDrag} onDragCancel={cancelRollDrag}/>)}</div>:<div className="wip-roll-tray-empty"><Icon name="check"/><span>Area sumber bersih</span></div>}</section>}
+        {allocationMode==='roll'&&<section className={`wip-roll-tray ${unassignedRollRows.length===0?'all-assigned':''}`}><div className="wip-roll-tray-head"><div><span>ROLL BELUM DITEMPATKAN</span><strong>{unassignedRollRows.length===0?'Semua roll sudah masuk batch':'Tarik roll atau pilih nomor batch'}</strong><small>{unassignedRollRows.length===0?'Kalau mau pindah, tarik dari kartu batch atau pakai pilihan Batch.':'Pilihan Batch lebih mudah dipakai di HP dan tetap memasukkan roll secara utuh.'}</small></div><span>{unassignedRollRows.length} roll tersisa</span></div><p className="sr-only" role="status" aria-live="polite">{allocationMessage}</p>{unassignedRollRows.length>0?<div className="wip-roll-token-grid">{unassignedRollRows.map((row)=><UnassignedRollCard sizeLabels={cuttingSizes} key={row.roll.id} row={row} batchCount={batchCount} onAssignWhole={assignWholeRoll} onOpenSplit={(rollId)=>{setSplitEditorRollId(rollId);setAllocationMessage('')}} onDragStart={beginRollDrag} onDragMove={moveRollDrag} onDragEnd={finishRollDrag} onDragCancel={cancelRollDrag}/>)}</div>:<div className="wip-roll-tray-empty"><Icon name="check"/><span>Area sumber bersih</span></div>}</section>}
 
         {allocationMode==='size'&&<div className="split-source-locks size-allocation-source-locks">{cuttingSizes.map((size,sizeIndex)=>{const check=sourceChecks[sizeIndex];const remaining=(check?.total??0)-(check?.assigned??0);return <div className={remaining===0?'success':'warn'} key={size}><span>SIZE {size} · SUMBER</span><strong>{check?.total??wipSizeTotals[sizeIndex]} pcs</strong><small>Terbagi {check?.assigned??0} · Sisa {remaining}</small></div>})}</div>}
 
@@ -409,7 +414,7 @@ function PickupWorkbench({batchNotes:oldNotes,setBatchNotes:setOldNotes,active,s
         </div>
 
         {rollDrag&&<div className="roll-drag-ghost" style={{left:rollDrag.x,top:rollDrag.y}}><Icon name="drag"/><span>{rollDrag.rollId}</span><small>{rollDrag.target===null?'Arahkan ke batch':`Lepas di Batch ${String(rollDrag.target+1).padStart(2,'0')}`}</small></div>}
-        <div className="wip-source-audit"><Icon name={sourcesExact?'check':'history'}/><div><strong>{sourcesExact?'Pembagian cocok dengan seluruh sumber':'Masih ada sumber roll atau size yang tidak cocok'}</strong><span>{sourceChecks.filter((source)=>source.assigned!==source.total).map((source)=>`${source.key}: ${source.assigned}/${source.total}`).join(' · ')||`${wipRollRows.length} roll · Size 31/32/33 seluruhnya rekonsiliasi`}</span></div></div>
+        <div className="wip-source-audit"><Icon name={sourcesExact?'check':'history'}/><div><strong>{sourcesExact?'Pembagian cocok dengan seluruh sumber':'Masih ada sumber roll atau size yang tidak cocok'}</strong><span>{sourceChecks.filter((source)=>source.assigned!==source.total).map((source)=>`${source.key}: ${source.assigned}/${source.total}`).join(' · ')||`${wipRollRows.length} roll · Size ${cuttingSizes.join('/')} seluruhnya rekonsiliasi`}</span></div></div>
         <section className={`pickup-final-review ${isReady?'ready':'blocked'}`} aria-label="Review akhir pickup"><div className="pickup-review-head"><Icon name={isReady?'check':'history'}/><div><span>04 · REVIEW SEBELUM POSTING</span><strong>{isReady?'Siap dicatat sebagai pickup mandor':'Belum siap diposting'}</strong><small>{isReady?'Sesudah konfirmasi, PO masuk tahap SEWING.':'Rapikan pembagian sampai sumber, size, dan total seluruh batch pas.'}</small></div></div><div className="pickup-review-facts"><div><span>MANDOR</span><strong>{mandor||'Belum dipilih'}</strong></div><div><span>WAKTU AMBIL</span><strong>{pickupReviewAt}</strong></div><div><span>POLA SNAPSHOT</span><strong>{selectedQueueItem.pattern ? `${selectedQueueItem.pattern.code} · ${selectedQueueItem.pattern.revision}` : 'Histori lama'}</strong></div><div><span>PEMBAGIAN</span><strong>{allocationMode==='roll'?'Per roll':'Awal per size'}</strong></div><div><span>TOTAL</span><strong>{effectiveBatchCount} batch · {assignedTotal} pcs</strong></div></div><div className="pickup-review-batches">{batchTotals.map((total,batchIndex)=><div className={total>0?'filled':'empty'} key={batchIndex}><span>BATCH {String(batchIndex+1).padStart(2,'0')}</span><strong>{total} pcs</strong><small>{batchNotes[batchIndex]||'Belum ada catatan mandor'}</small><em>{cuttingSizes.map((size,sizeIndex)=>`${size}: ${batchSizeMix[batchIndex][sizeIndex]}`).join(' · ')}</em></div>)}</div><div className="pickup-review-next"><Icon name="arrow"/><span><strong>Setelah posting: SEWING</strong> · Pola snapshot ikut Batch Produksi; Laundry baru boleh dicatat ketika batch benar-benar dikirim keluar.</span></div></section>
         <div className="allocation-footer"><small>{active?'Catatan latihan disimpan di tab ini.':'Arsip Agustus · contoh pembagian per roll dan ukuran.'}</small>{active&&<button type="button" className="primary-btn" disabled={!isReady} onClick={()=>{
           try {changeSession(current=>recordPickup(current,{id:active.id,mandor,at:pickupAt,batches:batchTotals.map((qty,i)=>({qty,note:batchNotes[i]??''}))}));onReceipt(active.id+' · '+active.qty+' pcs sudah diserahkan ke '+mandor+' untuk dijahit. Potongan ini keluar dari antrean.');window.scrollTo(0,0)}
