@@ -1,0 +1,90 @@
+name: Uji Box 250 MB dari GitHub
+
+'on':
+  push:
+    branches: ['writer-a/cp7c-box-cloud-gratis']
+    paths: ['.github/workflows/cp7c-box-batas-250mb.yml']
+
+permissions:
+  contents: read
+
+jobs:
+  uji-batas:
+    if: github.repository == 'Hanjay6688/-erp-garment-ux'
+    environment: erp-box-gladi
+    concurrency:
+      group: erp-box-gladi-satu-penulis
+      cancel-in-progress: false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: 45c6f0806b0adb67ff2bd0c7e1abd50ddba2c302
+          persist-credentials: false
+          sparse-checkout: qualification/cp7c-box-cloud
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: bec36c687f8463528fded3f37b2db21678e4648b
+          path: qualified
+          persist-credentials: false
+          sparse-checkout: |
+            qualification/cp7c-backup-malam
+            qualification/cp7c-backup-sintetis
+      - name: Pasang alat yang dipakai backup malam
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq rclone python3-cryptography
+      - name: Kirim 250.000.001 byte, unduh utuh, dan periksa ukuran fisik di Box
+        env:
+          BOX_GLADI: ${{ secrets.BOX_GLADI }}
+          BOX_GLADI_CLIENT_SECRET: ${{ secrets.BOX_GLADI_CLIENT_SECRET }}
+          RCLONE_CONFIG: ${{ github.workspace }}/qualified/qualification/cp7c-backup-sintetis/box-250mb.conf
+          PYTHONPATH: ${{ github.workspace }}/qualification/cp7c-box-cloud:${{ github.workspace }}/qualified/qualification/cp7c-backup-malam:${{ github.workspace }}/qualified/qualification/cp7c-backup-sintetis
+        shell: bash
+        run: |
+          set -euo pipefail
+          /usr/bin/python3 - <<'PY' | tee -a "$GITHUB_STEP_SUMMARY"
+          from datetime import datetime, timezone
+          import json
+          import os
+          from pathlib import Path
+          from tempfile import TemporaryDirectory
+
+          import backup_malam as nightly
+          from gladi import connect, read_config
+          from test_box_parts import LIMIT, write_fixture
+
+          test_folder = "Uji-Batas-250MB"
+          remote = "boxbackup:" + test_folder
+          with TemporaryDirectory() as tmp:
+              work = Path(tmp)
+              os.environ["RCLONE_LOG_FILE"] = str(work / "rclone.log")
+              cfg = read_config(os.environ.pop("BOX_GLADI"), os.environ.pop("BOX_GLADI_CLIENT_SECRET"))
+              connect(cfg)
+              source = work / "synthetic.bin"
+              size = LIMIT + 1
+              sha = write_fixture(source, size)
+              now = datetime.now(timezone.utc)
+              night = now.astimezone(nightly.WIB).date()
+              proof = nightly.receipt_for(night, now.isoformat(), size, sha)
+              nightly.rclone("mkdir", remote)
+              files = nightly.listing(remote)
+              marker = proof["archive"][:-4] + ".verified.json"
+              if marker in files:
+                  stored = nightly.read_marker(remote, marker, files[marker])
+                  proof = nightly.receipt_for(night, stored["captured_at"], size, sha)
+              reference = work / "reference.json"
+              reference.write_text(json.dumps(proof), encoding="utf-8")
+              result = nightly.backup(remote, source, reference, night, work / "state")
+              name = proof["archive"]
+              physical = "box:" + test_folder
+              rows = json.loads(nightly.rclone("lsjson", physical, "--files-only", "--no-modtime", "--no-mimetype"))
+              parts = sorted((row["Name"], row["Size"]) for row in rows if row["Name"].startswith(name + ".rclone_chunk."))
+              expected = [(name + ".rclone_chunk.001", LIMIT), (name + ".rclone_chunk.002", 1)]
+              header = json.loads(nightly.rclone("cat", physical + "/" + name, "--count", "1024"))
+              if parts != expected or (header.get("size"), header.get("nchunks")) != (size, 2):
+                  raise ValueError("Ukuran atau jumlah bagian fisik Box tidak cocok dengan arsip uji.")
+              print(json.dumps({"bytes": size, "sha256": result["verified"]["sha256"], "parts": [n for _, n in parts],
+                                "night_wib": night.isoformat(), "source": "synthetic", "production_go": False}))
+          PY
