@@ -34,6 +34,10 @@ describe('Warehouse workflows',()=>{
     const s=convertStock(emptySession,{...move,source:'Vivo 73002'},'other')
     expect(()=>convertStock(s,move,'a',snap)).toThrow('Stok berubah')
   })
+  it('does not move a newly received size before its physical date',()=>{
+    const first=convertStock(emptySession,move,'F')
+    expect(()=>convertStock(first,{...move,source:move.target,target:'Vivo 73003',values:{33:'1'},sizeMap:{33:'34'},date:'2026-11-23'},'B')).toThrow('stok asal')
+  })
   const receipt:ReceiptDraft={request:'pr1',number:'SJ-UJI-01',supplier:'Sinaran',location:'Gudang Bahan',material:'Kain kantong hitam',day:'2026-11-24',unit:'m',rate:'9000',reason:'Surat jalan',notes:'',rolls:[{number:'U-01',qty:'19,5'},{number:'U-02',qty:'7'},{number:'',qty:''}]}
   it('posts one purchase with individual rolls, keeps their original unit and refuses duplicates',()=>{
     expect(receivePocket(receipt).notes).toBeNull();expect(receivePocket(receipt).rolls).toHaveLength(2)

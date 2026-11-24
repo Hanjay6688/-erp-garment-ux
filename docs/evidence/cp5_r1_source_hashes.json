@@ -644,8 +644,8 @@
       "sha256": "7a7ff7b2a744eda4011d1a08949d52a8000aa2c0923c2ff993c64183b37aba33"
     },
     "tests/warehouse-sku-roll.test.ts": {
-      "bytes": 3716,
-      "sha256": "1aa49264a62db66777f3cc13314af7e6b114af1d856adaf98e2b0f3b666cb8c3"
+      "bytes": 4009,
+      "sha256": "380d24bb0a7aa702b1d847342e55a7777671f4fda51a36521f4bf64c24b14c34"
     },
     "tests/worker-accessory-price.test.ts": {
       "bytes": 3467,
@@ -1616,8 +1616,8 @@
       "sha256": "aa212d7eb5f31cacf4dd82c73c7e995ee63049b9cf09a480724b48c7f77de9a8"
     },
     "worker-demo/src/demo/BrandConversionForm.tsx": {
-      "bytes": 8607,
-      "sha256": "124931c942488adc003ee9977ec6479bc06753ecd9b9d1c4d47a2db3473ea502"
+      "bytes": 8671,
+      "sha256": "8cca2da66cc580431f4611428029f8a34690b9453d6d8ae29209c8336b6483a5"
     },
     "worker-demo/src/demo/CuttingRollPage.tsx": {
       "bytes": 46721,
@@ -1664,8 +1664,8 @@
       "sha256": "7686324bcfc23b9e1dfe39b5cb217bdd9c67a830f61f5002286e9276705c6030"
     },
     "worker-demo/src/demo/SkuRangePage.tsx": {
-      "bytes": 9459,
-      "sha256": "39f761f8dfe49f44d7e8611b5ba28ec70a2837fe143d9bb60fcc9367dd7ef578"
+      "bytes": 9207,
+      "sha256": "7349e621cd4700503ee7872398f9a806259e1124b32dcbdfc2f2ee2611b12390"
     },
     "worker-demo/src/demo/StockPages.tsx": {
       "bytes": 17197,
@@ -1724,8 +1724,8 @@
       "sha256": "afd43664dd1e9d3b7b26d2973409c107a89ba221a4fb2898ff5ccdf2c039c2d2"
     },
     "worker-demo/src/demo/planner/conversion.ts": {
-      "bytes": 3327,
-      "sha256": "425f47d364e31fb319516c4960ff8aa5de0be93a01545711664f9fa25b51e851"
+      "bytes": 4033,
+      "sha256": "75acb929a9fc85a41783d828f67a7896d60b09d235c7117f676d8b8b0042af5c"
     },
     "worker-demo/src/demo/planner/inventory.ts": {
       "bytes": 3857,

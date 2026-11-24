@@ -1,6 +1,7 @@
 import {useState} from 'react'
 import {ArrowRight,ArrowLeftRight,BookOpen,Package,Search} from 'lucide-react'
 import {fgQuantity} from '../fgQuantity'
+import {fixtureDate} from './accessoryPricing'
 import {rangeLabel,type Session} from './planner/model'
 import {changeSession,usePlannerSession} from './planner/session'
 import {ReasonDialog} from './planner/ReasonDialog'
@@ -13,7 +14,7 @@ const draftKey='erp.owner.range-draft.convert'
 const matchingSizes=(a:string,b:string)=>Object.fromEntries((skuByKey(a)?.sizes??[]).map(x=>[x,skuByKey(b)?.sizes.includes(x)?x:'']))
 function initial(s:Session,source=allSkus(s,true)[0]?.key??skuCatalog[0].key):MoveInput{
   const target=pairOf(s,source)??''
-  return {source,target,sizeMap:matchingSizes(source,target),location:nativePosition(skuByKey(source)!).location,grade:'Good',date:'2026-11-24',values:{},reason:'',notes:''}
+  return {source,target,sizeMap:matchingSizes(source,target),location:nativePosition(skuByKey(source)!).location,grade:'Good',date:fixtureDate,values:{},reason:'',notes:''}
 }
 export function SkuPairField({sku}:{sku:string}){
   const s=usePlannerSession(),a=skuByKey(sku),current=pairOf(s,sku)??''
@@ -59,7 +60,7 @@ export default function BrandConversionForm(){
         {item&&<div className="wh-stock"><div><small>{item.colour} · Ukuran {rangeLabel(item.sizes)}</small><span>Stok tersedia</span></div><strong>{fgQuantity(total(item.key))}</strong></div>}
       </div>})}</div>
     <div className="wh-recommend"><BookOpen size={17}/><span>{pair?'Saran master · '+pair:'Belum ada padanan di master'}</span>{pair&&m.target!==pair&&<button type="button" className="soft-btn" onClick={()=>target(pair)}>Pakai padanan</button>}<a href={masterPath+'?sku='+encodeURIComponent(m.source)+'#padanan'}>Atur padanan</a></div>
-    <div className="wh-fields"><label>Lokasi dan kondisi<select aria-label="Lokasi dan kondisi" value={m.location+'|'+m.grade} onChange={e=>{const [location,grade]=e.target.value.split('|');edit({location,grade})}}>{positions.map(p=><option key={p} value={p}>{p.split('|').join(' · ')}</option>)}</select></label><label>Tanggal fisik<input type="date" required value={m.date} onChange={e=>edit({date:e.target.value})}/></label></div>
+    <div className="wh-fields"><label>Lokasi dan kondisi<select aria-label="Lokasi dan kondisi" value={m.location+'|'+m.grade} onChange={e=>{const [location,grade]=e.target.value.split('|');edit({location,grade})}}>{positions.map(p=><option key={p} value={p}>{p.split('|').join(' · ')}</option>)}</select></label><label>Tanggal fisik<input type="date" max={fixtureDate} required value={m.date} onChange={e=>edit({date:e.target.value})}/></label></div>
     <details className="wh-size-entry" key={m.source}><summary>Detail ukuran · {rangeLabel(a.sizes)}</summary><div className="wh-size-map">{a.sizes.map(x=><div key={x}><div><strong>Ukuran {x}</strong><small>Tersedia {fgQuantity(stockAt(a,x,s,m.location,m.grade))}</small></div><label>Keluar (pcs)<input aria-label={'Jumlah ukuran '+x} inputMode="numeric" placeholder="0" value={m.values[x]??''} onChange={e=>edit({values:{...m.values,[x]:e.target.value}})}/></label><label>Ukuran tujuan<select aria-label={'Ukuran tujuan untuk '+x} value={m.sizeMap[x]??''} onChange={e=>edit({sizeMap:{...m.sizeMap,[x]:e.target.value}})}><option value="">Pilih ukuran</option>{b?.sizes.map(y=><option key={y}>{y}</option>)}</select></label></div>)}</div></details>
     <div className="wh-fields"><label>Alasan · wajib<input aria-label="Alasan transaksi" value={m.reason} required onChange={e=>edit({reason:e.target.value})}/></label><label>Catatan · opsional<input aria-label="Catatan transaksi" value={m.notes??''} onChange={e=>edit({notes:e.target.value})}/></label></div>
     <footer className="wh-actions"><button className="primary-btn" onClick={review}><Search size={15}/>Periksa jumlah</button><button className="soft-btn" onClick={()=>{sessionStorage.setItem(draftKey,JSON.stringify(m));setDraft(true);setMsg('Draft form tersimpan di tab ini.')}}>Simpan draft form</button>{hasDraft&&<><button className="soft-btn" onClick={loadDraft}>Edit draft tersimpan</button><button className="soft-btn" onClick={()=>setDiscard(true)}>Hapus draft</button></>}</footer>
