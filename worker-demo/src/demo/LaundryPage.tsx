@@ -79,7 +79,11 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
   const selectedTotal=selectedBatches.reduce((sum,batch)=>sum+(sendSizeInputs[batch.id]??batch.sizes.map(String)).reduce((subtotal,value)=>subtotal+cellQuantity(value),0),0)
   const rate=laundryRates[selectedProcess]
   const estimatedCost=rate===undefined?null:selectedTotal*rate
-  const reference=sku&&deliveries.filter(d=>d.skuRef===sku.key&&d.vendor===selectedVendor&&d.reversed<d.qty&&laundryPhysicalTime(d.sentAt)<=sentAt&&(d.colourProcess||d.targetColor||d.process))
+  const reference=sku&&deliveries.filter(d=>{
+    const physicalTime=laundryPhysicalTime(d.sentAt)
+    return d.skuRef===sku.key && d.vendor===selectedVendor && d.reversed<d.qty &&
+      physicalTime && physicalTime<=sentAt && (d.colourProcess||d.targetColor||d.process)
+  })
     .sort((a,b)=>laundryPhysicalTime(b.sentAt).localeCompare(laundryPhysicalTime(a.sentAt)))[0]
   const useSku=()=>{if(!sku)return;setColour(reference?.targetColor??sku.colour);setColourProcess(reference?.colourProcess??'');if(reference?.process)setSelectedProcess(reference.process)}
   function changeVendor(vendor:string){
@@ -112,7 +116,7 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
     const [physicalDate,physicalTime]=sentAt.split('T')
     const physicalSentAt=physicalDate==='2026-08-27'?`27 Agu 2026 · ${physicalTime}`:`${physicalDate} · ${physicalTime}`
     setDeliveries((current)=>[
-      ...posted.map(({batch,qty,sizes},index)=>({id:`LDR-260827-${String(startNo+index).padStart(3,'0')}`,parentId:batch.parentId,sequence:batch.sequence,batchId:batch.id,plannedBrand:batch.plannedBrand,pattern:batch.pattern,model:batch.model,material:batch.material,mandor:batch.mandor,vendor:selectedVendor,process:selectedProcess,skuRef:skuRef||undefined,targetColor:colour.trim()||null,colourProcess:colourProcess||null,sendNote:sendNote.trim()||null,sentAt:physicalSentAt,qty,sizes,sizeLabels:batch.sizeLabels,good:0,bs:0,goodSizes:sizes.map(() => 0),bsSizes:sizes.map(() => 0),reversed:0,reversedSizes:sizes.map(() => 0)})),
+      ...posted.map(({batch,qty,sizes},index)=>({id:`LDR-${physicalDate.replaceAll('-','').slice(2)}-${String(startNo+index).padStart(3,'0')}`,parentId:batch.parentId,sequence:batch.sequence,batchId:batch.id,plannedBrand:batch.plannedBrand,pattern:batch.pattern,model:batch.model,material:batch.material,mandor:batch.mandor,vendor:selectedVendor,process:selectedProcess,skuRef:skuRef||undefined,targetColor:colour.trim()||null,colourProcess:colourProcess||null,sendNote:sendNote.trim()||null,sentAt:physicalSentAt,qty,sizes,sizeLabels:batch.sizeLabels,good:0,bs:0,goodSizes:sizes.map(() => 0),bsSizes:sizes.map(() => 0),reversed:0,reversedSizes:sizes.map(() => 0)})),
       ...current,
     ])
     const sentById=new Map(posted.map((row)=>[row.batch.id,row.sizes]))

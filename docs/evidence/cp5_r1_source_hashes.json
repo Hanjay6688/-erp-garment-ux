@@ -1436,8 +1436,8 @@
       "sha256": "e6e45519b92534145371114d597a025ae6267137b55780c3c8abdbe9ba4de4cd"
     },
     "worker-demo/src/browse-rows.css": {
-      "bytes": 4134,
-      "sha256": "40a872a4189178f2766fa06eb810ae9dc15b0ddb983d9acaebee5db541eef482"
+      "bytes": 4427,
+      "sha256": "0d97c255b9637e2c2feca694469c36fb150836feeabba167acd326cb41874293"
     },
     "worker-demo/src/browseMatch.ts": {
       "bytes": 538,
@@ -1632,16 +1632,16 @@
       "sha256": "b10c0784976c1c1f42d6aab02c07e6423a3e8236b6cdad9dfa98b95a13918097"
     },
     "worker-demo/src/demo/FgHistory.tsx": {
-      "bytes": 5920,
-      "sha256": "da58a9254c445628be75693dac08d97d212fe14476ac848aa6a074aa442a552c"
+      "bytes": 6015,
+      "sha256": "a5902baa6ce42e2ce2b0e480c2b897b3c9ff97d5b24bc3c62323c65669cf60d7"
     },
     "worker-demo/src/demo/FgRegister.tsx": {
       "bytes": 1963,
       "sha256": "80e3219d4ed5671084e9e5d80fa974f40f6ddb37a744ced879d89497ea2c48e6"
     },
     "worker-demo/src/demo/LaundryPage.tsx": {
-      "bytes": 30772,
-      "sha256": "0510f753b67133fe3806fadb756f6be71d52a98ca3ad2ef6f3c18d47a9a7f362"
+      "bytes": 30892,
+      "sha256": "0060f30da1cf298dcf1d53688c34842b0e0b70445cf7abfba947c2b12c69f10f"
     },
     "worker-demo/src/demo/MandorWipPage.tsx": {
       "bytes": 49329,

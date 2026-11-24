@@ -14,6 +14,8 @@ import './warehouseForms.css'
 type Row={id:string;ref:string;when:string;day:string;type:string;note:string;delta:number[];balance:number[];sequence?:string;physicalTime?:string}
 const months=['jan','feb','mar','apr','mei','jun','jul','agu','sep','okt','nov','des']
 function isoDate(text:string){const [d,m,y]=text.split(' ');return y+'-'+String(months.indexOf(m.toLowerCase())+1).padStart(2,'0')+'-'+d.padStart(2,'0')}
+function clockOf(row:Row){return (row.physicalTime??row.when.match(/(?:^|[^0-9])([0-2]\d[:.][0-5]\d)(?:$|\s)/)?.[1]??'').replace('.',':')}
+function chronological(a:Row,b:Row){return a.day.localeCompare(b.day)||clockOf(a).localeCompare(clockOf(b))||(a.sequence??'').localeCompare(b.sequence??'')}
 export function historyRows(p:Product,s:Session):Row[]{
   const key=p.brand+' '+p.code,a=skuByKey(key)!
   const pos=nativePosition(a),home=pos.grade===p.grade&&pos.location===p.location
@@ -28,19 +30,19 @@ export function historyRows(p:Product,s:Session):Row[]{
     const day=e.date??'2026-11-24'
     newRows.push({id:e.id,ref:e.id,when:day,day,physicalTime:e.physicalTime,type:e.reverses?'Pembalikan':e.action==='adjust'?'Stock Adjustment':'Ganti Merek',note:e.reason,delta,balance:[],sequence:e.recordedAt})
   }
-  newRows.sort((a,b)=>a.day.localeCompare(b.day)||(a.physicalTime??'').localeCompare(b.physicalTime??'')||(a.sequence??'').localeCompare(b.sequence??''))
+  newRows.sort(chronological)
   for(const row of newRows){balance=balance.map((n,i)=>n+row.delta[i]);row.balance=[...balance]}
-  return [...newRows.reverse(),...opening].sort((a,b)=>b.day.localeCompare(a.day))
+  return [...newRows.reverse(),...opening].sort((a,b)=>chronological(b,a))
 }
 function movementWhen(row:Row){
   if(!row.day)return 'Tanggal fisik belum tercatat'
   const date=new Intl.DateTimeFormat('id-ID',{day:'numeric',month:'short',year:'numeric',timeZone:'Asia/Jakarta'}).format(new Date(row.day+'T06:00:00Z'))
-  const time=row.physicalTime??row.when.match(/(?:^|[^0-9])([0-2]\d[:.][0-5]\d)(?:$|\s)/)?.[1]
+  const time=clockOf(row)
   return date+(time?' · '+time.replace('.',':')+' WIB':' · jam fisik belum tercatat')
 }
 function recordedWhen(value:string){return new Intl.DateTimeFormat('id-ID',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit',hourCycle:'h23',timeZone:'Asia/Jakarta'}).format(new Date(value))+' WIB'}
 export function FgHistory({product,session}:{product:Product;session:Session}){
-  const rows=historyRows(product,session),[q,setQ]=useState(''),[sort,setSort]=useState('new'),[period,setPeriod]=useState(()=>periodFor('all',rows[0]?.day??'2026-11-24')),[detail,setDetail]=useState<Row|null>(null)
+  const rows=historyRows(product,session),[q,setQ]=useState(''),[sort,setSort]=useState('new'),[period,setPeriod]=useState(()=>periodFor('all',rows[0]?.day||'2026-11-24')),[detail,setDetail]=useState<Row|null>(null)
   const visible=rows.filter(r=>matchesPeriod(r.day,period)&&browseMatch(q,r.ref,r.type,r.note,r.day,movementWhen(r)))
   if(sort==='old')visible.reverse()
   return <section className="fg-history"><h3>Riwayat stok · {product.brand} {product.code}</h3><div className="wh-fields"><label>Cari dokumen atau transaksi<input value={q} onChange={e=>setQ(e.target.value)}/></label><label>Urutan riwayat<select value={sort} onChange={e=>setSort(e.target.value)}><option value="new">Terbaru dulu</option><option value="old">Terlama dulu</option></select></label></div>
