@@ -1,0 +1,96 @@
+name: Backup Box gratis (gladi)
+
+on:
+  push:
+    branches: ['writer-a/cp7c-box-cloud-gratis']
+    paths:
+      - '.github/workflows/cp7c-box-cloud-gratis.yml'
+      - 'qualification/cp7c-box-cloud/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/cp7c-box-cloud-gratis.yml'
+      - 'qualification/cp7c-box-cloud/**'
+  workflow_dispatch:
+  schedule:
+    - cron: '0 18 * * *'  # 01.00 Asia/Jakarta, next calendar day
+
+permissions:
+  contents: read
+
+jobs:
+  periksa:
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          sparse-checkout: qualification/cp7c-box-cloud
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: Hanjay6688/-erp-garment-ux
+          ref: bec36c687f8463528fded3f37b2db21678e4648b
+          path: qualified
+          persist-credentials: false
+          sparse-checkout: |
+            qualification/cp7c-backup-malam
+            qualification/cp7c-backup-sintetis
+      - name: Siapkan rclone dan kriptografi
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq rclone python3-cryptography
+      - name: Uji data dummy, retur setelah putus, dan retensi
+        env:
+          RCLONE_CONFIG: ${{ github.workspace }}/qualified/qualification/cp7c-backup-sintetis/box-250mb.conf
+          PYTHONPATH: ${{ github.workspace }}/qualified/qualification/cp7c-backup-malam
+        run: /usr/bin/python3 qualification/cp7c-box-cloud/test_gladi.py -v
+
+  box:
+    if: >-
+      always() && !cancelled() && github.repository == 'Hanjay6688/-erp-garment-ux' &&
+      ((github.event_name == 'push' && github.ref == 'refs/heads/writer-a/cp7c-box-cloud-gratis' && needs.periksa.result == 'success') ||
+      (github.ref == 'refs/heads/main' && (github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'schedule' && vars.ERP_BOX_GLADI_NIGHTLY == 'true'))))
+    needs: periksa
+    environment: erp-box-gladi
+    concurrency:
+      group: erp-box-gladi-satu-penulis
+      cancel-in-progress: false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - name: Periksa izin mesin
+        env:
+          BOX_GLADI: ${{ secrets.BOX_GLADI }}
+        run: |
+          if [ -z "$BOX_GLADI" ]; then
+            echo "::error::Izin Box mesin belum dipasang pada environment erp-box-gladi. Tidak ada unggahan."
+            exit 1
+          fi
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          sparse-checkout: qualification/cp7c-box-cloud
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: Hanjay6688/-erp-garment-ux
+          ref: bec36c687f8463528fded3f37b2db21678e4648b
+          path: qualified
+          persist-credentials: false
+          sparse-checkout: |
+            qualification/cp7c-backup-malam
+            qualification/cp7c-backup-sintetis
+      - name: Siapkan rclone dan kriptografi
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq rclone python3-cryptography
+      - name: Unggah, unduh dari Box, dan cocokkan SHA-256
+        env:
+          BOX_GLADI: ${{ secrets.BOX_GLADI }}
+          RCLONE_CONFIG: ${{ github.workspace }}/qualified/qualification/cp7c-backup-sintetis/box-250mb.conf
+          PYTHONPATH: ${{ github.workspace }}/qualified/qualification/cp7c-backup-malam
+        run: |
+          set -euo pipefail
+          /usr/bin/python3 qualification/cp7c-box-cloud/gladi.py | tee -a "$GITHUB_STEP_SUMMARY"

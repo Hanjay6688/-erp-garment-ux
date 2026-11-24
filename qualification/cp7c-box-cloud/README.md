@@ -1,0 +1,19 @@
+# Backup Box gratis untuk gladi
+
+Workflow di repo publik yang sudah ada memakai runner Linux standar. Ia membuat arsip terenkripsi kecil berisi stok dummy untuk tanggal WIB hari itu. Dua percobaan pada tanggal yang sama menghasilkan byte identik. Sumber data sintetis berasal dari runner. Pemakaian transfer Supabase untuk gladi ini nol.
+
+## Menghubungkan mesin
+
+1. Sediakan folder privat bernama `GitHub-Gratis` di Box. Di Developer Console Box, gunakan aplikasi Server dengan Client Credentials Grant dan App Access Only. Aktifkan baca/tulis berkas untuk identitas aplikasi dan minta otorisasi admin Box jika diperlukan. Beri identitas aplikasi akses editor hanya pada folder khusus ini. Pilihan ini memerlukan akun yang dapat mengotorisasi aplikasi server. Hentikan pemasangan apabila Box meminta upgrade berbayar.
+2. Gunakan environment GitHub `erp-box-gladi` di repo ini. Batasi cabang deployment ke `main` dan cabang pemasangan tepercaya `writer-a/cp7c-box-cloud-gratis`. Simpan akses aplikasi dalam secret environment `BOX_GLADI`. GitHub mengirim secret hanya ke langkah autentikasi dan transfer.
+3. Dengan GitHub CLI yang sudah masuk pada komputer owner, jalankan `python3 pasang_izin.py ID_FOLDER` sekali dari direktori ini. Masukkan Client ID, Enterprise ID, dan Client Secret saat diminta. Pemasang menambahkan kunci acak khusus arsip dummy dan mengirim konfigurasi lewat stdin ke GitHub CLI. Kunci lokal ada di direktori privat `~/.erp-box-gladi/` untuk pemasangan ulang. Kredensial Box dapat diganti dengan menjalankan lagi pemasang memakai kunci gladi yang sama.
+4. Jalankan workflow **Backup Box gratis (gladi)**. Selama tahap pemasangan, perubahan di cabang pemasangan menjalankan pemeriksaan lalu mencoba transfer asli. Sesudah workflow masuk ke cabang utama, tersedia tombol **Run workflow**. Pada folder `Gladi-Sintetis`, unduh arsip dan bandingkan SHA-256 dengan ringkasan run. Jika izin atau upload gagal, job transfer berstatus gagal.
+5. Setelah satu transfer nyata terverifikasi, pengaturan repository variable `ERP_BOX_GLADI_NIGHTLY=true` mengaktifkan gladi harian pada workflow di `main`. Waktu cron 18.00 UTC setara 01.00 WIB hari berikutnya. GitHub dapat menunda eksekusi dan menonaktifkan penjadwalan setelah 60 hari tanpa aktivitas repo publik. Kegagalan job dapat diikuti melalui notifikasi Actions GitHub. Pemeriksaan malam yang sama sekali tidak berjalan membutuhkan pemantau terpisah.
+
+## Penyimpanan dan bukti
+
+Runner mendapat token Box baru pada tiap eksekusi, memastikan ID dan nama folder tujuan serta akses unggah cocok, dan memeriksa bahwa folder tidak memiliki tautan bagi. Profil rclone yang dipatok pada commit `bec36c68` memecah objek di atas 250.000.000 byte. Setelah mengunggah, job mengunduh kembali objek dari Box, mencocokkan ukuran dan SHA-256, lalu menulis bukti. Pengulangan yang identik memeriksa ulang salinan yang ada.
+
+Setelah ada lebih dari 14 malam, program memeriksa kembali isi semua arsip yang akan dipertahankan. Hanya arsip sintetis lama yang cocok dengan sumber, nama, kunci dan buktinya yang dibersihkan. Jika proses berhenti di tengah, penanda pembersihan memungkinkan percobaan berikutnya melanjutkan. File lain dibiarkan di tempatnya. Ringkasan Actions hanya berisi tanggal, jumlah byte, sidik isi, hasil transfer dan angka retensi. Workflow tidak memakai cache atau mengunggah arsip sebagai artifact. `production_go=false`.
+
+[Dokumentasi izin Box CCG](https://developer.box.com/guides/authentication/client-credentials/) · [Penyimpanan secret GitHub](https://cli.github.com/manual/gh_secret_set) · [Ketentuan penjadwalan GitHub](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule)
