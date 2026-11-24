@@ -260,6 +260,7 @@ test('Nota Afui: harga tanggal nota, Gratis Special dan stok Kancing Metal', asy
     ['2026-11-24','Rp0','Rp0','3.179',true],
   ] as const) {
     await page.goto(notes)
+    await expect(page.locator('aside.sidebar').getByRole('button',{name:/• Nota Ambil Aksesori/})).toBeVisible()
     await page.getByRole('button',{name:'Nota baru'}).click()
     await page.getByLabel('Tanggal nota').fill(date)
     await page.getByRole('button',{name:'Browse aksesori'}).click()
@@ -293,7 +294,7 @@ test('Nota Afui: harga tanggal nota, Gratis Special dan stok Kancing Metal', asy
   await edit.getByRole('button',{name:'Simpan versi simulasi'}).click()
   await expect(special).toContainText('Ikuti harga normal · Rp495/pcs')
   await page.getByLabel('Harga berlaku pada').fill('2026-11-26')
-  await page.locator('.mm-price-matrix article').filter({hasText:'MANDOR BELI DARI KITA'}).getByRole('button').click()
+  await page.locator('.mm-price-matrix article').filter({hasText:'HARGA NORMAL KATEGORI'}).getByRole('button').click()
   edit = page.getByRole('dialog')
   await edit.getByLabel('Nominal tarif').fill('520')
   await edit.getByLabel('Alasan perubahan harga').fill('Tarif kategori baru')

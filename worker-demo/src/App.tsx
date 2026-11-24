@@ -255,7 +255,11 @@ function ErpApp() {
   const setPage=(next:Page)=>{if(next!==page)setInvoiceSource(null);setSourceEpoch(value=>value+1);setPageState(next)}
   const [invoiceSource,setInvoiceSource] = useState<{saleId:string;scope:string}|null>(null)
   const invoiceSourceScope=runtime.mode!=='DEMO_SIMULATION'&&identity.status==='AUTHORIZED'?`${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`:null
-  const [expanded, setExpanded] = useState<NavSection | null>(() => demoAccess && cuttingFormAt(window.location.pathname) ? (window.location.pathname.startsWith('/gudang/')?'Gudang':window.location.pathname.startsWith('/master/')?'Master Data':'Produksi') : null)
+  const [expanded, setExpanded] = useState<NavSection | null>(() => {
+    if (!demoAccess || !cuttingFormAt(window.location.pathname)) return null
+    const sections: Record<string, NavSection> = {produksi:'Produksi', gudang:'Gudang', keuangan:'Keuangan', master:'Master Data'}
+    return sections[window.location.pathname.split('/')[1]] ?? null
+  })
   useEffect(() => {
     if (!demoAccess) return
     const openedForm = cuttingFormAt(window.location.pathname)
