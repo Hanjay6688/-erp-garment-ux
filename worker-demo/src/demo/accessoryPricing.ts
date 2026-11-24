@@ -35,7 +35,7 @@ export const amountText=(n:number)=>'Rp'+new Intl.NumberFormat('id-ID',{maximumF
 export const priceOn=(rows:PriceHistory[],date:string)=>rows.filter(x=>x.status!=='CANCELLED'&&x.effectiveFrom<=date&&(!x.effectiveTo||date<x.effectiveTo)).sort((a,b)=>b.effectiveFrom.localeCompare(a.effectiveFrom))[0]
 export function specialOn(book:AccessoryBook,m:string,c:string,date:string){return book.special.filter(s=>s.mandor===normalizeMandor(m)&&s.category===c&&s.start<=date).sort((a,b)=>b.start.localeCompare(a.start))[0]}
 export function validRateUnit(unit:string,item:AccessoryMaster){const u=unit.toLowerCase();return u==='pcs'?1:u==='lusin'||u==='dozen'?12:u==='gross'?144:u===item.purchaseUom.toLowerCase()?item.conversion:null}
-export function saveSpecial(book:AccessoryBook,record:SpecialRate){if(!contractorNames.includes(record.mandor)||!record.category||!record.start||record.amount!==null&&(!Number.isFinite(record.amount)||record.amount<=0))throw Error('Pilih mandor, kategori dan tanggal. Harga khusus boleh kosong atau lebih dari nol.');return {...book,special:[record,...book.special.filter(s=>!(s.mandor===record.mandor&&s.category===record.category&&s.start===record.start))]}}
+export function saveSpecial(book:AccessoryBook,record:SpecialRate){if(!contractorNames.includes(record.mandor)||!record.category||!record.start||record.amount!==null&&(!Number.isFinite(record.amount)||record.amount<=0))throw Error('Pilih mandor, kategori dan tanggal. Harga khusus boleh kosong atau lebih dari nol.');return {...book,special:[record,...book.special]}}
 export function saveRateVersion(previous:PriceHistory[],entry:PriceHistory):PriceHistory[]{const rows=[entry,...previous.filter(r=>r.effectiveFrom!==entry.effectiveFrom&&r.status!=='CANCELLED')].sort((a,b)=>b.effectiveFrom.localeCompare(a.effectiveFrom));return rows.map((r,i)=>({...r,status:i?'SUPERSEDED':'CURRENT',effectiveTo:i?rows[i-1].effectiveFrom:undefined}))}
 export type PricingMode='MASTER'|'MANUAL'|'FREE'
 export function issueQuote(book:AccessoryBook,item:AccessoryMaster,mandor:string,date:string,mode:PricingMode='MASTER',manual?:number|null){
@@ -53,4 +53,9 @@ export const masterCode=(code:string)=>oldCodes[code]??code
 export function noteStock(code:string,opening:number,docs?:{inventoryChange?:number;lines:{id:string;qty:number}[]}[]):number {
   const ledger=docs??(JSON.parse(sessionStorage.getItem(noteStorage)??'[]') as {inventoryChange?:number;lines:{id:string;qty:number}[]}[])
   return opening+ledger.reduce((balance,d)=>balance+(d.inventoryChange??0)*d.lines.reduce((sum,l)=>sum+(masterCode(l.id)===code?l.qty:0),0),0)
+}
+
+export function usedByNote(version:string,from:string):boolean {
+  const documents=JSON.parse(sessionStorage.getItem(noteStorage)??'[]') as {issuedOn:string;status:string;lines:{version?:string}[]}[]
+  return documents.some(d=>d.status!=='DRAFT'&&d.issuedOn>=from&&d.lines.some(line=>line.version===version))
 }

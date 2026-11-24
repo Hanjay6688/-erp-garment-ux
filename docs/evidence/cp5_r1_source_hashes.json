@@ -636,8 +636,8 @@
       "sha256": "8dcafcf1ead9dec38713f7a75f317eed63de1bf64a666e0e354c540e913a7ab4"
     },
     "tests/browser/cp8-worker.spec.ts": {
-      "bytes": 21931,
-      "sha256": "008aac53f588f6c35610d572d660350c3fed4831b09628c40a5d85637f3de177"
+      "bytes": 22046,
+      "sha256": "00590c474fe05fa48ba1c84c0c31fd5a852a3b34c67fd298df8c9baad970ba5b"
     },
     "tests/worker-accessory-price.test.ts": {
       "bytes": 2691,
@@ -672,8 +672,8 @@
       "sha256": "22b1e53c801e6d3415b981cec34ce0245b95e49d3fc95e6ff834f415ed25613a"
     },
     "worker-demo/src/App.tsx": {
-      "bytes": 51533,
-      "sha256": "9f9a5731b857c228cef2c54fb6729fb2fdca1cee525984ba7ea7cd609921b66e"
+      "bytes": 51620,
+      "sha256": "9eb04e0a8ad8a85b8cd529b945575ccdaebbafcc824e75fbc6b95d3dbf6c2d36"
     },
     "worker-demo/src/AttendanceEntryEditor.tsx": {
       "bytes": 12651,
@@ -704,8 +704,8 @@
       "sha256": "82d6132a19b288316b5aec3f0bcc8d793cdef8e397402b62ed32cbbe16648a28"
     },
     "worker-demo/src/ConnectedAccessoryIssuePage.tsx": {
-      "bytes": 23047,
-      "sha256": "2b195cceab0713c8151973fd10b704a1b2fee92b262accae21000a0db02b09c2"
+      "bytes": 23388,
+      "sha256": "b354b96af52826978c078a0f3eb6d3b20663e30374035789658c69ea80911e13"
     },
     "worker-demo/src/ConnectedAccessoryServicePage.tsx": {
       "bytes": 48947,
@@ -984,8 +984,8 @@
       "sha256": "740069caa4c65fdbfd94dcf24b6b9632aced7fc09f50653aeb656b57a1816920"
     },
     "worker-demo/src/MaterialMasterPages.tsx": {
-      "bytes": 43745,
-      "sha256": "15a23272c8c43a3be7cbb5916baf75cca1aa0f5833b6f4c7b83c3dd5a9df6e02"
+      "bytes": 44485,
+      "sha256": "e2004df63ff3c600d55b3b30728e4e5d361289cd71c3329620074bfe137c33e2"
     },
     "worker-demo/src/MaterialNamePanel.tsx": {
       "bytes": 7058,
@@ -1356,8 +1356,8 @@
       "sha256": "6fa3cd34ba77e9e6a37d214270188c346eedc72af2818941528c85f1722f4b4e"
     },
     "worker-demo/src/accessoryIssue.ts": {
-      "bytes": 10611,
-      "sha256": "23d36793bbb36430bfafaca774aa42c0c9fdefe6e59503c94d1d7d46c5909d6f"
+      "bytes": 11075,
+      "sha256": "2380d3e5333e584b1e307368184ed8dcd7af31fb77fb50ed7c50aca3a9a9f0bb"
     },
     "worker-demo/src/accessoryService.ts": {
       "bytes": 25125,
@@ -1636,8 +1636,8 @@
       "sha256": "562fdf5c310dd85e4ea88d2557962a063475b0f5fd7197822b6123215bed6325"
     },
     "worker-demo/src/demo/accessoryPricing.ts": {
-      "bytes": 9108,
-      "sha256": "1acd73b6f804058b2acc2c4be9e998314cb77d01389466104e6f89485fffe5c4"
+      "bytes": 9327,
+      "sha256": "3246a354fc69fe99dbece2fdb3b8c8f1032756717431a95948fc7fdd6c5b36b0"
     },
     "worker-demo/src/demo/controls.tsx": {
       "bytes": 2756,

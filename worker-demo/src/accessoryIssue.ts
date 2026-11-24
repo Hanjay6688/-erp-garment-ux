@@ -3,6 +3,7 @@ import { sameRecordList, type RecordList } from './recordList'
 
 export type AccessoryChoice = { id: string; sku: string; name: string; unit: string; category: string; stock: string;
   price_version_id: string | null; master_price: string | null; price_unit: string | null; factor: string | null
+  hpp_current?: string | null; reimburse_reference?: string | null; reimburse_status?: 'UNSET' | 'BY_BOM' | 'RESOLVED'
   /** BC (ERP-DEC02): the owner's Special free list covers this accessory for this mandor at the note time. */
   free?: { category_id: string; policy_version: string } | null }
 export type AccessoryLine = { material_id: string; qty: string; mode: 'MASTER' | 'MANUAL' | 'FREE'; manual_price: string }
@@ -48,6 +49,9 @@ export function parseAccessoryWorkspace(value: unknown, page?: { offset: number;
   for (const m of materials) {
     if (![m.sku,m.name,m.category,m.unit].every(text) || String(m.unit).toUpperCase() !== 'PCS' || !decimal(m.stock,6)
       || !nullableId(m.price_version_id)) throw new Error('Stok aksesori tidak valid.')
+    if ([m.hpp_current,m.reimburse_reference].some(v=>v!==undefined && v!==null && !decimal(v,6))
+      || (m.reimburse_status!==undefined && !['UNSET','BY_BOM','RESOLVED'].includes(String(m.reimburse_status)))
+      || (m.reimburse_status==='RESOLVED' && !decimal(m.reimburse_reference,6))) throw new Error('Acuan biaya aksesori tidak valid.')
     if (m.price_version_id === null ? [m.master_price,m.price_unit,m.factor].some(x => x !== null)
       : !decimal(m.master_price,6) || !text(m.price_unit) || !decimal(m.factor,6) || micro(m.factor) <= 0n) throw new Error('Harga master tidak lengkap.')
     if (m.free !== undefined && m.free !== null) {
