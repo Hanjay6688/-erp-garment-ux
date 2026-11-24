@@ -690,6 +690,10 @@ test('Koreksi sebagian dan bukti jahit menetap di kartu WIP yang sama',async({pa
 
 test('Batalkan kartu lama 042-03 membagi hanya 222 potong Lucy dan melacak dua batch pengganti',async({page})=>{
   await page.goto('/produksi/jahit/?cari=04203')
+  await expect(page.locator('.sewing-parent-card')).toHaveCount(1)
+  await page.getByRole('button',{name:'Cari menu',exact:true}).click()
+  await page.getByRole('searchbox').filter({visible:true}).last().fill('04203')
+  await page.getByRole('region',{name:'Hasil pencarian dokumen'}).getByRole('link',{name:/POT-260827-042.*WIP jahit/}).click()
   const group=page.getByRole('article',{name:'Distribusi POT-260827-042'})
   const row=(no:number)=>group.getByRole('region',{name:'POT-260827-042 Batch '+no,exact:true})
   await expect(row(1).getByLabel('Selesai dijahit Batch 1')).toHaveValue('188')

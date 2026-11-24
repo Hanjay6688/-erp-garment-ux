@@ -144,7 +144,6 @@ export function applyBatch(session:Session,cmd:Command):Session {
   }else{
     const lock=correctionLock(b)
     if(lock)throw Error(lock)
-    if(!state.batches.every(row=>total(row.sources)===row.qty))throw Error('Sumber distribusi lama belum lengkap untuk koreksi.')
     event.reason=cmd.reason.trim()
     if(!event.reason)throw Error('Isi alasan koreksi.')
     if(cmd.kind==='Reverse')event.released=b.sources

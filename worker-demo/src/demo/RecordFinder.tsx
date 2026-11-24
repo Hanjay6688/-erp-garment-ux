@@ -2,6 +2,7 @@ import {browseMatch} from '../browseMatch'
 import {allSkus} from './skuCatalog'
 import {cutRolls,lotLabel,lotsIn,rolls} from './planner/model'
 import {usePlannerSession} from './planner/session'
+import {sewingBatchId} from './sewingReceipts'
 import {distribution,pickupsIn} from './planner/distribution'
 import type {LaundryDelivery,LaundryReadyBatch} from './laundryModel'
 import {pocketRolls} from './pocketReceipts'
@@ -12,7 +13,7 @@ export function RecordFinder({query,ready,deliveries}:{query:string;ready:Laundr
   const q=encodeURIComponent
   const hits:Hit[]=[
     ...lotsIn(session).filter(l=>l.stage==='cut').map(l=>({type:'Bagi potongan',id:l.id,description:lotLabel(l),href:'/produksi/bagi-potongan/?pot='+q(l.id),terms:[l.material,l.size,...cutRolls(l).map(r=>r.id)]})),
-    ...pickupsIn(session).map(p=>({type:'WIP jahit',id:p.id,description:p.mandor,href:'/produksi/jahit/?cari='+q(p.id),terms:distribution(p,session).batches.flatMap(b=>['Batch '+b.no,...b.sources.map(r=>r.rollId)])})),
+    ...pickupsIn(session).map(p=>({type:'WIP jahit',id:p.id,description:p.mandor,href:'/produksi/jahit/?cari='+q(p.id),terms:distribution(p,session).batches.flatMap(b=>[sewingBatchId(p.id,b.no),b.mandor,'Batch '+b.no,...b.sources.map(r=>r.rollId)])})),
     ...rolls.map(r=>({type:'Roll potong',id:r.id,description:r.material,href:'/produksi/buat-potongan/?cari='+q(r.id),terms:[r.supplier]})),
     ...ready.map(b=>({type:'Laundry · siap kirim',id:b.id,description:b.parentId+' · '+b.vendor,href:'/produksi/laundry/?cari='+q(b.id),terms:[b.skuRef,b.model,b.material,b.mandor,...b.sizeLabels]})),
     ...deliveries.map(d=>({type:'Surat laundry',id:d.id,description:d.parentId+' · '+d.vendor,href:'/produksi/laundry/?tab=kembali&cari='+q(d.id),terms:[d.batchId,d.skuRef,d.model,d.material,d.mandor,...d.sizeLabels]})),

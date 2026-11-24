@@ -636,8 +636,8 @@
       "sha256": "8dcafcf1ead9dec38713f7a75f317eed63de1bf64a666e0e354c540e913a7ab4"
     },
     "tests/browser/cp8-worker.spec.ts": {
-      "bytes": 54573,
-      "sha256": "46de6e4970d6ed26995fc377209226e1f7b3652a69d6ebf09ca5cc09f1626c4b"
+      "bytes": 54918,
+      "sha256": "5dbbde9af497e31a4b254fba9b9fda7c635fb157deae91e03cea459d6f066253"
     },
     "tests/fg-quantity.test.ts": {
       "bytes": 1251,
@@ -1668,8 +1668,8 @@
       "sha256": "6b27a1845fd552a0c6b324d94370a5e55f335bdb24943d3cb5468d09ad1da28c"
     },
     "worker-demo/src/demo/RecordFinder.tsx": {
-      "bytes": 2467,
-      "sha256": "fe8ef7e25470d33a29f8407790b1e6b1e1508a65905bc0712891d482d38fbcf4"
+      "bytes": 2548,
+      "sha256": "1e7bdb1cab8cdc92022f6fa71b73f776ebf67c0dfc4ef0091b6b6707736aac59"
     },
     "worker-demo/src/demo/SewingTrace.tsx": {
       "bytes": 2003,
@@ -1748,20 +1748,20 @@
       "sha256": "24b07757fbd980059446fe20cce8daea4c2cc990aaa2f482647005a936c37026"
     },
     "worker-demo/src/demo/planner/distribution.test.ts": {
-      "bytes": 9296,
-      "sha256": "c6bd7a1378b1217edcd3aa804a0eeff69a4f10979835b57bc32c559d094c9761"
+      "bytes": 10407,
+      "sha256": "a45a653fe6f4b504fd7bf6fe1aa85971f8518164bc9385ea29a35d0464ff6ed7"
     },
     "worker-demo/src/demo/planner/distribution.ts": {
-      "bytes": 10732,
-      "sha256": "fbf4b4470a1e34565fc22ac6d4679053b5163fa4cc787ca1e29a2147b6070d36"
+      "bytes": 10602,
+      "sha256": "9690274fc83e55093e714aebe08b748116045bbd2135839a01494dc3a5fa1e28"
     },
     "worker-demo/src/demo/planner/inventory.ts": {
       "bytes": 4612,
       "sha256": "bf625ec0a172c62a69107abf4503f57379c9db9404e307be11928eb8742b896d"
     },
     "worker-demo/src/demo/planner/model.ts": {
-      "bytes": 23512,
-      "sha256": "ccc2050c10e7453752583b3c2300607dac73b712846e32b0747e7c038e1a4023"
+      "bytes": 24656,
+      "sha256": "3ce84f5269a611385e29923e4a832f4b20a719b6f825115dca4376c8cf546ea3"
     },
     "worker-demo/src/demo/planner/planner.css": {
       "bytes": 12224,

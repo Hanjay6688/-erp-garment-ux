@@ -1,6 +1,6 @@
 import {lastWarehouseDay} from '../warehouseDay'
 import {sewingReceipts} from '../sewingReceipts'
-import { applyBatch, distribution, distributionLot, pickupsIn, returnId, sliceLot, type BatchEvent, type Source } from './distribution'
+import { applyBatch, distribution, distributionLot, pickupsIn, returnId, sliceLot, total, type BatchEvent, type Source } from './distribution'
 import { sizeRangeLabel } from '../../sizeRangeLabel'
 import sample from './sample.json'
 import projection from './projection.json'
@@ -156,15 +156,39 @@ export function lotsIn(session: Session): Lot[] {
       }
       return part
     }
-    const mandors=new Map<string,Source[]>()
-    for(const b of ledger.batches.filter(b=>!b.closed))mandors.set(b.mandor,[...(mandors.get(b.mandor)??[]),...b.sources])
+    const mandors=new Map<string,{sources:Source[];qty:number}>()
+    let undetailed=0
+    for(const batch of ledger.batches.filter(b=>!b.closed)){
+      const owner=mandors.get(batch.mandor)??{sources:[],qty:0}
+      owner.qty+=batch.qty
+      if(total(batch.sources)===batch.qty)owner.sources.push(...batch.sources)
+      else undetailed+=batch.qty
+      mandors.set(batch.mandor,owner)
+    }
+    // Old receipts can omit a child's drawing. Keep its balance at the original mandor.
+    // A group-level remainder can be traced to rolls without attributing it to that child.
+    if(undetailed){
+      const reserved=new Map<string,number>()
+      for(const line of pickup.batches){
+        if(!line.sources?.every(r=>r.slot)||line.sources.reduce((sum,r)=>sum+r.qty,0)!==line.qty)continue
+        for(const r of line.sources){
+          const k=claimKey(r.rollId,r.slot!-1)
+          reserved.set(k,(reserved.get(k)??0)+r.qty)
+        }
+      }
+      const remainder=cutRolls(lot).flatMap(r=>r.slots.map((slot,i)=>({
+        rollId:r.id,slot:i+1,size:slot.size,qty:slot.qty-(reserved.get(claimKey(r.id,i))??0),
+      })))
+      if(remainder.every(r=>r.qty>=0)&&total(remainder)===undetailed)
+        mandors.get(pickup.mandor)?.sources.push(...remainder.filter(r=>r.qty>0))
+    }
     // Returns first, in original batch order, to keep allocation deterministic.
     const returned=ledger.returns.map(r=>{
       const parent=ledger.batches.find(b=>b.no===r.no)!
       const release=ledger.events.find(e=>e.no===r.no&&(e.kind==='Reverse'||e.kind==='Adjust'))!
       return project({...lot,id:returnId(lot.id,r.no),kind:sewing.kind,stage:'cut',place:'Meja potong',returnedBatch:r.no,returnRevision:parent.revision,earliestPickup:release.physical},r.sources)
     })
-    const active=[...mandors].map(([mandor,sources],i)=>project({...sewing,id:i?lot.id+'-J'+(i+1):lot.id,place:mandor},sources))
+    const active=[...mandors].map(([mandor,owner],i)=>({...project({...sewing,id:i?lot.id+'-J'+(i+1):lot.id,place:mandor},owner.sources),qty:owner.qty}))
     return [...active,...returned]
   })
 }

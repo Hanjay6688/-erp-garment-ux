@@ -116,4 +116,17 @@ describe('Koreksi satu batch distribusi',()=>{
     expect(distribution(distributionPickup,back).returns[0].sources.find(r=>r.rollId==='ORI-024-B'&&r.slot===1)?.qty).toBe(3)
   })
 
+  it('satu batch yang jejaknya lengkap dapat kembali ketika rincian gambar batch saudara lama hilang',()=>{
+    const group='POT-CAMPUR'
+    const physical:Lot={id:group,sku:null,pattern:'KJ',material:'1069 Ori',qty:10,size:'32',stage:'cut',kind:'unassigned',place:'Meja potong',eta:null,
+      series:{name:'Jumbo',sizes:['32']},outputs:[{id:'R',material:'1069 Ori',sourceYards:6,usedYards:5,remainingYards:1,slots:[{size:'32',image:'A',qty:10}]}]}
+    const pickup:Pickup={id:group,mandor:'Mandor Epi',at:clock,batches:[{qty:6,note:''},{qty:4,note:'',sizes:{32:4},sources:[{rollId:'R',size:'32',slot:1,qty:4}]}]}
+    const s={...emptySession,cuts:[physical],pickups:[pickup]}
+    const after=applyBatch(s,{...reverse,group,no:2}),ledger=distribution(pickup,after)
+    expect(ledger.batches[0]).toEqual(distribution(pickup,s).batches[0])
+    const pieces=lotsIn(after).filter(l=>l.originId===group)
+    expect(pieces.map(l=>[l.stage,l.qty,l.outputs?.[0].slots[0].qty])).toEqual([['sewing',6,6],['cut',4,4]])
+    expect(()=>applyBatch(after,{...reverse,id:'missing',group,no:1})).toThrow('belum lengkap')
+  })
+
 })
