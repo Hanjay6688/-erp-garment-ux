@@ -71,3 +71,19 @@ details.cutting-size-picker[open]>summary {margin-bottom:12px}
 .sku-range select,.sku-range input {box-sizing:border-box;width:100%;padding:8px;border:1px solid var(--line,#c0cbd8);border-radius:6px;background:var(--panel,#fff);color:inherit;font:inherit}
 .sku-size-slots label {padding:10px;border:1px solid var(--line,#c0cbd8);border-radius:6px}
 .sku-range-field {max-width:360px}
+.planner-disclosure>summary,.ic-size-detail>summary,.cutting-size-picker>summary{cursor:pointer;color:var(--text);font-weight:650;padding:4px 0;list-style-position:inside}
+.planner-disclosure[open]>summary,.ic-size-detail[open]>summary{border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:12px}
+.panel.gar-panel:has(>.planner-disclosure:not([open])){padding-block:11px}
+.ic-series-workspace{padding:clamp(12px,2vw,24px);margin:0;min-width:0}
+.ic-series-workspace .gar-panel-head h2{font-size:1rem}.ic-series-workspace .gar-panel-head{align-items:center}
+.ic-size-detail,.ic-series-balance{border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin:12px 0}
+.ic-series-balance,.owner-payroll-actions,.owner-doc-row,.owner-pay-choices{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.ic-series-balance span{display:grid;gap:4px;color:var(--soft)}.ic-series-balance strong{font-size:1.15rem;color:var(--text)}
+.area-stock{margin:10px 18px}.owner-period{display:flex;align-items:end;flex-wrap:wrap;gap:10px 16px;background:var(--panel);border:1px solid var(--line);border-radius:10px;margin:16px 0;padding:12px 16px;min-width:0}
+.owner-period legend{font-weight:650;padding:0 6px}.owner-period label,.gar-panel>.sku-range-fields>label,.gar-modal>label{display:grid;gap:5px}
+.owner-period-tabs,.owner-payroll-actions{display:flex;flex-wrap:wrap;gap:6px}.owner-period-tabs button,.owner-period input,.gar-panel>.sku-range-fields input,.gar-panel>.sku-range-fields select,.gar-modal>label input,.gar-modal .sku-range-fields input,.gar-modal .sku-range-fields select{font:inherit;font-size:.875rem;background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:6px;padding:7px 9px;min-width:0;max-width:100%;box-sizing:border-box}
+.owner-period-tabs button[aria-pressed=true]{color:var(--blue);border-color:var(--blue);font-weight:650}
+.owner-period p{width:100%;margin:0}.owner-invoice-lines{overflow-x:auto;padding:8px 0}.owner-invoice-lines table{width:100%;border-collapse:collapse}.owner-invoice-lines th,.owner-invoice-lines td{text-align:start;border-bottom:1px solid var(--line);padding:8px}
+.owner-pay-choices,.owner-doc-row,.owner-payroll-actions{padding:12px 0}.owner-pay-choices h3,.owner-pay-choices p{margin:0 0 5px}.owner-doc-row{border-bottom:1px solid var(--line)}.owner-doc-row>span:first-child{display:grid;gap:4px}.owner-doc-row small{color:var(--soft)}
+.biz-payroll-compact-groups .owner-pay-source{display:grid!important;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;padding:4px 0}.biz-payroll-compact-groups .owner-pay-source>button:first-child{width:100%;min-width:0}.biz-payroll-compact-groups .owner-pay-source>button.owner-remove{display:block;width:auto;font-size:.8rem;padding:8px;border:1px solid var(--line);border-radius:6px}
+@media(max-width:720px){.biz-payroll-compact-groups .owner-pay-source{grid-template-columns:1fr}.biz-payroll-compact-groups .owner-pay-source>button.owner-remove{justify-self:start}.owner-period label{min-width:0;flex:1 1 125px}.owner-period-tabs{width:100%}}

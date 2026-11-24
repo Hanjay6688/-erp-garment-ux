@@ -112,6 +112,7 @@ export type PayrollNote = {
     qty: number
     unit: string
     unitPrice: number
+    lines?: Array<{item:string;qty:number;unit:string;price:number;total:number}>
     total: number
   }>
   deductions: Array<{

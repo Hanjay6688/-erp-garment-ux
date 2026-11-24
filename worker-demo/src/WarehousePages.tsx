@@ -5,7 +5,6 @@ import {
   RotateCcw, Ruler, Search, ShieldCheck, SlidersHorizontal,
   Sparkles, Tag, Truck, Warehouse, X,
 } from 'lucide-react'
-import { SkuRangePage } from './demo/SkuRangePage'
 import { productCatalog } from './productCatalog'
 import { StockHealthExplainability, getStockHealthLabel, type StockLineageLink } from './stock/StockHealthExplainability'
 import { calculateStockHealth, createUnconfiguredPrototypeStock, type StockHealthResult } from './stock/stockHealth'
@@ -225,8 +224,7 @@ export default function WarehousePages({ view, onNavigate }: { view: WarehouseVi
   if (view === 'materials-rolls') return <MaterialsRollsPage/>
   if (view === 'accessories') return <AccessoriesPage/>
   if (view === 'fg-summary') return <FinishedGoodsSummaryPage/>
-  if (view === 'stock-adjustment') return <Suspense fallback={<InventoryControlFallback/>}><SkuRangePage mode="adjust"/><details className="panel gar-panel"><summary>Bahan, aksesori dan riwayat Agustus</summary><StockAdjustmentPage/></details></Suspense>
-  return <Suspense fallback={<InventoryControlFallback/>}><SkuRangePage mode="convert"/><details className="panel gar-panel"><summary>Riwayat konversi Agustus</summary><BrandConversionPage/></details></Suspense>
+  return <Suspense fallback={<InventoryControlFallback/>}>{view==='stock-adjustment'?<StockAdjustmentPage/>:<BrandConversionPage/>}</Suspense>
 }
 
 function InventoryControlFallback() {

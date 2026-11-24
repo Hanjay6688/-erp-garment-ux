@@ -93,6 +93,7 @@ const FgNotaPage = lazy(() => import('./FgNotaPage'))
 const AccessControlPage = lazy(() => import('./AccessControlPage'))
 const ConnectedInitialImportPage = lazy(() => import('./ConnectedInitialImportPage'))
 const ConnectedErpSettingsPage = lazy(() => import('./ConnectedErpSettingsPage'))
+const PocketFabricDemo = lazy(()=>import('./demo/PocketFabric'))
 const ConnectedPocketFabricPage = lazy(() => import('./ConnectedPocketFabricPage'))
 const ConnectedProcurementPage = lazy(() => import('./ConnectedProcurementPage'))
 const PatternPage = lazy(() => import('./PatternPage'))
@@ -115,7 +116,7 @@ type NavSection = 'Produksi' | 'Gudang' | 'Penjualan' | 'Keuangan' | 'Master Dat
 
 type NotaFocus = { kind: 'REGULAR' | 'REPAIR'; id: string }
 
-type NotaOrigin = 'MENU' | 'QC' | 'BS_REWORK'
+type NotaOrigin = 'MENU' | 'QC' | 'BS_REWORK' | 'PAYROLL'
 
 const nav: Record<NavSection, string[]> = {
   Produksi: ['Buat Potongan', 'Bagi Potongan', 'WIP & Sewing', 'Laundry', 'QC & Final SKU', 'Susun Nota FG', 'Barang BS & Rework'],
@@ -257,7 +258,7 @@ function ErpApp() {
   const invoiceSourceScope=runtime.mode!=='DEMO_SIMULATION'&&identity.status==='AUTHORIZED'?`${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`:null
   const [expanded, setExpanded] = useState<NavSection | null>(() => {
     if (!demoAccess || !cuttingFormAt(window.location.pathname)) return null
-    const sections: Record<string, NavSection> = {produksi:'Produksi', gudang:'Gudang', keuangan:'Keuangan', master:'Master Data'}
+    const sections: Record<string, NavSection> = {produksi:'Produksi', gudang:'Gudang', keuangan:'Keuangan', penjualan:'Penjualan', master:'Master Data'}
     return sections[window.location.pathname.split('/')[1]] ?? null
   })
   useEffect(() => {
@@ -319,8 +320,8 @@ function ErpApp() {
   const [bsPrefill,setBsPrefill] = useState<QcFinalResult|null>(null)
   const [bsBackPage,setBsBackPage] = useState<'sewing-wip'|'fg-handoff'>('sewing-wip')
   const [notaFocus,setNotaFocus] = useState<NotaFocus|null>(null)
-  const [notaOrigin,setNotaOrigin] = useState<NotaOrigin>('MENU')
-  const [readyFgNotaCards,setReadyFgNotaCards] = useState<ReadyFgNotaCard[]>([])
+  const [notaOrigin,setNotaOrigin] = useState<NotaOrigin>(()=>new URLSearchParams(location.search).get('dari')==='payroll'?'PAYROLL':'MENU')
+  const [readyFgNotaCards,setReadyFgNotaCards] = useState<ReadyFgNotaCard[]>(()=>demoAccess?[{id:'BG-AFUI-261124',kind:'REWORK_RELEASE',caseId:'BS-261123-02',sourceLabel:'QC ulang · BS-261123-02',label:'Bikin Bagus · QC lulus',brand:'Vivo',sku:'93001',material:'1069 Ori',mandor:'Mandor Afui',sizes:['31','32','33'],qtyBySize:[1,1,1],qty:3,components:[{id:'jahit',name:'Perbaikan jahitan',rate:3400}],unitRate:3400,subtotal:10200,createdAt:'2026-11-24T09:00:00+07:00'}]:[])
   const [postedFgCardIds,setPostedFgCardIds] = useState<string[]>([])
   const [regularFgNotaSnapshots,setRegularFgNotaSnapshots] = useState<Record<string,RegularFgNotaSnapshot>>({})
   const [bsWorkspace,setBsWorkspace] = useState<BsReworkWorkspace|null>(null)
@@ -492,7 +493,7 @@ function ErpApp() {
           onToggleReminder={(id)=>setReminders((current)=>current.map((item)=>item.id===id?{...item,status:item.status==='OPEN'?'DONE':'OPEN',completedAt:item.status==='OPEN'?'Sesi ini':undefined}:item))}
         />}
         {isSalesView(page) && <Suspense fallback={<WorkspaceFallback label="Penjualan"/>}>{page==='sales-history'&&runtime.mode!=='DEMO_SIMULATION'?<ConnectedCustomerHistoryPage/>:runtime.mode!=='DEMO_SIMULATION'&&(page==='sales-invoice'||page==='sales-allocation'||page==='sales-payments'||page==='sales-returns')?<ConnectedSalesPage view={page} initialSaleId={page==='sales-invoice'&&invoiceSourceScope!==null&&invoiceSource?.scope===invoiceSourceScope?invoiceSource.saleId:null}/>:<SalesPages view={page} onNavigate={(next)=>setPage(next)} />}</Suspense>}
-        {isFinanceView(page) && <Suspense fallback={<WorkspaceFallback label="Keuangan"/>}>{page === 'finance-overview' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedFinanceOverviewPage onNavigate={(next)=>setPage(next)}/> : page === 'finance-reports' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedFinanceReportPage tab={reportTab} onTab={setReportTab}/> : page === 'finance-cash' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedCashLedgerPage/> : page === 'finance-journal' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedJournalPage/> : page === 'finance-ar' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedReceivablesPage onOpenInvoice={(saleId)=>{if(invoiceSourceScope!==null){setSourceEpoch(value=>value+1);setInvoiceSource({saleId,scope:invoiceSourceScope});setPageState('sales-invoice')}}}/> : page === 'finance-ap' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedSupplierCreditPage onLaundry={()=>setPage('laundry')}/> : page === 'finance-payroll' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedPayrollPage/> : <FinancePages view={page} onNavigate={(next)=>setPage(next)} onSalesPayment={()=>setPage('sales-payments')} onAttendance={()=>setPage('operations-attendance')} />}</Suspense>}
+        {isFinanceView(page) && <Suspense fallback={<WorkspaceFallback label="Keuangan"/>}>{page === 'finance-overview' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedFinanceOverviewPage onNavigate={(next)=>setPage(next)}/> : page === 'finance-reports' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedFinanceReportPage tab={reportTab} onTab={setReportTab}/> : page === 'finance-cash' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedCashLedgerPage/> : page === 'finance-journal' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedJournalPage/> : page === 'finance-ar' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedReceivablesPage onOpenInvoice={(saleId)=>{if(invoiceSourceScope!==null){setSourceEpoch(value=>value+1);setInvoiceSource({saleId,scope:invoiceSourceScope});setPageState('sales-invoice')}}}/> : page === 'finance-ap' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedSupplierCreditPage onLaundry={()=>setPage('laundry')}/> : page === 'finance-payroll' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedPayrollPage/> : <FinancePages view={page} onNavigate={(next)=>setPage(next)} onSalesPayment={()=>setPage('sales-payments')} onAttendance={()=>setPage('operations-attendance')} onOpenFg={()=>{setNotaOrigin('PAYROLL');setNotaFocus(null);setPage('fg-handoff')}} />}</Suspense>}
         {page === 'stock-card' && (runtime.mode === 'DEMO_SIMULATION' ? <StockCard /> : <Suspense fallback={<WorkspaceFallback label="Kartu stok FG"/>}><ConnectedFgStockPage purpose="CARD" onOpenMaster={()=>setPage('master-products')}/></Suspense>)}
         {page === 'fg-summary' && runtime.mode !== 'DEMO_SIMULATION' && <Suspense fallback={<WorkspaceFallback label="Barang jadi"/>}><ConnectedFgStockPage onOpenMaster={()=>setPage('master-products')}/></Suspense>}
         {page === 'movements-vivo' && (runtime.mode === 'DEMO_SIMULATION' ? <Movements bookName="Vivo" bookBrands={vivoBookBrands} setBookBrands={setVivoBookBrands} movements={movements} setMovements={setMovements} /> : <Suspense fallback={<WorkspaceFallback label="Buku mutasi Vivo"/>}><ConnectedFgBookPage bookName="Vivo"/></Suspense>)}
@@ -557,7 +558,8 @@ function ErpApp() {
           postedCardIds={postedFgCardIds}
           onPost={(ids)=>setPostedFgCardIds((current)=>Array.from(new Set([...current,...ids])))}
           onReturn={()=>{
-            if(notaOrigin==='QC'&&qcResult){setQcSeedId(`${qcResult.parentId}::${qcResult.batchId}`);setPage('qc')}
+            if(notaOrigin==='PAYROLL')setPage('finance-payroll')
+            else if(notaOrigin==='QC'&&qcResult){setQcSeedId(`${qcResult.parentId}::${qcResult.batchId}`);setPage('qc')}
             else if(notaOrigin==='BS_REWORK'){setBsBackPage('fg-handoff');setPage('bs-rework')}
           }}
           onOpenQc={()=>{if(qcResult)setQcSeedId(`${qcResult.parentId}::${qcResult.batchId}`);setPage('qc')}}
@@ -615,7 +617,7 @@ function ErpApp() {
         {(page === 'master-products' || page === 'master-customers' || page === 'master-partners' || page === 'master-workforce' || page === 'master-locations') && <Suspense fallback={<WorkspaceFallback label="Master Data"/>}>{page === 'master-products' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedSkuMasterPage/> : page !== 'master-products' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedMasterPage view={page}/> : <>{page==='master-products'&&<SkuRangePage mode="master"/>}<MasterDataPages view={page}/></>}</Suspense>}
         {page === 'master-pattern' && <Suspense fallback={<WorkspaceFallback label="Master Pola"/>}><PatternPage/></Suspense>}
         {page === 'admin-access' && <Suspense fallback={<WorkspaceFallback label="Pengguna & Hak Akses"/>}><AccessControlPage/></Suspense>}
-        {page === 'pocket-fabric' && <Suspense fallback={<WorkspaceFallback label="Kain kantong"/>}><ConnectedPocketFabricPage/></Suspense>}
+        {page === 'pocket-fabric' && <Suspense fallback={<WorkspaceFallback label="Kain kantong"/>}>{runtime.mode==='DEMO_SIMULATION'?<PocketFabricDemo/>:<ConnectedPocketFabricPage/>}</Suspense>}
         {page === 'admin-import' && <Suspense fallback={<WorkspaceFallback label="Impor data awal"/>}><MigrationWorkbook/>{!demoAccess && <ConnectedInitialImportPage/>}</Suspense>}
         {isOperationsView(page) && <Suspense fallback={<WorkspaceFallback label="Pengaturan operasional"/>}>{page === 'operations-attendance' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedAttendancePage/> : page === 'admin-reminders' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedRemindersPage/> : page === 'admin-settings' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedErpSettingsPage onOpenImport={()=>setPage('admin-import')}/> : page === 'admin-audit' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedAuditTrailPage/> : <OperationsAdminPages view={page} onNavigate={(next)=>setPage(next)} reminders={reminders} onChangeReminders={setReminders}/>}</Suspense>}
         {page === 'placeholder' && <Placeholder />}

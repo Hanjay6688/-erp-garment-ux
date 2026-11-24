@@ -74,6 +74,7 @@ export function AdviceBox({mode,session,onCut,onPickup,selected}:{mode:'cut'|'pi
     :waitingLots(session).map(lot=>({id:lot.id,lot,row:plans.find(r=>r.product.sku===lot.sku)}))
   const detail=entries.find(entry=>entry.id===opened)
   return <section className="panel gar-panel" aria-label={mode==='cut'?'Saran buat potongan':'Saran bagi potongan'}>
+    <details className="planner-disclosure"><summary>{mode==='cut'?'Planner · Saran buat potongan':'Planner · Saran bagi potongan'}</summary>
     <div className="gar-panel-head"><div><p className="gar-kicker">Planner · Selasa 24 Nov 2026</p><h2>{mode==='cut'?'Yang perlu dipotong':'Potongan yang dibagi dulu'}</h2></div><a href="/analisis/planner/">Lihat semua SKU</a></div>
     {!entries.length&&<p className="gar-empty">{mode==='cut'?'Kebutuhan pesanan sudah tertutup.':'Semua potongan sudah diambil mandor.'}</p>}
     {entries.map(({id,row,lot})=>{
@@ -96,6 +97,7 @@ export function AdviceBox({mode,session,onCut,onPickup,selected}:{mode:'cut'|'pi
       {detail.row?<SourceDetail row={detail.row}/>:<p>Tujuan SKU belum pasti. Potongan tersedia di meja potong dan bisa dibagi ke mandor.{detail.lot&&possibleTargets(detail.lot,session).filter(p=>remainingPieces(detail.lot!,p,session)>0).map(p=>' '+p.brand+' '+p.sku+' cocok untuk '+remainingPieces(detail.lot!,p,session)+' pcs.').join('')}</p>}
     </ReasonDialog>}
     {mode==='cut'&&<a className="gar-next" href={pickupPath}>Lihat potongan yang siap dibagi <ArrowRight size={15}/></a>}
+    </details>
   </section>
 }
 export function ActionTable({rows,onDetail}:{rows:Plan[];onDetail:(sku:string)=>void}) {

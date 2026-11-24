@@ -1,3 +1,4 @@
+import {postedPayrollCards,savePostedFg} from './demo/payrollSources'
 import { useMemo, useState } from 'react'
 import { ArrowLeft, ArrowRight, Check, CheckCircle2, FileText, ShieldCheck, UserRound, Wrench } from 'lucide-react'
 import type { QcFinalResult } from './QcFinalPage'
@@ -5,7 +6,7 @@ import { regularFgNotaCardId, selectRegularFgNotaSources, type ReadyFgNotaCard, 
 import { calculateRegularWorkEntitlement } from './payroll/regularWorkEntitlement'
 
 type NotaFocus = { kind: 'REGULAR' | 'REPAIR'; id: string }
-type NotaOrigin = 'MENU' | 'QC' | 'BS_REWORK'
+type NotaOrigin = 'MENU' | 'QC' | 'BS_REWORK' | 'PAYROLL'
 
 type RegularNotaCard = {
   id: string
@@ -139,7 +140,7 @@ export default function FgNotaPage({
     total: number
   } | null>(null)
 
-  const postedIds = useMemo(() => new Set(postedCardIds), [postedCardIds])
+  const postedIds = useMemo(() => new Set([...postedCardIds,...postedPayrollCards()]), [postedCardIds])
   const mandors = Array.from(new Set([...allResults.map((item) => item.mandor), ...repairCards.map((item) => item.mandor)])).filter(Boolean)
   const activeResult = focusedResult?.mandor === selectedMandor
     ? focusedResult
@@ -183,8 +184,15 @@ export default function FgNotaPage({
     setRepairIds((current) => current.includes(id) ? current.filter((item) => item !== id) : [...current, id])
     setNoteReviewed(false)
   }
+  const [postedNumber,setPostedNumber]=useState('')
   const postNota = () => {
     if (!editable || selectedIds.length === 0 || noteTotal <= 0 || !noteReviewed) return
+    const staged=selectedRegular.map(c=>({...c,qcQty:c.returned,returnedQty:c.returned,grossValue:c.gross}))
+    const repairs=selectedRepair.map(c=>({id:c.id,source:c.sourceLabel,sku:c.sku,qty:c.qty,components:c.components,unitRate:c.unitRate,subtotal:c.subtotal}))
+    const reimbursement=selectedRegular.reduce((n,c)=>n+c.sewnQty*c.bomRate-c.bs*c.bsComponents.filter(x=>x.id.startsWith('bom:')).reduce((a,x)=>a+x.rate,0)-c.hold*c.stuckComponents.filter(x=>x.id.startsWith('bom:')).reduce((a,x)=>a+x.rate,0),0)
+    const number='NFG-SIM-'+crypto.randomUUID().slice(0,8).toUpperCase()
+    const actual=savePostedFg({mandor:selectedMandor,day:'2026-11-24',cards:selectedIds,doc:{number,date:'24 Nov 2026',status:'POSTED',source:[...staged.map(c=>c.source),...repairs.map(c=>c.source)].join(' · '),sku:[...new Set([...staged,...repairs].map(c=>c.sku))].join(' · '),good:staged.reduce((n,c)=>n+c.good,0),bs:staged.reduce((n,c)=>n+c.bs,0),stuck:staged.reduce((n,c)=>n+c.hold,0),labor:noteTotal-reimbursement,reimbursement,note:note.trim()||'Nota dari Susun Nota FG.',regularCards:staged,repairCards:repairs}})
+    setPostedNumber(actual)
     setPostedNote({ mandor: selectedMandor, regularCards: selectedRegular, repairCards: selectedRepair, regularSubtotal, repairSubtotal, total: noteTotal })
     onPost(selectedIds)
     setNoteStatus('POSTED')
@@ -197,7 +205,7 @@ export default function FgNotaPage({
     setNoteStatus('DRAFT')
   }
 
-  const returnLabel = origin === 'QC' ? 'Kembali ke QC' : 'Kembali ke Bikin Bagus'
+  const returnLabel = origin === 'PAYROLL'?'Kembali ke Payroll & Kasbon':origin === 'QC' ? 'Kembali ke QC' : 'Kembali ke Bikin Bagus'
   const queueCount = regularCards.length + visibleRepairCards.length
   const availableCount = [...regularCards, ...visibleRepairCards].filter((card) => !postedIds.has(card.id)).length
 
@@ -208,7 +216,7 @@ export default function FgNotaPage({
     </section>
     <div className="handoff-flow-strip"><span className="done"><b>1</b>QC / rework terkunci</span><i/><span className="done"><b>2</b>Card siap</span><i/><span className="active"><b>3</b>Susun Nota FG</span><i/><span><b>4</b>Payroll</span></div>
     <div className={`handoff-queue-banner ${queueCount === 0 ? 'empty' : ''}`}><FileText/><div><strong>{focusedId ? `${focusedId} dibuka dari sumbernya` : 'Antrean Nota FG mandiri'}</strong><span>Card yang sudah masuk Nota tetap terkunci. Ganti Mandor akan mengosongkan draft supaya nota tidak mencampur penerima.</span></div>{mandors.length > 0 ? <label className="nota-mandor-filter"><span>MANDOR NOTA</span><select value={selectedMandor} disabled={!editable} onChange={(event) => changeMandor(event.target.value)}>{mandors.map((mandor) => <option key={mandor}>{mandor}</option>)}</select><small>{availableCount} siap · {queueCount - availableCount} posted</small></label> : <em>Belum ada card</em>}</div>
-    {noteStatus === 'POSTED' && <div className="handoff-success"><CheckCircle2/><div><strong>Nota FG sudah posted dan card terkunci</strong><span>NFG-260828-NEW · {money(displayTotal)} · masuk antrean Payroll, belum mengubah kas.</span></div><button type="button" className="soft-btn" onClick={startNextNota}>Susun nota berikutnya <ArrowRight/></button></div>}
+    {noteStatus === 'POSTED' && <div className="handoff-success"><CheckCircle2/><div><strong>Nota FG sudah posted dan card terkunci</strong><span>{postedNumber} · {money(displayTotal)} · masuk antrean Payroll, belum mengubah kas.</span></div><button type="button" className="soft-btn" onClick={startNextNota}>Susun nota berikutnya <ArrowRight/></button></div>}
     <section className="handoff-layout">
       <div className="panel handoff-workbench">
         {activeResult ? <>
@@ -237,7 +245,7 @@ export default function FgNotaPage({
         <label className="handoff-note nota-note"><span>CATATAN NOTA FG</span><textarea disabled={!editable} value={note} onChange={(event) => { setNote(event.target.value); setNoteReviewed(false) }}/></label>
       </div>
 
-      <aside className="panel handoff-payroll-ticket"><div className="handoff-ticket-title"><span>NOTA FG · NFG-260828-NEW</span><h2>{displayMandor || 'Pilih Mandor'}</h2><p>{displayRegular.length} FG Reguler · {displayRepair.length} Bikin Bagus / Susulan</p><small>28 Agu 2026 · {noteStatus === 'POSTED' ? 'posted, belum dibayar' : 'draft dapat disusun'}</small></div><div className="nota-ticket-groups"><article className="regular"><span><small>FG REGULER</small><strong>{displayRegular.length} card</strong></span><b>{money(displayRegularSubtotal)}</b></article><article className="repair"><span><small>BIKIN BAGUS / SUSULAN</small><strong>{displayRepair.length} card</strong></span><b>{money(displayRepairSubtotal)}</b></article></div><div className="handoff-net"><span>TOTAL NOTA FG</span><strong>{money(displayTotal)}</strong><small>Masuk Payroll setelah posted. Belum ada pembayaran atau pergerakan kas.</small></div><div className="handoff-output"><span>DOKUMEN INI MEMBAWA</span><p><Check/><b>{total(displayRegular.map((card) => card.sewnQty))} pcs</b> Selesai Dijahit sebagai dasar</p><p><ShieldCheck/><b>{money(total(displayRegular.map((card) => card.deduction)))}</b> komponen BS + Stuck ditahan</p><p><Wrench/><b>{total(displayRepair.map((card) => card.qty))} pcs</b> plus eligible</p></div><label className="handoff-final-check"><input type="checkbox" disabled={!editable || selectedIds.length === 0} checked={noteReviewed} onChange={(event) => setNoteReviewed(event.target.checked)}/><span><strong>Susunan Nota FG sudah gue review</strong><small>Semua card milik {displayMandor || 'Mandor yang dipilih'}; ID sumber dan formula terlihat.</small></span></label><button type="button" className="primary-btn handoff-submit" disabled={!editable || selectedIds.length === 0 || noteTotal <= 0 || !noteReviewed} onClick={postNota}>{noteStatus === 'POSTED' ? 'Nota FG sudah posted' : 'Post Nota FG ke Payroll'} <ArrowRight/></button><p className="handoff-audit-note">Card yang tidak dipilih tetap di antrean. Dalam prototipe ini lock bertahan selama sesi aplikasi; backend wajib memakai idempotency dan unique card ID.</p></aside>
+      <aside className="panel handoff-payroll-ticket"><div className="handoff-ticket-title"><span>NOTA FG · {noteStatus==='POSTED'?postedNumber:'Draft'}</span><h2>{displayMandor || 'Pilih Mandor'}</h2><p>{displayRegular.length} FG Reguler · {displayRepair.length} Bikin Bagus / Susulan</p><small>24 Nov 2026 · {noteStatus === 'POSTED' ? 'posted, belum dibayar' : 'draft dapat disusun'}</small></div><div className="nota-ticket-groups"><article className="regular"><span><small>FG REGULER</small><strong>{displayRegular.length} card</strong></span><b>{money(displayRegularSubtotal)}</b></article><article className="repair"><span><small>BIKIN BAGUS / SUSULAN</small><strong>{displayRepair.length} card</strong></span><b>{money(displayRepairSubtotal)}</b></article></div><div className="handoff-net"><span>TOTAL NOTA FG</span><strong>{money(displayTotal)}</strong><small>Masuk Payroll setelah posted. Belum ada pembayaran atau pergerakan kas.</small></div><div className="handoff-output"><span>DOKUMEN INI MEMBAWA</span><p><Check/><b>{total(displayRegular.map((card) => card.sewnQty))} pcs</b> Selesai Dijahit sebagai dasar</p><p><ShieldCheck/><b>{money(total(displayRegular.map((card) => card.deduction)))}</b> komponen BS + Stuck ditahan</p><p><Wrench/><b>{total(displayRepair.map((card) => card.qty))} pcs</b> plus eligible</p></div><label className="handoff-final-check"><input type="checkbox" disabled={!editable || selectedIds.length === 0} checked={noteReviewed} onChange={(event) => setNoteReviewed(event.target.checked)}/><span><strong>Susunan Nota FG sudah gue review</strong><small>Semua card milik {displayMandor || 'Mandor yang dipilih'}; ID sumber dan formula terlihat.</small></span></label><button type="button" className="primary-btn handoff-submit" disabled={!editable || selectedIds.length === 0 || noteTotal <= 0 || !noteReviewed} onClick={postNota}>{noteStatus === 'POSTED' ? 'Nota FG sudah posted' : 'Post Nota FG ke Payroll'} <ArrowRight/></button><p className="handoff-audit-note">Card yang tidak dipilih tetap di antrean. Dalam prototipe ini lock bertahan selama sesi aplikasi; backend wajib memakai idempotency dan unique card ID.</p></aside>
     </section>
   </>
 }

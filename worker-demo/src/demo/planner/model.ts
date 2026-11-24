@@ -15,7 +15,7 @@ export const modelSeries: Record<string, Series> = {
   'Cutbray Lucy': {name:'Kecil',sizes:['28','29','30']},
 }
 export const rangeLabel = sizeRangeLabel
-export const seriesLabel = (series: Series) => 'Seri '+series.name+' · '+rangeLabel(series.sizes)
+export const seriesLabel = (series: Series) => [series.name.trim()?'Seri '+series.name.trim():'',rangeLabel(series.sizes)].filter(Boolean).join(' · ')
 export function seriesFor(product: Product): Series {
   return { name:modelSeries[patternFor(product.routes[0].pattern).name].name,sizes:product.sizes }
 }
@@ -196,11 +196,11 @@ export function recordCut(session: Session, input: CutInput): Session {
   const brand = input.brand?.trim() || null
   const article = input.articleKey ? articles.find(a=>a.key===input.articleKey) : articles.find(a=>a.sku===sku&&(!brand||a.brand===brand))
   const {pattern,series} = input
-  if (!input.model.trim() || !input.location.trim() || !pattern?.id || !pattern.code || !pattern.name || !pattern.revision) throw Error('Pilih model, lokasi sumber, dan pola aktif.')
+  if (!input.location.trim() || !pattern?.id || !pattern.code || !pattern.name || !pattern.revision) throw Error('Pilih lokasi sumber dan pola aktif.')
   if (sku && (!article || article.sku!==sku || (brand && article.brand !== brand))) throw Error('Periksa merek dan SKU rencana.')
   if (brand && !products.some(p=>p.brand===brand)) throw Error('Merek rencana tidak dikenal.')
-  if (!series.sizes.length || !series.name || !input.slots.length || !input.slots.every(size=>series.sizes.includes(size))) throw Error('Pilih seri ukuran milik model.')
-  if (article && (article.model!==input.model || series.sizes.length!==article.sizes.length || series.sizes.some(size=>!article.sizes.includes(size)))) throw Error('Model dan anggota seri harus sesuai Master SKU.')
+  if (!series.sizes.length || !input.slots.length || !input.slots.every(size=>series.sizes.includes(size))) throw Error('Pilih seri ukuran milik model.')
+  if (article && (series.sizes.length!==article.sizes.length || series.sizes.some(size=>!article.sizes.includes(size)))) throw Error('Anggota ukuran harus sesuai Master SKU.')
   if (!validDate(input.date) || input.date>sample.date || (input.eta && (!validDate(input.eta) || input.eta<input.date))) throw Error('Periksa tanggal potong dan perkiraan siap.')
   if (!input.rolls.length || new Set(input.rolls.map(r=>r.id)).size!==input.rolls.length) throw Error('Pilih roll sumber yang berbeda.')
   const outputs = input.rolls.map(row=>{
@@ -216,7 +216,7 @@ export function recordCut(session: Session, input: CutInput): Session {
   const lot:Lot={
     id:'POT-D'+String(session.cuts.length+1).padStart(2,'0'), requestId:input.requestId,intent,
     sku,brand,articleKey:article?.key,pattern:pattern.code,patternSnapshot:{...pattern},series:{name:series.name,sizes:[...series.sizes]},
-    date:input.date, model:input.model,location:input.location,notes:input.notes?.trim()||null,outputs,qty,
+    date:input.date, model:input.model.trim(),location:input.location,notes:input.notes?.trim()||null,outputs,qty,
     size:usedSizes.join(', '),material:[...new Set(outputs.map(r=>r.material))].join(' / '),
     eta:input.eta||null,stage:'cut',kind:sku?'candidate':'unassigned',place:'Meja potong',
   }
