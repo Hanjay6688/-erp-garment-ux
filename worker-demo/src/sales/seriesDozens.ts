@@ -1,3 +1,4 @@
+import {dozenPieces} from '../fgQuantity'
 // Owner D14-5 (15 Oct 2026): "auto bagi kalo lusin ... gw jual itu biasa satu seri. berjalan 2 arah juga misal gw
 // ketik 4/5/4 tulisannya jadi 1 lusin 1 potong". A series is every size line of one commercial SKU in the draft.
 // Dozens typed for a series are split evenly over its sizes; per-size pieces read back as "x lusin y potong".
@@ -9,9 +10,7 @@ const WHOLE = /^[0-9]{1,7}$/
 
 export function dozensText(totalPcs: bigint): string {
   if (totalPcs < 0n) return ''
-  const dozens = totalPcs / 12n, pieces = totalPcs % 12n
-  if (dozens === 0n) return `${pieces} potong`
-  return pieces === 0n ? `${dozens} lusin` : `${dozens} lusin ${pieces} potong`
+  return dozenPieces(totalPcs)
 }
 
 /** Sum the series using the same PCS limits as draft save. */

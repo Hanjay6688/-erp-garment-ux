@@ -1,3 +1,4 @@
+import {fgQuantity} from '../../fgQuantity'
 import { useState } from 'react'
 import { ArrowRight } from 'lucide-react'
 import { cuttingForms, productionForms } from '../../demoCuttingRoutes'
@@ -18,10 +19,10 @@ export function productionReason(row: Plan) {
     const where:Record<string,string>={cut:'di meja potong',sewing:'sedang dijahit',laundry:'di laundry',qc:'di QC'}
     return qty?[qty+' pcs '+where[stage]]:[]
   })
-  if (row.short) return 'Pesanan '+p.need+' pcs. Ada '+p.fg+' pcs siap jual'+(stages.length?', '+stages.join(' dan '):'')+'. Masih kurang '+row.short+' pcs.'
+  if (row.short) return 'Pesanan '+p.need+' pcs. Ada '+fgQuantity(p.fg)+' siap jual'+(stages.length?', '+stages.join(' dan '):'')+'. Masih kurang '+row.short+' pcs.'
   if (row.check) return 'Tanyakan ke '+row.check.place+' apakah '+row.check.qty+' pcs ini untuk '+p.brand+' '+p.sku+'.'+(row.late?' Ada '+row.late+' pcs lain yang baru siap sesudah tenggat.':'')
-  if (row.queue.length) return (p.fg?p.fg+' pcs sudah siap jual. ':'')+stages.join(' dan ')+'. Serahkan potongan yang ada ke mandor.'
-  return (p.fg?p.fg+' pcs siap jual, ':'')+stages.join(' dan ')+'. Cukup untuk pesanan '+p.need+' pcs.'
+  if (row.queue.length) return (p.fg?fgQuantity(p.fg)+' sudah siap jual. ':'')+stages.join(' dan ')+'. Serahkan potongan yang ada ke mandor.'
+  return (p.fg?fgQuantity(p.fg)+' siap jual, ':'')+stages.join(' dan ')+'. Cukup untuk pesanan '+p.need+' pcs.'
 }
 export function SourceDetail({ row }: {row: Plan}) {
   const p = row.product

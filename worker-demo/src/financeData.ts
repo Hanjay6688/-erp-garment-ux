@@ -44,7 +44,10 @@ export type Receivable = {
   status: 'OPEN' | 'PARTIAL' | 'OVERDUE'
 }
 
+export type FgSizeRow = {size:string; sewn:number; good:number; bs:number; hold:number; rewash:number}
+
 export type RegularFgWorkCard = {
+  sizeRows?: FgSizeRow[]
   id: string
   source: string
   sku: string
@@ -67,6 +70,7 @@ export type RegularFgWorkCard = {
 }
 
 export type RepairWorkCard = {
+  sizeRows?: Array<{size:string;qty:number}>
   id: string
   source: string
   sku: string

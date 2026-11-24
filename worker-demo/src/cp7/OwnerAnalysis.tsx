@@ -1,3 +1,4 @@
+import {fgQuantity} from '../fgQuantity'
 import RecordTable from '../RecordTable'
 import { useState } from 'react'
 import { ArrowRight, Search } from 'lucide-react'
@@ -12,13 +13,13 @@ export default function OwnerAnalysis({page, onDetail, copy}: {page:string;onDet
   const [message,setMessage]=useState(false)
   const q=query.trim().toLocaleLowerCase()
   const filtered=rows.filter(r=>[r.product.brand,r.product.sku,r.product.size,r.product.range,r.product.customer,...r.product.routes.map(x=>patternFor(x.pattern).name+' '+x.material),...r.lots.map(l=>l.id+' '+l.place+' '+stageName[l.stage])].join(' ').toLocaleLowerCase().includes(q))
-  const summary=rows.map(r=>r.product.brand+' '+r.product.sku+', ukuran '+r.product.size+', '+r.product.customer+' perlu '+r.product.need+' pcs pada '+day(r.product.due)+'. Stok siap '+r.product.fg+', WIP pasti tepat waktu '+r.confirmed+', WIP potensial '+r.potential+', WIP terlambat '+r.late+'. '+action(r)+'.').join('\n')
+  const summary=rows.map(r=>r.product.brand+' '+r.product.sku+', ukuran '+r.product.size+', '+r.product.customer+' perlu '+r.product.need+' pcs pada '+day(r.product.due)+'. Stok siap '+fgQuantity(r.product.fg)+', WIP pasti tepat waktu '+r.confirmed+', WIP potensial '+r.potential+', WIP terlambat '+r.late+'. '+action(r)+'.').join('\n')
   const isList=['planner','stock','report','reminders'].includes(page)
   return <div className="gar-work">
     {isList&&<label className="cp7-search gar-search"><Search size={17}/><input value={query} onChange={e=>setQuery(e.target.value)} aria-label="Cari SKU atau ukuran" placeholder="Cari SKU, pola, bahan, atau mandor"/></label>}
     {page==='planner'&&<><div className="gar-pagehead"><h2>Tindakan yang perlu ditinjau</h2></div><p className="gar-help">Pilih satu SKU untuk melihat pesanannya, lokasi barang, dan sisa yang perlu dipotong.</p><ActionTable rows={filtered} onDetail={onDetail}/></>}
     {(page==='report'||page==='stock')&&<><div className="gar-pagehead"><h2>{page==='stock'?'Stok jadi dan barang dalam proses':'Kebutuhan per pesanan'}</h2></div><p className="gar-help">WIP adalah barang yang masih dikerjakan. Kolom pasti dan potensial hanya menghitung barang yang bisa siap sebelum tenggat.</p>
-      <div className="gar-box gar-report"><RecordTable aria-label="Produksi per SKU"><thead><tr><th>SKU / ukuran</th><th>Pesanan</th><th>Siap jual</th><th>WIP pasti</th><th>WIP potensial</th><th>Perlu potong</th></tr></thead><tbody>{filtered.map(r=><tr key={r.product.sku}><th scope="row"><button className="gar-text" onClick={()=>onDetail(r.product.sku)}>{r.product.brand} {r.product.sku}</button><small>{seriesLabel(seriesFor(r.product))} · {day(r.product.due)}</small></th>{[r.product.need,r.product.fg,r.confirmed,r.potential,r.short].map((value,i)=><td key={i}>{value} pcs</td>)}</tr>)}</tbody></RecordTable></div></>}
+      <div className="gar-box gar-report"><RecordTable aria-label="Produksi per SKU"><thead><tr><th>SKU / ukuran</th><th>Pesanan</th><th>Siap jual</th><th>WIP pasti</th><th>WIP potensial</th><th>Perlu potong</th></tr></thead><tbody>{filtered.map(r=><tr key={r.product.sku}><th scope="row"><button className="gar-text" onClick={()=>onDetail(r.product.sku)}>{r.product.brand} {r.product.sku}</button><small>{seriesLabel(seriesFor(r.product))} · {day(r.product.due)}</small></th>{[r.product.need,r.product.fg,r.confirmed,r.potential,r.short].map((value,i)=><td key={i}>{i===1?fgQuantity(value):value+' pcs'}</td>)}</tr>)}</tbody></RecordTable></div></>}
     {page==='cutting'&&<><p className="gar-help">Ada dua pekerjaan di sini. Buat Potongan memakai kain baru. Bagi Potongan menyerahkan barang yang sudah dipotong ke mandor.</p>
       <AdviceBox initiallyOpen mode="cut" session={session} onCut={(r,material)=>location.assign(cutPath+'?'+new URLSearchParams({sku:r.product.sku,...(material?{bahan:material}:{})}))}/>
       <AdviceBox initiallyOpen mode="pickup" session={session} onPickup={l=>location.assign(pickupPath+'?pot='+l.id)}/></>}

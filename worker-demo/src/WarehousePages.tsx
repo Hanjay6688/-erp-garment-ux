@@ -1,7 +1,7 @@
-import {saleStock,readInvoices} from './demo/saleBook'
+import {fgProducts,fgTotals,piecesIn} from './demo/fgOverview'
+import {dozenPieces,fgQuantity} from './fgQuantity'
 import {FgHistory} from './demo/FgHistory'
-import {articles,rangeLabel} from './demo/planner/model'
-import {stockAt} from './demo/planner/inventory'
+import {rangeLabel} from './demo/planner/model'
 import {usePlannerSession} from './demo/planner/session'
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import {
@@ -10,7 +10,6 @@ import {
   RotateCcw, Ruler, Search, ShieldCheck, SlidersHorizontal,
   Sparkles, Tag, Truck, Warehouse, X,
 } from 'lucide-react'
-import { productCatalog } from './productCatalog'
 import { StockHealthExplainability, getStockHealthLabel, type StockLineageLink } from './stock/StockHealthExplainability'
 import { calculateStockHealth, createUnconfiguredPrototypeStock, type StockHealthResult } from './stock/stockHealth'
 import './warehouse.css'
@@ -106,14 +105,6 @@ const accessories: Accessory[] = [
   { id:'ACC-KRT-32', name:'Karet Pinggang 32 mm', category:'Karet', supplier:'Maju Elastik', unit:'meter', physical:1860, supplierReturned:0, avgCost:3950, location:'Aksesori B-03', lastMovement:'Retur Mandor Asep · kemarin' },
   { id:'ACC-LBL-VV', name:'Label Woven Vivo', category:'Label & tag', supplier:'Cetak Jaya', unit:'pcs', physical:3820, supplierReturned:0, avgCost:780, location:'Aksesori C-01', lastMovement:'Keluar ke Mandor Intan · kemarin' },
 ]
-
-const fgFixtureTotals = productCatalog.reduce((totals, item) => {
-  const quantity = item.stocks.reduce((sum, stock) => sum + stock, 0)
-  totals.all += quantity
-  if (item.grade === 'Good') totals.good += quantity
-  else if (item.grade === 'BS') totals.bs += quantity
-  return totals
-}, { all:0, good:0, bs:0 })
 
 const supplierReturnRecords: SupplierReturnRecord[] = [
   { id:'RTS-260827-006', kind:'fabric', item:'Lucy · LCY-031', supplier:'Sinaran', qty:18.5, unit:'yd', happenedAt:'27 Agu 2026 · 16:20', status:'Posted' },
@@ -237,6 +228,8 @@ function InventoryControlFallback() {
 }
 
 function WarehouseDashboard({ onNavigate }: { onNavigate: (view: WarehouseView) => void }) {
+  const planner=usePlannerSession()
+  const goodFg=useMemo(()=>fgTotals(fgProducts(planner)).good,[planner])
   const movements = [
     { time:'10:22', title:'Aksesori keluar', meta:'Mandor Asep · POT-260826-041', amount:'3.600 pcs', tone:'out' },
     { time:'10:18', title:'Kain ke meja potong', meta:'Lucy · 4 roll · POT-260828-044', amount:'482,5 yd', tone:'out' },
@@ -245,12 +238,12 @@ function WarehouseDashboard({ onNavigate }: { onNavigate: (view: WarehouseView) 
   ]
   return <>
     <section className="hero-copy compact wh-hero"><div><div className="eyebrow">GUDANG · HARI INI</div><h1>Barang kebaca sebelum dicari.</h1><p>Satu layar untuk melihat bahan, roll, aksesori, barang jadi, dan kasus yang belum beres—dengan jejak Total Received, Used, Returned to Supplier, dan Stock On Hand yang jelas.</p></div><div className="wh-updated"><span><ShieldCheck/> LEDGER READ-ONLY</span><strong>Terakhir sinkron 10:24</strong><small>Prototype frontend · belum posting ke backend</small></div></section>
-    <section className="wh-metrics"><MetricCard label="Fabric Stock On Hand" value="8.775,5 yd" note="83 roll aktif · data simulasi" icon={Ruler}/><MetricCard label="Dasar Status Stok" value="Belum diatur" note="Tidak ada minimum palsu" tone="neutral" icon={Package}/><MetricCard label="FG Grade Good · Fixture" value={`${formatNumber(fgFixtureTotals.good,0)} pcs`} note="Belum available stock backend" icon={PackageCheck}/><MetricCard label="Need Review" value="3 kasus" note="Retur, opname, penyesuaian" tone="danger" icon={ClipboardCheck}/></section>
+    <section className="wh-metrics"><MetricCard label="Fabric Stock On Hand" value="8.775,5 yd" note="83 roll aktif · data simulasi" icon={Ruler}/><MetricCard label="Dasar Status Stok" value="Belum diatur" note="Tidak ada minimum palsu" tone="neutral" icon={Package}/><MetricCard label="FG Grade Good · Fixture" value={dozenPieces(goodFg)} note={formatNumber(goodFg,0)+' pcs · semua lokasi'} icon={PackageCheck}/><MetricCard label="Need Review" value="3 kasus" note="Retur, opname, penyesuaian" tone="danger" icon={ClipboardCheck}/></section>
     <section className="wh-dashboard-grid">
       <div className="panel wh-zone-panel"><header><div><span>AREA GUDANG</span><h2>Buka dari pekerjaan fisiknya</h2><p>Angka saat ini masih fixture frontend. Available stock baru boleh tampil setelah saldo posted dan reservation backend benar-benar tersambung.</p></div><Warehouse/></header><div className="wh-zone-grid">
         <button onClick={()=>onNavigate('materials-rolls')}><i className="blue"><Ruler/></i><span><small>KAIN</small><strong>Bahan & Roll</strong><em>83 roll · lifetime movement</em></span><b>8.775,5 yd · fixture</b><ArrowRight/></button>
         <button onClick={()=>onNavigate('accessories')}><i className="violet"><Boxes/></i><span><small>KOMPONEN</small><strong>Aksesori</strong><em>6 item aktif · per unit</em></span><b>31.960 unit · fixture</b><ArrowRight/></button>
-        <button onClick={()=>onNavigate('fg-summary')}><i className="green"><PackageCheck/></i><span><small>BARANG JADI</small><strong>Ringkasan FG</strong><em>Per merek, SKU, size, grade</em></span><b>{formatNumber(fgFixtureTotals.good,0)} pcs Good · fixture</b><ArrowRight/></button>
+        <button onClick={()=>onNavigate('fg-summary')}><i className="green"><PackageCheck/></i><span><small>BARANG JADI</small><strong>Ringkasan FG</strong><em>Per merek, SKU, size, grade</em></span><b>{fgQuantity(goodFg)} Good</b><ArrowRight/></button>
         <button onClick={()=>onNavigate('stock-adjustment')}><i className="amber"><SlidersHorizontal/></i><span><small>PHYSICAL CONTROL</small><strong>Stock Adjustment</strong><em>Hilang, rusak, bencana, surplus</em></span><b>3 open cases</b><ArrowRight/></button>
         <button onClick={()=>onNavigate('brand-conversion')}><i className="violet"><Sparkles/></i><span><small>FG CONVERSION</small><strong>Ganti Merek</strong><em>Source out = target in</em></span><b>36 pcs hari ini</b><ArrowRight/></button>
       </div></div>
@@ -339,8 +332,8 @@ function AccessoriesPage() {
 
 function FinishedGoodsSummaryPage() {
   const session=usePlannerSession()
-  const products=useMemo(()=>[...articles.map(a=>({code:a.sku,range:rangeLabel(a.sizes),name:a.model,brand:a.brand,color:a.colour,sizes:a.sizes,stocks:a.sizes.map(size=>stockAt(a,size,session)),location:'Gudang FG Utama',grade:'Good'})),...productCatalog.map(p=>({...p,stocks:saleStock(p,readInvoices())}))],[session])
-  const totals=products.reduce((t,p)=>{const qty=p.stocks.reduce((a,b)=>a+b,0);t.all+=qty;if(p.grade.toLowerCase()==='good')t.good+=qty;else t.bs+=qty;return t},{all:0,good:0,bs:0})
+  const products=useMemo(()=>fgProducts(session),[session])
+  const totals=fgTotals(products)
   const [historyOpen,setHistoryOpen]=useState(window.location.pathname.includes('kartu-stok'))
   const brands = [...new Set(products.map((item)=>item.brand))]
   const grades = [...new Set(products.map((item)=>item.grade))]
@@ -351,23 +344,27 @@ function FinishedGoodsSummaryPage() {
   const [location,setLocation] = useState('Semua')
   const [sizeFilter,setSizeFilter]=useState<string[]>([])
   const [selectedKey,setSelectedKey] = useState(new URLSearchParams(window.location.search).get('sku')??`${products[0].brand}::${products[0].code}`)
-  const visible = useMemo(()=>products.filter((item)=>`${item.brand} ${item.code} ${item.name} ${item.color} ${item.range}`.toLowerCase().includes(query.toLowerCase()) && (!sizeFilter.length||item.sizes.some(s=>sizeFilter.includes(s))) && (brand==='Semua'||item.brand===brand) && (grade==='Semua'||item.grade===grade) && (location==='Semua'||item.location===location)),[products,query,brand,grade,location,sizeFilter])
+  const scoped = useMemo(()=>products.filter((item)=>`${item.brand} ${item.code} ${item.name} ${item.color} ${item.range}`.toLowerCase().includes(query.toLowerCase()) && (!sizeFilter.length||item.sizes.some(s=>sizeFilter.includes(s))) && (grade==='Semua'||item.grade===grade) && (location==='Semua'||item.location===location)),[products,query,grade,location,sizeFilter])
+  const visible=scoped.filter(p=>brand==='Semua'||p.brand===brand)
+  const filteredTotals=fgTotals(visible,sizeFilter)
+  const filtered=!!query.trim()||brand!=='Semua'||grade!=='Semua'||location!=='Semua'||sizeFilter.length>0
   const selected = visible.find(item=>`${item.brand}::${item.code}`===selectedKey)??visible[0]??products[0]
   const total = selected.stocks.reduce((sum,qty)=>sum+qty,0)
   const selectedHealth = prototypeStockHealth('FG', total, 'pcs', `${selected.brand}-${selected.code}`)
-  const brandTotals = brands.map((name)=>({name,total:products.filter((item)=>item.brand===name).reduce((sum,item)=>sum+item.stocks.reduce((acc,qty)=>acc+qty,0),0)}))
+  const brandTotals=brands.map(name=>{const group=scoped.filter(p=>p.brand===name);return {name,total:fgTotals(group,sizeFilter).all,count:group.length}})
   return <>
-    <section className="hero-copy compact wh-hero"><div><div className="eyebrow">GUDANG · BARANG JADI</div><h1>Ringkasan Barang Jadi</h1><p>Browse merek → SKU → size. Status aman/rendah tidak diasumsikan dari angka fixture; dasar dan formula selalu bisa dibuka.</p></div><div className="wh-rule"><PackageCheck/><div><span>SATU SUMBER SALDO</span><strong>Ledger FG, bukan hitungan manual</strong><small>Grade dan lokasi tetap menjadi dimensi terpisah.</small></div></div></section>
-    <section className="wh-metrics"><MetricCard label="Seluruh FG" value={`${formatNumber(totals.all,0)} pcs`} note="Fixture frontend · semua grade" icon={PackageCheck}/><MetricCard label="Grade Good" value={`${formatNumber(totals.good,0)} pcs`} note="Fixture · belum available backend" tone="neutral" icon={Check}/><MetricCard label="Grade BS" value={`${formatNumber(totals.bs,0)} pcs`} note="Fixture · tidak ikut siap jual" tone="neutral" icon={AlertTriangle}/><MetricCard label="Lokasi aktif" value="2 gudang" note="Fixture · Utama & Cadangan" icon={Warehouse}/></section>
+    <section className="hero-copy compact wh-hero"><div><div className="eyebrow">GUDANG · BARANG JADI</div><h1>Ringkasan Barang Jadi</h1><p>Pilih SKU untuk melihat saldo per ukuran dan riwayat stok.</p></div><div className="wh-rule"><PackageCheck/><div><span>SATU SUMBER SALDO</span><strong>Ledger FG, bukan hitungan manual</strong><small>Grade dan lokasi tetap menjadi dimensi terpisah.</small></div></div></section>
+    <section className="wh-metrics fg-totals" aria-label="Total barang jadi semua lokasi"><MetricCard label="Seluruh FG" value={dozenPieces(totals.all)} note={formatNumber(totals.all,0)+' pcs · semua grade'} icon={PackageCheck}/><MetricCard label="Grade Good" value={dozenPieces(totals.good)} note={formatNumber(totals.good,0)+' pcs · siap jual'} icon={Check}/><MetricCard label="Grade BS" value={dozenPieces(totals.bs)} note={formatNumber(totals.bs,0)+' pcs'} icon={AlertTriangle}/><MetricCard label="Lokasi aktif" value={locations.length+' gudang'} note={products.length+' SKU di ringkasan'} icon={Warehouse}/></section>
     <div className="panel wh-workspace"><div className="wh-toolbar"><SearchBox value={query} onChange={setQuery} placeholder="Cari merek, SKU, model, warna..."/><SelectFilter label="Merek" value={brand} options={brands} onChange={setBrand}/><SelectFilter label="Grade" value={grade} options={grades} onChange={setGrade}/><SelectFilter label="Lokasi" value={location} options={locations} onChange={setLocation}/><button className="wh-reset" onClick={()=>{setQuery('');setBrand('Semua');setGrade('Semua');setLocation('Semua');setSizeFilter([])}}><RotateCcw/> Reset</button></div>
       <details className="fg-size-filter"><summary>Filter ukuran{sizeFilter.length?' · '+rangeLabel(sizeFilter):''}</summary><div>{[...new Set(products.flatMap(p=>p.sizes))].sort((a,b)=>a.localeCompare(b,'id',{numeric:true})).map(size=><label key={size}><input type="checkbox" checked={sizeFilter.includes(size)} onChange={()=>setSizeFilter(values=>values.includes(size)?values.filter(s=>s!==size):[...values,size])}/>{size}</label>)}</div></details>
-      <div className="wh-brand-strip">{brandTotals.map((item)=><button key={item.name} className={brand===item.name?'active':''} onClick={()=>setBrand(brand===item.name?'Semua':item.name)}><span>{item.name}</span><strong>{item.total} pcs</strong><small>{products.filter((product)=>product.brand===item.name).length} SKU</small></button>)}</div>
-      <div className="wh-master-detail fg"><aside className="wh-browser"><header><div><span>BROWSE SKU</span><strong>{visible.length} SKU tampil</strong></div><small>Pilih untuk breakdown</small></header><div className="wh-browser-list">{visible.map((item)=>{const itemTotal=item.stocks.reduce((sum,qty)=>sum+qty,0);const key=`${item.brand}::${item.code}`;return <button key={key} className={selectedKey===key?'active':''} onClick={()=>setSelectedKey(key)}><span className="wh-index">{item.brand.slice(0,1)}</span><div><strong>{item.brand} · {item.code}</strong><small>{item.name} · {item.color}</small><em>{item.range} · {item.location}</em></div><b>{itemTotal} pcs</b><StatusBadge tone={item.grade==='Good'?'good':'danger'}>{item.grade}</StatusBadge></button>})}{visible.length===0&&<EmptyResult title="SKU tidak ditemukan" note="Ubah merek, grade, lokasi, atau pencarian."/>}</div></aside>
-        {visible.length>0&&<main className="wh-detail"><header className="wh-detail-head"><div><span>SKU TERPILIH</span><h2>{selected.brand} · {selected.code}</h2><p>{selected.name} · {selected.color} · Range {selected.range}</p></div><div className="wh-detail-total"><span>SALDO SKU · FIXTURE</span><strong>{total} pcs</strong><small>{selected.location} · Grade {selected.grade} · simulasi</small></div></header>
+      {filtered&&<div className="fg-filter-total" role="status"><span>Total hasil filter · {visible.length} SKU{sizeFilter.length?' · ukuran '+sizeFilter.join(', '):''}</span><strong>{fgQuantity(filteredTotals.all)}</strong></div>}
+      <div className="wh-brand-strip">{brandTotals.map((item)=><button key={item.name} className={brand===item.name?'active':''} onClick={()=>setBrand(brand===item.name?'Semua':item.name)}><span>{item.name}</span><strong>{dozenPieces(item.total)}</strong><small>{formatNumber(item.total,0)} pcs · {item.count} SKU</small></button>)}</div>
+      <div className="wh-master-detail fg"><aside className="wh-browser"><header><div><span>BROWSE SKU</span><strong>{visible.length} SKU tampil</strong></div><small>Pilih untuk breakdown</small></header><div className="wh-browser-list">{visible.map((item)=>{const itemTotal=piecesIn(item,sizeFilter);const key=`${item.brand}::${item.code}`;return <button key={key} className={selectedKey===key?'active':''} onClick={()=>setSelectedKey(key)}><span className="wh-index">{item.brand.slice(0,1)}</span><div><strong>{item.brand} · {item.code}</strong><small>{item.name} · {item.color}</small><em>{item.range} · {item.location}</em></div><b>{dozenPieces(itemTotal)}<small>{itemTotal} pcs</small></b><StatusBadge tone={item.grade==='Good'?'good':'danger'}>{item.grade}</StatusBadge></button>})}{visible.length===0&&<EmptyResult title="SKU tidak ditemukan" note="Ubah merek, grade, lokasi, atau pencarian."/>}</div></aside>
+        {visible.length>0&&<main className="wh-detail"><header className="wh-detail-head"><div><span>SKU TERPILIH</span><h2>{selected.brand} · {selected.code}</h2><p>{selected.name} · {selected.color} · Range {selected.range}</p></div><div className="wh-detail-total"><span>SALDO SKU · SEMUA UKURAN</span><strong>{dozenPieces(total)}</strong><small>{total} pcs · {selected.location} · Grade {selected.grade} · simulasi</small></div></header>
           <nav className="owner-workspace-tabs" aria-label="Detail barang jadi"><button aria-pressed={!historyOpen} onClick={()=>setHistoryOpen(false)}>Ringkasan SKU</button><button aria-pressed={historyOpen} onClick={()=>setHistoryOpen(true)}>Kartu stok · Riwayat</button></nav>
           {historyOpen?<FgHistory product={selected} session={session} key={selected.brand+selected.code}/>:<>          <div className="wh-stock-health-shell"><div><span>STATUS SKU · DATA SIMULASI</span><strong>Belum cukup data · batas belum diatur.</strong><small>Pre-QC WIP tidak dihitung sebagai incoming. Hanya serah FG/QC accepted yang terkonfirmasi boleh masuk projected stock.</small></div><StockHealthExplainability itemName={`${selected.brand} ${selected.code}`} result={selectedHealth} lineage={stockLineage('FG',`${selected.brand}-${selected.code}`)}/></div>
-          <div className="wh-fg-size-grid">{selected.sizes.map((size,index)=>{const sizeHealth=prototypeStockHealth('FG',selected.stocks[index],'pcs',`${selected.brand}-${selected.code}-${size}`);return <article key={size}><span>SIZE</span><strong>{size}</strong><div><small>SALDO FIXTURE</small><b>{selected.stocks[index]} pcs</b></div><div><small>LUSIN / POTONG</small><b>{Math.floor(selected.stocks[index]/12)} lusin · {selected.stocks[index]%12} potong</b></div><StockHealthExplainability compact itemName={`${selected.brand} ${selected.code} · Size ${size}`} result={sizeHealth} lineage={stockLineage('FG',`${selected.brand}-${selected.code}-${size}`)}/></article>})}</div>
-          <section className="wh-fg-location"><header><div><span>POSISI STOK</span><strong>Lokasi dan grade tidak dicampur</strong></div><button type="button" onClick={()=>setHistoryOpen(true)}>Buka kartu stok <ArrowRight/></button></header><div><article><MapPin/><span><small>LOKASI</small><strong>{selected.location}</strong><em>Bin FG-{selected.brand==='Vivo'?'A':'B'}-{selected.code.slice(-2)}</em></span><b>{total} pcs</b></article><article><ShieldCheck/><span><small>GRADE</small><strong>{selected.grade}</strong><em>{selected.grade==='Good'?'Boleh dialokasikan ke penjualan':'Masuk jalur BS / rework'}</em></span><b>{selected.grade==='Good'?'READY':'HOLD'}</b></article></div></section>
+          <div className="wh-fg-size-grid">{selected.sizes.map((size,index)=>{const sizeHealth=prototypeStockHealth('FG',selected.stocks[index],'pcs',`${selected.brand}-${selected.code}-${size}`);return <article key={size}><span>SIZE</span><strong>{size}</strong><div><small>SALDO FIXTURE</small><b>{selected.stocks[index]} pcs</b></div><div><small>LUSIN / POTONG</small><b>{dozenPieces(selected.stocks[index])}</b></div><StockHealthExplainability compact itemName={`${selected.brand} ${selected.code} · Size ${size}`} result={sizeHealth} lineage={stockLineage('FG',`${selected.brand}-${selected.code}-${size}`)}/></article>})}</div>
+          <section className="wh-fg-location"><header><div><span>POSISI STOK</span><strong>Lokasi dan grade tidak dicampur</strong></div><button type="button" onClick={()=>setHistoryOpen(true)}>Buka kartu stok <ArrowRight/></button></header><div><article><MapPin/><span><small>LOKASI</small><strong>{selected.location}</strong><em>Bin FG-{selected.brand==='Vivo'?'A':'B'}-{selected.code.slice(-2)}</em></span><b>{fgQuantity(total)}</b></article><article><ShieldCheck/><span><small>GRADE</small><strong>{selected.grade}</strong><em>{selected.grade==='Good'?'Boleh dialokasikan ke penjualan':'Masuk jalur BS / rework'}</em></span><b>{selected.grade==='Good'?'READY':'HOLD'}</b></article></div></section>
         </>}</main>}</div>
     </div>
   </>

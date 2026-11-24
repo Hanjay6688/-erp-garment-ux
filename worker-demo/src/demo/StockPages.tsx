@@ -114,7 +114,7 @@ export function MovementBookRow({
     </div>
     <div className="compact-book-summary">
       <MovementBookMetric label="Saldo awal" value={`${beforeTotal} pcs`} conversion={dozenPieces(beforeTotal)} className="summary-opening" />
-      <MovementBookMetric label="Mutasi" value={`${movementTotal > 0 ? '+' : ''}${movementTotal} pcs`} conversion={dozenPieces(Math.abs(movementTotal))} className="summary-change" valueClass={changeClass} />
+      <MovementBookMetric label="Mutasi" value={`${movementTotal > 0 ? '+' : ''}${movementTotal} pcs`} conversion={dozenPieces(movementTotal)} className="summary-change" valueClass={changeClass} />
       <MovementBookMetric label="Saldo akhir" value={`${afterTotal} pcs`} conversion={dozenPieces(afterTotal)} className="summary-closing" />
     </div>
     <button
@@ -133,13 +133,13 @@ export function MovementBookRow({
       {movement.delta.map((delta, sizeIndex) => <span className="size-book-flow" key={sizes[sizeIndex]}>
         <small className="size-book-title">SIZE {sizes[sizeIndex]}</small>
         <div className="book-step opening"><label>Saldo awal</label><strong>{movement.before[sizeIndex]} pcs</strong><small>{dozenPieces(movement.before[sizeIndex])}</small></div>
-        <div className="book-step change"><label>Mutasi</label><strong className={delta < 0 ? 'neg' : delta > 0 ? 'pos' : ''}>{delta > 0 ? '+' : ''}{delta} pcs</strong><small>{dozenPieces(Math.abs(delta))}</small></div>
+        <div className="book-step change"><label>Mutasi</label><strong className={delta < 0 ? 'neg' : delta > 0 ? 'pos' : ''}>{delta > 0 ? '+' : ''}{delta} pcs</strong><small>{dozenPieces(delta)}</small></div>
         <div className="book-step closing"><label>Saldo akhir</label><strong>{movement.after[sizeIndex]} pcs</strong><small>{dozenPieces(movement.after[sizeIndex])}</small></div>
       </span>)}
       <div className="compact-total-card">
         <span className="total-book-title">TOTAL {movement.brand} · {movement.sku}</span>
         <div className="total-book-step"><label>Saldo awal</label><strong>{beforeTotal} pcs</strong><small>{dozenPieces(beforeTotal)}</small></div>
-        <div className="total-book-step change"><label>Mutasi</label><strong className={changeClass}>{movementTotal > 0 ? '+' : ''}{movementTotal} pcs</strong><small>{dozenPieces(Math.abs(movementTotal))}</small></div>
+        <div className="total-book-step change"><label>Mutasi</label><strong className={changeClass}>{movementTotal > 0 ? '+' : ''}{movementTotal} pcs</strong><small>{dozenPieces(movementTotal)}</small></div>
         <div className="total-book-step closing"><label>Saldo akhir</label><strong>{afterTotal} pcs</strong><small>{dozenPieces(afterTotal)}</small></div>
       </div>
     </div>}

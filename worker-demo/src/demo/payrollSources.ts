@@ -15,7 +15,12 @@ export function savePostedFg(source:SavedFg){
   if(same){if(same.cards.length===source.cards.length&&same.cards.every(id=>source.cards.includes(id)))return same.doc.number;throw Error('Ada kartu yang sudah tercatat di nota FG.')}
   sessionStorage.setItem(fgKey,JSON.stringify([...old,source]));return source.doc.number
 }
-const seedFg:FgSource={number:'NFG-261123-012',date:'23 Nov 2026',source:'PO-1069 · Batch 02',sku:'Vivo 93001 · 31–33',status:'POSTED',good:48,bs:0,stuck:0,labor:720000,reimbursement:24000,note:'48 pcs selesai dijahit.'}
+const seedFg:FgSource={number:'NFG-261123-012',date:'23 Nov 2026',source:'PO-1069 · Batch 02',sku:'Vivo 93001 · 31–33',status:'POSTED',good:48,bs:0,stuck:0,labor:720000,reimbursement:24000,note:'48 pcs selesai dijahit dan diterima GOOD.',regularCards:[{
+  id:'QC-261123-012',source:'PO-1069 · Batch 02 · QC 23 Nov',sku:'Vivo 93001 · 31–33',
+  qcQty:48,sewnQty:48,returnedQty:48,good:48,bs:0,rewash:0,hold:0,sewingRate:13500,commissionRate:1500,bomRate:500,
+  bsComponents:[],stuckComponents:[],grossValue:744000,bsDeduction:0,stuckDeduction:0,subtotal:744000,
+  sizeRows:[{size:'31',sewn:16,good:16,bs:0,hold:0,rewash:0},{size:'32',sewn:18,good:18,bs:0,hold:0,rewash:0},{size:'33',sewn:14,good:14,bs:0,hold:0,rewash:0}]
+}]}
 const seedSources:Source[]=[{kind:'FG',mandor:'Afui',day:'2026-11-23',doc:seedFg}]
 function dayOf(text:string){return '2026-08-'+text.slice(0,2)}
 export function allPayrollSources():Source[]{

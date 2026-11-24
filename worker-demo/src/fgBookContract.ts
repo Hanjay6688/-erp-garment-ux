@@ -71,4 +71,4 @@ export function parseFgBookOutcome(v:unknown,request:string,action:string,payloa
  if(r.contract_version!=='cp7.fg-book-outcome.v1'||r.kind!=='COMMITTED_OUTCOME'||r.action!==action||r.request_id!==request||!token(r.book_token)||r.presentation_only!==true||r.source_id!==(action==='MOVE'?p.source_id:null))fail()
  return r
 }
-export function bookDozens(qty:string){const n=BigInt(qty),a=n<0n?-n:n;return `${n<0n?'−':''}${a/12n} lusin ${a%12n} pcs`}
+export { dozenPieces as bookDozens } from './fgQuantity'
