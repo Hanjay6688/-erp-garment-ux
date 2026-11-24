@@ -100,6 +100,12 @@ export function parseAccessoryWorkspace(value: unknown, page?: { offset: number;
 export function micro(raw: string) { const [whole, part = ''] = raw.replace(',', '.').split('.'); return BigInt(whole) * 1000000n + BigInt(part.padEnd(6,'0')) }
 export function displayDecimal(raw: string) { return raw.replace(/(\.\d*?)0+$/,'$1').replace(/\.$/,'').replace('.',',') }
 export function displayMoney(value: bigint) { const cents = (value + 5000n) / 10000n; return `Rp ${String(cents / 100n).replace(/\B(?=(\d{3})+(?!\d))/g,'.')},${String(cents % 100n).padStart(2,'0')}` }
+export function validAccessoryRetail(raw:string):boolean {
+  return /^\d{1,12}([.,]\d{1,2})?$/.test(raw) && micro(raw)>0n
+}
+export function exactAccessoryQuantity(qty:bigint,factorMicro:bigint):boolean {
+  return factorMicro>0n && (qty*1000000000000n)%factorMicro===0n
+}
 export function previewAccessoryLine(line: AccessoryLine, material: AccessoryChoice | undefined): { error: string; amount: bigint | null; payload: Record<string, Json> | null } {
   const reject = (error: string) => ({ error, amount:null, payload:null })
   if (!material) return reject('Aksesori tidak aktif atau belum dimuat.')
@@ -110,12 +116,13 @@ export function previewAccessoryLine(line: AccessoryLine, material: AccessoryCho
     return { error:'', amount:0n, payload:{ ...base, free_policy_version:material.free.policy_version } }
   }
   if (line.mode === 'MANUAL') {
-    if (!/^\d{1,12}([.,]\d{1,2})?$/.test(line.manual_price)) return reject('Isi harga per pcs, maksimal dua desimal.')
+    if (!validAccessoryRetail(line.manual_price)) return reject('Isi harga eceran di atas nol, maksimal dua desimal. Gratis Special mengikuti izin owner.')
     return { error:'', amount:qty * micro(line.manual_price), payload:{ ...base, manual_price:line.manual_price.replace(',','.') } }
   }
-  if (!material.price_version_id || material.master_price === null || material.factor === null) return reject('Harga master belum tersedia; isi harga eceran per pcs.')
+  if (!material.price_version_id || material.master_price === null || material.factor === null) return reject('Harga master belum diatur')
+  if (micro(material.master_price)===0n) return reject('Harga master nol. Pilih Gratis Special jika diizinkan.')
   const factor = micro(material.factor), numerator = qty * 1000000000000n
-  if (numerator % factor !== 0n) return reject('Jumlah ini memerlukan harga eceran per pcs; jumlah fisik tetap.')
+  if (!exactAccessoryQuantity(qty,factor)) return reject('Konversi jumlah ke satuan harga tidak persis. Pilih Eceran per pcs.')
   return { error:'', amount:(numerator / factor * micro(material.master_price) + 500000n) / 1000000n,
     payload:{ ...base, price_version_id:material.price_version_id, factor:material.factor } }
 }

@@ -4,6 +4,7 @@ import {
   EyeOff, Link2, LockKeyhole, PackageMinus, Plus, ReceiptText, Search,
   ShieldCheck, Undo2, UserRound, WalletCards, X,
 } from 'lucide-react'
+import {exactAccessoryQuantity,validAccessoryRetail,micro} from './accessoryIssue'
 import EnterpriseSelect from './EnterpriseSelect'
 import {amountText,contractorNames,fixtureDate,issueQuote,masterBook,noteStock,masterCode,noteStorage,useAccessoryBook,type AccessoryBook,type PricingMode} from './demo/accessoryPricing'
 import './contractor-issue.css'
@@ -65,7 +66,13 @@ const saveNotes=(change:(d:IssueDocument[])=>IssueDocument[])=>{const d=change(r
 function priceLine(book:AccessoryBook,doc:IssueDocument,l:IssueLine,docs:IssueDocument[]):IssueLine {
   const item=book.items.find(i=>i.code===masterCode(l.id));if(!item)return {...l,sellingPrice:null,source:'Harga master belum diatur'}
   const q=issueQuote(book,item,doc.mandor,doc.issuedOn,l.mode??'MASTER',l.manual?.trim()?Number(l.manual.replace(',','.')):null)
-  return {...l,item:item.name,category:item.category,unit:item.stockUom,stock:noteStock(item.code,item.stock,docs),sellingPrice:q.per,averageCost:q.hpp,reimbursement:q.reimbursement,source:q.source,version:q.version}
+  let price=q.per, source=q.source
+  if(l.mode==='MANUAL' && !validAccessoryRetail(l.manual??'')){price=null;source='Isi harga eceran di atas nol, maksimal dua desimal.'}
+  if((l.mode??'MASTER')==='MASTER' && price!==null && q.factor && Number.isSafeInteger(l.qty) && l.qty>0
+    && !exactAccessoryQuantity(BigInt(l.qty),micro(String(q.factor)))){
+    price=null;source='Konversi jumlah ke satuan harga tidak persis. Pilih Eceran per pcs.'
+  }
+  return {...l,item:item.name,category:item.category,unit:item.stockUom,stock:noteStock(item.code,item.stock,docs),sellingPrice:price,averageCost:q.hpp,reimbursement:q.reimbursement,source,version:q.version}
 }
 const quoteId=(d:IssueDocument)=>JSON.stringify([d.number,d.rowVersion,d.mandor,d.issuedOn,d.reason,d.note,d.lines.map(l=>[l.id,l.qty,l.mode,l.sellingPrice,l.version,l.stock,l.reimbursement,l.averageCost])])
 
@@ -76,7 +83,7 @@ function Status({value,settled}:{value:IssueStatus;settled:boolean}) {
 
 export default function ContractorIssuePage() {
   const documents=useSyncExternalStore(subscribe,readNotes),setDocuments=saveNotes,book=useAccessoryBook()
-  const catalog:IssueLine[]=book.items.filter(i=>i.active).map(i=>({id:i.code,item:i.name,category:i.category,qty:0,stock:noteStock(i.code,i.stock,documents),unit:i.stockUom,averageCost:i.movingAverage,sellingPrice:null,mode:'MASTER'}))
+  const catalog:IssueLine[]=book.items.filter(i=>i.active&&i.stockUom.toLowerCase()==='pcs').map(i=>({id:i.code,item:i.name,category:i.category,qty:0,stock:noteStock(i.code,i.stock,documents),unit:i.stockUom,averageCost:i.movingAverage,sellingPrice:null,mode:'MASTER'}))
   const [reviewQuote,setReviewQuote]=useState(''),[deleteOpen,setDeleteOpen]=useState(false),[sort,setSort]=useState('baru')
   const [selectedNumber,setSelectedNumber] = useState(seedDocuments[0].number)
   const [query,setQuery] = useState('')
@@ -182,7 +189,7 @@ export default function ContractorIssuePage() {
         {selected.status==='DRAFT'&&<section className="ci-browse-entry"><div><Search/><span><strong>Tambah aksesori melalui browser</strong><small>Cari kode, nama, atau kategori; barang tidak ditumpuk di halaman nota.</small></span></div><button className="soft-btn" onClick={()=>setCatalogOpen(true)}><Search/> Browse aksesori</button></section>}
         <section className="ci-lines"><div className="ci-line-head"><span>Barang detail</span><span>Stock On Hand</span><span>Qty ambil</span><span>Harga jual snapshot</span><span>Nilai kasbon</span><span/></div>{selected.lines.map((line)=><article key={line.id}><span><strong>{line.item}</strong><small>{line.id} · BOM kategori {line.category}</small></span><span><strong>{line.stock} {line.unit}</strong><small>Moving avg {money(line.averageCost)}</small></span><label><input aria-label={'Jumlah ambil '+line.item} disabled={selected.status!=='DRAFT'} inputMode="numeric" value={line.qty} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>updateQty(line.id,event.target.value)}/><small>{line.unit}</small></label><div className="ci-price-choice">{selected.status==='DRAFT'&&<label>Dasar harga<select aria-label={'Dasar harga '+line.item} value={line.mode??'MASTER'} onChange={e=>updateDocument({lines:selected.lines.map(l=>l.id===line.id?{...l,mode:e.target.value as PricingMode}:l)})}><option value="MASTER">Harga master</option><option value="MANUAL">Eceran per pcs</option>{book.free.some(r=>r.mandor===selected.mandor.replace(/^Mandor /,'')&&r.categories.includes(line.category)&&r.start<=selected.issuedOn&&(!r.end||selected.issuedOn<r.end))&&<option value="FREE">Gratis Special</option>}</select></label>}
           {selected.status==='DRAFT'&&line.mode==='MANUAL'&&<input aria-label={'Harga eceran '+line.item} inputMode="decimal" value={line.manual??''} onChange={e=>updateDocument({lines:selected.lines.map(l=>l.id===line.id?{...l,manual:e.target.value}:l)})}/>}
-          <strong>{line.sellingPrice===null?'Harga master belum diatur':money(line.sellingPrice)+'/pcs'}</strong><small>{line.source??'Harga tersimpan'}</small><small>Reimburse {line.reimbursement!=null?money(line.reimbursement)+'/pcs':'belum diatur'}</small></div><b>{lineTotal(line)===null?'Belum dihitung':money(lineTotal(line)!)}</b><button disabled={selected.status!=='DRAFT'} aria-label={`Hapus ${line.item}`} onClick={()=>removeLine(line.id)}><X/></button></article>)}{selected.lines.length===0&&<div className="ci-empty"><PackageMinus/><strong>Belum ada aksesori</strong><small>Buka browser lalu pilih barang yang benar-benar diambil.</small></div>}</section>
+          <strong>{line.sellingPrice===null?(line.source??'Harga master belum diatur'):money(line.sellingPrice)+'/pcs'}</strong>{line.sellingPrice!==null&&<small>{line.source??'Harga tersimpan'}</small>}<small>Reimburse {line.reimbursement!=null?money(line.reimbursement)+'/pcs':'belum diatur'}</small></div><b>{lineTotal(line)===null?'Belum dihitung':money(lineTotal(line)!)}</b><button disabled={selected.status!=='DRAFT'} aria-label={`Hapus ${line.item}`} onClick={()=>removeLine(line.id)}><X/></button></article>)}{selected.lines.length===0&&<div className="ci-empty"><PackageMinus/><strong>Belum ada aksesori</strong><small>Buka browser lalu pilih barang yang benar-benar diambil.</small></div>}</section>
         <label className="ci-note"><span>CATATAN · OPSIONAL</span><textarea disabled={selected.status!=='DRAFT'} value={selected.note} onChange={(event)=>updateDocument({note:event.target.value})} placeholder="Arahan atau kondisi pengambilan..."/></label>
         {selected.status==='DRAFT'&&<label className="ci-note"><span>ALASAN NOTA · WAJIB</span><input aria-label="Alasan nota" required maxLength={1000} value={selected.reason??''} onChange={e=>updateDocument({reason:e.target.value})}/></label>}
         <div className="ci-equation"><span><small>HPP STOK</small><strong>{money(selected.lines.reduce((sum,line)=>sum+line.qty*line.averageCost,0))}</strong></span><i>≠</i><span><small>HARGA JUAL MANDOR</small><strong>{totalLabel}</strong></span><i>→</i><span className="result"><small>KASBON PAYROLL</small><strong>{totalLabel}</strong></span></div>

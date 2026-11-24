@@ -640,8 +640,8 @@
       "sha256": "00590c474fe05fa48ba1c84c0c31fd5a852a3b34c67fd298df8c9baad970ba5b"
     },
     "tests/worker-accessory-price.test.ts": {
-      "bytes": 2691,
-      "sha256": "d12b722d34527a35e28510fd472e34eda8dbc9fe197c6ec89a93e07eaec3de58"
+      "bytes": 3467,
+      "sha256": "262daf8cea1cc66077b6e72175c1143f7c2dffeaa3ee875547e6c26cb7ac8365"
     },
     "tests/worker-inventory-range.test.ts": {
       "bytes": 3014,
@@ -868,8 +868,8 @@
       "sha256": "ee9ba1317dea44240030548c77ad058066e479e02a5b867606f654cb8c8c9d18"
     },
     "worker-demo/src/ContractorIssuePage.tsx": {
-      "bytes": 27075,
-      "sha256": "0274c199c2cde98c66a0311c1496af0b24f5498cd69505f2145b6c5be950ef7e"
+      "bytes": 27670,
+      "sha256": "81ac20a65aa0bb3354d176111ca7de1eba5f013d114eb6240978e307e7993956"
     },
     "worker-demo/src/Cp6PermissionNotice.tsx": {
       "bytes": 1278,
@@ -1356,8 +1356,8 @@
       "sha256": "6fa3cd34ba77e9e6a37d214270188c346eedc72af2818941528c85f1722f4b4e"
     },
     "worker-demo/src/accessoryIssue.ts": {
-      "bytes": 11075,
-      "sha256": "2380d3e5333e584b1e307368184ed8dcd7af31fb77fb50ed7c50aca3a9a9f0bb"
+      "bytes": 11481,
+      "sha256": "4650097a723ac4968fd8539fb1e6425dde118ffad18ae09c3bda2ee786f716fc"
     },
     "worker-demo/src/accessoryService.ts": {
       "bytes": 25125,
