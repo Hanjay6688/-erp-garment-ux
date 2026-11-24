@@ -1,0 +1,35 @@
+name: Mesin backup malam sintetis
+
+on:
+  push:
+    branches:
+      - writer-a/cp7c-backup-publik
+    paths:
+      - '.github/workflows/cp7c-mesin-backup-sintetis.yml'
+      - 'qualification/cp7c-backup-malam/**'
+      - 'qualification/cp7c-backup-sintetis/box-250mb.conf'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  uji:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /qualification/cp7c-backup-malam/
+            /qualification/cp7c-backup-sintetis/box-250mb.conf
+      - name: Siapkan rclone
+        run: |
+          if ! command -v rclone > /dev/null; then
+            sudo apt-get update -qq
+            sudo apt-get install -y rclone
+          fi
+      - name: Uji kirim, unduh, dan retensi di penyimpanan sementara
+        run: python3 qualification/cp7c-backup-malam/test_backup_malam.py -v
