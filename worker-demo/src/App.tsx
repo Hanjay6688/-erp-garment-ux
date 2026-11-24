@@ -50,6 +50,8 @@ import type { KeyboardEvent as ReactKeyboardEvent } from 'react'
 
 import { applyUxTampilan, readUxTampilan, saveUxTampilan, type UxTampilan } from './uxTampilan'
 import { UxTampilanToggle } from './UxTampilanToggle'
+import { StageLots } from './demo/planner/StageLots'
+import { cuttingFormAt, productionForms } from './demoCuttingRoutes'
 
 export { UnassignedRollCard } from './demo/CuttingRollPage'
 export { MandorWipPage } from './demo/MandorWipPage'
@@ -234,7 +236,7 @@ function ErpApp() {
   // Owner D15-2: in the Enteng build a menu without a connected screen is hidden (src/screenActivation.ts).
   const canSeeNavLabel = (label: string) => (demoAccess || isNavLabelAllowed(accessBundle, label)) && !isNavLabelHidden(runtime.mode, label)
   const [page, setRoutedPage] = useState<Page>(() => demoAccess
-    ? (['/migrasi', '/migrasi/'].includes(globalThis.location.pathname) ? 'admin-import' : 'dashboard')
+    ? (cuttingFormAt(globalThis.location.pathname) ?? (['/migrasi', '/migrasi/'].includes(globalThis.location.pathname) ? 'admin-import' : 'dashboard'))
     : (firstAllowedPageId(accessBundle, Object.keys(PAGE_PERMISSION_BY_ID).filter(id => !isScreenHidden(runtime.mode, id) && !(id in redirectedPages))) as Page | null) ?? 'dashboard')
   const [uxTampilan, setUxTampilan] = useState<UxTampilan>(readUxTampilan)
   useLayoutEffect(() => { applyUxTampilan(uxTampilan) }, [uxTampilan])
@@ -252,7 +254,17 @@ function ErpApp() {
   const setPage=(next:Page)=>{if(next!==page)setInvoiceSource(null);setSourceEpoch(value=>value+1);setPageState(next)}
   const [invoiceSource,setInvoiceSource] = useState<{saleId:string;scope:string}|null>(null)
   const invoiceSourceScope=runtime.mode!=='DEMO_SIMULATION'&&identity.status==='AUTHORIZED'?`${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`:null
-  const [expanded, setExpanded] = useState<NavSection | null>(null)
+  const [expanded, setExpanded] = useState<NavSection | null>(() => demoAccess && cuttingFormAt(window.location.pathname) ? 'Produksi' : null)
+  useEffect(() => {
+    if (!demoAccess) return
+    const openedForm = cuttingFormAt(window.location.pathname)
+    if(openedForm===page)return
+    if(page in productionForms) {
+      window.history.replaceState(window.history.state,'',productionForms[page as keyof typeof productionForms].path)
+    } else if(openedForm) {
+      window.history.replaceState(window.history.state,'',page==='admin-import'?'/migrasi/':'/')
+    }
+  }, [demoAccess, page])
   const [menuSearch, setMenuSearch] = useState<string | null>(null)
   const searchable = [...Object.values(nav).flat(), ...adminNav].filter(canSeeNavLabel)
   const [analysisExpanded, setAnalysisExpanded] = useState(false)
@@ -526,6 +538,7 @@ function ErpApp() {
           }}
         />}
         {page === 'qc' && runtime.qcFinalMode === 'CONNECTED' && <Suspense fallback={<WorkspaceFallback label="QC & Final SKU connected"/>}><ConnectedQcFinalPage/></Suspense>}
+        {page === 'qc' && runtime.qcFinalMode === 'SIMULATION' && <StageLots stage="qc"/>}
         {page === 'qc' && runtime.qcFinalMode === 'SIMULATION' && <Suspense fallback={<WorkspaceFallback label="QC & Final SKU"/>}><QcFinalPage seeds={buildQcSeeds(laundryDeliveries)} initialSeedId={qcSeedId} finalizedResults={finalizedQcResults} postedFgCardIds={postedFgCardIds} canPostFinalSku={demoAccess || hasPermission(accessBundle, SENSITIVE_ACTION_PERMISSION.postFinalSku)} onBack={()=>setPage('sewing-wip')} onFinish={(result)=>{setFinalizedQcResults((current)=>{const id=`${result.parentId}::${result.batchId}::${result.completionCount}`;return current.some((item)=>`${item.parentId}::${item.batchId}::${item.completionCount}`===id)?current:[result,...current]});rememberQcNotaSnapshot(result);setQcResult(result)}} onOpenNota={(result)=>{rememberQcNotaSnapshot(result);setQcResult(result);setNotaFocus({kind:'REGULAR',id:regularFgNotaCardId(result)});setNotaOrigin('QC');setPage('fg-handoff')}} /></Suspense>}
         {page === 'fg-handoff' && runtime.fgHandoffMode === 'BLOCKED_UNTIL_AUTHORITATIVE' && <Suspense fallback={<WorkspaceFallback label="Nota FG safety boundary"/>}><ConnectedFgHandoffBoundary/></Suspense>}
         {page === 'fg-handoff' && runtime.fgHandoffMode === 'SIMULATION' && <Suspense fallback={<WorkspaceFallback label="Susun Nota FG"/>}><FgNotaPage

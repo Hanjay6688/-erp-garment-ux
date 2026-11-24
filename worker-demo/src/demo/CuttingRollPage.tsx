@@ -2,12 +2,12 @@ import { Icon } from '../components/AppIcon'
 import CuttingPatternPicker, { hasCanonicalPattern } from '../CuttingPatternPicker'
 import type { CuttingPatternChoice } from '../CuttingPatternPicker'
 import { Field, MultiCheckFilter } from './controls'
+import { AdviceBox, pickupPath } from './planner/ProductionAdvice'
+import { day, patternFor, plan, productFor, products, recordCut, rolls, suggestedCut, yardsLeft, type Plan } from './planner/model'
+import { usePlannerSession, changeSession } from './planner/session'
 import {
   cuttingSizes,
   drawingLabel,
-  fabricRollCatalog,
-  fabricRollMaterials,
-  fabricRollSuppliers,
   initialCuttingSizeSlots,
 } from './cuttingAllocation'
 import type { CuttingSizeSlot, FabricRoll } from './cuttingAllocation'
@@ -15,7 +15,7 @@ import { cleanDecimalInput, dozenPieces, formatQuantity, parseDecimal } from './
 import type { QtyTuple } from './productionModel'
 import { productSizes } from './stockModel'
 import { ChevronDown } from 'lucide-react'
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import type {
   CSSProperties,
   ClipboardEvent as ReactClipboardEvent,
@@ -25,18 +25,53 @@ import type {
 
 const cuttingSizeOptions = [...productSizes].sort((left,right)=>(Number(left)||0)-(Number(right)||0))
 
+const fabricRollSuppliers=Array.from(new Set(rolls.map(roll=>roll.supplier)))
+const fabricRollMaterials=rolls.map(roll=>roll.material)
+type CuttingDraft = { sku:string; brand:string; model:string; date:string; selectedPattern:CuttingPatternChoice|null; ids:string[]; yards:Record<string,string>; slots:CuttingSizeSlot[]; amounts:Record<string,number[]> }
+const draftKey='atelier.cutting-draft.nov24.1'
+function readDraft(): CuttingDraft|null {
+  try {return JSON.parse(sessionStorage.getItem(draftKey)??'null')} catch {return null}
+}
 export function CuttingRollPage() {
+  const session=usePlannerSession()
+  const fabricRollCatalog:FabricRoll[]=rolls.map((roll,index)=>({...roll,sequence:index+1,yards:yardsLeft(roll.id,session),receivedAt:'23 Nov 2026',allocation:[0,0,0,0,0,0]}))
+  const [draft]=useState(readDraft)
+  const [sku,setSku]=useState(draft?.sku??'93001')
+  const [brand,setBrand]=useState(draft?.brand??'Vivo')
+  const [model,setModel]=useState(draft?.model??'Kulot Jumbo')
+  const [date,setDate]=useState(draft?.date??'2026-11-24')
+  const [notice,setNotice]=useState('')
+  const [savedId,setSavedId]=useState('')
+  const requestId=useRef(crypto.randomUUID())
+  const linked=productFor(sku)
+  const formRef=useRef<HTMLElement>(null)
   const [query,setQuery]=useState('')
-  const [selectedPattern,setSelectedPattern]=useState<CuttingPatternChoice|null>(null)
+  const [selectedPattern,setSelectedPattern]=useState<CuttingPatternChoice|null>(draft?.selectedPattern??null)
   const [sizeNotice,setSizeNotice]=useState('')
   const [selectedSuppliers,setSelectedSuppliers]=useState([...fabricRollSuppliers])
   const [selectedMaterials,setSelectedMaterials]=useState([...fabricRollMaterials])
-  const [selectedRollIds,setSelectedRollIds]=useState(()=>fabricRollCatalog.slice(0,9).map((roll)=>roll.id))
-  const [rollYardUsage,setRollYardUsage]=useState<Record<string,string>>(()=>Object.fromEntries(fabricRollCatalog.map((roll)=>[roll.id,String(roll.yards).replace('.',',')])))
-  const [sizeSlots,setSizeSlots]=useState<CuttingSizeSlot[]>(()=>initialCuttingSizeSlots.map((slot)=>({...slot})))
+  const [selectedRollIds,setSelectedRollIds]=useState(()=>draft?.ids??['ORI-021'])
+  const [rollYardUsage,setRollYardUsage]=useState<Record<string,string>>(()=>draft?.yards??Object.fromEntries(fabricRollCatalog.map((roll)=>[roll.id,String(roll.id==='ORI-021'?Math.min(27,roll.yards):roll.yards).replace('.',',')])))
+  const [sizeSlots,setSizeSlots]=useState<CuttingSizeSlot[]>(()=>draft?.slots??[{key:'32-1',size:'32'}])
   const nextSlotKeyRef=useRef(initialCuttingSizeSlots.length+1)
-  const [allocations,setAllocations]=useState<Record<string,number[]>>(()=>Object.fromEntries(fabricRollCatalog.map((roll)=>[roll.id,[...roll.allocation]])))
+  const [allocations,setAllocations]=useState<Record<string,number[]>>(()=>draft?.amounts??{'ORI-021':[18]})
   const [fillRange,setFillRange]=useState<{source:number;target:number}|null>(null)
+  function useAdvice(row:Plan, material?:string, scroll=true) {
+    const p=row.product, {route,roll,qty}=suggestedCut(row,session,material)
+    if(!qty)return
+    setSku(p.sku);setBrand(p.brand);setModel(patternFor(route.pattern).name);setDate('2026-11-24')
+    setSelectedPattern(patternFor(route.pattern));setSelectedRollIds([roll.id])
+    setSelectedSuppliers([...fabricRollSuppliers]);setSelectedMaterials([...fabricRollMaterials]);setQuery('')
+    setSizeSlots([{key:p.size+'-saran',size:p.size}]);setAllocations({[roll.id]:[qty]})
+    setRollYardUsage({[roll.id]:String(qty*roll.yardPerPiece)})
+    requestId.current=crypto.randomUUID()
+    setSavedId('');setNotice('Form terisi untuk '+p.brand+' '+p.sku+'. Periksa jumlah dan yard sebelum menyimpan.')
+    if(scroll) requestAnimationFrame(()=>formRef.current?.scrollIntoView({block:'start'}))
+  }
+  useEffect(()=>{
+    const p=productFor(new URLSearchParams(window.location.search).get('sku')??'')
+    if(p){const row=plan(p,session);if(row.short>0)useAdvice(row,new URLSearchParams(window.location.search).get('bahan')??undefined,false)}
+  },[])
   const fillRangeRef=useRef<{source:number;target:number}|null>(null)
   const fillDraggedRef=useRef(false)
   const [columnFillRange,setColumnFillRange]=useState<{source:number;target:number}|null>(null)
@@ -46,7 +81,7 @@ export function CuttingRollPage() {
   const visibleRolls=useMemo(()=>fabricRollCatalog.filter((roll)=>{
     const matchesQuery=`${roll.id} roll ${roll.sequence} ${roll.supplier} ${roll.material} ${roll.yards}`.toLowerCase().includes(query.toLowerCase())
     return matchesQuery&&selectedSuppliers.includes(roll.supplier)&&selectedMaterials.includes(roll.material)
-  }),[query,selectedSuppliers,selectedMaterials])
+  }),[query,selectedSuppliers,selectedMaterials,session.cuts.length])
   const selectedRolls=fabricRollCatalog.filter((roll)=>selectedIdSet.has(roll.id))
   const rollUsageRows=selectedRolls.map((roll)=>{
     const input=rollYardUsage[roll.id]??''
@@ -68,6 +103,22 @@ export function CuttingRollPage() {
   const slotTotals=sizeSlots.map((_,slotIndex)=>selectedRolls.reduce((sum,roll)=>sum+(allocations[roll.id]?.[slotIndex]??0),0))
   const sizeTotalByName=Object.fromEntries(selectedCuttingSizes.map((size)=>[size,sizeSlots.reduce((sum,slot,slotIndex)=>sum+(slot.size===size?slotTotals[slotIndex]:0),0)])) as Record<string,number>
   const totalPieces=slotTotals.reduce((sum,qty)=>sum+qty,0)
+  function storeCut() {
+    if(savedId)return
+    try {
+      if(!linked||brand!==linked.brand||!selectedPattern||model.trim().toLowerCase()!==selectedPattern.name.toLowerCase())throw Error('Periksa merek, SKU, dan nama pola di form.')
+      if(selectedRolls.length!==1||selectedCuttingSizes.length!==1)throw Error('Untuk latihan per pesanan ini, pilih satu roll dan satu ukuran fisik.')
+      const roll=selectedRolls[0]
+      const next=changeSession(current=>recordCut(current,{requestId:requestId.current,sku,patternId:selectedPattern.id,size:selectedCuttingSizes[0],roll:roll.id,qty:totalPieces,yards:rollUsageRows[0].used,date}))
+      const id=next.cuts.find(l=>l.requestId===requestId.current)!.id
+      sessionStorage.removeItem(draftKey)
+      setSavedId(id);setNotice(id+' tersimpan. '+totalPieces+' pcs sekarang menunggu mandor. Saran potong sudah dihitung ulang.')
+    } catch(error){setNotice((error as Error).message)}
+  }
+  function storeDraft(){
+    const data:CuttingDraft={sku,brand,model,date,selectedPattern,ids:selectedRollIds,yards:rollYardUsage,slots:sizeSlots,amounts:allocations}
+    sessionStorage.setItem(draftKey,JSON.stringify(data));setNotice('Draft tersimpan di tab ini. Jumlah WIP tetap sama sampai hasil potong disimpan.')
+  }
   const slotGridStyle={'--cutting-slot-count':displayedSizeSlots.length} as CSSProperties
   const sizeSummaryStyle={'--cutting-size-columns':Math.min(3,Math.max(1,selectedCuttingSizes.length))} as CSSProperties
   const allVisibleSelected=visibleRolls.length>0&&visibleRolls.every((roll)=>selectedIdSet.has(roll.id))
@@ -290,18 +341,26 @@ export function CuttingRollPage() {
     const targetSlot=sourceSlot<sizeSlots.length-1?sourceSlot+1:sourceSlot-1
     fillColumnsFromSource(sourceSlot,targetSlot)
   }
-  return <>
-    <section className="hero-copy compact cutting-hero"><div className="eyebrow">PRODUKSI · CUTTING</div><h1>Buat Potongan</h1><p>Ambil roll, catat hasil potong per roll dan size, lalu simpan sebagai WIP Potongan. Batch mandor belum dibuat di tahap ini.</p></section>
+  const heading=<section className="hero-copy compact cutting-hero"><div className="eyebrow">PRODUKSI · CUTTING</div><h1>Buat Potongan</h1><p>Pilih saran untuk mengisi roll, pola, ukuran, dan jumlah. Simpan sesudah kain benar-benar dipotong.</p></section>
+  const saved=session.cuts.find(lot=>lot.id===savedId)
+  if(saved)return <>{heading}<div className="gar-success" role="status">{notice} <a href={pickupPath+'?pot='+saved.id}>Bagi {saved.id}</a></div>
+    <section className="panel gar-panel"><div className="gar-panel-head"><h2>{saved.id} · {linked?.brand} {saved.sku}</h2><span>Menunggu mandor</span></div>
+      <p>{saved.qty} pcs ukuran {saved.size} · {patternFor(saved.pattern).name} · {saved.material}.</p><p>Roll {saved.roll} · {saved.sourceYards} yd sebelum dipotong · dipakai {saved.usedYards} yd · sisa {saved.remainingYards} yd.</p>
+      <div className="gar-actions"><a className="gar-button" href="/analisis/planner/">Lihat perubahan di Planner</a><button type="button" className="gar-button" disabled>Simpan Potongan ke WIP · sudah tersimpan</button></div></section>
+    <AdviceBox mode="cut" session={session} onCut={useAdvice}/></>
+  return <>{heading}
+    <AdviceBox mode="cut" session={session} onCut={useAdvice}/>
+    {notice&&<div role="status" className="gar-success">{notice}</div>}
     <section className="cutting-flow-rail panel" aria-label="Alur Buat Potongan">{['Pilih roll','Tentukan yard used','Catat hasil per roll','Simpan ke WIP'].map((label,index)=><div className={index===0?'active':''} key={label}><span>{String(index+1).padStart(2,'0')}</span><strong>{label}</strong>{index<3&&<Icon name="arrow"/>}</div>)}</section>
     <section className="roll-first-layout">
       <div className="panel roll-catalog-panel">
-        <div className="cutting-panel-head"><div><span>01 · SUMBER KAIN</span><h2>Pilih roll yang mau dibagi</h2><p>Satu roll tetap satu baris. Urutan dan yard asal tidak digabung.</p></div><span className="selection-pill">{selectedRolls.length} dipilih</span></div>
+        <div className="cutting-panel-head"><div><span>01 · SUMBER KAIN</span><h2>Pilih roll yang mau dipotong</h2><p>Satu roll tetap satu baris. Urutan dan yard asal tidak digabung.</p></div><span className="selection-pill">{selectedRolls.length} dipilih</span></div>
         <div className="roll-catalog-toolbar"><div className="roll-search"><Icon name="search"/><input value={query} onChange={(event)=>setQuery(event.target.value)} placeholder="Cari roll, pabrik, bahan, atau yard..."/></div><div className="roll-filters"><MultiCheckFilter label="Pabrik" options={fabricRollSuppliers} selected={selectedSuppliers} onChange={setSelectedSuppliers}/><MultiCheckFilter label="Bahan" options={fabricRollMaterials} selected={selectedMaterials} onChange={setSelectedMaterials}/></div></div>
         <div className="roll-list-caption"><span>{visibleRolls.length} roll tersedia</span><button type="button" onClick={toggleVisible}>{allVisibleSelected?'Batalkan hasil tampil':'Pilih semua hasil'}</button></div>
         <div className="cutting-roll-list">{visibleRolls.map((roll)=>{const selected=selectedIdSet.has(roll.id);return <button type="button" aria-pressed={selected} className={`stock-roll-row ${selected?'selected':''}`} key={roll.id} onClick={()=>toggleRoll(roll.id)}><span className="roll-select-box">{selected&&<Icon name="check"/>}</span><span className="stock-roll-seq">{String(roll.sequence).padStart(2,'0')}</span><span className="stock-roll-name"><strong>{roll.material}</strong><small>{roll.supplier} · {roll.id} · masuk {roll.receivedAt}</small></span><span className="stock-roll-yard"><strong>{formatQuantity(roll.yards,2)} yd</strong><small>{selected?'Masuk pembagian':'Siap dipilih'}</small></span></button>})}{visibleRolls.length===0&&<div className="catalog-empty"><Icon name="search"/><strong>Roll tidak ditemukan</strong><small>Periksa pencarian atau pilihan filter pabrik dan bahan.</small></div>}</div>
       </div>
       <aside className="panel cutting-live-summary">
-        <div className="eyebrow">BATCH PRODUKSI</div><h2>Kulot Lucy · Size {selectedCuttingSizes.join(', ')}</h2><p>Hasil cutting ini belum didistribusikan ke batch Mandor.</p>
+        <div className="eyebrow">BATCH PRODUKSI</div><h2>{brand} {sku} · {model}</h2><p>Ukuran {selectedCuttingSizes.join(', ')}{linked?' · '+linked.customer+' · '+day(linked.due):''}</p><p>Hasil cutting ini belum didistribusikan ke batch Mandor.</p>
         <div className="cutting-summary-main"><div><span>YARD USED</span><strong>{formatQuantity(totalUsedYards,2)} yd</strong><small>{selectedRolls.length} roll · {partialRollCount} split</small></div><div><span>TOTAL POTONGAN</span><strong>{totalPieces} pcs</strong><small>{dozenPieces(totalPieces)}</small></div></div>
         <div className="cutting-summary-sizes" style={sizeSummaryStyle}>{selectedCuttingSizes.map((size)=><div key={size}><span>SIZE {size}</span><strong>{sizeTotalByName[size]} pcs</strong><small>{dozenPieces(sizeTotalByName[size])}</small></div>)}</div>
         <div className="po-preview"><Icon name="warehouse"/><div><strong>Tujuan berikutnya: WIP Potongan</strong><span>Setelah disimpan, hasil ini menunggu mandor mengambil. Pembagian batch dilakukan saat pickup.</span></div></div>
@@ -321,9 +380,12 @@ export function CuttingRollPage() {
       </article>)}{selectedRolls.length===0&&<div className="allocation-empty"><Icon name="ruler"/><strong>Belum ada roll dipilih</strong><small>Pilih roll pada Browse Roll di atas.</small></div>}</div>
       <div className="roll-issue-footer"><div><span>SOURCE SELECTED<strong>{formatQuantity(totalSourceYards,2)} yd</strong></span><i>−</i><span>USED<strong>{formatQuantity(totalUsedYards,2)} yd</strong></span><i>=</i><span className="remaining">REMAINING<strong>{formatQuantity(totalBalanceYards,2)} yd</strong></span></div><button type="button" className="primary-btn" disabled={!yardUsageValid} onClick={()=>document.getElementById('allocation-workbench')?.scrollIntoView({behavior:'smooth',block:'start'})}>Lanjut catat hasil <Icon name="arrow"/></button></div>
     </section>
-    <section className="panel allocation-workbench" id="allocation-workbench">
+    <section ref={formRef} className="panel allocation-workbench" id="allocation-workbench">
       <div className="cutting-panel-head allocation-head"><div><span>03 · HASIL POTONG PER ROLL</span><h2>Susun slot size sesuai gambar hari ini</h2><p>Satu size boleh punya satu, dua, tiga, atau lebih slot. Label gambar hanya muncul kalau size tersebut berulang.</p></div><span className="draft-pill">Draft</span></div>
-      <div className="cutting-meta-grid"><Field label="Merek rencana · opsional · tidak mengikat"><select className="erp-input" defaultValue=""><option value="">Merek belum ditentukan</option><option>Vivo</option><option>Widie</option></select></Field><Field label="Model"><input className="erp-input" defaultValue="Kulot Lucy"/></Field><CuttingPatternPicker value={selectedPattern} onChange={setSelectedPattern}/><Field label="Tanggal potong"><input className="erp-input" type="date" defaultValue="2026-08-27"/></Field><div className="future-po-field"><span>KODE POTONGAN</span><strong>POT otomatis</strong><small>saat hasil masuk WIP</small></div></div>
+      <div className="cutting-meta-grid"><Field label="SKU rencana"><select aria-label="SKU rencana" className="erp-input" value={sku} onChange={e=>{const p=productFor(e.target.value)!;setSku(p.sku);setBrand(p.brand);setModel(patternFor(p.routes[0].pattern).name);setSavedId('')}}>{products.map(p=><option key={p.sku} value={p.sku}>{p.brand} {p.sku}</option>)}</select></Field>
+        <Field label="Merek rencana"><select aria-label="Merek rencana" className="erp-input" value={brand} onChange={e=>setBrand(e.target.value)}><option>Vivo</option><option>Widie</option></select></Field>
+        <Field label="Model"><input className="erp-input" value={model} onChange={e=>setModel(e.target.value)}/></Field><CuttingPatternPicker value={selectedPattern} onChange={value=>{setSelectedPattern(value);if(value)setModel(value.name)}}/>
+        <Field label="Tanggal potong"><input className="erp-input" type="date" value={date} onChange={e=>setDate(e.target.value)}/></Field></div>
       <div className="cutting-size-picker">
         <div className="cutting-size-picker-copy"><span>PILIH UKURAN</span><strong>Centang hanya size yang dipotong hari ini</strong><small>Multiplier kolom baru muncul untuk ukuran terpilih. Size yang sudah berisi hasil tidak bisa dilepas diam-diam.</small></div>
         <div className="cutting-size-options">{cuttingSizeOptions.map((size)=>{const checked=selectedCuttingSizes.includes(size);return <label className={checked?'active':''} key={size}><input type="checkbox" checked={checked} onChange={()=>toggleCuttingSize(size)}/><span>{checked&&<Icon name="check"/>}</span><strong>{size}</strong><small>{checked?`${sizeSlots.filter((slot)=>slot.size===size).length} kolom`:'Tidak dipakai'}</small></label>})}</div>
@@ -355,7 +417,8 @@ export function CuttingRollPage() {
         <div><span>04 · SIMPAN HASIL CUTTING</span><h2>Masuk WIP Produksi, belum menjadi Batch Distribusi</h2><p>Jejak roll, yard issued, sisa roll, dan size tetap melekat pada Batch Produksi. Mandor serta Batch Distribusi baru dicatat saat fisik benar-benar diambil.</p></div>
         <div className="cutting-wip-card"><span className="wip-state-dot"/><div><small>STATUS SETELAH DISIMPAN</small><strong>Menunggu mandor mengambil</strong><span>{selectedRolls.length} roll · {formatQuantity(totalUsedYards,2)} yd used · {totalPieces} pcs · {selectedPattern ? `Pola ${selectedPattern.code}/${selectedPattern.revision}` : 'Pola wajib dipilih sebelum simpan'}</span></div></div>
       </section>
-      <div className="allocation-footer"><small>Frontend Potongan masih simulasi · writer terhubung wajib mengirim `pattern_id`; backend menolak transaksi aplikasi tanpa Pola dan mengikat snapshot kode/nama/revisi.</small><div><button type="button" className="soft-btn" disabled={!hasCanonicalPattern(selectedPattern)}>Simpan draft cutting</button><button type="button" className="primary-btn" disabled={!hasCanonicalPattern(selectedPattern)||!yardUsageValid||totalPieces===0}>Simpan Potongan ke WIP <Icon name="arrow"/></button></div></div>
+      <div className="allocation-footer"><small>Latihan per pesanan · hasil simpan berlaku di tab ini.</small><div><button type="button" className="soft-btn" onClick={storeDraft} disabled={Boolean(savedId)||!hasCanonicalPattern(selectedPattern)}>Simpan draft cutting</button><button type="button" className="primary-btn" onClick={storeCut} disabled={Boolean(savedId)||!hasCanonicalPattern(selectedPattern)||!yardUsageValid||totalPieces===0}>Simpan Potongan ke WIP <Icon name="arrow"/></button></div></div>
+      {notice&&<p className="gar-success">{notice} {savedId&&<a href={pickupPath+'?pot='+savedId}>Buka Bagi Potongan</a>}</p>}
     </section>
   </>
 }
@@ -366,6 +429,7 @@ export function RollBatchQuickMenu({rollId,batchCount,currentBatch,split,onAssig
 }
 
 type UnassignedRollCardProps = {
+  sizeLabels?: readonly string[]
   row: { roll: FabricRoll; sizes: QtyTuple; quantity: number }
   batchCount: number
   onAssignWhole: (rollId: string, targetBatch: number) => void
@@ -377,6 +441,7 @@ type UnassignedRollCardProps = {
 }
 
 export function UnassignedRollCard({
+  sizeLabels=cuttingSizes,
   row,
   batchCount,
   onAssignWhole,
@@ -397,7 +462,7 @@ export function UnassignedRollCard({
         <em>{row.quantity} pcs hasil potong</em>
       </div>
       <div className="wip-roll-token-sizes" aria-label={`Rincian ukuran ${rollLabel}`}>
-        {cuttingSizes.map((size, index) => <span key={size}><small>SIZE {size}</small><strong>{row.sizes[index]}</strong><em>pcs</em></span>)}
+        {sizeLabels.map((size, index) => <span key={size}><small>SIZE {size}</small><strong>{row.sizes[index]}</strong><em>pcs</em></span>)}
       </div>
       <p id={`${instructionId}-title`} className="wip-roll-token-code">{rollLabel} · {row.roll.id}</p>
       <p id={instructionId}>Pindahkan utuh lewat pilihan Batch. Drag hanya alternatif desktop.</p>

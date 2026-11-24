@@ -17,6 +17,9 @@ export default defineConfig({
   ],
   use: {
     baseURL: 'http://127.0.0.1:4173',
+    // These historical suites follow the August pickup through its original downstream batches.
+    // cp8-worker.spec.ts exercises the current November queue from a fresh browser session.
+    storageState: { cookies: [], origins: [{ origin: 'http://127.0.0.1:4173', localStorage: [{name:'atelier.pickup.period',value:'2026-08'}] }] },
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
   },

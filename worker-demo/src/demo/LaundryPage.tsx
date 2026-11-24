@@ -1,3 +1,4 @@
+import { StageLots } from './planner/StageLots'
 import { Icon } from '../components/AppIcon'
 import { cellQuantity } from './cuttingAllocation'
 import { money } from './format'
@@ -152,6 +153,8 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
 
   return <>
     <section className="hero-copy compact laundry-hero"><div className="eyebrow">PRODUKSI · SETELAH SEWING</div><h1>Laundry</h1><p>Kirim Batch Distribusi yang jahitannya sudah penuh, lalu catat Good dan BS ketika kembali. Urutannya tetap mengikuti Batch Produksi.</p></section>
+    <StageLots stage="laundry"/>
+    <h2 className="gar-archive-heading">Arsip latihan Agustus</h2>
     <div className={`laundry-summary-scope ${mandorFiltered?'filtered':''}`} role="status" aria-live="polite"><Icon name={mandorFiltered?'filter':'user'}/>{mandorFiltered
       ?<span>Ringkasan &amp; daftar difilter untuk <b>{mandorFilter}</b> · {scopedReady.length} batch siap · {scopedDeliveries.length} surat kirim</span>
       :<span>Ringkasan untuk <b>semua mandor</b> ({mandorOptions.length} mandor)</span>}

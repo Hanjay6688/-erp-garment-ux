@@ -348,8 +348,8 @@
       "sha256": "478da483f2917722482bc80a8e653d7468882d1251df40884445f5e9de76e4e5"
     },
     "playwright.config.ts": {
-      "bytes": 1055,
-      "sha256": "0f2f8bad7b402afaf630026afbce7ed63db9679cdfe6be3e5c6a227fb925e14c"
+      "bytes": 1392,
+      "sha256": "74a80f2e18e70770f8e451dd18cc043d561be9686bf54998998a7b15e6bf20cf"
     },
     "playwright.cp5.config.ts": {
       "bytes": 1394,
@@ -380,8 +380,8 @@
       "sha256": "488e615a37d98a1b56d77a01afe78c58954b4d9f81a13a6df2c1648069e361f4"
     },
     "scripts/build-worker-target.mjs": {
-      "bytes": 1256,
-      "sha256": "4ee5397b6d45dc8ddddb37e0a34508aaeadb3d1ab9448ae2425f2e273c39a90e"
+      "bytes": 1356,
+      "sha256": "4b7af6b4d485f0f2960fc113476d90d5aeaeda43ece474dd861afd1960678eac"
     },
     "scripts/check-access-catalog.mjs": {
       "bytes": 14347,
@@ -636,8 +636,12 @@
       "sha256": "8dcafcf1ead9dec38713f7a75f317eed63de1bf64a666e0e354c540e913a7ab4"
     },
     "tests/browser/cp8-worker.spec.ts": {
-      "bytes": 4285,
-      "sha256": "a7077ff69207bcac79da338cfc49c0643d6c7ed43b4c379479a39eca76501ce0"
+      "bytes": 8618,
+      "sha256": "9b664dde9b323fbe0468ee5aa3488aa62f3fa4be02763e3ce499e2a8ad496586"
+    },
+    "tests/worker-planner.test.ts": {
+      "bytes": 3816,
+      "sha256": "dd3711af946c8466e4340c673346c36c1b90f2a585b8a427ec7d99d4f0ef5dc8"
     },
     "worker-demo/index.html": {
       "bytes": 494,
@@ -660,8 +664,8 @@
       "sha256": "22b1e53c801e6d3415b981cec34ce0245b95e49d3fc95e6ff834f415ed25613a"
     },
     "worker-demo/src/App.tsx": {
-      "bytes": 50511,
-      "sha256": "6b65ca963405e4ae5b2975bb7108e61dbe2e79fec1cece30a346e3d1a4604914"
+      "bytes": 51299,
+      "sha256": "6d2f07b3f6d516de784799f5f60753d905b29535dd767e7a11ecb11d5edc03be"
     },
     "worker-demo/src/AttendanceEntryEditor.tsx": {
       "bytes": 12651,
@@ -884,8 +888,8 @@
       "sha256": "cf921276b4cb69e0d5be10a73689868b4624fc728e711704a0d160aaddcaf5f0"
     },
     "worker-demo/src/CuttingPatternPicker.tsx": {
-      "bytes": 8759,
-      "sha256": "f5510a2f2b278fe9603daf49ede7bfbe59bcd09fa1381aea46b2efeffc81d890"
+      "bytes": 8979,
+      "sha256": "18e2015ca11db938a752c69acc519ab6856dbcf1c120712777c49c0f06b472a7"
     },
     "worker-demo/src/EnterpriseSelect.tsx": {
       "bytes": 2288,
@@ -1120,8 +1124,8 @@
       "sha256": "63b7e51ed45c0639753b930a7663c5a4821f61bc9ae815c5485fb7e2018d8da1"
     },
     "worker-demo/src/OwnerDashboard.tsx": {
-      "bytes": 5745,
-      "sha256": "777f1b885f8ef2ca491509061dcfa84b707120c6c9c1569824c1ccffcd41eec4"
+      "bytes": 6103,
+      "sha256": "6e76696407c6565a78f2feaed5804def3ffe1f63bb8e29f5c1dbf6322a3ae873"
     },
     "worker-demo/src/PatternPage.tsx": {
       "bytes": 12658,
@@ -1464,8 +1468,12 @@
       "sha256": "2ceb77eca2925bbdefb20a842d4979df7a6220d4ae7824deb98946270f9867c0"
     },
     "worker-demo/src/cp7/Cp7Shell.tsx": {
-      "bytes": 23013,
-      "sha256": "71056b111ac7015866a124ddbe88a2a5ff5b33a38cf84d969336d227e6cb13af"
+      "bytes": 25162,
+      "sha256": "c4255268bb97a7dff9e9e9d04a2b2c6e6eecae46a363e28a10523eabb1f3a195"
+    },
+    "worker-demo/src/cp7/OwnerAnalysis.tsx": {
+      "bytes": 5561,
+      "sha256": "e58733a33fc791c94190d7288c1dc4ad9825c17d0a749623568ba1d4c830c3a4"
     },
     "worker-demo/src/cp7/benchmarks.ts": {
       "bytes": 2773,
@@ -1568,24 +1576,24 @@
       "sha256": "aa212d7eb5f31cacf4dd82c73c7e995ee63049b9cf09a480724b48c7f77de9a8"
     },
     "worker-demo/src/demo/CuttingRollPage.tsx": {
-      "bytes": 36288,
-      "sha256": "3df2f0eb98c3bed4f7dca3245107999adbe2c95f923089cf4161758f416c6f89"
+      "bytes": 41690,
+      "sha256": "83a4bc8fe9b57f682144e3e53cf72a7817b042a5b921aacca5f24f3d76e8bdc6"
     },
     "worker-demo/src/demo/LaundryPage.tsx": {
-      "bytes": 26358,
-      "sha256": "34f3ede403e46738d18af7aea30f504603451335f5860590f5a20629f4f8024e"
+      "bytes": 26506,
+      "sha256": "1ab8c593abdf4dec4126d1c9ac3baa9df9d3f8941e9da619d6adcd2770729b72"
     },
     "worker-demo/src/demo/MandorWipPage.tsx": {
-      "bytes": 42485,
-      "sha256": "08129f3ccc491debb28b7d76e3a13552b145db53fef9e2fd643b65f9f3c5e821"
+      "bytes": 47466,
+      "sha256": "3d7831873e075b49a95a4f26289815789b023e45724ee15b1fc74d79bd8e4f8f"
     },
     "worker-demo/src/demo/ProcurementPage.tsx": {
       "bytes": 10678,
       "sha256": "74dfc8b274ebae1f94ce41b45280a5d74fc3c494229b089ad6a342bfcb743e22"
     },
     "worker-demo/src/demo/SewingWipPage.tsx": {
-      "bytes": 22733,
-      "sha256": "ea91be46b71180ea9f5f27de6b8f00a4739f137380ba6e00da58b75b186aaa93"
+      "bytes": 22880,
+      "sha256": "7686324bcfc23b9e1dfe39b5cb217bdd9c67a830f61f5002286e9276705c6030"
     },
     "worker-demo/src/demo/StockPages.tsx": {
       "bytes": 17174,
@@ -1596,8 +1604,8 @@
       "sha256": "070e87387774e5c52af815e2f55089abfe49d91cc10f663a690805a5ac851fb1"
     },
     "worker-demo/src/demo/cuttingAllocation.ts": {
-      "bytes": 5242,
-      "sha256": "a6eb6c5e793d53aaec0b6d42f24393b66d820a751e74bf2bb6a28f8b8d23bc91"
+      "bytes": 5282,
+      "sha256": "628f6bce302eabba0cdbef24ee79247ee73ac9a2c92843fa99cdaeb8f129fa70"
     },
     "worker-demo/src/demo/format.ts": {
       "bytes": 989,
@@ -1611,6 +1619,34 @@
       "bytes": 11392,
       "sha256": "ad6cb289bd83b5925a5757337cfa367c5f7b62ad649f0dbf00f2ecafa9716d93"
     },
+    "worker-demo/src/demo/planner/ProductionAdvice.tsx": {
+      "bytes": 8185,
+      "sha256": "ddcf6c52593fea25434f3a4f7f0f0fa50afe3859979c6699bb9c52e4dab0fe20"
+    },
+    "worker-demo/src/demo/planner/StageLots.tsx": {
+      "bytes": 2461,
+      "sha256": "7ad5782f165db032c86adc7e9c584483cc67aea6bbe683fcbb0f53e3284feb32"
+    },
+    "worker-demo/src/demo/planner/model.ts": {
+      "bytes": 7015,
+      "sha256": "be5e3dfb429b408b162b8f57ffaff46635018a0540f01f484461644f38d0cd03"
+    },
+    "worker-demo/src/demo/planner/planner.css": {
+      "bytes": 5150,
+      "sha256": "631f088fee1332054f7c2db443c7c5c05417f6e19c18cec28bf242294e41de4d"
+    },
+    "worker-demo/src/demo/planner/projection.json": {
+      "bytes": 384,
+      "sha256": "f9af3f949e1011e8f01943f557277aefaef1075fc7fb3d63cace16ed380e8210"
+    },
+    "worker-demo/src/demo/planner/sample.json": {
+      "bytes": 3587,
+      "sha256": "b7542657edd3644b596fa4abd9dbff7ea6e1157919de60ef4f2f4b903e62ed94"
+    },
+    "worker-demo/src/demo/planner/session.ts": {
+      "bytes": 1091,
+      "sha256": "423a687a6cc2cafe079d1703b4c85f1182d2c08a583dd517b4f65b070f35bdee"
+    },
     "worker-demo/src/demo/productionModel.ts": {
       "bytes": 966,
       "sha256": "70a29b991d76691c35bc257d6335de6497f108fcacaa866b225ac9d39ab4eceb"
@@ -1622,6 +1658,10 @@
     "worker-demo/src/demo/stockModel.ts": {
       "bytes": 2779,
       "sha256": "9e820b31af52ff6fa4d2d7d2c2e2a640c4db8d035c87ad298fc16506ba857458"
+    },
+    "worker-demo/src/demoCuttingRoutes.ts": {
+      "bytes": 648,
+      "sha256": "4365f5df3ddbf7bfe55292df87d90c350c708c0bc2b96d61dfd2aa9c3f94ad70"
     },
     "worker-demo/src/enterprise-select.css": {
       "bytes": 1927,

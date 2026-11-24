@@ -1,0 +1,32 @@
+{
+  "date": "2026-11-24",
+  "patterns": [
+    { "id": "contoh-kulot-jumbo", "code": "KJ", "revision": "R2", "name": "Kulot Jumbo" },
+    { "id": "contoh-kulot-kecil", "code": "KK", "revision": "R1", "name": "Kulot Kecil" },
+    { "id": "contoh-cutbray-jumbo", "code": "CJ", "revision": "R1", "name": "Cutbray Jumbo" },
+    { "id": "contoh-cutbray-lucy", "code": "CL", "revision": "R3", "name": "Cutbray Lucy" }
+  ],
+  "products": [
+    { "sku": "93001", "brand": "Vivo", "size": "32", "range": "31–33", "colour": "Biru tua", "finish": "Bilas ringan", "need": 72, "fg": 12, "due": "2026-11-27", "order": "PS-201", "customer": "Toko Melati", "routes": [{"pattern": "KJ", "material": "1069 Ori"}] },
+    { "sku": "66001", "brand": "Widie", "size": "31", "range": "31–33", "colour": "Biru muda", "finish": "Cuci muda", "need": 36, "fg": 12, "due": "2026-11-26", "order": "PS-202", "customer": "Toko Seroja", "routes": [{"pattern": "KK", "material": "Lucy"}] },
+    { "sku": "66002", "brand": "Vivo", "size": "34", "range": "34–36", "colour": "Biru tua", "finish": "Bilas ringan", "need": 60, "fg": 0, "due": "2026-11-27", "order": "PS-203", "customer": "Toko Kenanga", "routes": [{"pattern": "CJ", "material": "1069 KW"}] },
+    { "sku": "66003", "brand": "Widie", "size": "30", "range": "28–30", "colour": "Hitam", "finish": "Bilas hitam", "need": 24, "fg": 6, "due": "2026-11-27", "order": "PS-204", "customer": "Toko Anggrek", "routes": [{"pattern": "CL", "material": "Belleza"}, {"pattern": "CL", "material": "Black Virgo"}] }
+  ],
+  "rolls": [
+    {"id":"ORI-021","material":"1069 Ori","supplier":"Sinaran","yards":60,"yardPerPiece":1.5},
+    {"id":"LCY-022","material":"Lucy","supplier":"Sinaran","yards":52,"yardPerPiece":1.25},
+    {"id":"KW-023","material":"1069 KW","supplier":"Sumber Cahaya","yards":70,"yardPerPiece":1.5},
+    {"id":"BLZ-024","material":"Belleza","supplier":"Sinaran","yards":48,"yardPerPiece":1.25},
+    {"id":"BVG-025","material":"Black Virgo","supplier":"Sumber Cahaya","yards":54,"yardPerPiece":1.25}
+  ],
+  "lots": [
+    {"id":"POT-021","sku":"93001","stage":"cut","kind":"candidate","qty":24,"size":"32","pattern":"KJ","material":"1069 Ori","eta":"2026-11-27","place":"Meja potong","roll":"ORI-018","sourceYards":50,"usedYards":36,"remainingYards":14},
+    {"id":"LND-031","sku":"93001","stage":"laundry","kind":"directed","qty":18,"size":"32","pattern":"KJ","material":"1069 Ori","eta":"2026-11-26","place":"Laundry Bintang"},
+    {"id":"POT-017","sku":"66001","stage":"cut","kind":"candidate","qty":24,"size":"31","pattern":"KK","material":"Lucy","eta":"2026-11-26","place":"Meja potong","roll":"LCY-015","sourceYards":45,"usedYards":30,"remainingYards":15},
+    {"id":"JHT-040","group":"PO-040","sku":"66002","stage":"sewing","kind":"directed","qty":24,"size":"34","pattern":"CJ","material":"1069 KW","eta":"2026-11-27","place":"Mandor Epi"},
+    {"id":"LND-040","group":"PO-040","sku":"66002","stage":"laundry","kind":"directed","qty":36,"size":"34","pattern":"CJ","material":"1069 KW","eta":"2026-11-26","place":"Laundry Melati"},
+    {"id":"QC-012","sku":"66003","stage":"qc","kind":"directed","qty":6,"size":"30","pattern":"CL","material":"Belleza","eta":"2026-11-25","place":"Meja QC"},
+    {"id":"JHT-044","sku":"66003","stage":"sewing","kind":"candidate","qty":12,"size":"30","pattern":"CL","material":"Belleza","eta":"2026-11-27","place":"Mandor Selo"},
+    {"id":"LND-045","sku":"66003","stage":"laundry","kind":"directed","qty":12,"size":"30","pattern":"CL","material":"Black Virgo","eta":"2026-11-30","place":"Laundry Bintang"}
+  ]
+}
