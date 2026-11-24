@@ -5,6 +5,16 @@ export const cuttingForms = {
 
 export const productionForms = {
   ...cuttingForms,
+  'fg-summary':{name:'Ringkasan Barang Jadi',path:'/gudang/barang-jadi/'},
+  'stock-card':{name:'Kartu stok FG',path:'/gudang/kartu-stok-fg/'},
+
+  'pocket-fabric':{name:'Kain kantong',path:'/gudang/kain-kantong/'},
+  'finance-payroll':{name:'Payroll & Kasbon',path:'/keuangan/payroll-kasbon/'},
+  'fg-handoff':{name:'Susun Nota FG',path:'/produksi/susun-nota-fg/'},
+  'sales-allocation':{name:'Semua Invoice',path:'/penjualan/semua-invoice/'},
+  'sales-invoice':{name:'Penjualan & Invoice',path:'/penjualan/invoice/'},
+  'sales-history':{name:'Riwayat Pelanggan',path:'/penjualan/riwayat/'},
+
   'master-accessory':{name:'Master Aksesori',path:'/master/aksesori/'},
   'contractor-issue':{name:'Nota Ambil Mandor',path:'/keuangan/nota-ambil-mandor/'},
   'brand-conversion':{name:'Ganti Merek',path:'/gudang/ganti-merek/'},

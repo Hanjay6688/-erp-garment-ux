@@ -1,3 +1,4 @@
+import {fgQuantity} from '../../fgQuantity'
 import { useState } from 'react'
 import { ArrowRight } from 'lucide-react'
 import { cuttingForms, productionForms } from '../../demoCuttingRoutes'
@@ -18,10 +19,10 @@ export function productionReason(row: Plan) {
     const where:Record<string,string>={cut:'di meja potong',sewing:'sedang dijahit',laundry:'di laundry',qc:'di QC'}
     return qty?[qty+' pcs '+where[stage]]:[]
   })
-  if (row.short) return 'Pesanan '+p.need+' pcs. Ada '+p.fg+' pcs siap jual'+(stages.length?', '+stages.join(' dan '):'')+'. Masih kurang '+row.short+' pcs.'
+  if (row.short) return 'Pesanan '+p.need+' pcs. Ada '+fgQuantity(p.fg)+' siap jual'+(stages.length?', '+stages.join(' dan '):'')+'. Masih kurang '+row.short+' pcs.'
   if (row.check) return 'Tanyakan ke '+row.check.place+' apakah '+row.check.qty+' pcs ini untuk '+p.brand+' '+p.sku+'.'+(row.late?' Ada '+row.late+' pcs lain yang baru siap sesudah tenggat.':'')
-  if (row.queue.length) return (p.fg?p.fg+' pcs sudah siap jual. ':'')+stages.join(' dan ')+'. Serahkan potongan yang ada ke mandor.'
-  return (p.fg?p.fg+' pcs siap jual, ':'')+stages.join(' dan ')+'. Cukup untuk pesanan '+p.need+' pcs.'
+  if (row.queue.length) return (p.fg?fgQuantity(p.fg)+' sudah siap jual. ':'')+stages.join(' dan ')+'. Serahkan potongan yang ada ke mandor.'
+  return (p.fg?fgQuantity(p.fg)+' siap jual, ':'')+stages.join(' dan ')+'. Cukup untuk pesanan '+p.need+' pcs.'
 }
 export function SourceDetail({ row }: {row: Plan}) {
   const p = row.product
@@ -62,7 +63,7 @@ export function DestinationChoice({lot}:{lot:Lot}) {
     <button type="button" className="gar-button" disabled={!sku||!eta} onClick={()=>{try{changeSession(s=>setDestination(s,lot.id,sku,eta))}catch(e){setMessage((e as Error).message)}}}>Simpan tujuan</button>{message&&<p role="alert">{message}</p>}
   </details>
 }
-export function AdviceBox({mode,session,onCut,onPickup,selected}:{mode:'cut'|'pickup';session:Session;onCut?:(row:Plan,material?:string)=>void;onPickup?:(lot:Lot)=>void;selected?:string}) {
+export function AdviceBox({mode,session,onCut,onPickup,selected,initiallyOpen=false}:{initiallyOpen?:boolean;mode:'cut'|'pickup';session:Session;onCut?:(row:Plan,material?:string)=>void;onPickup?:(lot:Lot)=>void;selected?:string}) {
   const [opened,setOpened]=useState('')
   const [material,setMaterial]=useState<Record<string,string>>(()=>{
     const q=new URLSearchParams(window.location.search),sku=q.get('sku'),fabric=q.get('bahan')
@@ -74,6 +75,7 @@ export function AdviceBox({mode,session,onCut,onPickup,selected}:{mode:'cut'|'pi
     :waitingLots(session).map(lot=>({id:lot.id,lot,row:plans.find(r=>r.product.sku===lot.sku)}))
   const detail=entries.find(entry=>entry.id===opened)
   return <section className="panel gar-panel" aria-label={mode==='cut'?'Saran buat potongan':'Saran bagi potongan'}>
+    <details className="planner-disclosure" open={initiallyOpen||undefined}><summary>{mode==='cut'?'Planner · Saran buat potongan':'Planner · Saran bagi potongan'}</summary>
     <div className="gar-panel-head"><div><p className="gar-kicker">Planner · Selasa 24 Nov 2026</p><h2>{mode==='cut'?'Yang perlu dipotong':'Potongan yang dibagi dulu'}</h2></div><a href="/analisis/planner/">Lihat semua SKU</a></div>
     {!entries.length&&<p className="gar-empty">{mode==='cut'?'Kebutuhan pesanan sudah tertutup.':'Semua potongan sudah diambil mandor.'}</p>}
     {entries.map(({id,row,lot})=>{
@@ -96,6 +98,7 @@ export function AdviceBox({mode,session,onCut,onPickup,selected}:{mode:'cut'|'pi
       {detail.row?<SourceDetail row={detail.row}/>:<p>Tujuan SKU belum pasti. Potongan tersedia di meja potong dan bisa dibagi ke mandor.{detail.lot&&possibleTargets(detail.lot,session).filter(p=>remainingPieces(detail.lot!,p,session)>0).map(p=>' '+p.brand+' '+p.sku+' cocok untuk '+remainingPieces(detail.lot!,p,session)+' pcs.').join('')}</p>}
     </ReasonDialog>}
     {mode==='cut'&&<a className="gar-next" href={pickupPath}>Lihat potongan yang siap dibagi <ArrowRight size={15}/></a>}
+    </details>
   </section>
 }
 export function ActionTable({rows,onDetail}:{rows:Plan[];onDetail:(sku:string)=>void}) {

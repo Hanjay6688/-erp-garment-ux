@@ -1,6 +1,6 @@
 export const money = (value: number) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(value)
 
-export const dozenPieces = (pcs: number) => `${Math.floor(Math.max(0, pcs) / 12)} lusin · ${Math.max(0, pcs) % 12} potong`
+export { dozenPieces } from '../fgQuantity'
 
 export const parseDecimal = (value: string) => {
   const parsed = Number(value.trim().replace(/\s/g, '').replace(',', '.'))

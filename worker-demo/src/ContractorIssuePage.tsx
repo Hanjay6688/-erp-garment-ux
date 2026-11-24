@@ -6,63 +6,13 @@ import {
 } from 'lucide-react'
 import {exactAccessoryQuantity,validAccessoryRetail,micro} from './accessoryIssue'
 import EnterpriseSelect from './EnterpriseSelect'
-import {amountText,contractorNames,fixtureDate,issueQuote,masterBook,noteStock,masterCode,noteStorage,useAccessoryBook,type AccessoryBook,type PricingMode} from './demo/accessoryPricing'
+import {fixtureDate,issueQuote,masterBook,noteStock,masterCode,useAccessoryBook,type AccessoryBook,type PricingMode} from './demo/accessoryPricing'
 import './contractor-issue.css'
 
-type IssueStatus = 'DRAFT' | 'POSTED' | 'REVERSED'
+import {seedDocuments,readNotes,saveNotes,subscribe,mandorNames,money,lineTotal,documentTotal,amountDue,type IssueDocument,type IssueLine} from './demo/issueDocuments'
+import {choosePayrollSource,payForSource,payrollClaim,readPayDrafts,savePayDrafts,editablePayroll} from './demo/payrollSources'
+type IssueStatus=IssueDocument['status']
 type PeriodFilter = 'Hari ini' | '7 hari terakhir' | 'Bulan ini' | 'Semua tanggal' | 'Custom'
-type IssueLine = {
-  id: string
-  item: string
-  category: string
-  qty: number
-  unit: string
-  stock: number
-  averageCost: number
-  sellingPrice: number|null
-  mode?:PricingMode;manual?:string;reimbursement?:number|null;source?:string;version?:string
-}
-type IssueDocument = {
-  number: string
-  mandor: string
-  productionBatch: string
-  distributionBatch: string
-  location: string
-  issuedOn: string
-  issuedAt: string
-  status: IssueStatus
-  settledAt?: string
-  rowVersion: number
-  note: string
-  reason?:string;inventoryChange?:number
-  lines: IssueLine[]
-}
-
-const legacyCatalog: IssueLine[] = [
-  { id:'ACC-BTN-017', item:'Kancing Jeans 17 mm · Silver', category:'Kancing', qty:0, unit:'pcs', stock:4800, averageCost:620, sellingPrice:750 },
-  { id:'ACC-ZIP-014', item:'Resleting 14 cm · Black', category:'Resleting', qty:0, unit:'pcs', stock:2200, averageCost:5200, sellingPrice:6500 },
-  { id:'ACC-RVT-011', item:'Rivet Copper', category:'Rivet', qty:0, unit:'pcs', stock:3600, averageCost:780, sellingPrice:900 },
-  { id:'ACC-LBL-004', item:'Label Woven Vivo', category:'Label', qty:0, unit:'pcs', stock:8000, averageCost:530, sellingPrice:750 },
-]
-
-const seedDocuments: IssueDocument[] = [
-  { number:'NAA-260827-021', mandor:'Mandor Budi', productionBatch:'POT-260827-042', distributionBatch:'042-03', location:'Gudang Aksesori Utama', issuedOn:'2026-08-27', issuedAt:'27 Agu 2026 · 10:06', status:'DRAFT', rowVersion:2, note:'Persiapan jahit batch hitam.', lines:[{...legacyCatalog[1],qty:72},{...legacyCatalog[3],qty:240}] },
-  { number:'NAA-260826-018', mandor:'Mandor Budi', productionBatch:'POT-260826-041', distributionBatch:'041-01', location:'Gudang Aksesori Utama', issuedOn:'2026-08-26', issuedAt:'26 Agu 2026 · 14:22', status:'POSTED', rowVersion:4, note:'Kebutuhan aktual batch distribusi pertama.', lines:[{...legacyCatalog[0],qty:480},{...legacyCatalog[2],qty:480}] },
-  { number:'NAA-260824-019', mandor:'Mandor Rian', productionBatch:'POT-260824-039', distributionBatch:'039-02', location:'Gudang Aksesori Utama', issuedOn:'2026-08-24', issuedAt:'24 Agu 2026 · 08:44', status:'REVERSED', rowVersion:6, note:'Batch distribusi dibatalkan sebelum jahit.', lines:[{...legacyCatalog[3],qty:500}] },
-  { number:'NAA-260814-009', mandor:'Mandor Dedi', productionBatch:'POT-260815-026', distributionBatch:'026-01', location:'Gudang Aksesori Utama', issuedOn:'2026-08-14', issuedAt:'14 Agu 2026 · 10:08', status:'POSTED', settledAt:'27 Agu 2026 · PAY-MANDOR-0086', rowVersion:7, note:'Sudah diselesaikan pada payroll.', lines:[{...legacyCatalog[0],qty:800,sellingPrice:800}] },
-]
-
-const mandorNames = [...contractorNames.map(n=>'Mandor '+n),'Mandor Budi','Mandor Dedi','Mandor Rian']
-const money=(v:number)=>amountText(v)
-const cash=(n:number)=>Math.round((n+Number.EPSILON)*100)/100
-const lineTotal=(l:IssueLine)=>l.sellingPrice===null?null:cash(l.qty*l.sellingPrice)
-const documentTotal=(d:IssueDocument)=>d.lines.reduce((n,l)=>n+(lineTotal(l)??0),0)
-const amountDue=(d:IssueDocument)=>!d.lines.length?'Belum ada baris':d.lines.some(l=>lineTotal(l)===null)?'Belum dihitung':money(documentTotal(d))
-const key=noteStorage
-let cached:{raw:string|null;docs:IssueDocument[]}|undefined
-function readNotes(){const raw=sessionStorage.getItem(key);if(cached&&raw===cached.raw)return cached.docs;const docs:IssueDocument[]=raw?JSON.parse(raw):seedDocuments;cached={raw,docs};return docs}
-const subscribe=(f:()=>void)=>{window.addEventListener(key,f);return()=>window.removeEventListener(key,f)}
-const saveNotes=(change:(d:IssueDocument[])=>IssueDocument[])=>{const d=change(readNotes());sessionStorage.setItem(key,JSON.stringify(d));cached=undefined;window.dispatchEvent(new Event(key))}
 function priceLine(book:AccessoryBook,doc:IssueDocument,l:IssueLine,docs:IssueDocument[]):IssueLine {
   const item=book.items.find(i=>i.code===masterCode(l.id));if(!item)return {...l,sellingPrice:null,source:'Harga master belum diatur'}
   const q=issueQuote(book,item,doc.mandor,doc.issuedOn,l.mode??'MASTER',l.manual?.trim()?Number(l.manual.replace(',','.')):null)
@@ -84,15 +34,18 @@ function Status({value,settled}:{value:IssueStatus;settled:boolean}) {
 export default function ContractorIssuePage() {
   const documents=useSyncExternalStore(subscribe,readNotes),setDocuments=saveNotes,book=useAccessoryBook()
   const catalog:IssueLine[]=book.items.filter(i=>i.active&&i.stockUom.toLowerCase()==='pcs').map(i=>({id:i.code,item:i.name,category:i.category,qty:0,stock:noteStock(i.code,i.stock,documents),unit:i.stockUom,averageCost:i.movingAverage,sellingPrice:null,mode:'MASTER'}))
+  const payrollMandor=new URLSearchParams(location.search).get('mandor')
+  const initialMandor=mandorNames.find(m=>m===payrollMandor)||'Mandor Afui'
+  const [deleteReason,setDeleteReason]=useState('')
   const [reviewQuote,setReviewQuote]=useState(''),[deleteOpen,setDeleteOpen]=useState(false),[sort,setSort]=useState('baru')
-  const [selectedNumber,setSelectedNumber] = useState(seedDocuments[0].number)
+  const [selectedNumber,setSelectedNumber] = useState(()=>new URLSearchParams(location.search).get('nota')??seedDocuments[0].number)
   const [query,setQuery] = useState('')
   const [statusFilter,setStatusFilter] = useState('Semua status')
-  const [mandorFilter,setMandorFilter] = useState('Semua mandor')
+  const [mandorFilter,setMandorFilter] = useState(payrollMandor&&mandorNames.includes(payrollMandor)?payrollMandor:'Semua mandor')
   const [periodFilter,setPeriodFilter] = useState<PeriodFilter>('Semua tanggal')
   const [dateFrom,setDateFrom] = useState('2026-08-01')
   const [dateTo,setDateTo] = useState('2026-08-28')
-  const [showSettled,setShowSettled] = useState(false)
+  const [showSettled,setShowSettled] = useState(()=>!!new URLSearchParams(location.search).get('nota'))
   const [catalogOpen,setCatalogOpen] = useState(false)
   const [catalogQuery,setCatalogQuery] = useState('')
   const [catalogCategory,setCatalogCategory] = useState('Semua kategori')
@@ -117,7 +70,7 @@ export default function ContractorIssuePage() {
       && (showSettled || !document.settledAt)
   }), [documents,effectiveFrom,effectiveTo,mandorFilter,query,showSettled,statusFilter])
   const ordered=[...visible].sort((a,b)=>sort==='lama'?a.issuedOn.localeCompare(b.issuedOn):sort==='mandor'?a.mandor.localeCompare(b.mandor):b.issuedOn.localeCompare(a.issuedOn))
-  const original=visible.find(d=>d.number===selectedNumber)??ordered[0]??null
+  const original=visible.find(d=>d.number===selectedNumber)??(new URLSearchParams(location.search).get('nota')===selectedNumber?null:ordered[0])??null
   const selected=original?.status==='DRAFT'?{...original,lines:original.lines.map(l=>priceLine(book,original,l,documents))}:original
   const availableCatalog = catalog.filter((item) => {
     const searchMatches = `${item.id} ${item.item} ${item.category}`.toLowerCase().includes(catalogQuery.toLowerCase())
@@ -145,7 +98,7 @@ export default function ContractorIssuePage() {
     updateDocument({lines:[...selected.lines,{...item,qty:1}]})
   }
   const createDraft = () => {
-    const next:IssueDocument = { number:`NAA-SIM-${crypto.randomUUID().slice(0,8).toUpperCase()}`, mandor:'Mandor Afui', productionBatch:'', distributionBatch:'', location:'Gudang Aksesori Utama', issuedOn:fixtureDate, issuedAt:fixtureDate, status:'DRAFT', rowVersion:1, note:'', lines:[] }
+    const next:IssueDocument = { number:`NAA-SIM-${crypto.randomUUID().slice(0,8).toUpperCase()}`, mandor:payrollMandor?initialMandor:mandorFilter!=='Semua mandor'?mandorFilter:'Mandor Afui', productionBatch:'', distributionBatch:'', location:'Gudang Aksesori Utama', issuedOn:fixtureDate, issuedAt:fixtureDate, status:'DRAFT', rowVersion:1, note:'', lines:[] }
     setDocuments((current)=>[next,...current])
     setSelectedNumber(next.number)
     setStatusFilter('Semua status')
@@ -162,16 +115,27 @@ export default function ContractorIssuePage() {
   }
   const reverse = () => {
     if(!selected||!reverseNote.trim())return
+    if(payrollClaim(selected.number)){setNotice('Lepaskan nota ini dari payroll yang terkait lebih dahulu.');setReverseOpen(false);return}
     saveNotes(docs=>docs.map(d=>d.number===selected.number&&d.status==='POSTED'&&!d.settledAt?{...d,status:'REVERSED',inventoryChange:(d.inventoryChange??0)+1,rowVersion:d.rowVersion+1,note:`${d.note} · Pembalikan: ${reverseNote.trim()}`}:d))
     setReverseOpen(false)
     setReverseNote('')
     setNotice(`Reversal ${selected.number} terbentuk sebagai simulasi; nota asal tetap ada.`)
+  }
+  const selectedPayroll=selected?readPayDrafts().find(n=>n.number===payrollClaim(selected.number)):undefined
+  function adjustPayment(){
+    if(!selected)return
+    try{
+      if(selectedPayroll){savePayDrafts(choosePayrollSource(readPayDrafts(),selectedPayroll.number,selected.number,false));sessionStorage.setItem('erp.owner.payroll.focus',selectedPayroll.number)}
+      else payForSource(selected.number,sessionStorage.getItem('erp.owner.payroll.focus'),true)
+      location.assign('/keuangan/payroll-kasbon/')
+    }catch(error){setNotice((error as Error).message)}
   }
   const totalLabel = selected ? amountDue(selected) : 'Belum ada baris'
   const canPost = Boolean(selected && selected.status==='DRAFT' && selected.lines.length>0 && selected.lines.every((line)=>Number.isSafeInteger(line.qty)&&line.qty>0&&line.qty<=line.stock&&line.sellingPrice!==null) && selected.reason?.trim() && selected.issuedOn && selected.issuedOn<=fixtureDate)
 
   return <>
     <section className="hero-copy compact ci-hero"><div><div className="eyebrow">KEUANGAN · KASBON MANDOR</div><h1>Nota Ambil Aksesori</h1><p>Catat aksesori detail yang benar-benar diambil mandor. Posting mengurangi Stock On Hand dan membentuk kasbon yang direkonsiliasi saat payroll.</p></div><button className="primary-btn" onClick={createDraft}><Plus/> Nota baru</button></section>
+    {new URLSearchParams(location.search).get('dari')==='payroll'&&<a className="gar-button" href="/keuangan/payroll-kasbon/">Kembali ke Payroll &amp; Kasbon</a>}
     <section className="ci-metrics"><article><span>DRAFT AKTIF</span><strong>{documents.filter((item)=>item.status==='DRAFT').length}</strong><small>Belum mengubah stok</small></article><article><span>BELUM DISELESAIKAN</span><strong>{postedOpen.length}</strong><small>Masih masuk rekonsiliasi payroll</small></article><article><span>KASBON TERBUKA</span><strong>{money(postedOpen.reduce((sum,item)=>sum+documentTotal(item),0))}</strong><small>Harga jual snapshot</small></article><article><span>OTOMATIS DISEMBUNYIKAN</span><strong>{settledCount} nota</strong><small>Sudah lunas · tetap bisa dibuka</small></article></section>
     <section className="panel ci-filter-bar">
       <label className="ci-search"><Search/><input value={query} onChange={(event)=>setQuery(event.target.value)} placeholder="Cari nota, mandor, Batch Produksi..."/></label>
@@ -195,12 +159,13 @@ export default function ContractorIssuePage() {
         <div className="ci-equation"><span><small>HPP STOK</small><strong>{money(selected.lines.reduce((sum,line)=>sum+line.qty*line.averageCost,0))}</strong></span><i>≠</i><span><small>HARGA JUAL MANDOR</small><strong>{totalLabel}</strong></span><i>→</i><span className="result"><small>KASBON PAYROLL</small><strong>{totalLabel}</strong></span></div>
         <p className="ci-sample-policy">Aturan latihan berlaku 24 Nov 2026 untuk Afui · Kancing.</p><div className="ci-guard"><ShieldCheck/><span><strong>BOM tetap kategori; pengambilan tetap barang detail.</strong><small>Kancing Silver/Metal sama-sama memenuhi kategori Kancing, dengan stok dan HPP masing-masing. Harga jual mengikuti kategori dan mandor pada tanggal nota.</small></span></div>
         {notice&&<div className="ci-notice"><CheckCircle2/> {notice}</div>}
-        <footer><span>{selected.settledAt?'Nota sudah diselesaikan di payroll dan terkunci.':selected.status==='DRAFT'?'Draft belum mengurangi stok atau membentuk kasbon.':'Posted tidak diedit atau dihapus; koreksi lewat reversal.'}</span>{selected.status==='DRAFT'?<><button type="button" className="soft-btn" disabled={!selected.reason?.trim()} onClick={()=>setDeleteOpen(true)}>Hapus draft</button><button className="soft-btn" onClick={()=>setNotice('Draft disimpan sebagai simulasi; backend belum berubah.')}>Simpan draft</button><button className="primary-btn" disabled={!canPost} onClick={()=>{setReviewQuote(quoteId(selected));setReviewOpen(true)}}>Review & post <ArrowRight/></button></>:<button className="soft-btn" disabled={selected.status!=='POSTED'||Boolean(selected.settledAt)} onClick={()=>setReverseOpen(true)}><Undo2/> Reverse nota</button>}</footer>
+        {selected.status==='POSTED'&&!selected.settledAt&&documentTotal(selected)>0&&<div className="owner-payroll-actions">{(!selectedPayroll||editablePayroll(selectedPayroll))&&<button type="button" className="soft-btn" onClick={adjustPayment}>{selectedPayroll?'Lepas dari pembayaran':'Masukkan ke payroll'}</button>}{selectedPayroll&&<small>{selectedPayroll.number}</small>}</div>}
+        <footer><span>{selected.settledAt?'Nota sudah diselesaikan di payroll dan terkunci.':selected.status==='DRAFT'?'Draft belum mengurangi stok atau membentuk kasbon.':'Posted tidak diedit atau dihapus; koreksi lewat reversal.'}</span>{selected.status==='DRAFT'?<><button type="button" className="soft-btn" onClick={()=>{setDeleteReason('');setDeleteOpen(true)}}>Hapus draft</button><button className="soft-btn" onClick={()=>setNotice('Draft disimpan sebagai simulasi; backend belum berubah.')}>Simpan draft</button><button className="primary-btn" disabled={!canPost} onClick={()=>{setReviewQuote(quoteId(selected));setReviewOpen(true)}}>Review & post <ArrowRight/></button></>:<button className="soft-btn" disabled={selected.status!=='POSTED'||Boolean(selected.settledAt)||!!payrollClaim(selected.number)} title={payrollClaim(selected.number)?'Terpilih di '+payrollClaim(selected.number):undefined} onClick={()=>setReverseOpen(true)}><Undo2/> Reverse nota</button>}</footer>
       </main> : <main className="ci-no-selection"><Search/><strong>Tidak ada detail untuk ditampilkan</strong><small>Sesuaikan filter browser di atas.</small></main>}
     </section>
     {catalogOpen&&selected&&<div className="ci-backdrop" onMouseDown={()=>setCatalogOpen(false)}><section className="ci-modal ci-catalog-modal" role="dialog" aria-modal="true" aria-labelledby="ci-catalog-title" onMouseDown={(event)=>event.stopPropagation()}><header><div><span>MASTER AKSESORI · STOCK ON HAND</span><h2 id="ci-catalog-title">Browse aksesori</h2><p>Pilih barang detail yang benar-benar keluar untuk {selected.mandor}.</p></div><button onClick={()=>setCatalogOpen(false)} aria-label="Tutup katalog"><X/></button></header><div className="ci-catalog-toolbar"><label className="ci-search"><Search/><input autoFocus value={catalogQuery} onChange={(event)=>setCatalogQuery(event.target.value)} placeholder="Cari kode, nama, kategori..."/></label><EnterpriseSelect label="KATEGORI" value={catalogCategory} options={['Semua kategori',...new Set(catalog.map((item)=>item.category))]} onChange={setCatalogCategory}/></div><div className="ci-catalog-results">{availableCatalog.map((item)=>{const added=selected.lines.some((line)=>line.id===item.id);return <article key={item.id}><span><small>{item.id} · {item.category}</small><strong>{item.item}</strong><em>{item.stock.toLocaleString('id-ID')} {item.unit} On Hand</em></span><span><small>HARGA MANDOR</small><strong>{(()=>{const v=priceLine(book,selected,item,documents).sellingPrice;return v===null?'Harga master belum diatur':money(v)})()}</strong><em>Moving avg {money(item.averageCost)}</em></span><button disabled={added} onClick={()=>addLine(item)}>{added?<CheckCircle2/>:<Plus/>}{added?'Sudah dipilih':'Tambah'}</button></article>})}{availableCatalog.length===0&&<div className="ci-empty"><Search/><strong>Aksesori tidak ditemukan</strong><small>Coba kata kunci atau kategori lain.</small></div>}</div><footer><span>{selected.lines.length} barang sudah ada di draft</span><button className="primary-btn" onClick={()=>setCatalogOpen(false)}>Selesai memilih</button></footer></section></div>}
     {reviewOpen&&selected&&<div className="ci-backdrop" onMouseDown={()=>setReviewOpen(false)}><section className="ci-modal" role="dialog" aria-modal="true" aria-label="Review nota" onMouseDown={(event)=>event.stopPropagation()}><header><div><span>IMPACT PREVIEW</span><h2>Post Nota Ambil Aksesori?</h2><p>{selected.number} · {selected.mandor} · {selected.productionBatch}</p></div><button aria-label="Kembali ke nota" onClick={()=>setReviewOpen(false)}><X/></button></header><div className="ci-impact"><article><PackageMinus/><span><small>STOCK ON HAND</small><strong>− {selected.lines.reduce((sum,line)=>sum+line.qty,0)} unit</strong></span></article><ArrowRight/><article><WalletCards/><span><small>KASBON MANDOR</small><strong>+ {totalLabel}</strong></span></article><ArrowRight/><article><Link2/><span><small>PAYROLL SOURCE</small><strong>{selected.number}</strong></span></article></div><div className="ci-modal-guard"><LockKeyhole/><span><strong>Satu transaksi atomik</strong><small>Stock movement, costing snapshot, contractor issue, dan subledger kasbon harus berhasil bersama; request berulang memakai idempotency key yang sama.</small></span></div><footer><button className="soft-btn" onClick={()=>setReviewOpen(false)}>Kembali</button><button className="primary-btn" onClick={post}><ShieldCheck/> Post simulasi</button></footer></section></div>}
-    {deleteOpen&&selected&&<div className="ci-backdrop"><section className="ci-modal" role="dialog" aria-modal="true" aria-label="Hapus draft nota"><h2>Hapus draft nota?</h2><p>{selected.number} belum memindahkan stok.</p><button type="button" onClick={()=>setDeleteOpen(false)}>Kembali</button><button type="button" onClick={()=>{if(selected.status==='DRAFT'&&selected.reason?.trim())saveNotes(ds=>ds.filter(d=>d.number!==selected.number||d.status!=='DRAFT'));setDeleteOpen(false)}}>Ya, hapus draft</button></section></div>}
+    {deleteOpen&&selected&&<div className="ci-backdrop"><section className="ci-modal" role="dialog" aria-modal="true" aria-label="Hapus draft nota"><h2>Hapus draft nota?</h2><p>{selected.number} belum memindahkan stok.</p><label>Alasan penghapusan<input aria-label="Alasan penghapusan" maxLength={1000} value={deleteReason} onChange={e=>setDeleteReason(e.target.value)}/></label><button type="button" onClick={()=>setDeleteOpen(false)}>Kembali</button><button type="button" disabled={!deleteReason.trim()} onClick={()=>{if(selected.status==='DRAFT'&&deleteReason.trim())saveNotes(ds=>ds.filter(d=>d.number!==selected.number||d.status!=='DRAFT'));setDeleteOpen(false)}}>Ya, hapus draft</button></section></div>}
     {reverseOpen&&selected&&<div className="ci-backdrop" onMouseDown={()=>setReverseOpen(false)}><section className="ci-modal reverse" role="alertdialog" aria-modal="true" aria-label="Balikkan nota aksesori" onMouseDown={(event)=>event.stopPropagation()}><header><div><span>REVERSAL · POSTED SOURCE</span><h2>Reverse {selected.number}?</h2><p>Nota asal tidak dihapus. Stock dan kasbon dipulihkan lewat dokumen lawan.</p></div><button aria-label="Kembali ke nota" onClick={()=>setReverseOpen(false)}><X/></button></header><div className="ci-modal-warning"><AlertTriangle/><span><strong>Server akan memblokir bila kasbon sudah diselesaikan.</strong><small>Jangan reverse hanya untuk mengganti catatan; gunakan ketika pengambilan memang batal atau salah barang/qty.</small></span></div><label className="ci-note"><span>CATATAN SINGKAT · WAJIB</span><textarea autoFocus value={reverseNote} onChange={(event)=>setReverseNote(event.target.value)} placeholder="Contoh: salah Batch Distribusi, barang belum dipakai."/></label><footer><button className="soft-btn" onClick={()=>setReverseOpen(false)}>Batal</button><button className="danger-btn" disabled={!reverseNote.trim()} onClick={reverse}><Undo2/> Reverse simulasi</button></footer></section></div>}
   </>
 }
