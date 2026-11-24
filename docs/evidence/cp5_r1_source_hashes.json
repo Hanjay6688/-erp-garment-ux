@@ -636,8 +636,8 @@
       "sha256": "8dcafcf1ead9dec38713f7a75f317eed63de1bf64a666e0e354c540e913a7ab4"
     },
     "tests/browser/cp8-worker.spec.ts": {
-      "bytes": 8498,
-      "sha256": "e6aed0525fb73f173346ab9b5f435e64998e4e046fc65782acf07175a04af2aa"
+      "bytes": 8618,
+      "sha256": "9b664dde9b323fbe0468ee5aa3488aa62f3fa4be02763e3ce499e2a8ad496586"
     },
     "tests/worker-planner.test.ts": {
       "bytes": 3816,
@@ -1620,8 +1620,8 @@
       "sha256": "ad6cb289bd83b5925a5757337cfa367c5f7b62ad649f0dbf00f2ecafa9716d93"
     },
     "worker-demo/src/demo/planner/ProductionAdvice.tsx": {
-      "bytes": 7975,
-      "sha256": "c70123b428c54cffb05c55b87d65d57ae3c41a49247aa39f5bf89b4a060576f3"
+      "bytes": 8185,
+      "sha256": "ddcf6c52593fea25434f3a4f7f0f0fa50afe3859979c6699bb9c52e4dab0fe20"
     },
     "worker-demo/src/demo/planner/StageLots.tsx": {
       "bytes": 2461,
