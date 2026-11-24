@@ -1,7 +1,8 @@
+import {PeriodFilter,periodFor,periodLabel} from './demo/PeriodFilter'
 import {fgQuantity} from './fgQuantity'
 import {fgDrafts} from './demo/fgDraft'
 import {readNotes as readIssueSources} from './demo/issueDocuments'
-import {availableSources,allPayrollSources,choosePayrollSource,editablePayroll,newPayDraft,readPayDrafts,savePayDrafts,type PayDraft} from './demo/payrollSources'
+import {availableSources,allPayrollSources,choosePayrollSource,editablePayroll,newPayDraft,readPayDrafts,savePayDrafts,payrollPeriod,type PayDraft} from './demo/payrollSources'
 import {contractorNames,normalizeMandor} from './demo/accessoryPricing'
 import {ReasonDialog} from './demo/planner/ReasonDialog'
 import { useMemo, useState } from 'react'
@@ -192,6 +193,8 @@ function PayrollWorkspace({onAttendance,onOpenFg}:{onAttendance:()=>void;onOpenF
   function setNotes(update:(notes:PayDraft[])=>PayDraft[]){renderNotes(savePayDrafts(update(readPayDrafts())))}
   const [compose,setCompose]=useState(false),[mandor,setMandor]=useState('Mandor Afui'),[from,setFrom]=useState('2026-11-23'),[until,setUntil]=useState('2026-11-29')
   const [pickOpen,setPickOpen]=useState(false),[sourceQuery,setSourceQuery]=useState('')
+  const [workPeriod,setWorkPeriod]=useState(()=>periodFor('all','2026-11-24'))
+  const [payrollSort,setPayrollSort]=useState('recent')
 
   const [statusFilter,setStatusFilter]=useState('Aktif · lunas disembunyikan')
   const [mandorFilter,setMandorFilter]=useState('Semua mandor')
@@ -209,10 +212,17 @@ function PayrollWorkspace({onAttendance,onOpenFg}:{onAttendance:()=>void;onOpenF
     const statusMatches=statusFilter==='Semua status'
       || (statusFilter==='Aktif · lunas disembunyikan'&&!['PAID','REVERSED'].includes(item.status))
       || item.status===statusFilter.toUpperCase()
-    return `${item.number} ${item.contractor} ${item.period}`.toLowerCase().includes(query.toLowerCase())
+    const period=payrollPeriod(item)
+    const overlaps=(!workPeriod.start||period.end>=workPeriod.start)&&(!workPeriod.end||period.start<=workPeriod.end)&&(!workPeriod.start||!workPeriod.end||workPeriod.start<=workPeriod.end)
+    return overlaps&&`${item.number} ${item.contractor} ${item.period}`.toLowerCase().includes(query.toLowerCase())
       && (mandorFilter==='Semua mandor'||item.contractor===mandorFilter)
       && statusMatches
-  }),[mandorFilter,notes,query,statusFilter])
+  }).sort((a,b)=>{
+    if(payrollSort==='amount')return b.netPayable-a.netPayable||a.number.localeCompare(b.number)
+    if(payrollSort==='contractor')return a.contractor.localeCompare(b.contractor)||a.number.localeCompare(b.number)
+    const byPeriod=payrollPeriod(a).end.localeCompare(payrollPeriod(b).end)||a.number.localeCompare(b.number)
+    return payrollSort==='old'?byPeriod:-byPeriod
+  }),[mandorFilter,notes,query,statusFilter,payrollSort,workPeriod])
   const selected=visible.find((item)=>item.number===selectedNumber)??visible[0]??null
   function focus(id:string){setSelectedNumber(id);sessionStorage.setItem('erp.owner.payroll.focus',id);setPickOpen(false);setSourceSelection(null);setNotice('')}
   function choose(number:string,add:boolean){if(!selected)return;try{setNotes(ns=>choosePayrollSource(ns,selected.number,number,add));setNotice(add?number+' ditambahkan ke pembayaran ini.':number+' dilepas. Bisa dipilih di pembayaran berikutnya.')}catch(e){setNotice((e as Error).message)}}
@@ -245,8 +255,9 @@ function PayrollWorkspace({onAttendance,onOpenFg}:{onAttendance:()=>void;onOpenF
     <div className="owner-payroll-actions"><button type="button" className="primary-btn" onClick={()=>setCompose(true)}>Buat payroll untuk periode lain</button><button type="button" className="soft-btn" onClick={()=>{rememberPayroll();if(onOpenFg)onOpenFg();else location.assign('/produksi/susun-nota-fg/?dari=payroll')}}>Susun Nota FG</button>{selected&&<a className="gar-button" onClick={rememberPayroll} href={'/keuangan/nota-ambil-mandor/?dari=payroll&mandor='+encodeURIComponent(selected.contractor)}>Nota Ambil Aksesori</a>}</div>
     {selected&&<details className="panel owner-source-drafts"><summary>Draft nota sumber · {selected.contractor} ({draftSources.length})</summary>
       {draftSources.length?draftSources.map(d=><div className="owner-doc-row" key={d.number}><span><strong>{d.number} · {d.kind}</strong><small>{d.detail}</small></span><a className="gar-button" onClick={rememberPayroll} href={d.href}>Buka &amp; edit</a></div>):<p>Belum ada draft nota FG atau aksesori untuk mandor ini.</p>}</details>}
-    {compose&&<ReasonDialog title="Buat payroll" closeLabel="Kembali" onClose={()=>setCompose(false)}><div className="sku-range-fields"><label>Mandor payroll<select value={mandor} onChange={e=>setMandor(e.target.value)}>{[...new Set([...contractorNames.map(n=>'Mandor '+n),...notes.map(n=>n.contractor),...allPayrollSources().map(s=>s.mandor)])].map(n=><option key={n}>{n}</option>)}</select></label><label>Mulai payroll<input type="date" value={from} onChange={e=>setFrom(e.target.value)}/></label><label>Akhir payroll<input type="date" value={until} onChange={e=>setUntil(e.target.value)}/></label></div><button className="primary-btn" disabled={!from||!until||from>until} onClick={()=>{const draft=newPayDraft(mandor,from,until);setNotes(ns=>ns.some(n=>n.number===draft.number)?ns:[draft,...ns]);setMandorFilter('Semua mandor');setStatusFilter('Semua status');setQuery('');focus(draft.number);setCompose(false)}}>Buka draft periode ini</button></ReasonDialog>}
+    {compose&&<ReasonDialog title="Buat payroll" closeLabel="Kembali" onClose={()=>setCompose(false)}><div className="sku-range-fields"><label>Mandor payroll<select value={mandor} onChange={e=>setMandor(e.target.value)}>{[...new Set([...contractorNames.map(n=>'Mandor '+n),...notes.map(n=>n.contractor),...allPayrollSources().map(s=>s.mandor)])].map(n=><option key={n}>{n}</option>)}</select></label><label>Mulai payroll<input type="date" value={from} onChange={e=>setFrom(e.target.value)}/></label><label>Akhir payroll<input type="date" value={until} onChange={e=>setUntil(e.target.value)}/></label></div><button className="primary-btn" disabled={!from||!until||from>until} onClick={()=>{const draft=newPayDraft(mandor,from,until);setNotes(ns=>ns.some(n=>n.number===draft.number)?ns:[draft,...ns]);setMandorFilter('Semua mandor');setStatusFilter('Semua status');setQuery('');focus(draft.number);setWorkPeriod(periodFor('all',from));setCompose(false)}}>Buka draft periode ini</button></ReasonDialog>}
     <section className="panel biz-payroll-browser-toolbar"><label className="biz-search"><Search/><input value={query} onChange={(event)=>setQuery(event.target.value)} placeholder="Cari nota, mandor, periode..."/></label><EnterpriseSelect label="MANDOR" value={mandorFilter} options={mandorOptions} onChange={setMandorFilter}/><EnterpriseSelect label="STATUS" value={statusFilter} options={['Aktif · lunas disembunyikan','Semua status','Draft','Calculated','Review','Approved','Paid','Reversed']} onChange={setStatusFilter}/></section>
+    <details className="panel owner-period-disclosure"><summary>Periode &amp; urutan payroll · {periodLabel(workPeriod)}</summary><PeriodFilter label="Periode kerja payroll" value={workPeriod} onChange={setWorkPeriod}/><label className="sku-range-field">Urutkan payroll<select value={payrollSort} onChange={e=>setPayrollSort(e.target.value)}><option value="recent">Periode terbaru</option><option value="old">Periode terlama</option><option value="amount">Jumlah bayar terbesar</option><option value="contractor">Nama mandor</option></select></label></details>
     <section className="panel biz-master-detail finance-detail payroll-detail"><aside><header><div><span>PAYROLL BROWSER</span><strong>{visible.length} nota tampil</strong></div><UsersRound/></header><div className="biz-browser-list">{visible.map((item)=><button key={item.number} className={item.number===selected?.number?'active':''} onClick={()=>{focus(item.number);setPayReference('')}}><span>PY</span><div><strong>{item.number}</strong><small>{item.contractor}</small><em>{item.period}</em></div><b>{money(item.netPayable)}</b><Pill>{item.status}</Pill></button>)}{visible.length===0&&<div className="biz-empty"><Search/><strong>Nota tidak ditemukan</strong><small>Ubah filter mandor atau status.</small></div>}</div></aside>{selected?<main><header className="biz-detail-head"><div><span>NOTA PAYROLL · SOURCE LINKED</span><h2>{selected.number}</h2><p>{selected.contractor} · {selected.period}</p></div><Pill>{selected.status}</Pill></header>
       <div className="biz-payroll-source-summary"><article><ReceiptText/><span><small>TOTAL NOTA FG POSTED</small><strong>{money(fgTotal)}</strong><em>{selected.fgNotes.length} nota siap dihitung</em></span></article><article><FileSearch/><span><small>TOTAL NOTA AKSESORI</small><strong>{money(accessoryTotal)}</strong><em>{selected.accessoryNotes.length} nota kasbon</em></span></article><article><RefreshCcw/><span><small>KOMPOSISI PEKERJAAN</small><strong>{fgRegularJobs} FG · {fgRepairJobs} BG</strong><em>BS hanya ada di detail Nota FG</em></span></article><article className={calculationMatches?'good':'danger'}><ShieldCheck/><span><small>REKONSILIASI</small><strong>{calculationMatches?'Pas':'Tidak cocok'}</strong><em>Dokumen sumber → net payable</em></span></article></div>
       {editablePayroll(selected)&&<section className="owner-pay-choices"><div><h3>Nota untuk pembayaran ini</h3><p>Tambahkan nota milik {selected.contractor}. Nota yang dilepas tetap tersedia untuk periode berikutnya.</p></div><button type="button" className="primary-btn" onClick={()=>{setPickOpen(true);setSourceQuery('')}}>Pilih nota FG atau aksesori ({available.length})</button></section>}

@@ -45,7 +45,16 @@ export function newPayDraft(mandor:string,start:string,end:string):PayDraft{
   if(!mandor.trim()||!start||!end||end<start)throw Error('Pilih mandor dan periode yang urut.')
   return {number:'PAY-'+mandor.replace(/^Mandor /i,'').toUpperCase()+'-'+start+'-'+end,contractor:mandor,period:start+' – '+end,start,end,status:'DRAFT',workQty:0,labor:0,attendance:0,reimbursement:0,deduction:0,netPayable:0,eligibleLines:0,paymentDate:end,fgNotes:[],accessoryNotes:[],deductions:[]}
 }
-const cutoff=(n:PayDraft)=>n.end??'2026-08-'+(n.period.match(/–(\d+)/)?.[1]??'28')
+export function payrollPeriod(n: PayDraft) {
+  if(n.start&&n.end)return {start:n.start,end:n.end}
+  const parsed=n.period.match(/^(\d{1,2})[–-](\d{1,2}) (\S+) (\d{4})$/)
+  if(!parsed) return {start:'',end:''}
+  const month=['jan','feb','mar','apr','mei','jun','jul','agu','sep','okt','nov','des'].indexOf(parsed[3].toLowerCase())+1
+  if(!month)return {start:'',end:''}
+  const prefix=parsed[4]+'-'+String(month).padStart(2,'0')+'-'
+  return {start:prefix+parsed[1].padStart(2,'0'),end:prefix+parsed[2].padStart(2,'0')}
+}
+const cutoff=(n:PayDraft)=>payrollPeriod(n).end
 export const editablePayroll=(n:PayDraft)=>['DRAFT','CALCULATED','REVIEW'].includes(n.status)
 export const availableSources=(notes:PayDraft[],n:PayDraft)=>allPayrollSources().filter(s=>matchMandor(s.mandor,n.contractor)&&s.day<=cutoff(n)&&!notes.some(pay=>pay.status!=='REVERSED'&&[...pay.fgNotes,...pay.accessoryNotes].some(doc=>doc.number===s.doc.number)))
 function totalPay(n:PayDraft):PayDraft{

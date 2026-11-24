@@ -636,8 +636,8 @@
       "sha256": "8dcafcf1ead9dec38713f7a75f317eed63de1bf64a666e0e354c540e913a7ab4"
     },
     "tests/browser/cp8-worker.spec.ts": {
-      "bytes": 38443,
-      "sha256": "db967764c1dd15612c4fe5916118ab80f7b7d33cd4a98a812012a63a11fe1cbe"
+      "bytes": 39179,
+      "sha256": "e9f02cdafde59856062da21503a20e2c3056908c8e3e9f16924632a429ab7f1a"
     },
     "tests/fg-quantity.test.ts": {
       "bytes": 1251,
@@ -928,8 +928,8 @@
       "sha256": "27671fcd8c9de9e7b2f105463266e5e895a8f747a30ec06793fbc39200c6cb9d"
     },
     "worker-demo/src/FinancePages.tsx": {
-      "bytes": 73055,
-      "sha256": "40dd6a8f4b54af7ac56098a43edb32930b10ab5c82a1b55c3240ee1df87ebe9b"
+      "bytes": 74526,
+      "sha256": "2b242c3a54e492577f2912db2cd2710c23f8314eeba1af03780801998bcf79f2"
     },
     "worker-demo/src/FinancePeriodPanel.tsx": {
       "bytes": 6859,
@@ -1440,8 +1440,8 @@
       "sha256": "fe0877f3535af0d3175deeb403b097e35a13c39d23380ebc4e674a06187445ef"
     },
     "worker-demo/src/business-pages.css": {
-      "bytes": 41659,
-      "sha256": "1d3f56066404c3d098c5f7843d948b636b626ddc783494bdba5ae19797d2e62a"
+      "bytes": 41849,
+      "sha256": "221b81e10f6962c91e70fc9727316c9a1bf841b6a26f001bec501ef32518016c"
     },
     "worker-demo/src/components/AppIcon.tsx": {
       "bytes": 1335,
@@ -1692,8 +1692,8 @@
       "sha256": "ad6cb289bd83b5925a5757337cfa367c5f7b62ad649f0dbf00f2ecafa9716d93"
     },
     "worker-demo/src/demo/payrollSources.ts": {
-      "bytes": 7447,
-      "sha256": "8bf12fd4c36d01146ce46b9c7e86b04d2833793c77eefb1d7547a2021a3d1ebf"
+      "bytes": 7933,
+      "sha256": "85f8c286e352131e7d0018705a3bee68854efbe3a9f9e0dff1d0a87d38548817"
     },
     "worker-demo/src/demo/planner/ProductionAdvice.tsx": {
       "bytes": 12916,

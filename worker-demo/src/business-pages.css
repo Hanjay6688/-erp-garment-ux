@@ -24,3 +24,6 @@
 .owner-source-drafts summary { cursor:pointer; font-weight:700; }
 .owner-source-drafts[open] summary { margin-bottom:12px; }
 .fg-draft-actions { display:flex; flex-wrap:wrap; gap:8px; margin-block:12px; }
+.owner-period-disclosure {padding:12px 16px; margin-block:12px}
+.owner-period-disclosure summary {cursor:pointer;font-weight:700}
+.owner-period-disclosure[open] summary {margin-bottom:12px}
