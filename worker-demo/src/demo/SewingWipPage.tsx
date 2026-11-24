@@ -1,3 +1,4 @@
+import { WipDistributionLedger } from './WipDistributionLedger'
 import { StageLots } from './planner/StageLots'
 import { Icon } from '../components/AppIcon'
 import type { QcFinalResult } from '../QcFinalPage'
@@ -112,7 +113,9 @@ export function SewingWipPage({
     }),
   }:null
   const applyWipControl=(result:WipControlResult)=>{
-    if(!controlParent)return
+    if(!controlParent||!controlPayload||!controlTarget)return
+    const target=controlPayload.batches.find(batch=>batch.id===controlTarget.batchId)
+    if(!target||target.locked)return
     if(result.kind==='ADJUST'){
       const before=controlParent.batches.reduce((sum,batch)=>sum+batch.qty,0)
       const after=Object.values(result.sizesByBatch).reduce((sum,sizes)=>sum+sizes.reduce((lineTotal,qty)=>lineTotal+qty,0),0)
@@ -148,13 +151,14 @@ export function SewingWipPage({
       })
     }else{
       setReversedBatchIds((current)=>current.includes(result.batchId)?current:[...current,result.batchId])
-      setControlNotice({title:`Distribusi ${result.batchId} dibatalkan`,message:`Kuantitas kembali ke Batch Produksi ${controlParent.id}. Dokumen hasil potong tidak dihapus.`})
+      setControlNotice({title:`Distribusi ${result.batchId} dibatalkan`,message:`Simulasi pada arsip Agustus. Pakai bagian Batch distribusi November untuk mengembalikan potongan ke antrean Bagi Potongan.`})
     }
     setControlTarget(null)
   }
 
   return <>
     <section className="hero-copy compact sewing-hero"><div className="eyebrow">PRODUKSI · SETELAH PICKUP</div><h1>WIP & Sewing</h1><p>Seluruh pekerjaan jahit dikelompokkan berdasarkan Batch Produksi. Mandor menyelesaikan setiap Batch Distribusi, lalu tujuan laundry dapat dipilih ketika kuantitas jahitan sudah penuh.</p></section>
+    <WipDistributionLedger/>
     <StageLots stage="sewing"/>
     <h2 className="gar-archive-heading">Arsip latihan Agustus</h2>
     <div className="sewing-simulation-strip"><ShieldCheck/><strong>DATA SIMULASI</strong><span>Filter demo mengikuti seluruh child sampai Final SKU lengkap; mode UAT membaca status authoritative dari backend.</span></div>

@@ -1,3 +1,4 @@
+import { applyBatch, distribution, distributionLot, pickupsIn, returnId, sliceLot, type BatchEvent, type Source } from './distribution'
 import { sizeRangeLabel } from '../../sizeRangeLabel'
 import sample from './sample.json'
 import projection from './projection.json'
@@ -23,15 +24,16 @@ export type CutSlot = { size:string; image:string; qty:number }
 export type CutRoll = { id:string; material:string; sourceYards:number; usedYards:number; remainingYards:number; slots:CutSlot[] }
 export type Lot = {
   id: string; sku: string | null; articleKey?:string; brand?: string | null; patternSnapshot?: ProductionPatternSnapshot; stage: string; kind: string; qty: number; size: string
+  originId?:string; returnedBatch?:number; returnRevision?:number; earliestPickup?:string; offsets?:Record<string,number>;
   series?: Series; outputs?: CutRoll[]; intent?: string; date?: string; notes?: string | null; model?: string; location?: string;
   pattern: string; material: string; eta: string | null; place: string; roll?: string; usedYards?: number; sourceYards?: number; remainingYards?: number; group?: string; requestId?: string
 }
-export type Pickup = { id: string; mandor: string; at: string; batches: {qty: number; note: string; sizes?: Record<string,number>; sources?: {rollId:string;size:string;qty:number;slot?:number}[]}[] }
-type SourceClaim = { roll:string; slot:number; qty:number }
+export type Pickup = { requestId?:string; expectedRevision?:number; id: string; mandor: string; at: string; batches: {qty: number; note: string; sizes?: Record<string,number>; sources?: {rollId:string;size:string;qty:number;slot?:number}[]}[] }
+type SourceClaim = { roll:string; slot:number; qty:number; start?:number }
 type Destination = { id: string; sku: string; eta: string; sources?:SourceClaim[] }
 export type StockChange = { key:string; size:string; delta:number; location?:string; grade?:string; after?:number }
 export type StockEvent = { id:string; action:'adjust'|'convert'; date?:string; reverses?:string; reason:string; recordedAt?:string; intent?:string; notes?:string|null; changes:StockChange[] }
-export type Session = { skuUpdates?:Record<string,{article:Article;active:boolean}>; skuPairs?:Record<string,string|null>; stockEvents?:StockEvent[]; patternRefs?:Record<string,string|null>; destinations?: Destination[]; cuts: Lot[]; pickups: Pickup[]; confirmed: string[]; elsewhere: string[] }
+export type Session = { batchEvents?:BatchEvent[]; skuUpdates?:Record<string,{article:Article;active:boolean}>; skuPairs?:Record<string,string|null>; stockEvents?:StockEvent[]; patternRefs?:Record<string,string|null>; destinations?: Destination[]; cuts: Lot[]; pickups: Pickup[]; confirmed: string[]; elsewhere: string[] }
 export const emptySession: Session = { cuts: [], pickups: [], confirmed: [], elsewhere: [] }
 export const stageName: Record<string, string> = { cut: 'Meja potong', sewing: 'Jahit', laundry: 'Laundry', qc: 'QC' }
 export const productFor = (sku: string | null | undefined) => products.find(p => p.sku === sku)
@@ -92,28 +94,75 @@ function matchingSources(lot:Lot,p:Product,session:Session):SourceClaim[] {
   if(!eligiblePieces(lot,p,session))return []
   return cutRolls(lot).flatMap(roll=>p.routes.some(r=>r.material===roll.material)?roll.slots.flatMap((slot,i)=>slot.size===p.size&&slot.qty>0?[{roll:roll.id,slot:i,qty:slot.qty}]:[]):[])
 }
+// A destination reserves a range within one physical roll/drawing. A returned
+// slice can cross that range; only their intersection contributes to Planner.
+const claimKey=(roll:string,slot:number)=>JSON.stringify([roll,slot])
 function allocationsFor(lot:Lot,session:Session) {
-  const used=new Map<string,number>()
-  const claimed=(session.destinations??[]).filter(d=>d.id===lot.id).map(d=>{
+  const origin=lot.originId??lot.id
+  const rows=(session.destinations??[]).filter(d=>d.id===origin)
+  const cursors=new Map<string,number>()
+  const physical=cutRolls(lot)
+  const claimed=rows.map(d=>{
     const p=productFor(d.sku)
-    const sources=d.sources??(p?matchingSources(lot,p,session):[])
-    for(const s of sources){const key=s.roll+'|'+s.slot;used.set(key,(used.get(key)??0)+s.qty)}
+    const sources=(d.sources??(p?matchingSources(lot,p,session):[])).flatMap(s=>{
+      const key=claimKey(s.roll,s.slot)
+      const start=s.start??cursors.get(key)??0
+      cursors.set(key,Math.max(cursors.get(key)??0,start+s.qty))
+      const slot=physical.find(r=>r.id===s.roll)?.slots[s.slot]
+      const offset=lot.offsets?.[key]??0
+      const low=Math.max(offset,start),high=Math.min(offset+(slot?.qty??0),start+s.qty)
+      return high>low?[{...s,start:low,qty:high-low}]:[]
+    })
     return {...d,sources,qty:sources.reduce((n,s)=>n+s.qty,0)}
-  })
-  return {claimed,used}
+  }).filter(d=>d.qty>0)
+  return claimed
 }
 function remainingSources(lot:Lot,p:Product,session:Session) {
-  const {used}=allocationsFor(lot,session)
-  return matchingSources(lot,p,session).map(s=>({...s,qty:s.qty-(used.get(s.roll+'|'+s.slot)??0)})).filter(s=>s.qty>0)
+  const used=allocationsFor(lot,session).flatMap(d=>d.sources)
+  return matchingSources(lot,p,session).flatMap(s=>{
+    const offset=lot.offsets?.[claimKey(s.roll,s.slot)]??0
+    const end=offset+s.qty
+    let start=offset
+    const free:SourceClaim[]=[]
+    for(const r of used.filter(r=>r.roll===s.roll&&r.slot===s.slot).sort((a,b)=>a.start-b.start)){
+      if(r.start>start)free.push({...s,start,qty:r.start-start})
+      start=Math.max(start,r.start+r.qty)
+    }
+    if(start<end)free.push({...s,start,qty:end-start})
+    return free
+  })
 }
 export const remainingPieces=(lot:Lot,p:Product,session:Session)=>remainingSources(lot,p,session).reduce((n,s)=>n+s.qty,0)
 export function lotsIn(session: Session): Lot[] {
-  return [...sample.lots, ...session.cuts].map(source => {
-    const lot:Lot=source
-    const pickup = session.pickups.find(p => p.id === lot.id)
-    if (pickup) return {...lot, stage: 'sewing', kind: lot.sku ? 'directed' : 'unassigned', place: pickup.mandor}
-    if (session.elsewhere.includes(lot.id)) return {...lot, kind:'elsewhere'}
-    return session.confirmed.includes(lot.id) ? {...lot, kind:'directed'} : lot
+  const byId=new Map(pickupsIn(session).map(p=>[p.id,p]))
+  return [...sample.lots,...session.cuts,distributionLot].flatMap((lot:Lot):Lot[]=>{
+    const pickup=byId.get(lot.id)
+    if(!pickup){
+      if(session.elsewhere.includes(lot.id))return [{...lot,kind:'elsewhere'}]
+      return [session.confirmed.includes(lot.id)?{...lot,kind:'directed'}:lot]
+    }
+    const sewing={...lot,stage:'sewing',kind:lot.sku?'directed':'unassigned',place:pickup.mandor}
+    const ledger=distribution(pickup,session)
+    if(!ledger.events.some(e=>e.kind!=='Proses'))return [sewing]
+    const offsets:Record<string,number>={}
+    const project=(row:Lot,sources:Source[])=>{
+      const part={...sliceLot(row,cutRolls(lot),sources),originId:lot.id,offsets:{...offsets}}
+      for(const r of sources){
+        const k=claimKey(r.rollId,r.slot-1)
+        offsets[k]=(offsets[k]??0)+r.qty
+      }
+      return part
+    }
+    const mandors=new Map<string,Source[]>()
+    for(const b of ledger.batches.filter(b=>!b.closed))mandors.set(b.mandor,[...(mandors.get(b.mandor)??[]),...b.sources])
+    // Returns first, in original batch order, to keep allocation deterministic.
+    const returned=ledger.returns.map(r=>{
+      const parent=ledger.batches.find(b=>b.no===r.no)!
+      const release=ledger.events.find(e=>e.no===r.no&&(e.kind==='Reverse'||e.kind==='Adjust'))!
+      return project({...lot,id:returnId(lot.id,r.no),kind:sewing.kind,stage:'cut',place:'Meja potong',returnedBatch:r.no,returnRevision:parent.revision,earliestPickup:release.physical},r.sources)
+    })
+    const active=[...mandors].map(([mandor,sources],i)=>project({...sewing,id:i?lot.id+'-J'+(i+1):lot.id,place:mandor},sources))
+    return [...active,...returned]
   })
 }
 export function plan(product: Product, session: Session) {
@@ -122,7 +171,7 @@ export function plan(product: Product, session: Session) {
   const fgChange=stockDelta(product.brand+' '+product.sku,product.size,session)
   const all = lotsIn(session)
   const lots=all.flatMap(lot=>{
-    const {claimed}=allocationsFor(lot,session)
+    const claimed=allocationsFor(lot,session)
     const fixed=claimed.filter(d=>d.sku===product.sku).map(d=>({...lot,sku:d.sku,eta:d.eta,kind:'directed',qty:d.qty}))
     if(lot.sku!==product.sku||lot.articleKey&&lot.articleKey!==product.brand+' '+product.sku)return fixed
     const qty=claimed.length?remainingPieces(lot,product,session):lot.kind==='directed'&&!lot.outputs?lot.qty:eligiblePieces(lot,product,session)
@@ -133,7 +182,7 @@ export function plan(product: Product, session: Session) {
   const created = new Set(session.cuts.map(lot => lot.id))
   const quantity = (total: number, lot: Lot) => total + lot.qty
   const directed = active.filter(lot => lot.kind === 'directed' &&
-    (created.has(lot.id) || session.pickups.some(p => p.id === lot.id) || session.confirmed.includes(lot.id))).reduce(quantity,0)
+    (created.has(lot.originId??lot.id) || session.pickups.some(p => p.id === (lot.originId??lot.id)) || session.confirmed.includes(lot.id))).reduce(quantity,0)
   const confirmed = initial.directed + directed
   const potential = active.filter(lot=>lot.kind==='candidate').reduce(quantity,0)
   const base = Math.max(0, product.need-product.fg-fgChange-confirmed)
@@ -166,7 +215,7 @@ export function setDestination(session: Session, id: string, sku: string, eta: s
   const date = new Date(eta + 'T00:00:00Z')
   if (!/^\d{4}-\d{2}-\d{2}$/.test(eta) || Number.isNaN(date.valueOf()) || date.toISOString().slice(0,10) !== eta || eta < (lot.date??sample.date)) throw Error('Isi perkiraan tanggal siap mulai 24 November 2026.')
   const sources=remainingSources(lot,productFor(sku)!,session)
-  return {...session, destinations: [...(session.destinations ?? []), {id,sku,eta,sources}]}
+  return {...session, destinations: [...(session.destinations ?? []), {id:lot.originId??id,sku,eta,sources}]}
 }
 export function yardsLeft(id: string, session: Session) {
   return (rolls.find(r => r.id === id)?.yards ?? 0) - session.cuts.flatMap(cutRolls).reduce((sum,roll) => sum + (roll.id === id ? roll.usedYards : 0),0)
@@ -228,9 +277,16 @@ function validDate(date:string) {
   return Number.isFinite(timestamp) && new Date(timestamp).toISOString().slice(0,10)===date
 }
 export function recordPickup(session: Session, pickup: Pickup): Session {
+  const replay=pickup.requestId&&session.batchEvents?.find(e=>e.id===pickup.requestId)
+  if(replay){
+    if(replay.kind!=='Bagi ulang'||JSON.parse(replay.intent).pickupRequest!==JSON.stringify(pickup))throw Error('Nomor permintaan sudah dipakai untuk perubahan lain.')
+    return session
+  }
   const lot = waitingLots(session).find(l => l.id === pickup.id)
   if (!lot) throw Error('Potongan ini sudah diambil. Pilih potongan lain.')
   if (!['Mandor Epi','Mandor Selo','Mandor Afat','Mandor Afui'].includes(pickup.mandor) || (!validDate(pickup.at.slice(0,10)) || !/^.{10}T(?:[01]\d|2[0-3]):[0-5]\d$/.test(pickup.at) || pickup.at.slice(0,10)<(lot.date??sample.date) || pickup.at.slice(0,10)>sample.date)) throw Error('Pilih mandor dan waktu ambil yang sesuai tanggal potong.')
+  if (lot.earliestPickup&&pickup.at<lot.earliestPickup)throw Error('Waktu ambil mendahului koreksi batch.')
+  if (lot.returnedBatch&&!pickup.batches.every(b=>b.sources&&b.sizes))throw Error('Isi rincian roll dan ukuran dari batch asal.')
   if (!pickup.batches.length || pickup.batches.some(b => !Number.isSafeInteger(b.qty) || b.qty <= 0) || pickup.batches.reduce((sum,b) => sum + b.qty,0) !== lot.qty) throw Error('Jumlah di semua batch harus sama dengan potongan yang diambil.')
   if (pickup.batches.some(b=>b.sources || b.sizes)) {
     const quantities=new Map<string,number>()
@@ -264,6 +320,11 @@ export function recordPickup(session: Session, pickup: Pickup): Session {
       if(need)throw Error('Hasil gambar tidak cukup untuk alokasi.')
       return split
     })}))
+    if(lot.returnedBatch&&lot.originId){
+      if(!pickup.requestId||pickup.expectedRevision===undefined)throw Error('Buka kembali potongan yang dikembalikan.')
+      return applyBatch(session,{kind:'Bagi ulang',id:pickup.requestId,group:lot.originId,no:lot.returnedBatch,
+        revision:pickup.expectedRevision,recorded:new Date().toISOString(),physical:pickup.at,pickup:{...pickup,batches},pickupRequest:JSON.stringify(pickup)})
+    }
     return {...session,pickups:[...session.pickups,{...pickup,batches}]}
   }
   return {...session, pickups:[...session.pickups,pickup]}
