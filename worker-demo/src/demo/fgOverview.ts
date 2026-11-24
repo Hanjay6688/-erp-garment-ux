@@ -1,17 +1,18 @@
-import { productCatalog, type Product } from '../productCatalog'
-import { articles, rangeLabel, type Session } from './planner/model'
-import { stockAt } from './planner/inventory'
-import { readInvoices, saleStock } from './saleBook'
+import {type Product} from '../productCatalog'
+import {rangeLabel,type Session} from './planner/model'
+import {stockAt} from './planner/conversion'
+import {allSkus,nativePosition,mainFg} from './skuCatalog'
 
-export function fgProducts(session: Session): Product[] {
-  const sales = readInvoices()
-  return [
-    ...articles.map(a => ({
-      code: a.sku, range: rangeLabel(a.sizes), name: a.model, brand: a.brand, color: a.colour,
-      sizes: a.sizes, stocks: a.sizes.map(s => stockAt(a,s,session)), location: 'Gudang FG Utama', grade: 'Good',
-    })),
-    ...productCatalog.map(p => ({...p,stocks:saleStock(p,sales)})),
-  ]
+export const positionKey=(p:Product)=>[p.brand,p.code,p.location,p.grade].join('::')
+export function fgProducts(s:Session):Product[]{
+  return allSkus(s).flatMap(a=>{
+    const positions=new Map<string,{location:string;grade:string}>()
+    const add=(location:string,grade:string)=>positions.set(location+'|'+grade,{location,grade})
+    const home=nativePosition(a);add(home.location,home.grade)
+    for(const e of s.stockEvents??[])for(const c of e.changes)if(c.key===a.key)add(c.location??mainFg,c.grade??'Good')
+    return [...positions.values()].map(pos=>({code:a.sku,range:rangeLabel(a.sizes),name:a.model,brand:a.brand,color:a.colour,
+      sizes:a.sizes,stocks:a.sizes.map(size=>stockAt(a,size,s,pos.location,pos.grade)),...pos}))
+  })
 }
 
 export function piecesIn(product: Product, sizes: string[] = []) {

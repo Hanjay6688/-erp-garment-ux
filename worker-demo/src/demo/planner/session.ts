@@ -11,6 +11,7 @@ function parse(value: string): Session {
     return Array.isArray(data.cuts) && Array.isArray(data.pickups) ? {...data, confirmed:Array.isArray(data.confirmed)?data.confirmed:[],elsewhere:Array.isArray(data.elsewhere)?data.elsewhere:[]} : emptySession
   } catch { return emptySession }
 }
+export const readPlannerSession = () => typeof window === 'undefined' ? emptySession : parse(read())
 function subscribe(update: () => void) {
   window.addEventListener(changed, update)
   return () => window.removeEventListener(changed, update)

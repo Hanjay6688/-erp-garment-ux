@@ -1,3 +1,5 @@
+import {readPlannerSession} from './planner/session'
+import {positionDelta} from './skuCatalog'
 import {productCatalog,type Product} from '../productCatalog'
 export type DraftLine={key:string;product:Product;quantities:number[];priceDozen:number}
 export const allInvoices = [
@@ -17,9 +19,9 @@ export const allInvoices = [
 
 export type DemoInvoice=typeof allInvoices[number]&{lines?:DraftLine[];terms?:string;due?:string;location?:string;changeReason?:string;notes?:string;corrects?:string}
 const invoiceKey='erp.owner.invoice-register.v2'
-type SaleMove={id:string;ref:string;day:string;when:string;type:string;note:string;key:string;delta:number[];balance:number[]}
+type SaleMove={id:string;recordedAt?:string;ref:string;day:string;when:string;type:string;note:string;key:string;delta:number[];balance:number[]}
 type Journal={docs:DemoInvoice[];moves:SaleMove[]}
-function journal():Journal{const raw=sessionStorage.getItem(invoiceKey);if(!raw)return {docs:allInvoices,moves:[]};const saved=JSON.parse(raw);return Array.isArray(saved)?{docs:saved,moves:[]}:saved}
+function journal():Journal{const raw=typeof sessionStorage==='undefined'?null:sessionStorage.getItem(invoiceKey);if(!raw)return {docs:allInvoices,moves:[]};const saved=JSON.parse(raw);return Array.isArray(saved)?{docs:saved,moves:[]}:saved}
 export const readInvoices=()=>journal().docs
 export const saleMoves=(key:string)=>journal().moves.filter(m=>m.key===key)
 export function writeInvoices(docs:DemoInvoice[]){
@@ -35,7 +37,7 @@ export function writeInvoices(docs:DemoInvoice[]){
       const previous=prior&&counts(prior)?quantities(prior,p):p.sizes.map(()=>0)
       const current=after&&counts(after)?quantities(after,p):p.sizes.map(()=>0)
       const delta=previous.map((n,i)=>n-current[i]);if(!delta.some(n=>n!==0))continue
-      moves.push({id:crypto.randomUUID(),ref:id,day:d.dateKey,when:d.day+' · '+d.time,type:!after||after.status==='REVERSED'?'Pelepasan reserve':prior?'Perubahan reserve':'Reserve penjualan',note:d.customer,key:p.brand+'::'+p.code,delta,balance:saleStock(p,interim)})
+      moves.push({id:crypto.randomUUID(),recordedAt:new Date().toISOString(),ref:id,day:d.dateKey,when:d.day+' · '+d.time,type:!after||after.status==='REVERSED'?'Pelepasan reserve':prior?'Perubahan reserve':'Reserve penjualan',note:d.customer,key:p.brand+'::'+p.code,delta,balance:saleStock(p,interim)})
     }
   }
   sessionStorage.setItem(invoiceKey,JSON.stringify({docs,moves}));return docs
@@ -62,7 +64,7 @@ export function sourceLines(doc:DemoInvoice):DraftLine[]{
 }
 const counts=(doc:DemoInvoice)=>!['REVERSED','CANCELLED'].includes(doc.status)
 function quantities(doc:DemoInvoice,p:Product){const line=sourceLines(doc).find(l=>l.product.brand===p.brand&&l.product.code===p.code&&l.product.location===p.location);return line?.quantities??p.sizes.map(()=>0)}
-export function saleStock(p:Product,docs:DemoInvoice[],editing?:string){
+export function baseSaleStock(p:Product,docs:DemoInvoice[],editing?:string){
   const balance=[...p.stocks]
   for(const d of allInvoices)if(counts(d))quantities(d,p).forEach((q,i)=>balance[i]+=q)
   for(const d of docs)if(d.number!==editing&&counts(d))quantities(d,p).forEach((q,i)=>balance[i]-=q)
@@ -74,4 +76,9 @@ export function postInvoice(id:string){
   const original=draft.corrects?rows.find(d=>d.number===draft.corrects):null
   if(draft.corrects&&(!original||original.status!=='POSTED'||original.paid||original.returns))throw Error('Periksa pembayaran, retur dan status invoice asal.')
   return writeInvoices(rows.map(d=>d.number===id?{...d,status:'POSTED'}:original&&d.number===original.number?{...d,status:'REVERSED'}:d))
+}
+
+export function saleStock(p:Product,docs:DemoInvoice[],editing?:string){
+  const session=readPlannerSession()
+  return baseSaleStock(p,docs,editing).map((q,i)=>q+positionDelta(session,p.brand+' '+p.code,p.sizes[i],p.location,p.grade))
 }

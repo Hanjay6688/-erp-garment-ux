@@ -1,11 +1,12 @@
+import BrandConversionForm from './demo/BrandConversionForm'
 import {fgQuantity} from './fgQuantity'
 import { ReasonDialog } from './demo/planner/ReasonDialog'
 import { SkuRangePage } from './demo/SkuRangePage'
 import { useState } from 'react'
 import {
   AlertTriangle, ArrowRight, Boxes, Check, ClipboardCheck, FileClock,
-  FilePlus2, History, MapPin, PackageCheck, Repeat2,
-  RotateCcw, Search, ShieldCheck, Sparkles, Warehouse,
+  FilePlus2, History, MapPin,
+  RotateCcw, Search, ShieldCheck, Warehouse,
 } from 'lucide-react'
 import { productCatalog } from './productCatalog'
 import './inventory-control.css'
@@ -42,7 +43,6 @@ type CountItem = {
 }
 
 const number = (value: number, digits = 1) => new Intl.NumberFormat('id-ID', { maximumFractionDigits: digits }).format(value)
-const rupiah = (value: number) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(value)
 const parseNumber = (value: string) => {
   const parsed = Number(value.trim().replace(',', '.'))
   return Number.isFinite(parsed) ? parsed : 0
@@ -87,8 +87,8 @@ function StatusPill({ status }: { status: AdjustmentStatus }) {
 
 function ControlHero({ type }: { type: 'adjustment' | 'brand' }) {
   return <section className="hero-copy compact ic-hero">
-    <div><div className="eyebrow">GUDANG · INVENTORY CONTROL</div><h1>{type === 'adjustment' ? 'Stock Adjustment' : 'Ganti Merek'}</h1><p>{type === 'adjustment' ? 'Catat kondisi fisik yang benar; sistem menghitung selisihnya. Hilang, hama, banjir, rusak, atau barang mendadak ditemukan tetap punya alasan dan jejak.' : 'Pindahkan stok FG dari identitas merek asal ke merek tujuan tanpa mengganti master SKU dan tanpa menghapus sejarah lot.'}</p></div>
-    <div className={`ic-hero-rule ${type}`}><ShieldCheck/><div><span>{type === 'adjustment' ? 'GOLDEN RULE' : 'STOCK CONVERSION'}</span><strong>{type === 'adjustment' ? 'Input fisik, bukan ketik plus/minus' : 'Sumber turun = tujuan naik'}</strong><small>{type === 'adjustment' ? 'System Qty terkunci. Delta selalu dihitung otomatis.' : 'Qty, size, grade, dan HPP sumber tetap terjaga.'}</small></div></div>
+    <div><div className="eyebrow">GUDANG · INVENTORY CONTROL</div><h1>{type === 'adjustment' ? 'Stock Adjustment' : 'Ganti Merek'}</h1><p>{type === 'adjustment' ? 'Catat kondisi fisik yang benar; sistem menghitung selisihnya. Hilang, hama, banjir, rusak, atau barang mendadak ditemukan tetap punya alasan dan jejak.' : 'Pilih SKU asal dan tujuan. Padanan dari master muncul sebagai saran.'}</p></div>
+    <div className={`ic-hero-rule ${type}`}><ShieldCheck/><div><span>{type === 'adjustment' ? 'GOLDEN RULE' : 'STOCK CONVERSION'}</span><strong>{type === 'adjustment' ? 'Input fisik, bukan ketik plus/minus' : 'Sumber turun = tujuan naik'}</strong><small>{type === 'adjustment' ? 'System Qty terkunci. Delta selalu dihitung otomatis.' : 'Jumlah potong dan lokasi tetap sama. Ukuran tujuan bisa dipilih.'}</small></div></div>
   </section>
 }
 
@@ -232,10 +232,10 @@ export function BrandConversionPage() {
   const visibleCases = conversionCases.filter((item) => `${item.id} ${item.source} ${item.target} ${item.reason} ${item.actor}`.toLowerCase().includes(query.toLowerCase()) && (statusFilter === 'Semua' || item.status === statusFilter))
   return <>
     <ControlHero type="brand"/>
-    <section className="ic-metrics brand"><article><Repeat2/><span><small>ARSIP · 28 AGU</small><strong>{fgQuantity(36)}</strong><em>1 dokumen posted</em></span></article><article className="good"><PackageCheck/><span><small>RECONCILIATION</small><strong>{fgQuantity(36)}</strong><em>Keluar dan masuk sama</em></span></article><article><Sparkles/><span><small>CONVERSION COST</small><strong>{rupiah(12_600)}</strong><em>Label baru masuk HPP</em></span></article><article><ShieldCheck/><span><small>MASTER DATA</small><strong>Tidak diubah</strong><em>History asal tetap utuh</em></span></article></section>
-    <div className="ic-conversion-layout">
-      <aside className="panel ic-conversion-browser"><header><div><span>BROWSE CONVERSIONS</span><strong>Riwayat ganti merek</strong></div><small>{visibleCases.length} tampil</small></header><div className="ic-browser-tools"><label><Search/><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Cari merek, SKU, ref..."/></label><div><select value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)}><option>Semua</option><option>Draft</option><option>Posted</option><option>Reversed</option></select><button onClick={() => { setQuery(''); setStatusFilter('Semua') }}><RotateCcw/></button></div></div><div className="ic-conversion-case-list">{visibleCases.map((item) => <button key={item.id} className={selectedCase.id === item.id ? 'active' : ''} onClick={() => setSelectedCaseId(item.id)}><span><strong>{item.source}</strong><ArrowRight/><strong>{item.target}</strong></span><small>{item.id} · {item.reason} · {item.happenedAt}</small><em>{item.sizes}</em><b>{fgQuantity(item.qty)}</b><i className={item.status.toLowerCase()}>{item.status}</i></button>)}</div><SkuRangePage mode="convert" historyOnly/><section className="ic-history-preview"><span>KASUS TERPILIH</span><strong>{selectedCase.id}</strong><p>{selectedCase.source} → {selectedCase.target}</p><small>{fgQuantity(selectedCase.qty)} · {selectedCase.actor}</small></section></aside>
-      <main className="panel ic-conversion-form"><header><div><span>BARANG JADI</span><h2>Pindah stok antarmerek</h2></div><Repeat2/></header><SkuRangePage mode="convert"/></main>
-    </div>
+    <BrandConversionForm/>
+    <SkuRangePage mode="convert" historyOnly/>
+    <details className="panel wh-archive"><summary>Arsip ganti merek · Agustus 2026</summary>
+      <aside className="panel ic-conversion-browser"><header><div><span>BROWSE CONVERSIONS</span><strong>Riwayat ganti merek</strong></div><small>{visibleCases.length} tampil</small></header><div className="ic-browser-tools"><label><Search/><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Cari merek, SKU, ref..."/></label><div><select value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)}><option>Semua</option><option>Draft</option><option>Posted</option><option>Reversed</option></select><button onClick={() => { setQuery(''); setStatusFilter('Semua') }}><RotateCcw/></button></div></div><div className="ic-conversion-case-list">{visibleCases.map((item) => <button key={item.id} className={selectedCase.id === item.id ? 'active' : ''} onClick={() => setSelectedCaseId(item.id)}><span><strong>{item.source}</strong><ArrowRight/><strong>{item.target}</strong></span><small>{item.id} · {item.reason} · {item.happenedAt}</small><em>{item.sizes}</em><b>{fgQuantity(item.qty)}</b><i className={item.status.toLowerCase()}>{item.status}</i></button>)}</div><section className="ic-history-preview"><span>KASUS TERPILIH</span><strong>{selectedCase.id}</strong><p>{selectedCase.source} → {selectedCase.target}</p><small>{fgQuantity(selectedCase.qty)} · {selectedCase.actor}</small></section></aside>
+    </details>
   </>
 }

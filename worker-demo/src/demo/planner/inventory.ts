@@ -1,14 +1,19 @@
-import { articles, stockDelta, type Article, type Session, type StockChange, type StockEvent } from './model'
+import { articles, type Article, type Session, type StockChange, type StockEvent } from './model'
 export {articles,type Article} from './model'
-export const stockAt=(article:Article,size:string,session:Session)=>article.opening[size]+stockDelta(article.key,size,session)
+import {stockAt,convertStock} from './conversion'
+import {skuByKey,nativePosition,mainFg,pairOf} from '../skuCatalog'
+export {stockAt} from './conversion'
 export function rangeChange(session:Session,action:StockEvent['action'],article:Article,values:Record<string,string>,reason:string,id:string,expected?:Record<string,number>,notes?:string):Session {
+  if(action==='convert'){
+    const partner=pairOf(session,article.key)
+    if(!partner)throw Error('Pilih SKU tujuan.')
+    return convertStock(session,{source:article.key,target:partner,values,sizeMap:Object.fromEntries(article.sizes.map(x=>[x,x])),...nativePosition(article),date:'2026-11-24',reason,notes},id,expected?Object.fromEntries([article,skuByKey(partner)!].flatMap(a=>a.sizes.map(size=>[a.key+'|'+size,a.key===article.key?expected[size]:stockAt(a,size,session)]))):undefined)
+  }
   const intent=JSON.stringify([action,article.key,Object.entries(values).filter(([,v])=>v.trim()).sort(([a],[b])=>a.localeCompare(b)),reason.trim(),notes?.trim()||null])
   const previous=session.stockEvents?.find(e=>e.id===id)
   if(previous){if(previous.intent&&previous.intent!==intent)throw Error('Permintaan ini sudah dipakai dengan isi berbeda.');return session}
   const known=articles.find(a=>a.key===article.key)
   if(!known||!reason.trim()||!id)throw Error('Pilih SKU dan isi alasan pencatatan.')
-  const target=articles.find(a=>a.key===known.pair)
-  if(action==='convert'&&(!target||target.pair!==known.key))throw Error('SKU padanan belum diatur di master.')
   const changes:StockChange[]=[]
   for(const [size,raw] of Object.entries(values)){
     if(!raw.trim())continue
@@ -17,14 +22,10 @@ export function rangeChange(session:Session,action:StockEvent['action'],article:
     const before=stockAt(known,size,session)
     if(expected&&expected[size]!==before)throw Error('Stok berubah. Buka kembali pratinjau.')
     if(action==='adjust'&&qty>before)throw Error('Untuk kelebihan lot hasil produksi, periksa penerimaan barang jadi atau koreksi sumbernya.')
-    if(action==='convert'&&qty>before)throw Error('Jumlah melebihi stok asal ukuran '+size+'.')
-    const delta=action==='adjust'?qty-before:-qty
+    const delta=qty-before
     if(!delta)continue
-    changes.push({key:known.key,size,delta})
-    if(action==='convert'&&target){
-      if(!target.sizes.includes(size))throw Error('Ukuran '+size+' belum terdaftar pada SKU tujuan.')
-      changes.push({key:target.key,size,delta:-delta})
-    }
+    changes.push({key:known.key,size,delta,after:before+delta})
+
   }
   if(!changes.length)throw Error('Isi setidaknya satu ukuran yang berubah.')
   return {...session,stockEvents:[...(session.stockEvents??[]),{id,action,intent,date:'2026-11-24',reason:reason.trim(),notes:notes?.trim()||null,changes}]}
@@ -36,8 +37,8 @@ export function reverseRange(session:Session,originalId:string,id:string,reason:
   const replay=events.find(e=>e.id===id)
   if(replay){if(replay.reverses!==originalId||replay.reason!==note)throw Error('Isi pembalikan berbeda.');return session}
   if(events.some(e=>e.reverses===originalId))throw Error('Transaksi sudah dibalik.')
-  const samePosition=(a:StockChange,b:StockChange)=>a.key===b.key&&a.size===b.size
+  const samePosition=(a:StockChange,b:StockChange)=>a.key===b.key&&a.size===b.size&&(a.location??mainFg)===(b.location??mainFg)&&(a.grade??'Good')===(b.grade??'Good')
   if(events.slice(before+1).some(e=>!e.reverses&&!events.some(r=>r.reverses===e.id)&&e.changes.some(c=>original.changes.some(o=>samePosition(c,o)))))throw Error('Masih ada transaksi lanjutan untuk ukuran ini. Periksa transaksi terbaru.')
-  const changes=original.changes.map(c=>({...c,delta:-c.delta}));for(const c of changes){const a=articles.find(a=>a.key===c.key);if(!a||stockAt(a,c.size,session)+c.delta<0)throw Error('Stok saat ini tidak cukup untuk pembalikan.')}
-  return {...session,stockEvents:[...events,{id,action:original.action,date:'2026-11-24',reverses:original.id,reason:note,changes}]}
+  const changes=original.changes.map(c=>({...c,delta:-c.delta}));for(const c of changes){const a=skuByKey(c.key);c.after=a?stockAt(a,c.size,session,c.location??mainFg,c.grade??'Good')+c.delta:-1;if(c.after<0)throw Error('Stok saat ini tidak cukup untuk pembalikan.')}
+  return {...session,stockEvents:[...events,{id,action:original.action,date:original.date??'2026-11-24',recordedAt:new Date().toISOString(),reverses:original.id,reason:note,changes}]}
 }

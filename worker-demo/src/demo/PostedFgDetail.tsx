@@ -1,20 +1,28 @@
-import {fgQuantity} from '../fgQuantity'
 import {useState} from 'react'
+import {FileText} from 'lucide-react'
+import {fgQuantity} from '../fgQuantity'
 import {allPayrollSources,choosePayrollSource,editablePayroll,payForSource,readPayDrafts,savePayDrafts} from './payrollSources'
-import {amountText} from './accessoryPricing'
+import {amountText as price} from './accessoryPricing'
 import RecordTable from '../RecordTable'
+import './warehouseForms.css'
+
 export default function PostedFgDetail({number}:{number:string}){
   const source=allPayrollSources().find(s=>s.kind==='FG'&&s.doc.number===number),[msg,setMsg]=useState('')
-  if(!source||source.kind!=='FG')return <section className="panel gar-panel"><h1>Nota FG tidak ditemukan</h1><a href="/keuangan/payroll-kasbon/">Kembali ke Payroll &amp; Kasbon</a></section>
+  const fromPay=new URLSearchParams(location.search).get('dari')==='payroll'
+  const back=<a className="soft-btn" href={fromPay?'/keuangan/payroll-kasbon/':'/produksi/susun-nota-fg/'}>{fromPay?'Kembali ke Payroll & Kasbon':'Kembali ke Susun Nota FG'}</a>
+  if(!source||source.kind!=='FG')return <section className="panel wh-nota-document"><h1>Nota FG tidak ditemukan</h1>{back}</section>
   const d=source.doc,pay=readPayDrafts().find(p=>p.status!=='REVERSED'&&p.fgNotes.some(n=>n.number===number))
-  return <><section className="hero-copy compact"><div className="eyebrow">Produksi · Susun Nota FG</div><h1>{number}</h1><p>{source.mandor} · {d.date} · Posted</p></section><section className="panel gar-panel"><h2>{d.sku}</h2><p>{d.source}</p><p>Good {fgQuantity(d.good)} · BS {fgQuantity(d.bs)} · Stuck {d.stuck} pcs</p><div className="ic-series-balance"><span>Upah dan komponen<strong>{amountText(d.labor)}</strong></span><span>Reimburse<strong>{amountText(d.reimbursement)}</strong></span><span>Total nota<strong>{amountText(d.labor+d.reimbursement)}</strong></span></div>
-  {!!d.regularCards?.length&&<><h3>FG reguler</h3><RecordTable><thead><tr><th>Dokumen asal</th><th>Selesai dijahit</th><th>Good / BS / stuck</th><th>Nilai</th></tr></thead><tbody>{d.regularCards.map(c=><tr key={c.id}><td>{c.source} · {c.sku}</td><td>{fgQuantity(c.sewnQty)}</td><td>{c.good} / {c.bs} / {c.hold}</td><td>{amountText(c.subtotal)}</td></tr>)}</tbody></RecordTable></>}
-  {d.regularCards?.map(c=><details className="panel owner-source-drafts" key={c.id}><summary>Ukuran &amp; tarif · {c.sku}</summary>
-    <p>Jahit {amountText(c.sewingRate)} + komisi {amountText(c.commissionRate)} + reimburse {amountText(c.bomRate)} per pcs.</p>
-    <p>{c.sewnQty} pcs × {amountText(c.sewingRate+c.commissionRate+c.bomRate)} − BS {amountText(c.bsDeduction)} − Stuck {amountText(c.stuckDeduction)} = {amountText(c.subtotal)}</p>
-    {!!c.sizeRows?.length&&<RecordTable><thead><tr><th>Ukuran</th><th>Dijahit</th><th>Good</th><th>BS</th><th>Stuck</th><th>Cuci ulang</th></tr></thead><tbody>{c.sizeRows.map(r=><tr key={r.size}><th>{r.size}</th><td>{r.sewn}</td><td>{fgQuantity(r.good)}</td><td>{r.bs}</td><td>{r.hold}</td><td>{r.rewash}</td></tr>)}</tbody></RecordTable>}</details>)}
-  {!!d.repairCards?.length&&<><h3>Bikin Bagus / susulan</h3>{d.repairCards.map(c=><div key={c.id}><p>{c.source} · {c.sku} · {c.qty} pcs × {amountText(c.unitRate)} = {amountText(c.subtotal)} · {fgQuantity(c.qty)}</p><details className="panel owner-source-drafts"><summary>Ukuran &amp; komponen · {c.sku}</summary>{c.sizeRows?.map(r=><p key={r.size}>Ukuran {r.size} · {fgQuantity(r.qty)}</p>)}{c.components.map((x,i)=><p key={i}>{x.name} · {amountText(x.rate)}/pcs</p>)}</details></div>)}</>}
-  {d.note&&<p>Catatan · {d.note}</p>}<p>{pay?'Terpilih di '+pay.number+' · '+pay.status:'Belum dipilih untuk pembayaran'}</p>
-  <div className="owner-payroll-actions">{pay&&editablePayroll(pay)&&<button className="soft-btn" onClick={()=>{savePayDrafts(choosePayrollSource(readPayDrafts(),pay.number,number,false));setMsg('Nota dilepas untuk periode berikutnya.')}}>Lepas dari pembayaran</button>}
-  <button className="primary-btn" onClick={()=>{try{payForSource(number,sessionStorage.getItem('erp.owner.payroll.focus'),true);location.assign('/keuangan/payroll-kasbon/')}catch(e){setMsg((e as Error).message)}}}>{pay?'Buka payroll terkait':'Masukkan ke payroll'}</button><a className="gar-button" href="/keuangan/payroll-kasbon/">Kembali ke Payroll &amp; Kasbon</a></div>{msg&&<p role="status">{msg}</p>}</section></>
+  const repairs=d.repairCards??[],regular=d.regularCards??[],additional=repairs.reduce((n,c)=>n+c.qty,0)
+  const status=pay?.status==='PAID'?'Sudah dibayar':pay?'Terpilih di '+pay.number+' · '+pay.status:'Belum dipilih untuk pembayaran'
+  return <><section className="hero-copy compact wh-doc-bar"><div><div className="eyebrow">PRODUKSI · NOTA FG</div><h1>{number}</h1><p>{source.mandor} · {d.date} · Posted</p></div>{back}</section>
+  <section className="panel wh-nota-document"><header className="wh-section-head"><div><span>DOKUMEN SUMBER</span><h2>{d.sku}</h2><small>{d.source}</small></div><FileText/></header>
+  <div className="wh-doc-summary">{regular.length>0||!repairs.length?<div><small>Good reguler</small><strong>{fgQuantity(d.good)}</strong></div>:null}{repairs.length>0&&<div><small>Good dari perbaikan / susulan</small><strong>{fgQuantity(additional)}</strong></div>}{(regular.length>0||d.bs>0||d.stuck>0)&&<><div><small>BS</small><strong>{fgQuantity(d.bs)}</strong></div><div><small>Stuck</small><strong>{fgQuantity(d.stuck)}</strong></div></>}</div>
+  {regular.map(c=><article className="wh-nota-block" key={c.id}><div className="wh-doc-bar"><div><small>FG REGULER</small><h3>{c.sku}</h3><p>{c.source} · {c.id}</p></div><strong>{price(c.subtotal)}</strong></div>
+  <details><summary>Ukuran &amp; tarif · {c.sku}</summary><p>Jahit {price(c.sewingRate)} + komisi {price(c.commissionRate)} + reimburse {price(c.bomRate)} per pcs.</p><p>{c.sewnQty} pcs × {price(c.sewingRate+c.commissionRate+c.bomRate)} − BS {price(c.bsDeduction)} − Stuck {price(c.stuckDeduction)} = {price(c.subtotal)}</p>
+  {c.sizeRows?.length?<RecordTable><thead><tr><th>Ukuran</th><th>Dijahit</th><th>Good</th><th>BS</th><th>Stuck</th><th>Cuci ulang</th></tr></thead><tbody>{c.sizeRows.map(r=><tr key={r.size}><th>{r.size}</th><td>{r.sewn}</td><td>{fgQuantity(r.good)}</td><td>{r.bs}</td><td>{r.hold}</td><td>{r.rewash}</td></tr>)}</tbody></RecordTable>:<p>Rincian ukuran tidak tersimpan pada kartu ini.</p>}</details></article>)}
+  {repairs.map(c=><article className="wh-nota-block" key={c.id}><div className="wh-doc-bar"><div><small>BIKIN BAGUS / SUSULAN</small><h3>{c.sku}</h3><p>{c.source} · {c.qty} pcs × {price(c.unitRate)} = {price(c.subtotal)}</p></div><strong>{price(c.subtotal)}</strong></div><details><summary>Ukuran &amp; komponen · {c.sku}</summary><p>{c.id}</p><div className="wh-size-boxes">{c.sizeRows?.map(r=><div className="wh-size-box" key={r.size}><header>Ukuran <strong>{r.size}</strong></header><p>{fgQuantity(r.qty)}</p></div>)}</div>{c.components.map((x,i)=><div className="wh-register-row" key={i}><span>{x.name}</span><strong>{price(x.rate)}/pcs</strong></div>)}</details></article>)}
+  {!regular.length&&!repairs.length&&<p>Arsip nota ini menyimpan total. Rincian kartu dan ukuran tidak tersedia.</p>}
+  <div className="wh-doc-summary"><div><small>Upah dan komponen</small><strong>{price(d.labor)}</strong></div><div><small>Reimburse</small><strong>{price(d.reimbursement)}</strong></div><div><small>Total nota</small><strong>{price(d.labor+d.reimbursement)}</strong></div></div>
+  {d.note&&<p>Catatan · {d.note}</p>}<p>{status}</p><div className="owner-payroll-actions">{pay&&editablePayroll(pay)&&<button className="soft-btn" onClick={()=>{try{savePayDrafts(choosePayrollSource(readPayDrafts(),pay.number,number,false));setMsg('Nota dilepas untuk periode berikutnya.')}catch(e){setMsg((e as Error).message)}}}>Lepas dari pembayaran</button>}
+  <button className="primary-btn" onClick={()=>{try{payForSource(number,sessionStorage.getItem('erp.owner.payroll.focus'),true);location.assign('/keuangan/payroll-kasbon/')}catch(e){setMsg((e as Error).message)}}}>{pay?'Buka payroll terkait':'Masukkan ke payroll'}</button></div>{msg&&<p role="status">{msg}</p>}</section></>
 }

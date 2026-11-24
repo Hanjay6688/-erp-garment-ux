@@ -1,3 +1,5 @@
+import {changeSession} from './demo/planner/session'
+import {editSku,skuByKey} from './demo/skuCatalog'
 import { useMemo, useState } from 'react'
 import type { LucideIcon } from 'lucide-react'
 import {
@@ -212,7 +214,11 @@ function BrowserRecord({item,active,config,bulkSelected,onSelect,onToggleBulk}:{
 }
 
 function MasterWorkspace({config}:{config:MasterConfig}){
-  const [entities,setEntities]=useState(config.seeds)
+  const productStore='erp.demo.master-products.records.v1'
+  const [entities,storeEntities]=useState<MasterEntity[]>(()=>config.view==='master-products'?JSON.parse(sessionStorage.getItem(productStore)??'null')??config.seeds:config.seeds)
+  function setEntities(update:(rows:MasterEntity[])=>MasterEntity[]){
+    storeEntities(rows=>{const next=update(rows);if(config.view==='master-products')sessionStorage.setItem(productStore,JSON.stringify(next));return next})
+  }
   const [selectedId,setSelectedId]=useState(config.seeds[0].id)
   const [query,setQuery]=useState('')
   const [status,setStatus]=useState<'ALL'|'ACTIVE'|'INACTIVE'>('ALL')
@@ -230,6 +236,12 @@ function MasterWorkspace({config}:{config:MasterConfig}){
   const allVisibleSelected=visibleActiveIds.length>0&&visibleActiveIds.every((id)=>bulkSelectedIds.includes(id))
   const metrics=config.metrics(entities)
   const save=(draft:EditorDraft)=>{
+    if(isProduct){
+      const {brand,model,color,sizes}=draft.values
+      const key=brand+' '+draft.code.trim()
+      try{changeSession(s=>editSku(s,editorMode==='edit'?selected.values.brand+' '+selected.code:null,{key,sku:draft.code.trim(),brand,colour:color,model,sizes:sizes.split(',').map(v=>v.trim()).filter(Boolean),opening:{}},draft.active))}
+      catch(e){setNotice((e as Error).message);return}
+    }
     if(editorMode==='create'){
       const next:MasterEntity={id:`${config.view}-${Date.now()}`,code:draft.code.trim(),name:draft.name.trim(),active:draft.active,rowVersion:1,updatedAt:today,values:draft.values,bom:isProduct?[]:undefined,dependencies:[],audit:[{at:'29 Agu 2026 · sekarang',actor:'Owner',action:'Master dibuat sebagai simulasi lokal'}]}
       setEntities((current)=>[next,...current]);setSelectedId(next.id);setNotice(`${next.name} dibuat sebagai simulasi. Backend belum berubah.`)
@@ -265,6 +277,7 @@ function MasterWorkspace({config}:{config:MasterConfig}){
     </aside><main>
       <header className="md-detail-head"><div><span>IDENTITAS MASTER</span><h2>{isProduct?productIdentity(selected):selected.name}</h2><p>{isProduct?`${selected.name} · `:`${selected.code} · `}terakhir diperbarui {selected.updatedAt}</p></div><div><MasterState active={selected.active}/><small>row-version {selected.rowVersion}</small></div></header>
       <div className="md-facts">{config.fields.map((field,index)=>{const icons=[Tags,Layers3,BadgeDollarSign,CalendarClock,Database,MapPin];const FactIcon=icons[index%icons.length];return <article className={field.type==='sizes'?'wide':field.type==='boolean'?'boolean':''} key={field.key}><FactIcon/><span><small>{field.label.toUpperCase()}</small><strong>{formatFieldValue(field,selected.values[field.key]??'')}</strong></span></article>})}</div>
+      {isProduct&&skuByKey(selected.values.brand+' '+selected.code)&&<section className="wh-pair"><header><Link2 size={18}/><h3>Padanan beda merek</h3></header><a className="soft-btn" href={'/master/produk-sku/?sku='+encodeURIComponent(selected.values.brand+' '+selected.code)+'#padanan'}>Atur padanan {selected.values.brand} {selected.code}</a></section>}
       {isProduct&&<ProductCostPanel entity={selected} categoryRates={categoryRates} onEditBom={()=>setBomOpen(true)} onEditCategories={()=>setCategoryOpen(true)}/>} 
       <section className="md-integrity"><ShieldCheck/><span><strong>{config.integrityTitle}</strong><small>{config.integrityCopy}</small></span></section>
       <section className="md-dependencies"><header><div><span>DEPENDENCY CHECK</span><strong>Dampak sebelum nonaktif / koreksi</strong></div><Link2/></header>{selected.dependencies.length>0?<div>{selected.dependencies.map((dependency)=><article className={dependency.tone} key={dependency.label}><span>{dependency.label}</span><strong>{dependency.value}</strong></article>)}</div>:<div className="md-no-dependency"><CheckCircle2/><span><strong>Belum ada dependency</strong><small>{config.emptyDependencyCopy}</small></span></div>}</section>
