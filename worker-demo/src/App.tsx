@@ -18,7 +18,6 @@ import {
   laborBomComponents,
   laundryDeliverySeeds,
   laundryOutstandingSizes,
-  laundryReadyFromSewingBatch,
   laundryReadySeeds,
 } from './demo/laundryModel'
 import type { LaundryDelivery, LaundryPrefill, LaundryReadyBatch } from './demo/laundryModel'
@@ -26,7 +25,6 @@ import { LaundryPage } from './demo/LaundryPage'
 import { MandorWipPage } from './demo/MandorWipPage'
 import { ProcurementPage } from './demo/ProcurementPage'
 import type { QtyTuple } from './demo/productionModel'
-import { sewingWipSeeds } from './demo/sewingModel'
 import { SewingWipPage } from './demo/SewingWipPage'
 import { chronologicalMovements } from './demo/stockModel'
 import { Movements } from './demo/StockPages'
@@ -529,17 +527,12 @@ function ErpApp() {
           laundryDrafts={laundryDrafts}
           reverseNotice={wipReverseNotice}
           onClearReverseNotice={()=>setWipReverseNotice(null)}
-          onClearLaundryDraft={(batchId)=>{
-            setLaundryDrafts((current)=>{const next={...current};delete next[batchId];return next})
-            setLaundryReadyBatches((current)=>current.filter((batch)=>batch.id!==batchId))
-          }}
-          onConfirmLaundry={(batchId,vendor,snapshot)=>{
-            setLaundryDrafts((current)=>({...current,[batchId]:vendor}))
-            setLaundryReadyBatches((current)=>{
-              const existing=current.find((batch)=>batch.id===batchId)
-              if(existing)return current.map((batch)=>batch.id===batchId?{...batch,vendor,...snapshot}:batch)
-              const restored=laundryReadyFromSewingBatch(batchId,vendor,snapshot)
-              return restored?[restored,...current]:current
+          onConfirmLaundry={(ready)=>{
+            const {id:batchId,vendor}=ready
+            setLaundryDrafts(current=>({...current,[batchId]:vendor}))
+            setLaundryReadyBatches(current=>{
+              const exists=current.some(b=>b.id===batchId)
+              return exists?current.map(b=>b.id===batchId?{...b,vendor,qty:ready.qty,sizes:ready.sizes}:b):[ready,...current]
             })
             setLaundryPrefill({batchId,vendor,view:'send'})
             setWipReverseNotice(null)
@@ -547,9 +540,7 @@ function ErpApp() {
           }}
           onOpenLaundry={(batchId,vendor,view)=>{setLaundryPrefill({batchId,vendor,view});setPage('laundry')}}
           onOpenQc={(parentId,batchId)=>{
-            const parent=sewingWipSeeds.find((item)=>item.id===parentId)
-            const batch=parent?.batches.find((item)=>item.id===batchId)
-            if(!parent||!batch)return
+            if(!laundryDeliveries.some(d=>d.parentId===parentId&&d.batchId===batchId&&d.good+d.bs>0))return
             setQcSeedId(`${parentId}::${batchId}`)
             setPage('qc')
           }}

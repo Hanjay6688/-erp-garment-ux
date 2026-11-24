@@ -1,3 +1,5 @@
+import {reviseCounts,type CountEdit,type CountUpdate,type CountOperation} from './recountDistribution'
+import {sewingReceipts} from '../sewingReceipts'
 import type { CutRoll, Lot, Pickup, Session } from './model'
 
 export type Source = {rollId:string; size:string; slot:number; qty:number}
@@ -9,7 +11,7 @@ export type Batch = {
 }
 export type BatchEvent = {
   id:string; group:string; no:number; revision:number; recorded:string; physical:string; intent:string
-  kind:'Reverse'|'Adjust'|'Bagi ulang'|'Proses'; reason:string; created:Batch[]; released:Source[]; proof?:ProofKind; pcs?:number
+  kind:'Reverse'|'Adjust'|'Bagi ulang'|'Proses'|'Koreksi'; updates?:CountUpdate[]; operation?:CountOperation; reason:string; created:Batch[]; released:Source[]; proof?:ProofKind; pcs?:number
 }
 export type ReturnLot = {no:number; sources:Source[]}
 export type Distribution = {id:string; batches:Batch[]; returns:ReturnLot[]; events:BatchEvent[]}
@@ -40,7 +42,7 @@ export const distributionPickup:Pickup={
     lineFromSources([source(sampleRollA,'32',2,2),source(sampleRollB,'32',1,2),source(sampleRollB,'33',2,4)]),
   ],
 }
-export const pickupsIn=(s:Session)=>[...s.pickups,distributionPickup]
+export const pickupsIn=(s:Session)=>[...s.pickups,distributionPickup,...sewingReceipts.map(r=>r.pickup)]
 export const returnId=(id:string,no:number)=>id+'-B'+String(no).padStart(2,'0')+'-KEMBALI'
 const key=(r:Source)=>JSON.stringify([r.rollId,r.slot,r.size])
 function amounts(rows:Source[]) {
@@ -63,6 +65,8 @@ function batch(line:PickupLine,no:number,mandor:string,at:string,previous?:numbe
 export function distribution(pickup:Pickup,session:Session):Distribution {
   const batches=pickup.batches.map((b,i)=>batch(b,i+1,pickup.mandor,pickup.at))
   if(pickup.id===sampleGroup){batches[0].sewn=1;batches[0].proof='Jahit'}
+  const seed=sewingReceipts.find(r=>r.parent.id===pickup.id)
+  seed?.parent.batches.forEach((row,i)=>{if(row.completed){batches[i].sewn=row.completed;batches[i].proof='Jahit'}})
   const returns:ReturnLot[]=[]
   const events=(session.batchEvents??[]).filter(e=>e.group===pickup.id)
   for(const event of events){
@@ -70,6 +74,11 @@ export function distribution(pickup:Pickup,session:Session):Distribution {
     if(event.kind==='Proses'){
       b.proof=event.proof
       b.sewn+=event.proof==='Jahit'?(event.pcs??0):0
+    }else if(event.kind==='Koreksi'){
+      for(const edit of event.updates??[]){
+        const updated=batches.find(row=>row.no===edit.no)!
+        updated.sizes=edit.sizes;updated.sources=edit.sources;updated.qty=edit.qty;updated.revision++
+      }
     }else if(event.kind==='Bagi ulang'){
       const index=returns.findIndex(r=>r.no===b.no)
       if(index>=0)returns.splice(index,1)
@@ -77,7 +86,7 @@ export function distribution(pickup:Pickup,session:Session):Distribution {
       b.closed=event.kind
       if(event.released.length)returns.push({no:b.no,sources:event.released})
     }
-    b.revision++
+    if(event.kind!=='Koreksi')b.revision++
     batches.push(...event.created.map(row=>({...row})))
   }
   return {id:pickup.id,batches,returns,events}
@@ -90,6 +99,7 @@ export function correctionLock(b:Batch) {
 }
 type CommandBase={id:string;group:string;no:number;revision:number;recorded:string;physical:string}
 export type Command=CommandBase&(
+  {kind:'Koreksi';reason:string;edits:CountEdit[];operation:CountOperation;chosen:Record<string,string>}|
   {kind:'Reverse';reason:string}|
   {kind:'Adjust';reason:string;sizes:Record<string,number>;note:string}|
   {kind:'Bagi ulang';pickup:Pickup;pickupRequest:string}|
@@ -104,6 +114,8 @@ export function applyBatch(session:Session,cmd:Command):Session {
     return session
   }
   if(!cmd.id.trim()||!Number.isFinite(Date.parse(recorded))||!/^\d{4}-\d{2}-\d{2}T(?:[01]\d|2[0-3]):[0-5]\d$/.test(cmd.physical))throw Error('Waktu atau nomor permintaan tidak valid.')
+  const physicalEpoch=Date.parse(cmd.physical+':00+07:00')
+  if(!Number.isFinite(physicalEpoch)||physicalEpoch>Date.parse(recorded)||new Date(physicalEpoch+7*3600000).toISOString().slice(0,16)!==cmd.physical)throw Error('Periksa waktu fisik (WIB).')
   const pickup=pickupsIn(session).find(p=>p.id===cmd.group)
   if(!pickup)throw Error('Pengambilan asal tidak ditemukan.')
   const state=distribution(pickup,session)
@@ -120,6 +132,12 @@ export function applyBatch(session:Session,cmd:Command):Session {
     event.created=lines.map((line,i)=>batch(line,next+i,cmd.pickup.mandor,cmd.pickup.at,b.no))
     if(event.created.some(row=>!row.qty||total(row.sources)!==row.qty||Object.keys({...row.sizes,...sizeTotals(row.sources)}).some(size=>(row.sizes[size]??0)!==(sizeTotals(row.sources)[size]??0)))||
        !sameSources(pending.sources,event.created.flatMap(row=>row.sources)))throw Error('Jumlah tiap roll, gambar, dan ukuran harus sama dengan potongan kembali.')
+  }else if(cmd.kind==='Koreksi'){
+    const reason=cmd.reason.trim()
+    if(!reason||b.closed||b.proof)throw Error('Periksa alasan dan status batch.')
+    const origin=pickup.batches.flatMap(line=>line.sources??[]).filter((r):r is Source=>!!r.slot)
+    event.updates=reviseCounts(state.batches,cmd.edits,cmd.operation,cmd.chosen,origin,cmd.physical)
+    event.reason=reason;event.operation=cmd.operation
   }else if(cmd.kind==='Proses'){
     if(b.closed||!Number.isSafeInteger(cmd.pcs)||cmd.pcs<1||cmd.pcs>b.qty||(cmd.proof==='Jahit'&&(b.sewn+cmd.pcs>b.qty||(b.proof&&b.proof!=='Jahit'))))throw Error('Jumlah proses melebihi sisa batch atau batch sudah ditutup.')
     event.proof=cmd.proof;event.pcs=cmd.pcs

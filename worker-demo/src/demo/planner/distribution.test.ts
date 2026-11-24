@@ -84,4 +84,36 @@ describe('Koreksi satu batch distribusi',()=>{
     const pickup={id:'lama',at:clock,mandor:'Mandor Epi',batches:[{qty:6,note:''}]}
     expect(()=>applyBatch({...emptySession,pickups:[pickup]},{...reverse,no:1,group:'lama'})).toThrow(/belum lengkap/)
   })
+  it('membatalkan kartu asli Lucy dan Zodiak dengan sumber yang persis lalu menolak pembatalan kedua',()=>{
+    for(const [id,expected,rolls] of [['POT-260827-042',222,9],['POT-260825-039',114,1]] as const){
+      const pickup=pickupsIn(emptySession).find(p=>p.id===id)!,initial=distribution(pickup,emptySession)
+      const cmd={...reverse,group:id,no:3},s=applyBatch(emptySession,cmd)
+      const group=distribution(pickup,s),returned=waitingLots(s).filter(l=>l.originId===id)
+      expect(returned.map(l=>l.qty)).toEqual([expected]);expect(returned[0].outputs).toHaveLength(rolls)
+      expect(group.batches.slice(0,2)).toEqual(initial.batches.slice(0,2))
+      expect(group.returns[0].sources).toEqual(initial.batches[2].sources)
+      expect(applyBatch(s,cmd)).toBe(s)
+      expect(()=>applyBatch(s,{...cmd,id:'double'})).toThrow('berubah')
+      expect(()=>applyBatch(emptySession,{...cmd,id:'sewn',no:1})).toThrow('bukti')
+    }
+  })
+  it('koreksi antar batch mempertahankan setiap roll/gambar yang dapat dikembalikan kemudian',()=>{
+    const cmd:Command={...reverse,kind:'Koreksi',operation:'REDISTRIBUTION',chosen:{},edits:[
+      {no:2,revision:0,sizes:{31:4,32:5,33:2}},{no:3,revision:0,sizes:{32:5,33:4}}]}
+    const s=applyBatch(emptySession,cmd),rows=distribution(distributionPickup,s).batches
+    expect(rows.map(b=>b.qty)).toEqual([8,11,9]);expect(rows[0]).toEqual(original().batches[0])
+    expect(bySource(rows.flatMap(r=>r.sources))).toEqual(bySource(original().batches.flatMap(r=>r.sources)))
+    const back=applyBatch(s,{...reverse,id:'undo-three',no:3,revision:1})
+    expect(waitingLots(back).find(l=>l.returnedBatch===3)?.qty).toBe(9)
+    expect(()=>applyBatch(emptySession,{...cmd,edits:[cmd.edits[0]]})).toThrow(/sama/)
+  })
+  it('meminta sumber fisik yang tepat untuk kelebihan hasil hitung sebelum mengembalikan potongan',()=>{
+    const cmd:Command={...reverse,kind:'Koreksi',operation:'PHYSICAL_RECOUNT',chosen:{},edits:[{no:2,revision:0,sizes:{31:4,32:7,33:2}}]}
+    expect(()=>applyBatch(emptySession,cmd)).toThrow(/roll dan gambar/)
+    const s=applyBatch(emptySession,{...cmd,chosen:{32:JSON.stringify(['ORI-024-B',1,'32'])}})
+    const back=applyBatch(s,{...reverse,id:'return-13',revision:1})
+    expect(waitingLots(back).find(l=>l.returnedBatch===2)?.qty).toBe(13)
+    expect(distribution(distributionPickup,back).returns[0].sources.find(r=>r.rollId==='ORI-024-B'&&r.slot===1)?.qty).toBe(3)
+  })
+
 })

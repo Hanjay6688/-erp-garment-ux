@@ -1,8 +1,11 @@
 import { useMemo, useState } from 'react'
 import {
   AlertTriangle, ArrowRight, Check, LockKeyhole, Minus, Plus,
-  RotateCcw, ShieldCheck, SlidersHorizontal, Undo2, X,
+  RotateCcw, SlidersHorizontal, Undo2, X,
 } from 'lucide-react'
+import {sourceChoices,sourceCode,type CountOperation} from './demo/planner/recountDistribution'
+import type {Source} from './demo/planner/distribution'
+import {lastWarehouseDay} from './demo/warehouseDay'
 import './wip-control.css'
 
 export type WipControlMode = 'adjust' | 'reverse'
@@ -11,6 +14,9 @@ export type WipControlQty = number[]
 export type WipControlBatch = {
   id: string
   number: number
+  revision:number
+  mandor:string
+  at:string
   qty: number
   sizes: WipControlQty
   completed: number
@@ -24,24 +30,15 @@ export type WipControlParent = {
   model: string
   material: string
   mandor: string
+  sources:Source[]
   sizeLabels: string[]
   batches: WipControlBatch[]
 }
 
 export type WipControlResult =
-  | {
-    kind: 'ADJUST'
-    operation: 'REDISTRIBUTION' | 'PHYSICAL_RECOUNT'
-    autoReasonCode: 'SIZE_SWAP' | 'PHYSICAL_RECOUNT'
-    note: string
-    sizesByBatch: Record<string, WipControlQty>
-  }
-  | {
-    kind: 'REVERSE'
-    batchId: string
-    autoReasonCode: 'PRE_SEWING_REVERSAL'
-    note: string
-  }
+  | {kind:'ADJUST';operation:CountOperation;note:string;sizesByBatch:Record<string,WipControlQty>;chosen:Record<string,string>;physical:string}
+  | {kind:'PARTIAL';note:string;sizes:WipControlQty;mandorNote:string;physical:string}
+  | {kind:'REVERSE';note:string;physical:string}
 
 type Props = {
   mode: WipControlMode
@@ -58,9 +55,18 @@ export default function WipBatchControlLayer({ mode, parent, targetBatchId, onCl
   const editableBatches = parent.batches.filter((batch) => !batch.locked)
   const target = parent.batches.find((batch) => batch.id === targetBatchId) ?? parent.batches[0]
   const canRedistribute = editableBatches.length > 1
-  const [operation,setOperation] = useState<'REDISTRIBUTION' | 'PHYSICAL_RECOUNT'>(canRedistribute ? 'REDISTRIBUTION' : 'PHYSICAL_RECOUNT')
+  const [operation,setOperation] = useState<CountOperation|'PARTIAL'>(canRedistribute ? 'REDISTRIBUTION' : 'PHYSICAL_RECOUNT')
   const [drafts,setDrafts] = useState<Record<string,WipControlQty>>(()=>batchMap(parent))
   const [note,setNote] = useState('')
+  const [physical,setPhysical]=useState(target.at>'2026-11-24T10:30'?target.at:'2026-11-24T10:30')
+  const [chosen,setChosen]=useState<Record<string,string>>({})
+  const [retained,setRetained]=useState([...target.sizes])
+  const [mandorNote,setMandorNote]=useState(target.note)
+  const [error,setError]=useState('')
+  const sources=sourceChoices(parent.sources)
+  const submit=(result:WipControlResult)=>{try{setError('');onApply(result)}catch(e){setError((e as Error).message)}}
+  const physicalField=<label className="wip-control-note"><span>WAKTU FISIK (WIB)</span><input required type="datetime-local" min={target.at} max={lastWarehouseDay()+'T23:59'} value={physical} onChange={e=>setPhysical(e.target.value)}/></label>
+  const reasonField=<label className="wip-control-note"><span>Alasan koreksi · wajib</span><textarea aria-label="Alasan koreksi" value={note} onChange={e=>setNote(e.target.value)} /></label>
 
   const originalTotals = useMemo<WipControlQty>(() => parent.sizeLabels.map((_,sizeIndex)=>parent.batches.reduce((sum,batch)=>sum+batch.sizes[sizeIndex],0)) as WipControlQty,[parent])
   const afterTotals = useMemo<WipControlQty>(() => parent.sizeLabels.map((_,sizeIndex)=>parent.batches.reduce((sum,batch)=>sum+(drafts[batch.id]?.[sizeIndex]??batch.sizes[sizeIndex]),0)) as WipControlQty,[drafts,parent])
@@ -71,7 +77,7 @@ export default function WipBatchControlLayer({ mode, parent, targetBatchId, onCl
     const values=drafts[batch.id]??batch.sizes
     return values.every((qty)=>Number.isFinite(qty)&&qty>=0)&&total(values)>0
   })
-  const noteValid = note.trim().length>=4
+  const noteValid = Boolean(note.trim())&&physical>=target.at&&physical<=lastWarehouseDay()+'T23:59'
   const canApply = changed && valuesValid && noteValid && (operation==='PHYSICAL_RECOUNT'||(canRedistribute&&redistributionExact))
 
   const updateQty = (batch:WipControlBatch,sizeIndex:number,value:number) => {
@@ -83,26 +89,24 @@ export default function WipBatchControlLayer({ mode, parent, targetBatchId, onCl
   }
   const reset = () => setDrafts(batchMap(parent))
   const confirm = () => {
-    if(!canApply)return
-    onApply({
-      kind:'ADJUST', operation,
-      autoReasonCode:operation==='REDISTRIBUTION'?'SIZE_SWAP':'PHYSICAL_RECOUNT',
-      note:note.trim(), sizesByBatch:drafts,
-    })
+    if(operation==='PARTIAL'){
+      submit({kind:'PARTIAL',note:note.trim(),sizes:retained,mandorNote,physical});return
+    }
+    if(canApply)submit({kind:'ADJUST',operation,note:note.trim(),sizesByBatch:drafts,chosen,physical})
   }
   const confirmReverse = () => {
     if(!target||!noteValid)return
-    onApply({kind:'REVERSE',batchId:target.id,autoReasonCode:'PRE_SEWING_REVERSAL',note:note.trim()})
+    submit({kind:'REVERSE',note:note.trim(),physical})
   }
 
   if(mode==='reverse')return <div className="wip-control-backdrop" role="presentation" onMouseDown={onClose}>
     <section className="wip-control-modal reverse" role="alertdialog" aria-modal="true" aria-labelledby="wip-reverse-title" onMouseDown={(event)=>event.stopPropagation()}>
       <header><div><span>PRE-SEWING · BATCH DISTRIBUSI</span><h2 id="wip-reverse-title">Batalkan Batch Distribusi {String(target.number).padStart(2,'0')}?</h2><p>Batch Produksi {parent.id} · {target.id} · {target.qty} pcs</p></div><button onClick={onClose} aria-label="Tutup"><X/></button></header>
-      <div className="wip-reverse-impact"><Undo2/><div><strong>Kuantitas kembali ke Batch Produksi</strong><small>Instruksi Mandor dan distribusi batch ini dibatalkan. Hasil potong produksi tetap ada dan dapat didistribusikan ulang.</small></div></div>
-      <div className="wip-control-facts"><article><span>MANDOR</span><strong>{parent.mandor}</strong></article><article><span>BATCH DISTRIBUSI</span><strong>{target.id}</strong></article><article><span>QTY KEMBALI</span><strong>{target.qty} pcs</strong></article></div>
-      <div className="wip-server-guard"><ShieldCheck/><span><strong>Server akan mengecek ulang dependency</strong><small>Satu pcs selesai dijahit, Laundry, QC, FG, BS, payroll, stok, atau jurnal aktif akan langsung memblokir aksi.</small></span></div>
-      <label className="wip-control-note"><span>CATATAN SINGKAT · WAJIB</span><textarea autoFocus value={note} onChange={(event)=>setNote(event.target.value)} placeholder="Contoh: salah batch mandor, bagi ulang."/><small>{note.trim().length}/4</small></label>
-      <footer><button className="soft-btn" onClick={onClose}>Kembali</button><button className="danger-btn" disabled={!noteValid} onClick={confirmReverse}><Undo2/> Batalkan distribusi</button></footer>
+      <div className="wip-reverse-impact"><Undo2/><div><strong>{target.qty} pcs kembali ke Bagi Potongan</strong><small>Form pembagian akan terbuka untuk Batch {target.number} ini. Lu bisa bagi sekarang atau menyusul.</small></div></div>
+      <div className="wip-control-facts"><article><span>MANDOR</span><strong>{target.mandor}</strong></article><article><span>BATCH DISTRIBUSI</span><strong>{target.id}</strong></article><article><span>QTY KEMBALI</span><strong>{target.qty} pcs</strong></article></div>
+      <div className="wip-control-facts">{parent.sizeLabels.map((size,i)=>target.sizes[i]>0&&<article key={size}><span>UKURAN {size}</span><strong>{target.sizes[i]} pcs</strong></article>)}</div>
+      {physicalField}{reasonField}{error&&<p role="alert">{error}</p>}
+      <footer><button className="soft-btn" onClick={onClose}>Kembali</button><button className="danger-btn" disabled={!noteValid} onClick={confirmReverse}><Undo2/> Batalkan &amp; bagi ulang</button></footer>
     </section>
   </div>
 
@@ -113,7 +117,10 @@ export default function WipBatchControlLayer({ mode, parent, targetBatchId, onCl
       <div className="wip-operation-tabs" role="tablist" aria-label="Jenis penyesuaian">
         <button className={operation==='REDISTRIBUTION'?'active':''} disabled={!canRedistribute} onClick={()=>setOperation('REDISTRIBUTION')}><SlidersHorizontal/><span><strong>Redistribusi antar batch</strong><small>Total Batch Produksi wajib tetap sama</small></span></button>
         <button className={operation==='PHYSICAL_RECOUNT'?'active':''} onClick={()=>setOperation('PHYSICAL_RECOUNT')}><RotateCcw/><span><strong>Koreksi hasil fisik</strong><small>Total Batch Produksi dapat berubah</small></span></button>
+        <button className={operation==='PARTIAL'?'active':''} onClick={()=>setOperation('PARTIAL')}><Undo2/><span><strong>Kembalikan sebagian</strong><small>Sisa tetap dibagikan ke mandor</small></span></button>
       </div>
+      {operation==='PARTIAL'?<section className="dist-form wip-partial"><fieldset><legend>Jumlah yang tetap di mandor</legend><div className="dist-inputs">{parent.sizeLabels.map((size,i)=>target.sizes[i]>0&&<label key={size}>Ukuran {size}<input type="number" min="0" max={target.sizes[i]} value={retained[i]} onChange={e=>setRetained(retained.map((n,j)=>i===j?Number(e.target.value):n))}/></label>)}</div></fieldset>
+        <p>{target.qty-total(retained)} pcs kembali ke Bagi Potongan.</p><label>Arahan mandor (opsional)<input value={mandorNote} onChange={e=>setMandorNote(e.target.value)}/></label></section>:<>
       {!canRedistribute&&<div className="wip-control-hint"><AlertTriangle/><span><strong>Redistribusi belum tersedia untuk Batch Produksi ini.</strong> Hanya satu Batch Distribusi yang masih pre-sewing; batch lain sudah mempunyai bukti jahit. Koreksi fisik tetap dapat dilakukan.</span></div>}
 
       <div className="wip-father-equation">{parent.sizeLabels.map((size,index)=>{
@@ -133,9 +140,14 @@ export default function WipBatchControlLayer({ mode, parent, targetBatchId, onCl
         })}</div>
       </section>
 
-      <label className="wip-control-note"><span>CATATAN SINGKAT · WAJIB</span><textarea value={note} onChange={(event)=>setNote(event.target.value)} placeholder="Contoh: hitung fisik ulang, Size 33 kurang 2 pcs."/><small>{note.trim().length}/4</small></label>
-      <div className={`wip-control-validation ${canApply?'safe':'warn'}`}>{canApply?<ShieldCheck/>:<AlertTriangle/>}<span><strong>{!changed?'Belum ada angka yang berubah':!valuesValid?'Batch Distribusi tidak boleh 0; gunakan Batalkan Distribusi':operation==='REDISTRIBUTION'&&!redistributionExact?'Redistribusi belum seimbang per size':!noteValid?'Isi catatan singkat dulu':'Siap direview'}</strong><small>{operation==='REDISTRIBUTION'?'Sistem otomatis mencatat redistribusi; total Batch Produksi tidak berubah.':'Sistem otomatis mencatat koreksi fisik dan menjaga batas transaksi downstream.'}</small></span></div>
-      <footer><span><small>INTERNAL AUDIT OTOMATIS</small><strong>{operation==='REDISTRIBUTION'?'Redistribusi batch':'Koreksi fisik'} · row-version checked</strong></span><button className="soft-btn" onClick={onClose}>Batal</button><button className="primary-btn" disabled={!canApply} onClick={confirm}>Terapkan simulasi <ArrowRight/></button></footer>
+      {operation==='PHYSICAL_RECOUNT'&&parent.sizeLabels.map((size,i)=>{
+        const choices=sources.filter(s=>s.size===size)
+        if(afterTotals[i]<=originalTotals[i]||choices.length<2)return null
+        return <label className="wip-control-note" key={size}>Asal tambahan ukuran {size}<select value={chosen[size]??''} onChange={e=>setChosen({...chosen,[size]:e.target.value})}><option value="">Pilih roll dan gambar</option>{choices.map(r=><option key={sourceCode(r)} value={sourceCode(r)}>{r.rollId} · gambar {r.slot}</option>)}</select></label>
+      })}</>}
+      {physicalField}{reasonField}{error&&<p role="alert">{error}</p>}
+      {operation==='REDISTRIBUTION'&&changed&&!redistributionExact&&<p className="wip-control-hint">Jumlah tiap ukuran harus seimbang.</p>}
+      <footer><button className="soft-btn" onClick={onClose}>Kembali</button><button className="primary-btn" disabled={operation==='PARTIAL'?(!noteValid||total(retained)<1||retained.some((n,i)=>!Number.isSafeInteger(n)||n<0||n>target.sizes[i])||(total(retained)===target.qty&&mandorNote.trim()===target.note)):!canApply} onClick={confirm}>Simpan koreksi <ArrowRight/></button></footer>
     </section>
   </div>
 }

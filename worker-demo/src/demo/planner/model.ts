@@ -1,3 +1,5 @@
+import {lastWarehouseDay} from '../warehouseDay'
+import {sewingReceipts} from '../sewingReceipts'
 import { applyBatch, distribution, distributionLot, pickupsIn, returnId, sliceLot, type BatchEvent, type Source } from './distribution'
 import { sizeRangeLabel } from '../../sizeRangeLabel'
 import sample from './sample.json'
@@ -133,9 +135,10 @@ function remainingSources(lot:Lot,p:Product,session:Session) {
   })
 }
 export const remainingPieces=(lot:Lot,p:Product,session:Session)=>remainingSources(lot,p,session).reduce((n,s)=>n+s.qty,0)
+export const productionLots=(session:Session):Lot[]=>[...sample.lots,...session.cuts,distributionLot,...sewingReceipts.map(r=>r.lot)]
 export function lotsIn(session: Session): Lot[] {
   const byId=new Map(pickupsIn(session).map(p=>[p.id,p]))
-  return [...sample.lots,...session.cuts,distributionLot].flatMap((lot:Lot):Lot[]=>{
+  return productionLots(session).flatMap((lot:Lot):Lot[]=>{
     const pickup=byId.get(lot.id)
     if(!pickup){
       if(session.elsewhere.includes(lot.id))return [{...lot,kind:'elsewhere'}]
@@ -284,7 +287,7 @@ export function recordPickup(session: Session, pickup: Pickup): Session {
   }
   const lot = waitingLots(session).find(l => l.id === pickup.id)
   if (!lot) throw Error('Potongan ini sudah diambil. Pilih potongan lain.')
-  if (!['Mandor Epi','Mandor Selo','Mandor Afat','Mandor Afui'].includes(pickup.mandor) || (!validDate(pickup.at.slice(0,10)) || !/^.{10}T(?:[01]\d|2[0-3]):[0-5]\d$/.test(pickup.at) || pickup.at.slice(0,10)<(lot.date??sample.date) || pickup.at.slice(0,10)>sample.date)) throw Error('Pilih mandor dan waktu ambil yang sesuai tanggal potong.')
+  if (!['Mandor Epi','Mandor Selo','Mandor Afat','Mandor Afui'].includes(pickup.mandor) || (!validDate(pickup.at.slice(0,10)) || !/^.{10}T(?:[01]\d|2[0-3]):[0-5]\d$/.test(pickup.at) || pickup.at.slice(0,10)<(lot.date??sample.date) || pickup.at.slice(0,10)>(lot.returnedBatch?lastWarehouseDay():sample.date))) throw Error('Pilih mandor dan waktu ambil yang sesuai tanggal potong.')
   if (lot.earliestPickup&&pickup.at<lot.earliestPickup)throw Error('Waktu ambil mendahului koreksi batch.')
   if (lot.returnedBatch&&!pickup.batches.every(b=>b.sources&&b.sizes))throw Error('Isi rincian roll dan ukuran dari batch asal.')
   if (!pickup.batches.length || pickup.batches.some(b => !Number.isSafeInteger(b.qty) || b.qty <= 0) || pickup.batches.reduce((sum,b) => sum + b.qty,0) !== lot.qty) throw Error('Jumlah di semua batch harus sama dengan potongan yang diambil.')

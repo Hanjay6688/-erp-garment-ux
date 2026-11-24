@@ -481,12 +481,13 @@ export function CuttingRollPage() {
   </>
 }
 
-export function RollBatchQuickMenu({rollId,batchCount,currentBatch,split,onAssign}:{rollId:string;batchCount:number;currentBatch:number|null;split:boolean;onAssign:(batchIndex:number)=>void}) {
-  const label=split?'Pecah':currentBatch===null?'Pilih':String(currentBatch+1)
-  return <label className="roll-batch-quick"><span className="sr-only">Pilih batch untuk {rollId}</span><select aria-label={`Pilih batch untuk ${rollId}`} value={!split&&currentBatch!==null?String(currentBatch):''} onChange={(event)=>onAssign(Number(event.target.value))}><option value="" disabled>Batch: {label}</option>{Array.from({length:batchCount},(_,batchIndex)=><option value={batchIndex} key={batchIndex}>Batch: {batchIndex+1}</option>)}</select><ChevronDown/></label>
+export function RollBatchQuickMenu({rollId,batchCount,currentBatch,split,onAssign,firstBatch=1}:{firstBatch?:number;rollId:string;batchCount:number;currentBatch:number|null;split:boolean;onAssign:(batchIndex:number)=>void}) {
+  const label=split?'Pecah':currentBatch===null?'Pilih':String(currentBatch+firstBatch)
+  return <label className="roll-batch-quick"><span className="sr-only">Pilih batch untuk {rollId}</span><select aria-label={`Pilih batch untuk ${rollId}`} value={!split&&currentBatch!==null?String(currentBatch):''} onChange={(event)=>onAssign(Number(event.target.value))}><option value="" disabled>Batch: {label}</option>{Array.from({length:batchCount},(_,batchIndex)=><option value={batchIndex} key={batchIndex}>Batch: {batchIndex+firstBatch}</option>)}</select><ChevronDown/></label>
 }
 
 type UnassignedRollCardProps = {
+  firstBatch?:number
   sizeLabels?: readonly string[]
   row: { roll: FabricRoll; sizes: QtyTuple; quantity: number }
   batchCount: number
@@ -499,6 +500,7 @@ type UnassignedRollCardProps = {
 }
 
 export function UnassignedRollCard({
+  firstBatch=1,
   sizeLabels=cuttingSizes,
   row,
   batchCount,
@@ -526,7 +528,7 @@ export function UnassignedRollCard({
       <p id={instructionId}>Pindahkan utuh lewat pilihan Batch. Drag hanya alternatif desktop.</p>
     </div>
     <footer className="wip-roll-token-actions">
-      <RollBatchQuickMenu rollId={row.roll.id} batchCount={batchCount} currentBatch={null} split={false} onAssign={(batchIndex) => onAssignWhole(row.roll.id, batchIndex)}/>
+      <RollBatchQuickMenu firstBatch={firstBatch} rollId={row.roll.id} batchCount={batchCount} currentBatch={null} split={false} onAssign={(batchIndex) => onAssignWhole(row.roll.id, batchIndex)}/>
       <button type="button" className="wip-roll-split-btn" onClick={() => onOpenSplit(row.roll.id)}><Icon name="ruler"/><span><strong>Atur pecahan</strong><small>Bagi size manual</small></span><Icon name="arrow"/></button>
       <button
         type="button"
