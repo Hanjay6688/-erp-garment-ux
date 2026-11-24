@@ -82,6 +82,14 @@ class CloudTransfer(TestCase):
                 with self.assertRaisesRegex(ValueError, "Folder tujuan"):
                     job.connect(CFG)
 
+    def test_separate_secret_works_with_private_web_setup(self):
+        config = dict(CFG)
+        secret = config.pop("client_secret")
+        with self.assertRaisesRegex(ValueError, "belum lengkap"):
+            job.read_config(json.dumps(config))
+        self.assertEqual(job.read_config(json.dumps(config), secret), CFG)
+        self.assertEqual(job.read_config(json.dumps(CFG)), CFG)
+
     def test_retire_only_older_verified_samples(self):
         self.seed(16)
         note = self.physical / "catatan.txt"
@@ -109,6 +117,21 @@ class CloudTransfer(TestCase):
                 (self.physical / (stem + ".cp7")).unlink()
         self.assertEqual(job.retire(DAY, KEY), (14, 2))
         self.assertFalse(any(self.physical.glob("*" + job.RUN_MARKER)))
+
+    def test_unverified_good_payload_cannot_substitute_for_another_receipt(self):
+        self.seed(15)
+        data, stem = job.expected(DAY, KEY)
+        marker = self.physical / (stem + ".verified.json")
+        captured = json.loads(marker.read_bytes())["captured_at"]
+        marker.unlink()
+        alternate_data, alternate = job.expected(DAY, bytes(reversed(KEY)))
+        self.assertEqual(len(data), len(alternate_data))
+        (self.physical / (alternate + ".cp7")).write_bytes(alternate_data)
+        proof = job.nightly.receipt_for(DAY, captured, len(alternate_data), alternate.split("--")[1])
+        (self.physical / (alternate + ".verified.json")).write_text(json.dumps(proof))
+        with self.assertRaisesRegex(ValueError, "dipertahankan"):
+            job.retire(DAY, KEY)
+        self.assertEqual(len(list(self.physical.glob("*.cp7"))), 16)
 
     def test_future_capture_is_rejected_on_retry(self):
         self.seed(1)

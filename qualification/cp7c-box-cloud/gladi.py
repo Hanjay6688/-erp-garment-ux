@@ -42,12 +42,16 @@ def fixture(day, key):
     return blob
 
 
-def read_config(raw):
+def read_config(raw, client_secret=None):
     if not raw:
         raise ValueError("Izin mesin Box belum dipasang pada environment erp-box-gladi.")
     cfg = json.loads(raw)
+    if not isinstance(cfg, dict):
+        raise ValueError("Konfigurasi mesin Box belum lengkap.")
+    if client_secret:
+        cfg["client_secret"] = client_secret
     for field in ("client_id", "client_secret", "enterprise_id", "folder_id", "fixture_key"):
-        if not isinstance(cfg, dict) or not isinstance(cfg.get(field), str) or not cfg[field].strip():
+        if not isinstance(cfg.get(field), str) or not cfg[field].strip():
             raise ValueError("Konfigurasi mesin Box belum lengkap.")
     if not all(re.fullmatch(r"[1-9][0-9]*", cfg[k]) for k in ("folder_id", "enterprise_id")):
         raise ValueError("Identitas Box tidak sah.")
@@ -128,8 +132,15 @@ def retire(day, key):
     if len(plan["keep"]) != nightly.KEEP_NIGHTS:
         raise ValueError("Belum ada 14 malam lebih baru untuk membersihkan arsip.")
     for label in plan["keep"]:
-        data, stem = expected(date.fromisoformat(label), key)
-        if sizes.get(stem + ".cp7") != len(data) or file_bytes(stem + ".cp7", len(data)) != data:
+        kept_day = date.fromisoformat(label)
+        data, stem = expected(kept_day, key)
+        marker = stem + ".verified.json"
+        if marker not in sizes:
+            raise ValueError("Bukti arsip yang akan dipertahankan tidak cocok dengan sumber.")
+        proof = nightly.read_marker(REMOTE, marker, sizes[marker])
+        reference = nightly.receipt_for(kept_day, proof["captured_at"], len(data), stem.split("--")[1])
+        if (reference != proof or sizes.get(stem + ".cp7") != len(data)
+                or file_bytes(stem + ".cp7", len(data)) != data):
             raise ValueError("Arsip yang akan dipertahankan gagal verifikasi.")
     for stem in candidates:
         old_day = date.fromisoformat(stem.split("--")[0])
@@ -176,7 +187,7 @@ def transfer(stamp, key, work):
 
 
 def main():
-    cfg = read_config(os.environ.pop("BOX_GLADI", ""))
+    cfg = read_config(os.environ.pop("BOX_GLADI", ""), os.environ.pop("BOX_GLADI_CLIENT_SECRET", ""))
     with tempfile.TemporaryDirectory() as directory:
         os.environ["RCLONE_LOG_FILE"] = str(Path(directory) / "rclone.log")
         connect(cfg)

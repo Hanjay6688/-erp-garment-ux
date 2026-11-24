@@ -41,7 +41,7 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq rclone python3-cryptography
-      - name: Uji data dummy, retur setelah putus, dan retensi
+      - name: Uji data dummy, pemulihan setelah putus, dan retensi
         env:
           RCLONE_CONFIG: ${{ github.workspace }}/qualified/qualification/cp7c-backup-sintetis/box-250mb.conf
           PYTHONPATH: ${{ github.workspace }}/qualified/qualification/cp7c-backup-malam
@@ -89,6 +89,7 @@ jobs:
       - name: Unggah, unduh dari Box, dan cocokkan SHA-256
         env:
           BOX_GLADI: ${{ secrets.BOX_GLADI }}
+          BOX_GLADI_CLIENT_SECRET: ${{ secrets.BOX_GLADI_CLIENT_SECRET }}
           RCLONE_CONFIG: ${{ github.workspace }}/qualified/qualification/cp7c-backup-sintetis/box-250mb.conf
           PYTHONPATH: ${{ github.workspace }}/qualified/qualification/cp7c-backup-malam
         run: |

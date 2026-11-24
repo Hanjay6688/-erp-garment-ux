@@ -3,7 +3,7 @@
   "candidate_branch": "pre-cp5/cutting-persistence-pickup-wip-r1-20260903",
   "source_base_sha": "8bfac13b91ea1be92111139e2fddcabccf9ae19a",
   "source_base_tree": "a9b193010266bb686c57709865a992769a835855",
-  "generation_parent_sha": "17e2c56e7e3eea84697fbbc1d5999a5af2e779d9",
+  "generation_parent_sha": "bf93debd6ad86b15b3b0a52728f16266246adda7",
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
@@ -235,6 +235,10 @@
       "bytes": 81444,
       "sha256": "eb42921a3dc1f50acb59e8b1c2c5969fb261f497ccd6ded6ad1118b106429ef7"
     },
+    ".github/workflows/cp7c-box-cloud-gratis.yml": {
+      "bytes": 3838,
+      "sha256": "f31bc31422efb86cc0dba4a6f8883e320ef124ce509ef07d4f88b2d3a9482eeb"
+    },
     ".github/workflows/cutting-bridge-full-schema-validation.yml": {
       "bytes": 26705,
       "sha256": "23f854de26c66ee8bb0d5e9aa98684da31471aadd98d63c303d31e135f7d0cf9"
@@ -346,6 +350,22 @@
     "playwright.cp5.config.ts": {
       "bytes": 1394,
       "sha256": "9effe9acdf5de935093d7cd71a164a9c04b074133aa9267a8ae4488ebd69482a"
+    },
+    "qualification/cp7c-box-cloud/README.md": {
+      "bytes": 4289,
+      "sha256": "67d7f3a5307e0a0ca52b5c1b4d512d41cc377aaa009a7e9f4f676971bfd4f1e8"
+    },
+    "qualification/cp7c-box-cloud/gladi.py": {
+      "bytes": 9757,
+      "sha256": "34cc351869a0bcd1b860ba72cd5292139297e7ea6c3267e5a3776e74c3da095f"
+    },
+    "qualification/cp7c-box-cloud/pasang_izin.py": {
+      "bytes": 2396,
+      "sha256": "03037a9d1f3eb8101a2472cadec2be13b1d0a671c5d442bd1f72f610a80e7f95"
+    },
+    "qualification/cp7c-box-cloud/test_gladi.py": {
+      "bytes": 7081,
+      "sha256": "0538f3e0d1fd0dbe5646593b1d78dc0ea2e5e9c650073c795d9dad5df557024a"
     },
     "scripts/assert-uat-auth-env.mjs": {
       "bytes": 4647,
