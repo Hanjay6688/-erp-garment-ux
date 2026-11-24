@@ -636,8 +636,8 @@
       "sha256": "8dcafcf1ead9dec38713f7a75f317eed63de1bf64a666e0e354c540e913a7ab4"
     },
     "tests/browser/cp8-worker.spec.ts": {
-      "bytes": 44273,
-      "sha256": "a4173796c8874de64aed3316e30ec5f40867ce708161a53d9c15249e112c46a6"
+      "bytes": 47692,
+      "sha256": "e0d2ac9f5f69d0c48a604ca09404f642beb66a3a190c621bbf196a9388a2a038"
     },
     "tests/fg-quantity.test.ts": {
       "bytes": 1251,
@@ -1636,8 +1636,8 @@
       "sha256": "1ab8c593abdf4dec4126d1c9ac3baa9df9d3f8941e9da619d6adcd2770729b72"
     },
     "worker-demo/src/demo/MandorWipPage.tsx": {
-      "bytes": 48212,
-      "sha256": "511b645faaca75f2b7976f1bd874e1055ea1cb2afc6e19481b5afd5503594783"
+      "bytes": 49297,
+      "sha256": "b6210d564a6d2db030033ed056cba62b89b1ae9f232d56db32615ce11ebc5881"
     },
     "worker-demo/src/demo/PeriodFilter.tsx": {
       "bytes": 2266,
@@ -1660,8 +1660,8 @@
       "sha256": "6b27a1845fd552a0c6b324d94370a5e55f335bdb24943d3cb5468d09ad1da28c"
     },
     "worker-demo/src/demo/SewingWipPage.tsx": {
-      "bytes": 22880,
-      "sha256": "7686324bcfc23b9e1dfe39b5cb217bdd9c67a830f61f5002286e9276705c6030"
+      "bytes": 23159,
+      "sha256": "0f151abcc3cc59978ef841da7878402fd9b300e49164638ec44db1a8bdcc12fe"
     },
     "worker-demo/src/demo/SkuRangePage.tsx": {
       "bytes": 9207,
@@ -1670,6 +1670,10 @@
     "worker-demo/src/demo/StockPages.tsx": {
       "bytes": 17197,
       "sha256": "3f3fc401cb43aa5284a76835ec1508d4c783e00c9444be2a9d24c277cece97af"
+    },
+    "worker-demo/src/demo/WipDistributionLedger.tsx": {
+      "bytes": 9039,
+      "sha256": "f59608af27e47e12c68c2e823f1449d1eda9959310c766fdcba90825ef9c3a6a"
     },
     "worker-demo/src/demo/accessoryPricing.ts": {
       "bytes": 9327,
@@ -1727,13 +1731,21 @@
       "bytes": 3939,
       "sha256": "5fa923eeea8a1208a6793d9b06dc46a0fc216b9b93485c0fa1c183b06c59f4f8"
     },
+    "worker-demo/src/demo/planner/distribution.test.ts": {
+      "bytes": 6861,
+      "sha256": "d189c571d7058e5e136ff456c489295968d2c570b015fb820d683fb9b0192bf9"
+    },
+    "worker-demo/src/demo/planner/distribution.ts": {
+      "bytes": 9269,
+      "sha256": "0f38c812e7d648f2584a5b9373e8be921eb62c600dd4cc3b726a74ba45f1c930"
+    },
     "worker-demo/src/demo/planner/inventory.ts": {
       "bytes": 3857,
       "sha256": "3ba9eed5c1c81fa32d5ff61cdb10ced64a67e3bfedaef6c9956dfc772f7a8f03"
     },
     "worker-demo/src/demo/planner/model.ts": {
-      "bytes": 19551,
-      "sha256": "b76110a605b5226c6e91e24f2daad3561d88593108303d99dc0678dcc967260e"
+      "bytes": 23244,
+      "sha256": "ccc0d7bd8c45e4306ad01d4ccbac7f7fe72e429f8c95c296fc5b6bc4af0bd192"
     },
     "worker-demo/src/demo/planner/planner.css": {
       "bytes": 12224,
@@ -1782,6 +1794,10 @@
     "worker-demo/src/demo/warehouseForms.css": {
       "bytes": 6503,
       "sha256": "f35a2cc7f54b8211b67a1e1d37f58cb8966b32801e9764b7decbb520b41947f8"
+    },
+    "worker-demo/src/demo/wipDistribution.css": {
+      "bytes": 2950,
+      "sha256": "608d3b0934ab30cb03398bec94fe1ba3d7b6a52c1978ccb88753d13452be2df7"
     },
     "worker-demo/src/demoCuttingRoutes.ts": {
       "bytes": 1702,
