@@ -636,8 +636,8 @@
       "sha256": "8dcafcf1ead9dec38713f7a75f317eed63de1bf64a666e0e354c540e913a7ab4"
     },
     "tests/browser/cp8-worker.spec.ts": {
-      "bytes": 22046,
-      "sha256": "00590c474fe05fa48ba1c84c0c31fd5a852a3b34c67fd298df8c9baad970ba5b"
+      "bytes": 22289,
+      "sha256": "452842429c81d88382a5ca452036d1b21cfd418211ab808eab05e2eb543ef299"
     },
     "tests/worker-accessory-price.test.ts": {
       "bytes": 3467,
@@ -1608,8 +1608,8 @@
       "sha256": "aa212d7eb5f31cacf4dd82c73c7e995ee63049b9cf09a480724b48c7f77de9a8"
     },
     "worker-demo/src/demo/CuttingRollPage.tsx": {
-      "bytes": 46570,
-      "sha256": "7589cf58333c71f7c886a3dc27b498239b39599cd6ba56ac6f94a1c8698e0bda"
+      "bytes": 46523,
+      "sha256": "7bceda8c90cdf346228a42c17260ff9a988b917e01e582c5eea7d2f7ab424878"
     },
     "worker-demo/src/demo/LaundryPage.tsx": {
       "bytes": 26506,
