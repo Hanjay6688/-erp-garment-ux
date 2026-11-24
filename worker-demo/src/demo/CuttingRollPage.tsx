@@ -3,7 +3,7 @@ import CuttingPatternPicker, { hasCanonicalPattern } from '../CuttingPatternPick
 import type { CuttingPatternChoice } from '../CuttingPatternPicker'
 import { Field, MultiCheckFilter } from './controls'
 import { AdviceBox, pickupPath } from './planner/ProductionAdvice'
-import { cutRolls, day, lotLabel, lotPattern, modelSeries, patternFor, plan, productFor, products, recordCut, rolls, seriesLabel, suggestedCut, yardsLeft, type Plan } from './planner/model'
+import { articles, articleChoice, cutArticle, planningPattern, rangeLabel, cutRolls, lotLabel, lotPattern, modelSeries, patternFor, plan, productFor, recordCut, rolls, seriesLabel, suggestedCut, yardsLeft, type Plan } from './planner/model'
 import { usePlannerSession, changeSession } from './planner/session'
 import {
   cuttingSizes,
@@ -42,12 +42,12 @@ export function CuttingRollPage() {
   const [date,setDate]=useState(draft?.date??'2026-11-24')
   const [notes,setNotes]=useState(draft?.notes??'')
   const [eta,setEta]=useState(draft?.eta??'')
-  const series=modelSeries[model]
+  const linked=cutArticle(sku)
+  const series=linked&&linked.model===model ? {name:linked.sizes.length===1?'khusus':modelSeries[model].name,sizes:linked.sizes} : modelSeries[model]
   const cuttingSizeOptions=series?.sizes??[]
   const [notice,setNotice]=useState('')
   const [savedId,setSavedId]=useState('')
   const requestId=useRef(crypto.randomUUID())
-  const linked=productFor(sku)
   const formRef=useRef<HTMLElement>(null)
   const [query,setQuery]=useState('')
   const [selectedPattern,setSelectedPattern]=useState<CuttingPatternChoice|null>(draft?.selectedPattern??null)
@@ -62,9 +62,8 @@ export function CuttingRollPage() {
   const [fillRange,setFillRange]=useState<{source:number;target:number}|null>(null)
   function useAdvice(row:Plan, material?:string, scroll=true) {
     const p=row.product, {route,roll,qty}=suggestedCut(row,session,material)
-    if(!qty)return
+    if(!qty||!row.reference)return
     setSku(p.sku);setBrand(p.brand);setModel(patternFor(route.pattern).name);setDate('2026-11-24')
-    if(!row.reference)return
     setSelectedPattern(patternFor(row.reference));setSelectedRollIds([roll.id])
     setSelectedSuppliers([...fabricRollSuppliers]);setSelectedMaterials([...fabricRollMaterials]);setQuery('')
     const sizes=modelSeries[patternFor(route.pattern).name].sizes
@@ -114,25 +113,34 @@ export function CuttingRollPage() {
   const slotTotals=sizeSlots.map((_,slotIndex)=>selectedRolls.reduce((sum,roll)=>sum+(allocations[roll.id]?.[slotIndex]??0),0))
   const sizeTotalByName=Object.fromEntries(selectedCuttingSizes.map((size)=>[size,sizeSlots.reduce((sum,slot,slotIndex)=>sum+(slot.size===size?slotTotals[slotIndex]:0),0)])) as Record<string,number>
   const totalPieces=slotTotals.reduce((sum,qty)=>sum+qty,0)
-  function selectModel(name:string) {
-    if(name===model)return
-    const sizes=modelSeries[name]?.sizes??[]
+  function selectModel(name:string,sizes=modelSeries[name]?.sizes??[],fromArticle=false) {
+    if(!fromArticle&&linked&&name!==linked.model){setSizeNotice('Kosongkan SKU rencana dulu untuk memilih model lain.');return false}
+    if(name===model&&sizes.length===new Set(sizeSlots.map(s=>s.size)).size&&sizeSlots.every(s=>sizes.includes(s.size)))return true
     if(sizeSlots.some((slot,i)=>!sizes.includes(slot.size)&&Object.values(allocations).some(values=>values[i]>0))){
-      setSizeNotice('Kosongkan hasil ukuran di luar seri baru sebelum mengganti model.');return
+      setSizeNotice('Kosongkan hasil ukuran di luar seri baru sebelum mengganti model.');return false
     }
     const newSlots=sizes.flatMap(size=>{
       const same=sizeSlots.filter(slot=>slot.size===size)
       return same.length ? same : blankSlots([size])
     })
     setAllocations(current=>Object.fromEntries(Object.entries(current).map(([id,values])=>[id,newSlots.map(slot=>values[sizeSlots.indexOf(slot)]??0)])))
-    setModel(name);setSizeSlots(newSlots);setSizeNotice('')
+    setModel(name);setSizeSlots(newSlots);setSizeNotice('');return true
+  }
+  function selectSku(value:string) {
+    if(!value){setSku('');setSizeNotice('');return}
+    const article=cutArticle(value)
+    if(!article)return
+    if(!selectModel(article.model,article.sizes,true))return
+    setSku(value)
+    const ref=planningPattern(article,session)
+    if(!selectedPattern&&ref)setSelectedPattern(patternFor(ref))
   }
   function storeCut() {
     if(savedId)return
     try {
       if(!selectedPattern||!series)throw Error('Pilih model, seri dan pola.')
       const next=changeSession(current=>recordCut(current,{
-        requestId:requestId.current,sku,brand,model,series,pattern:selectedPattern,date,notes,eta,
+        requestId:requestId.current,sku:linked?.sku,articleKey:linked?.key,brand,model,series,pattern:selectedPattern,date,notes,eta,
         location:'Gudang Kain',slots:sizeSlots.map(slot=>slot.size),
         rolls:rollUsageRows.map(({roll,used})=>({id:roll.id,yards:used,quantities:sizeSlots.map((_,i)=>allocations[roll.id]?.[i]??0)})),
       }))
@@ -393,7 +401,7 @@ export function CuttingRollPage() {
         <div className="cutting-roll-list">{visibleRolls.map((roll)=>{const selected=selectedIdSet.has(roll.id);return <button type="button" aria-pressed={selected} className={`stock-roll-row ${selected?'selected':''}`} key={roll.id} onClick={()=>toggleRoll(roll.id)}><span className="roll-select-box">{selected&&<Icon name="check"/>}</span><span className="stock-roll-seq">{String(roll.sequence).padStart(2,'0')}</span><span className="stock-roll-name"><strong>{roll.material}</strong><small>{roll.supplier} · {roll.id} · masuk {roll.receivedAt}</small></span><span className="stock-roll-yard"><strong>{formatQuantity(roll.yards,2)} yd</strong><small>{selected?'Masuk pembagian':'Siap dipilih'}</small></span></button>})}{visibleRolls.length===0&&<div className="catalog-empty"><Icon name="search"/><strong>Roll tidak ditemukan</strong><small>Periksa pencarian atau pilihan filter pabrik dan bahan.</small></div>}</div>
       </div>
       <aside className="panel cutting-live-summary">
-        <div className="eyebrow">BATCH PRODUKSI</div><h2>{model||'Potongan baru'}</h2><p>{series?seriesLabel(series):'Seri belum dipilih'}{sku?' · SKU '+sku:''}{linked?' · '+linked.customer+' · '+day(linked.due):''}</p><p>Hasil cutting ini belum didistribusikan ke batch Mandor.</p>
+        <div className="eyebrow">BATCH PRODUKSI</div><h2>{model||'Potongan baru'}</h2><p>{series?seriesLabel(series):'Seri belum dipilih'}{linked?' · '+linked.key+' · '+linked.colour:''}</p><p>Hasil cutting ini belum didistribusikan ke batch Mandor.</p>
         <div className="cutting-summary-main"><div><span>YARD USED</span><strong>{formatQuantity(totalUsedYards,2)} yd</strong><small>{selectedRolls.length} roll · {partialRollCount} split</small></div><div><span>TOTAL POTONGAN</span><strong>{totalPieces} pcs</strong><small>{dozenPieces(totalPieces)}</small></div></div>
         <div className="cutting-summary-sizes" style={sizeSummaryStyle}>{selectedCuttingSizes.map((size)=><div key={size}><span>SIZE {size}</span><strong>{sizeTotalByName[size]} pcs</strong><small>{dozenPieces(sizeTotalByName[size])}</small></div>)}</div>
         <div className="po-preview"><Icon name="warehouse"/><div><strong>Tujuan berikutnya: WIP Potongan</strong><span>Setelah disimpan, hasil ini menunggu mandor mengambil. Pembagian batch dilakukan saat pickup.</span></div></div>
@@ -416,12 +424,13 @@ export function CuttingRollPage() {
     <section ref={formRef} className="panel allocation-workbench" id="allocation-workbench">
       <div className="cutting-panel-head allocation-head"><div><span>03 · HASIL POTONG PER ROLL</span><h2>Catat hasil satu seri</h2><p>Pilih seri sekali. Isi jumlah aktual pada kolom roll. Ukuran tanpa hasil boleh nol.</p></div><span className="draft-pill">Draft</span></div>
       <div className="cutting-meta-grid">
-        <Field label="Model dan seri · wajib"><select required aria-label="Model dan seri" className="erp-input" value={model} onChange={e=>selectModel(e.target.value)}><option value="">Pilih model dan seri</option>{Object.entries(modelSeries).map(([name,set])=><option key={name} value={name}>{name} · {seriesLabel(set)}</option>)}</select></Field>
+        <Field label="Model dan seri · wajib"><select required aria-label="Model dan seri" className="erp-input" value={model} onChange={e=>selectModel(e.target.value)}><option value="">Pilih model dan seri</option>{Object.entries(modelSeries).map(([name,set])=><option key={name} value={name}>{name} · {seriesLabel(linked&&linked.model===name&&series?series:set)}</option>)}</select></Field>
         <CuttingPatternPicker value={selectedPattern} onChange={setSelectedPattern}/>
-        <Field label="Merek rencana · opsional"><select aria-label="Merek rencana" className="erp-input" value={brand} onChange={e=>setBrand(e.target.value)}><option value="">Belum ditentukan</option><option>Vivo</option><option>Widie</option></select></Field>
-        <Field label="SKU rencana · opsional"><select aria-label="SKU rencana" className="erp-input" value={sku} onChange={e=>setSku(e.target.value)}><option value="">Belum ditentukan</option>{products.map(p=><option key={p.sku} value={p.sku}>{p.brand} {p.sku}</option>)}</select></Field>
+        <Field label="Merek rencana · opsional"><select aria-label="Merek rencana" className="erp-input" value={brand} onChange={e=>{const next=e.target.value;setBrand(next);if(next&&linked&&linked.brand!==next)setSku('')}}><option value="">Belum ditentukan</option><option>Vivo</option><option>Widie</option></select></Field>
+        <Field label="SKU rencana · opsional"><select aria-label="SKU rencana" className="erp-input" value={sku} onChange={e=>selectSku(e.target.value)}><option value="">Belum ditentukan</option>{articles.filter(a=>!brand||a.brand===brand).map(a=><option key={a.key} value={articleChoice(a)}>{a.key} · {a.colour}</option>)}</select></Field>
+        {linked&&<Field label="Identitas dari Master SKU"><span>{linked.colour} · {linked.sizes.length===1?'Ukuran khusus':'Rentang'} {rangeLabel(linked.sizes)} · {planningPattern(linked,session)?patternFor(planningPattern(linked,session)!).name:'Pola rencana kosong'}</span></Field>}
         <Field label="Lokasi sumber"><span>Gudang Kain</span></Field>
-        <Field label="Tanggal potong · wajib"><input aria-label="Tanggal potong" required className="erp-input" type="date" value={date} onChange={e=>setDate(e.target.value)}/></Field>
+        <Field label="Tanggal potong · wajib"><input aria-label="Tanggal potong" required max="2026-11-24" className="erp-input" type="date" value={date} onChange={e=>setDate(e.target.value)}/></Field>
         <Field label="Perkiraan siap · opsional"><input aria-label="Perkiraan siap" className="erp-input" type="date" value={eta} onChange={e=>setEta(e.target.value)}/></Field>
         <Field label="Catatan · opsional"><input aria-label="Catatan potongan" className="erp-input" value={notes} onChange={e=>setNotes(e.target.value)}/></Field></div>
       {sizeNotice&&<p role="status" className="cutting-size-notice">{sizeNotice}</p>}

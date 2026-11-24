@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { ArrowRight } from 'lucide-react'
 import { cuttingForms, productionForms } from '../../demoCuttingRoutes'
-import { action, cutRolls, day, eligiblePieces, lotLabel, lotPattern, lotSeries, patternFor, plansIn, possibleTargets, seriesFor, seriesLabel, setDestination, stageName, suggestedCut, waitingLots, type Lot, type Plan, type Session } from './model'
+import { action, cutRolls, day, remainingPieces, lotLabel, lotPattern, lotSeries, patternFor, plansIn, possibleTargets, seriesFor, seriesLabel, setDestination, stageName, suggestedCut, waitingLots, type Lot, type Plan, type Session } from './model'
 import { ReasonDialog } from './ReasonDialog'
 import { changeSession, usePlannerSession } from './session'
 import './planner.css'
@@ -32,7 +32,7 @@ export function SourceDetail({ row }: {row: Plan}) {
     <p>{row.base > row.short ? <>Kalau hanya mengandalkan stok dan WIP yang pasti, masih kurang <strong>{row.base} pcs</strong>. Setelah memakai WIP potensial yang cocok, sisanya <strong>{row.short} pcs</strong>.</> : productionReason(row)}</p>
     <h3>Barangnya ada di mana?</h3>
     <ul className="gar-lots">{row.lots.map(lot=><li key={lot.id}><div><strong>{stageName[lot.stage]} · {lot.qty} pcs</strong><small>{lot.id}{lot.group?' / '+lot.group:''} · {lot.place}{lot.roll ? ' · roll ' + lot.roll : ''}</small></div><div>{lotPattern(lot).name} · {lot.material}<small>Uk. {lot.size} · {lot.kind === 'directed' ? 'Tujuan pasti' : lot.kind==='elsewhere'?'Untuk pesanan lain':'Tujuan perlu dipastikan'}</small></div><div className={lot.eta && lot.eta>p.due?'gar-late':''}>Siap {day(lot.eta)}<small>{lot.kind==='elsewhere'?'Di luar kebutuhan SKU ini':!lot.eta?'Tanggal belum diketahui':lot.eta>p.due?'Lewat tenggat':'Masuk hitungan tenggat'}</small></div></li>)}</ul>
-    {row.review.length>0&&<><h3>Potongan yang perlu dipastikan</h3>{row.review.map(l=><p key={l.id}>{l.id} · {stageName[l.stage]} · {eligiblePieces(l,p,session)} pcs cocok untuk ukuran {p.size} · {lotLabel(l)}. Tujuan dan tanggal siap perlu diperiksa sebelum mengurangi kebutuhan.</p>)}</>}
+    {row.review.length>0&&<><h3>Potongan yang perlu dipastikan</h3>{row.review.map(l=><p key={l.id}>{l.id} · {stageName[l.stage]} · {remainingPieces(l,p,session)} pcs cocok untuk ukuran {p.size} · {lotLabel(l)}. Tujuan dan tanggal siap perlu diperiksa sebelum mengurangi kebutuhan.</p>)}</>}
     {row.late>0&&<p className="gar-warn">{row.late} pcs tiba sesudah pesanan harus siap. Jumlah itu dikeluarkan dari hitungan di atas.</p>}
     <details><summary>Pesanan, pola dan bahan</summary><p>{p.order} · {p.brand} {p.sku} · rentang jual {p.range} · ukuran fisik {p.size} · {p.colour} · {p.finish}.</p><ul>{p.routes.map(r=><li key={r.material}>{row.reference?patternFor(row.reference).name:'Pola belum ditentukan'} · {row.reference?patternFor(row.reference).revision:''} · {r.material}</li>)}</ul></details>
   </div>
@@ -51,10 +51,13 @@ export function DestinationChoice({lot}:{lot:Lot}) {
   const [eta,setEta]=useState(lot.eta??'')
   const [message,setMessage]=useState('')
   const session=usePlannerSession()
-  const options=possibleTargets(lot,session).filter(p=>!lot.sku||p.sku===lot.sku)
-  if(!options.length)return <p>Tujuan belum ditentukan. Potongan tetap bisa dibagi.</p>
+  const destinations=session.destinations?.filter(d=>d.id===lot.id)??[]
+  const assigned=destinations.map(d=>d.sku+' · '+(d.sources?.reduce((n,s)=>n+s.qty,0)??'')+' pcs').join(', ')
+  const options=possibleTargets(lot,session).filter(p=>(!lot.sku||p.sku===lot.sku)&&remainingPieces(lot,p,session)>0)
+  if(!options.length)return <p>{assigned?'Tujuan tersimpan · '+assigned:'Tujuan belum ditentukan. Potongan tetap bisa dibagi.'}</p>
   return <details className="gar-destination"><summary>Pastikan tujuan potongan · opsional</summary>
-    <label>Tujuan SKU<select aria-label="Tujuan SKU" value={sku} onChange={e=>setSku(e.target.value)}><option value="">Belum ditentukan</option>{options.map(p=><option key={p.sku} value={p.sku}>{p.brand} {p.sku} · {eligiblePieces(lot,p,session)} pcs cocok</option>)}</select></label>
+    {assigned&&<p>Tujuan tersimpan · {assigned}</p>}
+    <label>Tujuan SKU<select aria-label="Tujuan SKU" value={sku} onChange={e=>setSku(e.target.value)}><option value="">Belum ditentukan</option>{options.map(p=><option key={p.sku} value={p.sku}>{p.brand} {p.sku} · {remainingPieces(lot,p,session)} pcs cocok</option>)}</select></label>
     <label>Perkiraan siap<input type="date" aria-label="Tanggal siap tujuan" value={eta} onChange={e=>setEta(e.target.value)}/></label>
     <button type="button" className="gar-button" disabled={!sku||!eta} onClick={()=>{try{changeSession(s=>setDestination(s,lot.id,sku,eta))}catch(e){setMessage((e as Error).message)}}}>Simpan tujuan</button>{message&&<p role="alert">{message}</p>}
   </details>
@@ -90,7 +93,7 @@ export function AdviceBox({mode,session,onCut,onPickup,selected}:{mode:'cut'|'pi
     {detail&&<ReasonDialog title={'Alasan · '+detail.id} onClose={()=>setOpened('')}>
       {detail.lot&&<><p><strong>{lotLabel(detail.lot)}</strong> · {seriesLabel(lotSeries(detail.lot!))} · {detail.lot.qty} pcs</p>
         {cutRolls(detail.lot).map(r=><p key={r.id}>Roll {r.id} · {r.material} · {r.slots.filter(s=>s.qty).map(s=>s.size+s.image+' = '+s.qty+' pcs').join(' · ')}</p>)}</>}
-      {detail.row?<SourceDetail row={detail.row}/>:<p>Tujuan SKU belum pasti. Potongan tersedia di meja potong dan bisa dibagi ke mandor.{detail.lot&&possibleTargets(detail.lot).map(p=>' '+p.brand+' '+p.sku+' cocok untuk '+eligiblePieces(detail.lot!,p)+' pcs.').join('')}</p>}
+      {detail.row?<SourceDetail row={detail.row}/>:<p>Tujuan SKU belum pasti. Potongan tersedia di meja potong dan bisa dibagi ke mandor.{detail.lot&&possibleTargets(detail.lot,session).filter(p=>remainingPieces(detail.lot!,p,session)>0).map(p=>' '+p.brand+' '+p.sku+' cocok untuk '+remainingPieces(detail.lot!,p,session)+' pcs.').join('')}</p>}
     </ReasonDialog>}
     {mode==='cut'&&<a className="gar-next" href={pickupPath}>Lihat potongan yang siap dibagi <ArrowRight size={15}/></a>}
   </section>

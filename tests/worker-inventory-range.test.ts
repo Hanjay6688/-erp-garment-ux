@@ -26,3 +26,7 @@ describe('master sizes, optional recipes and warehouse movement',()=>{
    expect(plan(order,{...s,patternRefs:{'Vivo 93001':'KJ'}})).toMatchObject({reference:'KJ',confirmed:18,potential:24})
  })
 })
+it('refuses changed values on a retry without changing a stock receipt',()=>{
+  const article=articles[0],s=rangeChange(emptySession,'adjust',article,{32:'1'},'Hitung','a1')
+  expect(()=>rangeChange(s,'adjust',article,{32:'0'},'Hitung','a1')).toThrow('isi berbeda')
+})

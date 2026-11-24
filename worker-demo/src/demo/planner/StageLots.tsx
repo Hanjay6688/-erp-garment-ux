@@ -10,7 +10,7 @@ export function StageLots({stage}:{stage:'sewing'|'laundry'|'qc'}) {
   const [filter,setFilter]=useState(params.get('sku')??'')
   const [message,setMessage]=useState('')
   const lots=lotsIn(session).filter(l=>l.stage===stage)
-  const shown=lots.filter(l=>!filter||l.sku===filter)
+  const shown=lots.filter(l=>!filter||l.sku===filter||session.destinations?.some(d=>d.id===l.id&&d.sku===filter))
   return <section className="panel gar-panel">
     <div className="gar-panel-head"><div><p className="gar-kicker">Pesanan November · Data contoh</p><h2>{stage==='sewing'?'Barang yang sedang dijahit':stage==='laundry'?'Barang yang sedang dicuci':'Barang yang sedang diperiksa'}</h2></div><a href="/analisis/planner/">Kembali ke Planner</a></div>
     {filter&&<button type="button" className="gar-text" onClick={()=>setFilter('')}>SKU {filter} · Tampilkan semua</button>}

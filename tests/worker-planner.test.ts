@@ -71,3 +71,23 @@ describe('November garment orders',()=>{
     }
   })
 })
+it('books only compatible drawing slots even when two orders share a neutral wave',()=>{
+  const session={...emptySession,patternRefs:{'Widie 66003':'KJ'}}
+  const made=recordCut(session,{...cut,sku:'',brand:'',eta:null,model:'Kulot Jumbo',series:{name:'campuran uji',sizes:['30','32']},slots:['30','32'],rolls:[{id:'ORI-021',yards:6,quantities:[0,4]},{id:'BLZ-024',yards:5,quantities:[3,0]}]})
+  const lot=made.cuts[0],a=productFor('93001')!,b=productFor('66003')!
+  const first=setDestination(made,lot.id,a.sku,a.due)
+  expect(plan(a,first).confirmed).toBe(22);expect(plan(a,first).review).toHaveLength(0)
+  expect(plan(b,first).review.map(x=>x.id)).toEqual([lot.id]);expect(()=>setDestination(first,lot.id,a.sku,a.due)).toThrow()
+  const both=setDestination(first,lot.id,b.sku,b.due)
+  expect(plan(b,both).confirmed).toBe(9)
+  expect(waitingLots(both).find(l=>l.id===lot.id)?.qty).toBe(7)
+  const moved=recordPickup(both,{...pickup,id:lot.id,batches:[{qty:7,note:''}]})
+  expect(plan(a,moved).confirmed).toBe(22);expect(plan(b,moved).confirmed).toBe(9)
+})
+it('preserves the selected commercial identity across brands and special sizes',()=>{
+  const alt=recordCut(emptySession,{...cut,sku:'66002',brand:'',articleKey:'Widie 66002'});expect(alt.cuts[0].articleKey).toBe('Widie 66002')
+  expect(plan(productFor('66002')!,alt).lots.some(l=>l.id==='POT-D01')).toBe(false)
+  expect(()=>recordCut(emptySession,{...cut,date:'2026-11-25'})).toThrow()
+  const single=recordCut(emptySession,{...cut,sku:'93001-27',articleKey:'Vivo 93001-27',model:'Kulot Kecil',series:{name:'khusus',sizes:['27']},slots:['27'],rolls:[{id:'ORI-021',yards:2,quantities:[1]}]})
+  expect(single.cuts[0].series?.sizes).toEqual(['27'])
+})
