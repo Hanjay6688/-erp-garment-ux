@@ -117,11 +117,12 @@ function InvoiceWorkspace({ onNavigate }: { onNavigate: SalesPageProps['onNaviga
   const [number,setNumber]=useState(()=>params.get('koreksi')||!source?'INV-SIM-'+crypto.randomUUID().slice(0,8).toUpperCase():source.number)
   const [correction]=useState(()=>params.get('koreksi')||source?.corrects)
   const [memo,setMemo]=useState(source?.notes??'')
+  const [changeReason,setChangeReason]=useState('Penyimpanan draft invoice')
   const [customer,setCustomer] = useState(source?.customer??'Nusantara Fashion')
   const [location,setLocation] = useState(source?.location??(source?sourceLines(source)[0]?.product.location:null)??defaultSalesLocation)
-  const [terms,setTerms] = useState(source?.terms??'NET 30')
+  const [terms,setTerms] = useState(source ? source.terms??'' : 'NET 30')
   const [physicalAt,setPhysicalAt] = useState(source?source.dateKey+'T'+source.time:'2026-08-28T10:30')
-  const [dueDate,setDueDate] = useState(source?.due??'2026-09-27')
+  const [dueDate,setDueDate] = useState(source ? source.due??'' : '2026-09-27')
   const [query,setQuery] = useState('')
   const [brand,setBrand] = useState('Semua merek')
   const [lines,setLines] = useState<DraftLine[]>(()=>source?sourceLines(source):initialSalesProducts.map((product)=>makeLine(product,3)))
@@ -137,17 +138,19 @@ function InvoiceWorkspace({ onNavigate }: { onNavigate: SalesPageProps['onNaviga
   const totalQty=lines.reduce((sum,line)=>sum+lineQty(line),0)
   const gross=lines.reduce((sum,line)=>sum+lineGross(line),0)
   const stockValid=lines.every((line)=>isSellableGoodAtLocation(line.product,location)&&line.quantities.length===line.product.sizes.length&&line.product.stocks.length===line.product.sizes.length&&new Set(line.product.sizes).size===line.product.sizes.length&&line.quantities.every((qty,index)=>Number.isSafeInteger(qty)&&qty>=0&&qty<=saleStock(line.product,readInvoices(),number)[index]))
-  const canReview=lines.length>0&&totalQty>0&&stockValid&&customer.trim().length>0&&!!physicalAt&&!!dueDate
+  const canReview=lines.length>0&&totalQty>0&&stockValid&&customer.trim().length>0&&!!physicalAt&&changeReason.trim().length>=5
 
   function persistDraft(){
     const book=readInvoices(),current=book.find(d=>d.number===number)
     if(current&&current.status!=='DRAFT'){setReviewOpen(false);setNotice('Invoice sudah dikunci. Muat ulang untuk melihat status.');return}
     if(!canReview||lines.some(l=>l.quantities.some((n,i)=>n>saleStock(l.product,book,number)[i]))){setReviewOpen(false);setNotice('Periksa tanggal, jumlah dan saldo SKU.');return}
     const dateKey=physicalAt.slice(0,10),time=physicalAt.slice(11,16)
-    const doc:DemoInvoice={number,customer,dateKey,day:new Intl.DateTimeFormat('id-ID',{day:'numeric',month:'short',year:'numeric',timeZone:'UTC'}).format(new Date(dateKey+'T12:00:00Z')),time,sku:lines.map(l=>l.product.code).join(' · '),qty:totalQty,gross:Math.round(gross),returns:0,paid:0,status:'DRAFT',lines:structuredClone(lines),terms,due:dueDate,notes:memo,location,corrects:correction||undefined}
+    const doc:DemoInvoice={number,customer,dateKey,day:new Intl.DateTimeFormat('id-ID',{day:'numeric',month:'short',year:'numeric',timeZone:'UTC'}).format(new Date(dateKey+'T12:00:00Z')),time,sku:lines.map(l=>l.product.code).join(' · '),qty:totalQty,gross:Math.round(gross),returns:0,paid:0,status:'DRAFT',lines:structuredClone(lines),terms,due:dueDate,notes:memo,changeReason:changeReason.trim(),location,corrects:correction||undefined}
     writeInvoices([doc,...book.filter(d=>d.number!==number)])
     globalThis.history.replaceState(null,'','/penjualan/invoice/?nota='+encodeURIComponent(number))
-    setReviewOpen(false);setNotice('Draft '+number+' tersimpan. Jumlah reserve mengikuti isi terakhir.')
+    const difference=totalQty-(current?.qty??0)
+    const impact=difference>0?'Mutasi RESERVE INVOICE −'+difference+' pcs.':difference<0?'Mutasi RELEASE +'+Math.abs(difference)+' pcs.':'Jumlah reserve tetap.'
+    setReviewOpen(false);setNotice('Draft tersimpan. '+impact+' '+number)
   }
   function clearDraft(){
     const book=readInvoices(),d=book.find(d=>d.number===number)
@@ -202,8 +205,9 @@ function InvoiceWorkspace({ onNavigate }: { onNavigate: SalesPageProps['onNaviga
       <label><span>PELANGGAN</span><select value={customer} onChange={(event)=>setCustomer(event.target.value)}><option>Nusantara Fashion</option><option>Toko Maju Jaya</option><option>Sentra Denim</option></select></label>
       <label><span>LOKASI FG</span><select value={location} onChange={(event)=>{const nextLocation=event.target.value;setLocation(nextLocation);setNotice(`Lokasi aktif diganti ke ${nextLocation}. Baris dari lokasi lain diblokir sampai dikeluarkan dari draft.`)}}><option>Gudang FG Utama</option><option>Gudang FG Cadangan</option></select></label>
       <label><span>WAKTU FISIK</span><input type="datetime-local" value={physicalAt} onChange={(event)=>setPhysicalAt(event.target.value)}/></label>
-      <label><span>TERMIN</span><select value={terms} onChange={(event)=>setTerms(event.target.value)}><option>NET 30</option><option>COD</option><option>NET 14</option><option>NET 45</option></select></label>
-      <label><span>JATUH TEMPO</span><input type="date" value={dueDate} onChange={(event)=>setDueDate(event.target.value)}/></label>
+      <label><span>TERMIN · OPSIONAL</span><select value={terms} onChange={(event)=>setTerms(event.target.value)}><option value="">Tanpa termin</option><option>NET 30</option><option>COD</option><option>NET 14</option><option>NET 45</option></select></label>
+      <label><span>ALASAN PENYIMPANAN · WAJIB</span><input aria-label="Alasan penyimpanan" maxLength={1000} value={changeReason} onChange={e=>setChangeReason(e.target.value)}/></label>
+      <label><span>JATUH TEMPO · OPSIONAL</span><input aria-label="Jatuh tempo" type="date" value={dueDate} onChange={(event)=>setDueDate(event.target.value)}/></label>
     </section>
 
     <section className="biz-sales-builder">
@@ -231,7 +235,7 @@ function InvoiceWorkspace({ onNavigate }: { onNavigate: SalesPageProps['onNaviga
         <div><article><small>SKU</small><strong>{lines.length}</strong></article><article><small>QTY</small><strong>{totalQty} pcs</strong></article><article><small>LUSIN</small><strong>{qtyLabel(totalQty)}</strong></article></div>
         <section><p><Check/> SKU/size langsung dicek terhadap stok siap jual</p><p><Check/> Simpan Draft langsung membuat mutasi reserve −qty</p><p><Check/> Post mengunci invoice tanpa mengurangi stok kedua kali</p><p><Check/> Batal/kurangi Draft membuat release +qty</p></section>
         {!stockValid&&<div className="biz-guard danger"><AlertTriangle/><span>Ada baris di luar lokasi aktif, bukan grade GOOD, qty tidak aman, atau melebihi stok. Posting harus diblokir.</span></div>}
-        <label><span>CATATAN INVOICE</span><textarea aria-label="Catatan invoice" value={memo} onChange={e=>setMemo(e.target.value)} placeholder="PO pelanggan, instruksi kirim, atau catatan harga..."/></label>
+        <label><span>CATATAN INVOICE</span><textarea maxLength={4000} aria-label="Catatan invoice" value={memo} onChange={e=>setMemo(e.target.value)} placeholder="PO pelanggan, instruksi kirim, atau catatan harga..."/></label>
         <button className="primary-btn" disabled={!canReview} onClick={()=>setReviewOpen(true)}>Review invoice <ArrowRight/></button>
         <button className="soft-btn" onClick={()=>onNavigate('sales-allocation')}>Lihat semua invoice</button>
       </aside>

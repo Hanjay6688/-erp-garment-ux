@@ -15,7 +15,7 @@ export const allInvoices = [
 ]
 
 
-export type DemoInvoice=typeof allInvoices[number]&{lines?:DraftLine[];terms?:string;due?:string;location?:string;notes?:string;corrects?:string}
+export type DemoInvoice=typeof allInvoices[number]&{lines?:DraftLine[];terms?:string;due?:string;location?:string;changeReason?:string;notes?:string;corrects?:string}
 const invoiceKey='erp.owner.invoice-register.v2'
 type SaleMove={id:string;ref:string;day:string;when:string;type:string;note:string;key:string;delta:number[];balance:number[]}
 type Journal={docs:DemoInvoice[];moves:SaleMove[]}
