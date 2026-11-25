@@ -1,3 +1,4 @@
+import {trainingBom} from './demo/trainingBom'
 import { BrowsePane } from './components/BrowsePane'
 import { FgIncompleteWork } from './demo/FgIncompleteWork'
 import { laborBomComponents } from './demo/laundryModel'
@@ -231,7 +232,7 @@ export default function FgNotaPage({
     if (!editable || selectedIds.length === 0 || selectedIds.length > 50 || noteTotal <= 0 || !noteReviewed || postReason.trim().length < 5) return
     try {
     const d=storeFgDraft(draftSnapshot());setSavedDraft(d)
-    const staged=selectedRegular.map(c=>({...c,completionCount:c.result.completionCount,qcQty:c.returned,returnedQty:c.returned,grossValue:c.gross,sizeRows:c.result.sizes.map((size,i)=>({size,sewn:c.result.expected[i],good:c.result.postedGoodBySize[i],bs:c.result.postedBsBySize[i],hold:c.result.stuckBySize[i],rewash:c.result.postedRewashBySize[i]}))}))
+    const staged=selectedRegular.map(c=>({...c,standardBom:trainingBom(c.sku),completionCount:c.result.completionCount,qcQty:c.returned,returnedQty:c.returned,grossValue:c.gross,sizeRows:c.result.sizes.map((size,i)=>({size,sewn:c.result.expected[i],good:c.result.postedGoodBySize[i],bs:c.result.postedBsBySize[i],hold:c.result.stuckBySize[i],rewash:c.result.postedRewashBySize[i]}))}))
     const repairs=selectedRepair.map(c=>({id:c.id,source:c.sourceLabel,sku:[c.brand,c.sku].join(' ')+' · '+(c.sizes.length===1?c.sizes[0]:c.sizes[0]+'–'+c.sizes.at(-1)),qty:c.qty,components:c.components,unitRate:c.unitRate,subtotal:c.subtotal,sizeRows:c.sizes.map((size,i)=>({size,qty:c.qtyBySize[i]}))}))
     const reimbursement=selectedRegular.reduce((n,c)=>n+c.sewnQty*c.bomRate-c.bs*c.bsComponents.filter(x=>x.id.startsWith('bom:')).reduce((a,x)=>a+x.rate,0)-c.hold*c.stuckComponents.filter(x=>x.id.startsWith('bom:')).reduce((a,x)=>a+x.rate,0),0)
     const number='NFG-SIM-'+crypto.randomUUID().slice(0,8).toUpperCase()

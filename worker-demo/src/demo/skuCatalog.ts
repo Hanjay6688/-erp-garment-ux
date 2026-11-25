@@ -29,7 +29,9 @@ export const nativePosition = (a:Article) => {
 export const atPosition=(c:StockChange,location:string,grade:string) =>
   (c.location??mainFg)===location&&(c.grade??'Good')===grade
 export function positionDelta(s:Session,key:string,size:string,location:string,grade:string){
-  return (s.stockEvents??[]).reduce((n,e)=>n+e.changes.filter(c=>c.key===key&&c.size===size&&atPosition(c,location,grade)).reduce((v,c)=>v+c.delta,0),0)
+  const returned=(s.saleReturns??[]).filter(row=>!row.replacedBy&&row.destination===location&&row.grade===grade)
+    .flatMap(row=>row.lines).reduce((n,line)=>n+(line.sku===key&&line.size===size?line.qty:0),0)
+  return returned+(s.stockEvents??[]).reduce((n,e)=>n+e.changes.filter(c=>c.key===key&&c.size===size&&atPosition(c,location,grade)).reduce((v,c)=>v+c.delta,0),0)
 }
 export function pairOf(s:Session,key:string) {
   return s.skuPairs && Object.hasOwn(s.skuPairs,key) ? s.skuPairs[key] : skuByKey(key,s)?.pair??null

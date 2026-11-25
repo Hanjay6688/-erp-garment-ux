@@ -28,14 +28,21 @@ export type LaundryReadyBatch = {
 }
 
 type LaundryReturn = { at: string; good: QtyTuple; bs: QtyTuple }
-export type LaundryClaim = { id:string; type:'BS'|'STUCK'; qty:number; cents:number; reason:string; day:string; approvedOn?:string; reversed?:string }
+export type LaundryClaim = { id:string; type:'BS'|'STUCK'|'MISSING'; qty:number; cents:number; reason:string; day:string; approvedOn?:string; reversed?:string }
 export type LaundryBillCredit = { id:string; claim:string; cents:number; day:string; reason:string; reversed?:string }
-export type LaundryFinalBill = { number: string; day: string; process: string; rate: number; qty: number; credits?:LaundryBillCredit[] }
+export type LaundryBillPayment = {id:string; cents:number; day:string; account:string; reference:string}
+export type LaundryBillCorrection = {id:string; day:string; previousRate:number; rate:number; reason:string}
+export type LaundryVendorUse = {id:string; cents:number; day:string; reason:string; target?:{delivery:string;bill:string}; account?:string}
+export type LaundryFinalBill = {
+  number:string; day:string; process:string; rate:number; qty:number; credits?:LaundryBillCredit[]
+  payments?:LaundryBillPayment[]; corrections?:LaundryBillCorrection[]; vendorUses?:LaundryVendorUse[]
+}
+export type FailedWash = {id:string; at:string; qty:number; custody:'STAY'|'RETURN'; rate:number|null; reason:string; pricedOn?:string}
 export type LaundryDelivery = {
   id:string; parentId:string; sequence:number; batchId:string; plannedBrand?:string; skuRef?:string; model:string; material:string; mandor:string;
   pattern:ProductionPatternSnapshot|null; vendor:string; process:string; targetColor?:string|null; colourProcess?:string|null; sendNote?:string|null; sentAt:string; qty:number; sizes:QtyTuple; sizeLabels:SizeTuple;
   good:number; bs:number; goodSizes:QtyTuple; bsSizes:QtyTuple; reversed:number; reversedSizes:QtyTuple; reverseNote?:string
-  estimatedRate?: number | null; returns?: LaundryReturn[]; instructionSource?: string | null; finalBills?: LaundryFinalBill[]; claims?:LaundryClaim[]
+  estimatedRate?: number | null; returns?: LaundryReturn[]; instructionSource?: string | null; finalBills?: LaundryFinalBill[]; claims?:LaundryClaim[]; failedWashes?:FailedWash[]
 }
 
 export function laundryPhysicalTime(value:string){

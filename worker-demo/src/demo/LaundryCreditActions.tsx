@@ -2,7 +2,8 @@ import { useState, type FormEvent } from 'react'
 import { ReceiptText, ShieldCheck } from 'lucide-react'
 import { readRupiahInput } from '../moneyInput'
 import { amountText } from './accessoryPricing'
-import { availableCredits, billCredit, billGross, claimUse, eligibleClaimPieces, validClaim, validCredit } from './laundryCredits'
+import { availableCredits, billCredit, billGross, billRemaining, claimUse, eligibleClaimPieces, validClaim, validCredit, vendorBalance } from './laundryCredits'
+import { LaundrySettlement } from './LaundrySettlement'
 import type { LaundryBillCredit, LaundryClaim, LaundryDelivery, LaundryFinalBill } from './laundryModel'
 import { ReasonDialog } from './planner/ReasonDialog'
 import { lastWarehouseDay } from './warehouseDay'
@@ -10,7 +11,7 @@ import './demoCorrection.css'
 
 type UpdateLaundry = (update:(rows: LaundryDelivery[])=>LaundryDelivery[])=>void
 const money = (cents:number) => amountText(cents/100)
-const kind = (type: LaundryClaim['type']) => type==='BS' ? 'BS karena laundry' : 'Stuck di laundry'
+const labels = {BS:'BS karena laundry',STUCK:'Stuck di laundry',MISSING:'Hilang di laundry'}
 
 export function LaundryClaims({delivery,deliveries,update}:{delivery:LaundryDelivery;deliveries:LaundryDelivery[];update:UpdateLaundry}) {
   const [draft,setDraft]=useState<{id:string;type:LaundryClaim['type'];qty:string;amount:string;reason:string;day:string}|null>(null)
@@ -53,7 +54,7 @@ export function LaundryClaims({delivery,deliveries,update}:{delivery:LaundryDeli
       {claims.map(claim=>{
         const used=claimUse(deliveries,claim.id)
         return <article key={claim.id}>
-          <strong>{claim.qty} pcs · {kind(claim.type)}</strong>
+          <strong>{claim.qty} pcs · {labels[claim.type]}</strong>
           <span>{money(claim.cents)} · {claim.reversed?'Dibalik':claim.approvedOn?'Disetujui':'Menunggu persetujuan'}</span>
           {claim.approvedOn&&!claim.reversed&&<small>Sisa kredit {money(claim.cents-used)}</small>}
           <small>{claim.reversed||claim.reason}</small>
@@ -67,8 +68,9 @@ export function LaundryClaims({delivery,deliveries,update}:{delivery:LaundryDeli
     {draft&&<ReasonDialog title="Buat klaim laundry" closeLabel="Kembali" onClose={()=>setDraft(null)} className="demo-operation-dialog">
       <form className="demo-operation-form" onSubmit={create}>
         <p>{delivery.vendor} · {delivery.id}</p>
-        <label>Jenis klaim<select value={draft.type} onChange={event=>{setError('');setDraft({...draft,type:event.target.value==='BS'?'BS':'STUCK',qty:''})}}>
-          {bs>0&&<option value="BS">BS karena laundry</option>}{stuck>0&&<option value="STUCK">Stuck di laundry</option>}
+        <label>Jenis klaim<select value={draft.type} onChange={event=>{setError('');setDraft({...draft,type:event.target.value as LaundryClaim['type'],qty:''})}}>
+          {bs>0&&<option value="BS">{labels.BS}</option>}
+          {stuck>0&&(['STUCK','MISSING'] as const).map(type=><option key={type} value={type}>{labels[type]}</option>)}
         </select></label>
         <div className="demo-operation-fields">
           <label>Jumlah diklaim (pcs)<input required inputMode="numeric" value={draft.qty} onChange={event=>setDraft({...draft,qty:event.target.value})}/>
@@ -93,7 +95,7 @@ export function LaundryBillCard({delivery,bill,deliveries,update}:{delivery:Laun
   const [undo,setUndo]=useState<LaundryBillCredit|null>(null)
   const [undoReason,setUndoReason]=useState('')
   const [error,setError]=useState('')
-  const remaining=billGross(bill)-billCredit(bill)
+  const remaining=billRemaining(deliveries,delivery,bill)
   const credits=availableCredits(deliveries,delivery.vendor)
   const selected=credits.find(row=>row.claim.id===form?.claim)
   function updateBill(rows:LaundryDelivery[], next:(live: LaundryFinalBill)=>LaundryFinalBill) {
@@ -116,8 +118,9 @@ export function LaundryBillCard({delivery,bill,deliveries,update}:{delivery:Laun
     {bill.credits?.length? <details className="demo-operation-history"><summary>Riwayat kredit ({bill.credits.length})</summary>
       {bill.credits.map(credit=><article key={credit.id}>
         <strong>{money(credit.cents)} · {credit.reversed?'Dibalik':'Kredit klaim'}</strong><small>{credit.day} · {credit.reversed||credit.reason}</small>
-        {!credit.reversed&&<button className="soft-btn" onClick={()=>{setUndo(credit);setUndoReason('')}}>Balikkan potongan</button>}
+        {!credit.reversed&&<button className="soft-btn" onClick={()=>{setError('');setUndo(credit);setUndoReason('')}}>Balikkan potongan</button>}
       </article>)}</details>:null}
+    <LaundrySettlement delivery={delivery} bill={bill} deliveries={deliveries} update={update}/>
     {form&&<ReasonDialog title="Potong tagihan laundry" closeLabel="Kembali" onClose={()=>setForm(null)} className="demo-operation-dialog">
       <form className="demo-operation-form" onSubmit={save}>
         <p>{delivery.vendor} · {bill.number} · sisa {money(remaining)}</p>
@@ -136,9 +139,12 @@ export function LaundryBillCard({delivery,bill,deliveries,update}:{delivery:Laun
     </ReasonDialog>}
     {undo&&<ReasonDialog title="Balikkan potongan tagihan" closeLabel="Kembali" onClose={()=>setUndo(null)} className="demo-operation-dialog">
       <div className="demo-operation-form"><label>Alasan pembalikan<textarea value={undoReason} onChange={event=>setUndoReason(event.target.value)}/></label>
+        {error&&<p role="alert">{error}</p>}
         <footer><button className="primary-btn" disabled={undoReason.trim().length<4} onClick={()=>{
-          update(rows=>updateBill(rows,live=>({...live,credits:live.credits?.map(credit=>credit.id===undo.id&&!credit.reversed
-            ? {...credit,reversed:undoReason.trim()} : credit)})));setUndo(null)
+          const reverse=(live: LaundryFinalBill)=>({...live,credits:live.credits?.map(credit=>credit.id===undo.id&&!credit.reversed
+            ? {...credit,reversed:undoReason.trim()} : credit)})
+          if(vendorBalance(deliveries,delivery,reverse(bill))<0){setError('Piutang dari pembayaran ini sudah digunakan. Periksa riwayat penyelesaian vendor.');return}
+          update(rows=>updateBill(rows,live=>vendorBalance(rows,delivery,reverse(live))>=0?reverse(live):live));setUndo(null)
         }}>Simpan pembalikan</button></footer></div>
     </ReasonDialog>}
   </section>

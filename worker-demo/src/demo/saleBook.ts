@@ -1,7 +1,8 @@
-import {readPlannerSession} from './planner/session'
+import {readPlannerSession,refreshPlanner} from './planner/session'
 import {positionDelta} from './skuCatalog'
 import {productCatalog,type Product} from '../productCatalog'
 import {mandorDebtBalance,readPayDrafts} from './payrollSources'
+import {invoiceKey,type SaleReturn} from './saleReturnJournal'
 export type DraftLine={key:string;product:Product;quantities:number[];priceDozen:number}
 export const allInvoices = [
   { number:'INV-JUAL-0245', customer:'Nusantara Fashion', dateKey:'2026-08-28', day:'28 Agu 2026', time:'10:30', sku:'73001 · 73005', qty:72, gross:6_660_000, returns:0, paid:0, status:'DRAFT' },
@@ -19,9 +20,8 @@ export const allInvoices = [
 
 
 export type DemoInvoice=typeof allInvoices[number]&{buyerKind?:'MANDOR';lines?:DraftLine[];terms?:string;due?:string;location?:string;changeReason?:string;notes?:string;corrects?:string}
-const invoiceKey='erp.owner.invoice-register.v2'
 type SaleMove={id:string;recordedAt?:string;ref:string;day:string;when:string;type:string;note:string;key:string;delta:number[];balance:number[]}
-type Journal={docs:DemoInvoice[];moves:SaleMove[]}
+type Journal={docs:DemoInvoice[];moves:SaleMove[];returnDocs?:SaleReturn[]}
 function journal():Journal{const raw=typeof sessionStorage==='undefined'?null:sessionStorage.getItem(invoiceKey);if(!raw)return {docs:allInvoices,moves:[]};const saved=JSON.parse(raw);return Array.isArray(saved)?{docs:saved,moves:[]}:saved}
 export const readInvoices=()=>journal().docs
 export const saleMoves=(key:string)=>journal().moves.filter(m=>m.key===key)
@@ -41,7 +41,20 @@ export function writeInvoices(docs:DemoInvoice[]){
       moves.push({id:crypto.randomUUID(),recordedAt:new Date().toISOString(),ref:id,day:d.dateKey,when:d.day+' · '+d.time,type:!after||after.status==='REVERSED'?'Pelepasan reserve':prior?'Perubahan reserve':'Reserve penjualan',note:d.customer,key:p.brand+'::'+p.code,delta,balance:saleStock(p,interim)})
     }
   }
-  sessionStorage.setItem(invoiceKey,JSON.stringify({docs,moves}));return docs
+  sessionStorage.setItem(invoiceKey,JSON.stringify({...before,docs,moves}));return docs
+}
+
+export function writeSaleReturn(doc:SaleReturn) {
+  const before=journal(), rows=before.returnDocs??[]
+  const original=rows.find(row=>row.number===doc.replaces)
+  const invoice=before.docs.find(row=>row.number===doc.invoice)
+  if(rows.some(row=>row.number===doc.number))throw Error('Nomor retur sudah tercatat.')
+  if(doc.replaces&&(!original||original.replacedBy||original.invoice!==doc.invoice))throw Error('Retur asal sudah dikoreksi atau tidak ditemukan.')
+  if(!invoice||!['POSTED','PAID'].includes(invoice.status))throw Error('Buka invoice yang sudah terposting.')
+  const docs=before.docs.map(row=>row===invoice?{...row,returns:row.returns+doc.amount-(original?.amount??0)}:row)
+  const returnDocs=[...rows.map(row=>row===original?{...row,replacedBy:doc.number}:row),doc]
+  sessionStorage.setItem(invoiceKey,JSON.stringify({...before,docs,returnDocs}))
+  refreshPlanner()
 }
 const chron=(a:DemoInvoice,b:DemoInvoice)=>a.dateKey.localeCompare(b.dateKey)||a.time.localeCompare(b.time)||a.number.localeCompare(b.number)
 export const compareInvoices=(sort:string)=>(a:DemoInvoice,b:DemoInvoice)=>sort==='OLDEST'?chron(a,b):sort==='VALUE_DESC'?b.gross-a.gross||chron(b,a):sort==='VALUE_ASC'?a.gross-b.gross||chron(b,a):sort==='STORE'?a.customer.localeCompare(b.customer)||chron(b,a):chron(b,a)

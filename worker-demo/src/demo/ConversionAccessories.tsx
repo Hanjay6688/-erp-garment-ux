@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { Boxes, PackageOpen, Plus, Scissors, Trash2, Undo2 } from 'lucide-react'
-import { amountText, noteStock, useAccessoryBook } from './accessoryPricing'
+import { accessoryStockAt, amountText, mainAccessories, serviceAccessories, type AccessoryLocation, useAccessoryBook } from './accessoryPricing'
 import { accessoryPcs, kitCost, receiveConversionAccessories, receivedConversionAccessories, reverseConversionAccessories, type ConversionAccessoryDraft } from './conversionAccessories'
 import type { ConversionReturn, Session, StockEvent } from './planner/model'
 import { ReasonDialog } from './planner/ReasonDialog'
@@ -11,25 +11,27 @@ import './demoCorrection.css'
 export function ConversionAccessoryFields({value,onChange,session}:{value:ConversionAccessoryDraft;onChange:(value:ConversionAccessoryDraft)=>void;session:Session}) {
   const book=useAccessoryBook()
   const items=book.items.filter(item=>item.active&&item.stockUom.toLowerCase()==='pcs')
-  function options(showStock:boolean) {
+  function options(location?:AccessoryLocation) {
     return <><option value="">Pilih aksesori</option>{items.map(item=><option key={item.code} value={item.code}>
-      {item.name}{showStock?' · '+noteStock(item.code,item.stock,undefined,session).toLocaleString('id-ID')+' pcs':''}
+      {item.name}{location?' · '+accessoryStockAt(item,location,session).toLocaleString('id-ID')+' pcs':''}
     </option>)}</>
   }
   return <div className="conversion-accessory-sections">
     <section aria-label="Aksesori dipakai">
       <div className="demo-operation-heading"><i><Scissors aria-hidden="true"/></i><div><h3>Aksesori dipakai</h3><p>Keluar dari stok aksesori saat konversi disimpan.</p></div></div>
-      {value.used.map((line,index)=><div key={index} className="conversion-accessory-line">
-        <label>Aksesori pengganti<select value={line.code} onChange={event=>onChange({...value,used:value.used.map((row,i)=>i===index?{...row,code:event.target.value}:row)})}>{options(true)}</select></label>
+      {value.used.map((line,index)=><div key={index} className="conversion-accessory-line expected">
+        <label>Aksesori pengganti<select value={line.code} onChange={event=>onChange({...value,used:value.used.map((row,i)=>i===index?{...row,code:event.target.value}:row)})}>{options(line.location??mainAccessories)}</select></label>
         <label>Jumlah dipakai (pcs)<input inputMode="numeric" value={line.qty} onChange={event=>onChange({...value,used:value.used.map((row,i)=>i===index?{...row,qty:event.target.value}:row)})}/></label>
+        <label>Lokasi stok sumber<select value={line.location??mainAccessories} onChange={event=>onChange({...value,used:value.used.map((row,i)=>i===index?{...row,location:event.target.value as AccessoryLocation}:row)})}>
+          {[mainAccessories,serviceAccessories].map(location=><option key={location}>{location}</option>)}</select></label>
         <button type="button" className="soft-btn" aria-label={'Lepas aksesori pengganti '+(index+1)} onClick={()=>onChange({...value,used:value.used.filter((_,i)=>i!==index)})}><Trash2 size={16}/></button>
       </div>)}
       <button type="button" className="soft-btn" onClick={()=>onChange({...value,used:[...value.used,{code:'',qty:''}]})}><Plus size={16}/>Tambah aksesori dipakai</button>
     </section>
     <section aria-label="Aksesori bongkaran">
-      <div className="demo-operation-heading"><i><PackageOpen aria-hidden="true"/></i><div><h3>Aksesori bongkaran</h3><p>Masuk stok setelah barang kembali dan dinyatakan layak pakai.</p></div></div>
+      <div className="demo-operation-heading"><i><PackageOpen aria-hidden="true"/></i><div><h3>Aksesori bongkaran</h3><p>Catat perkiraan bila perlu. Penerimaan bisa dilakukan belakangan dari <a href="/gudang/aksesori/?tab=bongkaran">Aksesori → Bongkaran</a>.</p></div></div>
       {value.expected.map((line,index)=><div key={index} className="conversion-accessory-line expected">
-        <label>Aksesori yang ditunggu<select value={line.code} onChange={event=>onChange({...value,expected:value.expected.map((row,i)=>i===index?{...row,code:event.target.value}:row)})}>{options(false)}</select></label>
+        <label>Aksesori yang ditunggu<select value={line.code} onChange={event=>onChange({...value,expected:value.expected.map((row,i)=>i===index?{...row,code:event.target.value}:row)})}>{options()}</select></label>
         <label>Jumlah ditunggu (pcs)<input inputMode="numeric" value={line.qty} onChange={event=>onChange({...value,expected:value.expected.map((row,i)=>i===index?{...row,qty:event.target.value}:row)})}/></label>
         <label>Pemegang bongkaran<input value={line.holder} maxLength={120} onChange={event=>onChange({...value,expected:value.expected.map((row,i)=>i===index?{...row,holder:event.target.value}:row)})}/></label>
         <button type="button" className="soft-btn" aria-label={'Lepas aksesori bongkaran '+(index+1)} onClick={()=>onChange({...value,expected:value.expected.filter((_,i)=>i!==index)})}><Trash2 size={16}/></button>
@@ -70,14 +72,15 @@ export function ConversionAccessoryHistory({session}:{session:Session}) {
         <header><div><h3>{from.key} → {to.key}</h3><small>{doc.date} · {doc.reason}</small></div>
           <strong>{reversed?'Dibalik':doc.changes.reduce((sum,row)=>sum+Math.max(0,row.delta),0)+' pcs'}</strong></header>
         {kit.used.length>0&&<div className="conversion-used"><strong>Biaya aksesori dipakai · {amountText(kitCost(kit))}</strong>
-          {kit.used.map(line=><small key={line.code}>{line.name} · {line.qty} pcs × {amountText(line.rate)}</small>)}</div>}
+          {kit.used.map(line=><small key={line.code+'|'+line.location}>{line.name} · {line.qty} pcs × {amountText(line.rate)} · {line.location??mainAccessories}</small>)}</div>}
         {kit.expected.map(line=>{
           const received=receivedConversionAccessories(session,doc.id,line.code)
-          const left=line.qty-received.good-received.damaged
+          const left=line.qty-received.good-received.damaged-received.pending
           return <div className="conversion-return-line" key={line.code}>
             <div><strong>{line.name}</strong><small>{line.holder} · {received.good} pcs layak · {received.damaged} pcs rusak</small></div>
             <b>{left} pcs ditunggu</b>
-            {!reversed&&left>0&&<button type="button" className="soft-btn" onClick={()=>{setError('');setReceipt({doc,code:line.code,name:line.name,good:'',damaged:'',day:lastWarehouseDay(),reason:'',id:crypto.randomUUID()})}}>Terima bongkaran</button>}
+            {received.pending>0&&<small>{received.pending} pcs menunggu pemeriksaan</small>}
+            {!reversed&&left>received.held&&<button type="button" className="soft-btn" onClick={()=>{setError('');setReceipt({doc,code:line.code,name:line.name,good:'',damaged:'',day:lastWarehouseDay(),reason:'',id:crypto.randomUUID()})}}>Terima bongkaran</button>}
           </div>
         })}
         {(session.conversionReturns??[]).filter(row=>row.conversion===doc.id).map(row=><div key={row.id} className="conversion-return-log">

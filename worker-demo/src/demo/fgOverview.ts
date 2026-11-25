@@ -10,6 +10,7 @@ export function fgProducts(s:Session):Product[]{
     const add=(location:string,grade:string)=>positions.set(location+'|'+grade,{location,grade})
     const home=nativePosition(a);add(home.location,home.grade)
     for(const e of s.stockEvents??[])for(const c of e.changes)if(c.key===a.key)add(c.location??mainFg,c.grade??'Good')
+    for(const row of s.saleReturns??[])if(row.lines.some(line=>line.sku===a.key))add(row.destination,row.grade)
     return [...positions.values()].map(pos=>({code:a.sku,range:rangeLabel(a.sizes),name:a.model,brand:a.brand,color:a.colour,
       sizes:a.sizes,stocks:a.sizes.map(size=>stockAt(a,size,s,pos.location,pos.grade)),...pos}))
   })
