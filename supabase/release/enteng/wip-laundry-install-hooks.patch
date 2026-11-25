@@ -1,0 +1,52 @@
+diff --git a/scripts/cp8_laundry_dyeing/__init__.py b/scripts/cp8_laundry_dyeing/__init__.py
+index f3c6483e..d4717968 100644
+--- a/scripts/cp8_laundry_dyeing/__init__.py
++++ b/scripts/cp8_laundry_dyeing/__init__.py
+@@ -2,6 +2,8 @@
+ from hashlib import sha256
+ from pathlib import Path
+ 
++from cp8_managed_ownership import repair_ownership
++
+ from cp8_laundry_pending import SAVE_QC, WORKSPACE, VERSION as PENDING_VERSION, definition, replace_checked
+ 
+ HERE = Path(__file__).resolve().parent
+@@ -68,4 +70,5 @@ def install(cur):
+             raise ValueError("Changed routine identity or permissions: " + signature)
+     cur.execute("insert into erp.schema_migrations(version,description) values(%s,%s)",
+                 (VERSION, "Vendor dyeing master and optional commercial SKU associations"))
++    repair_ownership(cur)
+     return {signature: sha256(ddl.encode()).hexdigest() for signature, ddl in changes.items()}
+diff --git a/scripts/cp8_managed_ownership.py b/scripts/cp8_managed_ownership.py
+new file mode 100644
+index 00000000..3aa03cd1
+--- /dev/null
++++ b/scripts/cp8_managed_ownership.py
+@@ -0,0 +1,9 @@
++"""Install the private WIP and Laundry objects with the native writer's owner."""
++from pathlib import Path
++
++
++SQL = Path(__file__).resolve().parents[1] / "supabase/release/enteng/cp8_managed_ownership.sql"
++
++
++def repair_ownership(cur):
++    cur.execute(SQL.read_text(), prepare=False)
+diff --git a/scripts/cp8_wip_batch/__init__.py b/scripts/cp8_wip_batch/__init__.py
+index 3e2e4597..dfe6ef29 100644
+--- a/scripts/cp8_wip_batch/__init__.py
++++ b/scripts/cp8_wip_batch/__init__.py
+@@ -3,6 +3,7 @@ from hashlib import sha256
+ from pathlib import Path
+ 
+ from cp8_laundry_pending import definition, replace_checked
++from cp8_managed_ownership import repair_ownership
+ 
+ HERE = Path(__file__).resolve().parent
+ VERSION = "cp8-wip-batch-v1"
+@@ -211,4 +212,5 @@ def install(cur):
+             raise ValueError("WIP stage changed routine identity or permissions: " + signature)
+     cur.execute("insert into erp.schema_migrations(version,description) values(%s,%s)",
+                 (VERSION, "Reverse and redistribute an unused pickup batch with conserved per-yield quantities"))
++    repair_ownership(cur)
+     return {signature: sha256(ddl.encode()).hexdigest() for signature, ddl in updated.items()}
