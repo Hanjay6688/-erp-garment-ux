@@ -1,7 +1,8 @@
 import { AttendanceCostChoice } from '../demo/AttendanceCostChoice'
-import { useMemo, useState, type FormEvent } from 'react'
+import { useEffect, useMemo, useState, type FormEvent } from 'react'
 import {
   AlertTriangle,
+  ArrowRight,
   Banknote,
   CalendarDays,
   Check,
@@ -21,6 +22,8 @@ import {
   X,
   XCircle,
 } from 'lucide-react'
+import { periodCostPath, postedAttendanceKey, readPostedAttendance as readAttendance } from '../demo/periodCostSources'
+import '../period-costs.css'
 import { cleanMoneyInput, formatMoneyInput } from '../moneyInput'
 import {
   addRateVersion,
@@ -40,7 +43,6 @@ import {
   workerEmploymentStatusOn,
   workerIsActive,
   workerIsEligibleOn,
-  type AttendanceBook,
   type AttendanceMark,
   type AttendancePeriodStatus,
   type BulkAttendanceAction,
@@ -194,20 +196,19 @@ const bulkLabel: Record<BulkAttendanceAction, string> = {
   COPY_PREVIOUS_WEEK: 'Salin minggu sebelumnya',
 }
 
-const postedAttendanceKey='erp.demo.attendance-posted.v1'
-type PostedAttendance={books:Record<string,AttendanceBook>;statuses:Record<string,AttendancePeriodStatus>;dates:Record<string,string>}
-function readAttendance():PostedAttendance {
-  return JSON.parse(sessionStorage.getItem(postedAttendanceKey)??'{"books":{},"statuses":{},"dates":{}}')
-}
-
 export default function AttendancePage({onNavigate}: AttendancePageProps) {
   const [contractors] = useState<Contractor[]>(CONTRACTORS)
   const [workers, setWorkers] = useState<Worker[]>(() => INITIAL_WORKERS)
   const [rates, setRates] = useState<WorkerRateVersion[]>(() => INITIAL_RATES)
   const [books, setBooks] = useState(()=>readAttendance().books)
-  const [selectedContractorId, setSelectedContractorId] = useState('epi')
-  const [periodStart, setPeriodStart] = useState('2026-08-24')
-  const [periodEnd, setPeriodEnd] = useState('2026-08-30')
+  const [source] = useState(() => {
+    const params = new URLSearchParams(location.search)
+    const id = params.get('mandor') ?? '', start = params.get('mulai') ?? '', end = params.get('akhir') ?? ''
+    return CONTRACTORS.some(c=>c.id===id) && readAttendance().statuses[[id,start,end].join('::')] === 'POSTED' ? {id,start,end} : null
+  })
+  const [selectedContractorId, setSelectedContractorId] = useState(source?.id ?? 'epi')
+  const [periodStart, setPeriodStart] = useState(source?.start ?? '2026-08-24')
+  const [periodEnd, setPeriodEnd] = useState(source?.end ?? '2026-08-30')
   const [periodPayDates, setPeriodPayDates] = useState(()=>readAttendance().dates)
   const [periodStatuses, setPeriodStatuses] = useState(()=>readAttendance().statuses)
   const [showInactive, setShowInactive] = useState(false)
@@ -224,6 +225,7 @@ export default function AttendancePage({onNavigate}: AttendancePageProps) {
   const periodKey = `${selectedContractorId}::${periodStart}::${periodEnd}`
   const payDate = periodPayDates[periodKey] ?? '2026-08-31'
   const periodStatus: AttendancePeriodStatus = periodStatuses[periodKey] ?? 'DRAFT'
+  useEffect(() => { if (location.hash==='#biaya-absensi') document.getElementById('biaya-absensi')?.scrollIntoView({block:'start'}) }, [])
   const book = books[periodKey] ?? {}
   const workDates = useMemo(() => datesBetween(periodStart, periodEnd), [periodEnd, periodStart])
   const contractorWorkers = useMemo(
@@ -518,32 +520,29 @@ export default function AttendancePage({onNavigate}: AttendancePageProps) {
     <section className="ops-hero attendance2-hero">
       <div>
         <span>PAYROLL · ABSENSI PER PEKERJA</span>
-        <h1>Roster ringan per Mandor</h1>
-        <p>Kelola pekerja keluar-masuk, rate efektif, dan absensi per tanggal tanpa membuat HR master yang berat. Relasi tetap memakai stable worker ID.</p>
+        <h1>Absensi pekerja</h1>
+        <p>Catat kehadiran, periksa upah harian, lalu posting periode mandor.</p>
       </div>
       <aside className={!selectedContractor.attendanceRequired ? 'attendance2-exempt' : 'attendance-rule'}>
         <UsersRound/>
         <div>
           <small>MANDOR TERPILIH</small>
           <strong>{selectedContractor.name}</strong>
-          <em>{!selectedContractor.attendanceRequired ? 'attendance_required=false · absensi anak buah tidak diwajibkan' : `${contractorWorkers.filter(workerIsActive).length} pekerja aktif`}</em>
+          <em>{!selectedContractor.attendanceRequired ? 'Absensi pekerja tidak diwajibkan' : `${contractorWorkers.filter(workerIsActive).length} pekerja aktif`}</em>
         </div>
       </aside>
     </section>
 
-    <div className="attendance2-disclosure" role="status">
-      <AlertTriangle/>
-      <span><strong>UX SIMULASI · FRONTEND BELUM TERHUBUNG BACKEND.</strong> Roster dan isian di halaman ini hanya hidup di browser. Tidak ada payroll, kas, stok, atau HPP yang diposting.</span>
-    </div>
+    <nav className="attendance-cost-nav" aria-label="Absensi dan HPP"><a href="#periode-absensi"><ClipboardCheck/>Isi absensi</a><a href={periodCostPath('absensi')}><Banknote/>Biaya absensi di HPP <ArrowRight/></a></nav>
 
     <section className="ops-metrics attendance2-metrics">
       <article className="panel"><span>STATUS PERIODE</span><strong className={mutable ? 'warn-text' : 'good-text'}>{periodStatus}</strong><small>{mutable ? 'Boleh diedit sebelum posting' : 'Snapshot posted tidak dapat diedit'}</small></article>
       <article className="panel"><span>ISIAN TERCATAT</span><strong>{periodTotals.recordedCells} / {periodTotals.eligibleCells}</strong><small>{periodTotals.missingCells} tanggal pekerja belum diisi</small></article>
       <article className="panel"><span>HARI HADIR</span><strong>{periodTotals.presentDays}</strong><small>Tidak menyimpulkan kotak kosong sebagai absen</small></article>
-      <article className="panel"><span>PREVIEW NOMINAL</span><strong>{money(periodTotals.nominal)}</strong><small>{periodTotals.uncoveredRateCells > 0 ? `${periodTotals.uncoveredRateCells} tanggal eligible belum punya rate` : 'Rate efektif × hari hadir · belum diposting'}</small></article>
+      <article className="panel"><span>{mutable ? 'PERKIRAAN UPAH' : 'UPAH TERPOSTING'}</span><strong>{money(periodTotals.nominal)}</strong><small>{periodTotals.uncoveredRateCells > 0 ? `${periodTotals.uncoveredRateCells} tanggal eligible belum punya rate` : (mutable ? 'Tarif harian × hari hadir' : 'Upah pada saat posting')}</small></article>
     </section>
 
-    <section className="panel attendance2-workspace">
+    <section className="panel attendance2-workspace" id="periode-absensi">
       <header className="attendance2-toolbar">
         <div>
           <span>PERIODE ABSENSI</span>
@@ -622,7 +621,7 @@ export default function AttendancePage({onNavigate}: AttendancePageProps) {
       {notice ? <div className="ops-notice" aria-live="polite"><CheckCircle2/><span>{notice}</span><button aria-label="Tutup pemberitahuan" onClick={() => setNotice('')}><XCircle/></button></div> : null}
     </section>
 
-    {periodStatus==='POSTED'&&<AttendanceCostChoice key={periodKey} mandor={selectedContractor.name} start={periodStart} end={periodEnd} cost={periodTotals.nominal}/>}
+    <div id="biaya-absensi">{periodStatus==='POSTED'&&<AttendanceCostChoice key={periodKey} mandor={selectedContractor.name} start={periodStart} end={periodEnd} cost={periodTotals.nominal}/>}</div>
     <section className="panel attendance2-roster">
       <header>
         <div><span>ROSTER PEKERJA · {selectedContractor.name.toUpperCase()}</span><strong>Tambah dan edit langsung dari Absensi</strong><small>Nonaktifkan pekerja lama; jangan hard-delete histori.</small></div>
@@ -682,7 +681,7 @@ export default function AttendancePage({onNavigate}: AttendancePageProps) {
 
     <section className="attendance2-notes">
       <article className="panel"><ShieldCheck/><div><span>GUARDRAIL HISTORI</span><strong>Posted hanya correction / reversal</strong><p>Stable ID menjaga histori saat nama berubah. Rate dan masa kerja memakai effective date; aktif kembali membuat periode baru sehingga gap lama tidak terhapus.</p></div></article>
-      <article className="panel"><CalendarDays/><div><span>BATAS IMPLEMENTASI SEKARANG</span><strong>Attendance → payroll ada; lineage HPP belum diklaim</strong><p>Absensi memang input payroll sesuai rule existing. Yang belum terverifikasi adalah formula dan lineage alokasi biaya absensi ke HPP PO/SKU, jadi halaman ini tidak membuat angka HPP rekaan.</p><button className="soft-btn" onClick={() => onNavigate('admin-period-close')}>Lihat kontrol periode</button></div></article>
+      <article className="panel"><CalendarDays/><div><span>PERIODE GAJI</span><strong>Kontrol periode pembukuan</strong><p>Periksa status periode sebelum membuat koreksi absensi.</p><button className="soft-btn" onClick={() => onNavigate('admin-period-close')}>Lihat kontrol periode</button></div></article>
     </section>
   </div>
 }

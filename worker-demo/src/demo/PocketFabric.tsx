@@ -12,6 +12,8 @@ import {
   periodActive, planPocketAllocation, planPocketUsage, pocketBalance, pocketBookKey, pocketIssueCost,
   pocketScale, readPocketBook, type PocketAllocation, type PocketBook, type UsageLine,
 } from './pocketUsage'
+import { periodCostPath } from './periodCostSources'
+import '../period-costs.css'
 import { lastWarehouseDay } from './warehouseDay'
 import MaterialRollHistory from './MaterialRollHistory'
 import { pocketHistoryRolls } from './materialRollHistory'
@@ -42,7 +44,7 @@ export default function PocketFabric() {
   const rollById = new Map(rolls.map(roll => [roll.id, roll]))
   const [detailId, setDetailId] = useState(() => new URLSearchParams(location.search).get('roll'))
   const [book, setBook] = useState(readPocketBook)
-  const [tab, setTab] = useState<'stock' | 'cost'>(linkedAllocation?'cost':'stock')
+  const [tab, setTab] = useState<'stock' | 'cost'>((linkedAllocation || new URLSearchParams(location.search).get('tab') === 'biaya') && !linkedIssue ? 'cost' : 'stock')
   const [query, setQuery] = useState(() => new URLSearchParams(location.search).get('surat') ?? '')
   const [material, setMaterial] = useState(() => new URLSearchParams(location.search).get('bahan') ?? '')
   const [warehouse, setWarehouse] = useState('')
@@ -174,7 +176,14 @@ export default function PocketFabric() {
 
   const openUsage = (choice: UsageSelection) => { setUsage(choice); setFeedback(null) }
   const openReverse = (choice: Reverse) => { setUndo(choice); setWhy(''); setFeedback(null) }
-  const switchTab = (choice: typeof tab) => { setTab(choice); setFeedback(null) }
+  const switchTab = (choice: typeof tab) => {
+    const url = new URL(location.href)
+    if (choice === 'cost') url.searchParams.set('tab','biaya')
+    else url.searchParams.delete('tab')
+    url.searchParams.delete('pakai'); url.searchParams.delete('pembagian'); url.hash = ''
+    window.history.replaceState(window.history.state,'',url)
+    setTab(choice); setFeedback(null)
+  }
 
   function chooseMaterial(id: string) {
     setMaterial(id)
@@ -191,9 +200,10 @@ export default function PocketFabric() {
 
   return <div className="pocket-workspace">
     <header className="hero-copy compact wh-hero pocket-heading">
-      <div><div className="eyebrow">GUDANG · BAHAN PER ROLL</div><h1>Kain kantong</h1><p>Pilih bahan, cek sisa tiap roll, lalu catat panjang yang dipakai.</p></div>
-      <div className="pocket-heading-actions"><a className="soft-btn" href={pocketMasterPath}><Layers3 size={17} aria-hidden="true"/>Master kain kantong</a>
-        <a className="primary-btn" href={receiptPath}><ArrowDownLeft size={17} aria-hidden="true"/>Terima kain kantong</a></div>
+      <div><div className="eyebrow">GUDANG · KAIN KANTONG</div><h1>{tab === 'cost' ? 'Biaya kain kantong' : 'Kain kantong'}</h1>
+        <p>{tab === 'cost' ? 'Periksa nilai kain yang keluar dan bagian biaya setiap PO.' : 'Pilih bahan, cek sisa tiap roll, lalu catat panjang yang dipakai.'}</p></div>
+      {tab==='stock' && <div className="pocket-heading-actions"><a className="soft-btn" href={pocketMasterPath}><Layers3 size={17} aria-hidden="true"/>Master kain kantong</a>
+        <a className="primary-btn" href={receiptPath}><ArrowDownLeft size={17} aria-hidden="true"/>Terima kain kantong</a></div>}
     </header>
     <nav className="pocket-navigation" aria-label="Kain kantong">
       <button type="button" aria-current={tab === 'stock'} onClick={() => switchTab('stock')}>Stok &amp; pemakaian</button>
@@ -295,9 +305,10 @@ export default function PocketFabric() {
           </div>
         })}
       </details>
-    </> : <section className="panel wh-pocket-use">
+    </> : <section className="panel wh-pocket-use pocket-cost-desk">
       <header className="pocket-panel-head">
-        <div><h2>Bagi biaya ke HPP</h2><p>Biaya kain keluar dibagi per potong yang selesai dijahit dalam periode, termasuk hasil Afui.</p></div>
+        <i className="period-icon"><Layers3/></i><div><h2>Bagi biaya ke HPP</h2><p>Pilih periode pemakaian. Biaya dibagi ke potongan selesai jahit, termasuk hasil Afui.</p></div>
+        <a className="period-source-link" href={periodCostPath('kantong')}>Lihat di HPP <ArrowRight/></a>
       </header>
       <form onSubmit={event => { event.preventDefault(); showAllocation() }}>
         <div className="wh-fields pocket-period-fields">
@@ -305,12 +316,15 @@ export default function PocketFabric() {
           <label>Akhir periode<input type="date" required value={end} min={start} max={lastWarehouseDay()} onChange={e => { setEnd(e.target.value); setPreview(null); setFeedback(null) }}/></label>
           <label>Alasan pembagian<input value={allocReason} onChange={e => setAllocReason(e.target.value)}/></label>
         </div>
-        <button className="soft-btn" type="submit">Lihat perhitungan</button>
+        <button className="period-action" type="submit"><CalendarDays/>Lihat perhitungan</button>
       </form>
       {feedback && !undo && <p className="wh-feedback" role={feedback.error ? 'alert' : 'status'}>{feedback.text}</p>}
       {preview && <div className="gar-box pocket-allocation">
-        <h3>{rupiah(preview.cents)} ÷ {preview.pcs} pcs = {amountText(preview.cents / 100 / preview.pcs)}/pcs</h3>
-        <p>Sumber {preview.sources.join(', ')}</p>
+        <h3>Periksa pembagian</h3>
+        <dl className="pocket-cost-equation" aria-label="Perhitungan per potong"><div><dt>Biaya kain keluar</dt><dd>{rupiah(preview.cents)}</dd></div>
+          <div><dt>Hasil selesai jahit</dt><dd>{preview.pcs} pcs</dd></div><div><dt>Biaya per potong</dt><dd>{amountText(preview.cents / 100 / preview.pcs)}<small> / pcs</small></dd></div></dl>
+        <details className="period-issue-links"><summary>Lihat {preview.sources.length} pemakaian roll</summary>
+          {preview.sources.map(id=><a className="period-source-link" key={id} href={pocketIssuePath(id)}>{id} <ArrowRight/></a>)}</details>
         <div className="pocket-table-scroll" tabIndex={0} role="region" aria-label="Rincian alokasi HPP">
           <RecordTable><thead><tr><th>PO / mandor</th><th>Selesai dijahit</th><th>WIP</th><th>FG tersedia</th><th>HPP terjual</th></tr></thead>
             <tbody>{preview.parts.map(p => <tr key={p.po}><td>{p.mandor} <small className="record-code">{p.po}</small></td><td><strong className="pocket-quantity">{p.pcs} pcs</strong></td><td>{rupiah(p.wip)}</td><td>{rupiah(p.fg)}</td><td>{rupiah(p.sold)}</td></tr>)}</tbody>
@@ -319,7 +333,7 @@ export default function PocketFabric() {
         <button className="primary-btn" type="button" disabled={!allocReason.trim()} onClick={postAllocation}>Sahkan pembagian</button>
       </div>}
       <section className="pocket-history" id="pembagian-kantong">
-        <h3>Riwayat pembagian biaya</h3>
+        <h3><ClipboardList/>Riwayat pembagian biaya</h3>
         {book.allocations.length === 0 && <p>Belum ada pembagian biaya.</p>}
         {[...book.allocations].reverse().map(a => <div className="wh-register-row" key={a.id} id={'pocket-source-'+a.id} data-source-selected={linkedAllocation===a.id||undefined}>
           <span><strong><span className="pocket-quantity">{a.pcs} pcs</span> · {rupiah(a.cents)}</strong><small>{a.start} – {a.end} · {a.id} · {a.reason}</small>
