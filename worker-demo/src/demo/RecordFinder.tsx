@@ -5,13 +5,32 @@ import {usePlannerSession} from './planner/session'
 import {sewingBatchId} from './sewingReceipts'
 import {distribution,pickupsIn} from './planner/distribution'
 import type {LaundryDelivery,LaundryReadyBatch} from './laundryModel'
-import {pocketRolls} from './pocketReceipts'
+import {pocketRolls, readReceipts, receiptPath} from './pocketReceipts'
+import {readInvoices} from './saleBook'
+import {readNotes} from './issueDocuments'
+import {allPayrollSources} from './payrollSources'
+import {fgDrafts} from './fgDraft'
 type Hit={type:string;id:string;description:string;href:string;terms:(string|number|undefined)[]}
 export function RecordFinder({query,ready,deliveries}:{query:string;ready:LaundryReadyBatch[];deliveries:LaundryDelivery[]}){
   const session=usePlannerSession()
   if(!query.trim())return null
   const q=encodeURIComponent
+  const receiptHits: Hit[] = readReceipts().map(r => ({
+    type: 'Penerimaan kain kantong', id: r.number, description: r.supplier,
+    href: receiptPath + '&surat=' + q(r.number), terms: r.rolls.map(roll => roll.id),
+  }))
   const hits:Hit[]=[
+    ...readInvoices().map(r => ({ type: 'Invoice penjualan', id: r.number, description: r.customer,
+      href: '/penjualan/semua-invoice/?nota=' + q(r.number), terms: [r.sku] })),
+    ...readNotes().map(r => ({ type: 'Nota Ambil Aksesori', id: r.number, description: r.mandor,
+      href: '/keuangan/nota-ambil-mandor/?nota=' + q(r.number), terms: [] })),
+    ...allPayrollSources().flatMap(r => r.kind === 'FG' ? [{ type: 'Nota FG', id: r.doc.number, description: r.mandor,
+      href: '/produksi/susun-nota-fg/?nota=' + q(r.doc.number), terms: [r.doc.sku] }] : []),
+    ...fgDrafts().map(r => ({ type: 'Draft Nota FG', id: r.number, description: r.mandor,
+      href: '/produksi/susun-nota-fg/?draft=' + q(r.number), terms: [] })),
+    { type: 'Penerimaan kain kantong', id: 'SJ-KT-001', description: 'Saldo pembukaan',
+      href: receiptPath + '&surat=SJ-KT-001', terms: [] },
+    ...receiptHits,
     ...lotsIn(session).filter(l=>l.stage==='cut').map(l=>({type:'Bagi potongan',id:l.id,description:lotLabel(l),href:'/produksi/bagi-potongan/?pot='+q(l.id),terms:[l.material,l.size,...cutRolls(l).map(r=>r.id)]})),
     ...pickupsIn(session).map(p=>({type:'WIP jahit',id:p.id,description:p.mandor,href:'/produksi/jahit/?cari='+q(p.id),terms:distribution(p,session).batches.flatMap(b=>[sewingBatchId(p.id,b.no),b.mandor,'Batch '+b.no,...b.sources.map(r=>r.rollId)])})),
     ...rolls.map(r=>({type:'Roll potong',id:r.id,description:r.material,href:'/produksi/buat-potongan/?cari='+q(r.id),terms:[r.supplier]})),

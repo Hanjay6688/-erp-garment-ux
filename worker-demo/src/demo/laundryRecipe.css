@@ -1,0 +1,59 @@
+.laundry-recipe-master {
+  padding: clamp(14px, 2vw, 24px);
+  margin-bottom: 16px;
+  min-width: 0;
+}
+.laundry-recipe-master > header, .laundry-recipe-register article {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+.laundry-recipe-master h2, .laundry-recipe-master header p {
+  margin: 0;
+}
+.laundry-recipe-master header p, .laundry-recipe-register small {
+  color: var(--soft);
+  margin-top: 5px;
+}
+.laundry-recipe-register {
+  margin-top: 16px;
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+}
+.laundry-recipe-register article {
+  padding: 10px 12px;
+  margin-top: 6px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--browse-first);
+  overflow-wrap: anywhere;
+}
+.laundry-recipe-register article:nth-of-type(even) {
+  background: var(--browse-second);
+}
+.laundry-recipe-register small {
+  display: block;
+}
+.laundry-colour-fields legend {
+  font-weight: 750;
+}
+.laundry-colour-fields .laundry-recipe-origin {
+  margin: 0;
+  color: var(--soft);
+}
+.laundry-colour-fields .laundry-master-link {
+  color: var(--blue);
+  font-weight: 650;
+}
+.laundry-service-choice summary {
+  cursor: pointer;
+  font-weight: 650;
+  color: var(--soft);
+}
+.laundry-service-choice label {
+  display: grid;
+  gap: 5px;
+  margin-top: 8px;
+}

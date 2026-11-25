@@ -1,3 +1,5 @@
+import { FgIncompleteWork } from './demo/FgIncompleteWork'
+import { laborBomComponents } from './demo/laundryModel'
 import {fgQuantity} from './fgQuantity'
 import {fgDrafts, claimedFgCards, storeFgDraft, closeFgDraft, type FgDraft} from './demo/fgDraft'
 import {ReasonDialog} from './demo/planner/ReasonDialog'
@@ -36,17 +38,6 @@ type RegularNotaCard = {
   subtotal: number
 }
 
-const laborComponents = [
-  { id: 'jahit-utama', name: 'Jahit utama', rate: 8_250 },
-  { id: 'finishing-detail', name: 'Ceming / finishing detail', rate: 2_500 },
-  { id: 'pinggang', name: 'Ban & pinggang', rate: 2_600 },
-  { id: 'saku', name: 'Saku & ritsleting', rate: 2_300 },
-  { id: 'centang', name: 'Centang / bartack', rate: 800 },
-  { id: 'kancing', name: 'Kancing', rate: 500 },
-  { id: 'plastik', name: 'Plastik & packing', rate: 500 },
-  { id: 'hangtag', name: 'Hangtag / label', rate: 600 },
-  { id: 'lipat', name: 'Lipat akhir', rate: 400 },
-]
 
 const money = (value: number) => `Rp${Math.round(value).toLocaleString('id-ID')}`
 const total = (values: number[]) => values.reduce((sum, value) => sum + value, 0)
@@ -57,12 +48,12 @@ const toRegularCard = (result: QcFinalResult, savedSnapshot?: RegularFgNotaSnaps
   const hold = total(result.stuckBySize)
   const returned = good + bs + rewash
   const sewnQty = total(result.expected)
-  const defaultFullRate = total(laborComponents.map((component) => component.rate))
+  const defaultFullRate = total(laborBomComponents.map((component) => component.rate))
   const defaultBsComponents = bs > 0
-    ? laborComponents.filter((component) => ['finishing-detail', 'centang', 'lipat'].includes(component.id))
+    ? laborBomComponents.filter((component) => ['finishing-detail', 'centang', 'lipat'].includes(component.id))
     : []
   const defaultStuckComponents = hold > 0
-    ? laborComponents.filter((component) => ['finishing-detail', 'centang', 'lipat'].includes(component.id))
+    ? laborBomComponents.filter((component) => ['finishing-detail', 'centang', 'lipat'].includes(component.id))
     : []
   const fullRate = savedSnapshot?.fullRate ?? defaultFullRate
   const bsComponents = savedSnapshot?.bsComponents ?? defaultBsComponents
@@ -122,7 +113,7 @@ export default function FgNotaPage({
   onPost: (ids: string[]) => void
   onReturn: () => void
   onOpenQc: () => void
-  onOpenBs: () => void
+  onOpenBs: (result?: QcFinalResult) => void
 }) {
   const [requestedDraft] = useState(() => new URLSearchParams(location.search).get('draft'))
   const [savedDraft, setSavedDraft] = useState<FgDraft | undefined>(() => fgDrafts().find(d => d.number === requestedDraft))
@@ -131,9 +122,11 @@ export default function FgNotaPage({
   const [voidReason,setVoidReason] = useState('')
   const [postReason,setPostReason] = useState('Pengesahan susunan nota FG')
   const [fresh,setFresh] = useState(false)
+  const [workOverrides, setWorkOverrides] = useState<Record<string, RegularFgNotaSnapshot>>({})
+  const [workCard, setWorkCard] = useState<string | null>(null)
   const allResults = useMemo(() => selectRegularFgNotaSources([...(result ? [result] : []), ...eligibleResults, ...(savedDraft?.results ?? [])]), [result, eligibleResults, savedDraft])
   const allRepairs = [...new Map([...(savedDraft?.repairs ?? []), ...repairCards].map(c => [c.id,c])).values()]
-  const snapshots = {...savedDraft?.snapshots,...regularSnapshots}
+  const snapshots = {...regularSnapshots,...savedDraft?.snapshots,...workOverrides}
   const focusedResult = focus?.kind === 'REGULAR' ? allResults.find((item) => regularFgNotaCardId(item) === focus.id) : undefined
   const focusedRepair = focus?.kind === 'REPAIR' ? allRepairs.find((item) => item.id === focus.id) : undefined
   const requestedMandor=origin==='PAYROLL'?sessionStorage.getItem('erp.owner.payroll.mandor'):null
@@ -199,6 +192,20 @@ export default function FgNotaPage({
   }
   const [cardDetail,setCardDetail]=useState<string|null>(null)
   const inspectRegular=regularCards.find(c=>c.id===cardDetail),inspectRepair=visibleRepairCards.find(c=>c.id===cardDetail)
+  const editWork = regularCards.find(card => card.id === workCard && !postedIds.has(card.id))
+  function applyWork(card: RegularNotaCard, value: Pick<RegularFgNotaSnapshot,'bsComponents'|'stuckComponents'>) {
+    if (!editable || postedIds.has(card.id)) return
+    setWorkOverrides(current => ({
+      ...current,
+      [card.id]: {
+        cardId: card.id, fullRate: snapshots[card.id]?.fullRate ?? card.sewingRate + card.commissionRate + card.bomRate,
+        sewingRate: card.sewingRate, commissionRate: card.commissionRate, bomRate: card.bomRate,
+        ...value,
+      },
+    }))
+    setNoteReviewed(false)
+    setWorkCard(null)
+  }
   const [payMessage,setPayMessage]=useState('')
   const [postedNumber,setPostedNumber]=useState('')
   function draftSnapshot(): FgDraft {
@@ -223,7 +230,7 @@ export default function FgNotaPage({
     if (!editable || selectedIds.length === 0 || selectedIds.length > 50 || noteTotal <= 0 || !noteReviewed || postReason.trim().length < 5) return
     try {
     const d=storeFgDraft(draftSnapshot());setSavedDraft(d)
-    const staged=selectedRegular.map(c=>({...c,qcQty:c.returned,returnedQty:c.returned,grossValue:c.gross,sizeRows:c.result.sizes.map((size,i)=>({size,sewn:c.result.expected[i],good:c.result.postedGoodBySize[i],bs:c.result.postedBsBySize[i],hold:c.result.stuckBySize[i],rewash:c.result.postedRewashBySize[i]}))}))
+    const staged=selectedRegular.map(c=>({...c,completionCount:c.result.completionCount,qcQty:c.returned,returnedQty:c.returned,grossValue:c.gross,sizeRows:c.result.sizes.map((size,i)=>({size,sewn:c.result.expected[i],good:c.result.postedGoodBySize[i],bs:c.result.postedBsBySize[i],hold:c.result.stuckBySize[i],rewash:c.result.postedRewashBySize[i]}))}))
     const repairs=selectedRepair.map(c=>({id:c.id,source:c.sourceLabel,sku:[c.brand,c.sku].join(' ')+' · '+(c.sizes.length===1?c.sizes[0]:c.sizes[0]+'–'+c.sizes.at(-1)),qty:c.qty,components:c.components,unitRate:c.unitRate,subtotal:c.subtotal,sizeRows:c.sizes.map((size,i)=>({size,qty:c.qtyBySize[i]}))}))
     const reimbursement=selectedRegular.reduce((n,c)=>n+c.sewnQty*c.bomRate-c.bs*c.bsComponents.filter(x=>x.id.startsWith('bom:')).reduce((a,x)=>a+x.rate,0)-c.hold*c.stuckComponents.filter(x=>x.id.startsWith('bom:')).reduce((a,x)=>a+x.rate,0),0)
     const number='NFG-SIM-'+crypto.randomUUID().slice(0,8).toUpperCase()
@@ -237,6 +244,7 @@ export default function FgNotaPage({
     } catch(error){setDraftMessage((error as Error).message)}
   }
   const startNextNota = () => {
+    setWorkOverrides({});setWorkCard(null)
     setFresh(true);setSavedDraft(undefined);setDraftMessage('');setNote('');setPayMessage('');setPostedNumber('')
     const url=new URL(location.href);url.searchParams.delete('draft');url.searchParams.delete('nota');history.replaceState(history.state,'',url)
     setRegularIds([])
@@ -256,7 +264,7 @@ export default function FgNotaPage({
   return <>
     <section className="hero-copy compact fg-handoff-hero">
       <div><div className="eyebrow">PRODUKSI · HALAMAN ANTREAN NOTA FG</div><h1>Susun Nota FG</h1><p>Buka langsung tanpa lewat QC. Card FG Reguler, Bikin Bagus, dan Susulan Good tetap membawa sumbernya lalu dikelompokkan per Mandor.</p></div>
-      <div className="handoff-page-actions">{origin !== 'MENU' && <button type="button" className="soft-btn handoff-back" onClick={onReturn}><ArrowLeft/> {returnLabel}</button>}<button type="button" className="soft-btn" onClick={onOpenQc}>Buka QC</button><button type="button" className="soft-btn" onClick={onOpenBs}>Buka Bikin Bagus</button></div>
+      <div className="handoff-page-actions">{origin !== 'MENU' && <button type="button" className="soft-btn handoff-back" onClick={onReturn}><ArrowLeft/> {returnLabel}</button>}<button type="button" className="soft-btn" onClick={onOpenQc}>Buka QC</button><button type="button" className="soft-btn" onClick={() => onOpenBs(activeResult)}>Buka Bikin Bagus</button></div>
     </section>
     <div className="handoff-flow-strip"><span className="done"><b>1</b>QC / rework terkunci</span><i/><span className="done"><b>2</b>Card siap</span><i/><span className="active"><b>3</b>Susun Nota FG</span><i/><span><b>4</b>Payroll</span></div>
     <div className={`handoff-queue-banner ${queueCount === 0 ? 'empty' : ''}`}><FileText/><div><strong>{focusedId ? `${focusedId} dibuka dari sumbernya` : 'Antrean Nota FG mandiri'}</strong><span>Card yang sudah masuk Nota tetap terkunci. Ganti Mandor akan mengosongkan draft supaya nota tidak mencampur penerima.</span></div>{mandors.length > 0 ? <label className="nota-mandor-filter"><span>MANDOR NOTA</span><select value={selectedMandor} disabled={!editable} onChange={(event) => changeMandor(event.target.value)}>{mandors.map((mandor) => <option key={mandor}>{mandor}</option>)}</select><small>{availableCount} siap · {queueCount - availableCount} posted</small></label> : <em>Belum ada card</em>}</div>
@@ -269,7 +277,7 @@ export default function FgNotaPage({
         {activeResult ? <>
           <header className="handoff-source-head"><span>01</span><div><small>QC {activeResult.completionStatus === 'PARTIAL_SELECTION' ? 'SELESAI SEBAGIAN' : activeResult.completionStatus === 'WAITING_LAUNDRY' ? 'MENUNGGU LAUNDRY' : activeResult.completionStatus === 'WAITING_REWORK' ? 'MENUNGGU CUCI ULANG' : 'LENGKAP'} · {activeResult.parentId} · BATCH {activeResult.batchId}</small><h2>{activeResult.brand} · SKU {activeResult.finalSku}</h2><p>{activeResult.finalProductName} · {activeResult.finalColor} · Range {activeResult.finalRange} · bahan {activeResult.material}</p><div className="handoff-mandor-hero"><UserRound/><span><small>MANDOR PENERIMA NOTA</small><strong>{activeResult.mandor}</strong></span></div></div><strong>{returnedTotal} pulang · {fgQuantity(goodTotal)} Good</strong></header>
           <div className="handoff-section-title"><div><span>02</span><div><strong>Rekonsiliasi fisik dari QC</strong><small>Selesai Dijahit menjadi dasar hak gaji. Good menentukan FG; Stuck hanya menahan komponen yang belum dipasang. Hold → BS tidak memotong kedua kali.</small></div></div><em className="ok">QC read-only</em></div>
-          <div className="handoff-size-breakdown" role="table" aria-label="Rekonsiliasi serah FG per size"><div className="handoff-size-breakdown-head" role="row"><span>SIZE</span><span>POTONGAN</span><span>BAGUS → FG</span><span>BS</span><span>CUCI ULANG</span><span>SISA OPEN</span></div>{activeResult.sizes.map((size, index) => <div className={`handoff-size-breakdown-row ${activeResult.remainingBySize[index] > 0 ? 'has-outstanding' : ''}`} role="row" key={size}><strong data-label="SIZE">{size}</strong><span data-label="POTONGAN">{activeResult.expected[index]} pcs</span><strong className="good" data-label="BAGUS → FG">{fgQuantity(activeResult.postedGoodBySize[index])}</strong><span className="bs" data-label="BS">{activeResult.postedBsBySize[index]} pcs</span><span className="rewash" data-label="CUCI ULANG">{activeResult.postedRewashBySize[index]} pcs</span><span className="stuck" data-label="SISA OPEN">{activeResult.remainingBySize[index]} pcs</span></div>)}<div className="handoff-size-breakdown-total" role="row"><strong>TOTAL</strong><span>{expectedTotal} pcs</span><strong>{fgQuantity(goodTotal)}</strong><span>{bsTotal} pcs</span><span>{rewashTotal} pcs</span><span>{outstanding} pcs</span></div></div>
+          <div className="handoff-size-breakdown" role="table" aria-label="Rekonsiliasi serah FG per size"><div className="handoff-size-breakdown-head" role="row"><span>SIZE</span><span>POTONGAN</span><span>BAGUS → FG</span><span>BS</span><span>CUCI ULANG</span><span>SISA OPEN</span></div>{activeResult.sizes.map((size, index) => <div className={`handoff-size-breakdown-row ${activeResult.remainingBySize[index] > 0 ? 'has-outstanding' : ''}`} role="row" key={size}><strong data-label="SIZE">{size}</strong><strong data-label="POTONGAN" className="piece-total">{activeResult.expected[index]} pcs</strong><strong className="good" data-label="BAGUS → FG">{fgQuantity(activeResult.postedGoodBySize[index])}</strong><span className="bs" data-label="BS">{activeResult.postedBsBySize[index]} pcs</span><span className="rewash" data-label="CUCI ULANG">{activeResult.postedRewashBySize[index]} pcs</span><span className="stuck" data-label="SISA OPEN">{activeResult.remainingBySize[index]} pcs</span></div>)}<div className="handoff-size-breakdown-total" role="row"><strong>TOTAL</strong><span>{expectedTotal} pcs</span><strong>{fgQuantity(goodTotal)}</strong><span>{bsTotal} pcs</span><span>{rewashTotal} pcs</span><span>{outstanding} pcs</span></div></div>
           <div className="handoff-equation"><span><small>GOOD → FG</small><strong>{fgQuantity(goodTotal)}</strong></span><b>+</b><span><small>BS</small><strong>{bsTotal} pcs</strong></span><b>+</b><span><small>CUCI ULANG</small><strong>{rewashTotal} pcs</strong></span><b>=</b><span className="total"><small>TOTAL PULANG</small><strong>{returnedTotal} pcs</strong></span><b>+</b><span className="outside"><small>SISA OPEN</small><strong>{outstanding} pcs</strong></span></div>
         </> : <section className="nota-source-empty"><FileText/><div><span>01 · ANTREAN MANDIRI</span><h2>{selectedMandor ? `Belum ada card QC ${selectedMandor}` : 'Belum ada card siap Nota FG'}</h2><p>{selectedMandor ? 'Bikin Bagus atau Susulan Good tetap bisa disusun sendiri. Card QC baru muncul otomatis setelah posting finishing.' : 'Posting hasil QC atau buka card siap dari halaman Barang BS & Rework.'}</p></div></section>}
 
@@ -279,10 +287,10 @@ export default function FgNotaPage({
           const focused = card.id === focusedId
           const rate = card.sewingRate + card.commissionRate + card.bomRate
           const status = posted ? 'SUDAH MASUK NOTA' : added ? 'SEDANG DI DRAFT' : focused ? 'DIBUKA DARI QC' : 'SIAP DISUSUN'
-          return <article className={`nota-work-card regular ${added ? 'added' : ''} ${focused ? 'focused' : ''} ${posted ? 'posted' : ''}`} key={card.id}><header><div><small>{card.source}</small><strong>{card.sku}</strong></div><span>{status}</span></header><div className="nota-work-facts"><span><small>SELESAI DIJAHIT</small><strong>{card.sewnQty} pcs</strong></span><span className="good"><small>GOOD → FG</small><strong>{fgQuantity(card.good)}</strong></span><span className="bs"><small>BS</small><strong>{card.bs} pcs</strong></span><span className="rewash"><small>CUCI ULANG</small><strong>{card.rewash} pcs</strong></span><span className="hold"><small>STUCK</small><strong>{card.hold} pcs</strong></span></div><div className="nota-bs-components"><span>KOMPONEN BS BELUM DIKERJAKAN · SNAPSHOT</span><div>{card.bsComponents.length > 0 ? card.bsComponents.map((component) => <em key={component.id}><Check/>{component.name}<b>{money(component.rate)}</b></em>) : <small>Tidak ada pengurang BS</small>}</div></div><div className="nota-bs-components stuck-components"><span>KOMPONEN STUCK BELUM DIPASANG · SNAPSHOT</span><div>{card.stuckComponents.length > 0 ? card.stuckComponents.map((component) => <em key={component.id}><Check/>{component.name}<b>{money(component.rate)}</b></em>) : <small>Tidak ada komponen Stuck yang ditahan</small>}</div></div><div className="nota-value-formula"><span><small>SELESAI DIJAHIT × HARGA</small><strong>{card.sewnQty} × {money(rate)}</strong><em>{money(card.gross)}</em></span><b>−</b><span className="deduction"><small>BS × KOMPONEN BELUM DIKERJAKAN</small><strong>{card.bs} × {money(total(card.bsComponents.map((component) => component.rate)))}</strong><em>{money(card.bsDeduction)}</em></span><b>−</b><span className="deduction stuck"><small>STUCK × KOMPONEN BELUM DIPASANG</small><strong>{card.hold} × {money(total(card.stuckComponents.map((component) => component.rate)))}</strong><em>{money(card.stuckDeduction)}</em></span><b>=</b><span className="result"><small>NILAI FG REGULER</small><strong>{money(card.subtotal)}</strong><em>Good bukan pengali upah</em></span></div><footer><small>ID {card.id} menjaga hak jahit dan setiap nilai komponen hanya dibayar sekali.</small><button type="button" className="soft-btn" onClick={()=>setCardDetail(card.id)}>Detail kartu</button><button type="button" disabled={!editable || posted} onClick={() => toggleRegular(card.id)}>{posted ? 'Terkunci di Nota' : added ? 'Keluarkan dari Draft' : 'Tambah ke Nota FG'}</button></footer></article>
+          return <article className={`nota-work-card regular ${added ? 'added' : ''} ${focused ? 'focused' : ''} ${posted ? 'posted' : ''}`} key={card.id}><header><div><small>{card.source}</small><strong>{card.sku}</strong></div><span>{status}</span></header><div className="nota-work-facts"><span><small>SELESAI DIJAHIT</small><strong className="piece-total">{card.sewnQty} pcs</strong></span><span className="good"><small>GOOD → FG</small><strong>{fgQuantity(card.good)}</strong></span><span className="bs"><small>BS</small><strong>{card.bs} pcs</strong></span><span className="rewash"><small>CUCI ULANG</small><strong>{card.rewash} pcs</strong></span><span className="hold"><small>STUCK</small><strong>{card.hold} pcs</strong></span></div><div className="nota-bs-components"><span>KOMPONEN BS BELUM DIKERJAKAN · SNAPSHOT</span><div>{card.bsComponents.length > 0 ? card.bsComponents.map((component) => <em key={component.id}><Check/>{component.name}<b>{money(component.rate)}</b></em>) : <small>Tidak ada pengurang BS</small>}</div></div><div className="nota-bs-components stuck-components"><span>KOMPONEN STUCK BELUM DIPASANG · SNAPSHOT</span><div>{card.stuckComponents.length > 0 ? card.stuckComponents.map((component) => <em key={component.id}><Check/>{component.name}<b>{money(component.rate)}</b></em>) : <small>Tidak ada komponen Stuck yang ditahan</small>}</div></div><div className="nota-value-formula"><span><small>SELESAI DIJAHIT × HARGA</small><strong>{card.sewnQty} × {money(rate)}</strong><em>{money(card.gross)}</em></span><b>−</b><span className="deduction"><small>BS × KOMPONEN BELUM DIKERJAKAN</small><strong>{card.bs} × {money(total(card.bsComponents.map((component) => component.rate)))}</strong><em>{money(card.bsDeduction)}</em></span><b>−</b><span className="deduction stuck"><small>STUCK × KOMPONEN BELUM DIPASANG</small><strong>{card.hold} × {money(total(card.stuckComponents.map((component) => component.rate)))}</strong><em>{money(card.stuckDeduction)}</em></span><b>=</b><span className="result"><small>NILAI FG REGULER</small><strong>{money(card.subtotal)}</strong><em>Good bukan pengali upah</em></span></div><footer><small>ID {card.id} menjaga hak jahit dan setiap nilai komponen hanya dibayar sekali.</small>{editable && !posted && (card.bs > 0 || card.hold > 0) && <button type="button" className="soft-btn" onClick={() => setWorkCard(card.id)}>Atur komponen BS &amp; Stuck</button>}<button type="button" className="soft-btn" onClick={()=>setCardDetail(card.id)}>Detail kartu</button><button type="button" disabled={!editable || posted} onClick={() => toggleRegular(card.id)}>{posted ? 'Terkunci di Nota' : added ? 'Keluarkan dari Draft' : 'Tambah ke Nota FG'}</button></footer></article>
         })}{regularCards.length === 0 && <div className="nota-work-empty"><FileText/><strong>Belum ada card FG Reguler</strong><small>Selesaikan QC atau pilih Mandor lain.</small></div>}</div></section>
 
-        <section className="nota-work-group repair"><header><div><span>04 · BIKIN BAGUS & SUSULAN GOOD</span><h2>Card plus yang sudah diterima</h2><p>Nilai mengikuti snapshot sumber: komponen Bikin Bagus atau nilai Hold yang benar-benar dilepas, bukan tarif master hari ini.</p></div><button type="button" className="soft-btn" onClick={onOpenBs}>Buka Browser Kasus <ArrowRight/></button></header><div>{visibleRepairCards.map((card) => {
+        <section className="nota-work-group repair"><header><div><span>04 · BIKIN BAGUS & SUSULAN GOOD</span><h2>Card plus yang sudah diterima</h2><p>Nilai mengikuti snapshot sumber: komponen Bikin Bagus atau nilai Hold yang benar-benar dilepas, bukan tarif master hari ini.</p></div><button type="button" className="soft-btn" onClick={() => onOpenBs(activeResult)}>Buka Browser Kasus <ArrowRight/></button></header><div>{visibleRepairCards.map((card) => {
           const added = repairIds.includes(card.id)
           const posted = postedIds.has(card.id)
           const focused = card.id === focusedId
@@ -297,6 +305,8 @@ export default function FgNotaPage({
         {editable&&<label className="handoff-note"><span>Alasan posting</span><input aria-label="Alasan posting" maxLength={1000} value={postReason} onChange={e=>{setPostReason(e.target.value);setNoteReviewed(false)}}/></label>}
         <label className="handoff-final-check"><input type="checkbox" disabled={!editable || selectedIds.length === 0} checked={noteReviewed} onChange={(event) => setNoteReviewed(event.target.checked)}/><span><strong>Susunan Nota FG sudah gue review</strong><small>Semua card milik {displayMandor || 'Mandor yang dipilih'}; ID sumber dan formula terlihat.</small></span></label><button type="button" className="primary-btn handoff-submit" disabled={!editable || selectedIds.length === 0 || noteTotal <= 0 || !noteReviewed || selectedIds.length>50 || postReason.trim().length<5} onClick={postNota}>{noteStatus === 'POSTED' ? 'Nota FG sudah posted' : 'Post Nota FG ke Payroll'} <ArrowRight/></button><p className="handoff-audit-note">Card yang tidak dipilih tetap di antrean. Dalam prototipe ini lock bertahan selama sesi aplikasi; backend wajib memakai idempotency dan unique card ID.</p></aside>
     </section>
+    {editWork && editable && <FgIncompleteWork source={editWork.sku + ' · ' + editWork.source}
+      bs={editWork.bs} hold={editWork.hold} value={editWork} onClose={() => setWorkCard(null)} onSave={value => applyWork(editWork, value)}/>}
     {cardDetail&&(inspectRegular||inspectRepair)&&<ReasonDialog title={'Detail kartu · '+cardDetail} closeLabel="Kembali" onClose={()=>setCardDetail(null)}>
       {inspectRegular&&<><h3>{inspectRegular.sku}</h3><p>{inspectRegular.source} · {selectedMandor}</p><div className="wh-size-boxes">{inspectRegular.result.sizes.map((x,i)=><div className="wh-size-box" key={x}><header>Ukuran <strong>{x}</strong></header><p>Good {fgQuantity(inspectRegular.result.postedGoodBySize[i])}</p><small>BS {inspectRegular.result.postedBsBySize[i]} · Stuck {inspectRegular.result.stuckBySize[i]}</small></div>)}</div><p>Nilai kartu · {money(inspectRegular.subtotal)}</p></>}
       {inspectRepair&&<><h3>{inspectRepair.brand} {inspectRepair.sku}</h3><p>{inspectRepair.sourceLabel} · {selectedMandor}</p><div className="wh-size-boxes">{inspectRepair.sizes.map((x,i)=><div className="wh-size-box" key={x}><header>Ukuran <strong>{x}</strong></header><p>{fgQuantity(inspectRepair.qtyBySize[i])}</p></div>)}</div>{inspectRepair.components.map(c=><div className="wh-register-row" key={c.id}><span>{c.name}</span><strong>{money(c.rate)}/pcs</strong></div>)}<p>{inspectRepair.qty} × {money(inspectRepair.unitRate)} = {money(inspectRepair.subtotal)}</p></>}

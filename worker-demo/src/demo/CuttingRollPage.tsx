@@ -289,6 +289,7 @@ export function CuttingRollPage() {
     })
   }
   const beginRowFill=(event:ReactPointerEvent<HTMLButtonElement>,sourceIndex:number)=>{
+    if (event.pointerType === 'touch') return
     event.preventDefault()
     event.currentTarget.setPointerCapture(event.pointerId)
     fillDraggedRef.current=false
@@ -346,6 +347,7 @@ export function CuttingRollPage() {
     })
   }
   const beginColumnFill=(event:ReactPointerEvent<HTMLButtonElement>,sourceSlot:number)=>{
+    if (event.pointerType === 'touch') return
     event.preventDefault()
     event.currentTarget.setPointerCapture(event.pointerId)
     columnFillDraggedRef.current=false
@@ -411,7 +413,7 @@ export function CuttingRollPage() {
       </div>
       <aside className="panel cutting-live-summary">
         <div className="eyebrow">BATCH PRODUKSI</div><h2>{model||'Potongan baru'}</h2><p>{series?seriesLabel(series):'Seri belum dipilih'}{linked?' · '+linked.key+' · '+linked.colour:''}</p><p>Hasil cutting ini belum didistribusikan ke batch Mandor.</p>
-        <div className="cutting-summary-main"><div><span>YARD USED</span><strong>{formatQuantity(totalUsedYards,2)} yd</strong><small>{selectedRolls.length} roll · {partialRollCount} split</small></div><div><span>TOTAL POTONGAN</span><strong>{totalPieces} pcs</strong><small>{dozenPieces(totalPieces)}</small></div></div>
+        <div className="cutting-summary-main"><div><span>YARD USED</span><strong>{formatQuantity(totalUsedYards,2)} yd</strong><small>{selectedRolls.length} roll · {partialRollCount} split</small></div><div><span>TOTAL POTONGAN</span><strong className="piece-total">{totalPieces} pcs</strong><small>{dozenPieces(totalPieces)}</small></div></div>
         <div className="cutting-summary-sizes" style={sizeSummaryStyle}>{selectedCuttingSizes.map((size)=><div key={size}><span>SIZE {size}</span><strong>{sizeTotalByName[size]} pcs</strong><small>{dozenPieces(sizeTotalByName[size])}</small></div>)}</div>
         <div className="po-preview"><Icon name="warehouse"/><div><strong>Tujuan berikutnya: WIP Potongan</strong><span>Setelah disimpan, hasil ini menunggu mandor mengambil. Pembagian batch dilakukan saat pickup.</span></div></div>
         <button type="button" className="primary-btn cutting-next" disabled={selectedRolls.length===0} onClick={()=>document.getElementById('roll-issue-workbench')?.scrollIntoView({behavior:'smooth',block:'start'})}>Atur yard yang dipakai <Icon name="arrow"/></button>
@@ -464,11 +466,11 @@ export function CuttingRollPage() {
             const drawingCopy=slot.image?`, gambar ${slot.image}`:''
             return <label className={`${isColumnSource?'column-fill-source':''} ${isColumnPreview?'column-fill-preview':''}`} key={slot.key}><span>{slot.size}{slot.image&&<small>{slot.image}</small>}</span><input data-cutting-row={index} data-cutting-slot={slotIndex} aria-label={`Roll ${roll.sequence}, size ${slot.size}${drawingCopy}`} inputMode="numeric" type="text" pattern="[0-9]*" value={row[slotIndex]??0} onFocus={(event)=>{if((row[slotIndex]??0)===0)event.currentTarget.select()}} onClick={(event)=>{if((row[slotIndex]??0)===0)event.currentTarget.select()}} onKeyDown={(event)=>handleAllocationKey(event,index,slotIndex)} onPaste={(event)=>pasteAllocationGrid(event,index,slotIndex)} onChange={(event)=>updateAllocation(roll,slotIndex,event.target.value)}/></label>
           })}</div>
-          <div className="allocation-row-total"><span>TOTAL ROLL</span><strong>{rowTotal} pcs</strong><small>{dozenPieces(rowTotal)}</small></div>
+          <div className="allocation-row-total"><span>TOTAL ROLL</span><strong className="piece-total">{rowTotal} pcs</strong><small>{dozenPieces(rowTotal)}</small></div>
           <button type="button" tabIndex={-1} className="row-fill-handle" aria-label={`Salin isi Roll ${roll.sequence} ke baris atas atau bawah`} title="Klik: salin ke baris terdekat · tarik: isi ke atas atau bawah" onPointerDown={(event)=>beginRowFill(event,index)} onPointerMove={moveRowFill} onPointerUp={finishRowFill} onPointerCancel={cancelRowFill} onClick={()=>clickRowFill(index)}><Icon name="drag"/><span/></button>
         </article>
       })}{selectedRolls.length===0&&<div className="allocation-empty"><Icon name="ruler"/><strong>Belum ada roll dipilih</strong><small>Pilih minimal satu roll di bagian atas untuk mulai membagi ukuran.</small></div>}</div>
-      <div className="cutting-totals-row">{selectedCuttingSizes.map((size)=><div key={size}><span>JUMLAH SIZE {size}</span><strong>{sizeTotalByName[size]} pcs</strong></div>)}<div><span>TOTAL BATCH</span><strong>{totalPieces} pcs</strong><small>{dozenPieces(totalPieces)}</small></div></div>
+      <div className="cutting-totals-row">{selectedCuttingSizes.map((size)=><div key={size}><span>JUMLAH SIZE {size}</span><strong>{sizeTotalByName[size]} pcs</strong></div>)}<div><span>TOTAL BATCH</span><strong className="piece-total">{totalPieces} pcs</strong><small>{dozenPieces(totalPieces)}</small></div></div>
       <section className="cutting-wip-destination" aria-label="Tujuan hasil cutting">
         <div><span>04 · SIMPAN HASIL CUTTING</span><h2>Masuk WIP Produksi, belum menjadi Batch Distribusi</h2><p>Jejak roll, yard issued, sisa roll, dan size tetap melekat pada Batch Produksi. Mandor serta Batch Distribusi baru dicatat saat fisik benar-benar diambil.</p></div>
         <div className="cutting-wip-card"><span className="wip-state-dot"/><div><small>STATUS SETELAH DISIMPAN</small><strong>Menunggu mandor mengambil</strong><span>{selectedRolls.length} roll · {formatQuantity(totalUsedYards,2)} yd used · {totalPieces} pcs · {selectedPattern ? `Pola ${selectedPattern.code}/${selectedPattern.revision}` : 'Pola wajib dipilih sebelum simpan'}</span></div></div>

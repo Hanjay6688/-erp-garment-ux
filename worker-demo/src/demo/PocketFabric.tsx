@@ -1,112 +1,295 @@
-import {browseMatch} from '../browseMatch'
-import {dayOk,lastWarehouseDay} from './warehouseDay'
-import {useState} from 'react'
+import { useState, type FormEvent } from 'react'
+import { ArrowDownLeft, ClipboardList, Scissors } from 'lucide-react'
+import { browseMatch } from '../browseMatch'
 import RecordTable from '../RecordTable'
-import {ReasonDialog} from './planner/ReasonDialog'
-import {amountText,fixtureDate} from './accessoryPricing'
-
-import {pocketRolls,readReceipts,receiptPath,type PocketRoll,type PocketUnit} from './pocketReceipts'
-import {ArrowDownLeft,ArrowUpRight,Ruler} from 'lucide-react'
+import { amountText, fixtureDate } from './accessoryPricing'
+import { ReasonDialog } from './planner/ReasonDialog'
+import { pocketRolls, readReceipts, receiptPath, type PocketRoll } from './pocketReceipts'
+import {
+  periodActive, planPocketAllocation, planPocketUsage, pocketBalance, pocketBookKey,
+  pocketScale, readPocketBook, type PocketAllocation, type PocketBook,
+} from './pocketUsage'
+import { lastWarehouseDay } from './warehouseDay'
 import './warehouseForms.css'
-const sewn=[
-  {po:'PO-1069',mandor:'Epi',day:'2026-11-23',wip:12,fg:18,sold:6},
-  {po:'PO-LUCY',mandor:'Afui',day:'2026-11-24',wip:8,fg:10,sold:6},
-]
-type Issue={id:string;roll:string;date:string;qty:number;cents:number;reason:string;unit?:PocketUnit;reversal?:string}
-type Split={po:string;mandor:string;pcs:number;wip:number;fg:number;sold:number}
-type Allocation={id:string;start:string;end:string;cents:number;pcs:number;parts:Split[];sources:string[];reason:string;reversal?:string}
-type Book={issues:Issue[];allocations:Allocation[]}
-const key='erp.demo.pocket.period.v1'
-const read=():Book=>JSON.parse(sessionStorage.getItem(key)??'{"issues":[],"allocations":[]}')
-const units=1_000_000
-const fmt=(q:number)=>q.toLocaleString('id-ID',{maximumFractionDigits:6})
-const price=(cents:number)=>amountText(cents/100)
-const active=(b:Book,start:string,end:string)=>b.allocations.some(a=>!a.reversal&&a.start<=end&&a.end>=start)
-const balance=(b:Book,roll:PocketRoll,through?:string)=>roll.length*units-b.issues.filter(i=>i.roll===roll.id&&!i.reversal&&(!through||i.date<=through)).reduce((s,i)=>s+i.qty,0)
-function planAllocation(book:Book,start:string,end:string){
-  if(!start||!end||start>end||end>lastWarehouseDay()||(Date.parse(end)-Date.parse(start))/86400000>366)throw Error('Pilih periode sampai hari ini, maksimal 367 hari.')
-  if(active(book,start,end))throw Error('Periode ini bertumpang tindih dengan alokasi aktif.')
-  const docs=book.issues.filter(i=>!i.reversal&&start<=i.date&&i.date<=end)
-  const jobs=sewn.filter(j=>start<=j.day&&j.day<=end)
-  const pcs=jobs.reduce((n,j)=>n+j.wip+j.fg+j.sold,0), cents=docs.reduce((n,i)=>n+i.cents,0)
-  if(!cents||!pcs)throw Error(!cents?'Belum ada biaya kain keluar pada periode ini.':'Belum ada hasil selesai dijahit pada periode ini.')
-  let done=0
-  function share(qty:number){const before=Math.round(cents*done/pcs);done+=qty;return Math.round(cents*done/pcs)-before}
-  const parts=jobs.map(j=>({po:j.po,mandor:j.mandor,pcs:j.wip+j.fg+j.sold,wip:share(j.wip),fg:share(j.fg),sold:share(j.sold)}))
-  return {start,end,cents,pcs,parts,sources:docs.map(i=>i.id)}
+import './pocketFabric.css'
+
+const length = (qty: number, unit: string) => (qty / pocketScale).toLocaleString('id-ID', { maximumFractionDigits: 6 }) + ' ' + unit
+const rupiah = (cents: number) => amountText(cents / 100)
+
+type UsageSelection = { rolls: PocketRoll[]; whole: boolean }
+type Reverse = { id: string; kind: 'issue' | 'period' }
+type Feedback = { text: string; error?: boolean }
+
+export default function PocketFabric() {
+  const rolls = pocketRolls()
+  const [detailId, setDetailId] = useState(() => new URLSearchParams(location.search).get('roll'))
+  const [book, setBook] = useState(readPocketBook)
+  const [tab, setTab] = useState<'stock' | 'cost'>('stock')
+  const [query, setQuery] = useState(() => new URLSearchParams(location.search).get('surat') ?? '')
+  const [checked, setChecked] = useState<string[]>([])
+  const [usage, setUsage] = useState<UsageSelection | null>(null)
+  const [start, setStart] = useState('2026-11-23')
+  const [end, setEnd] = useState(fixtureDate)
+  const [allocReason, setAllocReason] = useState('Pembagian biaya kain kantong')
+  const [preview, setPreview] = useState<PocketAllocation | null>(null)
+  const [feedback, setFeedback] = useState<Feedback | null>(null)
+  const [undo, setUndo] = useState<Reverse | null>(null)
+  const [why, setWhy] = useState('')
+  const detail = rolls.find(r => r.id === detailId)
+  const visible = rolls.filter(r => browseMatch(query, r.id, r.name, r.receipt, r.location, r.unit, r.date))
+
+  function save(next: PocketBook, message: string) {
+    sessionStorage.setItem(pocketBookKey, JSON.stringify(next))
+    setBook(next)
+    setPreview(null)
+    setFeedback({ text: message })
+  }
+
+  function confirmUsage(current: PocketBook, form: UsageSelection, date: string, reason: string, mode: 'keluar' | 'sisa' | 'utuh', amount: string) {
+    const liveRolls = pocketRolls()
+    const selected = liveRolls.filter(r => form.rolls.some(item => item.id === r.id))
+    if (selected.length !== form.rolls.length) throw Error('Ada roll yang sudah tidak tersedia. Tutup dan pilih ulang roll.')
+    const lines = planPocketUsage(current, selected, date, reason, mode, amount)
+    const shown = planPocketUsage(book, form.rolls, date, reason, mode, amount)
+    if (JSON.stringify(lines) !== JSON.stringify(shown)) throw Error('Saldo roll berubah. Tutup dan periksa kembali.')
+    const issues = lines.map(({ roll, qty, cents }, index) => ({
+      id: 'KT-' + String(current.issues.length + index + 1).padStart(3, '0') + '-OUT',
+      roll: roll.id, unit: roll.unit, date, qty, cents, reason: reason.trim(),
+    }))
+    const message = form.whole ? lines.length + ' roll dikeluarkan.' : length(lines[0].qty, lines[0].roll.unit) + ' keluar dari ' + lines[0].roll.id + '.'
+    save({ ...current, issues: [...current.issues, ...issues] }, message)
+    setChecked(ids => ids.filter(id => !issues.some(issue => issue.roll === id)))
+    setDetailId(form.whole ? null : lines[0].roll.id)
+    setUsage(null)
+  }
+
+  function showAllocation() {
+    try {
+      setPreview(planPocketAllocation(readPocketBook(), start, end))
+      setFeedback(null)
+    } catch (error) {
+      setPreview(null)
+      setFeedback({ text: (error as Error).message, error: true })
+    }
+  }
+
+  function postAllocation() {
+    try {
+      const current = readPocketBook()
+      const latest = planPocketAllocation(current, start, end)
+      if (!allocReason.trim() || JSON.stringify(latest) !== JSON.stringify(preview)) {
+        throw Error('Periksa lagi perhitungan dan isi alasan pembagian.')
+      }
+      const id = 'BAGI-' + String(current.allocations.length + 1).padStart(3, '0')
+      const allocations = [...current.allocations, { ...latest, id, reason: allocReason.trim() }]
+      save({ ...current, allocations }, id + ' disahkan. Nilai kain masuk HPP sesuai pembagian.')
+    } catch (error) {
+      setFeedback({ text: (error as Error).message, error: true })
+    }
+  }
+
+  function reverse(event: FormEvent) {
+    event.preventDefault()
+    if (!undo || !why.trim()) return
+    try {
+      const current = readPocketBook()
+      if (undo.kind === 'period') {
+        if (!current.allocations.some(a => a.id === undo.id && !a.reversal)) throw Error('Pembagian sudah dibatalkan.')
+        const allocations = current.allocations.map(a => a.id === undo.id ? { ...a, reversal: why.trim() } : a)
+        save({ ...current, allocations }, 'Pembagian dibalik. Nilai kain kembali ke biaya periode.')
+      } else {
+        const issue = current.issues.find(i => i.id === undo.id && !i.reversal)
+        if (!issue) throw Error('Pemakaian sudah dibalik.')
+        if (periodActive(current, issue.date, issue.date)) throw Error('Balikkan pembagian biaya periode ini lebih dulu.')
+        const issues = current.issues.map(i => i.id === issue.id ? { ...i, reversal: why.trim() } : i)
+        save({ ...current, issues }, 'Pemakaian dibalik. Panjang kembali ke saldo roll.')
+      }
+      setUndo(null)
+    } catch (error) {
+      setFeedback({ text: (error as Error).message, error: true })
+    }
+  }
+
+  const openUsage = (choice: UsageSelection) => { setUsage(choice); setFeedback(null) }
+  const openReverse = (choice: Reverse) => { setUndo(choice); setWhy(''); setFeedback(null) }
+  const switchTab = (choice: typeof tab) => { setTab(choice); setFeedback(null) }
+
+  return <div className="pocket-workspace">
+    <header className="hero-copy compact pocket-heading">
+      <div><h1>Kain kantong</h1><p>Terima kain dan catat pemakaian sesuai panjang setiap roll.</p></div>
+      <a className="primary-btn" href={receiptPath}><ArrowDownLeft size={17} aria-hidden="true"/>Terima kain kantong</a>
+    </header>
+    <nav className="pocket-navigation" aria-label="Kain kantong">
+      <button type="button" aria-current={tab === 'stock'} onClick={() => switchTab('stock')}>Stok &amp; pemakaian</button>
+      <button type="button" aria-current={tab === 'cost'} onClick={() => switchTab('cost')}>Biaya per periode</button>
+    </nav>
+    {tab === 'stock' ? <section className="panel wh-pocket-use">
+      <header className="pocket-panel-head">
+        <div><h2>Stok per roll</h2><p>{rolls.filter(r => pocketBalance(book, r) > 0).length} roll bersaldo di gudang</p></div>
+        <label className="pocket-search"><span>Cari roll</span>
+          <input type="search" value={query} onChange={e => setQuery(e.target.value)} placeholder="Nomor roll atau surat jalan"/>
+        </label>
+      </header>
+      <ul className="pocket-stock-list" aria-label="Stok per roll">
+        {visible.map(roll => {
+          const left = pocketBalance(book, roll)
+          const incoming = Math.round(roll.length * pocketScale)
+          return <li key={roll.id} className="pocket-stock-row">
+            <label className="pocket-check" title="Pilih untuk memakai seluruh sisa">
+              <input type="checkbox" aria-label={'Pakai seluruh ' + roll.id} disabled={left <= 0} checked={checked.includes(roll.id)}
+                onChange={e => setChecked(ids => e.target.checked ? [...ids, roll.id] : ids.filter(id => id !== roll.id))}/>
+            </label>
+            <div className="pocket-stock-id">
+              <button type="button" className="gar-text" aria-expanded={detailId === roll.id}
+                onClick={() => setDetailId(detailId === roll.id ? null : roll.id)}>{roll.id}</button>
+              <small>{roll.name}</small><small>{roll.location} · {roll.receipt}</small>
+            </div>
+            <dl className="pocket-stock-metrics">
+              <div><dt>Masuk</dt><dd>{length(incoming, roll.unit)}</dd></div>
+              <div><dt>Terpakai</dt><dd>{length(incoming - left, roll.unit)}</dd></div>
+              <div className={left ? 'pocket-in-stock' : ''}><dt>Sisa</dt><dd>{length(left, roll.unit)}</dd></div>
+            </dl>
+            <button type="button" className="soft-btn pocket-use-button" aria-label={'Catat pemakaian ' + roll.id} disabled={left <= 0}
+              onClick={() => openUsage({ rolls: [roll], whole: false })}><Scissors size={15} aria-hidden="true"/>Pakai roll</button>
+          </li>
+        })}
+      </ul>
+      {visible.length === 0 && <p className="pocket-empty">Tidak ada roll yang cocok dengan pencarian.</p>}
+      {rolls.length > 0 && <div className="pocket-bulk">
+        <p>{checked.length ? checked.join(', ') : 'Centang roll untuk memakai seluruh sisanya sekaligus.'}</p>
+        <button type="button" className="soft-btn" disabled={!checked.length}
+          onClick={() => openUsage({ rolls: rolls.filter(r => checked.includes(r.id)), whole: true })}>
+          Pakai seluruh sisa{checked.length ? ' · ' + checked.length + ' roll' : ''}
+        </button>
+      </div>}
+      {feedback && !undo && <p className="wh-feedback" role={feedback.error ? 'alert' : 'status'}>{feedback.text}</p>}
+      {detail && <section className="wh-roll-ledger" aria-label={'Mutasi roll ' + detail.id}>
+        <h3>Mutasi roll · {detail.id}</h3>
+        <div className="wh-register-row">
+          <span><strong>Masuk · {length(Math.round(detail.length * pocketScale), detail.unit)}</strong><small>{detail.date} · {detail.receipt}</small></span>
+          <a href={receiptPath + '&surat=' + encodeURIComponent(detail.receipt)}>Lihat penerimaan</a>
+        </div>
+        {book.issues.filter(i => i.roll === detail.id).map(issue => <div className="wh-register-row" key={issue.id}>
+          <span><strong>Keluar · {length(issue.qty, detail.unit)}</strong><small>{issue.date} · {issue.id} · {rupiah(issue.cents)}</small></span>
+          {issue.reversal ? <span>Dibalik · {issue.reversal}</span> : <button type="button" className="soft-btn" onClick={() => openReverse({ kind: 'issue', id: issue.id })}>Balikkan {issue.id}</button>}
+        </div>)}
+      </section>}
+      <details className="pocket-history">
+        <summary><ClipboardList size={16} aria-hidden="true"/>Riwayat pemakaian <span>{book.issues.length}</span></summary>
+        {book.issues.length === 0 && <p>Belum ada pemakaian.</p>}
+        {[...book.issues].reverse().map(issue => {
+          const unit = issue.unit ?? rolls.find(r => r.id === issue.roll)?.unit
+            ?? readReceipts().flatMap(r => r.rolls).find(r => r.id === issue.roll)?.unit ?? 'yd'
+          return <div className="wh-register-row" key={issue.id}>
+            <span><strong>{issue.roll} · {length(issue.qty, unit)}</strong><small>{issue.date} · {issue.id} · {rupiah(issue.cents)} · {issue.reason}</small></span>
+            {issue.reversal ? <span>Dibalik · {issue.reversal}</span> : <button type="button" className="soft-btn" onClick={() => openReverse({ kind: 'issue', id: issue.id })}>Balikkan pemakaian</button>}
+          </div>
+        })}
+      </details>
+    </section> : <section className="panel wh-pocket-use">
+      <header className="pocket-panel-head">
+        <div><h2>Bagi biaya ke HPP</h2><p>Biaya kain keluar dibagi per potong yang selesai dijahit dalam periode, termasuk hasil Afui.</p></div>
+      </header>
+      <form onSubmit={event => { event.preventDefault(); showAllocation() }}>
+        <div className="wh-fields pocket-period-fields">
+          <label>Mulai periode<input type="date" required value={start} max={end || lastWarehouseDay()} onChange={e => { setStart(e.target.value); setPreview(null); setFeedback(null) }}/></label>
+          <label>Akhir periode<input type="date" required value={end} min={start} max={lastWarehouseDay()} onChange={e => { setEnd(e.target.value); setPreview(null); setFeedback(null) }}/></label>
+          <label>Alasan pembagian<input value={allocReason} onChange={e => setAllocReason(e.target.value)}/></label>
+        </div>
+        <button className="soft-btn" type="submit">Lihat perhitungan</button>
+      </form>
+      {feedback && !undo && <p className="wh-feedback" role={feedback.error ? 'alert' : 'status'}>{feedback.text}</p>}
+      {preview && <div className="gar-box pocket-allocation">
+        <h3>{rupiah(preview.cents)} ÷ {preview.pcs} pcs = {amountText(preview.cents / 100 / preview.pcs)}/pcs</h3>
+        <p>Sumber {preview.sources.join(', ')}</p>
+        <div className="pocket-table-scroll" tabIndex={0} role="region" aria-label="Rincian alokasi HPP">
+          <RecordTable><thead><tr><th>PO / mandor</th><th>Selesai dijahit</th><th>WIP</th><th>FG tersedia</th><th>HPP terjual</th></tr></thead>
+            <tbody>{preview.parts.map(p => <tr key={p.po}><td>{p.po} · {p.mandor}</td><td>{p.pcs} pcs</td><td>{rupiah(p.wip)}</td><td>{rupiah(p.fg)}</td><td>{rupiah(p.sold)}</td></tr>)}</tbody>
+          </RecordTable>
+        </div>
+        <button className="primary-btn" type="button" disabled={!allocReason.trim()} onClick={postAllocation}>Sahkan pembagian</button>
+      </div>}
+      <section className="pocket-history">
+        <h3>Riwayat pembagian biaya</h3>
+        {book.allocations.length === 0 && <p>Belum ada pembagian biaya.</p>}
+        {[...book.allocations].reverse().map(a => <div className="wh-register-row" key={a.id}>
+          <span><strong>{a.id} · {rupiah(a.cents)}</strong><small>{a.start} – {a.end} · {a.pcs} pcs · {a.reason}</small></span>
+          {a.reversal ? <span>Dibatalkan · {a.reversal}</span> : <button type="button" className="soft-btn" onClick={() => openReverse({ kind: 'period', id: a.id })}>Batalkan pembagian</button>}
+        </div>)}
+      </section>
+    </section>}
+    {usage && <PocketUsageForm selection={usage} book={book} onClose={() => setUsage(null)}
+      onConfirm={(date, reason, mode, amount) => confirmUsage(readPocketBook(), usage, date, reason, mode, amount)}/>}
+    {undo && <ReasonDialog title={'Pembalikan ' + undo.id} onClose={() => setUndo(null)} closeLabel="Kembali">
+      <form className="pocket-dialog-form" onSubmit={reverse}>
+        <p>{undo.kind === 'issue' ? 'Panjang yang keluar akan kembali ke saldo roll.' : 'Nilai kembali ke biaya periode dan saldo roll tetap.'}</p>
+        <label>Alasan pembalikan<input required value={why} onChange={e => setWhy(e.target.value)}/></label>
+        {feedback && <p role="alert">{feedback.text}</p>}
+        <button className="primary-btn" disabled={!why.trim()} type="submit">Konfirmasi pembalikan</button>
+      </form>
+    </ReasonDialog>}
+  </div>
 }
-export default function PocketFabric(){
-  const rolls=pocketRolls()
-  const requested=new URLSearchParams(location.search).get('roll')
-  const [book,setBook]=useState(read),[rollId,setRoll]=useState(()=>rolls.find(r=>r.id===requested)?.id??rolls[0].id),[mode,setMode]=useState('keluar'),[qty,setQty]=useState(''),[day,setDay]=useState(()=>[fixtureDate,rolls.find(r=>r.id===requested)?.date??''].sort().at(-1)!)
-  const [reason,setReason]=useState('Pemakaian kain kantong'),[start,setStart]=useState('2026-11-23'),[end,setEnd]=useState(fixtureDate),[allocReason,setAllocReason]=useState('Pembagian biaya kain kantong')
-  const [preview,setPreview]=useState<ReturnType<typeof planAllocation>|null>(null),[msg,setMsg]=useState(''),[undo,setUndo]=useState<{id:string;kind:'issue'|'period'}|null>(null),[why,setWhy]=useState('')
-  const roll=rolls.find(r=>r.id===rollId)!,left=balance(book,roll)
-  function mutate(operation:(b:Book)=>Book,message:string){try{const next=operation(read());sessionStorage.setItem(key,JSON.stringify(next));setBook(next);setPreview(null);setMsg(message);return true}catch(e){setMsg((e as Error).message);return false}}
-  function issue(){
-    const ok=mutate(b=>{
-      const n=qty.trim().replace(',','.')
-      if(!/^\d+(\.\d{1,6})?$/.test(n)||!reason.trim()||!dayOk(day)||day<roll.date)throw Error('Periksa tanggal, jumlah dan alasan pemakaian.')
-      if(!pocketRolls().some(r=>r.id===roll.id))throw Error('Roll tidak lagi tersedia.')
-      if(active(b,day,day))throw Error('Batalkan pembagian periode ini sebelum mengubah pemakaian.')
-      const physical=Math.round(Number(n)*units),atDate=balance(b,roll,day),available=Math.min(atDate,balance(b,roll)),delta=mode==='sisa'?atDate-physical:physical
-      if(!Number.isSafeInteger(delta)||delta<=0||delta>available)throw Error('Jumlah keluar harus positif dan cukup dari saldo roll.')
-      const entry={id:'KT-'+String(b.issues.length+1).padStart(3,'0')+'-OUT',roll:roll.id,unit:roll.unit,date:day,qty:delta,cents:Math.round(delta*roll.rate*100/units),reason:reason.trim()}
-      return {...b,issues:[...b.issues,entry]}
-    },'Pengeluaran tercatat. Saldo roll dan biaya periode sudah diperbarui.')
-    if(ok)setQty('')
+
+function PocketUsageForm({ selection, book, onClose, onConfirm }: {
+  selection: UsageSelection
+  book: PocketBook
+  onClose: () => void
+  onConfirm: (date: string, reason: string, mode: 'keluar' | 'sisa' | 'utuh', amount: string) => void
+}) {
+  const { rolls, whole } = selection
+  const first = rolls[0]
+  const minDay = rolls.map(r => r.date).sort().at(-1)!
+  const [date, setDate] = useState(minDay > fixtureDate ? minDay : fixtureDate)
+  const [reason, setReason] = useState('Pemakaian kain kantong')
+  const [mode, setMode] = useState<'keluar' | 'sisa'>('keluar')
+  const [amount, setAmount] = useState('')
+  const [error, setError] = useState('')
+  const [tried, setTried] = useState(false)
+  const action = whole ? 'utuh' : mode
+  let lines: ReturnType<typeof planPocketUsage> = []
+  let invalid = ''
+  if (whole || amount.trim() || tried) {
+    try { lines = planPocketUsage(book, rolls, date, reason, action, amount) }
+    catch (failure) { invalid = (failure as Error).message }
   }
-  const [rollQuery,setRollQuery]=useState(''),[whole,setWhole]=useState<string[]>([])
-  const [wholeReview,setWholeReview]=useState<{roll:string;qty:number;unit:PocketUnit;rate:number}[]|null>(null)
-  const shownRolls=rolls.filter(r=>browseMatch(rollQuery,r.id,r.name,r.receipt,r.unit,r.date))
-  function selectRoll(r:PocketRoll){setRoll(r.id);if(r.date>day)setDay(r.date);setQty('');setMsg('')}
-  function wholeLines(b:Book){
-    if(!dayOk(day)||!reason.trim()||!whole.length)throw Error('Pilih roll, tanggal dan alasan pemakaian.')
-    if(active(b,day,day))throw Error('Periode sudah dibagikan.')
-    return whole.map(id=>{
-      const r=pocketRolls().find(x=>x.id===id)
-      if(!r||r.date>day)throw Error('Roll belum diterima pada tanggal ini.')
-      const qty=balance(b,r,day)
-      if(qty<=0||qty!==balance(b,r))throw Error('Saldo roll berubah atau sudah ada pemakaian sesudah tanggal ini.')
-      return {roll:id,qty,unit:r.unit,rate:r.rate}
-    })
+
+  function submit(event: FormEvent) {
+    event.preventDefault()
+    setTried(true)
+    setError('')
+    if (!lines.length) return
+    try { onConfirm(date, reason, action, amount) }
+    catch (failure) { setError((failure as Error).message) }
   }
-  function saveWhole(){
-    if(!wholeReview)return
-    const ok=mutate(b=>{
-      const rows=wholeLines(b)
-      if(JSON.stringify(rows)!==JSON.stringify(wholeReview))throw Error('Saldo roll berubah. Buka review lagi.')
-      const issues=rows.map((r,i)=>({id:'KT-'+String(b.issues.length+i+1).padStart(3,'0')+'-OUT',roll:r.roll,unit:r.unit,date:day,
-        qty:r.qty,cents:Math.round(r.qty*r.rate*100/units),reason:reason.trim()}))
-      return {...b,issues:[...b.issues,...issues]}
-    },wholeReview.length+' roll dikeluarkan. Rincian panjang dan biaya tersimpan per roll.')
-    if(ok){setWhole([]);setWholeReview(null)}
-  }
-  function post(){if(!preview)return;mutate(b=>{const current=planAllocation(b,start,end);if(!allocReason.trim()||JSON.stringify(current)!==JSON.stringify(preview))throw Error('Periksa ulang pratinjau dan isi alasan.')
-    return {...b,allocations:[...b.allocations,{...current,id:'BAGI-'+String(b.allocations.length+1).padStart(3,'0'),reason:allocReason.trim()}]}
-  },'Biaya dibagikan. Saldo roll tetap sama.')}
-  function reverse(){if(!undo||!why.trim())return;const ok=mutate(b=>{
-    if(undo.kind==='period'){const a=b.allocations.find(a=>a.id===undo.id);if(!a||a.reversal)throw Error('Alokasi sudah dibatalkan.');return {...b,allocations:b.allocations.map(a=>a.id===undo.id?{...a,reversal:why.trim()}:a)}}
-    const row=b.issues.find(i=>i.id===undo.id);if(!row||row.reversal||active(b,row.date,row.date))throw Error('Batalkan alokasi aktif yang memakai biaya ini dahulu.')
-    return {...b,issues:b.issues.map(i=>i.id===undo.id?{...i,reversal:why.trim()}:i)}
-  },undo.kind==='period'?'Pembagian dibalik. Biaya kembali ke periode.':'Pemakaian dibalik. Panjang kembali ke saldo roll.');if(ok)setUndo(null)}
-  return <><section className="hero-copy compact"><div className="eyebrow">Gudang</div><h1>Kain kantong</h1><p>Catat kain keluar dari gudang. Biayanya bisa dibagi ke hasil jahit satu periode.</p></section>
-    <section className="panel wh-pocket-use"><header className="wh-section-head"><div><span>GUDANG BAHAN</span><h2>Pemakaian roll</h2></div><a className="soft-btn" href={receiptPath}><ArrowDownLeft size={16}/>Terima pembelian kain kantong</a></header>
-    <section className="pocket-roll-register" aria-label="Daftar pemakaian per roll"><div className="wh-section-head"><div><h3>Pemakaian per roll</h3><small>Centang untuk menghabiskan seluruh sisa. Pilih nomor roll untuk memakai sebagian.</small></div><label>Cari roll<input type="search" value={rollQuery} onChange={e=>setRollQuery(e.target.value)} placeholder="Nomor roll atau surat jalan"/></label></div>
-    <div className="pocket-roll-lines">{shownRolls.map(r=>{const residual=balance(book,r);return <div key={r.id} className="pocket-roll-line">
-      <label><input type="checkbox" aria-label={'Pakai seluruh '+r.id} disabled={residual<=0} checked={whole.includes(r.id)} onChange={e=>setWhole(e.target.checked?[...whole,r.id]:whole.filter(id=>id!==r.id))}/></label>
-      <button type="button" className="gar-text" onClick={()=>selectRoll(r)}><strong>{r.id}</strong><small>{r.name} · {r.receipt}</small></button>
-      <span>Masuk <b>{fmt(r.length)} {r.unit}</b></span><span>Terpakai <b>{fmt(r.length-residual/units)} {r.unit}</b></span><span>Sisa <b>{fmt(residual/units)} {r.unit}</b></span></div>})}
-      {!shownRolls.length&&<p>Roll tidak ditemukan.</p>}</div><div className="owner-payroll-actions"><button className="soft-btn" disabled={!whole.length} onClick={()=>{try{setWholeReview(wholeLines(read()));setMsg('')}catch(e){setMsg((e as Error).message)}}}>Pakai seluruh sisa · {whole.length} roll</button></div></section>
-    {wholeReview&&<ReasonDialog title="Pemakaian roll utuh" closeLabel="Kembali" onClose={()=>setWholeReview(null)}><p>{day} · {reason}</p>{wholeReview.map(r=><p key={r.roll}><b>{r.roll}</b> · {fmt(r.qty/units)} {r.unit} keluar · sisa 0 {r.unit}</p>)}<button className="primary-btn" onClick={saveWhole}>Catat {wholeReview.length} roll keluar</button>{msg&&<p role="status">{msg}</p>}</ReasonDialog>}
-    <div className="wh-columns"><div className="wh-side"><header><Ruler size={18}/><h3>Roll yang dipakai</h3></header><label>Roll<select aria-label="Roll" value={rollId} onChange={e=>{const next=rolls.find(r=>r.id===e.target.value);if(next)selectRoll(next)}}>{rolls.map(r=><option key={r.id} value={r.id}>{r.id} · {r.name} · {r.unit}</option>)}</select></label><div className="wh-stock"><div><small>{roll.location} · {roll.name}</small><span>Saldo gudang</span></div><strong>{fmt(left/units)} {roll.unit}</strong></div><small>Nilai per {roll.unit} · {amountText(roll.rate)}</small></div>
-    <div className="wh-side"><header><ArrowUpRight size={18}/><h3>Kain keluar</h3></header><div className="wh-fields"><label>Cara mencatat<select value={mode} onChange={e=>{setMode(e.target.value);setQty('')}}><option value="keluar">Jumlah keluar</option><option value="sisa">Hitung sisa roll</option></select></label><label>{(mode==='sisa'?'Sisa fisik':'Keluar')+' ('+roll.unit+')'}<input inputMode="decimal" placeholder="0" value={qty} onChange={e=>setQty(e.target.value)}/></label><label>Tanggal pemakaian<input type="date" value={day} min={roll.date} max={lastWarehouseDay()} onChange={e=>setDay(e.target.value)}/></label><label>Alasan pemakaian<input value={reason} onChange={e=>setReason(e.target.value)}/></label></div><button className="primary-btn" type="button" onClick={issue}>Catat pemakaian</button></div></div>
-    <div className="wh-roll-ledger"><h3>Mutasi roll · {roll.id}</h3><div className="wh-register-row"><span><strong>Masuk · {fmt(roll.length)} {roll.unit}</strong><small>{roll.date} · {roll.receipt}</small></span><a href={receiptPath+'&surat='+encodeURIComponent(roll.receipt)}>Lihat penerimaan</a></div>
-    {book.issues.filter(i=>i.roll===roll.id).map(i=><div className="wh-register-row" key={i.id}><span><strong>Keluar · {fmt(i.qty/units)} {roll.unit}</strong><small>{i.date} · {i.id} · {i.reason}</small></span><span>{i.reversal?'Dibalik · '+i.reversal:'Posted'}</span></div>)}</div></section>
-    <section className="panel gar-panel"><h2>Bagi ke HPP per periode</h2><div className="sku-range-fields"><label>Mulai periode<input type="date" value={start} onChange={e=>{setStart(e.target.value);setPreview(null)}}/></label><label>Akhir periode<input type="date" value={end} max={lastWarehouseDay()} onChange={e=>{setEnd(e.target.value);setPreview(null)}}/></label><label>Alasan pembagian<input value={allocReason} onChange={e=>setAllocReason(e.target.value)}/></label></div>
-    <button className="soft-btn" type="button" onClick={()=>{try{setPreview(planAllocation(read(),start,end));setMsg('')}catch(e){setPreview(null);setMsg((e as Error).message)}}}>Lihat perhitungan</button>
-    {preview&&<div className="gar-box"><h3>{price(preview.cents)} ÷ {preview.pcs} pcs = {amountText(preview.cents/100/preview.pcs)}/pcs</h3><RecordTable><thead><tr><th>PO / mandor</th><th>Selesai dijahit</th><th>WIP</th><th>FG tersedia</th><th>HPP terjual</th></tr></thead><tbody>{preview.parts.map(p=><tr key={p.po}><td>{p.po} · {p.mandor}</td><td>{p.pcs} pcs</td><td>{price(p.wip)}</td><td>{price(p.fg)}</td><td>{price(p.sold)}</td></tr>)}</tbody></RecordTable><button className="primary-btn" disabled={!allocReason.trim()} onClick={post}>Sahkan pembagian</button></div>}</section>
-    <section className="panel gar-panel"><h2>Riwayat</h2>{!book.issues.length&&<p>Belum ada pengeluaran.</p>}{[...book.issues].reverse().map(i=><div className="owner-doc-row" key={i.id}><span><strong>{i.id} · {i.roll}</strong><small>{i.date} · {fmt(i.qty/units)} {i.unit??rolls.find(r=>r.id===i.roll)?.unit??readReceipts().flatMap(r=>r.rolls).find(r=>r.id===i.roll)?.unit??'yd'} · {price(i.cents)} · {i.reason}</small></span>{i.reversal?<span>Dibalik · {i.reversal}</span>:<button className="soft-btn" onClick={()=>{setUndo({kind:'issue',id:i.id});setWhy('')}}>Balikkan pemakaian</button>}</div>)}
-    {book.allocations.map(a=><div className="owner-doc-row" key={a.id}><span><strong>{a.id} · {price(a.cents)}</strong><small>{a.start} – {a.end} · {a.pcs} pcs</small></span>{a.reversal?<span>Dibatalkan · {a.reversal}</span>:<button className="soft-btn" onClick={()=>{setUndo({kind:'period',id:a.id});setWhy('')}}>Batalkan pembagian</button>}</div>)}</section>
-    {msg&&!undo&&<p className="gar-success" role="status">{msg}</p>}{undo&&<ReasonDialog title={'Pembalikan '+undo.id} onClose={()=>setUndo(null)} closeLabel="Kembali"><label>Alasan pembalikan<input value={why} onChange={e=>setWhy(e.target.value)}/></label><button disabled={!why.trim()} onClick={reverse}>Konfirmasi pembalikan</button>{msg&&<p role="status">{msg}</p>}</ReasonDialog>}</>
+
+  return <ReasonDialog title={whole ? 'Pakai seluruh sisa · ' + rolls.length + ' roll' : 'Pakai roll ' + first.id}
+    onClose={onClose} closeLabel="Kembali">
+    <form className="pocket-dialog-form" onSubmit={submit}>
+      {whole ? <p>Seluruh sisa dari roll terpilih dicatat sebagai kain keluar.</p> : <p>{first.name} · {first.location} <br/>Sisa saat ini <strong>{length(pocketBalance(book, first), first.unit)}</strong></p>}
+      <div className="wh-fields">
+        <label>Tanggal pemakaian<input type="date" required min={minDay} max={lastWarehouseDay()} value={date} onChange={e => { setDate(e.target.value); setError('') }}/></label>
+        <label>Alasan pemakaian<input required value={reason} onChange={e => { setReason(e.target.value); setError('') }}/></label>
+        {!whole && <>
+          <label>Cara mencatat<select value={mode} onChange={e => { setMode(e.target.value as typeof mode); setAmount(''); setTried(false); setError('') }}>
+            <option value="keluar">Isi panjang yang dipakai</option><option value="sisa">Isi sisa setelah dipakai</option>
+          </select></label>
+          <label>{(mode === 'sisa' ? 'Sisa fisik' : 'Keluar') + ' (' + first.unit + ')'}
+            <input required inputMode="decimal" placeholder={first.unit === 'm' ? 'Contoh 3,5' : 'Contoh 10'} value={amount} onChange={e => { setAmount(e.target.value); setError('') }}/>
+          </label>
+        </>}
+      </div>
+      {(error || invalid) && <p className="wh-feedback" role="alert">{error || invalid}</p>}
+      {lines.length > 0 && <div className="pocket-review">
+        {lines.map(({ roll, qty, left, cents }) => <div key={roll.id} className="wh-register-row">
+          <span><strong>{roll.id}</strong><small>Keluar {length(qty, roll.unit)} · Sisa gudang {length(left, roll.unit)}</small></span>
+          <strong>{rupiah(cents)}</strong>
+        </div>)}
+        <div className="pocket-total"><span>Masuk biaya periode</span><strong>{rupiah(lines.reduce((sum, row) => sum + row.cents, 0))}</strong></div>
+      </div>}
+      <button className="primary-btn" type="submit" disabled={whole && !lines.length}>
+        {whole ? 'Catat ' + rolls.length + ' roll keluar' : 'Catat pemakaian'}
+      </button>
+    </form>
+  </ReasonDialog>
 }

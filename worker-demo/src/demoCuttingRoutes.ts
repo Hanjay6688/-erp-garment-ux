@@ -16,6 +16,7 @@ export const productionForms = {
   'sales-invoice':{name:'Penjualan & Invoice',path:'/penjualan/invoice/'},
   'sales-history':{name:'Riwayat Pelanggan',path:'/penjualan/riwayat/'},
 
+  'master-partners':{name:'Supplier & Vendor',path:'/master/supplier-vendor/'},
   'master-accessory':{name:'Master Aksesori',path:'/master/aksesori/'},
   'contractor-issue':{name:'Nota Ambil Mandor',path:'/keuangan/nota-ambil-mandor/'},
   'brand-conversion':{name:'Ganti Merek',path:'/gudang/ganti-merek/'},

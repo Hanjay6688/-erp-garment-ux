@@ -17,13 +17,37 @@ function searchLabel(select:HTMLSelectElement) {
 export default function SelectSearch() {
   const [active,setActive]=useState<{select:HTMLSelectElement;initial:string}|null>(null)
   useEffect(()=>{
-    const find=(event:Event)=>event.target instanceof HTMLSelectElement&&!event.target.matches(':disabled')?event.target:null
-    const onPointer=(event:PointerEvent)=>{
-      const select=find(event)
-      if(select&&event.button===0){event.preventDefault();setActive({select,initial:''})}
+    const find = (event: Event) => event.target instanceof HTMLSelectElement && !event.target.matches(':disabled')
+      ? event.target : null
+    let gesture: { id: number; select: HTMLSelectElement; x: number; y: number; moved: boolean } | null = null
+
+    const onPointer = (event: PointerEvent) => {
+      if (!event.isPrimary) return
+      const select = find(event)
+      gesture = null
+      if (!select || event.button !== 0) return
+      if (event.pointerType !== 'mouse') {
+        gesture = { id: event.pointerId, select, x: event.clientX, y: event.clientY, moved: false }
+        return
+      }
+      event.preventDefault()
+      setActive({ select, initial: '' })
     }
-    const onClick=(event:MouseEvent)=>{
-      const select=find(event);if(select){event.preventDefault();setActive({select,initial:''})}
+    const onMove = (event: PointerEvent) => {
+      if (gesture?.id === event.pointerId && Math.hypot(event.clientX - gesture.x, event.clientY - gesture.y) > 8) {
+        gesture.moved = true
+      }
+    }
+    const onCancel = (event: PointerEvent) => {
+      if (gesture?.id === event.pointerId) gesture.moved = true
+    }
+    const onClick = (event: MouseEvent) => {
+      const select = find(event)
+      if (!select) return
+      event.preventDefault()
+      const wasScroll = gesture?.select === select && gesture.moved
+      gesture = null
+      if (!wasScroll) setActive({ select, initial: '' })
     }
     const onKey=(event:KeyboardEvent)=>{
       const select=find(event)
@@ -32,8 +56,18 @@ export default function SelectSearch() {
         event.preventDefault();setActive({select,initial:event.key.length===1&&event.key!==' '?event.key:''})
       }
     }
-    document.addEventListener('pointerdown',onPointer,true);document.addEventListener('click',onClick,true);document.addEventListener('keydown',onKey,true)
-    return ()=>{document.removeEventListener('pointerdown',onPointer,true);document.removeEventListener('click',onClick,true);document.removeEventListener('keydown',onKey,true)}
+    document.addEventListener('pointerdown', onPointer, true)
+    document.addEventListener('pointermove', onMove, { capture: true, passive: true })
+    document.addEventListener('pointercancel', onCancel, true)
+    document.addEventListener('click', onClick, true)
+    document.addEventListener('keydown', onKey, true)
+    return () => {
+      document.removeEventListener('pointerdown', onPointer, true)
+      document.removeEventListener('pointermove', onMove, true)
+      document.removeEventListener('pointercancel', onCancel, true)
+      document.removeEventListener('click', onClick, true)
+      document.removeEventListener('keydown', onKey, true)
+    }
   },[])
   return active?<ChoiceList select={active.select} initial={active.initial} close={()=>setActive(null)}/>:null
 }

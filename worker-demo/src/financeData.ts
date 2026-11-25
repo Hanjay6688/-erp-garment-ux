@@ -61,8 +61,9 @@ export type RegularFgWorkCard = {
   sewingRate: number
   commissionRate: number
   bomRate: number
-  bsComponents: Array<{ name: string; rate: number }>
-  stuckComponents: Array<{ name: string; rate: number }>
+  completionCount?: number
+  bsComponents: Array<{ id?: string; name: string; rate: number }>
+  stuckComponents: Array<{ id?: string; name: string; rate: number }>
   grossValue: number
   bsDeduction: number
   stuckDeduction: number

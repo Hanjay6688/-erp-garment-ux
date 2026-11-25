@@ -10,6 +10,11 @@ export type PayDraft=PayrollNote&{start?:string;end?:string}
 const ledgerKey='erp.owner.payroll.selections.1',fgKey='erp.owner.fg-posted.1'
 const readFg=():SavedFg[]=>JSON.parse(sessionStorage.getItem(fgKey)??'[]')
 export const postedPayrollCards=()=>readFg().flatMap(n=>n.cards)
+export function postedRegularWork(cardId: string) {
+  const note = readFg().find(n => n.cards.includes(cardId))
+  const card = note?.doc.regularCards?.find(c => c.id === cardId)
+  return note && card ? { number: note.doc.number, card } : undefined
+}
 export function savePostedFg(source:SavedFg){
   const old=readFg(),same=old.find(n=>n.cards.some(id=>source.cards.includes(id)))
   if(same){if(same.cards.length===source.cards.length&&same.cards.every(id=>source.cards.includes(id)))return same.doc.number;throw Error('Ada kartu yang sudah tercatat di nota FG.')}
