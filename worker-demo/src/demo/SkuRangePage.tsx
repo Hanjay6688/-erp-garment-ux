@@ -15,9 +15,9 @@ import {allSkus,nativePosition,skuByKey} from './skuCatalog'
 import BrandConversionForm from './BrandConversionForm'
 import './planner/planner.css'
 
-export function SkuRangePage({mode,historyOnly=false}:{mode:'adjust'|'convert';historyOnly?:boolean}) {
+export function SkuRangePage({mode,historyOnly=false,active=true}:{mode:'adjust'|'convert';historyOnly?:boolean;active?:boolean}) {
   if(historyOnly)return <RangeHistory mode={mode}/>
-  return mode==='convert'?<BrandConversionForm/>:<RangeEditor/>
+  return mode==='convert'?<BrandConversionForm/>:<RangeEditor active={active}/>
 }
 
 function RangeHistory({mode}:{mode:'convert'|'adjust'}){
@@ -47,14 +47,14 @@ function RangeHistory({mode}:{mode:'convert'|'adjust'}){
   </section>}{message&&<p role="status">{message}</p>}</>
 }
 
-function RangeEditor(){
+function RangeEditor({active}:{active:boolean}){
   const session=usePlannerSession()
   const options=allSkus(session,true)
-  if(!options.length)return <section className="panel sku-range-page">Belum ada SKU aktif.</section>
-  return <RangeForm session={session} options={options}/>
+  if(!options.length)return active && <section className="panel sku-range-page">Belum ada SKU aktif.</section>
+  return <RangeForm session={session} options={options} active={active}/>
 }
 
-function RangeForm({session,options}:{session:Session;options:Article[]}){
+function RangeForm({session,options,active}:{session:Session;options:Article[];active:boolean}){
   const draftStorage = 'erp.owner.range-draft.adjust'
   const [hasDraft, setHasDraft] = useState(() => !!sessionStorage.getItem(draftStorage))
   const [discard, setDiscard] = useState(false)
@@ -109,6 +109,7 @@ function RangeForm({session,options}:{session:Session;options:Article[]}){
       setMessage('Tersimpan. Saldo setiap ukuran dan Planner sudah diperbarui.')
     } catch (error) { showError(error) }
   }
+  if (!active) return null
   return <div className="count-workbook">
     <section className="count-panel count-entry" aria-label="Hitung barang jadi">
       <CountHeading icon={Shirt} title="Barang jadi"><a href="/master/produk-sku/" className="count-heading-link">Master SKU <ArrowRight/></a></CountHeading>

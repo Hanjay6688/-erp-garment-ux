@@ -225,7 +225,11 @@ export default function AttendancePage({onNavigate}: AttendancePageProps) {
   const periodKey = `${selectedContractorId}::${periodStart}::${periodEnd}`
   const payDate = periodPayDates[periodKey] ?? '2026-08-31'
   const periodStatus: AttendancePeriodStatus = periodStatuses[periodKey] ?? 'DRAFT'
-  useEffect(() => { if (location.hash==='#biaya-absensi') document.getElementById('biaya-absensi')?.scrollIntoView({block:'start'}) }, [])
+  useEffect(() => {
+    if (location.hash !== '#biaya-absensi') return
+    const target = document.querySelector('#biaya-absensi > section') ?? document.getElementById('periode-absensi')
+    target?.scrollIntoView({block:'start'})
+  }, [])
   const book = books[periodKey] ?? {}
   const workDates = useMemo(() => datesBetween(periodStart, periodEnd), [periodEnd, periodStart])
   const contractorWorkers = useMemo(

@@ -636,8 +636,8 @@
       "sha256": "8dcafcf1ead9dec38713f7a75f317eed63de1bf64a666e0e354c540e913a7ab4"
     },
     "tests/browser/cp8-worker.spec.ts": {
-      "bytes": 168965,
-      "sha256": "5c4fb375c5252fd7394d1431e6f837b208c3e0e482c254e970c8e6ed0aa20aee"
+      "bytes": 169685,
+      "sha256": "08a3089a7b30ea2a03cb024fd3454ea52c8d4dc9414f86728dcd0f04e9cf7b04"
     },
     "tests/fg-quantity.test.ts": {
       "bytes": 1251,
@@ -960,8 +960,8 @@
       "sha256": "05600a6138f4be9ab6e1013ed52469470bea1c952b4d636e1759ff5a8ed93ca3"
     },
     "worker-demo/src/InventoryControlPages.tsx": {
-      "bytes": 25291,
-      "sha256": "c9a89b9ee629033f0c51fb172b414107fe0379a8fb81811513eaf2a2b556875f"
+      "bytes": 25987,
+      "sha256": "6acfdf3ad21fd2ddd4faf189865971f8808640b22e52dea0c49c2d3a06622cc7"
     },
     "worker-demo/src/LaundryBdPanel.tsx": {
       "bytes": 71911,
@@ -1392,8 +1392,8 @@
       "sha256": "26c6f60e2a4ffd38d819a95301466be925e95f60e718112770b8d829f7900e93"
     },
     "worker-demo/src/attendance/AttendancePage.tsx": {
-      "bytes": 41951,
-      "sha256": "03fc7fe4440ee598b9a48e3cf3a56f67e855a78e4d216c19ce12c9cf2860723e"
+      "bytes": 42052,
+      "sha256": "598959a15b37b3507b6c9e9619832b11e2421bd60944a35b0633c473dfcc98fd"
     },
     "worker-demo/src/attendance/domain.ts": {
       "bytes": 11043,
@@ -1800,8 +1800,8 @@
       "sha256": "24da350b36b4a9bbbfad0ee26b51dee5aaec88bf7f45068106417441c80fff87"
     },
     "worker-demo/src/demo/SkuRangePage.tsx": {
-      "bytes": 12535,
-      "sha256": "40fea2f0929c532211b775524886d5f44305baeb055458822be519f2e707aad2"
+      "bytes": 12679,
+      "sha256": "e8715e6753aa12276a01f5c8c42994979a87da9e27a77762226c50971821ec87"
     },
     "worker-demo/src/demo/StockPages.tsx": {
       "bytes": 17374,

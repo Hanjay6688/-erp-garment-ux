@@ -7,7 +7,7 @@ import {dozenPieces,fgQuantity} from './fgQuantity'
 import {browseMatchPieces} from './browseMatch'
 import { ReasonDialog } from './demo/planner/ReasonDialog'
 import { SkuRangePage } from './demo/SkuRangePage'
-import { useState, type ReactNode } from 'react'
+import { useRef, useState, type ReactNode } from 'react'
 import {
   AlertTriangle, ArrowLeft, ArrowRight, Boxes, CalendarDays, Check, ClipboardCheck, FileClock,
   FilePlus2, History, MapPin, Layers3, Package, Shirt,
@@ -121,6 +121,9 @@ export function StockAdjustmentPage({navigation}:{navigation?:ReactNode}) {
   const [reference, setReference] = useState('')
   const [note, setNote] = useState('')
   const [notice, setNotice] = useState('')
+  const materialForms = useRef<Partial<Record<AdjustmentScope,{
+    itemId:string; quantity:string; date:string; reference:string; reason:string; note:string
+  }>>>({})
 
   const visibleCases = cases.filter((item) => {
     const quantities = [item.physicalQty - item.systemQty, item.systemQty, item.physicalQty]
@@ -149,6 +152,7 @@ export function StockAdjustmentPage({navigation}:{navigation?:ReactNode}) {
     requestAnimationFrame(() => document.getElementById(next === 'new' ? 'count-title' : 'stock-landing')?.scrollIntoView({block:'start'}))
   }
   function startCount() {
+    materialForms.current = {}
     setEditingId(null); setPhysicalText(''); setPhysicalDate(lastWarehouseDay())
     setReference(''); setReason('Koreksi hitung'); setNote(''); setNotice(''); openMode('new')
   }
@@ -169,11 +173,17 @@ export function StockAdjustmentPage({navigation}:{navigation?:ReactNode}) {
     setSelectedId(id);setScopeFilter('Semua');setQuery('');openMode('browse');setEditingId(null);setNotice('Hasil cek fisik dikirim untuk review.')
   }
 
-  const changeScope = (next: AdjustmentScope) => {
-    setScope(next)
-    setItemId(countItems.find((item) => item.scope === next)?.id ?? '')
-    setPhysicalText('')
-    setNotice('')
+  function changeScope(next: AdjustmentScope) {
+    if (scope !== 'Barang Jadi') materialForms.current[scope] = {
+      itemId:draftItem.id, quantity:physicalText, date:physicalDate, reference, reason, note,
+    }
+    if (next !== 'Barang Jadi') {
+      const stored = materialForms.current[next]
+      setItemId(stored?.itemId ?? countItems.find(item=>item.scope===next)!.id)
+      setPhysicalText(stored?.quantity ?? ''); setPhysicalDate(stored?.date ?? lastWarehouseDay())
+      setReference(stored?.reference ?? ''); setReason(stored?.reason ?? 'Koreksi hitung'); setNote(stored?.note ?? '')
+    }
+    setScope(next); setNotice('')
   }
 
   if (mode === 'new') {
@@ -190,7 +200,8 @@ export function StockAdjustmentPage({navigation}:{navigation?:ReactNode}) {
         return <button key={area} type="button" data-area={area} aria-pressed={scope===area} disabled={!!editingId && scope!==area}
           onClick={() => { if (scope!==area) changeScope(area) }}><Icon/>{area === 'Barang Jadi' ? 'Barang jadi' : area}</button>
       })}</nav>
-      {scope === 'Barang Jadi' ? <SkuRangePage mode="adjust"/> :
+      <SkuRangePage mode="adjust" active={scope==='Barang Jadi'}/>
+      {scope !== 'Barang Jadi' &&
         <form className="count-workbook" onSubmit={event => {
           event.preventDefault()
           if (hasPhysical && delta !== 0 && dayOk(physicalDate) && reference.trim() && note.trim()) saveCountReview()
