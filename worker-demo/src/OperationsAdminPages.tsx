@@ -1,3 +1,4 @@
+import { BrowsePane } from './components/BrowsePane'
 import { useMemo, useState } from 'react'
 import {
   AlertTriangle, ArrowRight, Bell, CalendarClock, Check, CheckCircle2, ChevronDown,
@@ -178,14 +179,14 @@ function ReminderPage({onNavigate,reminders,onChangeReminders}:{onNavigate:Opera
     <AdminTabs active="admin-reminders" onNavigate={onNavigate}/>
     <FixtureDisclosure>Reminder berikut hidup di state UX sesi ini dan belum ditulis ke backend. Centang Dashboard dan halaman ini sudah sinkron, tetapi akan kembali ke data contoh setelah aplikasi dimuat ulang.</FixtureDisclosure>
     <section className="reminder-layout">
-      <main className="panel reminder-browser">
+      <BrowsePane as="main" className="panel reminder-browser" aria-label="Daftar pengingat">
         <header><div><span>DAFTAR REMINDER</span><strong>{visible.length} tampil · {openCount} masih terbuka</strong></div><div className="reminder-filters">{(['OPEN','DONE','ALL'] as const).map((item)=><button key={item} className={filter===item?'active':''} onClick={()=>setFilter(item)}>{item==='OPEN'?'Belum selesai':item==='DONE'?'Sudah selesai':'Semua'}</button>)}</div></header>
         <div className="reminder-list">{visible.map((item)=><article className={`${item.status.toLowerCase()} ${item.priority.toLowerCase()}`} key={item.id}>
           <label className="reminder-check"><input type="checkbox" checked={item.status==='DONE'} onChange={()=>toggleReminder(item.id)}/><i>{item.status==='DONE'?<Check/>:null}</i><span className="sr-only">Tandai {item.title} selesai</span></label>
           <div className="reminder-copy"><span>{item.module} · {reminderPriorityLabel[item.priority]}</span><strong>{item.title}</strong><p>{item.note||'Tidak ada catatan tambahan.'}</p><small><CalendarClock/> Jatuh tempo {reminderDueLabel(item.dueAt)} · {item.id}</small></div>
           <div className="reminder-actions"><button onClick={()=>editReminder(item)}>Edit</button><button className="danger" aria-label={`Hapus ${item.title}`} onClick={()=>removeReminder(item.id)}><Trash2/> Hapus</button></div>
         </article>)}{visible.length===0?<div className="reminder-empty"><CheckCircle2/><strong>Tidak ada reminder di filter ini</strong><small>Buat reminder baru atau buka filter lain.</small></div>:null}</div>
-      </main>
+      </BrowsePane>
       <aside className="panel reminder-editor">
         <header><span>{editingId?'EDIT REMINDER':'REMINDER BARU'}</span><strong>{editingId?'Perbarui tanpa membuat duplikat':'Tambahkan ke Butuh Perhatian'}</strong></header>
         <label><span>JUDUL · WAJIB</span><input value={draft.title} onChange={(event)=>setDraft((current)=>({...current,title:event.target.value}))} placeholder="Contoh: telepon Laundry Intan..."/></label>

@@ -1,3 +1,4 @@
+import { BrowsePane } from './components/BrowsePane'
 import StockScopePanel from './StockScopePanel'
 import AccessoryReturnTasks from './AccessoryReturnTasks'
 import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from 'react'
@@ -173,7 +174,7 @@ function Workspace() {
         <small>Dibaca {formatCp6WibDateTime(data.readAt)}.</small>
       </section>
       <section className="reminder-layout">
-        <section className="panel reminder-browser" aria-label="Daftar pengingat">
+        <BrowsePane as="section" className="panel reminder-browser" aria-label="Daftar pengingat">
           <header><div><span>DAFTAR PENGINGAT · {reminderFilterLabel[data.filter].toUpperCase()}</span>
             <strong>{data.page.total === 0 ? 'Tidak ada pengingat' : `${number.format(data.page.offset + 1)}–${number.format(data.page.offset + data.page.shown)} dari ${number.format(data.page.total)}`}</strong></div>
             <div className="reminder-filters" role="group" aria-label="Saring pengingat">{reminderFilters.map(f =>
@@ -193,7 +194,7 @@ function Workspace() {
             <button type="button" disabled={busy || data.page.offset === 0} onClick={() => choose(data.filter, Math.max(0, data.page.offset - data.page.limit), data)}>Pengingat sebelumnya</button>
             <button type="button" disabled={busy || data.page.nextOffset === null} onClick={() => choose(data.filter, data.page.nextOffset ?? 0, data)}>Pengingat berikutnya</button>
           </div> : null}
-        </section>
+        </BrowsePane>
         {data.canManage && mayManage ? <aside className="panel reminder-editor" aria-label="Isian pengingat">
           <header><span>{editing ? 'UBAH PENGINGAT' : 'PENGINGAT BARU'}</span><strong>{editing ? 'Hanya pengingat yang belum selesai bisa diubah' : 'Tambahkan pengingat untuk akun ini'}</strong></header>
           <label><span>JUDUL · WAJIB</span><input aria-label="Judul pengingat" maxLength={200} value={draft.title} disabled={!writable} onChange={e => set('title', e.target.value)}/></label>

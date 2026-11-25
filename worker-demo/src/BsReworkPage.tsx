@@ -1,3 +1,4 @@
+import { BrowsePane } from './components/BrowsePane'
 import { useEffect, useMemo, useState } from 'react'
 import { browseMatchPieces } from './browseMatch'
 import {
@@ -541,7 +542,7 @@ export default function BsReworkPage({ initialResult, initialWorkspace, onWorksp
     </section>
 
     <section className="bsr-master-detail">
-      <aside className="panel bsr-case-browser">
+      <BrowsePane className="panel bsr-case-browser" aria-label="Daftar kasus BS">
         <header><div><span>BROWSE SEMUA KASUS</span><strong>{visibleCases.length} ditemukan</strong></div><ClipboardCheck/></header>
         <div className="bsr-case-list">{visibleCases.map((item, index) => <button type="button" className={selected?.id === item.id ? 'active' : ''} onClick={() => setSelectedCase(item.id)} key={item.id}>
           <span className="bsr-case-index">{String(index + 1).padStart(2, '0')}</span>
@@ -551,7 +552,7 @@ export default function BsReworkPage({ initialResult, initialWorkspace, onWorksp
             {item.kind === 'BS' ? <><em><UserRound/>{item.originalMandor}</em><span>{item.source === 'QC_AUTO' ? 'QC otomatis' : item.source === 'HOLD_RESOLUTION' ? 'Reklasifikasi Hold' : 'Legacy'} · {item.parentId} · {item.batchId}</span></> : <><em><Waves/>{item.laundry}</em><span>{item.mandor} · {item.parentId} · {item.batchId}</span></>}
           </span><span className={`bsr-status ${caseIsDone(item) ? 'done' : item.kind.toLowerCase()}`}>{caseStatusLabel(item)}</span><ChevronRight/>
         </button>)}{visibleCases.length === 0 && <div className="bsr-empty"><Search/><strong>Kasus tidak ketemu</strong><small>Ubah filter atau kata pencarian.</small></div>}</div>
-      </aside>
+      </BrowsePane>
 
       <div className="bsr-detail-stack">
         {selectedBs && <article className="panel bsr-case-detail">

@@ -1,3 +1,4 @@
+import { BrowsePane } from './components/BrowsePane'
 import {fgQuantity} from './fgQuantity'
 import { browseMatchPieces } from './browseMatch'
 import { useMemo, useState } from 'react'
@@ -104,7 +105,7 @@ export default function QcFinalPage({seeds,initialSeedId,finalizedResults,posted
     </section>
     <div className="final-flow-strip"><span className="done"><b>1</b>Laundry kembali</span><i/><span className="active"><b>2</b>QC & Final SKU</span><i/><span><b>3</b>Serah FG</span><i/><span><b>4</b>Nota FG</span></div>
     <section className="qc-browser-shell">
-      <aside className="panel qc-browser">
+      <BrowsePane className="panel qc-browser" aria-label="Antrean QC">
         <header><div><span>BROWSE ANTREAN QC</span><strong>{visible.length} Batch Distribusi</strong></div><Filter/></header>
         <label className="qc-browser-search"><Search/><input type="search" aria-label="Cari antrean QC" value={query} onChange={(event)=>setQuery(event.target.value)} placeholder="Cari batch, model, atau jumlah potong…"/></label>
         <div className="qc-browser-filters">
@@ -135,7 +136,7 @@ export default function QcFinalPage({seeds,initialSeedId,finalizedResults,posted
                 : finalized?'QC LENGKAP · card siap disusun':`${seed.laundry} · ${returned} kembali · ${stuck} stuck`
           return <button type="button" className={`${selected&&keyOf(seed)===keyOf(selected)?'active ':''}${finalized?'finalized ':''}${partial?'partial':''}`} onClick={()=>{setSelectedId(keyOf(seed));setContinuingId(null)}} key={keyOf(seed)}><span className="qc-browser-index">{finalized?<CheckCircle2/>:String(index+1).padStart(2,'0')}</span><span className="qc-browser-copy"><small>{seed.plannedBrand ? `Merek rencana · ${seed.plannedBrand}` : 'Merek belum ditentukan'} · {seed.parentId}</small><strong className="piece-total">{expectedQty} pcs</strong><strong>{seed.model}</strong><small className="record-code">Batch {seed.batchId}</small><span className="qc-browser-pattern">Pola · {seed.pattern?`${seed.pattern.code} · ${seed.pattern.revision}`:'belum tercatat'}</span><span className="qc-browser-mandor"><UserRound/><b>{seed.mandor}</b></span><em>{progressLabel}</em></span><ArrowRight/></button>
         })}{visible.length===0&&<div className="qc-browser-empty"><Search/><strong>Antrean tidak ketemu</strong><small>Ubah Pola, Mandor, Laundry, merek, atau pencarian.</small></div>}</div>
-      </aside>
+      </BrowsePane>
       <div className="qc-browser-detail">{selected?(finalizedSelected&&!continueSelected?<QcFinalizedView result={finalizedSelected} notaPosted={postedFgCardIds.includes(regularFgNotaCardId(finalizedSelected))} hasNext={Boolean(nextPending)} onNext={()=>{if(nextPending){setSelectedId(keyOf(nextPending));setContinuingId(null)}}} onContinue={()=>setContinuingId(keyOf(selected))} onOpenNota={()=>onOpenNota(finalizedSelected)}/>:<QcEditor key={`${keyOf(selected)}::${finalizedSelected?.completionCount??0}`} seed={selected} previous={continueSelected?finalizedSelected:undefined} canPostFinalSku={canPostFinalSku} onFinish={(result)=>{setContinuingId(null);onFinish(result)}}/>):<div className="panel qc-no-source"><ClipboardCheck/><strong>Belum ada barang kembali untuk QC</strong><small>Catat penerimaan di Laundry lebih dulu.</small></div>}</div>
     </section>
   </>

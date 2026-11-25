@@ -1,3 +1,4 @@
+import { BrowsePane } from './components/BrowsePane'
 import LaundryRecipeMaster from './demo/LaundryRecipeMaster'
 import { laundryRecipePath } from './demo/laundryRecipes'
 import { laundryVendorNames } from './demo/sewingModel'
@@ -319,13 +320,13 @@ function MasterWorkspace({config}:{config:MasterConfig}){
       <i><Tags aria-hidden="true"/></i><span><strong>Jenis pewarnaan laundry</strong><small>Katalog per laundry dan default untuk SKU</small></span><ChevronRight aria-hidden="true"/>
     </a>}
     <section className="md-metrics">{metrics.map((metric)=><article className={metric.tone??''} key={metric.label}><span>{metric.label}</span><strong>{metric.value}</strong><small>{metric.note}</small></article>)}</section>
-    <section className="panel md-workspace"><aside>
+    <section className="panel md-workspace"><BrowsePane aria-label={config.browserLabel}>
       <header><div><span>{config.browserLabel}</span><strong>{visible.length} dari {entities.length}</strong></div><EntityIcon/></header>
       <div className="md-browser-tools"><label><Search/><input value={query} onChange={(event)=>setQuery(event.target.value)} placeholder={isProduct?'Cari merek, nomor SKU, model...':`Cari ${config.singular}, kode, detail...`}/></label><select aria-label="Filter status" value={status} onChange={(event)=>setStatus(event.target.value as typeof status)}><option value="ALL">Semua status</option><option value="ACTIVE">Aktif</option><option value="INACTIVE">Nonaktif</option></select></div>
       {isProduct&&<div className="md-bulk-toolbar"><button type="button" className={allVisibleSelected?'active':''} onClick={toggleAllVisible}><i>{allVisibleSelected&&<Check/>}</i>{allVisibleSelected?'Batal pilih tampil':'Pilih SKU tampil'}</button><strong>{bulkSelectedIds.length} dipilih</strong><button type="button" className="primary-btn" disabled={bulkSelectedIds.length===0} onClick={()=>setBulkOpen(true)}>Update harga massal</button></div>}
       <div className="md-browser-list">{visible.map((item)=><BrowserRecord item={item} active={item.id===selected.id} config={config} bulkSelected={bulkSelectedIds.includes(item.id)} key={item.id} onToggleBulk={()=>toggleBulk(item.id)} onSelect={()=>{setSelectedId(item.id);setNotice('')}}/>)}{visible.length===0&&<div className="md-empty"><Search/><strong>Tidak ada hasil</strong><small>Ubah kata pencarian atau filter status.</small></div>}</div>
       <footer><button type="button" onClick={()=>setEditorMode('create')}><Plus/> Tambah {config.singular}</button><small>Simulasi lokal · belum menulis backend.</small></footer>
-    </aside><main>
+    </BrowsePane><main>
       <header className="md-detail-head"><div><span>IDENTITAS MASTER</span><h2>{isProduct?productIdentity(selected):selected.name}</h2><p>{isProduct?`${selected.name} · `:`${selected.code} · `}terakhir diperbarui {selected.updatedAt}</p></div><div><MasterState active={selected.active}/><small>row-version {selected.rowVersion}</small></div></header>
       <div className="md-facts">{config.fields.map((field,index)=>{const icons=[Tags,Layers3,BadgeDollarSign,CalendarClock,Database,MapPin];const FactIcon=icons[index%icons.length];return <article className={field.type==='sizes'?'wide':field.type==='boolean'?'boolean':''} key={field.key}><FactIcon/><span><small>{field.label.toUpperCase()}</small><strong>{formatFieldValue(field,selected.values[field.key]??'')}</strong></span></article>})}</div>
       {config.view === 'master-partners' && laundryVendorNames.includes(selected.name) && <a className="md-laundry-entry colour-partner-link" href={laundryRecipePath + '&vendor=' + encodeURIComponent(selected.name)}>

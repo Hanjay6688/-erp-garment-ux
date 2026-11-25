@@ -1,3 +1,4 @@
+import { BrowsePane } from './components/BrowsePane'
 import { isConnectedRuntime } from './config/runtime'
 import { useEffect, useMemo, useState } from 'react'
 import { AlertTriangle, Check, Copy, LockKeyhole, RefreshCw, Save, Search, ShieldCheck, UserRound, X } from 'lucide-react'
@@ -297,7 +298,7 @@ export default function AccessControlPage() {
     {pendingRequest.envelope && connected ? <div className="access-error" role="status"><RefreshCw/><span>Ada perubahan akses yang hasilnya belum diketahui (UUID {pendingRequest.envelope.id.slice(0, 8)}…).</span><button disabled={saving} onClick={() => void replayPending()}>Kirim ulang perubahan tertunda</button></div> : null}
 
     <div className="access-grid">
-      <section className="access-panel roles-panel">
+      <BrowsePane as="section" className="access-panel roles-panel" aria-label="Daftar peran">
         <header><div><span>ROLE</span><strong>{data?.roles.length ?? 0} definisi</strong></div><label><Search/><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Cari role…"/></label></header>
         <div className="role-list">{roles.map((role) => <article key={role.id} className={!role.is_active ? 'inactive' : ''}>
           <div className="role-title"><span><strong>{role.name}</strong><small>{role.code}</small></span><div>{role.is_system && <em>SYSTEM</em>}{role.is_protected && <em className="locked"><LockKeyhole/> TERKUNCI</em>}{!role.is_active && <em>NONAKTIF</em>}</div></div>
@@ -305,7 +306,7 @@ export default function AccessControlPage() {
           <dl><div><dt>Pengguna aktif</dt><dd>{role.active_user_count}</dd></div><div><dt>Terakhir diubah</dt><dd>{localDate(role.updated_at)} · {role.updated_by || 'System'}</dd></div></dl>
           <footer><button disabled={!canManage} title={canManage ? 'Buat role khusus dari template ini.' : 'Perlu izin Kelola Hak Akses.'} onClick={() => openRole(role, true)}><Copy/> Duplikat</button><button title={role.is_system || role.is_protected ? 'Role bawaan tidak diubah langsung. Duplikat untuk membuat role khusus.' : 'Edit role khusus'} disabled={!canManage || role.is_system || role.is_protected || !role.is_active} onClick={() => openRole(role)}>{role.is_system || role.is_protected ? <LockKeyhole/> : <ShieldCheck/>} {role.is_system || role.is_protected ? 'Template tetap' : 'Edit'}</button>{!role.is_system && <button disabled={!canManage || !connected || !role.is_active} onClick={() => void deactivateRole(role)}><X/> Nonaktifkan</button>}</footer>
         </article>)}</div>
-      </section>
+      </BrowsePane>
 
       <section className="access-panel users-panel">
         <header><div><span>PENGGUNA</span><strong>{data?.users.length ?? 0} akses</strong></div><UserRound/></header>

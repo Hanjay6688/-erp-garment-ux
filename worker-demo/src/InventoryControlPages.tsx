@@ -1,3 +1,4 @@
+import { BrowsePane } from './components/BrowsePane'
 import BrandConversionForm from './demo/BrandConversionForm'
 import {fgQuantity} from './fgQuantity'
 import {browseMatchPieces} from './browseMatch'
@@ -163,14 +164,14 @@ export function StockAdjustmentPage() {
     <section className="panel ic-shell">
       <nav className="ic-mode-tabs"><button className={`ic-mode-option ${mode === 'browse' ? 'active' : ''}`} onClick={() => setMode('browse')}><i><History/></i><span><strong>Riwayat adjustment</strong><small>Lihat seluruh koreksi + / −</small></span><b>{cases.length}</b></button><button className={`ic-mode-option create ${mode === 'new' ? 'active' : ''}`} onClick={() => {setEditingId(null);setPhysicalDate('2026-11-24');setPhysicalText('');setReference('');setNote('');setNotice('');setMode('new')}}><i><FilePlus2/></i><span><strong>Catat hasil cek fisik</strong><small>Isi saldo nyata · sistem hitung + / −</small></span><ArrowRight/></button></nav>
       {mode === 'browse' ? <div className="ic-browse-layout">
-        <aside className="ic-case-browser">
+        <BrowsePane className="ic-case-browser" aria-label="Riwayat penyesuaian stok">
           <header><div><span>BROWSE ADJUSTMENT</span><strong>Riwayat plus / minus stok</strong></div><small>{visibleCases.length} tampil</small></header>
           <div className="ic-browser-tools"><label><Search/><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Cari item, alasan, atau pemeriksa..."/></label><div><select value={scopeFilter} onChange={(event) => setScopeFilter(event.target.value)}><option>Semua</option><option>Kain & Roll</option><option>Aksesori</option><option>Barang Jadi</option></select><button onClick={() => { setQuery(''); setScopeFilter('Semua') }}><RotateCcw/></button></div></div>
           <div className="ic-case-list">{visibleCases.map((item) => {
             const itemDelta = item.physicalQty - item.systemQty
             return <button key={item.id} className={selectedCase.id === item.id ? 'active' : ''} onClick={() => setSelectedId(item.id)}><span className="ic-case-code">AD</span><div><strong>{item.item}</strong><small>{item.id} · {item.scope}</small><em>{item.reason} · {item.happenedAt}</em></div><b className={itemDelta < 0 ? 'negative' : 'positive'}>{itemDelta > 0 ? '+' : ''}{item.scope==='Barang Jadi'?fgQuantity(itemDelta):number(itemDelta)+' '+item.unit}</b><StatusPill status={item.status}/></button>
           })}</div>
-        </aside>
+        </BrowsePane>
         <main className="ic-case-detail">
           <header><div><span>ADJUSTMENT · {selectedCase.scope.toUpperCase()}</span><h2>{selectedCase.item}</h2><p>{selectedCase.id} · {selectedCase.happenedAt}</p></div><StatusPill status={selectedCase.status}/></header>
           <div className="ic-detail-facts"><article><MapPin/><span><small>LOCATION</small><strong>{selectedCase.location}</strong><em>{selectedCase.actor}</em></span></article><article><FileClock/><span><small>SOURCE</small><strong>{selectedCase.source}</strong><em>{selectedCase.reason}</em></span></article><article><Boxes/><span><small>ITEM DETAIL</small><strong>{selectedCase.detail}</strong><em>Identity locked after review</em></span></article></div>

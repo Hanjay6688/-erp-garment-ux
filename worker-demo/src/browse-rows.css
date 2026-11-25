@@ -10,41 +10,62 @@
 .page-wrap .erp-table-tools~table:not(:has(>tbody+tbody))>tbody>tr:nth-child(odd):not(.active,.selected)>td {background-color:var(--browse-first)}
 .page-wrap .erp-table-tools~table:not(:has(>tbody+tbody))>tbody>tr:nth-child(even):not(.active,.selected)>td {background-color:var(--browse-second)}
 
-/* Scroll the whole pane, including its filters, inside the viewport. */
-@media (min-width: 900px) {
-  .page-wrap {
-    --browse-pane-height: calc(100vh - 104px);
-    --browse-pane-height: calc(100dvh - 104px);
-  }
-  .page-wrap :is(
-    .qc-browser, .bsr-case-browser, .hpp-lot-browser, .wip-pickup-layout > .wip-queue-panel,
-    .roll-catalog-panel, .wh-master-detail:not(.rolls) > .wh-browser,
-    .biz-master-detail > aside, .md-workspace > aside, .mm-layout > aside, .ci-layout > aside,
-    .ic-case-browser, .ic-conversion-browser, .colour-vendors, .product-picker.catalog-picker,
-    .cbsr-workspace > aside, .ccut-drafts, .cpick-queue
-  ) {
-    height: auto;
-    min-height: 0;
-    max-height: var(--browse-pane-height);
-    align-self: start;
-    overflow-y: auto;
-    overscroll-behavior-y: contain;
-    scrollbar-width: thin;
-    scrollbar-gutter: stable;
-  }
-  .page-wrap :is(.qc-browser-list, .bsr-case-list, .hpp-lot-list, .wip-queue-panel > .wip-queue-list,
-    .cutting-roll-list, .md-workspace .md-browser-list) {
-    flex-shrink: 0;
-    min-height: 0;
-    max-height: none;
-    overflow: visible;
-  }
+/* A split browser measures the visible space below its current top. Stacked lists use the page. */
+.page-wrap .browse-pane,
+.page-wrap .wh-master-detail.rolls > .browse-pane {
+  position: static;
+  height: auto;
+  min-height: 0;
+  max-height: none;
+  min-width: 0;
+  overflow: clip;
+}
+.page-wrap .browse-pane[data-browse-layout] {
+  align-self: start;
+}
+.page-wrap .browse-pane[data-browse-layout="split"] {
+  position: sticky;
+  top: var(--browse-pane-top, 84px);
+}
+.page-wrap .browse-pane[data-browse-scroll],
+.page-wrap .wh-master-detail.rolls > .browse-pane[data-browse-scroll] {
+  max-height: var(--browse-pane-height);
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-gutter: stable;
+}
+.page-wrap .browse-pane[data-browse-overflow] {
+  overscroll-behavior-y: contain;
+}
+.page-wrap .browse-pane:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: -2px;
+}
+.page-wrap .browse-pane :is(
+  .qc-browser-list, .bsr-case-list, .hpp-lot-list, .wip-queue-list, .cutting-roll-list,
+  .md-browser-list, .biz-catalog-list, .wh-browser-list
+) {
+  flex-shrink: 0;
+  min-height: 0;
+  max-height: none;
+  overflow: visible;
+}
+.page-wrap :is(
+  .biz-master-detail, .md-workspace, .mm-layout, .ci-layout, .ic-shell, .laundry-workspace,
+  .wh-workspace:not(.material-rolls-workspace)
+):has(.browse-pane) {
+  overflow: clip;
+}
+.page-wrap .laundry-workspace .laundry-ticket {
+  position: static;
 }
 @media (min-width: 981px) {
   .page-wrap .material-rolls-workspace { min-height: 0; }
-}
-@media (min-width: 1051px) {
-  .page-wrap .laundry-ready-pane { max-height: var(--browse-pane-height); overflow-y: auto; overscroll-behavior-y: contain; scrollbar-width: thin; }
+  .page-wrap .material-rolls-workspace .wh-master-detail.rolls { grid-template-rows: minmax(0, 1fr); }
+  .page-wrap .wh-master-detail.rolls > .browse-pane > .wh-browser-list {
+    flex: 0 0 auto;
+    overflow: visible;
+  }
 }
 
 .finder-records h3 {margin:0}

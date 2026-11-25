@@ -1,3 +1,4 @@
+import { BrowsePane } from '../components/BrowsePane'
 import {browseMatch} from '../browseMatch'
 import { Icon } from '../components/AppIcon'
 import CuttingPatternPicker, { hasCanonicalPattern } from '../CuttingPatternPicker'
@@ -406,12 +407,12 @@ export function CuttingRollPage() {
     {notice&&<div role="status" className="gar-success">{notice}</div>}
     <section className="cutting-flow-rail panel" aria-label="Alur Buat Potongan">{['Pilih roll','Tentukan yard used','Catat hasil per roll','Simpan ke WIP'].map((label,index)=><div className={index===0?'active':''} key={label}><span>{String(index+1).padStart(2,'0')}</span><strong>{label}</strong>{index<3&&<Icon name="arrow"/>}</div>)}</section>
     <section className="roll-first-layout">
-      <div className="panel roll-catalog-panel">
+      <BrowsePane as="div" className="panel roll-catalog-panel" aria-label="Katalog roll">
         <div className="cutting-panel-head"><div><span>01 · SUMBER KAIN</span><h2>Pilih roll yang mau dipotong</h2><p>Satu roll tetap satu baris. Urutan dan yard asal tidak digabung.</p></div><span className="selection-pill">{selectedRolls.length} dipilih</span></div>
         <div className="roll-catalog-toolbar"><div className="roll-search"><Icon name="search"/><input value={query} onChange={(event)=>setQuery(event.target.value)} placeholder="Cari roll, pabrik, bahan, atau yard..."/></div><div className="roll-filters"><MultiCheckFilter label="Pabrik" options={fabricRollSuppliers} selected={selectedSuppliers} onChange={setSelectedSuppliers}/><MultiCheckFilter label="Bahan" options={fabricRollMaterials} selected={selectedMaterials} onChange={setSelectedMaterials}/></div></div>
         <div className="roll-list-caption"><span>{visibleRolls.length} roll tersedia</span><button type="button" onClick={toggleVisible}>{allVisibleSelected?'Batalkan hasil tampil':'Pilih semua hasil'}</button></div>
         <div className="cutting-roll-list">{visibleRolls.map((roll)=>{const selected=selectedIdSet.has(roll.id);return <button type="button" aria-pressed={selected} className={`stock-roll-row ${selected?'selected':''}`} key={roll.id} onClick={()=>toggleRoll(roll.id)}><span className="roll-select-box">{selected&&<Icon name="check"/>}</span><span className="stock-roll-seq">{String(roll.sequence).padStart(2,'0')}</span><span className="stock-roll-name"><strong>{roll.material}</strong><small>{roll.supplier} · {roll.id} · masuk {roll.receivedAt}</small></span><span className="stock-roll-yard"><strong>{formatQuantity(roll.yards,2)} yd</strong><small>{selected?'Masuk pembagian':'Siap dipilih'}</small></span></button>})}{visibleRolls.length===0&&<div className="catalog-empty"><Icon name="search"/><strong>Roll tidak ditemukan</strong><small>Periksa pencarian atau pilihan filter pabrik dan bahan.</small></div>}</div>
-      </div>
+      </BrowsePane>
       <aside className="panel cutting-live-summary">
         <div className="eyebrow">BATCH PRODUKSI</div><h2>{model||'Potongan baru'}</h2><p>{series?seriesLabel(series):'Seri belum dipilih'}{linked?' · '+linked.key+' · '+linked.colour:''}</p><p>Hasil cutting ini belum didistribusikan ke batch Mandor.</p>
         <div className="cutting-summary-main"><div><span>YARD USED</span><strong>{formatQuantity(totalUsedYards,2)} yd</strong><small>{selectedRolls.length} roll · {partialRollCount} split</small></div><div><span>TOTAL POTONGAN</span><strong className="piece-total">{totalPieces} pcs</strong><small>{dozenPieces(totalPieces)}</small></div></div>
