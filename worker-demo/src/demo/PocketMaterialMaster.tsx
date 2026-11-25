@@ -1,9 +1,10 @@
 import { useState } from 'react'
-import { ArrowLeft, ArrowRight, Factory, Layers3, Pencil, Plus, Search, Tag, Truck } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Factory, History, Layers3, Pencil, Plus, Search, Tag, Truck } from 'lucide-react'
 import { browseMatch } from '../browseMatch'
 import { amountText } from './accessoryPricing'
 import { ReasonDialog } from './planner/ReasonDialog'
 import { readPocketMaterials, savePocketMaterial, type PocketMaterial } from './pocketMaterials'
+import { materialHistoryPath } from './materialRollHistory'
 import { receiptPath, type PocketUnit } from './pocketReceipts'
 import { readRupiahInput } from '../moneyInput'
 import './pocketFabric.css'
@@ -51,6 +52,7 @@ export default function PocketMaterialMaster() {
           })}
         </div>
         <footer><button type="button" className="soft-btn" onClick={()=>edit(item)}><Pencil size={15} aria-hidden="true"/>Edit bahan</button>
+          <a className="soft-btn" href={materialHistoryPath(item.id,true)}><History size={15}/>Riwayat roll</a>
           <a className="soft-btn" href={receiptPath+'&bahan='+encodeURIComponent(item.id)}>Pakai di penerimaan <ArrowRight size={15} aria-hidden="true"/></a></footer>
       </article>)}</div>
       {!visible.length && <p className="pocket-empty">Bahan tidak ditemukan.</p>}

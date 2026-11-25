@@ -1,5 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ArrowRight, Check, Plus, ReceiptText, Waves, X } from 'lucide-react'
+import { PayableInvoiceDesk, useInvoiceWork, type DeskList } from './PayableInvoiceDesk'
+import { browseMatchPieces } from '../browseMatch'
 import { amountText } from './accessoryPricing'
 import { ReasonDialog } from './planner/ReasonDialog'
 import { readRupiahInput } from '../moneyInput'
@@ -100,86 +102,63 @@ export function LaundryContractComposer({vendor,deliveries,update,onClose,onSave
   </ReasonDialog>
 }
 
-export function LaundryVendorInvoiceComposer({deliveries,vendor,previous,update,onClose,onSaved}:{
-  deliveries:LaundryDelivery[];vendor:string;previous?:LaundryFinalBill;update:UpdateLaundry;onClose:()=>void;onSaved:(invoice: LaundryFinalBill)=>void
+export function LaundryVendorInvoiceComposer({deliveries,vendor,previous,update,onSaved,...desk}:DeskList & {
+  deliveries:LaundryDelivery[];vendor:string;previous?:LaundryFinalBill;update:UpdateLaundry;onSaved:(invoice:LaundryFinalBill)=>void
 }) {
-  const sources=laundryContracts(deliveries)
-  const vendors=[...new Set([...sources.map(row=>row.delivery.vendor),...(vendor?[vendor]:[])])]
-  const [draft,setDraft]=useState<LaundryInvoiceDraft>(()=>({
-    id:previous?.invoiceId??crypto.randomUUID(),vendor:vendor||vendors[0]||'',
-    number:previous?.number??'',day:previous?.day??lastWarehouseDay(),contracts:previous?.contracts??[],
+  const work=useInvoiceWork<LaundryInvoiceDraft>(['LAUNDRY',vendor,previous?.invoiceId??'new'],previous,()=>({
+    id:previous?.invoiceId??crypto.randomUUID(),vendor,number:previous?.number??'',day:previous?.day??lastWarehouseDay(),contracts:previous?.contracts??[],
   }))
+  const draft=work.value
+  const [query,setQuery]=useState('')
   const [review,setReview]=useState<LaundryFinalBill|null>(null)
   const [error,setError]=useState('')
+  const [pending,setPending]=useState<LaundryFinalBill|null>(null)
+  const hasDelivery=deliveries.some(row=>row.vendor===vendor)
+  useEffect(()=>{
+    if(!pending)return
+    setPending(null);setReview(null)
+    if(deliveries.some(row=>row.finalBills?.includes(pending))) {
+      work.clear();setError('');onSaved(pending)
+    } else setError('Data laundry berubah. Periksa lagi kontrabon sebelum menyimpan invoice.')
+  },[deliveries,pending,onSaved,work])
   const chosen=new Set(draft.contracts.map(laundryContractKey))
-  const own=sources.filter(row=>row.delivery.vendor===draft.vendor)
+  const own=laundryContracts(deliveries,vendor)
   const available=own.filter(row=>!chosen.has(laundryContractKey(row.ref))&&!invoiceForLaundryContract(deliveries,row.ref,draft.id))
-  function change(patch:Partial<LaundryInvoiceDraft>) {
-    setDraft({...draft,...patch});setError('');setReview(null)
-  }
+  const shown=available.filter(({bill,delivery})=>browseMatchPieces(query,[bill.qty],bill.number,bill.day,delivery.model,billGross(bill)/100))
+  const total=own.filter(row=>chosen.has(laundryContractKey(row.ref))).reduce((sum,row)=>sum+billGross(row.bill),0)/100
+  function change(patch:Partial<LaundryInvoiceDraft>) {work.change({...draft,...patch});setError('');setReview(null)}
   function save(status:'DRAFT'|'POSTED') {
     try {
-      const invoice=quoteLaundryInvoice(deliveries,draft,status)
-      update(rows=>{
-        try{return saveLaundryInvoice(rows,draft,status)}
-        catch{return rows}
-      })
-      onSaved(invoice)
+      const next=saveLaundryInvoice(deliveries,draft,status)
+      const invoice=next.flatMap(row=>row.finalBills??[]).find(bill=>bill.invoiceId===draft.id)!
+      update(current=>current===deliveries?next:current)
+      setPending(invoice)
     } catch(failure) {setError((failure as Error).message);setReview(null)}
   }
-  return <ReasonDialog title={previous?'Edit draf invoice Laundry':'Susun invoice Laundry'} closeLabel="Kembali" onClose={onClose}
-    className="demo-operation-dialog money-dialog invoice-composer" icon={<ReceiptText/>}>
-    <form className="demo-operation-form" onSubmit={event=>{
+  return <PayableInvoiceDesk {...desk} party={vendor} editing={previous?.invoiceId} sourceName="kontrabon" sourceCount={available.length} chosen={draft.contracts.length}
+    query={query} onSearch={setQuery} total={total} error={error} onReview={event=>{
       event.preventDefault()
       try{setReview(quoteLaundryInvoice(deliveries,draft,'POSTED'));setError('')}
       catch(failure){setError((failure as Error).message)}
-    }}>
-      <div className="invoice-composer-body">
-        <div className="demo-operation-fields invoice-composer-meta">
-          <label>Laundry<select required disabled={!!previous} value={draft.vendor} onChange={event=>change({vendor:event.target.value,contracts:[]})}>
-            <option value="">Pilih laundry</option>{vendors.map(name=><option key={name}>{name}</option>)}
-          </select></label>
-          <label>Nomor invoice Laundry<input required maxLength={90} value={draft.number} onChange={event=>change({number:event.target.value})}/></label>
-          <label>Tanggal invoice<input required type="date" max={lastWarehouseDay()} value={draft.day} onChange={event=>change({day:event.target.value})}/></label>
-        </div>
-        <div className="invoice-composer-columns">
-          <section className="invoice-composer-pane" aria-label="Kontrabon tersedia">
-            <div className="demo-operation-heading"><i><ReceiptText aria-hidden="true"/></i><div><h3>Kontrabon tersedia</h3><p>Tambahkan dokumen yang tercantum di invoice.</p></div></div>
-            <div className="invoice-composer-list">
-              {available.map(({bill,ref})=><article className="invoice-source-card" key={laundryContractKey(ref)}><header className="demo-ops-header">
-                <div><strong>{bill.qty} pcs</strong><span>{bill.number}</span><small>{bill.day} · {amountText(billGross(bill)/100)}</small></div>
-                <button className="soft-btn invoice-add" type="button" aria-label={'Tambah '+bill.number}
-                  onClick={()=>change({contracts:[...draft.contracts,ref]})}><Plus aria-hidden="true"/> Tambah</button>
-              </header></article>)}
-              {!available.length&&<p className="invoice-list-empty">Belum ada kontrabon tersedia untuk laundry ini.</p>}
-            </div>
-            <a className="soft-btn invoice-document-link" href={laundryContractsPath(draft.vendor)}>Buka Klaim &amp; Kontrabon <ArrowRight aria-hidden="true"/></a>
-          </section>
-          <section className="invoice-composer-pane invoice-composer-selected" aria-label="Kontrabon di invoice ini">
-            <div className="demo-operation-heading"><i><Check aria-hidden="true"/></i><div><h3>Di invoice ini</h3><p aria-live="polite">{draft.contracts.length} kontrabon dipilih</p></div></div>
-            <div className="invoice-composer-list">
-              {!draft.contracts.length&&<p className="invoice-list-empty">Klik Tambah pada satu atau beberapa kontrabon.</p>}
-              {draft.contracts.map(ref=>{
-                const bill=own.find(row=>laundryContractKey(row.ref)===laundryContractKey(ref))?.bill
-                return <article className="invoice-source-card" key={laundryContractKey(ref)}><header className="demo-ops-header">
-                  <div><strong>{bill?bill.qty+' pcs':'Periksa kontrabon'}</strong><span>{ref.number}</span>{bill&&<small>{amountText(billGross(bill)/100)}</small>}</div>
-                  <button className="soft-btn invoice-remove" type="button" aria-label={'Lepas '+ref.number}
-                    onClick={()=>change({contracts:draft.contracts.filter(row=>row!==ref)})}><X aria-hidden="true"/> Lepas</button>
-                </header></article>
-              })}
-            </div>
-          </section>
-        </div>
-        {error&&<p role="alert">{error}</p>}
-      </div>
-      <footer className="invoice-composer-footer">
-        {review&&<div className="invoice-review-total" role="status"><span>Total invoice Laundry</span><strong>{amountText(billGross(review)/100)}</strong>
-          <small>{review.qty} pcs · {review.contracts?.length} kontrabon</small></div>}
-        <div className="invoice-composer-actions"><button className="soft-btn" type="button" onClick={()=>save('DRAFT')}>Simpan draf</button>
-          {review?<button className="primary-btn" type="button" onClick={()=>save('POSTED')}><Check aria-hidden="true"/> Posting satu invoice</button>
-            :<button className="primary-btn" disabled={!draft.contracts.length}>Review invoice <ArrowRight aria-hidden="true"/></button>}
-        </div>
-      </footer>
-    </form>
-  </ReasonDialog>
+    }} sources={<>
+      {shown.map(({bill,ref})=><article className="invoice-source-card" key={laundryContractKey(ref)}><header className="demo-ops-header">
+        <div><strong>{bill.qty} pcs</strong><span>{bill.number}</span><small>{bill.day} · {amountText(billGross(bill)/100)}</small></div>
+        <button className="soft-btn invoice-add" type="button" aria-label={'Tambah '+bill.number} onClick={()=>change({contracts:[...draft.contracts,ref]})}><Plus size={15}/> Tambah</button>
+      </header></article>)}
+      {!shown.length&&<p className="invoice-list-empty">{query?'Tidak ada kontrabon yang cocok.':'Belum ada kontrabon tersedia untuk laundry ini.'}</p>}
+    </>} sourceAction={<a className="soft-btn ap-source-action" href={laundryContractsPath(vendor)}>Buka Klaim &amp; Kontrabon <ArrowRight size={16}/></a>}
+    meta={<><label>Nomor invoice Laundry<input required maxLength={90} value={draft.number} onChange={event=>change({number:event.target.value})}/></label>
+      <label>Tanggal invoice<input required type="date" max={lastWarehouseDay()} value={draft.day} onChange={event=>change({day:event.target.value})}/></label></>}
+    lines={<>{!draft.contracts.length&&<p className="invoice-list-empty">{hasDelivery?'Pilih kontrabon dengan tombol Tambah.':'Catat penerimaan laundry ini sebelum menyimpan draf invoice.'}</p>}
+      {draft.contracts.map(ref=>{
+        const bill=own.find(row=>laundryContractKey(row.ref)===laundryContractKey(ref))?.bill
+        return <article className="invoice-source-card" key={laundryContractKey(ref)}><header className="demo-ops-header">
+          <div><strong>{bill?bill.qty+' pcs':'Periksa kontrabon'}</strong><span>{ref.number}</span>{bill&&<small>{amountText(billGross(bill)/100)}</small>}</div>
+          <button className="soft-btn invoice-remove" type="button" aria-label={'Lepas '+ref.number} onClick={()=>change({contracts:draft.contracts.filter(row=>row!==ref)})}><X size={15}/> Lepas</button>
+        </header></article>
+      })}
+    </>} review={review&&<span>{review.qty} pcs · {review.contracts?.length} kontrabon siap diposting</span>}
+    actions={<><button className="soft-btn" type="button" disabled={!!pending||!hasDelivery} onClick={()=>save('DRAFT')}>Simpan draf</button>
+      {review?<button className="primary-btn" type="button" disabled={!!pending} onClick={()=>save('POSTED')}><Check size={16}/> Posting satu invoice</button>
+        :<button className="primary-btn" disabled={!draft.contracts.length}>Review invoice <ArrowRight size={16}/></button>}</>}/>
 }

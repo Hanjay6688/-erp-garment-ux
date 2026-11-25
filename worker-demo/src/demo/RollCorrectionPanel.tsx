@@ -51,6 +51,7 @@ export default function RollCorrectionPanel() {
   const source=issues.find(row=>row.key===sourceKey)
   const choices=source ? alternatives(session,source) : []
   const history=session.rollCorrections??[]
+  const linkedEvent=new URLSearchParams(location.search).get('switch')
   function resetReview(){setReview(null);setError('')}
   function post() {
     if(!review) return
@@ -71,8 +72,8 @@ export default function RollCorrectionPanel() {
       <p>Pilih pemakaian di Potongan, lalu pilih roll yang benar-benar dipakai. Tinjau perubahan saldo dan selisih biaya kain.</p></div></div>
     <button type="button" className="primary-btn" onClick={()=>{setOpen(true);resetReview()}}>Buka Ganti roll <ArrowRight aria-hidden="true"/></button>
     {message&&<p className="wh-feedback" role="status">{message}</p>}
-    {history.length>0&&<details className="demo-operation-history"><summary><History size={15} aria-hidden="true"/> Riwayat Ganti roll ({history.length})</summary>
-      {[...history].reverse().map(event=><article key={event.id}><strong>{yard(event.yards)}</strong>
+    {history.length>0&&<details className="demo-operation-history" id="riwayat-ganti-roll" open={!!linkedEvent||undefined}><summary><History size={15} aria-hidden="true"/> Riwayat Ganti roll ({history.length})</summary>
+      {[...history].reverse().map(event=><article key={event.id} ref={node=>{if(node && event.id===linkedEvent)node.scrollIntoView({block:'center'})}} data-source-selected={event.id===linkedEvent||undefined}><strong>{yard(event.yards)}</strong>
         <span>{event.cut} · {event.from} → {event.to}</span><small>{event.reason}</small></article>)}</details>}
     {open&&<ReasonDialog title="Ganti roll sumber pemakaian" closeLabel="Kembali" onClose={()=>setOpen(false)} className="demo-operation-dialog money-dialog" icon={<Ruler/>}>
       <div className="demo-operation-form">
