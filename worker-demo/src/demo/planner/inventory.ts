@@ -43,6 +43,7 @@ export function reverseRange(session:Session,originalId:string,id:string,reason:
   const replay=events.find(e=>e.id===id)
   if(replay){if(replay.reverses!==originalId||replay.reason!==note)throw Error('Isi pembalikan berbeda.');return session}
   if(events.some(e=>e.reverses===originalId))throw Error('Transaksi sudah dibalik.')
+  if(session.conversionReturns?.some(row=>row.conversion===originalId&&!row.reversed))throw Error('Balikkan penerimaan aksesori bongkaran sebelum membalik konversi.')
   const samePosition=(a:StockChange,b:StockChange)=>a.key===b.key&&a.size===b.size&&(a.location??mainFg)===(b.location??mainFg)&&(a.grade??'Good')===(b.grade??'Good')
   if(events.slice(before+1).some(e=>!e.reverses&&!events.some(r=>r.reverses===e.id)&&e.changes.some(c=>original.changes.some(o=>samePosition(c,o)))))throw Error('Masih ada transaksi lanjutan untuk ukuran ini. Periksa transaksi terbaru.')
   const changes=original.changes.map(c=>({...c,delta:-c.delta}));for(const c of changes){const a=skuByKey(c.key,session);c.after=a?stockAt(a,c.size,session,c.location??mainFg,c.grade??'Good')+c.delta:-1;if(c.after<0)throw Error('Stok saat ini tidak cukup untuk pembalikan.')}

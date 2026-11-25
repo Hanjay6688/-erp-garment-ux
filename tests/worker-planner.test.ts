@@ -87,7 +87,7 @@ it('books only compatible drawing slots even when two orders share a neutral wav
 it('preserves the selected commercial identity across brands and special sizes',()=>{
   const alt=recordCut(emptySession,{...cut,sku:'66002',brand:'',articleKey:'Widie 66002'});expect(alt.cuts[0].articleKey).toBe('Widie 66002')
   expect(plan(productFor('66002')!,alt).lots.some(l=>l.id==='POT-D01')).toBe(false)
-  expect(()=>recordCut(emptySession,{...cut,date:'2026-11-25'})).toThrow()
+  expect(()=>recordCut(emptySession,{...cut,date:'2100-01-01'})).toThrow()
   const single=recordCut(emptySession,{...cut,sku:'93001-27',articleKey:'Vivo 93001-27',model:'Kulot Kecil',series:{name:'khusus',sizes:['27']},slots:['27'],rolls:[{id:'ORI-021',yards:2,quantities:[1]}]})
   expect(single.cuts[0].series?.sizes).toEqual(['27'])
 })

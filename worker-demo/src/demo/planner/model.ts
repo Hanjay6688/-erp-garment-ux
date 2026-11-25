@@ -36,8 +36,18 @@ export type Pickup = { requestId?:string; expectedRevision?:number; id: string; 
 type SourceClaim = { roll:string; slot:number; qty:number; start?:number }
 type Destination = { id: string; sku: string; eta: string; sources?:SourceClaim[] }
 export type StockChange = { key:string; size:string; delta:number; location?:string; grade?:string; after?:number }
-export type StockEvent = { id:string; action:'adjust'|'convert'; date?:string; physicalTime?:string; reverses?:string; reason:string; recordedAt?:string; intent?:string; notes?:string|null; changes:StockChange[] }
-export type Session = { laundry?: LaundryDelivery[]; batchEvents?:BatchEvent[]; skuUpdates?:Record<string,{article:Article;active:boolean}>; skuPairs?:Record<string,string|null>; stockEvents?:StockEvent[]; patternRefs?:Record<string,string|null>; destinations?: Destination[]; cuts: Lot[]; pickups: Pickup[]; confirmed: string[]; elsewhere: string[] }
+export type ConversionKit = {
+  used:{code:string;name:string;qty:number;rate:number}[]
+  expected:{code:string;name:string;qty:number;holder:string}[]
+}
+export type ConversionReturn = {id:string;conversion:string;code:string;good:number;damaged:number;day:string;reason:string;reversed?:string}
+export type StockEvent = { id:string; action:'adjust'|'convert'; date?:string; physicalTime?:string; reverses?:string; reason:string; recordedAt?:string; intent?:string; notes?:string|null; changes:StockChange[]; kit?:ConversionKit }
+export type RollCorrection = {
+  id:string; cut:string; original:string; from:string; to:string; yards:number; reason:string; at:string; costDifference:number|null
+}
+export type FabricReceipt = {id:string;number:string;material:string;supplier:string;day:string;unit:'yd'|'m';rate:number;rolls:{id:string;length:number}[]}
+export type AccessoryReceipt = {id:string;number:string;code:string;supplier:string;day:string;rate:number;qty:number}
+export type Session = { laundry?: LaundryDelivery[]; batchEvents?:BatchEvent[]; skuUpdates?:Record<string,{article:Article;active:boolean}>; skuPairs?:Record<string,string|null>; stockEvents?:StockEvent[]; patternRefs?:Record<string,string|null>; destinations?: Destination[]; fabricReceipts?:FabricReceipt[]; accessoryReceipts?:AccessoryReceipt[]; rollCorrections?:RollCorrection[]; conversionReturns?:ConversionReturn[]; cuts: Lot[]; pickups: Pickup[]; confirmed: string[]; elsewhere: string[] }
 export const emptySession: Session = { cuts: [], pickups: [], confirmed: [], elsewhere: [] }
 export const stageName: Record<string, string> = { cut: 'Meja potong', sewing: 'Jahit', laundry: 'Laundry', qc: 'QC' }
 export const productFor = (sku: string | null | undefined) => products.find(p => p.sku === sku)
@@ -74,6 +84,30 @@ export function cutRolls(lot: Lot): CutRoll[] {
   if (!lot.roll) return []
   return [{id:lot.roll, material:lot.material, sourceYards:lot.sourceYards ?? 0, usedYards:lot.usedYards ?? 0, remainingYards:lot.remainingYards ?? 0,slots:[{size:lot.size,image:'',qty:lot.qty}]}]
 }
+export const physicalRollId = (lot: string, original: string, session: Session) =>
+  session.rollCorrections?.reduce((id,correction)=>correction.cut===lot&&correction.original===original?correction.to:id,original) ?? original
+
+const historicalRolls = [
+  {id:'ORI-018', material:'1069 Ori', supplier:'Sinaran', yards:50, yardPerPiece:1.5, day:'2026-08-21', source:'SJ-SNR-0821-07', rate:49_200},
+  {id:'LCY-015', material:'Lucy', supplier:'Sinaran', yards:45, yardPerPiece:1.25, day:'2026-08-21', source:'SJ-SNR-0821-03', rate:49_200},
+]
+const demoRollRates: Record<string, number> = {'ORI-021':49_200,'KW-023':47_600,'LCY-022':49_200}
+const openingCorrectionRolls = [...rolls.map(roll=>({
+  ...roll, day:'2026-11-23', source:'Saldo latihan November', rate:demoRollRates[roll.id] as number|undefined,
+})), ...historicalRolls]
+export const correctionRolls = (session:Session) => [...openingCorrectionRolls,
+  ...(session.fabricReceipts??[]).filter(receipt=>receipt.unit==='yd').flatMap(receipt=>receipt.rolls.map(roll=>({
+    id:roll.id, material:receipt.material, supplier:receipt.supplier, yards:roll.length, yardPerPiece:0,
+    day:receipt.day, source:receipt.number, rate:receipt.rate,
+  }))),
+]
+export const cutDay = (lot:Lot) => lot.date ?? sample.date
+export const originalCutLots = (session:Session):Lot[] => [...sample.lots.filter(lot=>lot.stage==='cut'),...session.cuts]
+
+function cutRollMaterial(lot:Lot, roll:CutRoll, session:Session) {
+  const actual=physicalRollId(lot.originId??lot.id,roll.id,session)
+  return actual===roll.id ? roll.material : correctionRolls(session).find(item=>item.id===actual)?.material ?? roll.material
+}
 export function recipePattern(p:Product,session:Session) {
   const key=p.brand+' '+p.sku
   return session.patternRefs && Object.hasOwn(session.patternRefs,key) ? session.patternRefs[key] : p.routes[0].pattern
@@ -86,8 +120,11 @@ export function eligiblePieces(lot: Lot, p: Product, session:Session=emptySessio
   if ((lot.brand && p.brand !== lot.brand) || (lot.sku && lot.articleKey && lot.articleKey!==p.brand+' '+p.sku)) return 0
   const code=recipePattern(p,session)
   const materials=code && patternFor(code)?.id===lotPattern(lot).id ? p.routes.map(route=>route.material) : []
-  if (!lot.outputs) return materials.includes(lot.material) && p.size === lot.size ? lot.qty : 0
-  return lot.outputs.filter(r => materials.includes(r.material)).flatMap(r => r.slots)
+  if (!lot.outputs) {
+    const [roll]=cutRolls(lot)
+    return materials.includes(roll?cutRollMaterial(lot,roll,session):lot.material) && p.size===lot.size ? lot.qty : 0
+  }
+  return lot.outputs.filter(r => materials.includes(cutRollMaterial(lot,r,session))).flatMap(r => r.slots)
     .reduce((count,slot) => count + (slot.size === p.size ? slot.qty : 0),0)
 }
 export const possibleTargets = (lot: Lot,session:Session=emptySession) => products.filter(p => eligiblePieces(lot,p,session)>0)
@@ -97,7 +134,7 @@ export function day(date: string | null) {
 }
 function matchingSources(lot:Lot,p:Product,session:Session):SourceClaim[] {
   if(!eligiblePieces(lot,p,session))return []
-  return cutRolls(lot).flatMap(roll=>p.routes.some(r=>r.material===roll.material)?roll.slots.flatMap((slot,i)=>slot.size===p.size&&slot.qty>0?[{roll:roll.id,slot:i,qty:slot.qty}]:[]):[])
+  return cutRolls(lot).flatMap(roll=>p.routes.some(r=>r.material===cutRollMaterial(lot,roll,session))?roll.slots.flatMap((slot,i)=>slot.size===p.size&&slot.qty>0?[{roll:roll.id,slot:i,qty:slot.qty}]:[]):[])
 }
 // A destination reserves a range within one physical roll/drawing. A returned
 // slice can cross that range; only their intersection contributes to Planner.
@@ -264,7 +301,9 @@ export function setDestination(session: Session, id: string, sku: string, eta: s
   return {...session, destinations: [...(session.destinations ?? []), {id:lot.originId??id,sku,eta,sources}]}
 }
 export function yardsLeft(id: string, session: Session) {
-  return (rolls.find(r => r.id === id)?.yards ?? 0) - session.cuts.flatMap(cutRolls).reduce((sum,roll) => sum + (roll.id === id ? roll.usedYards : 0),0)
+  const incoming=correctionRolls(session).find(roll=>roll.id===id)?.yards??0
+  return incoming-originalCutLots(session).reduce((total,lot)=>total+cutRolls(lot).reduce((used,roll)=>
+    used+(physicalRollId(lot.id,roll.id,session)===id?roll.usedYards:0),0),0)
 }
 export function confirmDestination(session: Session, id:string, destination:'order'|'elsewhere'='order'): Session {
   const lot=lotsIn(session).find(l=>l.id===id && l.stage==='sewing' && l.kind==='candidate')
@@ -296,12 +335,12 @@ export function recordCut(session: Session, input: CutInput): Session {
   if (brand && !products.some(p=>p.brand===brand)) throw Error('Merek rencana tidak dikenal.')
   if (!series.sizes.length || !input.slots.length || !input.slots.every(size=>series.sizes.includes(size))) throw Error('Pilih seri ukuran milik model.')
   if (article && (series.sizes.length!==article.sizes.length || series.sizes.some(size=>!article.sizes.includes(size)))) throw Error('Anggota ukuran harus sesuai Master SKU.')
-  if (!validDate(input.date) || input.date>sample.date || (input.eta && (!validDate(input.eta) || input.eta<input.date))) throw Error('Periksa tanggal potong dan perkiraan siap.')
+  if (!validDate(input.date) || input.date>lastWarehouseDay() || (input.eta && (!validDate(input.eta) || input.eta<input.date))) throw Error('Periksa tanggal potong dan perkiraan siap.')
   if (!input.rolls.length || new Set(input.rolls.map(r=>r.id)).size!==input.rolls.length) throw Error('Pilih roll sumber yang berbeda.')
   const outputs = input.rolls.map(row=>{
-    const roll=rolls.find(r=>r.id===row.id)
+    const roll=correctionRolls(session).find(r=>r.id===row.id)
     const available=yardsLeft(row.id,session)
-    if (!roll || !Number.isFinite(row.yards) || row.yards<=0 || row.yards>available) throw Error('Periksa yard yang dipakai pada setiap roll.')
+    if (!roll || roll.day>input.date || !Number.isFinite(row.yards) || row.yards<=0 || row.yards>available) throw Error('Periksa tanggal penerimaan dan yard yang dipakai pada setiap roll.')
     if (row.quantities.length!==input.slots.length || !row.quantities.every(n=>Number.isSafeInteger(n)&&n>=0) || !row.quantities.some(n=>n>0)) throw Error('Isi hasil potong aktual pada setiap roll yang dipakai.')
     const slots=input.slots.map((size,i)=>({size,qty:row.quantities[i],image:input.slots.filter(s=>s===size).length>1?drawingLabel(input.slots.slice(0,i+1).filter(s=>s===size).length):''}))
     return {id:roll.id,material:roll.material,sourceYards:available,usedYards:row.yards,remainingYards:available-row.yards,slots}

@@ -1,4 +1,6 @@
 import {useSyncExternalStore} from 'react'
+import {readPlannerSession} from './planner/session'
+import type {Session} from './planner/model'
 export type PriceHistory={id:string;amount:number;uom?:string;effectiveFrom:string;effectiveTo?:string;note:string;reason?:string;status:'CURRENT'|'SUPERSEDED'|'CANCELLED'}
 export type AccessoryMaster={id:string;code:string;name:string;category:string;stockUom:string;purchaseUom:string;conversion:number;movingAverage:number;stock:number;active:boolean;rowVersion:number}
 export type AccessoryRate={category:string;sellingPrices:PriceHistory[];reimbursementPrices:PriceHistory[]}
@@ -11,6 +13,7 @@ export const accessorySeeds:AccessoryMaster[]=[
   {id:'acc-btn-metal',code:'ACC-BTN-017-MTL',name:'Kancing Jeans 17 mm · Metal',category:'Kancing',stockUom:'pcs',purchaseUom:'gross',conversion:144,movingAverage:690,stock:3200,active:true,rowVersion:5},
   {id:'acc-zip-14',code:'ACC-ZIP-014-BLK',name:'Sleting 14 cm · Black',category:'Sleting',stockUom:'pcs',purchaseUom:'lusin',conversion:12,movingAverage:5200,stock:2200,active:true,rowVersion:9},
   {id:'acc-label-vivo',code:'ACC-LBL-VIVO',name:'Label Woven Vivo',category:'Label',stockUom:'pcs',purchaseUom:'roll',conversion:1000,movingAverage:530,stock:8000,active:true,rowVersion:3},
+  {id:'acc-label-widie',code:'ACC-LBL-WIDIE',name:'Label Woven Widie',category:'Label',stockUom:'pcs',purchaseUom:'roll',conversion:1000,movingAverage:560,stock:6000,active:true,rowVersion:1},
 ]
 export const accessoryRateSeeds:AccessoryRate[]=[
   {category:'Kancing',sellingPrices:[{id:'owner-kancing-charge',amount:495,uom:'pcs',effectiveFrom:'2026-09-04',note:'Referensi kategori besar dari Owner',status:'CURRENT'}],reimbursementPrices:[{id:'owner-kancing-reimburse',amount:500,uom:'pcs',effectiveFrom:'2026-09-04',note:'Referensi reimbursement Owner',status:'CURRENT'}]},
@@ -27,7 +30,15 @@ export const accessoryRateSeeds:AccessoryRate[]=[
 const opening:AccessoryBook={items:accessorySeeds,rates:accessoryRateSeeds,special:[{id:'sample-afui-button',mandor:'Afui',category:'Kancing',start:'2026-11-22',amount:450,unit:'pcs'}],free:[{mandor:'Afui',categories:['Kancing'],start:'2026-11-24',end:null,version:'aturan-latihan-1'}]}
 const bookKey='atelier.demo.accessory-book.v1'
 let cache:{raw:string|null;book:AccessoryBook}|undefined
-export function masterBook():AccessoryBook{const raw=sessionStorage.getItem(bookKey);if(cache&&cache.raw===raw)return cache.book;const book:AccessoryBook=raw?JSON.parse(raw):opening;cache={raw,book};return book}
+export function masterBook():AccessoryBook {
+  const raw=sessionStorage.getItem(bookKey)
+  if(cache&&cache.raw===raw)return cache.book
+  const saved:AccessoryBook=raw?JSON.parse(raw):opening
+  const widie=accessorySeeds.find(item=>item.code==='ACC-LBL-WIDIE')!
+  const book=saved.items.some(item=>item.code===widie.code) ? saved : {...saved,items:[...saved.items,widie]}
+  cache={raw,book}
+  return book
+}
 export function updateAccessoryBook(change:(b:AccessoryBook)=>AccessoryBook){const next=change(masterBook());sessionStorage.setItem(bookKey,JSON.stringify(next));cache=undefined;window.dispatchEvent(new Event(bookKey))}
 export function useAccessoryBook(){return useSyncExternalStore(cb=>{window.addEventListener(bookKey,cb);return()=>window.removeEventListener(bookKey,cb)},masterBook)}
 export const normalizeMandor=(m:string)=>m.replace(/^Mandor\s+/i,'').trim()
@@ -50,9 +61,14 @@ export function issueQuote(book:AccessoryBook,item:AccessoryMaster,mandor:string
 export const noteStorage='atelier.demo.accessory-notes.v2'
 const oldCodes:Record<string,string>={'ACC-BTN-017':'ACC-BTN-017-SLV','ACC-ZIP-014':'ACC-ZIP-014-BLK','ACC-LBL-004':'ACC-LBL-VIVO'}
 export const masterCode=(code:string)=>oldCodes[code]??code
-export function noteStock(code:string,opening:number,docs?:{inventoryChange?:number;lines:{id:string;qty:number}[]}[]):number {
+export function noteStock(code:string,opening:number,docs?:{inventoryChange?:number;lines:{id:string;qty:number}[]}[],session:Session=readPlannerSession()):number {
   const ledger=docs??(JSON.parse(sessionStorage.getItem(noteStorage)??'[]') as {inventoryChange?:number;lines:{id:string;qty:number}[]}[])
-  return opening+ledger.reduce((balance,d)=>balance+(d.inventoryChange??0)*d.lines.reduce((sum,l)=>sum+(masterCode(l.id)===code?l.qty:0),0),0)
+  const events=session.stockEvents??[]
+  const reversed=new Set(events.flatMap(event=>event.reverses?[event.reverses]:[]))
+  const used=events.reduce((sum,event)=>sum+(reversed.has(event.id) ? 0 : event.kit?.used.find(line=>line.code===code)?.qty??0),0)
+  const returned=(session.conversionReturns??[]).reduce((sum,row)=>sum+(!row.reversed&&row.code===code?row.good:0),0)
+  const received=(session.accessoryReceipts??[]).reduce((sum,row)=>sum+(row.code===code?row.qty:0),0)
+  return opening+received+returned-used+ledger.reduce((balance,d)=>balance+(d.inventoryChange??0)*d.lines.reduce((sum,l)=>sum+(masterCode(l.id)===code?l.qty:0),0),0)
 }
 
 export function usedByNote(version:string,from:string):boolean {

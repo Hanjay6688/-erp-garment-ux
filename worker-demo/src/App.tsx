@@ -38,7 +38,7 @@ import MobilePrimaryNavigation from './MobilePrimaryNavigation'
 import type { OperationsAdminView } from './OperationsAdminPages'
 import { OwnerDashboard } from './OwnerDashboard'
 import type { QcFinalResult } from './QcFinalPage'
-import { initialReminders } from './reminders'
+import { demoReminderKey, initialReminders, readDemoReminders } from './reminders'
 import type { ReminderItem } from './reminders'
 import type { SalesView } from './SalesPages'
 import { SCREEN_ACTIVATION, connectedSections, isNavLabelHidden, isScreenHidden } from './screenActivation'
@@ -338,7 +338,8 @@ function ErpApp() {
   const [postedFgCardIds,setPostedFgCardIds] = useState<string[]>([])
   const [regularFgNotaSnapshots,setRegularFgNotaSnapshots] = useState<Record<string,RegularFgNotaSnapshot>>({})
   const [bsWorkspace,setBsWorkspace] = useState<BsReworkWorkspace|null>(null)
-  const [reminders,setReminders] = useState<ReminderItem[]>(()=>initialReminders.map((item)=>({...item})))
+  const [reminders,setReminders] = useState<ReminderItem[]>(()=>demoAccess?readDemoReminders():initialReminders.map(item=>({...item})))
+  useEffect(()=>{if(demoAccess)sessionStorage.setItem(demoReminderKey,JSON.stringify(reminders))},[demoAccess,reminders])
 
   useEffect(() => {
     if (demoAccess || !accessBundle || isPageAllowed(accessBundle, page)) return

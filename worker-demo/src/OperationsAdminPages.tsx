@@ -177,7 +177,7 @@ function ReminderPage({onNavigate,reminders,onChangeReminders}:{onNavigate:Opera
       <aside><Bell/><div><small>REMINDER TERBUKA</small><strong>{openCount} perlu ditindak</strong><em>{doneCount} sudah dicentang pada sesi ini.</em></div></aside>
     </AdminHero>
     <AdminTabs active="admin-reminders" onNavigate={onNavigate}/>
-    <FixtureDisclosure>Reminder berikut hidup di state UX sesi ini dan belum ditulis ke backend. Centang Dashboard dan halaman ini sudah sinkron, tetapi akan kembali ke data contoh setelah aplikasi dimuat ulang.</FixtureDisclosure>
+    <FixtureDisclosure>Pengingat demo tersimpan di tab ini dan tampil juga di Dashboard.</FixtureDisclosure>
     <section className="reminder-layout">
       <BrowsePane as="main" className="panel reminder-browser" aria-label="Daftar pengingat">
         <header><div><span>DAFTAR REMINDER</span><strong>{visible.length} tampil · {openCount} masih terbuka</strong></div><div className="reminder-filters">{(['OPEN','DONE','ALL'] as const).map((item)=><button key={item} className={filter===item?'active':''} onClick={()=>setFilter(item)}>{item==='OPEN'?'Belum selesai':item==='DONE'?'Sudah selesai':'Semua'}</button>)}</div></header>

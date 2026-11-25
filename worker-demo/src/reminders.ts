@@ -47,6 +47,15 @@ export const initialReminders: ReminderItem[] = [
   },
 ]
 
+export const demoReminderKey='erp.demo.reminders.v1'
+export function readDemoReminders():ReminderItem[] {
+  try {
+    const rows:unknown=JSON.parse(sessionStorage.getItem(demoReminderKey)??'null')
+    if(Array.isArray(rows))return rows
+  }catch { /* Use the opening sample if there is no readable saved list. */ }
+  return initialReminders.map(row=>({...row}))
+}
+
 export const reminderPriorityLabel: Record<ReminderPriority, string> = {
   URGENT: 'Penting',
   NORMAL: 'Normal',

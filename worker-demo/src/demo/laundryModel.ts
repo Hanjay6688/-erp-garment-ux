@@ -28,12 +28,14 @@ export type LaundryReadyBatch = {
 }
 
 type LaundryReturn = { at: string; good: QtyTuple; bs: QtyTuple }
-export type LaundryFinalBill = { number: string; day: string; process: string; rate: number; qty: number }
+export type LaundryClaim = { id:string; type:'BS'|'STUCK'; qty:number; cents:number; reason:string; day:string; approvedOn?:string; reversed?:string }
+export type LaundryBillCredit = { id:string; claim:string; cents:number; day:string; reason:string; reversed?:string }
+export type LaundryFinalBill = { number: string; day: string; process: string; rate: number; qty: number; credits?:LaundryBillCredit[] }
 export type LaundryDelivery = {
   id:string; parentId:string; sequence:number; batchId:string; plannedBrand?:string; skuRef?:string; model:string; material:string; mandor:string;
   pattern:ProductionPatternSnapshot|null; vendor:string; process:string; targetColor?:string|null; colourProcess?:string|null; sendNote?:string|null; sentAt:string; qty:number; sizes:QtyTuple; sizeLabels:SizeTuple;
   good:number; bs:number; goodSizes:QtyTuple; bsSizes:QtyTuple; reversed:number; reversedSizes:QtyTuple; reverseNote?:string
-  estimatedRate?: number | null; returns?: LaundryReturn[]; instructionSource?: string | null; finalBills?: LaundryFinalBill[]
+  estimatedRate?: number | null; returns?: LaundryReturn[]; instructionSource?: string | null; finalBills?: LaundryFinalBill[]; claims?:LaundryClaim[]
 }
 
 export function laundryPhysicalTime(value:string){

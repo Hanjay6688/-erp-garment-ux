@@ -4,7 +4,7 @@ import {PeriodFilter,periodFor,periodLabel} from './demo/PeriodFilter'
 import {fgQuantity} from './fgQuantity'
 import {fgDrafts} from './demo/fgDraft'
 import {mandorNames,readNotes as readIssueSources} from './demo/issueDocuments'
-import {accessorySourcePieces,availableSources,allPayrollSources,chooseMandorDebt,choosePayrollSource,editablePayroll,fgSourcePieces,mandorBillsForPayroll,mandorDebtBalance,newPayDraft,payrollDebtTotal,readPayDrafts,savePayDrafts,payrollPeriod,validMandorDebts,type PayDraft} from './demo/payrollSources'
+import {accessorySourcePieces,availableSources,allPayrollSources,chooseMandorDebt,choosePayrollSource,editablePayroll,fgSourcePieces,mandorBillsForPayroll,mandorDebtBalance,newPayDraft,payrollDebtTotal,readPayDrafts,savePayDrafts,payrollPeriod,payrollPaid,payrollRemaining,postPayrollPayment,reversePayrollPayment,validMandorDebts,type PayDraft} from './demo/payrollSources'
 import {fixtureDate,normalizeMandor} from './demo/accessoryPricing'
 import {readInvoices} from './demo/saleBook'
 import {ReasonDialog} from './demo/planner/ReasonDialog'
@@ -22,7 +22,8 @@ import {
 import type { JournalEntry, Payable, PayrollNote, Receivable } from './financeData'
 import EnterpriseSelect from './EnterpriseSelect'
 import SupplierInvoiceMatchModal from './SupplierInvoiceMatchModal'
-import { cleanMoneyInput, formatMoneyInput } from './moneyInput'
+import { cleanMoneyInput, formatMoneyInput, readRupiahInput } from './moneyInput'
+import { dayOk, lastWarehouseDay } from './demo/warehouseDay'
 import { calculateRegularWorkEntitlement } from './payroll/regularWorkEntitlement'
 import './business-pages.css'
 
@@ -280,7 +281,11 @@ function PayrollWorkspace({onAttendance,onOpenFg}:{onAttendance:()=>void;onOpenF
   const [payOpen,setPayOpen]=useState(false)
   const [payReference,setPayReference]=useState('')
   const [payAccount,setPayAccount]=useState('Mandiri Payroll')
+  const [payAmount,setPayAmount]=useState('')
+  const [payDay,setPayDay]=useState(lastWarehouseDay)
+  const [paymentError,setPaymentError]=useState('')
   const [reverseOpen,setReverseOpen]=useState(false)
+  const [reversalId,setReversalId]=useState<string|null>(null)
   const [reason,setReason]=useState('')
   const [notice,setNotice]=useState('')
   const mandorOptions=['Semua mandor',...new Set(notes.map((item)=>item.contractor))]
@@ -332,7 +337,7 @@ function PayrollWorkspace({onAttendance,onOpenFg}:{onAttendance:()=>void;onOpenF
     && Math.round((accessoryTotal+otherDeductions+mandorTotal-selected.deduction)*100)===0
     && recomputed===selected.netPayable
     && validMandorDebts(salesInvoices,notes,selected))
-  function changePayrollStatus(next:'REVIEW'|'APPROVED'|'PAID') {
+  function changePayrollStatus(next:'REVIEW'|'APPROVED') {
     if (!selected) return false
     try {
       setNotes(current=>{
@@ -346,7 +351,35 @@ function PayrollWorkspace({onAttendance,onOpenFg}:{onAttendance:()=>void;onOpenF
   const activeNotes=notes.filter((item)=>!['PAID','REVERSED'].includes(item.status))
   const activeDeductions=activeNotes.reduce((sum,item)=>sum+item.deduction,0)
   const eligibleLines=activeNotes.reduce((sum,item)=>sum+item.eligibleLines,0)
-  const readyToPay=notes.filter((item)=>item.status==='APPROVED').reduce((sum,item)=>sum+item.netPayable,0)
+  const readyToPay=notes.filter((item)=>item.status==='APPROVED').reduce((sum,item)=>sum+payrollRemaining(item),0)
+  const remainingPay=selected?payrollRemaining(selected):0
+  const subtotalPay=readRupiahInput(payAmount)
+  const closingPayment=Number.isFinite(subtotalPay)&&subtotalPay===remainingPay
+  function openPayment() {
+    setPayReference('');setPayAmount(String(remainingPay).replace('.',','));setPayDay(lastWarehouseDay())
+    setPaymentError('');setPayOpen(true);rememberPayroll()
+  }
+  function savePayment() {
+    if(!selected)return
+    try{
+      const payment={id:crypto.randomUUID(),amount:subtotalPay,day:payDay,account:payAccount,reference:payReference.trim()}
+      setNotes(current=>postPayrollPayment(current,readInvoices(),selected.number,payment))
+      setPayOpen(false)
+      setNotice(closingPayment?'Payroll periode ini lunas.'+ (mandorTotal ? ' Piutang berkurang '+money(mandorTotal)+'.' : '')
+        : 'Pembayaran '+money(subtotalPay)+' tercatat. Sisa '+money(remainingPay-subtotalPay)+'.')
+    }catch(failure){setPaymentError((failure as Error).message)}
+  }
+  function openPaymentReversal(id:string|null){
+    setReversalId(id);setReason('');setPaymentError('');setReverseOpen(true)
+  }
+  function reversePayment(){
+    if(!selected)return
+    try{
+      setNotes(current=>reversePayrollPayment(current,selected.number,reversalId,reason))
+      setStatusFilter('Aktif · lunas disembunyikan');setReverseOpen(false)
+      setNotice('Pembayaran dibalik. Saldo payroll diperbarui.')
+    }catch(failure){setPaymentError((failure as Error).message)}
+  }
   const sourceButton=(kind:'FG'|'ACCESSORY')=>selected&&editablePayroll(selected)&&<button type="button" className="soft-btn" onClick={()=>{
     setPickOpen(kind);setSourceQuery('');setNotice('')
   }}>{kind==='FG'?'Pilih nota FG':'Pilih nota aksesori'} ({available.filter(source=>source.kind===kind).length})</button>
@@ -421,10 +454,39 @@ function PayrollWorkspace({onAttendance,onOpenFg}:{onAttendance:()=>void;onOpenF
         }}/>}
       <section className="biz-payroll-calculation"><header><div><span>03 · REKONSILIASI PAYROLL</span><strong>Hitung dari dokumen sumber yang sudah posted</strong></div><span>{selected.number}</span></header><div className="biz-payroll-calculation-lines"><article className="positive"><span><strong>Total Nota FG</strong><small>Upah jahit + BOM + komisi, termasuk Bikin Bagus</small></span><b>+ {money(fgTotal)}</b></article><article className="positive"><span><strong>Attendance eligible</strong><small>Hanya pekerja yang memang wajib attendance</small></span><b>+ {money(selected.attendance)}</b></article><article className="negative"><span><strong>Total Nota Ambil Aksesori</strong><small>{selected.accessoryNotes.map((item)=>item.number).join(' · ')}</small></span><b>− {money(accessoryTotal)}</b></article>{selected.deductions.map((item)=><article className="negative" key={item.label}><span><strong>{item.label}</strong><small>{item.reference}</small></span><b>− {money(item.amount)}</b></article>)}{mandorTotal>0&&<article className="negative"><span><strong>Potongan piutang mandor</strong><small>{selected.mandorDebts?.length} invoice belanja</small></span><b>− {money(mandorTotal)}</b></article>}<footer><span><small>NET PAYABLE</small><strong>{money(recomputed)}</strong></span><div><small>ELIGIBLE BELUM DITARIK</small><strong>{selected.eligibleLines} baris</strong></div><div><small>RENCANA BAYAR</small><strong>{selected.paymentDate}</strong></div></footer></div></section>
       {selected.eligibleLines>0&&<div className="biz-guard warn"><AlertTriangle/><span>{selected.eligibleLines} baris eligible belum masuk nota. Penarikan harus atomic dan idempotent; payroll tidak boleh menebak dari frontend.</span></div>}
-      <section className="biz-payroll-rules"><article><Check/><span><strong>Selesai Dijahit menjadi dasar</strong><small>Stuck tidak menghapus hak jahit; hanya komponen yang belum dipasang yang ditahan. Good hanya menentukan stok FG.</small></span></article><article><Check/><span><strong>Checkbox hanya di Bikin Bagus</strong><small>Tarif komponen terpilih menjadi pengurang BS sekaligus batas pembayaran rework.</small></span></article><article><Check/><span><strong>BS melekat pada pekerjaan asal</strong><small>Pengurang sudah ada di Nota FG dan tidak menjadi potongan Payroll kedua kali.</small></span></article><article><Check/><span><strong>Kasbon aksesori tetap barang detail</strong><small>Stok dan HPP memakai moving average; harga mandor memakai snapshot tersendiri.</small></span></article></section>{notice&&<div className="biz-inline-notice"><CheckCircle2/> {notice}</div>}<footer className="biz-detail-actions"><button className="soft-btn" disabled={selected.status!=='PAID'} onClick={()=>setReverseOpen(true)}><Undo2/> Reverse payment</button>{editablePayroll(selected)&&<button className="soft-btn" disabled={!calculationMatches||recomputed<0||!selected.fgNotes.length&&!selected.accessoryNotes.length} onClick={()=>{if(changePayrollStatus(selected.status==='REVIEW'?'APPROVED':'REVIEW'))setNotice(selected.status==='REVIEW'?'Payroll disetujui.':'Komposisi siap ditinjau.')}}>{selected.status==='REVIEW'?'Setujui payroll':'Review pembayaran ini'}</button>}<button className="primary-btn" disabled={selected.status!=='APPROVED'||!calculationMatches} onClick={()=>setPayOpen(true)}><Banknote/> Bayar nota</button></footer></main>:<main className="biz-empty payroll"><Search/><strong>Tidak ada detail payroll</strong><small>Sesuaikan filter di atas.</small></main>}</section>
+      {(selected.status==='APPROVED'||selected.status==='PAID'||selected.payments?.length)&&
+        <section className="mandor-debt-panel" aria-label="Pembayaran payroll">
+          <header><Banknote aria-hidden="true"/><div><h3>Pembayaran payroll</h3><p>Lihat saldo setelah setiap pembayaran.</p></div></header>
+          <dl className="mandor-debt-balances"><div><dt>Sudah dibayar</dt><dd>{money(payrollPaid(selected))}</dd></div><div><dt>Sisa bayar</dt><dd>{money(remainingPay)}</dd></div></dl>
+          {!!selected.payments?.length&&<ul className="mandor-payroll-sources">{selected.payments.map(payment=><li key={payment.id}>
+            <span><b>{money(payment.amount)}</b> · {payment.day} · {payment.reference}{payment.reversed?' · Dibalik: '+payment.reversed:''}</span>
+            {!payment.reversed&&<button type="button" className="soft-btn" onClick={()=>openPaymentReversal(payment.id)}>Balikkan {payment.reference}</button>}
+          </li>)}</ul>}
+        </section>}
+      <section className="biz-payroll-rules"><article><Check/><span><strong>Selesai Dijahit menjadi dasar</strong><small>Stuck tidak menghapus hak jahit; hanya komponen yang belum dipasang yang ditahan. Good hanya menentukan stok FG.</small></span></article><article><Check/><span><strong>Checkbox hanya di Bikin Bagus</strong><small>Tarif komponen terpilih menjadi pengurang BS sekaligus batas pembayaran rework.</small></span></article><article><Check/><span><strong>BS melekat pada pekerjaan asal</strong><small>Pengurang sudah ada di Nota FG dan tidak menjadi potongan Payroll kedua kali.</small></span></article><article><Check/><span><strong>Kasbon aksesori tetap barang detail</strong><small>Stok dan HPP memakai moving average; harga mandor memakai snapshot tersendiri.</small></span></article></section>{notice&&<div className="biz-inline-notice"><CheckCircle2/> {notice}</div>}<footer className="biz-detail-actions"><button className="soft-btn" disabled={selected.status!=='PAID'} onClick={()=>openPaymentReversal(selected.payments?.filter(payment=>!payment.reversed).at(-1)?.id??null)}><Undo2/> Reverse payment</button>{editablePayroll(selected)&&<button className="soft-btn" disabled={!calculationMatches||recomputed<0||!selected.fgNotes.length&&!selected.accessoryNotes.length} onClick={()=>{if(changePayrollStatus(selected.status==='REVIEW'?'APPROVED':'REVIEW'))setNotice(selected.status==='REVIEW'?'Payroll disetujui.':'Komposisi siap ditinjau.')}}>{selected.status==='REVIEW'?'Setujui payroll':'Review pembayaran ini'}</button>}<button className="primary-btn" disabled={selected.status!=='APPROVED'||!calculationMatches} onClick={openPayment}><Banknote/> Bayar nota</button></footer></main>:<main className="biz-empty payroll"><Search/><strong>Tidak ada detail payroll</strong><small>Sesuaikan filter di atas.</small></main>}</section>
     {sourceSelection&&selected&&<PayrollSourceModal selection={sourceSelection} note={selected} onRelease={editablePayroll(selected)?()=>{choose(sourceSelection.number,false);setSourceSelection(null)}:undefined} onClose={()=>setSourceSelection(null)}/>}
-    {payOpen&&selected&&<FinanceModal title="Bayar nota payroll?" description="Kas keluar dan status nota berubah bersama. Komponen nota tidak dihitung ulang saat payment." onClose={()=>setPayOpen(false)} action={()=>{const saved=changePayrollStatus('PAID');setPayOpen(false);if(saved)setNotice(`${selected.number} tercatat lunas dalam simulasi.${mandorTotal ? ' Piutang mandor berkurang ' + money(mandorTotal) + '.' : ''}`)}} disabled={!payReference.trim()}><div className="biz-payment-form"><EnterpriseSelect label="AKUN BAYAR" value={payAccount} options={['Mandiri Payroll','BCA Operasional','Kas Utama']} onChange={setPayAccount}/><label><span>TANGGAL BAYAR</span><input type="date" defaultValue={payrollPeriod(selected).end || fixtureDate}/></label><label><span>REFERENSI</span><input value={payReference} onChange={(event)=>setPayReference(event.target.value)} placeholder="Nomor transfer / bukti"/></label></div><div className="biz-impact-grid"><article><span>Payroll payable</span><strong>− {money(selected.netPayable)}</strong><small>{selected.number}</small></article><article><span>Kas / bank</span><strong>− {money(selected.netPayable)}</strong><small>{payAccount}</small></article><article><span>Status</span><strong>PAID</strong><small>Otomatis keluar dari daftar aktif</small></article>{mandorTotal>0&&<article><span>Piutang mandor dilunasi</span><strong>{money(mandorTotal)}</strong><small>Dipotong dari pembayaran payroll</small></article>}</div></FinanceModal>}
-    {reverseOpen&&selected&&<FinanceModal danger title="Reverse pembayaran payroll?" description="Ini tidak menghapus nota. Backend membuat reversal kas dan mengembalikan payable dengan audit trail." onClose={()=>setReverseOpen(false)} action={()=>{setNotes((current)=>current.map((item)=>item.number===selected.number?{...item,status:'APPROVED'}:item));setStatusFilter('Aktif · lunas disembunyikan');setReverseOpen(false);setNotice(`${selected.number} kembali ke Approved dalam simulasi. Backend belum berubah.`)}} actionLabel="Review reversal" disabled={!reason.trim()}><label className="biz-wide-field"><span>ALASAN REVERSAL · WAJIB</span><textarea value={reason} onChange={(event)=>setReason(event.target.value)} placeholder="Jelaskan salah akun, salah nominal, atau salah penerima..."/></label></FinanceModal>}
+    {payOpen&&selected&&<FinanceModal title="Bayar nota payroll?" description="Catat seluruh sisa atau isi sebagian pembayaran periode ini." onClose={()=>setPayOpen(false)}
+      action={savePayment} disabled={!payReference.trim()||!dayOk(payDay)||!Number.isFinite(subtotalPay)||subtotalPay<0||subtotalPay>remainingPay||subtotalPay===0&&remainingPay>0}>
+      <div className="biz-payment-form">
+        <label><span>JUMLAH DIBAYAR</span><input inputMode="decimal" aria-label="Jumlah pembayaran gaji" value={payAmount} onChange={event=>setPayAmount(event.target.value)}/></label>
+        <EnterpriseSelect label="AKUN BAYAR" value={payAccount} options={['Mandiri Payroll','BCA Operasional','Kas Utama']} onChange={setPayAccount}/>
+        <label><span>TANGGAL BAYAR</span><input type="date" max={lastWarehouseDay()} value={payDay} onChange={event=>setPayDay(event.target.value)}/></label>
+        <label><span>REFERENSI</span><input value={payReference} onChange={event=>setPayReference(event.target.value)} placeholder="Nomor transfer / bukti"/></label>
+      </div>
+      <div className="biz-impact-grid">
+        <article><span>Sisa sebelum bayar</span><strong>{money(remainingPay)}</strong><small>{selected.number}</small></article>
+        <article><span>Kas / bank keluar</span><strong>{Number.isFinite(subtotalPay)?money(subtotalPay):'—'}</strong><small>{payAccount}</small></article>
+        <article><span>Sisa sesudah bayar</span><strong>{Number.isFinite(subtotalPay)&&subtotalPay<=remainingPay?money(remainingPay-subtotalPay):'—'}</strong><small>{closingPayment?'Lunas':'Pembayaran sebagian'}</small></article>
+        {mandorTotal>0&&closingPayment&&<article><span>Piutang mandor dilunasi</span><strong>{money(mandorTotal)}</strong><small>Potongan yang sudah dipilih</small></article>}
+      </div>
+      {paymentError&&<p role="alert">{paymentError}</p>}
+    </FinanceModal>}
+    {reverseOpen&&selected&&<FinanceModal danger title="Reverse pembayaran payroll?" description="Pembayaran asal tetap tampil. Sisa dibayar dikembalikan ke payroll periode ini." onClose={()=>setReverseOpen(false)}
+      action={reversePayment} actionLabel="Review reversal" disabled={!reason.trim()}>
+      <label className="biz-wide-field"><span>ALASAN REVERSAL · WAJIB</span><textarea value={reason} onChange={event=>setReason(event.target.value)} placeholder="Jelaskan salah akun, salah nominal, atau salah penerima…"/></label>
+      {paymentError&&<p role="alert">{paymentError}</p>}
+    </FinanceModal>}
+
   </>
 }
 

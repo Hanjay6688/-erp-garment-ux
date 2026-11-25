@@ -7,8 +7,10 @@ import { productSizes } from './stockModel'
 import { Field, MultiCheckFilter } from './controls'
 import {ReasonDialog} from './planner/ReasonDialog'
 import { AdviceBox, pickupPath } from './planner/ProductionAdvice'
-import { articles, articleChoice, cutArticle, planningPattern, rangeLabel, cutRolls, lotLabel, lotPattern, modelSeries, patternFor, plan, productFor, recordCut, rolls, seriesLabel, suggestedCut, yardsLeft, type Plan } from './planner/model'
+import { articles, articleChoice, correctionRolls, cutArticle, planningPattern, rangeLabel, cutRolls, lotLabel, lotPattern, modelSeries, patternFor, plan, productFor, recordCut, seriesLabel, suggestedCut, yardsLeft, type Plan } from './planner/model'
 import { usePlannerSession, changeSession } from './planner/session'
+import {dateLabel} from './PeriodFilter'
+import {lastWarehouseDay} from './warehouseDay'
 import {
   cuttingSizes,
   drawingLabel,
@@ -29,8 +31,6 @@ import type {
 
 const blankSlots = (sizes: string[]) => sizes.map(size=>({key:crypto.randomUUID(),size}))
 
-const fabricRollSuppliers=Array.from(new Set(rolls.map(roll=>roll.supplier)))
-const fabricRollMaterials=rolls.map(roll=>roll.material)
 type CuttingDraft = { sku:string; brand:string; model:string; seriesText?:string; date:string; notes?:string; eta?:string; selectedPattern:CuttingPatternChoice|null; ids:string[]; yards:Record<string,string>; slots:CuttingSizeSlot[]; amounts:Record<string,number[]> }
 const draftKey='atelier.cutting-draft.nov24.1'
 function readDraft(): CuttingDraft|null {
@@ -38,7 +38,12 @@ function readDraft(): CuttingDraft|null {
 }
 export function CuttingRollPage() {
   const session=usePlannerSession()
-  const fabricRollCatalog:FabricRoll[]=rolls.map((roll,index)=>({...roll,sequence:index+1,yards:yardsLeft(roll.id,session),receivedAt:'23 Nov 2026',allocation:[0,0,0,0,0,0]}))
+  const fabricRollCatalog:FabricRoll[]=correctionRolls(session).filter(roll=>!['ORI-018','LCY-015'].includes(roll.id)
+    || session.rollCorrections?.some(correction=>correction.from===roll.id||correction.to===roll.id)).map((roll,index)=>({
+      ...roll,sequence:index+1,yards:yardsLeft(roll.id,session),receivedAt:dateLabel(roll.day),allocation:[0,0,0,0,0,0],
+    }))
+  const fabricRollSuppliers=[...new Set(fabricRollCatalog.map(roll=>roll.supplier))]
+  const fabricRollMaterials=[...new Set(fabricRollCatalog.map(roll=>roll.material))]
   const [draft]=useState(readDraft)
   const [savedDraft,setSavedDraft]=useState(Boolean(draft)),[deleteDraft,setDeleteDraft]=useState(false)
   function restoreDraft(){const d=readDraft();if(!d){setSavedDraft(false);return}
@@ -99,10 +104,10 @@ export function CuttingRollPage() {
   const columnFillRangeRef=useRef<{source:number;target:number}|null>(null)
   const columnFillDraggedRef=useRef(false)
   const selectedIdSet=useMemo(()=>new Set(selectedRollIds),[selectedRollIds])
-  const visibleRolls=useMemo(()=>fabricRollCatalog.filter((roll)=>{
+  const visibleRolls=fabricRollCatalog.filter((roll)=>{
     const matchesQuery=browseMatch(query,roll.id,'roll '+roll.sequence,roll.supplier,roll.material,roll.yards)
-    return matchesQuery&&selectedSuppliers.includes(roll.supplier)&&selectedMaterials.includes(roll.material)
-  }),[query,selectedSuppliers,selectedMaterials,session.cuts.length])
+    return roll.yards>0&&matchesQuery&&selectedSuppliers.includes(roll.supplier)&&selectedMaterials.includes(roll.material)
+  })
   const selectedRolls=fabricRollCatalog.filter((roll)=>selectedIdSet.has(roll.id))
   const rollUsageRows=selectedRolls.map((roll)=>{
     const input=rollYardUsage[roll.id]??''
@@ -455,7 +460,7 @@ export function CuttingRollPage() {
           <section className="cutting-form-card" aria-labelledby="cutting-schedule-title">
             <header><h3 id="cutting-schedule-title"><CalendarDays aria-hidden="true"/> Jadwal &amp; gudang</h3><span className="cutting-form-location"><Warehouse aria-hidden="true"/> Gudang Kain</span></header>
             <div className="cutting-form-fields">
-              <Field label="Tanggal potong · wajib"><input aria-label="Tanggal potong" required max="2026-11-24" className="erp-input" type="date" value={date} onChange={e=>setDate(e.target.value)}/></Field>
+              <Field label="Tanggal potong · wajib"><input aria-label="Tanggal potong" required max={lastWarehouseDay()} className="erp-input" type="date" value={date} onChange={e=>setDate(e.target.value)}/></Field>
               <Field label="Perkiraan siap · opsional"><input aria-label="Perkiraan siap" className="erp-input" type="date" value={eta} onChange={e=>setEta(e.target.value)}/></Field>
               <label className="field cutting-form-note"><span>Catatan · opsional</span><input aria-label="Catatan potongan" className="erp-input" value={notes} onChange={e=>setNotes(e.target.value)}/></label>
             </div>
