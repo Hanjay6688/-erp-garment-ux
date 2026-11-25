@@ -457,6 +457,16 @@ function ErpApp() {
     setMobileNav(false)
   }
 
+  const inventoryNavigation=(page==='stock-adjustment'||page==='brand-conversion')&&(
+    <nav className="owner-workspace-tabs" aria-label="Jenis penyesuaian gudang">
+      {(['stock-adjustment','brand-conversion'] as const)
+        .filter(id=>demoAccess||isPageAllowed(accessBundle,id)&&!isScreenHidden(runtime.mode,id))
+        .map(id=><button key={id} type="button" aria-pressed={page===id} onClick={()=>setPage(id)}>
+          <Icon name={id==='stock-adjustment'?'ruler':'link'}/>{id==='stock-adjustment'?'Cek fisik / adjustment':'Ganti Merek'}
+        </button>)}
+    </nav>
+  )
+
   const mobileDestinations = [
     { id: 'dashboard', label: 'Beranda', navLabel: 'Dashboard', icon: <Icon name="dashboard"/> },
     { id: 'sales-invoice', label: 'Penjualan', navLabel: 'Penjualan & Invoice', icon: <Icon name="Penjualan"/> },
@@ -516,13 +526,13 @@ function ErpApp() {
         {page === 'movements-vivo' && (runtime.mode === 'DEMO_SIMULATION' ? <Movements bookName="Vivo" bookBrands={vivoBookBrands} setBookBrands={setVivoBookBrands} movements={movements} setMovements={setMovements} /> : <Suspense fallback={<WorkspaceFallback label="Buku mutasi Vivo"/>}><ConnectedFgBookPage bookName="Vivo"/></Suspense>)}
         {page === 'movements-widie' && (runtime.mode === 'DEMO_SIMULATION' ? <Movements bookName="Widie" bookBrands={widieBookBrands} setBookBrands={setWidieBookBrands} movements={movements} setMovements={setMovements} /> : <Suspense fallback={<WorkspaceFallback label="Buku mutasi Widie"/>}><ConnectedFgBookPage bookName="Widie"/></Suspense>)}
         {page === 'procurement' && (runtime.mode === 'DEMO_SIMULATION' ? <ProcurementPage /> : <Suspense fallback={<WorkspaceFallback label="Penerimaan"/>}><ConnectedProcurementPage/></Suspense>)}
-        {(page==='stock-adjustment'||page==='brand-conversion')&&<nav className="owner-workspace-tabs" aria-label="Jenis penyesuaian gudang">{(['stock-adjustment','brand-conversion'] as const).filter(id=>demoAccess||isPageAllowed(accessBundle,id)&&!isScreenHidden(runtime.mode,id)).map(id=><button type="button" key={id} aria-pressed={page===id} onClick={()=>setPage(id)}>{id==='stock-adjustment'?'Cek fisik / adjustment':'Ganti Merek'}</button>)}</nav>}
+        {!(page==='stock-adjustment'&&runtime.mode==='DEMO_SIMULATION')&&inventoryNavigation}
         {page === 'brand-conversion' && runtime.mode !== 'DEMO_SIMULATION' && <Suspense fallback={<WorkspaceFallback label="Ganti Merek"/>}><ConnectedProductConversionPage/></Suspense>}
         {page === 'accessories' && runtime.mode !== 'DEMO_SIMULATION' && <Suspense fallback={<WorkspaceFallback label="Aksesori"/>}><ConnectedAccessoryServicePage/></Suspense>}
         {page === 'stock-adjustment' && runtime.mode !== 'DEMO_SIMULATION' && <Suspense fallback={<WorkspaceFallback label="Hitung fisik"/>}><ConnectedStockAdjustmentPage/></Suspense>}
         {page === 'materials-rolls' && runtime.mode !== 'DEMO_SIMULATION' && <Suspense fallback={<WorkspaceFallback label="Bahan & Roll"/>}><ConnectedMaterialsPage/></Suspense>}
         {page === 'warehouse-dashboard' && runtime.mode !== 'DEMO_SIMULATION' && <Suspense fallback={<WorkspaceFallback label="Ringkasan Gudang"/>}><ConnectedWarehouseSummaryPage onNavigate={(next)=>setPage(next)}/></Suspense>}
-        {((page === 'warehouse-dashboard' && runtime.mode === 'DEMO_SIMULATION') || (page === 'materials-rolls' && runtime.mode === 'DEMO_SIMULATION') || (page === 'accessories' && runtime.mode === 'DEMO_SIMULATION') || (page === 'fg-summary' && runtime.mode === 'DEMO_SIMULATION') || (page === 'stock-adjustment' && runtime.mode === 'DEMO_SIMULATION') || (page === 'brand-conversion' && runtime.mode === 'DEMO_SIMULATION')) && <Suspense fallback={<WorkspaceFallback label="Gudang"/>}><WarehousePages view={page} onNavigate={(next)=>setPage(next)} /></Suspense>}
+        {((page === 'warehouse-dashboard' && runtime.mode === 'DEMO_SIMULATION') || (page === 'materials-rolls' && runtime.mode === 'DEMO_SIMULATION') || (page === 'accessories' && runtime.mode === 'DEMO_SIMULATION') || (page === 'fg-summary' && runtime.mode === 'DEMO_SIMULATION') || (page === 'stock-adjustment' && runtime.mode === 'DEMO_SIMULATION') || (page === 'brand-conversion' && runtime.mode === 'DEMO_SIMULATION')) && <Suspense fallback={<WorkspaceFallback label="Gudang"/>}><WarehousePages view={page} onNavigate={setPage} inventoryNavigation={inventoryNavigation}/></Suspense>}
         {page === 'cutting-roll' && runtime.cuttingMode === 'CONNECTED' && <Suspense fallback={<WorkspaceFallback label="Buat Potongan connected"/>}><ConnectedCuttingPage/></Suspense>}
         {page === 'cutting-roll' && runtime.cuttingMode === 'SIMULATION' && <CuttingRollPage />}
         {page === 'mandor-wip' && runtime.distributionMode === 'CONNECTED' && <Suspense fallback={<WorkspaceFallback label="Bagi Potongan connected"/>}><ConnectedPickupPage/></Suspense>}

@@ -1,4 +1,5 @@
 import { BrowsePane } from './components/BrowsePane'
+import { WorkspaceFigures } from './components/WorkspaceFigures'
 import {browseMatchPieces} from './browseMatch'
 import {PeriodFilter,periodFor,periodLabel} from './demo/PeriodFilter'
 import {fgQuantity} from './fgQuantity'
@@ -310,37 +311,38 @@ function PayablesWorkspace({laundry,updateLaundry}:{laundry:LaundryDelivery[];up
     onDetail:(id:string)=>{const item=drafts.find(doc=>doc.key===id);if(item)openDocument(item.key,item.number)},
   }
 
-  return <>
-    <FinanceHero eyebrow="KEUANGAN · HUTANG" title="Hutang Supplier & Vendor" description="Pilih supplier atau vendor, gabungkan kontrabonnya ke satu invoice, lalu catat pembayaran." icon={ReceiptText}/>
-    <section className="panel payable-dashboard" aria-label="Ringkasan hutang">
-      <nav className="payable-section-tabs" aria-label="Jenis tagihan">
-        {payableSections.map(({key,label,icon:Glyph})=><button type="button" key={key} aria-pressed={section===key} onClick={()=>chooseSection(key)}>
-          <i><Glyph aria-hidden="true"/></i><strong>{label}</strong>
-        </button>)}
-      </nav>
-      <div className="ap-counterparty">
-        <label className="payable-filter-label">{section==='LAUNDRY'?'Pilih laundry':section==='FABRIC'?'Pilih supplier kain':'Pilih supplier aksesori'}
-          <select value={vendor} onChange={event=>chooseParty(event.target.value)}>{vendors.map(name=><option key={name}>{name}</option>)}</select></label>
-        <div className="ap-mode-buttons" role="group" aria-label="Pekerjaan hutang">
-          <button type="button" className={mode==='compose'?'primary-btn':'soft-btn'} aria-pressed={mode==='compose'} onClick={()=>{setMode('compose');route(section,vendor,'compose')}}>
-            <FilePlus2 size={17}/> Susun invoice {section==='LAUNDRY'?'Laundry':'supplier'}</button>
-          <button type="button" className={mode==='ledger'?'primary-btn':'soft-btn'} aria-pressed={mode==='ledger'} onClick={()=>{setMode('ledger');route(section,vendor,'ledger')}}>
-            <WalletCards size={17}/> Invoice &amp; pembayaran</button></div>
+  return <div className="ap-page">
+    <section aria-label="Ringkasan hutang">
+      <FinanceHero eyebrow="KEUANGAN · HUTANG" title="Hutang Supplier & Vendor"
+        description="Gabungkan kontrabon dari satu supplier atau vendor, lalu catat pembayaran per invoice." icon={ReceiptText}
+        action={section==='LAUNDRY'
+          ? <a className="soft-btn ap-claims-link" href={laundryContractsPath(vendor)}><ReceiptText aria-hidden="true"/> Klaim &amp; Kontrabon <ArrowRight aria-hidden="true"/></a>
+          : <div className="ap-hero-mark" aria-hidden="true"><WalletCards/></div>}/>
+      <div className="panel ap-partner-bar">
+        <nav className="payable-section-tabs" aria-label="Jenis tagihan">
+          {payableSections.map(({key,label,icon:Glyph})=><button type="button" key={key} data-kind={key} aria-pressed={section===key} onClick={()=>chooseSection(key)}>
+            <Glyph aria-hidden="true"/><strong>{label}</strong>
+          </button>)}
+        </nav>
+        <label className="payable-filter-label ap-partner-picker">{section==='LAUNDRY'?'Pilih laundry':section==='FABRIC'?'Pilih supplier kain':'Pilih supplier aksesori'}
+          <select value={vendor} onChange={event=>chooseParty(event.target.value)}>{vendors.map(name=><option key={name}>{name}</option>)}</select>
+        </label>
       </div>
-      <div className="payable-overview">
-        <dl className="payable-metrics">
-          <div className="payable-outstanding"><dt><WalletCards aria-hidden="true"/> Total belum dibayar</dt><dd>{money(outstanding)}</dd></div>
-          {section==='LAUNDRY'?<>
-            <div><dt><ReceiptText aria-hidden="true"/> Kontrabon siap dipilih</dt><dd>{openContracts.length}</dd></div>
-            <div><dt><CheckCircle2 aria-hidden="true"/> Kredit klaim tersedia</dt><dd>{amountText(laundryCredit/100)}</dd></div>
-          </>:<>
-            <div><dt><ReceiptText aria-hidden="true"/> Invoice belum lunas</dt><dd>{payablesOpen.length}</dd></div>
-            <div><dt><FileSearch aria-hidden="true"/> Kasbon siap dipilih</dt><dd>{openSources.length}</dd></div>
-          </>}
-        </dl>
-        {section==='LAUNDRY'&&<div className="payable-start"><a className="soft-btn" href={laundryContractsPath(vendor)}><ReceiptText/> Klaim &amp; Kontrabon <ArrowRight/></a></div>}
-      </div>
+      <WorkspaceFigures label={'Ringkasan '+vendor} figures={[
+        {label:'Total belum dibayar',value:money(outstanding),icon:WalletCards,tone:'amber'},
+        {label:'Kontrabon siap dipilih',value:section==='LAUNDRY'?openContracts.length:openSources.length,icon:ReceiptText,tone:'green'},
+        {label:'Draf invoice',value:drafts.length,icon:FileClock,tone:'blue'},
+        section==='LAUNDRY'
+          ? {label:'Kredit klaim tersedia',value:amountText(laundryCredit/100),icon:CheckCircle2,tone:'green'}
+          : {label:'Invoice belum lunas',value:payablesOpen.length,icon:FileSearch,tone:'blue'},
+      ]}/>
     </section>
+    <div className="ap-mode-buttons" role="group" aria-label="Pekerjaan hutang">
+      <button type="button" className="soft-btn" aria-pressed={mode==='compose'} onClick={()=>{setMode('compose');route(section,vendor,'compose')}}>
+        <FilePlus2 aria-hidden="true"/> Susun invoice {section==='LAUNDRY'?'Laundry':'supplier'}</button>
+      <button type="button" className="soft-btn" aria-pressed={mode==='ledger'} onClick={()=>{setMode('ledger');route(section,vendor,'ledger')}}>
+        <WalletCards aria-hidden="true"/> Invoice &amp; pembayaran</button>
+    </div>
     {notice&&<div className="biz-inline-notice" role="status"><CheckCircle2/> {notice}</div>}
     {mode==='compose' ? (section==='LAUNDRY'
       ? <LaundryVendorInvoiceComposer key={JSON.stringify([section,vendor,editing])} {...desk} deliveries={laundry} vendor={vendor}
@@ -349,7 +351,7 @@ function PayablesWorkspace({laundry,updateLaundry}:{laundry:LaundryDelivery[];up
           onSave={({doc,rows})=>{setInvoices(rows);invoiceSaved(doc.status==='DRAFT'?doc.id:doc.number,doc.number,doc.status==='DRAFT')}}/>)
       : <section className="panel biz-master-detail finance-detail payable-workspace">
       <BrowsePane aria-label="Daftar utang dan GRNI">
-        <header><div><span>{category.label}</span><strong>Daftar invoice</strong></div><small>{visible.length} invoice</small></header>
+        <header className="ap-ledger-head"><i><NotebookTabs aria-hidden="true"/></i><div><span>{category.label}</span><strong>Daftar invoice</strong></div><small>{visible.length} invoice</small></header>
         <div className="payable-filters">
           <label className="biz-search"><Search aria-hidden="true"/><input aria-label="Cari invoice supplier" type="search" value={query} onChange={event=>setQuery(event.target.value)} placeholder="Cari invoice, supplier, atau kasbon…"/></label>
           <label className="payable-filter-label">Status invoice<select value={state} onChange={event=>setState(event.target.value)}>
@@ -370,8 +372,8 @@ function PayablesWorkspace({laundry,updateLaundry}:{laundry:LaundryDelivery[];up
         <dl className="payable-metrics payable-balance">
           <div><dt><ReceiptText aria-hidden="true"/> Total invoice</dt><dd>{money(selected.amount)}</dd></div>
           {selected.status!=='DRAFT'&&<>
-            <div><dt><Banknote aria-hidden="true"/> Sudah dibayar</dt><dd>{money(selected.paid)}</dd></div>
-            {!!selected.credit&&<div><dt><CheckCircle2 aria-hidden="true"/> Potongan kredit</dt><dd>{money(selected.credit)}</dd></div>}
+            <div className="ap-paid"><dt><Banknote aria-hidden="true"/> Sudah dibayar</dt><dd>{money(selected.paid)}</dd></div>
+            {!!selected.credit&&<div className="ap-paid"><dt><CheckCircle2 aria-hidden="true"/> Potongan kredit</dt><dd>{money(selected.credit)}</dd></div>}
             <div className="payable-outstanding"><dt><WalletCards aria-hidden="true"/> Sisa tagihan</dt><dd>{money(selected.balance)}</dd></div>
           </>}
         </dl>
@@ -408,7 +410,7 @@ function PayablesWorkspace({laundry,updateLaundry}:{laundry:LaundryDelivery[];up
           }}/></div>}
       </main>:<main className="biz-empty"><ReceiptText aria-hidden="true"/><strong>Belum ada invoice untuk pilihan ini</strong><small>{section==='LAUNDRY'?'Pilih Susun invoice Laundry saat invoice vendor sudah datang.':'Ubah filter atau pilih Susun invoice supplier.'}</small></main>}
     </section>}
-  </>
+  </div>
 }
 
 function ReceivablesWorkspace({onSalesPayment}:{onSalesPayment:()=>void}) {
