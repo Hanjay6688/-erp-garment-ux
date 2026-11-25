@@ -84,3 +84,9 @@
 }
 
 .period-empty > a { display: flex; width: fit-content; margin-top: 9px; }
+
+.period-unit-cost { display: flex; grid-column: 1/-1; justify-content: space-between; align-items: baseline; gap: 10px; padding: 9px 12px; border: 1px solid color-mix(in srgb,var(--period-color) 30%,var(--line)); border-radius: 8px; background: color-mix(in srgb,var(--period-color) 7%,var(--panel)); }
+.period-unit-cost > span { color: var(--soft); font-size: .82rem; font-weight: 600; }
+.period-record .period-unit-cost strong { color: var(--text); font-size: 1.1rem; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.period-record .period-unit-cost small { display: inline; font-size: .78rem; font-weight: 500; }
+.period-record .period-reprice { color: var(--amber); }

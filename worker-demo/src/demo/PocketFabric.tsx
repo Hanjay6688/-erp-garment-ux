@@ -9,7 +9,7 @@ import { pocketRollLabel, pocketRolls, readReceipts, receiptPath, type PocketRol
 import { pocketMasterPath, pocketMaterialLabel, readPocketMaterials } from './pocketMaterials'
 import { pocketAllocationPath, pocketIssuePath, receiptDocumentPath } from './receiptRollCorrection'
 import {
-  periodActive, planPocketAllocation, planPocketUsage, pocketBalance, pocketBookKey, pocketIssueCost,
+  periodActive, planPocketAllocation, planPocketUsage, pocketBalance, pocketBookKey, pocketIssueCost, pocketPriceDifference,
   pocketScale, readPocketBook, type PocketAllocation, type PocketBook, type UsageLine,
 } from './pocketUsage'
 import { periodCostPath } from './periodCostSources'
@@ -89,10 +89,7 @@ export default function PocketFabric() {
   const visible = onlyAvailable ? scoped.filter(row => row.left > 0) : scoped
   const selected = rolls.filter(roll => checked.includes(roll.id))
   const issueById = new Map(book.issues.map(issue => [issue.id, issue]))
-  const allocationDifference = (allocation: PocketAllocation) => allocation.sources.reduce((sum, id) => {
-    const issue = issueById.get(id)
-    return sum + (issue ? pocketIssueCost(issue, rollById.get(issue.roll)) : 0)
-  }, 0) - allocation.cents
+  const allocationDifference = (allocation: PocketAllocation) => pocketPriceDifference(allocation, issueById, rollById)
   const feedbackRef = useRef<HTMLParagraphElement>(null)
 
   useEffect(() => {

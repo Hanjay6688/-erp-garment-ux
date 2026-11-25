@@ -80,6 +80,13 @@ export function pocketIssueCost(issue: PocketIssue, roll: PocketRoll | undefined
   return roll?.finalBill ? Math.round(issue.qty / pocketScale * roll.rate * 100) : issue.cents
 }
 
+export function pocketPriceDifference(allocation: PocketAllocation, issues: ReadonlyMap<string,PocketIssue>, rolls: ReadonlyMap<string,PocketRoll>) {
+  return allocation.sources.reduce((sum,id) => {
+    const issue = issues.get(id)
+    return sum + (issue ? pocketIssueCost(issue, rolls.get(issue.roll)) : 0)
+  }, 0) - allocation.cents
+}
+
 export function planPocketAllocation(book: PocketBook, start: string, end: string, rolls: PocketRoll[] = []): PocketAllocation {
   if (!dayOk(start) || !dayOk(end) || start > end || (Date.parse(end) - Date.parse(start)) / 86400000 > 366) {
     throw Error('Pilih periode sampai hari ini, maksimal 367 hari.')

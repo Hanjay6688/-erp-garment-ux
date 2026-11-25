@@ -636,8 +636,8 @@
       "sha256": "8dcafcf1ead9dec38713f7a75f317eed63de1bf64a666e0e354c540e913a7ab4"
     },
     "tests/browser/cp8-worker.spec.ts": {
-      "bytes": 169685,
-      "sha256": "08a3089a7b30ea2a03cb024fd3454ea52c8d4dc9414f86728dcd0f04e9cf7b04"
+      "bytes": 169848,
+      "sha256": "1a1a91f196d183851dcc2d5151853a74b7e635082a99a3eaf14246673a40e800"
     },
     "tests/fg-quantity.test.ts": {
       "bytes": 1251,
@@ -1744,16 +1744,16 @@
       "sha256": "813c7911785ab2d4a2779983580c7e9876068480e0d804e0d5ccfc1db23c4f85"
     },
     "worker-demo/src/demo/PeriodCostPanel.tsx": {
-      "bytes": 6901,
-      "sha256": "917301c529069a5f494c7cfba63e9be5760911d02a09e142d12f3224339d785f"
+      "bytes": 7719,
+      "sha256": "12834769477a3d965dc44b3873eb47cc79d56f0cd78a0493daade963ec5cdc03"
     },
     "worker-demo/src/demo/PeriodFilter.tsx": {
       "bytes": 2266,
       "sha256": "f7a454f304d2694e7058c096937955f7f9a5f0251f3d53718bcb32b46b421676"
     },
     "worker-demo/src/demo/PocketFabric.tsx": {
-      "bytes": 32270,
-      "sha256": "433890dd2b2a62016b51a6803c306ea5e90edfab8cd16fe1aa8f9d0ff81145b3"
+      "bytes": 32164,
+      "sha256": "c768a73d748b27a6a875cb52fb07305521fbb495317e176bee9c4e93c268ea0b"
     },
     "worker-demo/src/demo/PocketMaterialMaster.tsx": {
       "bytes": 6526,
@@ -2004,8 +2004,8 @@
       "sha256": "9f64649b0ae9815ff399ce1723458b733e075727b88808af44aa15048ae0be5b"
     },
     "worker-demo/src/demo/pocketUsage.ts": {
-      "bytes": 4700,
-      "sha256": "00e94fb0e63dc6f45577ff0e6819be01012ee4ea9771aa5ea35f5990c90e7169"
+      "bytes": 5039,
+      "sha256": "63d140bef79eccfe4d5381fefda3e8543fb6418c6d04c42c9ed9a86632dd7ddc"
     },
     "worker-demo/src/demo/productionModel.ts": {
       "bytes": 966,
@@ -2612,8 +2612,8 @@
       "sha256": "f2a36f0881358f0b3d7120fa5e9a81e431dcc86a2af06156a9f502ff77890b95"
     },
     "worker-demo/src/period-costs.css": {
-      "bytes": 8475,
-      "sha256": "aa97ac5c1091cca7433a6fed139364e2db40b42496e629e8ac3434ffc5e32a4b"
+      "bytes": 9158,
+      "sha256": "9b5136de26edb206e02bc8270e365721c454cee3a2667a08b4358f5051d7033e"
     },
     "worker-demo/src/periodControlContract.ts": {
       "bytes": 3682,
