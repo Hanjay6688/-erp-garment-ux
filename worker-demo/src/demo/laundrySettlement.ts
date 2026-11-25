@@ -1,9 +1,13 @@
 import { cashAccounts } from '../financeData'
-import { billCredit, billRemaining, vendorBalance, vendorCreditApplied } from './laundryCredits'
+import { billCredit, billGross, billRemaining, vendorBalance, vendorCreditApplied } from './laundryCredits'
 import type { LaundryBillCorrection, LaundryBillPayment, LaundryDelivery, LaundryFinalBill, LaundryVendorUse } from './laundryModel'
 import { dayOk } from './warehouseDay'
 
 export type Settlement = {kind:'PAY';record:LaundryBillPayment}|{kind:'CORRECT';record:LaundryBillCorrection}|{kind:'USE';record:LaundryVendorUse}
+
+export function laundryBillAtRate(bill:LaundryFinalBill,rate:number,part?:string):LaundryFinalBill {
+  return bill.parts?{...bill,parts:bill.parts.map(line=>line.delivery===part?{...line,rate}:line)}:{...bill,rate}
+}
 
 export function settleLaundry(rows:LaundryDelivery[],deliveryId:string,billNumber:string,action:Settlement) {
   const delivery=rows.find(row=>row.id===deliveryId)
@@ -26,13 +30,15 @@ export function settleLaundry(rows:LaundryDelivery[],deliveryId:string,billNumbe
     next={...bill,payments:[...(bill.payments??[]),payment]}
   } else if(action.kind==='CORRECT'){
     const correction=action.record
-    const newGross=Math.round(correction.rate*bill.qty*100)
-    if(!Number.isSafeInteger(newGross)||newGross<0||correction.rate===bill.rate||correction.previousRate!==bill.rate||correction.reason.trim().length<4){
+    const oldRate=bill.parts?bill.parts.find(line=>line.delivery===correction.part)?.rate:bill.rate
+    const adjusted=laundryBillAtRate(bill,correction.rate,correction.part)
+    const newGross=billGross(adjusted)
+    if(oldRate===undefined||!Number.isSafeInteger(newGross)||correction.rate<0||correction.rate===oldRate||correction.previousRate!==oldRate||correction.reason.trim().length<4){
       throw Error('Isi tarif pengganti yang berbeda dan alasan koreksi.')
     }
     if(bill.payments?.some(row=>row.day>correction.day)||bill.vendorUses?.some(row=>row.day>correction.day))throw Error('Tanggal koreksi harus sesudah pembayaran dan pemakaian kredit terkait.')
     if(newGross<billCredit(bill)+vendorCreditApplied(rows,delivery.id,bill.number))throw Error('Nilai koreksi lebih kecil dari kredit yang sudah ditempel.')
-    next={...bill,rate:correction.rate,corrections:[...(bill.corrections??[]),correction]}
+    next={...adjusted,corrections:[...(bill.corrections??[]),correction]}
     if(vendorBalance(rows,delivery,next)<0)throw Error('Sebagian piutang vendor sudah diselesaikan. Periksa penyelesaian sebelum menaikkan tarif.')
   } else {
     const use=action.record

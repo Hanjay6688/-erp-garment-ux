@@ -19,6 +19,7 @@ import {
   laborBomComponents,
   laundryDeliverySeeds,
   laundryOutstandingSizes,
+  laundryReplacementQty,
   laundryReadySeeds,
 } from './demo/laundryModel'
 import type { LaundryDelivery, LaundryPrefill, LaundryReadyBatch } from './demo/laundryModel'
@@ -354,7 +355,7 @@ function ErpApp() {
     const cardId=regularFgNotaCardId(result)
     const fullRate=laborBomComponents.reduce((sum,component)=>sum+component.rate,0)
     const bsTotal=result.postedBsBySize.reduce((sum,value)=>sum+value,0)
-    const stuckTotal=result.stuckBySize.reduce((sum,value)=>sum+value,0)
+    const stuckTotal=result.stuckBySize.reduce((sum,value,index)=>sum+value+(result.closedByClaimBySize?.[index]??0),0)
     const incompleteComponents=laborBomComponents.filter((component)=>['finishing-detail','centang','lipat'].includes(component.id)).map(({id,name,rate})=>({id,name,rate}))
     const bsComponents=bsTotal>0?incompleteComponents:[]
     const stuckComponents=stuckTotal>0?incompleteComponents:[]
@@ -551,14 +552,25 @@ function ErpApp() {
           }}
           onOpenLaundry={(batchId,vendor,view)=>{setLaundryPrefill({batchId,vendor,view});setPage('laundry')}}
           onOpenQc={(parentId,batchId)=>{
-            if(!laundryDeliveries.some(d=>d.parentId===parentId&&d.batchId===batchId&&d.good+d.bs>0))return
+            if(!laundryDeliveries.some(d=>d.parentId===parentId&&d.batchId===batchId&&d.good+d.bs+laundryReplacementQty(d)>0))return
             setQcSeedId(`${parentId}::${batchId}`)
             setPage('qc')
           }}
         />}
         {page === 'qc' && runtime.qcFinalMode === 'CONNECTED' && <Suspense fallback={<WorkspaceFallback label="QC & Final SKU connected"/>}><ConnectedQcFinalPage/></Suspense>}
         {page === 'qc' && runtime.qcFinalMode === 'SIMULATION' && <StageLots stage="qc"/>}
-        {page === 'qc' && runtime.qcFinalMode === 'SIMULATION' && <Suspense fallback={<WorkspaceFallback label="QC & Final SKU"/>}><QcFinalPage seeds={buildQcSeeds(laundryDeliveries)} initialSeedId={qcSeedId} finalizedResults={finalizedQcResults} postedFgCardIds={postedFgCardIds} canPostFinalSku={demoAccess || hasPermission(accessBundle, SENSITIVE_ACTION_PERMISSION.postFinalSku)} onBack={()=>setPage('sewing-wip')} onFinish={(result)=>{setFinalizedQcResults((current)=>{const id=`${result.parentId}::${result.batchId}::${result.completionCount}`;return current.some((item)=>`${item.parentId}::${item.batchId}::${item.completionCount}`===id)?current:[result,...current]});rememberQcNotaSnapshot(result);setQcResult(result)}} onOpenNota={(result)=>{rememberQcNotaSnapshot(result);setQcResult(result);setNotaFocus({kind:'REGULAR',id:regularFgNotaCardId(result)});setNotaOrigin('QC');setPage('fg-handoff')}} /></Suspense>}
+        {page === 'qc' && runtime.qcFinalMode === 'SIMULATION' && <Suspense fallback={<WorkspaceFallback label="QC & Final SKU"/>}><QcFinalPage seeds={buildQcSeeds(laundryDeliveries)} initialSeedId={qcSeedId} finalizedResults={finalizedQcResults} postedFgCardIds={postedFgCardIds} canPostFinalSku={demoAccess || hasPermission(accessBundle, SENSITIVE_ACTION_PERMISSION.postFinalSku)} onBack={()=>setPage('sewing-wip')} onFinish={(result)=>{setFinalizedQcResults((current)=>{const id=`${result.parentId}::${result.batchId}::${result.completionCount}`;return current.some((item)=>`${item.parentId}::${item.batchId}::${item.completionCount}`===id)?current:[result,...current]});setLaundryDeliveries(current=>current.map(delivery=>{
+          if(delivery.batchId!==result.batchId||delivery.parentId!==result.parentId||!laundryReplacementQty(delivery))return delivery
+          return {...delivery,claims:delivery.claims?.map(claim=>{
+            const resolution=claim.resolution
+            if(claim.reversed||resolution?.kind!=='REPLACEMENT'||resolution.qcPosted)return claim
+            const used=delivery.sizeLabels.some((size,index)=>{
+              const row=result.sizes.indexOf(size)
+              return resolution.sizes[index]>0&&((result.postedGoodBySize[row]??0)+(result.postedBsBySize[row]??0)+(result.postedRewashBySize[row]??0)>0)
+            })
+            return used?{...claim,resolution:{...resolution,qcPosted:true}}:claim
+          })}
+        }));rememberQcNotaSnapshot(result);setQcResult(result)}} onOpenNota={(result)=>{rememberQcNotaSnapshot(result);setQcResult(result);setNotaFocus({kind:'REGULAR',id:regularFgNotaCardId(result)});setNotaOrigin('QC');setPage('fg-handoff')}} /></Suspense>}
         {page === 'fg-handoff' && runtime.fgHandoffMode === 'BLOCKED_UNTIL_AUTHORITATIVE' && <Suspense fallback={<WorkspaceFallback label="Nota FG safety boundary"/>}><ConnectedFgHandoffBoundary/></Suspense>}
         {page === 'fg-handoff' && runtime.fgHandoffMode === 'SIMULATION' && <Suspense fallback={<WorkspaceFallback label="Susun Nota FG"/>}><FgNotaPage
           key={`${notaOrigin}-${notaFocus?.kind??'QUEUE'}-${notaFocus?.id??'ALL'}`}

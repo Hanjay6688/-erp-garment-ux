@@ -17,11 +17,11 @@ export function IssueReturnPanel({doc}:{doc:IssueDocument}) {
   const quote=draft?quoteIssueReturn(doc,draft.quantities,paid):null
   return <section className="demo-ops-card demo-issue-return" aria-label="Retur dari mandor">
     <header className="demo-ops-header"><div className="demo-operation-heading"><i><PackageOpen/></i><div><h3>Retur dari mandor</h3><p>Sisa tagihan nota {amountText(outstandingIssue(doc,paid))}</p></div></div>
-      {rows.some(row=>row.remaining>0&&row.sellingPrice!==null)&&<button type="button" className="soft-btn" onClick={()=>{setError('');setDraft({id:'RAM-'+crypto.randomUUID().slice(0,8).toUpperCase(),day:lastWarehouseDay(),reason:'',quantities:{}})}}><Undo2 size={16}/> Terima retur aksesori</button>}</header>
+      {rows.some(row=>row.remaining>0&&row.sellingPrice!==null)&&<button type="button" className="primary-btn" onClick={()=>{setError('');setDraft({id:'RAM-'+crypto.randomUUID().slice(0,8).toUpperCase(),day:lastWarehouseDay(),reason:'',quantities:{}})}}><Undo2 size={16}/> Terima retur aksesori</button>}</header>
     {!!doc.returns?.length&&<details className="demo-operation-history" open><summary>Riwayat retur ({doc.returns.length})</summary>
       {doc.returns.map(row=><article key={row.id}><strong>{row.lines.reduce((sum,line)=>sum+line.qty,0)} pcs kembali</strong>
         <small>{row.id} · {row.day} · {row.reason}</small><small>Potong tagihan {amountText(row.chargeReduction)} · Kredit payroll {amountText(row.credit)}</small>
-        {row.credit>0&&<a className="gar-text" href={'/keuangan/payroll-kasbon/?'+new URLSearchParams({mandor:doc.mandor})}>Buka Payroll</a>}
+        {row.credit>0&&<a className="soft-btn" href={'/keuangan/payroll-kasbon/?'+new URLSearchParams({mandor:doc.mandor})}>Buka Payroll</a>}
       </article>)}
     </details>}
     {draft&&quote&&<ReasonDialog title="Terima retur aksesori dari mandor" closeLabel="Kembali" className="demo-operation-dialog" onClose={()=>setDraft(null)}>

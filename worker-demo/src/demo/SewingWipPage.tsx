@@ -48,9 +48,13 @@ export function SewingWipPage({
   const completedOf=(b:SewingRow)=>Math.min(b.qty,completedInputs[b.id]===undefined?b.completed:cellQuantity(completedInputs[b.id]))
   function parentIsCompleted(p:SewingGroup){
     return !p.ledger.returns.length&&deriveWipControlStatus(p.batches.filter(b=>!b.line.closed).map(b=>{
-      const summary=summarizeLaundryBatch(deliveries,b.id),finished=finalizedResults.some(r=>r.batchId===b.id&&r.completionStatus==='COMPLETE')
+      const summary=summarizeLaundryBatch(deliveries,b.id)
+      const finished=summary.loss>=b.qty||finalizedResults.some(result=>result.batchId===b.id&&(
+        result.completionStatus==='COMPLETE'||summary.loss>0&&summary.outside===0&&
+          result.qcGood.reduce((sum,qty,index)=>sum+qty+result.qcBs[index],summary.loss)>=b.qty))
+
       return {finalSkuComplete:finished,unfinishedSewing:b.completed<b.qty,
-        unsentReady:b.completed===b.qty&&!summary.returned&&!summary.outside&&!laundryDrafts[b.id],
+        unsentReady:b.completed===b.qty&&!summary.returned&&!summary.outside&&!summary.loss&&!laundryDrafts[b.id],
         laundryDraft:!!laundryDrafts[b.id],laundryInTransit:summary.outside>0,unresolvedLaundryIssue:summary.outside>0,
         pendingFinalSkuHandoff:summary.returned>0&&!finished,openDependency:false,operatorActionRequired:false}
     }))==='COMPLETED'
@@ -147,7 +151,7 @@ export function SewingWipPage({
             const draftLaundry=laundryDrafts[batch.id]
             const inLaundry=summary.outside>0
             const returnedToQc=summary.returned>0
-            const availableLaundryQty=Math.max(0,batch.qty-summary.returned-summary.outside)
+            const availableLaundryQty=Math.max(0,batch.qty-summary.returned-summary.outside-summary.loss)
             const dependency=recordedDownstream(batch.id)
             const locked=!!dependency||!!batch.line.closed
             const lockReason=dependency||correctionLock(batch.line)
@@ -166,9 +170,10 @@ export function SewingWipPage({
               <label className={`sewing-completed-input ${locked?'disabled':''}`}><span>SELESAI DIJAHIT</span><div><input disabled={locked} type="text" pattern="[0-9]*" inputMode="numeric" data-grid-row={parentIndex*100+batchIndex} data-grid-col={0} aria-label={'Selesai dijahit Batch '+batch.number} value={completedInputs[batch.id]??String(batch.completed)} onFocus={(event)=>event.currentTarget.select()} onClick={(event)=>event.currentTarget.select()} onChange={e=>setCompletedInputs(current=>({...current,[batch.id]:e.target.value.replace(/[^0-9]/g,'')}))}
                 onBlur={e=>saveSewing(parent,batch,e.currentTarget.value)} onKeyDown={e=>{if(e.key==='Enter'){e.preventDefault();e.currentTarget.blur()}}}/><b>/ {batch.qty} pcs</b></div></label>
               <div className="sewing-batch-progress"><span style={{width:`${progress}%`}}/></div>
+              {summary.loss>0&&<p className="sewing-batch-note"><ShieldCheck size={16}/><strong>{summary.loss} pcs ditutup lewat klaim Laundry</strong></p>}
               {returnedToQc?<div className="sewing-laundry-gate returned"><div><span>{summary.outside>0?'KEMBALI SEBAGIAN · SIAP QC':'SUDAH KEMBALI · SIAP QC'}</span><small>{summary.returned} pcs kembali · {summary.outside} pcs otomatis Stuck Laundry saat review.</small></div><div className="laundry-name-grid">{[...new Set([...summary.activeVendors,...summary.returnedVendors])].map((name)=><button type="button" className="active jump" onClick={()=>onOpenLaundry(batch.id,name,'return')} key={name}><Icon name="arrow"/>{name}</button>)}</div><p><Icon name="check"/><span>{summary.good} Good · {summary.bs} BS tercatat. Riwayat laundry tetap terlihat.</span></p><button type="button" className="wip-review-finishing" onClick={()=>onOpenQc(parent.id,batch.id)}>Review finishing <Icon name="arrow"/></button></div>
               :inLaundry?<div className="sewing-laundry-gate open tracking"><div><span>SEDANG DI LAUNDRY</span><small>{summary.outside} pcs masih di luar · belum ada fisik yang kembali</small></div><div className="laundry-name-grid">{summary.activeVendors.map((name)=><button type="button" className="active jump" onClick={()=>onOpenLaundry(batch.id,name,'return')} key={name}><Icon name="arrow"/>{name}</button>)}</div><p><Icon name="history"/><span>Tekan nama laundry untuk buka surat kirim aktif.</span></p></div>
-              :<div className={`sewing-laundry-gate ${isReady?'open':'locked'} ${draftLaundry?'draft':''}`}><div><span>{isReady?(draftLaundry?'DRAFT TUJUAN LAUNDRY':'PILIH NAMA LAUNDRY'):'LAUNDRY TERKUNCI'}</span><small>{isReady?(draftLaundry?'Belum mengubah stok. Tekan nama aktif untuk kembali ke review.':summary.returned>0?`${availableLaundryQty} pcs sisa siap dipilihkan laundry baru.`:'Tekan nama tujuan, lalu konfirmasi pindah halaman.'):`Selesaikan ${batch.qty-completed} pcs lagi.`}</small></div>{isReady&&availableLaundryQty>0&&<div className="laundry-name-grid">{laundryVendorNames.map((name)=><button type="button" className={draftLaundry===name?'active':''} aria-pressed={draftLaundry===name} onClick={()=>draftLaundry===name?onOpenLaundry(batch.id,name,'send'):setPendingLaundry({batchId:batch.id,vendor:name,qty:availableLaundryQty})} key={name}>{draftLaundry===name&&<Icon name="check"/>}{name}</button>)}</div>}{draftLaundry&&<p><Icon name="arrow"/><span><strong>{draftLaundry}</strong> · draft surat kirim siap dilanjutkan.</span></p>}</div>}
+              :<div className={`sewing-laundry-gate ${isReady?'open':'locked'} ${draftLaundry?'draft':''}`}><div><span>{isReady?(draftLaundry?'DRAFT TUJUAN LAUNDRY':'PILIH NAMA LAUNDRY'):'LAUNDRY TERKUNCI'}</span><small>{isReady?(draftLaundry?'Belum mengubah stok. Tekan nama aktif untuk kembali ke review.':summary.returned>0?`${availableLaundryQty} pcs sisa siap dipilihkan laundry baru.`:availableLaundryQty>0?'Tekan nama tujuan, lalu konfirmasi pindah halaman.':'Seluruh sisa sudah ditutup lewat klaim.'):`Selesaikan ${batch.qty-completed} pcs lagi.`}</small></div>{isReady&&availableLaundryQty>0&&<div className="laundry-name-grid">{laundryVendorNames.map((name)=><button type="button" className={draftLaundry===name?'active':''} aria-pressed={draftLaundry===name} onClick={()=>draftLaundry===name?onOpenLaundry(batch.id,name,'send'):setPendingLaundry({batchId:batch.id,vendor:name,qty:availableLaundryQty})} key={name}>{draftLaundry===name&&<Icon name="check"/>}{name}</button>)}</div>}{draftLaundry&&<p><Icon name="arrow"/><span><strong>{draftLaundry}</strong> · draft surat kirim siap dilanjutkan.</span></p>}</div>}
               </>}
             </section>
           })}</div>

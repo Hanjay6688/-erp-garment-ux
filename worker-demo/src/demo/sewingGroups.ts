@@ -34,6 +34,7 @@ export function sewingStatus(b:Batch,id:string,deliveries:LaundryDelivery[],draf
   if(b.closed)return b.closed==='Reverse'?'Dibatalkan':'Disesuaikan'
   if(summary.returned)return summary.outside?'Kembali sebagian · siap QC':'Kembali · siap QC'
   if(summary.outside)return 'Di laundry'
+  if(summary.loss>=b.qty)return 'Ditutup lewat klaim'
   if(drafts[id])return 'Draft laundry'
   return b.sewn>=b.qty?'Siap laundry':b.sewn?'Sedang dijahit':'Menunggu jahit'
 }
