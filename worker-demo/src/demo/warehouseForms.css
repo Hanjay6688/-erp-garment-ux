@@ -67,10 +67,6 @@
   color: var(--blue);
 }
 .md-sku-settings .wh-pair header p { margin: 2px 0 0; color: var(--muted); font-size: 13px; }
-.sku-pair-fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr)); gap: 10px; }
-.sku-pair-origin { display: grid; gap: 2px; min-width: 0; padding: 9px 10px; border: 1px solid var(--line); border-radius: 9px; background: var(--panel); }
-.sku-pair-origin :is(span,small) { font-size: 12px; color: var(--muted); }
-.sku-pair-origin strong { overflow-wrap: anywhere; }
 .md-sku-settings .wh-pair select { min-height: 44px; color-scheme: inherit; }
 .md-sku-settings .wh-pair-foot { padding-top: 9px; border-top: 1px solid var(--line); }
 .sku-pair-panel .wh-pair-foot span { overflow-wrap: anywhere; }
