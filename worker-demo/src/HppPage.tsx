@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { browseMatchPieces } from './browseMatch'
 import {
   AlertTriangle, ArrowRight, Check, ChevronDown,
   Clock3, FileSearch, GitCompareArrows, History, Info, Layers3, LockKeyhole,
@@ -172,6 +173,8 @@ const statusLabel: Record<DisplayStatus, string> = {
   SEMENTARA: 'Sementara', BELUM_LENGKAP: 'Belum lengkap', LENGKAP_BERDASARKAN_DATA_SAAT_INI: 'Lengkap saat ini',
 }
 
+const remainingStock = (lot: HppLot) => lot.sizeStock.reduce((sum, size) => sum + size.qty, 0)
+
 function HppPage() {
   const [query, setQuery] = useState('')
   const [brand, setBrand] = useState('Semua merek')
@@ -187,13 +190,20 @@ function HppPage() {
   })
   const [simulationNotice, setSimulationNotice] = useState('')
 
-  const visibleLots = useMemo(() => hppLots.filter((lot) => {
-    const haystack = `${lot.po} ${lot.id} ${lot.brand} ${lot.sku} ${lot.product} ${lot.color} ${lot.material}`.toLowerCase()
-    const matchesQuery = haystack.includes(query.toLowerCase())
-    const matchesBrand = brand === 'Semua merek' || lot.brand === brand
-    const matchesStatus = status === 'Semua status' || lot.displayStatus === status
-    return matchesQuery && matchesBrand && matchesStatus
-  }), [query, brand, status])
+  const visibleLots = useMemo(() => {
+    const skuStock = new Map<string, number>()
+    for (const lot of hppLots) {
+      const key = `${lot.brand}::${lot.sku}`
+      skuStock.set(key, (skuStock.get(key) ?? 0) + remainingStock(lot))
+    }
+    return hppLots.filter((lot) => {
+      const quantities = [lot.qty, remainingStock(lot), skuStock.get(`${lot.brand}::${lot.sku}`)!]
+      const matchesQuery = browseMatchPieces(query, quantities, lot.po, lot.id, lot.brand, lot.sku, lot.product, lot.color, lot.material)
+      const matchesBrand = brand === 'Semua merek' || lot.brand === brand
+      const matchesStatus = status === 'Semua status' || lot.displayStatus === status
+      return matchesQuery && matchesBrand && matchesStatus
+    })
+  }, [query, brand, status])
 
   const visibleSkuGroups = useMemo(() => Array.from(hppLots.filter(item => visibleLots.some(match => match.brand === item.brand && match.sku === item.sku)).reduce((groups, item) => {
     const key = `${item.brand}::${item.sku}`
@@ -203,7 +213,6 @@ function HppPage() {
 
   const skuKey = visibleSkuGroups.some(([key]) => key === activeSkuKey) ? activeSkuKey : visibleSkuGroups[0]?.[0] ?? `${hppLots[0].brand}::${hppLots[0].sku}`
   const skuLots = visibleSkuGroups.find(([key]) => key === skuKey)?.[1] ?? [hppLots[0]]
-  const remainingStock = (item:HppLot) => item.sizeStock.reduce((sum, size) => sum + size.qty, 0)
   const activeCost = (item:HppLot) => (item.versions.find((version)=>version.no===item.currentVersion)??item.versions[item.versions.length-1]).perPcs
   const skuRemaining = skuLots.reduce((sum,item)=>sum+remainingStock(item),0)
   const skuInventoryValue = skuLots.reduce((sum,item)=>sum+remainingStock(item)*activeCost(item),0)

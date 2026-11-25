@@ -1,9 +1,11 @@
 import LaundryRecipeMaster from './demo/LaundryRecipeMaster'
 import { laundryRecipePath } from './demo/laundryRecipes'
 import { laundryVendorNames } from './demo/sewingModel'
-import {changeSession} from './demo/planner/session'
-import {editSku,skuByKey} from './demo/skuCatalog'
-import { useMemo, useState } from 'react'
+import {changeSession, readPlannerSession, usePlannerSession} from './demo/planner/session'
+import {allSkus, editSku} from './demo/skuCatalog'
+import {patterns, products, recipePattern} from './demo/planner/model'
+import { SkuPairField } from './demo/BrandConversionForm'
+import { useEffect, useMemo, useState } from 'react'
 import type { LucideIcon } from 'lucide-react'
 import {
   AlertTriangle, BadgeDollarSign, CalendarClock, Check, CheckCircle2,
@@ -224,13 +226,47 @@ function BrowserRecord({item,active,config,bulkSelected,onSelect,onToggleBulk}:{
   return <article className={`md-browser-record ${active?'active':''} ${product?'with-check':''}`}>{product&&<label className="md-bulk-check"><input type="checkbox" checked={bulkSelected} disabled={!item.active} onChange={onToggleBulk}/><i>{bulkSelected&&<Check/>}</i><span className="sr-only">Pilih {item.code} untuk update massal</span></label>}<button type="button" className="md-browser-select" onClick={onSelect}><i><EntityIcon/></i>{product?<span><strong>{productIdentity(item)}</strong><small>{item.name}</small><em>{item.values.color||'—'}</em></span>:<span><strong>{item.name}</strong><small>{item.code}</small><em>{config.fields.slice(0,2).map((field)=>formatFieldValue(field,item.values[field.key]??'')).filter(Boolean).join(' · ')}</em></span>}<MasterState active={item.active}/></button></article>
 }
 
+function SkuPatternField({sku}:{sku:string}){
+  const session=usePlannerSession()
+  const order=products.find(item=>`${item.brand} ${item.sku}`===sku)
+  const current=order ? recipePattern(order,session) : session.patternRefs?.[sku]
+  const [pending,setPending]=useState<string>()
+  const [notice,setNotice]=useState('')
+  return <section className="wh-pair sku-pattern-panel" aria-label="Pola rencana">
+    <header><i><Layers3 size={19} aria-hidden="true"/></i><div><h3>Pola rencana</h3><p>Opsional. Dipakai untuk saran potong di Planner.</p></div></header>
+    <label>Pola untuk SKU ini<select aria-label="Pola rencana SKU" value={pending??current??''} onChange={e=>{setPending(e.target.value);setNotice('')}}>
+      <option value="">Belum ditentukan</option>{patterns.map(p=><option key={p.id} value={p.code}>{p.name} · {p.revision}</option>)}
+    </select></label>
+    <div className="wh-pair-foot"><a href="/analisis/planner/">Lihat Planner</a>
+      <button type="button" className="soft-btn" disabled={pending===undefined||pending===(current??'')} onClick={()=>{
+        changeSession(s=>({...s,patternRefs:{...s.patternRefs,[sku]:pending||null}}))
+        setPending(undefined)
+        setNotice('Pola rencana tersimpan.')
+      }}>Simpan pola rencana</button></div>
+    {notice&&<p role="status">{notice}</p>}
+  </section>
+}
+
+function productRecords(base: MasterEntity[]) {
+  const session = readPlannerSession()
+  const listed = new Set(base.map(item=>`${item.values.brand} ${item.code}`))
+  return [...base, ...allSkus(session).filter(sku=>!listed.has(sku.key)).map(sku=>({
+    id: 'sku-' + sku.key, code:sku.sku, name:sku.model, active:session.skuUpdates?.[sku.key]?.active!==false, rowVersion:0, updatedAt:'',
+    values:{brand:sku.brand,model:sku.model,color:sku.colour,sizes:sku.sizes.join(',')}, dependencies:[], audit:[],
+  }))]
+}
+
 function MasterWorkspace({config}:{config:MasterConfig}){
   const productStore='erp.demo.master-products.records.v1'
-  const [entities,storeEntities]=useState<MasterEntity[]>(()=>config.view==='master-products'?JSON.parse(sessionStorage.getItem(productStore)??'null')??config.seeds:config.seeds)
+  const [entities,storeEntities]=useState<MasterEntity[]>(()=>config.view==='master-products'?productRecords(JSON.parse(sessionStorage.getItem(productStore)??'null')??config.seeds):config.seeds)
   function setEntities(update:(rows:MasterEntity[])=>MasterEntity[]){
     storeEntities(rows=>{const next=update(rows);if(config.view==='master-products')sessionStorage.setItem(productStore,JSON.stringify(next));return next})
   }
-  const [selectedId,setSelectedId]=useState(config.seeds[0].id)
+  const [selectedId,setSelectedId]=useState(()=>{
+    const sku = new URLSearchParams(location.search).get('sku')
+    return (config.view==='master-products' && entities.find(item=>`${item.values.brand} ${item.code}`===sku)?.id) || config.seeds[0].id
+  })
+  useEffect(()=>{if(config.view==='master-products' && location.hash==='#padanan')document.getElementById('padanan')?.scrollIntoView({block:'start'})},[config.view])
   const [query,setQuery]=useState('')
   const [status,setStatus]=useState<'ALL'|'ACTIVE'|'INACTIVE'>('ALL')
   const [editorMode,setEditorMode]=useState<'create'|'edit'|null>(null)
@@ -242,6 +278,7 @@ function MasterWorkspace({config}:{config:MasterConfig}){
   const [categoryRates,setCategoryRates]=useState(categoryRateSeeds)
   const isProduct=config.view==='master-products'
   const selected=entities.find((item)=>item.id===selectedId)??entities[0]
+  const sku = selected.values.brand+' '+selected.code
   const visible=useMemo(()=>entities.filter((item)=>`${item.code} ${item.name} ${Object.values(item.values).join(' ')}`.toLowerCase().includes(query.toLowerCase())&&(status==='ALL'||item.active===(status==='ACTIVE'))),[entities,query,status])
   const visibleActiveIds=visible.filter((item)=>item.active).map((item)=>item.id)
   const allVisibleSelected=visibleActiveIds.length>0&&visibleActiveIds.every((id)=>bulkSelectedIds.includes(id))
@@ -294,7 +331,10 @@ function MasterWorkspace({config}:{config:MasterConfig}){
       {config.view === 'master-partners' && laundryVendorNames.includes(selected.name) && <a className="md-laundry-entry colour-partner-link" href={laundryRecipePath + '&vendor=' + encodeURIComponent(selected.name)}>
         <i><Tags aria-hidden="true"/></i><span><strong>Jenis pewarnaan {selected.name}</strong><small>Lihat katalog dan default SKU</small></span><ChevronRight aria-hidden="true"/>
       </a>}
-      {isProduct&&skuByKey(selected.values.brand+' '+selected.code)&&<section className="wh-pair"><header><Link2 size={18}/><h3>Padanan beda merek</h3></header><a className="soft-btn" href={'/master/produk-sku/?sku='+encodeURIComponent(selected.values.brand+' '+selected.code)+'#padanan'}>Atur padanan {selected.values.brand} {selected.code}</a></section>}
+      {isProduct&&<div className="md-sku-settings" key={sku}>
+        <SkuPatternField sku={sku}/>
+        <SkuPairField sku={sku}/>
+      </div>}
       {isProduct&&<ProductCostPanel entity={selected} categoryRates={categoryRates} onEditBom={()=>setBomOpen(true)} onEditCategories={()=>setCategoryOpen(true)}/>} 
       <section className="md-integrity"><ShieldCheck/><span><strong>{config.integrityTitle}</strong><small>{config.integrityCopy}</small></span></section>
       <section className="md-dependencies"><header><div><span>DEPENDENCY CHECK</span><strong>Dampak sebelum nonaktif / koreksi</strong></div><Link2/></header>{selected.dependencies.length>0?<div>{selected.dependencies.map((dependency)=><article className={dependency.tone} key={dependency.label}><span>{dependency.label}</span><strong>{dependency.value}</strong></article>)}</div>:<div className="md-no-dependency"><CheckCircle2/><span><strong>Belum ada dependency</strong><small>{config.emptyDependencyCopy}</small></span></div>}</section>

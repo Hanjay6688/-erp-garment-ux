@@ -16,7 +16,8 @@ import {
 import type { CuttingSizeSlot, FabricRoll } from './cuttingAllocation'
 import { cleanDecimalInput, dozenPieces, formatQuantity, parseDecimal } from './format'
 import type { QtyTuple } from './productionModel'
-import { ChevronDown } from 'lucide-react'
+import './cuttingForm.css'
+import { CalendarDays, ChevronDown, Scissors, Tag, Warehouse } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type {
   CSSProperties,
@@ -433,18 +434,33 @@ export function CuttingRollPage() {
       <div className="roll-issue-footer"><div><span>SOURCE SELECTED<strong>{formatQuantity(totalSourceYards,2)} yd</strong></span><i>−</i><span>USED<strong>{formatQuantity(totalUsedYards,2)} yd</strong></span><i>=</i><span className="remaining">REMAINING<strong>{formatQuantity(totalBalanceYards,2)} yd</strong></span></div><button type="button" className="primary-btn" disabled={!yardUsageValid} onClick={()=>document.getElementById('allocation-workbench')?.scrollIntoView({behavior:'smooth',block:'start'})}>Lanjut catat hasil <Icon name="arrow"/></button></div>
     </section>
     <section ref={formRef} className="panel allocation-workbench" id="allocation-workbench">
-      <div className="cutting-panel-head allocation-head"><div><span>03 · HASIL POTONG PER ROLL</span><h2>Catat hasil satu seri</h2><p>Pilih seri sekali. Isi jumlah aktual pada kolom roll. Ukuran tanpa hasil boleh nol.</p></div><span className="draft-pill">Draft</span></div>
-      <div className="cutting-meta-grid">
-        <Field label="Model · opsional"><input aria-label="Model potongan" className="erp-input" placeholder="mis. Kulot Jumbo" value={model} onChange={e=>setModel(e.target.value)}/></Field>
-        <Field label="Seri · opsional"><input aria-label="Seri potongan" className="erp-input" placeholder="mis. Jumbo" value={seriesText} onChange={e=>setSeriesText(e.target.value)}/></Field>
-        <CuttingPatternPicker value={selectedPattern} onChange={setSelectedPattern}/>
-        <Field label="Merek rencana · opsional"><select aria-label="Merek rencana" className="erp-input" value={brand} onChange={e=>{const next=e.target.value;setBrand(next);if(next&&linked&&linked.brand!==next)setSku('')}}><option value="">Belum ditentukan</option><option>Vivo</option><option>Widie</option></select></Field>
-        <Field label="SKU rencana · opsional"><select aria-label="SKU rencana" className="erp-input" value={sku} onChange={e=>selectSku(e.target.value)}><option value="">Belum ditentukan</option>{articles.filter(a=>!brand||a.brand===brand).map(a=><option key={a.key} value={articleChoice(a)}>{a.key} · {a.colour}</option>)}</select></Field>
-        {linked&&<Field label="Identitas dari Master SKU"><span>{linked.colour} · {linked.sizes.length===1?'Ukuran khusus':'Rentang'} {rangeLabel(linked.sizes)} · {planningPattern(linked,session)?patternFor(planningPattern(linked,session)!).name:'Pola rencana kosong'}</span></Field>}
-        <Field label="Lokasi sumber"><span>Gudang Kain</span></Field>
-        <Field label="Tanggal potong · wajib"><input aria-label="Tanggal potong" required max="2026-11-24" className="erp-input" type="date" value={date} onChange={e=>setDate(e.target.value)}/></Field>
-        <Field label="Perkiraan siap · opsional"><input aria-label="Perkiraan siap" className="erp-input" type="date" value={eta} onChange={e=>setEta(e.target.value)}/></Field>
-        <Field label="Catatan · opsional"><input aria-label="Catatan potongan" className="erp-input" value={notes} onChange={e=>setNotes(e.target.value)}/></Field></div>
+      <div className="cutting-panel-head allocation-head cutting-form-heading">
+        <div><i><Scissors aria-hidden="true"/></i><div><span>03 · HASIL POTONG PER ROLL</span><h2>Catat hasil satu seri</h2><p>Isi jumlah aktual per ukuran di setiap roll. Ukuran tanpa hasil boleh diisi nol.</p></div></div>
+        <span className="draft-pill">Draft</span>
+      </div>
+      <div className="cutting-form-details">
+        <CuttingPatternPicker value={selectedPattern} onChange={setSelectedPattern} layout="workbench"/>
+        <div className="cutting-form-groups">
+          <section className="cutting-form-card" aria-labelledby="cutting-identity-title">
+            <header><h3 id="cutting-identity-title"><Tag aria-hidden="true"/> Identitas potongan</h3></header>
+            <div className="cutting-form-fields">
+              <Field label="Model · opsional"><input aria-label="Model potongan" className="erp-input" placeholder="mis. Kulot Jumbo" value={model} onChange={e=>setModel(e.target.value)}/></Field>
+              <Field label="Seri · opsional"><input aria-label="Seri potongan" className="erp-input" placeholder="mis. Jumbo" value={seriesText} onChange={e=>setSeriesText(e.target.value)}/></Field>
+              <Field label="Merek rencana · opsional"><select aria-label="Merek rencana" className="erp-input" value={brand} onChange={e=>{const next=e.target.value;setBrand(next);if(next&&linked&&linked.brand!==next)setSku('')}}><option value="">Belum ditentukan</option><option>Vivo</option><option>Widie</option></select></Field>
+              <Field label="SKU rencana · opsional"><select aria-label="SKU rencana" className="erp-input" value={sku} onChange={e=>selectSku(e.target.value)}><option value="">Belum ditentukan</option>{articles.filter(a=>!brand||a.brand===brand).map(a=><option key={a.key} value={articleChoice(a)}>{a.key} · {a.colour}</option>)}</select></Field>
+              {linked&&<div className="cutting-form-sku-context"><strong>Master SKU</strong><span>{linked.colour} · {linked.sizes.length===1?'Ukuran khusus':'Rentang'} {rangeLabel(linked.sizes)} · {planningPattern(linked,session)?patternFor(planningPattern(linked,session)!).name:'Pola rencana kosong'}</span></div>}
+            </div>
+          </section>
+          <section className="cutting-form-card" aria-labelledby="cutting-schedule-title">
+            <header><h3 id="cutting-schedule-title"><CalendarDays aria-hidden="true"/> Jadwal &amp; gudang</h3><span className="cutting-form-location"><Warehouse aria-hidden="true"/> Gudang Kain</span></header>
+            <div className="cutting-form-fields">
+              <Field label="Tanggal potong · wajib"><input aria-label="Tanggal potong" required max="2026-11-24" className="erp-input" type="date" value={date} onChange={e=>setDate(e.target.value)}/></Field>
+              <Field label="Perkiraan siap · opsional"><input aria-label="Perkiraan siap" className="erp-input" type="date" value={eta} onChange={e=>setEta(e.target.value)}/></Field>
+              <label className="field cutting-form-note"><span>Catatan · opsional</span><input aria-label="Catatan potongan" className="erp-input" value={notes} onChange={e=>setNotes(e.target.value)}/></label>
+            </div>
+          </section>
+        </div>
+      </div>
       {sizeNotice&&<p role="status" className="cutting-size-notice">{sizeNotice}</p>}
       <details className="cutting-size-picker"><summary>Pilih ukuran · {rangeLabel(selectedMembers)||'belum dipilih'}</summary>
         <div className="cutting-size-options">{cuttingSizeOptions.map((size)=>{const checked=selectedCuttingSizes.includes(size);return <label className={checked?'active':''} key={size}><input type="checkbox" checked={checked} onChange={()=>toggleCuttingSize(size)}/><span>{checked&&<Icon name="check"/>}</span><strong>{size}</strong><small>{checked?`${sizeSlots.filter((slot)=>slot.size===size).length} kolom`:'Tidak dipakai'}</small></label>})}</div>

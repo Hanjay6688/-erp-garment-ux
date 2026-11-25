@@ -1,4 +1,4 @@
-import {browseMatch} from './browseMatch'
+import {browseMatch, browseMatchPieces} from './browseMatch'
 import {fgProducts,fgTotals,piecesIn,positionKey} from './demo/fgOverview'
 import {dozenPieces,fgQuantity} from './fgQuantity'
 import {FgHistory} from './demo/FgHistory'
@@ -265,7 +265,9 @@ function MaterialsRollsPage() {
   const selectedHealth = prototypeStockHealth('FABRIC', selected.stockOnHandYards, 'yd', selected.id)
   const visibleMaterials = useMemo(()=>materials.filter((item)=>{
     const health = prototypeStockHealth('FABRIC', item.stockOnHandYards, 'yd', item.id)
-    return browseMatch(query,item.id,item.material,item.supplier,item.location,...fabricRolls.filter(r=>r.material===item.material).map(r=>r.id)) && (supplier==='Semua'||item.supplier===supplier) && (status==='Semua'||getStockHealthLabel(health)===status)
+    return browseMatch(query,item.id,item.material,item.supplier,item.location,`${formatNumber(item.stockOnHandYards)} yd`,
+      ...fabricRolls.filter(r=>r.material===item.material).flatMap(r=>[r.id,`${formatNumber(r.remaining)} yd`]))
+      && (supplier==='Semua'||item.supplier===supplier) && (status==='Semua'||getStockHealthLabel(health)===status)
   }),[query,supplier,status])
   const visibleRolls = fabricRolls.filter((roll)=>roll.material===selected.material)
   const estimatedCount = visibleRolls.filter((roll)=>roll.costState==='ESTIMATED').length
@@ -299,7 +301,7 @@ function AccessoriesPage() {
   const [returnTarget,setReturnTarget] = useState<SupplierReturnTarget|null>(null)
   const visible = useMemo(()=>accessories.filter((item)=>{
     const health = prototypeStockHealth('ACCESSORY', item.physical, item.unit, item.id)
-    return browseMatch(query,item.name,item.category,item.supplier,item.id) && (category==='Semua'||item.category===category) && (status==='Semua'||getStockHealthLabel(health)===status)
+    return browseMatch(query,item.name,item.category,item.supplier,item.id,`${formatNumber(item.physical)} ${item.unit}`) && (category==='Semua'||item.category===category) && (status==='Semua'||getStockHealthLabel(health)===status)
   }),[query,category,status])
   const selected = accessories.find((item)=>item.id===selectedId) ?? accessories[0]
   const available = selected.physical
@@ -345,7 +347,8 @@ function FinishedGoodsSummaryPage() {
   const [location,setLocation] = useState('Semua')
   const [sizeFilter,setSizeFilter]=useState<string[]>([])
   const [selectedKey,setSelectedKey] = useState(new URLSearchParams(window.location.search).get('sku')??`${products[0].brand}::${products[0].code}`)
-  const scoped = useMemo(()=>products.filter((item)=>browseMatch(query,item.brand,item.code,item.name,item.color,item.range,...item.sizes) && (!sizeFilter.length||item.sizes.some(s=>sizeFilter.includes(s))) && (grade==='Semua'||item.grade===grade) && (location==='Semua'||item.location===location)),[products,query,grade,location,sizeFilter])
+  const scoped = useMemo(()=>products.filter(item=>browseMatchPieces(query,[piecesIn(item, sizeFilter)],item.brand,item.code,item.name,item.color,item.range,...item.sizes)
+    && (!sizeFilter.length||item.sizes.some(s=>sizeFilter.includes(s))) && (grade==='Semua'||item.grade===grade) && (location==='Semua'||item.location===location)),[products,query,grade,location,sizeFilter])
   const visible=scoped.filter(p=>brand==='Semua'||p.brand===brand)
   const filteredTotals=fgTotals(visible,sizeFilter)
   const filtered=!!query.trim()||brand!=='Semua'||grade!=='Semua'||location!=='Semua'||sizeFilter.length>0

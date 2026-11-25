@@ -1,5 +1,6 @@
 import BrandConversionForm from './demo/BrandConversionForm'
 import {fgQuantity} from './fgQuantity'
+import {browseMatchPieces} from './browseMatch'
 import { ReasonDialog } from './demo/planner/ReasonDialog'
 import { SkuRangePage } from './demo/SkuRangePage'
 import { useState } from 'react'
@@ -112,8 +113,10 @@ export function StockAdjustmentPage() {
   const [notice, setNotice] = useState('')
 
   const visibleCases = cases.filter((item) => {
-    const haystack = `${item.id} ${item.scope} ${item.item} ${item.reason} ${item.source} ${item.actor}`.toLowerCase()
-    return haystack.includes(query.toLowerCase()) && (scopeFilter === 'Semua' || item.scope === scopeFilter)
+    const quantities = [Math.abs(item.physicalQty - item.systemQty), item.systemQty, item.physicalQty]
+    return (scopeFilter === 'Semua' || item.scope === scopeFilter)
+      && browseMatchPieces(query, item.unit === 'pcs' ? quantities : [], item.id, item.scope, item.item, item.reason, item.source, item.actor,
+        ...(item.unit === 'pcs' ? [] : quantities.map(qty=>`${number(qty)} ${item.unit}`)))
   })
   const selectedCase = cases.find((item) => item.id === selectedId) ?? inventoryCases[0]
   const scopedItems = countItems.filter((item) => item.scope === scope)
@@ -229,7 +232,7 @@ export function BrandConversionPage() {
   const [statusFilter,setStatusFilter]=useState('Semua')
   const [selectedCaseId,setSelectedCaseId]=useState(conversionCases[0].id)
   const selectedCase = conversionCases.find((item) => item.id === selectedCaseId) ?? conversionCases[0]
-  const visibleCases = conversionCases.filter((item) => `${item.id} ${item.source} ${item.target} ${item.reason} ${item.actor}`.toLowerCase().includes(query.toLowerCase()) && (statusFilter === 'Semua' || item.status === statusFilter))
+  const visibleCases = conversionCases.filter(item => browseMatchPieces(query,[item.qty],item.id,item.source,item.target,item.reason,item.actor) && (statusFilter === 'Semua' || item.status === statusFilter))
   return <>
     <ControlHero type="brand"/>
     <BrandConversionForm/>

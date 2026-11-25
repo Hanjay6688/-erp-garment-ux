@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react'
-import { ArrowLeft, ArrowRight, ClipboardList, Plus } from 'lucide-react'
+import { ArrowLeft, ArrowRight, ClipboardList, Layers3, Plus } from 'lucide-react'
 import { amountText, fixtureDate } from './accessoryPricing'
 import { browseMatch } from '../browseMatch'
 import { ReasonDialog } from './planner/ReasonDialog'
@@ -9,6 +9,7 @@ import {
   type PocketReceipt, type ReceiptDraft,
 } from './pocketReceipts'
 import { readPocketNumber } from './pocketUsage'
+import { pocketMasterPath, pocketMaterialLabel, readPocketMaterials } from './pocketMaterials'
 import { lastWarehouseDay } from './warehouseDay'
 import './warehouseForms.css'
 import './pocketFabric.css'
@@ -27,7 +28,12 @@ const rateText = (value: number, unit: string) => amountText(value) + '/' + unit
 
 export default function PocketReceiptForm() {
   const [saved, setSaved] = useState(() => sessionStorage.getItem(draftKey) !== null)
-  const [draft, setDraft] = useState<ReceiptDraft>(() => JSON.parse(sessionStorage.getItem(draftKey) ?? 'null') ?? fresh())
+  const [materials] = useState(readPocketMaterials)
+  const [draft, setDraft] = useState<ReceiptDraft>(() => {
+    const savedDraft: ReceiptDraft = JSON.parse(sessionStorage.getItem(draftKey) ?? 'null') ?? fresh()
+    const chosen = materials.find(item=>item.id===new URLSearchParams(location.search).get('bahan'))
+    return chosen ? { ...savedDraft, material: chosen.id, supplier: savedDraft.supplier || chosen.supplier } : savedDraft
+  })
   const [rollCountInput, setRollCountInput] = useState<string | null>(null)
   const [rollCountError, setRollCountError] = useState('')
   const [rows, setRows] = useState(readReceipts)
@@ -102,6 +108,8 @@ export default function PocketReceiptForm() {
   }
 
   const complete = draft.rolls.map(r => readPocketNumber(r.qty)).filter(length => length > 0)
+  const chosenMaterial = materials.find(item=>item.id===draft.material)
+  const suppliers = [...new Set(['Sinaran','Malibu','Mitra Tekstil', ...materials.map(item=>item.supplier), draft.supplier].filter(Boolean))]
   const benchmark = pocketBenchmark(draft)
   const rate = draft.rate.trim() ? readPocketNumber(draft.rate) : benchmark
   const pricingKnown = rate !== null && Number.isFinite(rate)
@@ -127,17 +135,24 @@ export default function PocketReceiptForm() {
           <label>Tanggal barang datang<input type="date" required max={lastWarehouseDay()} value={draft.day} onChange={e => patch({ day: e.target.value })}/></label>
           <label>Supplier penerimaan<select required value={draft.supplier} onChange={e => patch({ supplier: e.target.value })}>
             <option value="">Pilih supplier</option>
-            {['Sinaran','Malibu','Mitra Tekstil'].map(name => <option key={name}>{name}</option>)}
+            {suppliers.map(name => <option key={name}>{name}</option>)}
           </select></label>
           <label>Gudang penerimaan<select value={draft.location} onChange={e => patch({ location: e.target.value })}>
             {['Gudang Bahan','Gudang Bahan Cadangan'].map(name => <option key={name}>{name}</option>)}
           </select></label>
-          <label>Nama kain kantong<select required value={draft.material} onChange={e => patch({ material: e.target.value })}>
-            <option value="">Pilih kain</option><option>Kain kantong putih</option><option>Kain kantong hitam</option>
+          <label>Nama kain kantong<select required value={draft.material} onChange={event => {
+            const item = materials.find(material=>material.id===event.target.value)
+            patch({ material: event.target.value, supplier: draft.supplier || item?.supplier || '' })
+          }}>
+            <option value="">Pilih kain</option>{materials.map(item=><option key={item.id} value={item.id}>{pocketMaterialLabel(item)}</option>)}
           </select></label>
           <label>Satuan surat jalan<select value={draft.unit} onChange={e => patch({ unit: e.target.value as ReceiptDraft['unit'], rate: '' })}>
             <option value="yd">Yard (yd)</option><option value="m">Meter (m)</option>
           </select></label>
+        </div>
+        <div className="pocket-receipt-master">
+          {chosenMaterial && <span>Pabrik asal <strong>{chosenMaterial.factory || 'Belum tercatat'}</strong></span>}
+          <a href={pocketMasterPath} onClick={()=>sessionStorage.setItem(draftKey,JSON.stringify(draft))}><Layers3 size={15} aria-hidden="true"/>Master kain kantong</a>
         </div>
       </section>
 
@@ -217,7 +232,7 @@ export default function PocketReceiptForm() {
 
     {preview && <ReasonDialog title={'Terima ' + preview.number} closeLabel="Kembali" onClose={() => { setPreview(null); setError('') }}>
       <div className="pocket-dialog-form">
-        <p><strong>{preview.supplier} · {preview.rolls[0].location}</strong><br/>{preview.rolls[0].name} · {preview.day} · {rateText(preview.rolls[0].rate, preview.rolls[0].unit)}</p>
+        <p><strong>{preview.supplier} · {preview.rolls[0].location}</strong><br/>{[preview.rolls[0].name, preview.rolls[0].factory, preview.day, rateText(preview.rolls[0].rate, preview.rolls[0].unit)].filter(Boolean).join(' · ')}</p>
         <div className="pocket-review">
           {preview.rolls.map(r => <div className="wh-register-row" key={r.id}>
             <span><strong className="pocket-quantity">{fmt(r.length)} {r.unit} masuk</strong><small className="record-code">{pocketRollLabel(r)}</small></span><strong>{amountText(Math.round(r.length * r.rate * 100) / 100)}</strong>

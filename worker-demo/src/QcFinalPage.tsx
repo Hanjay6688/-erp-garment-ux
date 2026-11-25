@@ -1,4 +1,5 @@
 import {fgQuantity} from './fgQuantity'
+import { browseMatchPieces } from './browseMatch'
 import { useMemo, useState } from 'react'
 import { ArrowLeft, ArrowRight, CheckCircle2, ClipboardCheck, Clock3, Filter, Info, Layers3, LockKeyhole, PackageCheck, Search, Shirt, UserRound, Waves } from 'lucide-react'
 import './finalization-flow.css'
@@ -77,8 +78,9 @@ export default function QcFinalPage({seeds,initialSeedId,finalizedResults,posted
   },[seeds])
   const visible=useMemo(()=>seeds.filter((seed)=>{
     const patternLabel=seed.pattern?`${seed.pattern.code} ${seed.pattern.revision} ${seed.pattern.name}`:'Pola belum tercatat'
-    const haystack=`${seed.parentId} ${seed.batchId} ${seed.model} ${seed.material} ${seed.mandor} ${seed.laundry} ${patternLabel}`.toLowerCase()
-    return haystack.includes(query.toLowerCase())&&(mandorFilter==='Semua mandor'||seed.mandor===mandorFilter)&&(laundryFilter==='Semua laundry'||seed.laundry===laundryFilter)&&(!patternFilter||seed.pattern?.id===patternFilter)
+    const quantities = [total(seed.expected), total(seed.returnedGoodBySize) + total(seed.returnedBsBySize), total(seed.stuckBySize)]
+    return browseMatchPieces(query, quantities, seed.parentId, seed.batchId, seed.model, seed.material, seed.mandor, seed.laundry, seed.plannedBrand, patternLabel)
+      && (mandorFilter==='Semua mandor'||seed.mandor===mandorFilter) && (laundryFilter==='Semua laundry'||seed.laundry===laundryFilter) && (!patternFilter||seed.pattern?.id===patternFilter)
   }),[seeds,query,mandorFilter,laundryFilter,patternFilter])
   const selected=visible.find((seed)=>keyOf(seed)===selectedId)??visible[0]
   const finalizedById=useMemo(()=>{
@@ -104,7 +106,7 @@ export default function QcFinalPage({seeds,initialSeedId,finalizedResults,posted
     <section className="qc-browser-shell">
       <aside className="panel qc-browser">
         <header><div><span>BROWSE ANTREAN QC</span><strong>{visible.length} Batch Distribusi</strong></div><Filter/></header>
-        <label className="qc-browser-search"><Search/><input value={query} onChange={(event)=>setQuery(event.target.value)} placeholder="Cari produksi, model, Pola, Mandor, bahan..."/></label>
+        <label className="qc-browser-search"><Search/><input type="search" aria-label="Cari antrean QC" value={query} onChange={(event)=>setQuery(event.target.value)} placeholder="Cari batch, model, atau jumlah potong…"/></label>
         <div className="qc-browser-filters">
           <label><span>MANDOR</span><select value={mandorFilter} onChange={(event)=>setMandorFilter(event.target.value)}><option>Semua mandor</option>{mandors.map((mandor)=><option key={mandor}>{mandor}</option>)}</select></label>
           <label><span>LAUNDRY</span><select value={laundryFilter} onChange={(event)=>setLaundryFilter(event.target.value)}><option>Semua laundry</option>{laundries.map((laundry)=><option key={laundry}>{laundry}</option>)}</select></label>

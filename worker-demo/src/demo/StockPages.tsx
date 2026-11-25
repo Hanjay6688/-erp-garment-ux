@@ -1,4 +1,5 @@
 import RecordTable from '../RecordTable'
+import { browseMatchPieces } from '../browseMatch'
 import { Icon } from '../components/AppIcon'
 import { productCatalog } from '../productCatalog'
 import { MultiCheckFilter } from './controls'
@@ -26,7 +27,7 @@ export function StockCard() {
   const [selectedLocations, setSelectedLocations] = useState([...stockLocations])
   const [selectedGrades, setSelectedGrades] = useState([...stockGrades])
   const visibleSkus = useMemo(() => productCatalog.filter((product) => {
-    const matchesQuery = `${product.brand} ${product.code} ${product.range} ${product.name} ${product.color}`.toLowerCase().includes(skuQuery.toLowerCase())
+    const matchesQuery = browseMatchPieces(skuQuery, [product.stocks.reduce((sum,qty)=>sum+qty,0)], product.brand, product.code, product.range, product.name, product.color)
     const matchesSize = product.sizes.some((size) => selectedSizes.includes(size))
     return matchesQuery && selectedBrands.includes(product.brand) && matchesSize && selectedLocations.includes(product.location) && selectedGrades.includes(product.grade)
   }), [skuQuery, selectedBrands, selectedSizes, selectedLocations, selectedGrades])
@@ -167,7 +168,13 @@ export function Movements({ bookName, bookBrands, setBookBrands, movements, setM
   const runningByProduct = new Map<string, QtyTuple>()
   finalByProduct.forEach((final,key)=>{ const delta=totalDeltaByProduct.get(key)??final.map(() => 0); runningByProduct.set(key,final.map((qty,index)=>qty-delta[index]) as QtyTuple) })
   const bookRows = movements.map((movement)=>{ const key=movementProductKey(movement); const before=[...(runningByProduct.get(key)??movement.delta.map(() => 0))] as QtyTuple; const after=before.map((qty,index)=>qty+movement.delta[index]) as QtyTuple; runningByProduct.set(key,after); return {...movement,before,after} })
-  const visibleRows = bookRows.filter((movement)=>{ const customer=movement.customer??'Tanpa toko'; const product=productCatalog.find((item)=>productKey(item)===movementProductKey(movement)); const matchesQuery=`${movement.brand} ${movement.sku} ${product?.name??''} ${product?.color??''} ${movement.ref} ${movement.note} ${customer}`.toLowerCase().includes(movementQuery.toLowerCase()); return bookBrands.includes(movement.brand)&&matchesQuery&&selectedCustomers.includes(customer)&&selectedTypes.includes(movement.type) })
+  const visibleRows = bookRows.filter(movement=>{
+    const customer = movement.customer??'Tanpa toko'
+    const product = productCatalog.find(item=>productKey(item)===movementProductKey(movement))
+    const quantities = [Math.abs(movement.delta.reduce((sum,qty)=>sum+qty,0)),movement.before.reduce((sum,qty)=>sum+qty,0),movement.after.reduce((sum,qty)=>sum+qty,0)]
+    return bookBrands.includes(movement.brand) && selectedCustomers.includes(customer) && selectedTypes.includes(movement.type)
+      && browseMatchPieces(movementQuery,quantities,movement.brand,movement.sku,product?.name,product?.color,movement.ref,movement.note,customer)
+  })
   const visibleIds=visibleRows.map((movement)=>movement.id)
 
   return <>

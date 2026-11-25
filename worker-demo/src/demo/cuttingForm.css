@@ -1,0 +1,165 @@
+.cutting-panel-head.cutting-form-heading { background: var(--panel-2); }
+.cutting-form-heading > div { display: flex; align-items: flex-start; gap: 12px; }
+.cutting-form-heading i, .cutting-pattern-picker.cutting-pattern-workbench > header > i {
+  display: grid;
+  place-items: center;
+  width: 41px;
+  height: 41px;
+  flex: none;
+  border: 1px solid var(--line-strong);
+  border-radius: 11px;
+  background: var(--accent-bg);
+  color: var(--blue);
+}
+.cutting-form-heading i svg, .cutting-pattern-workbench > header i svg { width: 20px; height: 20px; }
+.cutting-form-heading > div > div > span { color: var(--blue); font-size: 12px; font-weight: 700; letter-spacing: .07em; }
+.cutting-form-heading h2 { font-weight: 700; }
+.cutting-form-details {
+  display: grid;
+  gap: 14px;
+  padding: clamp(12px, 2vw, 20px);
+  border-bottom: 1px solid var(--line-strong);
+  background: color-mix(in srgb, var(--panel), var(--bg) 22%);
+}
+.cutting-form-groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 14px;
+}
+.cutting-form-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  border-radius: 13px;
+  background: var(--panel-2);
+}
+.cutting-form-card header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  min-height: 49px;
+  padding: 9px 13px;
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--panel-2), var(--panel-3) 70%);
+}
+.cutting-form-card h3, .cutting-form-location { display: flex; align-items: center; gap: 7px; }
+.cutting-form-card h3 { margin: 0; font-size: 15px; font-weight: 700; }
+.cutting-form-card header svg { width: 16px; height: 16px; flex: none; color: var(--blue); }
+.cutting-form-location {
+  padding: 4px 8px;
+  border: 1px solid var(--line-strong);
+  border-radius: 7px;
+  background: var(--panel);
+  color: var(--soft);
+  font-size: 12px;
+  font-weight: 600;
+}
+.cutting-form-location svg { width: 14px; height: 14px; }
+.cutting-form-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, max(136px, 40%)), 1fr));
+  gap: 11px;
+  padding: 12px 13px 14px;
+}
+.cutting-form-details .field { min-width: 0; gap: 5px; }
+.cutting-form-details .field > span { color: var(--soft); font-size: 13px; font-weight: 600; letter-spacing: normal; }
+.cutting-form-details .field > .erp-input {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  height: 44px;
+  margin: 0;
+  border: 1px solid var(--control-border);
+  border-radius: 9px;
+  background: var(--panel);
+  color: var(--text);
+  color-scheme: inherit;
+  font-size: 14px;
+}
+.cutting-form-note, .cutting-form-sku-context { grid-column: 1 / -1; }
+.cutting-form-sku-context {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 3px 8px;
+  padding: 7px 9px;
+  border-radius: 7px;
+  background: var(--panel);
+  color: var(--soft);
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+.cutting-form-sku-context strong { color: var(--text); }
+.cutting-pattern-picker.cutting-pattern-workbench {
+  grid-column: 1 / -1;
+  gap: 10px;
+  padding: 12px 14px;
+  border-color: color-mix(in srgb, var(--line-strong), var(--blue) 28%);
+  border-radius: 13px;
+  background: color-mix(in srgb, var(--panel-2), var(--accent-bg) 42%);
+}
+.cutting-pattern-picker.cutting-pattern-workbench > header { justify-content: flex-start; align-items: center; gap: 10px; }
+.cutting-pattern-workbench > header > div { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.cutting-pattern-workbench.cutting-pattern-picker > header span { color: var(--blue); font-size: 12px; }
+.cutting-pattern-workbench.cutting-pattern-picker > header strong { margin-top: 1px; color: var(--text); font-size: 16px; }
+.cutting-pattern-workbench.cutting-pattern-picker > header small { margin-top: 1px; color: var(--soft); font-size: 13px; }
+.cutting-pattern-workbench.cutting-pattern-picker > header button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: auto;
+  height: auto;
+  min-height: 44px;
+  padding: 6px 9px;
+  border: 1px solid var(--control-border);
+  background: var(--panel);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+}
+.cutting-pattern-workbench.cutting-pattern-picker > label { height: 44px; border-color: var(--control-border); }
+.cutting-pattern-workbench.cutting-pattern-picker > label:focus-within { outline: 2px solid var(--focus); outline-offset: 2px; }
+.cutting-pattern-workbench.cutting-pattern-picker > label input { color: var(--text); font-size: 14px; }
+.cutting-pattern-workbench.cutting-pattern-picker > label input:focus-visible { outline: 0; }
+.cutting-pattern-workbench .cutting-pattern-results {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, max(120px, 28%)), 1fr));
+  gap: 7px;
+  max-height: none;
+  overflow: visible;
+}
+.cutting-pattern-workbench .cutting-pattern-results > button {
+  min-width: 0;
+  min-height: 49px;
+  padding: 7px 9px;
+  border-color: var(--line-strong);
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+.cutting-pattern-workbench .cutting-pattern-results > button:nth-child(even) { background: var(--panel-2); }
+.cutting-pattern-workbench .cutting-pattern-results > button:is(:hover, :focus-visible) { background: var(--accent-bg); border-color: var(--control-border); }
+.cutting-pattern-workbench .cutting-pattern-results strong { font-size: 13px; }
+.cutting-pattern-workbench .cutting-pattern-results small { color: var(--soft); font-size: 12px; }
+.cutting-pattern-workbench .cutting-pattern-results > span { grid-column: 1 / -1; text-align: left; }
+.cutting-pattern-workbench .cutting-pattern-add {
+  justify-self: start;
+  min-height: 44px;
+  padding-inline: 11px;
+  border-style: solid;
+  border-color: var(--line-strong);
+}
+.cutting-pattern-workbench .cutting-pattern-quick input { min-height: 44px; }
+.cutting-pattern-workbench .cutting-pattern-quick button { min-height: 44px; }
+.cutting-pattern-workbench.cutting-pattern-picker > footer { color: var(--muted); }
+.cutting-pattern-workbench.cutting-pattern-picker > footer::first-line { color: inherit; font-weight: 600; }
+@media (max-width: 700px) {
+  .cutting-form-details .field > .erp-input,
+  .cutting-pattern-workbench.cutting-pattern-picker > label input,
+  .cutting-pattern-workbench .cutting-pattern-quick input { font-size: 16px; }
+}
+@media (max-width: 420px) {
+  .cutting-form-heading { gap: 8px; }
+  .cutting-form-heading > div { gap: 8px; }
+  .cutting-form-heading i, .cutting-pattern-picker.cutting-pattern-workbench > header > i { width: 33px; height: 33px; }
+}

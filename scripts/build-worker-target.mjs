@@ -12,6 +12,7 @@ if (demo) {
   await build({ root: project, envDir: root, configFile: resolve(root, 'vite.config.ts'), build: { outDir: resolve(root,'dist'), emptyOutDir: true } })
   // Each published entry also opens on a direct link or browser refresh.
   const routes = ['migrasi','cp7-preview','produksi/buat-potongan','produksi/bagi-potongan','produksi/jahit','produksi/laundry','produksi/qc','produksi/susun-nota-fg','keuangan/payroll-kasbon','keuangan/nota-ambil-mandor','master/aksesori','master/supplier-vendor','gudang/pembelian-penerimaan','gudang/kain-kantong','gudang/barang-jadi','gudang/kartu-stok-fg','penjualan/semua-invoice','penjualan/riwayat','penjualan/invoice','gudang/ganti-merek','gudang/stock-adjustment','master/produk-sku', ...['planner','stock','cutting','report','reminders','ai','whatsapp','methods'].map(page => 'analisis/' + page)]
+  routes.push('master/kain-benchmark')
   for (const route of routes) {
     const directory = resolve(root, 'dist', route)
     await mkdir(directory, { recursive: true })

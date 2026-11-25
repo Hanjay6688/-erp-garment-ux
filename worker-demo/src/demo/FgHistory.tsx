@@ -1,4 +1,4 @@
-import {browseMatch} from '../browseMatch'
+import {browseMatchPieces} from '../browseMatch'
 import {useState} from 'react'
 import {fgQuantity} from '../fgQuantity'
 import type {Product} from '../productCatalog'
@@ -35,7 +35,10 @@ function movementWhen(row:Row){
 function recordedWhen(value:string){return new Intl.DateTimeFormat('id-ID',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit',hourCycle:'h23',timeZone:'Asia/Jakarta'}).format(new Date(value))+' WIB'}
 export function FgHistory({product,session}:{product:Product;session:Session}){
   const rows=historyRows(product,session),[q,setQ]=useState(''),[sort,setSort]=useState('new'),[period,setPeriod]=useState(()=>periodFor('all',rows[0]?.day||'2026-11-24')),[detail,setDetail]=useState<Row|null>(null)
-  const visible=rows.filter(r=>(r.day||(!period.start&&!period.end))&&matchesPeriod(r.day,period)&&browseMatch(q,r.ref,r.type,r.note,r.day,movementWhen(r)))
+  const visible=rows.filter(r=>{
+    const quantities = [r.delta.reduce((n,d)=>n+Math.max(d,0),0),r.delta.reduce((n,d)=>n+Math.max(-d,0),0),r.balance.reduce((n,x)=>n+x,0)]
+    return (r.day||(!period.start&&!period.end))&&matchesPeriod(r.day,period)&&browseMatchPieces(q,quantities,r.ref,r.type,r.note,r.day,movementWhen(r))
+  })
   if(sort==='old')visible.reverse()
   return <section className="fg-history"><h3>Riwayat stok · {product.brand} {product.code}</h3><div className="wh-fields"><label>Cari dokumen atau transaksi<input value={q} onChange={e=>setQ(e.target.value)}/></label><label>Urutan riwayat<select value={sort} onChange={e=>setSort(e.target.value)}><option value="new">Terbaru dulu</option><option value="old">Terlama dulu</option></select></label></div>
   <PeriodFilter label="Periode mutasi" value={period} onChange={setPeriod}/>

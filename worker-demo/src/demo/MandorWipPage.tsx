@@ -1,4 +1,4 @@
-import {browseMatch} from '../browseMatch'
+import {browseMatchPieces} from '../browseMatch'
 import { distribution, pickupsIn, total } from './planner/distribution'
 import RecordTable from '../RecordTable'
 import { AdviceBox, DestinationChoice } from './planner/ProductionAdvice'
@@ -237,10 +237,9 @@ function PickupWorkbench({batchNotes:oldNotes,setBatchNotes:setOldNotes,active,s
       rolls:cutRolls(l).map((r,i)=>({...r,sequence:i+1,batchNumbers:activeBatches.filter(b=>!b.sources.length||b.sources.some(s=>s.rollId===r.id)).map(b=>b.no)})),
     }
   }) : archiveItems
-  const normalizedQueueQuery=queueQuery.trim().toLowerCase()
   const visibleQueueItems=queueItems.filter((item)=>{
     const statusMatch=queueFilter==='ALL'||(queueFilter==='PICKED'?item.status==='PICKED':item.status!=='PICKED')
-    const queryMatch=browseMatch(normalizedQueueQuery,item.id,item.originId,item.returnedBatch&&'Batch '+item.returnedBatch,item.model,item.material,item.supplier,item.mandor,item.pattern?.code,item.pattern?.revision,item.pattern?.name,...item.sizes,...item.rolls.flatMap(r=>[r.id,...r.batchNumbers]))
+    const queryMatch=browseMatchPieces(queueQuery,[pickupItemTotal(item)],item.id,item.originId,item.returnedBatch&&'Batch '+item.returnedBatch,item.model,item.material,item.supplier,item.mandor,item.pattern?.code,item.pattern?.revision,item.pattern?.name,...item.sizes,...item.rolls.flatMap(r=>[r.id,...r.batchNumbers]))
     const patternMatch=!queuePatternId||item.pattern?.id===queuePatternId
     return statusMatch&&patternMatch&&queryMatch
   })
@@ -391,7 +390,7 @@ function PickupWorkbench({batchNotes:oldNotes,setBatchNotes:setOldNotes,active,s
       <aside className="panel wip-queue-panel">
         <div className="wip-queue-head"><div><span>WIP POTONGAN</span><h2>{queueFilter==='WAITING'?'Menunggu diambil':queueFilter==='PICKED'?'Sudah diambil':'Semua potongan'}</h2></div><span className="selection-pill">{visibleQueueItems.length} tampil</span></div>
         <div className="wip-queue-tabs" role="group" aria-label="Filter status pickup">{(['WAITING','PICKED','ALL'] as const).map((filter)=><button type="button" className={queueFilter===filter?'active':''} aria-pressed={queueFilter===filter} key={filter} onClick={()=>setQueueFilter(filter)}>{filter==='WAITING'?'Menunggu':filter==='PICKED'?'Sudah diambil':'Semua'}</button>)}</div>
-        <label className="wip-search"><Icon name="search"/><input value={queueQuery} onChange={(event)=>setQueueQuery(event.target.value)} placeholder="Cari kode, Pola, bahan, model, mandor..."/></label>
+        <label className="wip-search"><Icon name="search"/><input type="search" aria-label="Cari WIP potongan" value={queueQuery} onChange={(event)=>setQueueQuery(event.target.value)} placeholder="Cari kode, Pola, bahan, model, mandor..."/></label>
         <label className="simulation-pattern-filter"><span>POLA</span><select aria-label="Filter Pola Bagi Potongan" value={queuePatternId} onChange={(event)=>setQueuePatternId(event.target.value)}><option value="">Semua Pola</option>{(active?Array.from(new Map([...patterns,...Object.values(simulationPatternSnapshots)].map(p=>[p.id,p])).values()):Object.values(simulationPatternSnapshots)).map((item)=><option value={item.id} key={item.id}>{item.code} · {item.revision} · {item.name}</option>)}</select><small>DATA SIMULASI</small></label>
         <div className="wip-queue-list">{visibleQueueItems.map((item)=>{const itemTotal=pickupItemTotal(item);const usedYards=pickupItemUsedYards(item);return <article className={`wip-queue-card ${item.id===selectedQueueItem.id?'selected':''} ${item.status.toLowerCase()}`} key={item.id}>
           <div className="wip-queue-card-main">

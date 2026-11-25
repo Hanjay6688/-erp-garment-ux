@@ -18,14 +18,23 @@ function initial(s:Session,source=allSkus(s,true)[0]?.key??skuCatalog[0].key):Mo
   return {source,target,sizeMap:matchingSizes(source,target),location:nativePosition(skuByKey(source)!).location,grade:'Good',date:fixtureDate,values:{},reason:'',notes:''}
 }
 export function SkuPairField({sku}:{sku:string}){
-  const s=usePlannerSession(),a=skuByKey(sku),current=pairOf(s,sku)??''
+  const s=usePlannerSession(),a=skuByKey(sku,s),current=pairOf(s,sku)??''
   const [value,setValue]=useState<string|null>(null),[msg,setMsg]=useState('')
   if(!a)return null
   const selected=value??current,other=pairOf(s,selected)
-  return <section className="wh-pair" aria-label="Padanan SKU"><header><ArrowLeftRight size={18}/><h3>Padanan beda merek</h3><small>Opsional</small></header>
-    <label>Barang sama di merek lain<select aria-label="SKU padanan beda merek" value={selected} onChange={e=>{setValue(e.target.value);setMsg('')}}><option value="">Tanpa padanan</option>{allSkus(s,true).filter(b=>b.brand!==a.brand).map(b=><option key={b.key} value={b.key}>{b.key} · {b.model} · {rangeLabel(b.sizes)}</option>)}</select></label>
-    <div className="wh-pair-foot"><span>{selected?a.key+' ↔ '+selected:'Pilih padanan untuk memberi saran di Ganti Merek.'}{other&&other!==sku?' · Menggantikan padanan '+other:''}</span>
-    <button type="button" className="soft-btn" disabled={selected===current} onClick={()=>{try{changeSession(v=>pairSku(v,sku,selected||null));setValue(null);setMsg(selected?'Padanan dua arah tersimpan.':'Padanan dua arah dikosongkan.')}catch(e){setMsg((e as Error).message)}}}>Simpan padanan</button></div>{msg&&<p role="status">{msg}</p>}</section>
+  return <section className="wh-pair sku-pair-panel" id="padanan" aria-label="Padanan SKU">
+    <header><i><ArrowLeftRight size={19} aria-hidden="true"/></i><div><h3>Padanan beda merek</h3><p>Padanan tersimpan dipakai sebagai saran di Ganti Merek.</p></div></header>
+    <div className="sku-pair-fields">
+      <div className="sku-pair-origin"><span>SKU asal</span><strong>{a.key}</strong><small>{a.model} · {rangeLabel(a.sizes)}</small></div>
+      <label>Padanan di merek lain<select aria-label="SKU padanan beda merek" value={selected} onChange={e=>{setValue(e.target.value);setMsg('')}}>
+        <option value="">Tanpa padanan</option>{allSkus(s,true).filter(b=>b.brand!==a.brand).map(b=><option key={b.key} value={b.key}>{b.key} · {b.model} · {rangeLabel(b.sizes)}</option>)}
+      </select></label>
+    </div>
+    <div className="wh-pair-foot"><span>{current ? `Tersimpan ${a.key} ↔ ${current}` : 'Belum ada padanan'}
+      {selected!==current && other && other!==sku && <small>Akan menggantikan padanan {other}.</small>}</span>
+      <button type="button" className="soft-btn" disabled={selected===current} onClick={()=>{try{changeSession(v=>pairSku(v,sku,selected||null));setValue(null);setMsg(selected?'Padanan dua arah tersimpan.':'Padanan dua arah dikosongkan.')}catch(e){setMsg((e as Error).message)}}}>Simpan padanan</button>
+    </div>{msg&&<p role="status">{msg}</p>}
+  </section>
 }
 export default function BrandConversionForm(){
   const s=usePlannerSession()
