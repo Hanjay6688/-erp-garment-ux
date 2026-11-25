@@ -41,3 +41,80 @@
 @media(pointer:coarse) {
   .page-wrap :is(select,.row-fill-handle,[data-column-fill-slot]) {touch-action:pan-y}
 }
+
+/* Keep the card, its labels and its actions on a distinct surface. */
+.page-wrap :is(.wip-queue-list, .sewing-parent-list) {
+  --browse-first: color-mix(in srgb, var(--panel-2) 90%, var(--blue) 10%);
+  --browse-second: color-mix(in srgb, var(--panel-2) 84%, var(--text) 16%);
+}
+.page-wrap .wip-queue-list { gap: 8px; padding: 8px; }
+.page-wrap .wip-queue-list > article.wip-queue-card {
+  min-width: 0;
+  border: 1px solid color-mix(in srgb, var(--line-strong), var(--blue) 22%);
+  border-radius: 12px;
+  cursor: default;
+}
+.page-wrap .wip-queue-list > article.wip-queue-card.selected { border-color: var(--blue); }
+.wip-queue-identity { display: flex; align-items: center; gap: 8px; min-width: 0; margin-top: 6px; }
+.wip-queue-identity > i {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--accent-bg);
+  color: var(--blue);
+}
+.wip-queue-identity svg { width: 16px; height: 16px; }
+.wip-queue-identity > div { min-width: 0; }
+.wip-queue-identity strong { display: block; font-size: .95rem; overflow-wrap: anywhere; }
+.wip-queue-identity small { display: block; margin-top: 2px; font-size: .78rem; }
+.page-wrap .wip-queue-card .wip-queue-status {
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 6px;
+  padding: 4px 6px;
+  color: var(--blue);
+  background: var(--accent-bg);
+  letter-spacing: .035em;
+}
+.wip-queue-status svg { width: 13px; height: 13px; }
+.page-wrap .wip-queue-card.picked .wip-queue-status { background: var(--success-bg); color: var(--green); }
+.page-wrap .wip-queue-card.review .wip-queue-status { background: var(--warning-bg); color: var(--amber); }
+.page-wrap .wip-queue-card .wip-queue-card-numbers .piece-total { font-size: 1.14rem; }
+.page-wrap .wip-queue-card footer { gap: 6px; flex-wrap: wrap; }
+.page-wrap .sewing-parent-list { gap: 16px; }
+.page-wrap .sewing-parent-list > article.sewing-parent-card {
+  border: 1px solid color-mix(in srgb, var(--line-strong), var(--blue) 28%);
+}
+.page-wrap .sewing-parent-card > .sewing-parent-head {
+  background: transparent;
+  border-bottom-color: var(--line-strong);
+}
+.page-wrap .sewing-parent-card .sewing-parent-total .piece-total { font-size: 1.25rem; }
+.page-wrap .sewing-child-grid > section.sewing-batch-card {
+  --batch-tone: var(--blue);
+  border: 1px solid color-mix(in srgb, var(--line-strong), var(--batch-tone) 26%);
+  border-inline-start: 3px solid var(--batch-tone);
+  background: color-mix(in srgb, var(--panel) 93%, var(--batch-tone) 7%);
+}
+.page-wrap .sewing-child-grid > .sewing-batch-card.ready,
+.page-wrap .sewing-child-grid > .sewing-batch-card.laundry-returned { --batch-tone: var(--green); }
+.page-wrap .sewing-child-grid > .sewing-batch-card.laundry-draft { --batch-tone: var(--amber); }
+.page-wrap .sewing-child-grid > .sewing-batch-card.laundry-in-transit { --batch-tone: var(--cyan); }
+.page-wrap .sewing-child-grid > .sewing-batch-card.sewing-closed { --batch-tone: var(--muted); }
+.page-wrap .sewing-child-grid .sewing-batch-head {
+  background: color-mix(in srgb, var(--panel) 87%, var(--batch-tone) 13%);
+  border-bottom-color: var(--line-strong);
+}
+.page-wrap .sewing-child-grid .sewing-batch-head em {
+  background: var(--panel);
+  border: 1px solid color-mix(in srgb, var(--line-strong), var(--batch-tone) 28%);
+  color: var(--batch-tone);
+}
+.page-wrap .sewing-batch-head .piece-total { font-size: 1.16rem; }
+.page-wrap .sewing-parent-card .sewing-parent-progress span,
+.page-wrap .sewing-batch-card .sewing-batch-progress span { background: var(--batch-tone, var(--blue)); }

@@ -1,11 +1,13 @@
 import LaundryRecipeMaster from './demo/LaundryRecipeMaster'
+import { laundryRecipePath } from './demo/laundryRecipes'
+import { laundryVendorNames } from './demo/sewingModel'
 import {changeSession} from './demo/planner/session'
 import {editSku,skuByKey} from './demo/skuCatalog'
 import { useMemo, useState } from 'react'
 import type { LucideIcon } from 'lucide-react'
 import {
   AlertTriangle, BadgeDollarSign, CalendarClock, Check, CheckCircle2,
-  Calculator, Coins, Database, History, Layers3, Link2, LockKeyhole,
+  Calculator, ChevronRight, Coins, Database, History, Layers3, Link2, LockKeyhole,
   MapPin, Package, Pencil, Plus, Search, ShieldCheck, Store, Tags, Trash2, Truck,
   UsersRound, Warehouse, X,
 } from 'lucide-react'
@@ -81,6 +83,14 @@ const partnerSeeds:MasterEntity[]=[
   {id:'sup-accessory',code:'SUP-ACC-003',name:'Mitra Aksesori',active:true,rowVersion:6,updatedAt:'27 Agu 2026',values:{partnerType:'Supplier Aksesori',city:'Jakarta',contact:'Ibu Diah',phone:'0817 4400 0912',terms:'30',defaultUom:'pcs'},dependencies:[{label:'OPEN AP',value:'Rp42,6 jt',tone:'warn'},{label:'GRNI UNMATCHED',value:'1 receipt',tone:'neutral'},{label:'UOM TERAKHIR',value:'gross',tone:'neutral'}],audit:seedAudit('Termin supplier dikonfirmasi ulang')},
   {id:'ven-laundry',code:'VEN-LDY-002',name:'Laundry Bersih Jaya',active:true,rowVersion:4,updatedAt:'26 Agu 2026',values:{partnerType:'Vendor Laundry',city:'Cimahi',contact:'Pak Rudi',phone:'0857 0190 0443',terms:'7',defaultUom:'pcs'},dependencies:[{label:'OPEN AP',value:'Rp12,9 jt',tone:'neutral'},{label:'WIP DI VENDOR',value:'412 pcs',tone:'warn'},{label:'KLAIM TERBUKA',value:'1 kasus',tone:'warn'}],audit:seedAudit('Kontak operasional laundry diperbarui')},
 ]
+
+for (const [index, name] of laundryVendorNames.entries()) {
+  if (!partnerSeeds.some(partner => partner.name === name)) partnerSeeds.push({
+    id: 'demo-laundry-' + index, code: 'VEN-LDY-' + String(index + 10).padStart(3, '0'), name, active: true,
+    rowVersion: 1, updatedAt: today, values: { partnerType: 'Vendor Laundry', defaultUom: 'pcs' }, dependencies: [],
+    audit: seedAudit('Vendor tersedia untuk surat kirim Laundry'),
+  })
+}
 
 const workforceSeeds:MasterEntity[]=[
   {id:'wrk-afat',code:'MDR-AFAT',name:'Mandor Afat',active:true,rowVersion:8,updatedAt:'28 Agu 2026',values:{role:'Mandor',special:'false',phone:'0812 7110 0288',bank:'BCA · 1090 44xx',attendance:'Wajib',teamSize:'18'},dependencies:[{label:'WIP AKTIF',value:'4 batch',tone:'warn'},{label:'PAYROLL READY',value:'Rp18,7 jt',tone:'neutral'},{label:'KASBON AKSESORI',value:'Rp2,1 jt',tone:'warn'}],audit:seedAudit('Rekening pembayaran diverifikasi Owner')},
@@ -268,6 +278,9 @@ function MasterWorkspace({config}:{config:MasterConfig}){
   const EntityIcon=config.icon
   return <>
     <MasterHero config={config}/>
+    {config.view === 'master-partners' && <a className="md-laundry-entry" href={laundryRecipePath}>
+      <i><Tags aria-hidden="true"/></i><span><strong>Jenis pewarnaan laundry</strong><small>Katalog per laundry dan default untuk SKU</small></span><ChevronRight aria-hidden="true"/>
+    </a>}
     <section className="md-metrics">{metrics.map((metric)=><article className={metric.tone??''} key={metric.label}><span>{metric.label}</span><strong>{metric.value}</strong><small>{metric.note}</small></article>)}</section>
     <section className="panel md-workspace"><aside>
       <header><div><span>{config.browserLabel}</span><strong>{visible.length} dari {entities.length}</strong></div><EntityIcon/></header>
@@ -278,6 +291,9 @@ function MasterWorkspace({config}:{config:MasterConfig}){
     </aside><main>
       <header className="md-detail-head"><div><span>IDENTITAS MASTER</span><h2>{isProduct?productIdentity(selected):selected.name}</h2><p>{isProduct?`${selected.name} · `:`${selected.code} · `}terakhir diperbarui {selected.updatedAt}</p></div><div><MasterState active={selected.active}/><small>row-version {selected.rowVersion}</small></div></header>
       <div className="md-facts">{config.fields.map((field,index)=>{const icons=[Tags,Layers3,BadgeDollarSign,CalendarClock,Database,MapPin];const FactIcon=icons[index%icons.length];return <article className={field.type==='sizes'?'wide':field.type==='boolean'?'boolean':''} key={field.key}><FactIcon/><span><small>{field.label.toUpperCase()}</small><strong>{formatFieldValue(field,selected.values[field.key]??'')}</strong></span></article>})}</div>
+      {config.view === 'master-partners' && laundryVendorNames.includes(selected.name) && <a className="md-laundry-entry colour-partner-link" href={laundryRecipePath + '&vendor=' + encodeURIComponent(selected.name)}>
+        <i><Tags aria-hidden="true"/></i><span><strong>Jenis pewarnaan {selected.name}</strong><small>Lihat katalog dan default SKU</small></span><ChevronRight aria-hidden="true"/>
+      </a>}
       {isProduct&&skuByKey(selected.values.brand+' '+selected.code)&&<section className="wh-pair"><header><Link2 size={18}/><h3>Padanan beda merek</h3></header><a className="soft-btn" href={'/master/produk-sku/?sku='+encodeURIComponent(selected.values.brand+' '+selected.code)+'#padanan'}>Atur padanan {selected.values.brand} {selected.code}</a></section>}
       {isProduct&&<ProductCostPanel entity={selected} categoryRates={categoryRates} onEditBom={()=>setBomOpen(true)} onEditCategories={()=>setCategoryOpen(true)}/>} 
       <section className="md-integrity"><ShieldCheck/><span><strong>{config.integrityTitle}</strong><small>{config.integrityCopy}</small></span></section>
@@ -294,5 +310,6 @@ function MasterWorkspace({config}:{config:MasterConfig}){
 }
 
 export default function MasterDataPages({view}:{view:BusinessMasterView}){
-  return <>{view === 'master-partners' && <LaundryRecipeMaster/>}<MasterWorkspace key={view} config={masterConfigs[view]}/></>
+  if (view === 'master-partners' && new URLSearchParams(location.search).get('bagian') === 'laundry') return <LaundryRecipeMaster/>
+  return <MasterWorkspace key={view} config={masterConfigs[view]}/>
 }

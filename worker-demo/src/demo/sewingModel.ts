@@ -40,4 +40,4 @@ export const sewingWipSeeds: SewingParentSeed[] = [
   ]},
 ]
 
-export const laundryVendorNames = ['Laundry Berkah', 'Laundry Intan', 'Cemerlang Wash']
+export const laundryVendorNames = ['Laundry Berkah', 'Laundry Intan', 'Cemerlang Wash', 'Laundry Bersih Jaya']

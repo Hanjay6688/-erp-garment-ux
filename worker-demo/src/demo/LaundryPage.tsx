@@ -4,7 +4,7 @@ import {usePlannerSession} from './planner/session'
 import { StageLots } from './planner/StageLots'
 import { Icon } from '../components/AppIcon'
 import { cellQuantity } from './cuttingAllocation'
-import { colourProcesses, instructionsFor, laundryRecipePath, readLaundryRecipes, type LaundryInstructions } from './laundryRecipes'
+import { instructionsFor, laundryRecipePath, readLaundryColourMaster, type LaundryInstructions } from './laundryRecipes'
 import './laundryRecipe.css'
 import { money } from './format'
 import {
@@ -30,6 +30,7 @@ import { useMemo, useState } from 'react'
 
 const trainingSendTime = '2026-08-27T16:00'
 const trainingReturnTime = '2026-08-27T17:30'
+type TicketOverrides = Partial<LaundryInstructions> & { typeId?: string }
 const defaultSendTime = (batch?: LaundryReadyBatch) => {
   const latest = [trainingSendTime, laundryPhysicalTime(batch?.pickupAt ?? ''), laundryPhysicalTime(batch?.sewingDoneAt ?? '')].sort().at(-1)!
   return validLaundryTime(latest) ? latest : trainingSendTime
@@ -63,10 +64,10 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
   const [selectedIds,setSelectedIds]=useState<string[]>(restore?readyBatches.filter(b=>saved.ids.includes(b.id)&&b.vendor===initialBatch.vendor&&b.parentId===initialBatch.parentId).map(b=>b.id):initialBatch?[initialBatch.id]:[])
   const [sendSizeInputs,setSendSizeInputs]=useState<Record<string,string[]>>(()=>Object.fromEntries(readyBatches.map((batch)=>[batch.id,restore&&Array.isArray(saved.quantities?.[batch.id])?saved.quantities[batch.id]:batch.sizes.map(String)])))
   const [skuRef, setSkuRef] = useState<string>(restore ? saved.skuRef ?? '' : initialBatch?.skuRef ?? '')
-  const [overrides, setOverrides] = useState<Partial<LaundryInstructions>>(() => restore
+  const [overrides, setOverrides] = useState<TicketOverrides>(() => restore
     ? saved.overrides ?? { service: saved.process, colour: saved.colour, colourProcess: saved.colourProcess }
     : { service: initialBatch?.process || undefined })
-  const [recipes] = useState(readLaundryRecipes)
+  const [colourMaster] = useState(readLaundryColourMaster)
   const sku = articles.find(a => a.key === skuRef)
   const [sentAt,setSentAt]=useState<string>(restore ? saved.sentAt ?? defaultSendTime(initialBatch) : defaultSendTime(initialBatch))
   const [sendNote,setSendNote]=useState<string>(restore?saved.note??'':'')
@@ -93,15 +94,20 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
   const selectedTotal=selectedBatches.reduce((sum,batch)=>sum+(sendSizeInputs[batch.id]??batch.sizes.map(String)).reduce((subtotal,value)=>subtotal+cellQuantity(value),0),0)
   const earliestSend = selectedBatches.map(batch => laundryPhysicalTime(batch.sewingDoneAt) || laundryPhysicalTime(batch.pickupAt)).sort().at(-1) ?? ''
   const sendTimeOk = validLaundryTime(sentAt) && sentAt >= earliestSend
-  const recipe = instructionsFor(recipes, deliveries, sku, selectedVendor, sentAt)
+  const recipe = instructionsFor(colourMaster, sku, selectedVendor, sentAt)
   const colour = overrides.colour ?? recipe.colour
-  const colourProcess = overrides.colourProcess ?? recipe.colourProcess
+  const catalog = colourMaster.types.filter(type => type.vendor === selectedVendor)
+  const legacyTypeName = overrides.typeId === undefined ? overrides.colourProcess : undefined
+  const legacyType = catalog.find(type => type.name === legacyTypeName)
+  const legacyChoice = 'legacy-colour-process'
+  const typeChoice = overrides.typeId ?? (legacyTypeName === undefined ? recipe.typeId : legacyType?.id ?? (legacyTypeName ? legacyChoice : ''))
+  const selectedType = catalog.find(type => type.id === typeChoice)
+  const colourProcess = selectedType?.name ?? (typeChoice === legacyChoice ? legacyTypeName ?? '' : '')
   const selectedProcess = overrides.service ?? recipe.service
   const colourAdjusted = (colour || colourProcess) && (colour !== recipe.colour || colourProcess !== recipe.colourProcess)
   const instructionSource = [recipe.source, colourAdjusted ? 'Diubah untuk surat ini' : ''].filter(Boolean).join(' · ')
   const rate = sendTimeOk ? laundryRateAt(selectedVendor, selectedProcess, sentAt.slice(0, 10)) : null
   const estimatedCost = rate === null ? null : selectedTotal * rate
-  const choices = [...new Set([...colourProcesses, recipe.colourProcess, colourProcess].filter(Boolean))]
   const changeInstruction = (field: keyof LaundryInstructions, value: string) => setOverrides(current => ({ ...current, [field]: value }))
   function changeSku(value: string) {
     setSkuRef(value)
@@ -123,7 +129,7 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
     if (show) setNotice('Draft surat kirim tersimpan.')
   }
   const masterLink = laundryRecipePath + '&' + new URLSearchParams({
-    vendor: selectedVendor, sku: skuRef, tanggal: sentAt.slice(0, 10),
+    vendor: selectedVendor, sku: skuRef, tanggal: sentAt.slice(0, 10), kembali: 'laundry',
   })
   const visibleDeliveries=scopedDeliveries.filter((delivery)=>vendorFilter==='Semua laundry'||delivery.vendor===vendorFilter).filter((delivery)=>!patternFilter||delivery.pattern?.id===patternFilter).filter(d=>browseMatch(query,d.id,d.parentId,d.batchId,d.skuRef,d.model,d.material,d.mandor,d.vendor,d.targetColor,d.colourProcess,d.process,patternSnapshotLabel(d.pattern),...d.sizeLabels)).sort((a,b)=>b.sequence-a.sequence)
   const outsideQty=scopedDeliveries.reduce((sum,delivery)=>sum+laundryOutstanding(delivery),0)
@@ -262,11 +268,14 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
                 <option value="">Tanpa SKU</option>{articles.map(article => <option key={article.key} value={article.key}>{article.key} · {article.colour}</option>)}
               </select></label>
               {instructionSource && <p className="laundry-recipe-origin">{instructionSource}</p>}
-              <label>Proses warna<select aria-label="Proses warna" value={colourProcess} onChange={e => changeInstruction('colourProcess', e.target.value)}>
-                <option value="">Belum ditentukan</option>{choices.map(value => <option key={value}>{value}</option>)}
+              <label>Jenis pewarnaan<select aria-label="Proses warna" value={typeChoice} onChange={e => setOverrides(current => ({ ...current, typeId: e.target.value, colourProcess: undefined }))}>
+                <option value="">Belum ditentukan</option>{catalog.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}
+                {typeChoice === legacyChoice && <option value={legacyChoice}>{legacyTypeName} · dari draft lama</option>}
               </select></label>
+              {selectedType?.note && <p className="laundry-recipe-origin">{selectedType.note}</p>}
+              {catalog.length === 0 && <p className="laundry-recipe-origin">{laundryVendorNames.includes(selectedVendor) ? 'Laundry ini belum punya jenis pewarnaan.' : 'Pilih laundry untuk melihat jenis pewarnaannya.'}</p>}
               <label>Warna target<input aria-label="Warna target" value={colour} onChange={e => changeInstruction('colour', e.target.value)} placeholder="Isi jika sudah tahu"/></label>
-              <a className="laundry-master-link" href={masterLink} onClick={() => saveTicket(false)}>Atur proses warna per laundry dan SKU</a>
+              <a className="laundry-master-link" href={masterLink} onClick={() => saveTicket(false)}>Buka Master jenis pewarnaan</a>
             </fieldset>
             <label><span>Waktu fisik dikirim (WIB)</span><input type="datetime-local" value={sentAt} onChange={(event)=>setSentAt(event.target.value)}/></label>
             <label><span>CATATAN · OPSIONAL</span><input value={sendNote} onChange={(event)=>setSendNote(event.target.value)} placeholder="Contoh: pisahkan warna maroon"/></label>
