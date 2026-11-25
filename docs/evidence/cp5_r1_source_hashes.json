@@ -1452,8 +1452,8 @@
       "sha256": "fe0877f3535af0d3175deeb403b097e35a13c39d23380ebc4e674a06187445ef"
     },
     "worker-demo/src/business-pages.css": {
-      "bytes": 46574,
-      "sha256": "0ee59215b077836f877467c51c686f87aab5495f21a64a5aa3360eeb83e237b6"
+      "bytes": 46598,
+      "sha256": "be1df9f20bee9bb8575c776cf906332efd4b6966b0f73577d3761fbfc595a17f"
     },
     "worker-demo/src/components/AppIcon.tsx": {
       "bytes": 1335,

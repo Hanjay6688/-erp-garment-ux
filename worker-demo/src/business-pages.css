@@ -31,12 +31,12 @@
 .biz-invoice-register { container-type: inline-size; }
 .biz-invoice-register .biz-all-invoice-table > :is(div, button) {
   min-width: 0;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr) minmax(0, 1.2fr) repeat(3, minmax(0, .74fr)) minmax(0, .83fr);
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr) minmax(0, 1.2fr) repeat(3, minmax(0, .74fr)) minmax(0, 1.04fr);
   gap: 8px;
 }
 .biz-invoice-register .biz-all-invoice-table > button > * { min-width: 0; overflow-wrap: anywhere; }
 .biz-invoice-register .biz-all-invoice-table .invoice-register-row [data-label='Toko'] { text-align: left; }
-.biz-all-invoice-table [data-label='Status'] .biz-pill { display: inline-block; white-space: normal; line-height: 1.2; letter-spacing: .035em; }
+.biz-all-invoice-table [data-label='Status'] .biz-pill { display: inline-block; white-space: normal; overflow-wrap: normal; line-height: 1.2; letter-spacing: .035em; }
 .biz-all-invoice-table .unposted [data-label='Status'] .biz-pill { background: var(--warning-bg); color: var(--amber); }
 .biz-all-invoice-table .invoice-goods-cell > .piece-total { font-size: 1rem; }
 .biz-all-invoice-table .invoice-sku-preview { display: flex; align-items: center; gap: 4px; min-width: 0; margin-top: 5px; }
