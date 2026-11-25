@@ -13,6 +13,8 @@ import {
   pocketScale, readPocketBook, type PocketAllocation, type PocketBook, type UsageLine,
 } from './pocketUsage'
 import { lastWarehouseDay } from './warehouseDay'
+import MaterialRollHistory from './MaterialRollHistory'
+import { pocketHistoryRolls } from './materialRollHistory'
 import '../warehouse.css'
 import './warehouseForms.css'
 import './pocketFabric.css'
@@ -42,7 +44,7 @@ export default function PocketFabric() {
   const [book, setBook] = useState(readPocketBook)
   const [tab, setTab] = useState<'stock' | 'cost'>(linkedAllocation?'cost':'stock')
   const [query, setQuery] = useState(() => new URLSearchParams(location.search).get('surat') ?? '')
-  const [material, setMaterial] = useState('')
+  const [material, setMaterial] = useState(() => new URLSearchParams(location.search).get('bahan') ?? '')
   const [warehouse, setWarehouse] = useState('')
   const [onlyAvailable, setOnlyAvailable] = useState(() => {
     const linked = rolls.find(roll => roll.id === detailId)
@@ -68,11 +70,17 @@ export default function PocketFabric() {
   const detail = rolls.find(r => r.id === detailId)
   const materialKey = (roll: PocketRoll) => roll.materialId ?? roll.name
   const catalog = new Map(readPocketMaterials().map(item => [item.id, pocketMaterialLabel(item)]))
+  const historyRolls = pocketHistoryRolls(readReceipts(), book).filter(roll => !warehouse || roll.location === warehouse)
   const records: RollPosition[] = rolls.map(roll => ({ roll, incoming: Math.round(roll.length * pocketScale), left: pocketBalance(book, roll) }))
   const matched = records.filter(({ roll, incoming, left }) => (!warehouse || roll.location === warehouse)
     && browseMatch(query, roll.id, pocketRollLabel(roll), roll.name, catalog.get(materialKey(roll)), roll.factory, roll.supplier, roll.receipt, roll.location, roll.unit, roll.date,
       length(incoming, roll.unit), length(left, roll.unit), length(incoming-left, roll.unit)))
   const materialNames = new Map(matched.map(({roll})=>[materialKey(roll),catalog.get(materialKey(roll)) ?? roll.name]))
+  for (const roll of historyRolls) {
+    if (!materialNames.has(roll.materialKey) && browseMatch(query, roll.material, catalog.get(roll.materialKey), roll.id, roll.label, roll.supplier,
+      ...roll.events.map(event => event.ref))) materialNames.set(roll.materialKey, catalog.get(roll.materialKey) ?? roll.material)
+  }
+  if (!query && !warehouse) for (const [id, name] of catalog) materialNames.set(id, name)
   const materialIds = [...materialNames.keys()].sort((a,b)=>(materialNames.get(a)??a).localeCompare(materialNames.get(b)??b,'id'))
   const activeMaterial = materialNames.has(material) ? material : ''
   const scoped = matched.filter(row => !activeMaterial || materialKey(row.roll) === activeMaterial)
@@ -155,7 +163,7 @@ export default function PocketFabric() {
         const issue = current.issues.find(i => i.id === undo.id && !i.reversal)
         if (!issue) throw Error('Pemakaian sudah dibalik.')
         if (periodActive(current, issue.date, issue.date)) throw Error('Balikkan pembagian biaya periode ini lebih dulu.')
-        const issues = current.issues.map(i => i.id === issue.id ? { ...i, reversal: why.trim() } : i)
+        const issues = current.issues.map(i => i.id === issue.id ? { ...i, reversal: why.trim(), reversedAt: new Date().toISOString() } : i)
         save({ ...current, issues }, 'Pemakaian dibalik. Panjang kembali ke saldo roll.')
       }
       setUndo(null)
@@ -167,6 +175,19 @@ export default function PocketFabric() {
   const openUsage = (choice: UsageSelection) => { setUsage(choice); setFeedback(null) }
   const openReverse = (choice: Reverse) => { setUndo(choice); setWhy(''); setFeedback(null) }
   const switchTab = (choice: typeof tab) => { setTab(choice); setFeedback(null) }
+
+  function chooseMaterial(id: string) {
+    setMaterial(id)
+    const url = new URL(location.href)
+    if (id) url.searchParams.set('bahan', id)
+    else url.searchParams.delete('bahan')
+    url.hash = ''
+    window.history.replaceState(window.history.state, '', url)
+  }
+
+  useEffect(() => {
+    if (location.hash === '#riwayat-bahan') document.getElementById('riwayat-bahan')?.scrollIntoView({ block: 'start' })
+  }, [])
 
   return <div className="pocket-workspace">
     <header className="hero-copy compact wh-hero pocket-heading">
@@ -195,7 +216,7 @@ export default function PocketFabric() {
               {['', ...materialIds].map(id => {
                 const group = id ? matched.filter(row => materialKey(row.roll) === id) : matched
                 return <button key={id} type="button" aria-pressed={id === activeMaterial} className={id === activeMaterial ? 'active' : ''}
-                  onClick={() => setMaterial(id)}><span className="wh-index"><Ruler size={17} aria-hidden="true"/></span>
+                  onClick={() => chooseMaterial(id)}><span className="wh-index"><Ruler size={17} aria-hidden="true"/></span>
                   <div><strong>{materialNames.get(id) ?? 'Semua kain kantong'}</strong><small>{group.filter(row => row.left > 0).length} roll bersaldo</small></div><b>{sumLengths(group, row => row.left)}</b>
                 </button>
               })}
@@ -208,6 +229,8 @@ export default function PocketFabric() {
               <div className="pocket-spent"><dt>Terpakai</dt><dd>{sumLengths(scoped, row => row.incoming - row.left)}</dd></div>
               <div className="pocket-remaining"><dt>Sisa gudang</dt><dd>{sumLengths(scoped, row => row.left)}</dd></div>
             </dl>
+            {activeMaterial && <MaterialRollHistory key={activeMaterial} material={materialNames.get(activeMaterial)!}
+              rolls={historyRolls.filter(roll => roll.materialKey === activeMaterial)}/>}
             <div className="wh-roll-head pocket-roll-head">
               <strong>Roll di gudang</strong>
             </div>

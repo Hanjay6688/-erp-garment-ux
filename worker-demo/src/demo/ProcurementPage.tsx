@@ -1,3 +1,4 @@
+import { materialHistoryPath } from './materialRollHistory'
 import PocketReceiptForm from './PocketReceiptForm'
 import { Icon } from '../components/AppIcon'
 import { cleanMoneyInput, formatMoneyInput } from '../moneyInput'
@@ -168,6 +169,7 @@ export function ProcurementPage() {
             <summary><strong>{receipt.rolls.length} roll · {formatQuantity(receiptRolls(receipt).reduce((sum,roll)=>sum+roll.length,0))} {receipt.unit}</strong>
               <small>{receipt.number} · {receipt.material} · {receipt.supplier}{receipt.reversal?' · Dibalik':''}</small></summary>
             <p>{receipt.day} · {money(receipt.rate)}/{receipt.unit}</p>
+            <a className="soft-btn source-row-link" href={materialHistoryPath(receipt.material)}>Riwayat roll · {receipt.material}</a>
             {receiptRolls(receipt).map(roll=><div className="fabric-receipt-roll" key={roll.id}>
               <div><strong>{formatQuantity(roll.length)} {receipt.unit} diterima</strong><small>{roll.physicalCode??roll.id}{roll.physicalCode?' · kode ERP '+roll.id:''}</small></div>
               {!receipt.reversal&&<><small>{formatQuantity(receipt.unit==='yd'?yardsLeft(roll.id,session):roll.length)} {receipt.unit} tersisa</small>
@@ -181,7 +183,7 @@ export function ProcurementPage() {
               onReverse={reason=>{changeSession(current=>reverseWarehouseReceipt(current,'fabric',receipt.id,reason));setReceiptNotice(receipt.number+' dibalik.')}}/>
           </details>)}
         </section>}
-        <div className="panel current-receipt-card">
+        <div id="penerimaan-arsip-1069" className="panel current-receipt-card">
           <div className="current-receipt-head"><div><span>HARGA AKTIF</span><h2>Sinaran · 1069 Ori</h2><small>SJ-SNR-0821-07 · masuk 21 Agu 2026</small></div><span className="actual-pill"><Icon name="check"/> Aktual</span></div>
           <div className="receipt-quantity-hero"><div><span>27 gulung</span><strong>3.029,5 yd</strong></div><Icon name="ruler"/></div>
           <div className="active-price"><span>Harga kasbon terbaru</span><strong>{money(49200)}<small>/ yard</small></strong><em>Nilai aktif {money(3029.5*49200)}</em></div>

@@ -13,6 +13,7 @@ export type PocketIssue = {
   reason: string
   unit?: PocketUnit
   reversal?: string
+  reversedAt?: string
 }
 type AllocationPart = { po: string; mandor: string; pcs: number; wip: number; fg: number; sold: number }
 export type PocketAllocation = {

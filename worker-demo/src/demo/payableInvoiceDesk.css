@@ -1,0 +1,69 @@
+.ap-counterparty { display:flex; align-items:end; justify-content:space-between; gap:12px; flex-wrap:wrap; padding:14px 16px; border-bottom:1px solid var(--line); }
+.ap-counterparty > label { flex:1 1 210px; max-width:420px; }
+.ap-mode-buttons { display:flex; gap:8px; flex-wrap:wrap; }
+.ap-desk { min-width:0; }
+.ap-desk-grid { display:grid; grid-template-columns:minmax(230px,.82fr) minmax(0,1.35fr); align-items:start; gap:14px; }
+.ap-desk-right, .ap-source-body, .ap-builder-body, .ap-drafts ul, .ap-source-list, .ap-selected-list { display:grid; min-width:0; gap:10px; }
+.ap-desk-right { gap:14px; }
+.ap-desk .ap-source-pane, .ap-builder, .ap-drafts { min-width:0; padding:0; overflow:clip; }
+.ap-source-body, .ap-builder-body, .ap-drafts ul { padding:14px; }
+.ap-desk-heading { display:flex; align-items:center; gap:10px; min-width:0; padding:14px 16px; background:var(--panel-2); border-bottom:1px solid var(--line); }
+.ap-desk-heading > i { width:36px; height:36px; display:grid; place-items:center; flex:none; border:1px solid var(--line-strong); border-radius:10px; background:var(--accent-bg); color:var(--blue); }
+.ap-desk-heading > i svg { width:18px; height:18px; }
+.ap-desk-heading h2, .ap-chosen-heading h3 { margin:0; font-size:1.05rem; }
+.ap-desk-heading > div { min-width:0; overflow-wrap:anywhere; }
+.ap-desk-heading p, .ap-desk .invoice-list-empty { margin:3px 0 0; color:var(--muted); line-height:1.45; font-size:.86rem; }
+.ap-desk-heading > button { margin-inline-start:auto; }
+.ap-desk .soft-btn, .ap-desk .primary-btn, .ap-counterparty .soft-btn, .ap-counterparty .primary-btn { display:inline-flex; align-items:center; justify-content:center; gap:6px; min-height:40px; white-space:normal; }
+.ap-desk .supplier-draft-search { display:flex; align-items:center; gap:8px; min-width:0; margin:0; padding-inline:10px; color:var(--muted); background:var(--panel); border:1px solid var(--line-strong); border-radius:9px; }
+.ap-desk .supplier-draft-search input { min-width:0; width:100%; min-height:42px; padding:5px 0; border:0; outline:0; background:transparent; color:var(--text); font:inherit; font-size:.9rem; }
+.ap-desk .demo-operation-fields { align-items:start; }
+.ap-desk .invoice-source-card:nth-child(odd), .ap-drafts li:nth-child(odd) { background:var(--browse-first,var(--panel-2)); }
+.ap-desk .invoice-source-card:nth-child(even), .ap-drafts li:nth-child(even) { background:var(--browse-second,var(--panel-3)); }
+.ap-desk .invoice-source-card { min-width:0; border-color:var(--line-strong); }
+.ap-desk .demo-ops-header > div { min-width:0; overflow-wrap:anywhere; }
+.ap-desk .demo-operation-fields { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px; }
+.ap-desk label { min-width:0; }
+.ap-desk .demo-operation-fields label { display:grid; gap:5px; font-size:.86rem; font-weight:650; }
+.ap-desk .demo-operation-fields input { width:100%; min-width:0; min-height:42px; padding:7px 9px; color:var(--text); background:var(--panel); border:1px solid var(--control-border); border-radius:8px; font:inherit; }
+.ap-desk .demo-operation-fields small { font-size:.8rem; color:var(--muted); font-weight:500; }
+.ap-chosen-heading, .ap-current-total, .ap-draft-actions, .ap-review { display:flex; align-items:center; gap:8px; }
+.ap-chosen-heading { margin-top:3px; justify-content:space-between; }
+.ap-chosen-heading small, .ap-current-total span { color:var(--muted); font-size:.85rem; }
+.ap-selected-list:empty { display:none; }
+.ap-builder-footer { display:grid; gap:10px; padding:12px 14px; background:var(--panel-2); border-top:1px solid var(--line-strong); }
+.ap-current-total { justify-content:space-between; }
+.ap-current-total strong { font-size:1.12rem; font-variant-numeric:tabular-nums; }
+.ap-review { color:var(--green); font-size:.85rem; }
+.ap-drafts ul { list-style:none; margin:0; }
+.ap-drafts li { min-width:0; display:flex; align-items:center; flex-wrap:wrap; gap:7px 12px; padding:10px; border:1px solid var(--line-strong); border-radius:9px; }
+.ap-drafts li > div:first-child { flex:1 1 120px; min-width:0; overflow-wrap:anywhere; }
+.ap-drafts li small { display:block; color:var(--muted); font-size:.8rem; }
+.ap-drafts > .invoice-list-empty { margin:14px; }
+.ap-draft-actions { flex-wrap:wrap; }
+.ap-source-action { display:inline-flex; justify-self:start; align-items:center; gap:6px; text-decoration:none; }
+.ap-desk .ap-mobile-next, .ap-desk-mobile { display:none; }
+@media(max-width:860px) {
+  .ap-desk-grid { display:block; }
+  .ap-desk-mobile { display:flex; gap:4px; border:1px solid var(--line-strong); border-radius:11px; background:var(--panel); padding:4px; margin-bottom:8px; scroll-margin-top:82px; }
+  .ap-desk-mobile button { flex:1; display:inline-flex; justify-content:center; align-items:center; flex-wrap:wrap; gap:4px; min-width:0; min-height:43px; border:1px solid transparent; border-radius:8px; color:var(--muted); background:transparent; font-size:.84rem; font-weight:650; }
+  .ap-desk-mobile button[aria-pressed=true] { color:var(--text); border-color:var(--blue); background:var(--accent-bg); }
+  .ap-desk-mobile svg { width:15px; height:15px; }
+  .ap-desk-mobile b { font-variant-numeric:tabular-nums; }
+  .ap-desk:not([data-step="sources"]) .ap-source-pane, .ap-desk:not([data-step="invoice"]) .ap-builder, .ap-desk:not([data-step="drafts"]) .ap-drafts, .ap-desk[data-step="sources"] .ap-desk-right { display:none; }
+  .ap-desk .ap-mobile-next { display:inline-flex; justify-self:start; }
+  .ap-drafts > .ap-mobile-next { margin:0 14px 14px; }
+  .ap-counterparty, .ap-source-body, .ap-builder-body, .ap-drafts ul, .ap-desk-heading { padding:12px; }
+  .ap-desk .demo-operation-fields { grid-template-columns:repeat(auto-fit,minmax(min(155px,100%),1fr)); }
+  .ap-desk .soft-btn, .ap-desk .primary-btn { min-height:44px; }
+}
+
+@media(max-width:600px) {
+  .payable-dashboard .payable-overview { padding:9px 12px; }
+  .payable-dashboard .payable-metrics { grid-template-columns:minmax(0,1.35fr) repeat(2,minmax(0,1fr)); gap:5px; }
+  .payable-dashboard .payable-metrics:has(>div:nth-child(3)) > .payable-outstanding { grid-column:auto; }
+  .payable-dashboard .payable-metrics > div { padding:8px; }
+  .payable-dashboard .payable-metrics dt { font-size:.73rem; line-height:1.25; }
+  .payable-dashboard .payable-metrics dt svg { display:none; }
+  .payable-dashboard .payable-metrics dd { font-size:.95rem; }
+}

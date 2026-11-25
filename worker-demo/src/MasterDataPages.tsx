@@ -3,6 +3,7 @@ import { BrowsePane } from './components/BrowsePane'
 import LaundryRecipeMaster from './demo/LaundryRecipeMaster'
 import { laundryRecipePath } from './demo/laundryRecipes'
 import { laundryVendorNames } from './demo/sewingModel'
+import { partnerStorageKey, standardFabricSupplier, standardAccessorySupplier } from './demo/payablePartners'
 import {changeSession, readPlannerSession, usePlannerSession} from './demo/planner/session'
 import {allSkus, editSku} from './demo/skuCatalog'
 import {patterns, products, recipePattern} from './demo/planner/model'
@@ -76,8 +77,8 @@ const customerSeeds:MasterEntity[]=[
 ]
 
 const partnerSeeds:MasterEntity[]=[
-  {id:'sup-sinaran',code:'SUP-FAB-001',name:'Sinaran',active:true,rowVersion:9,updatedAt:'28 Agu 2026',values:{partnerType:'Supplier Kain',city:'Bandung',contact:'Pak Yudi',phone:'0812 9001 2877',terms:'45',defaultUom:'yard'},dependencies:[{label:'OPEN AP',value:'Rp146,8 jt',tone:'warn'},{label:'GRNI UNMATCHED',value:'3 receipt',tone:'warn'},{label:'UOM TERAKHIR',value:'yard',tone:'neutral'}],audit:seedAudit('Default UOM dicatat sebagai preferensi, bukan konversi')},
-  {id:'sup-accessory',code:'SUP-ACC-003',name:'Mitra Aksesori',active:true,rowVersion:6,updatedAt:'27 Agu 2026',values:{partnerType:'Supplier Aksesori',city:'Jakarta',contact:'Ibu Diah',phone:'0817 4400 0912',terms:'30',defaultUom:'pcs'},dependencies:[{label:'OPEN AP',value:'Rp42,6 jt',tone:'warn'},{label:'GRNI UNMATCHED',value:'1 receipt',tone:'neutral'},{label:'UOM TERAKHIR',value:'gross',tone:'neutral'}],audit:seedAudit('Termin supplier dikonfirmasi ulang')},
+  {id:'sup-sinaran',code:'SUP-FAB-001',name:standardFabricSupplier,active:true,rowVersion:9,updatedAt:'28 Agu 2026',values:{partnerType:'Supplier Kain',city:'Bandung',contact:'Pak Yudi',phone:'0812 9001 2877',terms:'45',defaultUom:'yard'},dependencies:[{label:'OPEN AP',value:'Rp146,8 jt',tone:'warn'},{label:'GRNI UNMATCHED',value:'3 receipt',tone:'warn'},{label:'UOM TERAKHIR',value:'yard',tone:'neutral'}],audit:seedAudit('Default UOM dicatat sebagai preferensi, bukan konversi')},
+  {id:'sup-accessory',code:'SUP-ACC-003',name:standardAccessorySupplier,active:true,rowVersion:6,updatedAt:'27 Agu 2026',values:{partnerType:'Supplier Aksesori',city:'Jakarta',contact:'Ibu Diah',phone:'0817 4400 0912',terms:'30',defaultUom:'pcs'},dependencies:[{label:'OPEN AP',value:'Rp42,6 jt',tone:'warn'},{label:'GRNI UNMATCHED',value:'1 receipt',tone:'neutral'},{label:'UOM TERAKHIR',value:'gross',tone:'neutral'}],audit:seedAudit('Termin supplier dikonfirmasi ulang')},
   {id:'ven-laundry',code:'VEN-LDY-002',name:'Laundry Bersih Jaya',active:true,rowVersion:4,updatedAt:'26 Agu 2026',values:{partnerType:'Vendor Laundry',city:'Cimahi',contact:'Pak Rudi',phone:'0857 0190 0443',terms:'7',defaultUom:'pcs'},dependencies:[{label:'OPEN AP',value:'Rp12,9 jt',tone:'neutral'},{label:'WIP DI VENDOR',value:'412 pcs',tone:'warn'},{label:'KLAIM TERBUKA',value:'1 kasus',tone:'warn'}],audit:seedAudit('Kontak operasional laundry diperbarui')},
 ]
 
@@ -252,9 +253,9 @@ function productRecords(base: MasterEntity[]) {
 }
 
 function MasterWorkspace({config}:{config:MasterConfig}){
-  const [entities,storeEntities]=useState<MasterEntity[]>(()=>config.view==='master-products'?productRecords(JSON.parse(sessionStorage.getItem(productStore)??'null')??config.seeds):config.seeds)
+  const [entities,storeEntities]=useState<MasterEntity[]>(()=>config.view==='master-products'?productRecords(JSON.parse(sessionStorage.getItem(productStore)??'null')??config.seeds):config.view==='master-partners'?JSON.parse(sessionStorage.getItem(partnerStorageKey)??'null')??config.seeds:config.seeds)
   function setEntities(update:(rows:MasterEntity[])=>MasterEntity[]){
-    storeEntities(rows=>{const next=update(rows);if(config.view==='master-products')sessionStorage.setItem(productStore,JSON.stringify(next));return next})
+    storeEntities(rows=>{const next=update(rows);if(config.view==='master-products')sessionStorage.setItem(productStore,JSON.stringify(next));if(config.view==='master-partners')sessionStorage.setItem(partnerStorageKey,JSON.stringify(next));return next})
   }
   const [selectedId,setSelectedId]=useState(()=>{
     const sku = new URLSearchParams(location.search).get('sku')
