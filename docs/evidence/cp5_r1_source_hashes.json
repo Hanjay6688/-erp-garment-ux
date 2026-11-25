@@ -1652,8 +1652,8 @@
       "sha256": "0d982284c725cae701ac91fb25a21ea8ca98ff072d728c9ee64a85d18320e846"
     },
     "worker-demo/src/demo/MandorWipPage.tsx": {
-      "bytes": 51499,
-      "sha256": "2ac610b15d761f95ffa75e7b53c6853e7ff3bb52cc0484b4edcb2414c835f47c"
+      "bytes": 51527,
+      "sha256": "604874e6939578553dff1a29c61641744358b72a90ccdaf97a7df6c66218f9ac"
     },
     "worker-demo/src/demo/PeriodFilter.tsx": {
       "bytes": 2266,
