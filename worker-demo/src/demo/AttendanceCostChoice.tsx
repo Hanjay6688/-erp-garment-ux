@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { attendanceChoiceKey, readAttendanceChoices, periodCostPath } from './periodCostSources'
 import { ArrowRight, CalendarClock, ReceiptText } from 'lucide-react'
 import { amountText, normalizeMandor } from './accessoryPricing'
 import { pickupsIn, distribution, sampleGroup } from './planner/distribution'
@@ -10,10 +11,7 @@ import { ReasonDialog } from './planner/ReasonDialog'
 import './demoCorrection.css'
 
 type Choice='CARRY'|'EXPENSE'
-type Decision={id:string;choice:Choice;reason:string;day:string;cost:number;allocated?:{start:string;end:string;qty:number;reason:string}}
-type History=Record<string,Decision[]>
-const key='erp.demo.attendance-cost-choice.v1'
-const read=():History=>JSON.parse(sessionStorage.getItem(key)??'{}')
+type Decision = ReturnType<typeof readAttendanceChoices>[string][number]
 const copy={CARRY:'Bawa ke periode hasil jahit',EXPENSE:'Bebankan di periode ini'}
 
 function recordedOutput(mandor:string,start:string,end:string) {
@@ -34,7 +32,7 @@ function recordedOutput(mandor:string,start:string,end:string) {
 
 export function AttendanceCostChoice({mandor,start,end,cost}:{mandor:string;start:string;end:string;cost:number}) {
   const id=[mandor,start,end].join('|')
-  const [history,setHistory]=useState(read)
+  const [history,setHistory]=useState(readAttendanceChoices)
   const [form,setForm]=useState<{action:Choice|'ALLOCATE';start:string;end:string;reason:string}|null>(null)
   const [error,setError]=useState('')
   const decisions=history[id]??[]
@@ -45,7 +43,7 @@ export function AttendanceCostChoice({mandor,start,end,cost}:{mandor:string;star
   if(!cost||output>0&&!current)return null
   function save() {
     if(!form)return
-    const live=read(),old=live[id]??[],previous=old.at(-1)
+    const live=readAttendanceChoices(),old=live[id]??[],previous=old.at(-1)
     const reason=form.reason.trim()
     if(reason.length<4||previous?.allocated||recordedOutput(mandor,start,end)>0&&!previous){setError('Periksa hasil jahit pada periode asal dan isi alasan.');return}
     let next:Decision[]
@@ -57,14 +55,14 @@ export function AttendanceCostChoice({mandor,start,end,cost}:{mandor:string;star
       next=[...old,{id:crypto.randomUUID(),choice:form.action,day:lastWarehouseDay(),reason,cost}]
     }
     const updated={...live,[id]:next}
-    sessionStorage.setItem(key,JSON.stringify(updated));setHistory(updated);setForm(null)
+    sessionStorage.setItem(attendanceChoiceKey,JSON.stringify(updated));setHistory(updated);setForm(null)
   }
-  return <section className="panel demo-ops-panel" aria-label="Biaya absensi tanpa hasil jahit">
+  return <section className="panel demo-ops-panel period-attendance-choice" aria-label="Biaya absensi tanpa hasil jahit">
     <header className="demo-ops-header"><div className="demo-operation-heading"><i><CalendarClock/></i><div><h2>Biaya absensi tanpa hasil jahit</h2>
-      <p>{mandor} · {start} – {end}</p></div></div></header>
+      <p>{mandor} · {start} – {end}</p></div></div><a className="period-source-link" href={periodCostPath('absensi')}>Lihat di HPP <ArrowRight/></a></header>
     <div className="demo-operation-facts"><article><span>Biaya absensi terposting</span><strong>{amountText(cost)}</strong></article>
       <article><span>Hasil jahit periode asal</span><strong>{output.toLocaleString('id-ID')} pcs</strong></article></div>
-    <div className="demo-ops-columns">{(['CARRY','EXPENSE'] as const).map(choice=><article className="demo-ops-card" key={choice}>
+    <div className="demo-ops-columns">{(['CARRY','EXPENSE'] as const).map(choice=><article className="demo-ops-card" data-choice={choice} key={choice}>
       <div className="demo-operation-heading"><i>{choice==='CARRY'?<ArrowRight/>:<ReceiptText/>}</i><div><h3>{copy[choice]}</h3>
         <p>{choice==='CARRY'?'Tahan biaya hingga ada periode yang memiliki hasil jahit.':'Masukkan biaya sebagai beban pada periode asal.'}</p></div></div>
       <div>{current?.choice===choice?<strong>Pilihan aktif</strong>:!current?.allocated&&<button type="button" className="soft-btn" onClick={()=>open(choice)}>{choice==='CARRY'?'Pilih bawa biaya':'Pilih beban periode'}</button>}</div>

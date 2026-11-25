@@ -1,8 +1,9 @@
+import PeriodCostPanel, { type PeriodArea } from './demo/PeriodCostPanel'
 import { BrowsePane } from './components/BrowsePane'
 import { useMemo, useState } from 'react'
 import { browseMatchPieces } from './browseMatch'
 import {
-  AlertTriangle, ArrowRight, Check, ChevronDown,
+  AlertTriangle, ArrowRight, Check, ChevronDown, Scissors, UsersRound,
   Clock3, FileSearch, GitCompareArrows, History, Info, Layers3, LockKeyhole,
   PackageSearch, RefreshCcw, Search, ShieldCheck, SlidersHorizontal,
 } from 'lucide-react'
@@ -177,6 +178,19 @@ const statusLabel: Record<DisplayStatus, string> = {
 const remainingStock = (lot: HppLot) => lot.sizeStock.reduce((sum, size) => sum + size.qty, 0)
 
 function HppPage() {
+  const [area,setArea] = useState<'sku'|PeriodArea>(() => {
+    const from = new URLSearchParams(location.search).get('biaya')
+    return from === 'kantong' || from === 'absensi' ? from : 'sku'
+  })
+  function chooseArea(next: typeof area) {
+    const url = new URL(location.href)
+    if (next === 'sku') url.searchParams.delete('biaya')
+    else url.searchParams.set('biaya', next)
+    url.hash = ''
+    window.history.replaceState(window.history.state, '', url)
+    setArea(next)
+  }
+
   const [query, setQuery] = useState('')
   const [brand, setBrand] = useState('Semua merek')
   const [status, setStatus] = useState('Semua status')
@@ -259,11 +273,11 @@ function HppPage() {
   return <>
     <section className="hero-copy compact hpp-hero">
       <div>
-        <div className="eyebrow">KEUANGAN · SKU → SIZE → LOT / PO</div>
+        <div className="eyebrow">KEUANGAN · HARGA POKOK PRODUKSI</div>
         <h1>HPP & Rekalkulasi</h1>
-        <p>Mulai dari HPP rata-rata stok per SKU, turun ke size, lalu buka lot/PO pembentuknya untuk audit.</p>
+        <p>Periksa biaya per potong dan telusuri sumbernya sampai ke lot atau periode produksi.</p>
       </div>
-      <details className="hpp-state-guide">
+      {area==='sku' && <details className="hpp-state-guide">
         <summary><Info /> 3 keadaan biaya <ChevronDown /></summary>
         <div>
           <article><b>01</b><span><strong>Sementara</strong><small>Benchmark sebelum biaya final lengkap.</small></span></article>
@@ -271,9 +285,14 @@ function HppPage() {
           <article><b>03</b><span><strong>Disesuaikan</strong><small>Versi baru sesudah koreksi atau recost.</small></span></article>
           <p>Bukan tiga angka aktif. Backend hanya mengizinkan satu versi current per lot.</p>
         </div>
-      </details>
+      </details>}
     </section>
-
+    <nav className="hpp-cost-tabs" aria-label="Sumber HPP">
+      <button type="button" aria-pressed={area==='sku'} onClick={()=>chooseArea('sku')}><Layers3/>HPP per SKU</button>
+      <button type="button" data-area="kantong" aria-pressed={area==='kantong'} onClick={()=>chooseArea('kantong')}><Scissors/>Kain kantong</button>
+      <button type="button" data-area="absensi" aria-pressed={area==='absensi'} onClick={()=>chooseArea('absensi')}><UsersRound/>Absensi</button>
+    </nav>
+    {area!=='sku' ? <PeriodCostPanel area={area}/> : <>
     <section className="hpp-kpis">
       <article className="panel"><span>LOT DIPANTAU</span><strong>{hppLots.length}</strong><small>Unit versi HPP adalah FG lot</small></article>
       <article className="panel warn"><span>SEMENTARA</span><strong>{hppLots.filter((item) => item.displayStatus === 'SEMENTARA').length}</strong><small>Masih memakai benchmark</small></article>
@@ -432,6 +451,7 @@ function HppPage() {
         </section>
       </div>}
     </section>
+    </>}
   </>
 }
 

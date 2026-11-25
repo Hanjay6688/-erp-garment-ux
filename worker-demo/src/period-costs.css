@@ -1,0 +1,92 @@
+.hpp-cost-tabs, .attendance-cost-nav { display: flex; gap: 7px; flex-wrap: wrap; margin: 6px 0 15px; }
+.hpp-cost-tabs button, .attendance-cost-nav a, .period-source-link, .period-action {
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 44px; line-height: 1.2;
+  min-width: 0; padding: 9px 12px; border: 1px solid var(--line-strong); border-radius: 9px;
+  background: var(--panel-2); color: var(--text); font: inherit; font-weight: 650; font-size: .85rem; text-decoration: none; cursor: pointer;
+}
+.hpp-cost-tabs svg,.period-source-link svg,.period-action svg,.attendance-cost-nav svg { width: 17px; height: 17px; flex: none; }
+.hpp-cost-tabs button { --period-color:var(--blue); background:var(--panel); }
+.hpp-cost-tabs [data-area="kantong"], .period-workspace[data-area="kantong"], .pocket-cost-desk { --period-color:var(--green); }
+.hpp-cost-tabs [data-area="absensi"], .period-workspace[data-area="absensi"], .period-attendance-choice { --period-color:var(--amber); }
+.hpp-cost-tabs button[aria-pressed="true"] { background: color-mix(in srgb,var(--period-color) 16%,var(--panel)); border-color: color-mix(in srgb,var(--period-color) 65%,var(--line)); box-shadow: inset 0 -2px var(--period-color); }
+.hpp-cost-tabs button[aria-pressed="true"] svg { color: var(--period-color); }
+.period-workspace { display: grid; gap: 12px; min-width: 0; }
+.period-title { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; border: 1px solid var(--line-strong); border-radius: 14px; padding: 16px; background: linear-gradient(105deg,color-mix(in srgb,var(--period-color) 13%,var(--panel)),var(--panel) 75%); }
+.period-title > i,.period-icon { width: 37px; height: 37px; border-radius: 10px; display: grid; place-items: center; flex: none; background: color-mix(in srgb,var(--period-color) 17%,var(--panel)); color: var(--period-color); }
+.period-title i svg,.period-icon svg { width: 20px; height: 20px; }
+.period-title > div { flex: 1 1 220px; min-width: 0; }
+.period-title h2,.period-list h3,.pocket-cost-desk h2,.pocket-cost-desk h3,.period-attendance-choice h2,.period-attendance-choice h3 { font-weight: 750; color: var(--text); margin: 0; }
+.period-title h2 { font-size: 1.27rem; }
+.period-title p,.period-empty,.period-record p,.period-record small { color: var(--soft); font-size: .84rem; line-height: 1.45; }
+.period-title p,.period-record p { margin: 4px 0 0; }
+.period-action { background: color-mix(in srgb,var(--period-color,var(--blue)) 17%,var(--panel)); border-color: color-mix(in srgb,var(--period-color,var(--blue)) 58%,var(--line)); }
+.period-list { display: grid; gap: 7px; padding: 12px; border: 1px solid var(--line-strong); border-radius: 14px; background: var(--panel); }
+.period-list > header { display: flex; align-items: center; gap: 9px; padding: 3px 2px 8px; }
+.period-list > header svg { width: 18px; height: 18px; color: var(--period-color); }
+.period-list h3,.pocket-cost-desk h3 { font-size: 1.03rem; }
+.period-empty { margin: 0; padding: 14px; background: var(--panel-2); border: 1px solid var(--line); border-radius: 9px; }
+.period-record { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: start; gap: 8px 12px; padding: 13px; background: var(--panel-2); border: 1px solid var(--line); border-radius: 11px; }
+.period-record:nth-child(odd) { background: var(--panel-3); }
+.period-record h4 { margin: 4px 0; font-size: 1.16rem; font-weight: 740; font-variant-numeric: tabular-nums; }
+.period-record h4 span { font-size: .94rem; color: var(--soft); }
+.period-record small,.period-record div > strong { display: block; overflow-wrap: anywhere; }
+.period-status { justify-self: end; padding: 4px 8px; font-size: .75rem; font-weight: 650; color: var(--soft); border: 1px solid var(--line); border-radius: 7px; }
+.period-status[data-state="active"] { color: var(--green); background: var(--success-bg); }
+.period-status[data-state="waiting"] { color: var(--amber); background: var(--warning-bg); }
+.period-record details { grid-column: 1/-1; }
+.period-record summary,.period-issue-links summary { padding: 10px 0; min-height: 40px; cursor: pointer; font-size: .85rem; font-weight: 650; color: var(--soft); }
+.period-record .period-source-link { grid-column: 1/-1; justify-self: start; }
+.period-destination { grid-column: 1/-1; }
+.period-destination svg { width: 16px; vertical-align: middle; }
+.period-parts { display: grid; gap: 7px; grid-template-columns: repeat(auto-fit,minmax(min(100%,200px),1fr)); }
+.period-parts > div { padding: 10px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; }
+.period-parts dl { margin: 6px 0 0; }
+.period-parts dl > div { display: flex; justify-content: space-between; gap: 7px; font-size: .81rem; }
+.period-parts dd { margin: 0; color: var(--text); font-weight: 650; }
+.pocket-workspace .pocket-cost-desk { display: block; padding: 0; overflow: clip; border: 1px solid var(--line-strong); border-radius: 15px; }
+.pocket-cost-desk .pocket-panel-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 16px; border-bottom: 1px solid var(--line); background: linear-gradient(105deg,color-mix(in srgb,var(--green) 12%,var(--panel)),var(--panel)); }
+.pocket-cost-desk .pocket-panel-head > div { flex: 1 1 220px; }
+.pocket-cost-desk > form { display: grid; padding: 16px; gap: 11px; border-bottom: 1px solid var(--line); }
+.pocket-cost-desk > form > button { justify-self: start; }
+.pocket-cost-desk .pocket-period-fields { margin: 0; padding: 0; }
+.pocket-cost-desk .pocket-allocation,.pocket-cost-desk .pocket-history { padding: 15px; margin: 13px; border: 1px solid var(--line); border-radius: 11px; background: var(--panel-2); }
+.pocket-cost-desk .pocket-history h3 { display: flex; align-items: center; gap: 7px; }
+.pocket-cost-desk .pocket-history h3 svg { width: 18px; color: var(--blue); }
+.pocket-cost-equation { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 8px; margin: 10px 0 2px; }
+.pocket-cost-equation div { padding: 12px; border-radius: 9px; background: var(--panel); border: 1px solid var(--line-strong); }
+.pocket-cost-equation div:last-child { background: var(--success-bg); border-color: color-mix(in srgb,var(--green) 38%,var(--line)); }
+.pocket-cost-equation dt { color: var(--soft); font-size: .8rem; }
+.pocket-cost-equation dd { margin: 5px 0 0; font-weight: 750; font-size: 1.1rem; overflow-wrap: anywhere; }
+.pocket-cost-equation small { font-size: .75rem; }
+.period-issue-links .period-source-link { margin: 0 5px 6px 0; }
+.period-attendance-choice .demo-ops-card[data-choice="CARRY"] { background: color-mix(in srgb,var(--amber) 9%,var(--panel)); border-color: color-mix(in srgb,var(--amber) 40%,var(--line)); }
+.period-attendance-choice .demo-ops-card[data-choice="EXPENSE"] { background: color-mix(in srgb,var(--blue) 8%,var(--panel)); border-color: color-mix(in srgb,var(--blue) 40%,var(--line)); }
+.attendance-cost-nav { margin: 0; }
+.attendance2-page .attendance2-metrics > article:nth-child(2) { background: color-mix(in srgb,var(--blue) 10%,var(--panel)); }
+.attendance2-page .attendance2-metrics > article:nth-child(3) { background: color-mix(in srgb,var(--green) 10%,var(--panel)); }
+.attendance2-page .attendance2-metrics > article:nth-child(4) { background: color-mix(in srgb,var(--amber) 10%,var(--panel)); }
+.attendance2-page .attendance2-toolbar { background: linear-gradient(105deg,color-mix(in srgb,var(--blue) 12%,var(--panel)),var(--panel)); }
+#biaya-absensi,#periode-absensi { scroll-margin-top: 78px; }
+@media (max-width: 650px) {
+  .hpp-cost-tabs { display: grid; grid-template-columns: 1.1fr 1.2fr .9fr; gap: 5px; }
+  .hpp-cost-tabs button { font-size: .78rem; padding: 7px 3px; gap: 4px; }
+  .hpp-cost-tabs button svg { width: 15px; }
+  .period-title { padding: 12px; }
+  .period-title > div { flex-basis: calc(100% - 51px); }
+  .period-record { grid-template-columns: minmax(0,1fr); }
+  .period-status { justify-self: start; }
+  .pocket-cost-desk .pocket-allocation,.pocket-cost-desk .pocket-history { margin: 9px; padding: 10px; }
+  .pocket-cost-desk .pocket-period-fields { grid-template-columns: minmax(0,1fr) minmax(0,1fr); }
+  .pocket-cost-desk .pocket-period-fields label:last-child { grid-column: 1/-1; }
+  .pocket-cost-equation { gap: 5px; }
+  .pocket-cost-equation div { padding: 7px; }
+  .pocket-cost-equation dd { font-size: .96rem; }
+}
+
+.period-empty > a { display: flex; width: fit-content; margin-top: 9px; }
+
+.period-unit-cost { display: flex; grid-column: 1/-1; justify-content: space-between; align-items: baseline; gap: 10px; padding: 9px 12px; border: 1px solid color-mix(in srgb,var(--period-color) 30%,var(--line)); border-radius: 8px; background: color-mix(in srgb,var(--period-color) 7%,var(--panel)); }
+.period-unit-cost > span { color: var(--soft); font-size: .82rem; font-weight: 600; }
+.period-record .period-unit-cost strong { color: var(--text); font-size: 1.1rem; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.period-record .period-unit-cost small { display: inline; font-size: .78rem; font-weight: 500; }
+.period-record .period-reprice { color: var(--amber); }

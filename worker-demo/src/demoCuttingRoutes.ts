@@ -14,6 +14,7 @@ export const productionForms = {
   'pocket-fabric':{name:'Kain kantong',path:'/gudang/kain-kantong/'},
   'finance-cash':{name:'Kas & Bank',path:'/keuangan/kas-bank/'},
   'finance-payroll':{name:'Payroll & Kasbon',path:'/keuangan/payroll-kasbon/'},
+  hpp:{name:'HPP & Rekalkulasi',path:'/keuangan/hpp/'},
   'finance-ap':{name:'Hutang Supplier & Vendor',path:'/keuangan/hutang-supplier/'},
   'operations-attendance':{name:'Absensi Pekerja',path:'/keuangan/absensi/'},
   'fg-handoff':{name:'Susun Nota FG',path:'/produksi/susun-nota-fg/'},
