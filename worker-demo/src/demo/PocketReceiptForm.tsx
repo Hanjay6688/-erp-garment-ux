@@ -5,9 +5,12 @@ import { browseMatch } from '../browseMatch'
 import { ReasonDialog } from './planner/ReasonDialog'
 import { ReceiptRollRows } from './ReceiptRollRows'
 import {
-  pocketBenchmark, pocketRollLabel, readReceipts, receivePocket, recordPocketBill, reviewPocketReceipt, reverseReceipt, seedRolls,
-  type PocketReceipt, type ReceiptDraft,
+  correctPocketReceiptRoll, pocketBenchmark, pocketBillBlockers, pocketReceiptBlockers, pocketRollLabel, readReceipts, receivePocket,
+  recordPocketBill, reviewPocketReceipt, reversePocketBill, reverseReceipt, seedRolls, type PocketReceipt, type PocketRoll, type ReceiptDraft,
 } from './pocketReceipts'
+import { receiptRolls } from './receiptRollCorrection'
+import { ReceiptRollEditor } from './ReceiptRollEditor'
+import { StockSourceReversal } from './StockSourceReversal'
 import { readPocketNumber } from './pocketUsage'
 import { readRupiahInput } from '../moneyInput'
 import { pocketMasterPath, pocketMaterialLabel, readPocketMaterials } from './pocketMaterials'
@@ -47,8 +50,7 @@ export default function PocketReceiptForm() {
   const [posted, setPosted] = useState<PocketReceipt | null>(null)
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
-  const [undo, setUndo] = useState('')
-  const [why, setWhy] = useState('')
+  const [rollCorrection, setRollCorrection] = useState<PocketRoll|null>(null)
   const [deleting, setDeleting] = useState(false)
   const [bill, setBill] = useState<BillDraft | null>(null)
 
@@ -135,7 +137,7 @@ export default function PocketReceiptForm() {
   const benchmark = pocketBenchmark(draft)
   const rate = draft.rate.trim() ? readRupiahInput(draft.rate) : benchmark
   const pricingKnown = rate !== null && Number.isFinite(rate)
-  const receipts = rows.filter(r => browseMatch(historyQuery, r.number, r.supplier, r.day, ...r.rolls.flatMap(roll => [roll.id, roll.name, pocketRollLabel(roll)])))
+  const receipts = rows.filter(r => browseMatch(historyQuery, r.number, r.supplier, r.day, ...receiptRolls(r).flatMap(roll => [roll.id, roll.name, pocketRollLabel(roll)])))
   const openingShown = browseMatch(historyQuery, 'SJ-KT-001', 'Saldo pembukaan', ...seedRolls.map(r => r.id))
 
   return <section className="procurement-layout pocket-receipt" aria-label="Penerimaan kain kantong">
@@ -220,7 +222,7 @@ export default function PocketReceiptForm() {
         <div><span>Panjang masuk</span><strong>{fmt(complete.reduce((sum, length) => sum + length, 0))} {draft.unit}</strong></div>
         <div><span>Nilai sementara</span><strong>{complete.length && pricingKnown ? amountText(complete.reduce((sum, length) => sum + Math.round(length * rate * 100), 0) / 100) : '—'}</strong></div>
       </div>
-      {error && !preview && !undo && <p className="wh-feedback" role="alert">{error}</p>}
+      {error && !preview && !bill && <p className="wh-feedback" role="alert">{error}</p>}
       <footer className="receipt-actions">
         <button type="button" className="soft-btn" onClick={() => {
           storeDraft()
@@ -231,11 +233,11 @@ export default function PocketReceiptForm() {
       </footer>
     </form>
 
-    <aside className="panel wh-receipt-register">
+    <aside className="panel wh-receipt-register" id="dokumen-penerimaan">
       <header className="pocket-panel-head"><div className="pocket-stage-title"><i><ClipboardList aria-hidden="true"/></i><h2>Riwayat penerimaan</h2></div></header>
       <label className="pocket-master-search"><Search size={16} aria-hidden="true"/><input type="search" aria-label="Cari penerimaan" placeholder="Surat jalan, supplier, atau roll" value={historyQuery} onChange={e => setHistoryQuery(e.target.value)}/></label>
       {receipts.map(r => <details key={r.number} open={expanded === r.number || undefined}>
-        <summary><strong className="pocket-quantity">{r.rolls.length} roll · {fmt(r.rolls.reduce((total, roll) => total + roll.length, 0))} {r.rolls[0].unit}</strong>
+        <summary><strong className="pocket-quantity">{r.rolls.length} roll · {fmt(receiptRolls(r).reduce((total, roll) => total + roll.length, 0))} {r.rolls[0].unit}</strong>
           <small className="record-code">{r.number} · {r.day} · {r.supplier} · {r.reversal ? 'Dibalik' : 'Diterima'}</small></summary>
         <p>{r.rolls[0].location} · {r.rolls[0].name}</p>
         <dl className="pocket-master-rates">
@@ -243,14 +245,23 @@ export default function PocketReceiptForm() {
           <div><dt>Harga tagihan final</dt><dd>{r.bill ? rateText(r.bill.rate, r.rolls[0].unit) : 'Belum diterima'}</dd>
             {r.bill && <small>{r.bill.number} · {r.bill.day}</small>}</div>
         </dl>
-        {r.rolls.map(roll => <div className="wh-register-row" key={roll.id}>
+        {receiptRolls(r).map(roll => <div className="wh-register-row" key={roll.id}>
           <span><strong className="pocket-quantity">{fmt(roll.length)} {roll.unit}</strong><small className="record-code">{pocketRollLabel(roll)}</small></span>
-          {!r.reversal && <a href={link(roll.id)}>Buka roll</a>}
+          {!r.reversal && <div className="demo-operation-actions"><a href={link(roll.id)}>Buka roll</a>
+            <button className="soft-btn" type="button" aria-label={'Koreksi roll '+pocketRollLabel(roll)} onClick={()=>setRollCorrection(roll)}>Koreksi roll</button></div>}
         </div>)}
-        {r.reversal ? <small>Alasan pembalikan · {r.reversal.reason}</small> : !r.bill && <footer className="pocket-register-actions">
-          <button type="button" className="soft-btn" onClick={() => { setBill({ receipt: r, number: '', day: r.day > fixtureDate ? r.day : fixtureDate, rate: '' }); setError('') }}><ReceiptText size={15} aria-hidden="true"/>Catat tagihan final</button>
-          <button type="button" className="soft-btn" onClick={() => { setUndo(r.number); setWhy(''); setError('') }}>Balikkan penerimaan</button>
-        </footer>}
+        {!!r.corrections?.length&&<details className="demo-operation-history"><summary>Riwayat koreksi roll ({r.corrections.length})</summary>
+          {r.corrections.map(row=><article key={row.id}><strong>{fmt(row.beforeLength)} → {fmt(row.length)} {r.rolls[0].unit}</strong><small>{row.beforeCode??row.roll} → {row.physicalCode??row.roll} · {row.reason}</small></article>)}
+        </details>}
+        {!!r.billReversals?.length&&<details className="demo-operation-history"><summary>Tagihan final dibalik</summary>
+          {r.billReversals.map(row=><article key={row.number+row.at}><strong>{row.number}</strong><small>{row.reason}</small></article>)}</details>}
+        <footer className="pocket-register-actions">
+          {!r.reversal&&(r.bill?<StockSourceReversal label="Balikkan tagihan final" document={r.bill.number} blockers={pocketBillBlockers(r)}
+            onReverse={reason=>{reversePocketBill(r.number,reason);setRows(readReceipts());setNotice('Tagihan final dibalik.')}}/>
+            :<button type="button" className="soft-btn" onClick={() => { setBill({ receipt: r, number: '', day: r.day > fixtureDate ? r.day : fixtureDate, rate: '' }); setError('') }}><ReceiptText size={15} aria-hidden="true"/>Catat tagihan final</button>)}
+          <StockSourceReversal label="Balikkan penerimaan" document={r.number} reversal={r.reversal} blockers={pocketReceiptBlockers(r)}
+            onReverse={reason=>{reverseReceipt(r.number,reason);setRows(readReceipts());setPosted(null);setNotice('Penerimaan '+r.number+' dibalik.')}}/>
+        </footer>
       </details>)}
       {openingShown && <details open={expanded === 'SJ-KT-001' || undefined}>
         <summary><strong className="pocket-quantity">{seedRolls.length} roll · Saldo pembukaan</strong><small className="record-code">SJ-KT-001 · 20 Nov 2026</small></summary>
@@ -301,17 +312,9 @@ export default function PocketReceiptForm() {
       }}>Ya, hapus draft</button>
     </ReasonDialog>}
 
-    {undo && <ReasonDialog title={'Balikkan ' + undo} closeLabel="Kembali" onClose={() => { setUndo(''); setError('') }}>
-      <form className="pocket-dialog-form" onSubmit={event => {
-        event.preventDefault()
-        try { reverseReceipt(undo, why); setRows(readReceipts()); setUndo(''); setPosted(null); setNotice('Penerimaan ' + undo + ' dibalik.') }
-        catch (failure) { setError((failure as Error).message) }
-      }}>
-        <p>Roll dari surat jalan ini dikeluarkan dari saldo penerimaan. Riwayat surat jalan tetap tampil.</p>
-        <label>Alasan pembalikan<input required value={why} onChange={e => setWhy(e.target.value)}/></label>
-        {error && <p role="alert">{error}</p>}
-        <button type="submit" className="primary-btn" disabled={!why.trim()}>Konfirmasi pembalikan</button>
-      </form>
-    </ReasonDialog>}
+    {rollCorrection&&<ReceiptRollEditor roll={rollCorrection} receipt={rollCorrection.receipt} unit={rollCorrection.unit}
+      onClose={()=>setRollCorrection(null)} onSave={input=>{
+        correctPocketReceiptRoll(rollCorrection.receipt,rollCorrection.id,input);setRows(readReceipts());setNotice('Koreksi roll kain kantong tercatat.')
+      }}/>}
   </section>
 }

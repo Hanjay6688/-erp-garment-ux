@@ -1,17 +1,19 @@
 import { accessoryStockAt, mainAccessories, masterBook, serviceAccessories, type AccessoryLocation } from './accessoryPricing'
 import { dayOk } from './warehouseDay'
 import type { Session } from './planner/model'
+import type { ReceiptReversal, StockSourceLink } from './receiptRollCorrection'
 
 export type ServiceAction = 'USE'|'TO_SERVICE'|'FROM_SERVICE'
 export type ServiceDocument = {
   id:string; action:ServiceAction; location:AccessoryLocation; day:string; reason:string
   lines:{code:string;name:string;qty:number;job:string;rate:number}[]
+  reversal?:ReceiptReversal
 }
 export type CustodyNote = {id:string;customer:string;item:string;qty:number;job:string;day:string;returnedOn?:string}
 export type SalvageDocument = {
   id:string;code:string;name:string;expected:number;holder:string;reference?:string;conversion?:string;day:string
   receipts:{id:string;day:string;qty:number}[]
-  inspections:{id:string;day:string;good:number;damaged:number;note:string}[]
+  inspections:{id:string;day:string;good:number;damaged:number;note:string;reversal?:ReceiptReversal}[]
 }
 type SalvageLink={id:string;day:string;left:number|null;holder:string;label:string}
 export const serviceActions:Record<ServiceAction,string>={USE:'Pakai untuk servis',TO_SERVICE:'Transfer ke Pos Servis',FROM_SERVICE:'Kembalikan stok dari Pos Servis'}
@@ -35,6 +37,31 @@ export function postService(session:Session,input:Omit<ServiceDocument,'lines'>&
   return {...session,serviceDocuments:[...(session.serviceDocuments??[]),{...input,location,reason:input.reason.trim(),lines}]}
 }
 
+export const serviceDocumentPath=(id:string)=>'/gudang/aksesori/?tab=servis&dokumen='+encodeURIComponent(id)+'#riwayat-servis'
+export const salvageDocumentPath=(id:string)=>'/gudang/aksesori/?tab=bongkaran&dokumen='+encodeURIComponent(id)+'#riwayat-bongkaran'
+
+export function serviceReversalBlockers(session:Session,doc:ServiceDocument):StockSourceLink[] {
+  if(doc.action==='USE')return []
+  const target=doc.action==='TO_SERVICE'?serviceAccessories:mainAccessories
+  const projected={...session,serviceDocuments:session.serviceDocuments?.filter(row=>row.id!==doc.id)}
+  const active=masterBook().items.filter(item=>doc.lines.some(line=>line.code===item.code)&&accessoryStockAt(item,target,projected)<0)
+  if(!active.length)return []
+  const codes=new Set(active.map(item=>item.code))
+  const uses=(session.serviceDocuments??[]).filter(row=>row.id!==doc.id&&!row.reversal&&row.day>=doc.day&&row.lines.some(line=>codes.has(line.code))
+    &&(row.action==='USE'?row.location===target:row.action==='FROM_SERVICE'?target===serviceAccessories:target===mainAccessories))
+  const conversions=(session.stockEvents??[]).filter(row=>!session.stockEvents?.some(other=>other.reverses===row.id)
+    &&row.kit?.used.some(line=>codes.has(line.code)&&(line.location??mainAccessories)===target))
+  return [...uses.map(row=>({label:serviceActions[row.action]+' · '+row.id,href:serviceDocumentPath(row.id)})),
+    ...conversions.map(row=>({label:'Ganti Merek '+row.id.slice(0,8),href:'/gudang/ganti-merek/?mutasi='+encodeURIComponent(row.id)+'#riwayat-konversi'})),
+    ...active.map(item=>({label:'Saldo '+item.name+' · '+target,href:'/gudang/aksesori/?item='+encodeURIComponent(item.code)}))]
+}
+
+export function reverseService(session:Session,id:string,reason:string):Session {
+  const doc=session.serviceDocuments?.find(row=>row.id===id&&!row.reversal)
+  if(!doc||reason.trim().length<4||serviceReversalBlockers(session,doc).length)throw Error('Periksa saldo dan dokumen pemakaian terkait.')
+  return {...session,serviceDocuments:session.serviceDocuments?.map(row=>row===doc?{...row,reversal:{reason:reason.trim(),at:new Date().toISOString()}}:row)}
+}
+
 export function postCustody(session:Session,record:CustodyNote):Session {
   if(session.accessoryCustody?.some(row=>row.id===record.id))return session
   if(!dayOk(record.day)||!amountOk(record.qty)||!record.customer.trim()||!record.job.trim()||!record.item.trim())throw Error('Isi pemilik, barang, jumlah, dan referensi servis.')
@@ -49,8 +76,8 @@ export function closeCustody(session:Session,id:string,day:string):Session {
 
 export function salvageProgress(doc:SalvageDocument) {
   const received=doc.receipts.reduce((sum,row)=>sum+row.qty,0)
-  const good=doc.inspections.reduce((sum,row)=>sum+row.good,0)
-  const damaged=doc.inspections.reduce((sum,row)=>sum+row.damaged,0)
+  const good=doc.inspections.reduce((sum,row)=>sum+(row.reversal?0:row.good),0)
+  const damaged=doc.inspections.reduce((sum,row)=>sum+(row.reversal?0:row.damaged),0)
   return {received,good,damaged,pending:received-good-damaged,held:doc.expected-received}
 }
 
@@ -96,10 +123,25 @@ export function inspectSalvage(session:Session,id:string,inspection:SalvageDocum
     ||!Number.isInteger(inspection.good)||!Number.isInteger(inspection.damaged)||inspection.note.trim().length<4){
     throw Error('Periksa jumlah layak/rusak, tanggal, dan hasil pemeriksaan.')
   }
-  const days=[inspection.day,...doc.inspections.map(row=>row.day)].filter(day=>day>=inspection.day)
+  const inspections=doc.inspections.filter(row=>!row.reversal)
+  const days=[inspection.day,...inspections.map(row=>row.day)].filter(day=>day>=inspection.day)
   if(days.some(day=>doc.receipts.filter(row=>row.day<=day).reduce((sum,row)=>sum+row.qty,0)<inspection.good+inspection.damaged+
-    doc.inspections.filter(row=>row.day<=day).reduce((sum,row)=>sum+row.good+row.damaged,0))){
+    inspections.filter(row=>row.day<=day).reduce((sum,row)=>sum+row.good+row.damaged,0))){
     throw Error('Jumlah diperiksa melebihi barang yang secara fisik sudah kembali pada tanggal tersebut.')
   }
   return {...session,accessorySalvage:session.accessorySalvage?.map(row=>row===doc?{...row,inspections:[...row.inspections,inspection]}:row)}
+}
+
+export function salvageInspectionBlockers(session:Session,doc:SalvageDocument,inspection:SalvageDocument['inspections'][number]):StockSourceLink[] {
+  const item=masterBook().items.find(row=>row.code===doc.code)
+  if(!inspection.good||item&&accessoryStockAt(item,mainAccessories,session)>=inspection.good)return []
+  return [{label:'Pemakaian '+doc.name,href:'/gudang/aksesori/?item='+encodeURIComponent(doc.code)}]
+}
+
+export function reverseSalvageInspection(session:Session,docId:string,inspectionId:string,reason:string) {
+  const doc=session.accessorySalvage?.find(row=>row.id===docId)
+  const inspection=doc?.inspections.find(row=>row.id===inspectionId&&!row.reversal)
+  if(!doc||!inspection||reason.trim().length<4||salvageInspectionBlockers(session,doc,inspection).length)throw Error('Periksa pemeriksaan dan saldo aksesori.')
+  return {...session,accessorySalvage:session.accessorySalvage?.map(row=>row===doc?{...row,inspections:row.inspections.map(check=>check===inspection
+    ?{...check,reversal:{reason:reason.trim(),at:new Date().toISOString()}}:check)}:row)}
 }

@@ -22,12 +22,19 @@ import {
 import type { CashMovement, JournalEntry, Payable, PayrollNote, Receivable } from './financeData'
 import EnterpriseSelect from './EnterpriseSelect'
 import { SupplierTransferPanel } from './demo/SupplierTransferPanel'
-import { readSupplierTransfers, transferPayables, transferTotal } from './demo/supplierTransfers'
+import { readSupplierTransfers, reverseSupplierInvoice, supplierInvoicePayments, transferPayables, transferTotal } from './demo/supplierTransfers'
 import { readPlannerSession } from './demo/planner/session'
 import { readSaleReturns } from './demo/saleReturnJournal'
 import { SupplierInvoiceComposer } from './demo/SupplierInvoiceComposer'
 import { kasbonSources, readSupplierInvoices, supplierDateLabel, supplierInvoiceAmount, supplierSourceRemaining, type SupplierGroup, type SupplierInvoice } from './demo/supplierInvoices'
-import { billCredit, billGross, billPaid, billRemaining, vendorCreditApplied } from './demo/laundryCredits'
+import { availableCredits, billCredit, billGross, billPaid, billRemaining, vendorCreditApplied } from './demo/laundryCredits'
+import { isLaundryInvoice, laundryContractKey, type LaundryDelivery, type LaundryFinalBill } from './demo/laundryModel'
+import { LaundryInvoiceActions } from './demo/LaundryCreditActions'
+import { LaundryVendorInvoiceComposer } from './demo/LaundryInvoiceComposer'
+import { invoiceForLaundryContract, laundryContracts, laundryContractsPath, laundryDocuments, laundryInvoiceBlockers, laundryPayablesPath, reverseLaundryInvoice } from './demo/laundryVendorInvoices'
+import type { UpdateLaundry } from './demo/LaundryClaimCreditDialog'
+import { StockSourceReversal } from './demo/StockSourceReversal'
+import { receiptDocumentPath } from './demo/receiptRollCorrection'
 import { amountText } from './demo/accessoryPricing'
 import { cleanMoneyInput, formatMoneyInput, readRupiahInput } from './moneyInput'
 import { dayOk, lastWarehouseDay } from './demo/warehouseDay'
@@ -35,7 +42,7 @@ import { calculateRegularWorkEntitlement } from './payroll/regularWorkEntitlemen
 import './business-pages.css'
 
 export type FinanceView = 'finance-overview' | 'finance-cash' | 'finance-ap' | 'finance-ar' | 'finance-payroll' | 'finance-journal' | 'finance-reports'
-type FinanceProps = { view: FinanceView; onNavigate: (view: FinanceView) => void; onSalesPayment: () => void; onAttendance: () => void; onOpenFg?:()=>void }
+type FinanceProps = { view: FinanceView; onNavigate: (view: FinanceView) => void; onSalesPayment: () => void; onAttendance: () => void; onOpenFg?:()=>void; laundry: LaundryDelivery[]; updateLaundry: UpdateLaundry }
 type Tone = 'good' | 'warn' | 'danger' | 'neutral'
 type PayrollSourceSelection = { kind:'FG' | 'ACCESSORY'; number:string } | null
 
@@ -123,10 +130,10 @@ function PayrollSourceModal({selection,note,onClose,onRelease}:{onRelease?:()=>v
   return <div className="biz-modal-backdrop" role="presentation" onMouseDown={onClose}><section className="biz-modal finance payroll-source-modal accessory" role="dialog" aria-modal="true" aria-labelledby="payroll-source-title" onMouseDown={(event)=>event.stopPropagation()}><header><div><span>NOTA AMBIL AKSESORI · DOKUMEN SUMBER</span><h2 id="payroll-source-title">{item.number}</h2><p>{item.date} · {item.source}</p></div><button aria-label="Tutup" onClick={onClose}><X/></button></header><div className="biz-modal-body">{actions}{item.lines&&<section className="owner-invoice-lines"><h3>Barang pada nota</h3><table><thead><tr><th>Barang</th><th>Qty</th><th>Harga</th><th>Tagihan</th></tr></thead><tbody>{item.lines.map((l,i)=><tr key={i}><td>{l.item}</td><td>{l.qty} {l.unit}</td><td>{money(l.price)}</td><td>{money(l.total)}</td></tr>)}</tbody></table></section>}<div className="payroll-source-identity"><FileSearch/><span><small>BARANG DETAIL</small><strong>{item.item}</strong><em>{item.source}</em></span></div><div className="payroll-accessory-equation"><span><small>QTY AKTUAL</small><strong>{item.qty.toLocaleString('id-ID')} {item.unit}</strong></span><i>×</i><span><small>HARGA MANDOR SNAPSHOT</small><strong>{item.lines&&item.lines.length>1?'Harga per baris di atas':money(item.unitPrice)}</strong></span><i>=</i><span className="result"><small>TOTAL KASBON</small><strong>{money(item.total)}</strong></span></div><div className="biz-guard"><ShieldCheck/><span>Nota ini berasal dari pengambilan stok detail. Nilainya mengurangi settlement mandor dan tidak mengubah moving-average HPP.</span></div></div><footer><button className="primary-btn" onClick={onClose}>Tutup detail</button></footer></section></div>
 }
 
-export default function FinancePages({view,onNavigate,onSalesPayment,onAttendance,onOpenFg}:FinanceProps) {
+export default function FinancePages({view,onNavigate,onSalesPayment,onAttendance,onOpenFg,laundry,updateLaundry}:FinanceProps) {
   if(view==='finance-overview')return <FinanceOverview onNavigate={onNavigate}/>
   if(view==='finance-cash')return <CashWorkspace onNavigate={onNavigate}/>
-  if(view==='finance-ap')return <PayablesWorkspace/>
+  if(view==='finance-ap')return <PayablesWorkspace laundry={laundry} updateLaundry={updateLaundry}/>
   if(view==='finance-ar')return <ReceivablesWorkspace onSalesPayment={onSalesPayment}/>
   if(view==='finance-payroll')return <PayrollWorkspace onAttendance={onAttendance} onOpenFg={onOpenFg}/>
   if(view==='finance-journal')return <JournalWorkspace/>
@@ -163,19 +170,35 @@ function CashWorkspace({onNavigate}:{onNavigate:FinanceProps['onNavigate']}) {
   const [account,setAccount]=useState('ALL')
   const [source,setSource]=useState('ALL')
   const [query,setQuery]=useState('')
-  const extra:CashMovement[]=[
-    ...readSupplierTransfers().map((row):CashMovement=>({date:row.day,number:row.id,source:'SUPPLIER_PAYMENT',account:row.account,
-      counterparty:row.party,description:row.reference+' · '+row.allocations.map(item=>item.number).join(' · '),amount:-transferTotal(row),status:row.reversed?'REVERSED':'POSTED'})),
+  type CashRow=CashMovement&{href?:string}
+  const invoices=readSupplierInvoices()
+  const sales=readInvoices()
+  function supplierPaymentLink(number:string) {
+    const invoice=invoices.find(row=>row.number===number)
+    const old=payables.find(row=>row.number===number)
+    const group=invoice?.group==='ACCESSORY'||old?.reference.startsWith('BELI-ACC')?'aksesori':old?.kind==='LAUNDRY_AP'?'laundry':'kain'
+    return '/keuangan/hutang-supplier/?'+new URLSearchParams({bagian:group,invoice:number})+'#pembayaran-invoice'
+  }
+  const extra:CashRow[]=[
+    ...readSupplierTransfers().map((row):CashRow=>({date:row.day,number:row.id,source:'SUPPLIER_PAYMENT',account:row.account,
+      counterparty:row.party,description:row.reference+' · '+row.allocations.map(item=>item.number).join(' · '),amount:-transferTotal(row),
+      href:supplierPaymentLink(row.allocations[0].number),status:row.reversed?'REVERSED':'POSTED'})),
     ...(readPlannerSession().laundry??[]).flatMap(delivery=>(delivery.finalBills??[]).flatMap(bill=>[
-      ...(bill.payments??[]).map((row):CashMovement=>({date:row.day,number:'PAY-'+row.id.slice(0,8),source:'VENDOR_PAYMENT',account:row.account,counterparty:delivery.vendor,
-        description:bill.number+' · '+row.reference,amount:-row.cents/100,status:'POSTED'})),
-      ...(bill.vendorUses??[]).flatMap((row):CashMovement[]=>row.account?[{date:row.day,number:'REF-'+row.id.slice(0,8),source:'VENDOR_PAYMENT',account:row.account,counterparty:delivery.vendor,
-        description:'Pengembalian kelebihan bayar '+bill.number,amount:row.cents/100,status:'POSTED'}]:[]),
+      ...(bill.payments??[]).map((row):CashRow=>({date:row.day,number:'PAY-'+row.id.slice(0,8),source:'VENDOR_PAYMENT',account:row.account,counterparty:delivery.vendor,
+        description:bill.number+' · '+row.reference,amount:-row.cents/100,href:laundryPayablesPath(delivery.vendor,bill.number)+'#pembayaran-invoice',status:row.reversal?'REVERSED':'POSTED'})),
+      ...(bill.vendorUses??[]).flatMap((row):CashRow[]=>row.account?[{date:row.day,number:'REF-'+row.id.slice(0,8),source:'VENDOR_PAYMENT',account:row.account,counterparty:delivery.vendor,
+        description:'Pengembalian kelebihan bayar '+bill.number,amount:row.cents/100,href:laundryPayablesPath(delivery.vendor,bill.number)+'#pembayaran-invoice',status:row.reversal?'REVERSED':'POSTED'}]:[]),
     ])),
-    ...readSaleReturns().flatMap((doc):CashMovement[]=>doc.settlement==='REFUND'&&doc.account?[{date:doc.at.slice(0,10),number:doc.number,source:'CUSTOMER_PAYMENT',account:doc.account,
-      counterparty:readInvoices().find(invoice=>invoice.number===doc.invoice)?.customer??doc.invoice,description:'Refund '+doc.invoice,amount:-doc.excess,status:doc.replacedBy?'REVERSED':'POSTED'}]:[]),
+    ...readSaleReturns().flatMap((doc):CashRow[]=>doc.settlement==='REFUND'&&doc.account?[{date:doc.at.slice(0,10),number:doc.number,source:'CUSTOMER_PAYMENT',account:doc.account,
+      counterparty:sales.find(invoice=>invoice.number===doc.invoice)?.customer??doc.invoice,description:'Refund '+doc.invoice,amount:-doc.excess,
+      href:'/penjualan/semua-invoice/?nota='+encodeURIComponent(doc.invoice),status:doc.replacedBy?'REVERSED':'POSTED'}]:[]),
+    ...readPayDrafts().flatMap(note=>(note.payments??[]).filter(payment=>payment.amount>0).map((payment):CashRow=>({
+      date:payment.day,number:'PAY-'+payment.id.slice(0,8),source:'PAYROLL_PAYMENT',account:payment.account,
+      counterparty:note.contractor,description:note.number+' · '+payment.reference,amount:-payment.amount,
+      href:'/keuangan/payroll-kasbon/?'+new URLSearchParams({nota:note.number})+'#pembayaran-payroll',status:payment.reversed?'REVERSED':'POSTED',
+    }))),
   ]
-  const movements=[...extra.slice().reverse(),...cashMovements]
+  const movements:CashRow[]=[...extra.slice().reverse(),...cashMovements]
   const visible=movements.filter(movement=>`${movement.number} ${movement.counterparty} ${movement.description} ${movement.account}`.toLowerCase().includes(query.toLowerCase())
     && (account==='ALL'||movement.account===account)&&(source==='ALL'||movement.source===source))
   const accounts=cashAccounts.map(item=>{
@@ -188,52 +211,60 @@ function CashWorkspace({onNavigate}:{onNavigate:FinanceProps['onNavigate']}) {
   return <>
     <FinanceHero eyebrow="KEUANGAN · CASH LEDGER" title="Kas & Bank" description="Browser semua uang masuk dan keluar berdasarkan jurnal posted. Tidak ada edit saldo; koreksi selalu lewat reversal transaksi sumber." icon={Landmark}/>
     <section className="biz-cash-accounts">{accounts.map((item)=><button className={`panel ${account===item.name?'active':''}`} key={item.code} onClick={()=>setAccount(account===item.name?'ALL':item.name)}><header><span>{item.kind}</span><Pill tone="good">RECONCILED</Pill></header><strong>{item.name}</strong><h2>{money(item.balance)}</h2><div><span>Masuk <b>+{compactMoney(item.inflow)}</b></span><span>Keluar <b>−{compactMoney(item.outflow)}</b></span></div><small>Rekonsiliasi {item.reconciledAt}</small></button>)}</section>
-    <section className="panel biz-ledger"><header><div><span>CASH MOVEMENT</span><strong>{visible.length} transaksi · saldo {money(totalCash)}</strong></div><button className="soft-btn" onClick={()=>onNavigate('finance-journal')}><PlusIcon/> Transaksi lain-lain</button></header><div className="biz-history-toolbar compact"><label className="biz-search"><Search/><input value={query} onChange={(event)=>setQuery(event.target.value)} placeholder="Cari ref, lawan transaksi, atau akun..."/></label><select value={account} onChange={(event)=>setAccount(event.target.value)}><option value="ALL">Semua akun</option>{accounts.map((item)=><option key={item.code}>{item.name}</option>)}</select><select value={source} onChange={(event)=>setSource(event.target.value)}><option value="ALL">Semua sumber</option>{[...new Set(movements.map((item)=>item.source))].map((item)=><option key={item}>{item}</option>)}</select></div><div className="biz-table cash"><div className="biz-table-head"><span>Waktu / ref</span><span>Lawan transaksi</span><span>Keterangan</span><span>Akun</span><span>Jumlah</span><span>Status</span></div>{visible.map((movement)=><article key={movement.number}><span><strong>{movement.number}</strong><small>{movement.date}</small></span><strong>{movement.counterparty}</strong><span>{movement.description}<small>{movement.source.replaceAll('_',' ')}</small></span><span>{movement.account}</span><b className={movement.amount<0?'negative':'positive'}>{movement.amount<0?'− ':'+ '}{money(Math.abs(movement.amount))}</b><Pill>{movement.status}</Pill></article>)}</div><footer className="biz-ledger-rule"><LockKeyhole/><span><strong>Saldo tidak boleh diketik.</strong><small>Kas berubah hanya dari payment/customer receipt/payroll/misc transaction yang posted.</small></span></footer></section>
+    <section className="panel biz-ledger"><header><div><span>CASH MOVEMENT</span><strong>{visible.length} transaksi · saldo {money(totalCash)}</strong></div><button className="soft-btn" onClick={()=>onNavigate('finance-journal')}><PlusIcon/> Transaksi lain-lain</button></header><div className="biz-history-toolbar compact"><label className="biz-search"><Search/><input value={query} onChange={(event)=>setQuery(event.target.value)} placeholder="Cari ref, lawan transaksi, atau akun..."/></label><select value={account} onChange={(event)=>setAccount(event.target.value)}><option value="ALL">Semua akun</option>{accounts.map((item)=><option key={item.code}>{item.name}</option>)}</select><select value={source} onChange={(event)=>setSource(event.target.value)}><option value="ALL">Semua sumber</option>{[...new Set(movements.map((item)=>item.source))].map((item)=><option key={item}>{item}</option>)}</select></div><div className="biz-table cash"><div className="biz-table-head"><span>Waktu / ref</span><span>Lawan transaksi</span><span>Keterangan</span><span>Akun</span><span>Jumlah</span><span>Status</span></div>{visible.map((movement)=><article key={movement.number}><span>{movement.href?<a className="source-row-link" href={movement.href}><strong>{movement.number}</strong><ArrowRight aria-hidden="true"/></a>:<strong>{movement.number}</strong>}<small>{movement.date}</small></span><strong>{movement.counterparty}</strong><span>{movement.description}<small>{movement.source.replaceAll('_',' ')}</small></span><span>{movement.account}</span><b className={movement.amount<0?'negative':'positive'}>{movement.amount<0?'− ':'+ '}{money(Math.abs(movement.amount))}</b><Pill>{movement.status}</Pill></article>)}</div><footer className="biz-ledger-rule"><LockKeyhole/><span><strong>Saldo tidak boleh diketik.</strong><small>Kas berubah hanya dari payment/customer receipt/payroll/misc transaction yang posted.</small></span></footer></section>
   </>
 }
 
 function PlusIcon(){return <span className="biz-plus">+</span>}
 const payableSections=[{key:'FABRIC',label:'Vendor Kain',icon:Layers3},{key:'LAUNDRY',label:'Laundry',icon:Waves},{key:'ACCESSORY',label:'Aksesori',icon:Package}] as const
 type PayableSection=typeof payableSections[number]['key']
-type PayableRow={key:string;number:string;party:string;reference:string;amount:number;paid:number;balance:number;status:string;credit?:number;payable?:Payable;invoice?:SupplierInvoice;href?:string}
+type PayableRow={key:string;number:string;party:string;reference:string;amount:number;paid:number;balance:number;status:string;credit?:number;payable?:Payable;invoice?:SupplierInvoice;laundry?:{delivery:LaundryDelivery;bill:LaundryFinalBill}}
 
-function PayablesWorkspace() {
-  const [section,setSection]=useState<PayableSection>(()=>new URLSearchParams(location.search).get('bagian')==='laundry'?'LAUNDRY':new URLSearchParams(location.search).get('bagian')==='aksesori'?'ACCESSORY':'FABRIC')
-  const [state,setState]=useState('OPEN')
+function PayablesWorkspace({laundry,updateLaundry}:{laundry:LaundryDelivery[];updateLaundry:UpdateLaundry}) {
+  const options=new URLSearchParams(location.search)
+  const [section,setSection]=useState<PayableSection>(()=>options.get('bagian')==='laundry'?'LAUNDRY':options.get('bagian')==='aksesori'?'ACCESSORY':'FABRIC')
+  const [state,setState]=useState(()=>options.has('invoice')?'ALL':'OPEN')
+  const [vendor,setVendor]=useState(()=>options.get('vendor')??'')
   const [query,setQuery]=useState('')
   const [transfers,setTransfers]=useState(readSupplierTransfers)
   const [invoices,setInvoices]=useState(readSupplierInvoices)
-  const [selectedKey,setSelectedKey]=useState('')
+  const [selectedKey,setSelectedKey]=useState(()=>options.get('invoice')??'')
   const [composer,setComposer]=useState<true|SupplierInvoice|null>(null)
+  const [laundryComposer,setLaundryComposer]=useState<true|LaundryFinalBill|null>(null)
   const [notice,setNotice]=useState('')
   const category=payableSections.find(row=>row.key===section)!
-  const laundry=readPlannerSession().laundry??[]
   const posted=transferPayables(transfers,undefined,invoices).filter(row=>row.kind!=='MATERIAL_GRNI')
+  const vendors=[...new Set([...laundry.map(row=>row.vendor),...posted.filter(row=>row.kind==='LAUNDRY_AP').map(row=>row.party)])].sort()
+  const contracts=laundryContracts(laundry,vendor||undefined)
+  const openContracts=contracts.filter(({ref})=>!invoiceForLaundryContract(laundry,ref))
   const docs:PayableRow[]=[
-    ...invoices.filter(doc=>doc.group===section&&doc.status==='DRAFT').map(invoice=>({key:invoice.id,number:invoice.number,party:invoice.supplier,reference:invoice.lines.map(line=>line.source.number).join(' · '),
-      amount:supplierInvoiceAmount(invoice),paid:0,balance:0,status:'DRAFT',invoice})),
+    ...invoices.filter(doc=>doc.group===section&&(doc.status==='DRAFT'||doc.reversal)).map(invoice=>({key:invoice.id,number:invoice.number,party:invoice.supplier,reference:invoice.lines.map(line=>line.source.number).join(' · '),
+      amount:supplierInvoiceAmount(invoice),paid:0,balance:0,status:invoice.reversal?'REVERSED':'DRAFT',invoice})),
     ...posted.filter(doc=>{
       const invoice=invoices.find(row=>row.number===doc.number)
       const group=invoice?.group??(doc.kind==='LAUNDRY_AP'?'LAUNDRY':doc.reference.startsWith('BELI-ACC')?'ACCESSORY':'FABRIC')
       return group===section
     }).map(payable=>({key:payable.number,number:payable.number,party:payable.party,reference:payable.reference,amount:payable.amount,paid:payable.paid,
       balance:outstandingPayable(payable),status:payable.status,payable,invoice:invoices.find(row=>row.number===payable.number)})),
-    ...(section==='LAUNDRY'?laundry.flatMap(delivery=>(delivery.finalBills??[]).map(bill=>{
+    ...(section==='LAUNDRY'?laundryDocuments(laundry).filter(({bill})=>isLaundryInvoice(bill)).map(({delivery,bill})=>{
       const balance=billRemaining(laundry,delivery,bill)
-      return {key:delivery.id+'|'+bill.number,number:bill.number,party:delivery.vendor,reference:bill.parts?.map(part=>part.delivery).join(' · ')??delivery.id,
-        amount:billGross(bill)/100,paid:billPaid(bill)/100,balance:balance/100,credit:(billCredit(bill)+vendorCreditApplied(laundry,delivery.id,bill.number))/100,
-        status:balance===0?'PAID':billPaid(bill)>0?'PARTIAL':'OPEN',
-        href:'/produksi/laundry/?'+new URLSearchParams({tab:'tagihan',vendor:delivery.vendor,cari:bill.number})}
-    })):[]),
-  ]
+      const draft=bill.status==='DRAFT'
+      return {key:bill.invoiceId??delivery.id+'|'+bill.number,number:bill.number,party:delivery.vendor,
+        reference:bill.contracts?.map(ref=>ref.number).join(' · ')??delivery.id,
+        amount:billGross(bill)/100,paid:billPaid(bill)/100,balance:bill.reversal?0:balance/100,credit:(billCredit(bill)+vendorCreditApplied(laundry,delivery.id,bill.number))/100,
+        status:bill.reversal?'REVERSED':draft?'DRAFT':balance===0?'PAID':billPaid(bill)>0?'PARTIAL':'OPEN',laundry:{delivery,bill}}
+    }):[]),
+  ].filter(row=>section!=='LAUNDRY'||!vendor||row.party===vendor)
   const sources=section==='LAUNDRY'?[]:kasbonSources().filter(row=>row.group===section)
   const openSources=sources.filter(row=>supplierSourceRemaining(invoices,row)>0)
-  const visible=docs.filter(doc=>browseMatchPieces(query,doc.invoice?.lines.filter(line=>line.source.unit==='pcs').map(line=>line.qty)??[],
-    doc.number,doc.party,doc.reference)&&(state==='ALL'||(state==='OPEN'?doc.status!=='PAID':doc.status===state)))
-  const selected=visible.find(doc=>doc.key===selectedKey)??visible[0]
-  const payablesOpen=docs.filter(doc=>doc.balance>0)
+  const visible=docs.filter(doc=>browseMatchPieces(query,doc.laundry?[doc.laundry.bill.qty]:doc.invoice?.lines.filter(line=>line.source.unit==='pcs').map(line=>line.qty)??[],
+    doc.number,doc.party,doc.reference)&&(state==='ALL'||(state==='OPEN'?!['PAID','REVERSED'].includes(doc.status):doc.status===state)))
+  const selected=visible.find(doc=>doc.key===selectedKey)??visible.find(doc=>doc.number===selectedKey)??visible[0]
+  const payablesOpen=docs.filter(doc=>doc.status!=='DRAFT'&&doc.balance>0)
+  const outstanding=payablesOpen.reduce((sum,doc)=>sum+doc.balance,0)
+  const laundryCredit=(vendor?[vendor]:vendors).reduce((sum,name)=>sum+availableCredits(laundry,name).reduce((subtotal,row)=>subtotal+row.remaining,0),0)
   function chooseSection(next:PayableSection) {
-    setSection(next);setState('OPEN');setQuery('');setSelectedKey('');setNotice('')
+    setSection(next);setState('OPEN');setVendor('');setQuery('');setSelectedKey('');setNotice('')
   }
   function handleCompose() {
     if(section!=='LAUNDRY')setComposer(true)
@@ -241,49 +272,107 @@ function PayablesWorkspace() {
 
   return <>
     <FinanceHero eyebrow="KEUANGAN · HUTANG" title="Hutang Supplier & Vendor" description="Pilih sumber tagihan per supplier. Susun kasbon ke satu invoice, lalu catat pembayaran dari invoice tersebut." icon={ReceiptText}/>
-    <nav className="payable-section-tabs" aria-label="Jenis tagihan">
-      {payableSections.map(({key,label,icon:Glyph})=><button type="button" key={key} className={section===key?'active':''} aria-pressed={section===key} onClick={()=>chooseSection(key)}><Glyph size={19}/><strong>{label}</strong></button>)}
-    </nav>
-    <section className="panel demo-ops-panel payable-start"><header className="demo-ops-header">
-      <div className="demo-operation-heading"><i><category.icon/></i><div><h2>{category.label}</h2><p>{payablesOpen.length} invoice belum lunas{section!=='LAUNDRY'?' · '+openSources.length+' kasbon siap dipilih':''}</p></div></div>
-      {section==='LAUNDRY'?<a className="primary-btn" href="/produksi/laundry/?tab=tagihan"><WalletCards size={17}/> Buka Klaim &amp; Tagihan Laundry</a>
-        :<button type="button" className="primary-btn" onClick={handleCompose}><FilePlus2 size={17}/> Susun invoice supplier</button>}
-    </header></section>
+    <section className="panel payable-dashboard" aria-label="Ringkasan hutang">
+      <nav className="payable-section-tabs" aria-label="Jenis tagihan">
+        {payableSections.map(({key,label,icon:Glyph})=><button type="button" key={key} aria-pressed={section===key} onClick={()=>chooseSection(key)}>
+          <i><Glyph aria-hidden="true"/></i><strong>{label}</strong>
+        </button>)}
+      </nav>
+      <div className="payable-overview">
+        <dl className="payable-metrics">
+          <div className="payable-outstanding"><dt><WalletCards aria-hidden="true"/> Total belum dibayar</dt><dd>{money(outstanding)}</dd></div>
+          {section==='LAUNDRY'?<>
+            <div><dt><ReceiptText aria-hidden="true"/> Kontrabon siap dipilih</dt><dd>{openContracts.length}</dd></div>
+            <div><dt><CheckCircle2 aria-hidden="true"/> Kredit klaim tersedia</dt><dd>{amountText(laundryCredit/100)}</dd></div>
+          </>:<>
+            <div><dt><ReceiptText aria-hidden="true"/> Invoice belum lunas</dt><dd>{payablesOpen.length}</dd></div>
+            <div><dt><FileSearch aria-hidden="true"/> Kasbon siap dipilih</dt><dd>{openSources.length}</dd></div>
+          </>}
+        </dl>
+        <div className="payable-start">
+          {section==='LAUNDRY'?<>
+            <button type="button" className="primary-btn" onClick={()=>setLaundryComposer(true)}><FilePlus2 aria-hidden="true"/> Susun invoice Laundry</button>
+            <a className="soft-btn" href={laundryContractsPath(vendor)}><ReceiptText aria-hidden="true"/> Klaim &amp; Kontrabon <ArrowRight aria-hidden="true"/></a>
+          </>
+            :<button type="button" className="primary-btn" onClick={handleCompose}><FilePlus2 aria-hidden="true"/> Susun invoice supplier</button>}
+        </div>
+      </div>
+    </section>
     {notice&&<div className="biz-inline-notice" role="status"><CheckCircle2/> {notice}</div>}
-    <section className="panel biz-master-detail finance-detail">
-      <BrowsePane aria-label="Daftar utang dan GRNI"><header><div><span>{category.label.toUpperCase()}</span><strong>{visible.length} invoice</strong></div><ReceiptText/></header>
-        <label className="biz-search"><Search/><input aria-label="Cari invoice supplier" type="search" value={query} onChange={event=>setQuery(event.target.value)} placeholder="Cari invoice, supplier, atau kasbon…"/></label>
-        <label className="payable-filter-label">Status invoice<select value={state} onChange={event=>setState(event.target.value)}>
-          <option value="OPEN">Draf &amp; belum lunas</option><option value="ALL">Semua invoice</option><option value="DRAFT">Draf</option><option value="PAID">Lunas</option>
-        </select></label>
+    <section className="panel biz-master-detail finance-detail payable-workspace">
+      <BrowsePane aria-label="Daftar utang dan GRNI">
+        <header><div><span>{category.label}</span><strong>Daftar invoice</strong></div><small>{visible.length} invoice</small></header>
+        <div className="payable-filters">
+          <label className="biz-search"><Search aria-hidden="true"/><input aria-label="Cari invoice supplier" type="search" value={query} onChange={event=>setQuery(event.target.value)} placeholder="Cari invoice, supplier, atau kasbon…"/></label>
+          {section==='LAUNDRY'&&<label className="payable-filter-label">Laundry<select value={vendor} onChange={event=>{setVendor(event.target.value);setSelectedKey('')}}>
+            <option value="">Semua laundry</option>{vendors.map(name=><option key={name}>{name}</option>)}
+          </select></label>}
+          <label className="payable-filter-label">Status invoice<select value={state} onChange={event=>setState(event.target.value)}>
+            <option value="OPEN">Draf &amp; belum lunas</option><option value="ALL">Semua invoice</option><option value="DRAFT">Draf</option><option value="PAID">Lunas</option><option value="REVERSED">Dibalik</option>
+          </select></label>
+        </div>
         <div className="biz-browser-list">{visible.map(doc=><button type="button" key={doc.key} aria-pressed={doc===selected} className={doc===selected?'active':''} onClick={()=>setSelectedKey(doc.key)}>
-          <span><ReceiptText size={16}/></span><div><strong>{money(doc.status==='DRAFT'?doc.amount:doc.balance)}</strong><small>{doc.party}</small><em>{doc.number}</em></div>
+          <i><ReceiptText aria-hidden="true"/></i><div><strong>{money(doc.status==='DRAFT'?doc.amount:doc.balance)}</strong><small>{doc.party}</small><em>{doc.number}</em></div>
           <Pill>{doc.status}</Pill>
         </button>)}</div>
       </BrowsePane>
       {selected?<main>
-        <header className="biz-detail-head"><div><span>{selected.party}</span><h2>{selected.number}</h2><p>{selected.invoice?supplierDateLabel(selected.invoice.day):selected.reference}</p></div><Pill>{selected.status}</Pill></header>
-        <div className="demo-operation-facts payable-balance">
-          <article><span>Total invoice</span><strong>{money(selected.amount)}</strong></article>
-          {selected.status!=='DRAFT'&&<><article><span>Sudah dibayar</span><strong>{money(selected.paid)}</strong></article>
-            {!!selected.credit&&<article><span>Potongan kredit</span><strong>{money(selected.credit)}</strong></article>}
-            <article><span>Sisa tagihan</span><strong>{money(selected.balance)}</strong></article></>}
-        </div>
+        <header className="biz-detail-head payable-identity">
+          <i><category.icon aria-hidden="true"/></i>
+          <div><span>{selected.party}</span><h2>{selected.number}</h2><p>{selected.laundry?supplierDateLabel(selected.laundry.bill.day):selected.invoice?supplierDateLabel(selected.invoice.day):selected.reference}</p></div>
+          <Pill>{selected.status}</Pill>
+        </header>
+        <dl className="payable-metrics payable-balance">
+          <div><dt><ReceiptText aria-hidden="true"/> Total invoice</dt><dd>{money(selected.amount)}</dd></div>
+          {selected.status!=='DRAFT'&&<>
+            <div><dt><Banknote aria-hidden="true"/> Sudah dibayar</dt><dd>{money(selected.paid)}</dd></div>
+            {!!selected.credit&&<div><dt><CheckCircle2 aria-hidden="true"/> Potongan kredit</dt><dd>{money(selected.credit)}</dd></div>}
+            <div className="payable-outstanding"><dt><WalletCards aria-hidden="true"/> Sisa tagihan</dt><dd>{money(selected.balance)}</dd></div>
+          </>}
+        </dl>
         {selected.invoice&&<section className="demo-ops-card demo-supplier-transfers" aria-label="Kasbon dalam invoice">
-          <header className="demo-ops-header"><div className="demo-operation-heading"><i><ReceiptText/></i><div><h3>Kasbon dalam invoice ini</h3><p>{selected.invoice.lines.length} kasbon · {selected.party}</p></div></div>
+          <header className="demo-ops-header"><div className="demo-operation-heading"><i><ReceiptText aria-hidden="true"/></i><div><h3>Kasbon dalam invoice ini</h3><p>{selected.invoice.lines.length} kasbon</p></div></div>
             {selected.status==='DRAFT'&&<button type="button" className="primary-btn" onClick={()=>setComposer(selected.invoice!)}>Tambah / lepas kasbon <ArrowRight size={16}/></button>}</header>
-          <div className="demo-operation-history">{selected.invoice.lines.map(line=><article key={line.source.id}>
-            <strong>{line.qty.toLocaleString('id-ID')} {line.source.unit} · {line.source.name}</strong><small>{line.source.number} · {supplierDateLabel(line.source.day)}</small><span>{amountText(line.cents/100)}</span>
-          </article>)}</div>
+          {!!selected.invoice.lines.length&&<div className="payable-receipt-lines">{selected.invoice.lines.map(line=><article key={line.source.id}>
+            <div><strong>{line.qty.toLocaleString('id-ID')} {line.source.unit}</strong> · {line.source.name}<small>{line.source.number} · {supplierDateLabel(line.source.day)}</small></div>
+            <b>{amountText(line.cents/100)}</b>
+            {line.source.id.includes(':')&&<a className="source-row-link" href={receiptDocumentPath(line.source.number,line.source.group==='ACCESSORY'?'aksesori':'kain')}>Buka penerimaan <ArrowRight size={15}/></a>}
+          </article>)}</div>}
         </section>}
-        {selected.href&&<div className="demo-supplier-transfers"><a className="primary-btn" href={selected.href}><WalletCards size={17}/> Buka kontrabon &amp; pembayaran</a></div>}
+        {selected.laundry&&<section className="demo-ops-card demo-supplier-transfers" aria-label="Kontrabon dalam invoice">
+          <header className="demo-ops-header"><div className="demo-operation-heading"><i><ReceiptText aria-hidden="true"/></i>
+            <div><h3>{selected.laundry.bill.contracts?'Kontrabon dalam invoice ini':'Arsip tagihan Laundry'}</h3>
+              <p>{selected.laundry.bill.contracts?.length??1} dokumen · {selected.laundry.bill.qty} pcs</p></div>
+          </div>{selected.status==='DRAFT'&&<button className="primary-btn" type="button" onClick={()=>setLaundryComposer(selected.laundry!.bill)}>Tambah / lepas kontrabon <ArrowRight aria-hidden="true"/></button>}</header>
+          <div className="payable-receipt-lines">{selected.laundry.bill.contracts?.map(ref=>{
+            const source=laundryContracts(laundry,selected.party).find(row=>laundryContractKey(row.ref)===laundryContractKey(ref))
+            return <article key={laundryContractKey(ref)}><div><strong>{source?.bill.qty??0} pcs</strong><small>{source?.bill.day}</small></div>
+              <a className="soft-btn" href={laundryContractsPath(selected.party,ref.number)}>{ref.number} <ArrowRight aria-hidden="true"/></a></article>
+          })??<a className="soft-btn invoice-document-link" href={laundryContractsPath(selected.party)}>Buka Klaim &amp; Kontrabon Laundry <ArrowRight aria-hidden="true"/></a>}</div>
+        </section>}
+        {selected.laundry&&!['DRAFT','REVERSED'].includes(selected.status)&&<LaundryInvoiceActions key={selected.key} delivery={selected.laundry.delivery} bill={selected.laundry.bill} deliveries={laundry} update={updateLaundry}/>}
         {selected.payable&&<SupplierTransferPanel key={selected.key} doc={selected.payable} transfers={transfers} onSaved={rows=>{setTransfers(rows);setState('ALL');setSelectedKey(selected.key)}}/>}
-      </main>:<main className="biz-empty"><ReceiptText/><strong>Belum ada invoice untuk pilihan ini</strong><small>Ubah pencarian atau pilih Susun invoice supplier.</small></main>}
+        {selected.invoice&&<div className="demo-supplier-transfers"><StockSourceReversal key={selected.key} label={selected.status==='DRAFT'?'Batalkan draf invoice':'Balikkan invoice'}
+          document={selected.number} reversal={selected.invoice.reversal} blockers={supplierInvoicePayments(transfers,selected.invoice).map(row=>({label:'Pembayaran · '+row.reference,href:'#pembayaran-invoice'}))}
+          onReverse={reason=>{setInvoices(reverseSupplierInvoice(selected.invoice!.id,reason));setState('ALL');setSelectedKey(selected.key)}}/></div>}
+        {selected.laundry&&<div className="demo-supplier-transfers"><StockSourceReversal key={selected.key} label={selected.status==='DRAFT'?'Batalkan draf invoice':'Balikkan invoice'}
+          document={selected.number} reversal={selected.laundry.bill.reversal} blockers={laundryInvoiceBlockers(laundry,selected.laundry.delivery,selected.laundry.bill)}
+          onReverse={reason=>{
+            const next=reverseLaundryInvoice(laundry,selected.laundry!.delivery.id,selected.number,reason)
+            updateLaundry(current=>current===laundry?next:current);setState('ALL');setSelectedKey(selected.key)
+          }}/></div>}
+      </main>:<main className="biz-empty"><ReceiptText aria-hidden="true"/><strong>Belum ada invoice untuk pilihan ini</strong><small>{section==='LAUNDRY'?'Pilih Susun invoice Laundry saat invoice vendor sudah datang.':'Ubah filter atau pilih Susun invoice supplier.'}</small></main>}
     </section>
     {composer&&section!=='LAUNDRY'&&<SupplierInvoiceComposer group={section as SupplierGroup} rows={invoices} previous={composer===true?undefined:composer} onClose={()=>setComposer(null)}
       onSave={({doc,rows})=>{
         setComposer(null);setInvoices(rows);setState('OPEN');setQuery('');setSelectedKey(doc.status==='DRAFT'?doc.id:doc.number)
         setNotice(doc.status==='DRAFT'?'Draf '+doc.number+' tersimpan. Buka lagi untuk tambah atau lepas kasbon.':'Invoice '+doc.number+' terposting dan siap dibayar.')
+      }}/>}
+    {section==='LAUNDRY'&&laundryComposer&&<LaundryVendorInvoiceComposer deliveries={laundry} vendor={laundryComposer===true?vendor:selected?.party??vendor}
+      previous={laundryComposer===true?undefined:laundryComposer} update={updateLaundry} onClose={()=>setLaundryComposer(null)}
+      onSaved={bill=>{
+        setLaundryComposer(null);setState(bill.status==='POSTED'?'ALL':'OPEN');setQuery('');setSelectedKey(bill.invoiceId??'')
+        setNotice(bill.status==='DRAFT'?'Draf invoice '+bill.number+' tersimpan.':'Invoice '+bill.number+' siap dipotong kredit atau dibayar.')
       }}/>}
   </>
 }
@@ -357,6 +446,7 @@ function PayrollWorkspace({onAttendance,onOpenFg}:{onAttendance:()=>void;onOpenF
   const [salesInvoices]=useState(readInvoices)
   const [debtLink]=useState(()=>new URLSearchParams(location.search))
   const linkedInvoice=salesInvoices.find(invoice=>invoice.number===debtLink.get('piutang')&&invoice.buyerKind==='MANDOR'&&invoice.status==='POSTED')
+  const sourcePayroll=debtLink.get('nota')
   const suggestedPeriod=periodFor('week',linkedInvoice?.dateKey??fixtureDate)
   const [compose,setCompose]=useState(false)
   const [mandor,setMandor]=useState(linkedInvoice?.customer??'Mandor Afui')
@@ -367,14 +457,14 @@ function PayrollWorkspace({onAttendance,onOpenFg}:{onAttendance:()=>void;onOpenF
   const [workPeriod,setWorkPeriod]=useState(()=>periodFor('all','2026-11-24'))
   const [payrollSort,setPayrollSort]=useState('recent')
 
-  const [statusFilter,setStatusFilter]=useState('Aktif · lunas disembunyikan')
+  const [statusFilter,setStatusFilter]=useState(sourcePayroll?'Semua status':'Aktif · lunas disembunyikan')
   const creditMandor=debtLink.get('mandor')
   const [mandorFilter,setMandorFilter]=useState(()=>notes.find(note=>note.contractor===(linkedInvoice?.customer??creditMandor))?.contractor??'Semua mandor')
   const [query,setQuery]=useState('')
   const [selectedNumber,setSelectedNumber]=useState(()=>{
     const linkedNote=linkedInvoice && notes.filter(editablePayroll).sort((left,right)=>payrollPeriod(right).end.localeCompare(payrollPeriod(left).end))
       .find(note=>mandorBillsForPayroll(salesInvoices,notes,note).some(bill=>bill.invoice.number===linkedInvoice.number))
-    return linkedNote?.number ?? sessionStorage.getItem('erp.owner.payroll.focus') ?? notes[0].number
+    return notes.find(note=>note.number===sourcePayroll)?.number ?? linkedNote?.number ?? sessionStorage.getItem('erp.owner.payroll.focus') ?? notes[0].number
   })
   const [sourceSelection,setSourceSelection]=useState<PayrollSourceSelection>(null)
   const [payOpen,setPayOpen]=useState(false)
@@ -575,7 +665,7 @@ function PayrollWorkspace({onAttendance,onOpenFg}:{onAttendance:()=>void;onOpenF
       <section className="biz-payroll-calculation"><header><div><span>03 · REKONSILIASI PAYROLL</span><strong>Hitung dari dokumen sumber yang sudah posted</strong></div><span>{selected.number}</span></header><div className="biz-payroll-calculation-lines"><article className="positive"><span><strong>Total Nota FG</strong><small>Upah jahit + BOM + komisi, termasuk Bikin Bagus</small></span><b>+ {money(fgTotal)}</b></article><article className="positive"><span><strong>Attendance eligible</strong><small>Hanya pekerja yang memang wajib attendance</small></span><b>+ {money(selected.attendance)}</b></article><article className="negative"><span><strong>Total Nota Ambil Aksesori</strong><small>{selected.accessoryNotes.map((item)=>item.number).join(' · ')}</small></span><b>− {money(accessoryTotal)}</b></article>{selected.deductions.map((item)=><article className="negative" key={item.label}><span><strong>{item.label}</strong><small>{item.reference}</small></span><b>− {money(item.amount)}</b></article>)}{mandorTotal>0&&<article className="negative"><span><strong>Potongan piutang mandor</strong><small>{selected.mandorDebts?.length} invoice belanja</small></span><b>− {money(mandorTotal)}</b></article>}{accessoryCreditTotal>0&&<article className="positive"><span><strong>Kredit retur aksesori</strong><small>{selected.accessoryCredits?.length} retur layak bayar</small></span><b>+ {money(accessoryCreditTotal)}</b></article>}<footer><span><small>NET PAYABLE</small><strong>{money(recomputed)}</strong></span><div><small>ELIGIBLE BELUM DITARIK</small><strong>{selected.eligibleLines} baris</strong></div><div><small>RENCANA BAYAR</small><strong>{selected.paymentDate}</strong></div></footer></div></section>
       {selected.eligibleLines>0&&<div className="biz-guard warn"><AlertTriangle/><span>{selected.eligibleLines} baris eligible belum masuk nota. Penarikan harus atomic dan idempotent; payroll tidak boleh menebak dari frontend.</span></div>}
       {(selected.status==='APPROVED'||selected.status==='PAID'||selected.payments?.length)&&
-        <section className="mandor-debt-panel" aria-label="Pembayaran payroll">
+        <section className="mandor-debt-panel" id="pembayaran-payroll" aria-label="Pembayaran payroll">
           <header><Banknote aria-hidden="true"/><div><h3>Pembayaran payroll</h3><p>Lihat saldo setelah setiap pembayaran.</p></div></header>
           <dl className="mandor-debt-balances"><div><dt>Sudah dibayar</dt><dd>{money(payrollPaid(selected))}</dd></div><div><dt>Sisa bayar</dt><dd>{money(remainingPay)}</dd></div></dl>
           {!!selected.payments?.length&&<ul className="mandor-payroll-sources">{selected.payments.map(payment=><li key={payment.id}>

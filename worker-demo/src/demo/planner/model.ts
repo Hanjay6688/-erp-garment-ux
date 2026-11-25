@@ -10,6 +10,7 @@ import sample from './sample.json'
 import projection from './projection.json'
 import { drawingLabel } from '../cuttingAllocation'
 import type { ProductionPatternSnapshot } from '../productionModel'
+import { receiptRolls, type ReceiptRoll, type ReceiptReversal, type RollReceiptCorrection, type StockSourceLink } from '../receiptRollCorrection'
 
 export const { products, patterns, rolls } = sample
 export type Product = typeof products[number]
@@ -47,9 +48,9 @@ export type StockEvent = { id:string; action:'adjust'|'convert'; date?:string; p
 export type RollCorrection = {
   id:string; cut:string; original:string; from:string; to:string; yards:number; reason:string; at:string; costDifference:number|null
 }
-export type FabricReceipt = {id:string;number:string;material:string;supplier:string;day:string;unit:'yd'|'m';rate:number;rolls:{id:string;length:number}[]}
-export type AccessoryReceipt = {id:string;number:string;code:string;supplier:string;day:string;rate:number;qty:number}
-export type Session = { laundry?: LaundryDelivery[]; saleReturns?:SaleReturn[]; batchEvents?:BatchEvent[]; skuUpdates?:Record<string,{article:Article;active:boolean}>; skuPairs?:Record<string,string|null>; stockEvents?:StockEvent[]; patternRefs?:Record<string,string|null>; destinations?: Destination[]; fabricReceipts?:FabricReceipt[]; accessoryReceipts?:AccessoryReceipt[]; rollCorrections?:RollCorrection[]; conversionReturns?:ConversionReturn[]; serviceDocuments?:ServiceDocument[]; accessoryCustody?:CustodyNote[]; accessorySalvage?:SalvageDocument[]; cuts: Lot[]; pickups: Pickup[]; confirmed: string[]; elsewhere: string[] }
+export type FabricReceipt = {id:string;number:string;material:string;supplier:string;day:string;unit:'yd'|'m';rate:number;rolls:ReceiptRoll[];corrections?:RollReceiptCorrection[];reversal?:ReceiptReversal}
+export type AccessoryReceipt = {id:string;number:string;code:string;supplier:string;day:string;rate:number;qty:number;reversal?:ReceiptReversal}
+export type Session = { laundry?: LaundryDelivery[]; saleReturns?:SaleReturn[]; batchEvents?:BatchEvent[]; skuUpdates?:Record<string,{article:Article;active:boolean}>; skuPairs?:Record<string,string|null>; stockEvents?:StockEvent[]; patternRefs?:Record<string,string|null>; destinations?: Destination[]; fabricReceipts?:FabricReceipt[]; accessoryReceipts?:AccessoryReceipt[]; rollCorrections?:RollCorrection[]; cutReversals?:Record<string,ReceiptReversal>; conversionReturns?:ConversionReturn[]; serviceDocuments?:ServiceDocument[]; accessoryCustody?:CustodyNote[]; accessorySalvage?:SalvageDocument[]; cuts: Lot[]; pickups: Pickup[]; confirmed: string[]; elsewhere: string[] }
 export const emptySession: Session = { cuts: [], pickups: [], confirmed: [], elsewhere: [] }
 export const stageName: Record<string, string> = { cut: 'Meja potong', sewing: 'Jahit', laundry: 'Laundry', qc: 'QC' }
 export const productFor = (sku: string | null | undefined) => products.find(p => p.sku === sku)
@@ -95,16 +96,30 @@ const historicalRolls = [
 ]
 const demoRollRates: Record<string, number> = {'ORI-021':49_200,'KW-023':47_600,'LCY-022':49_200}
 const openingCorrectionRolls = [...rolls.map(roll=>({
-  ...roll, day:'2026-11-23', source:'Saldo latihan November', rate:demoRollRates[roll.id] as number|undefined,
-})), ...historicalRolls]
+  ...roll, day:'2026-11-23', source:'Saldo latihan November', rate:demoRollRates[roll.id] as number|undefined, physicalCode:undefined,
+})), ...historicalRolls.map(roll=>({...roll,physicalCode:undefined}))]
 export const correctionRolls = (session:Session) => [...openingCorrectionRolls,
-  ...(session.fabricReceipts??[]).filter(receipt=>receipt.unit==='yd').flatMap(receipt=>receipt.rolls.map(roll=>({
+  ...(session.fabricReceipts??[]).filter(receipt=>receipt.unit==='yd'&&!receipt.reversal).flatMap(receipt=>receiptRolls(receipt).map(roll=>({
     id:roll.id, material:receipt.material, supplier:receipt.supplier, yards:roll.length, yardPerPiece:0,
-    day:receipt.day, source:receipt.number, rate:receipt.rate,
+    day:receipt.day, source:receipt.number, rate:receipt.rate, physicalCode:roll.physicalCode,
   }))),
 ]
 export const cutDay = (lot:Lot) => lot.date ?? sample.date
-export const originalCutLots = (session:Session):Lot[] => [...sample.lots.filter(lot=>lot.stage==='cut'),...session.cuts]
+export const originalCutLots = (session:Session):Lot[] => [...sample.lots.filter(lot=>lot.stage==='cut'),...session.cuts].filter(lot=>!session.cutReversals?.[lot.id])
+
+export function cutReversalBlockers(session:Session,id:string):StockSourceLink[] {
+  const pickup=pickupsIn(session).find(row=>row.id===id)
+  const batches=pickup?distribution(pickup,session).batches.filter(row=>!row.closed):[]
+  const shipments=(session.laundry??[]).filter(row=>row.parentId===id&&row.reversed<row.qty)
+  return [...batches.map(row=>({label:'Batalkan batch '+row.no+' · '+row.qty+' pcs',href:'/produksi/jahit/?cari='+encodeURIComponent(id)})),
+    ...shipments.map(row=>({label:'Surat kirim Laundry '+row.id,href:'/produksi/laundry/?tab=kembali&cari='+encodeURIComponent(row.id)}))]
+}
+
+export function reverseCutReceipt(session:Session,id:string,reason:string):Session {
+  if(!originalCutLots(session).some(row=>row.id===id)||reason.trim().length<4||cutReversalBlockers(session,id).length)
+    throw Error('Periksa Potongan dan bereskan dokumen turunannya.')
+  return {...session,cutReversals:{...session.cutReversals,[id]:{reason:reason.trim(),at:new Date().toISOString()}}}
+}
 
 function cutRollMaterial(lot:Lot, roll:CutRoll, session:Session) {
   const actual=physicalRollId(lot.originId??lot.id,roll.id,session)
@@ -181,7 +196,7 @@ function remainingSources(lot:Lot,p:Product,session:Session) {
   })
 }
 export const remainingPieces=(lot:Lot,p:Product,session:Session)=>remainingSources(lot,p,session).reduce((n,s)=>n+s.qty,0)
-export const productionLots=(session:Session):Lot[]=>[...sample.lots,...session.cuts,distributionLot,...sewingReceipts.map(r=>r.lot)]
+export const productionLots=(session:Session):Lot[]=>[...sample.lots,...session.cuts,distributionLot,...sewingReceipts.map(r=>r.lot)].filter(lot=>!session.cutReversals?.[lot.id])
 export function lotsIn(session: Session): Lot[] {
   const byId=new Map(pickupsIn(session).map(p=>[p.id,p]))
   return productionLots(session).flatMap((lot:Lot):Lot[]=>{

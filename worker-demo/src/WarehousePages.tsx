@@ -8,6 +8,10 @@ import {usePlannerSession} from './demo/planner/session'
 import {mainAccessories,masterCode,noteStock,serviceStockMoves,useAccessoryBook} from './demo/accessoryPricing'
 import {AccessorySalvage,AccessoryService} from './demo/AccessoryOperations'
 import {readNotes as readAccessoryNotes} from './demo/issueDocuments'
+import RollCorrectionPanel from './demo/RollCorrectionPanel'
+import {fabricRollUses} from './demo/fabricReceipts'
+import {cutDocumentPath,receiptDocumentPath,receiptRolls} from './demo/receiptRollCorrection'
+import {salvageDocumentPath,serviceDocumentPath} from './demo/accessoryOperations'
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import {
   AlertTriangle, ArrowRight, Boxes, Check, ChevronDown, ClipboardCheck,
@@ -267,7 +271,23 @@ function MaterialsRollsPage() {
   const [selectedId,setSelectedId] = useState(materials[0].id)
   const [returnModalOpen,setReturnModalOpen] = useState(false)
   const [returnTarget,setReturnTarget] = useState<SupplierReturnTarget|null>(null)
-  const cutStock=correctionRolls(session).filter(roll=>yardsLeft(roll.id,session)>0&&browseMatch(query,roll.id,roll.material,roll.supplier,roll.source,formatNumber(yardsLeft(roll.id,session))))
+  const [rollHistory,setRollHistory]=useState('')
+  const cutStock=correctionRolls(session).filter(roll=>browseMatch(query,roll.id,roll.physicalCode,roll.material,roll.supplier,roll.source,formatNumber(yardsLeft(roll.id,session))))
+  const showRollHistory=(id:string)=>setRollHistory(current=>current===id?'':id)
+  function historyFor(id:string,source:string,qty:number,unit:'yd'|'m'='yd') {
+    const receipt=session.fabricReceipts?.find(row=>row.rolls.some(roll=>roll.id===id))
+    const usage=fabricRollUses(session,id,true)
+    return <section className="wh-roll-ledger" aria-label={'Mutasi roll '+id} key={'history:'+id}>
+      <h3>Mutasi roll · {id}</h3>
+      <div className="wh-register-row"><span><strong>Masuk · {formatNumber(qty)} {unit}</strong><small>{source}</small></span>
+        {receipt&&<a className="soft-btn" href={receiptDocumentPath(receipt.number)}>Buka penerimaan <ArrowRight size={15}/></a>}</div>
+      {usage.map(({lot,qty:used,reversed},index)=><div className="wh-register-row" key={lot.id+'-'+index}>
+        <span><strong>Keluar · {formatNumber(used)} yd</strong><small>{lot.id}{reversed?' · Dibalik':''}</small></span>
+        <a className="soft-btn" href={cutDocumentPath(lot.id)}>Buka Potongan <ArrowRight size={15}/></a>
+      </div>)}
+      {!usage.length&&<small>Belum ada pemakaian tercatat untuk roll ini.</small>}
+    </section>
+  }
   const selected = materials.find((item)=>item.id===selectedId) ?? materials[0]
   const selectedHealth = prototypeStockHealth('FABRIC', selected.stockOnHandYards, 'yd', selected.id)
   const visibleMaterials = useMemo(()=>materials.filter((item)=>{
@@ -280,6 +300,7 @@ function MaterialsRollsPage() {
   const estimatedCount = visibleRolls.filter((roll)=>roll.costState==='ESTIMATED').length
   return <>
     <section className="hero-copy compact wh-hero"><div><div className="eyebrow">GUDANG · RAW MATERIAL</div><h1>Bahan & Roll</h1><p>Pilih bahan dulu, lalu telusuri setiap gulung melalui alur lifetime: Total Received − Used − Returned to Supplier = Stock On Hand.</p></div><div className="wh-rule"><Ruler/><div><span>DATA SIMULASI FRONTEND</span><strong>Belum menjadi saldo backend</strong><small>Saldo, roll, cost, dan status di halaman ini masih fixture untuk verifikasi UX.</small></div></div></section>
+    <RollCorrectionPanel/>
     <div className="wh-context-control"><div className="wh-context-copy"><i><History/></i><span><strong>Riwayat retur kain ke supplier</strong><small>Lihat total lifetime dan seluruh dokumen retur—terpisah dari adjustment dan retur mandor.</small></span></div><button className="wh-return-history-button" onClick={()=>{setReturnTarget(null);setReturnModalOpen(true)}}><span><small>SEMUA DOKUMEN</small><strong>Cek retur</strong></span><ArrowRight/></button></div>
     <section className="wh-metrics"><MetricCard label="Total Received" value="9.893,5 yd" note="Fixture · penerimaan lifetime" icon={Layers3}/><MetricCard label="Used" value="1.081,5 yd" note="Fixture · keluar produksi" icon={Tag}/><MetricCard label="Returned to Supplier" value="36,5 yd" note="Fixture · retur supplier" icon={RotateCcw}/><MetricCard label="Stock On Hand" value="8.775,5 yd" note="Fixture · belum backend" icon={Check}/></section>
     <div className="panel wh-workspace material-rolls-workspace">
@@ -291,17 +312,24 @@ function MaterialsRollsPage() {
           <div className="wh-stock-health-shell"><div><span>STATUS STOK · DATA SIMULASI</span><strong>Tidak ada minimum tetap yang diasumsikan untuk kain.</strong><small>Kebutuhan harus berasal dari rencana potongan/produksi, alokasi, sisa roll, dan incoming terkonfirmasi.</small></div><StockHealthExplainability itemName={selected.material} result={selectedHealth} lineage={stockLineage('FABRIC',selected.id)}/></div>
           {estimatedCount>0&&<div className="wh-inline-note warn"><FileClock/><div><strong>{estimatedCount} roll masih memakai harga benchmark</strong><small>Stok dan HPP boleh berjalan, tetapi histori benchmark tetap terlihat sampai kasbon actual cocok.</small></div></div>}
           <div className="wh-roll-head"><div><span>ROLL AKTIF</span><strong>{visibleRolls.length} gulung untuk {selected.material}</strong></div><small>Urut penerimaan terbaru</small></div>
-          <div className="wh-roll-list">{visibleRolls.map((roll)=>{const used=Math.max(0,roll.original-roll.supplierReturned-roll.remaining);const returnable=Math.max(0,roll.remaining);return <article key={roll.id}><header><div className="wh-roll-id"><i><Ruler/></i><div><strong>{roll.id}</strong><small>{roll.source} · {roll.receivedAt}</small></div></div><div><StatusBadge>{roll.status}</StatusBadge><StatusBadge tone={statusTone(roll.costState)}>{roll.costState}</StatusBadge></div></header><div className="wh-roll-numbers lifetime"><span><small>TOTAL RECEIVED</small><strong>{formatNumber(roll.original)} yd</strong></span><span className="used"><small>USED</small><strong>{formatNumber(used)} yd</strong></span><span className="returned"><small>RETURNED TO SUPPLIER</small><strong>{formatNumber(roll.supplierReturned)} yd</strong></span><span className="available"><small>STOCK ON HAND</small><strong>{formatNumber(roll.remaining)} yd</strong></span></div><div className="wh-roll-progress"><span style={{width:`${Math.min(100,(roll.remaining/Math.max(roll.original,1))*100)}%`}}/></div><footer><span><MapPin/> {roll.location}</span><span>{money(roll.activeCost)} / yd aktif</span><div className="wh-roll-actions"><button className="wh-roll-history">Riwayat roll <ArrowRight/></button><button className="return wh-roll-return" disabled={returnable<=0} title={returnable<=0?'Stock On Hand roll sudah nol':'Retur penuh atau sebagian ke supplier'} onClick={()=>{setReturnTarget({kind:'fabric',id:roll.id,label:`${roll.material} · ${roll.id}`,supplier:roll.supplier,unit:'yd',maxQty:returnable,location:roll.location});setReturnModalOpen(true)}}><RotateCcw/><span><strong>{returnable<=0?'Saldo roll habis':'Retur supplier'}</strong><small>{returnable<=0?'Tidak ada saldo untuk diretur':`${formatNumber(returnable)} yd bisa diretur`}</small></span></button></div></footer></article>})}</div>
+          <div className="wh-roll-list">{visibleRolls.map((roll)=>{const used=Math.max(0,roll.original-roll.supplierReturned-roll.remaining);const returnable=Math.max(0,roll.remaining);return <article key={roll.id}><header><div className="wh-roll-id"><i><Ruler/></i><div><strong>{roll.id}</strong><small>{roll.source} · {roll.receivedAt}</small></div></div><div><StatusBadge>{roll.status}</StatusBadge><StatusBadge tone={statusTone(roll.costState)}>{roll.costState}</StatusBadge></div></header><div className="wh-roll-numbers lifetime"><span><small>TOTAL RECEIVED</small><strong>{formatNumber(roll.original)} yd</strong></span><span className="used"><small>USED</small><strong>{formatNumber(used)} yd</strong></span><span className="returned"><small>RETURNED TO SUPPLIER</small><strong>{formatNumber(roll.supplierReturned)} yd</strong></span><span className="available"><small>STOCK ON HAND</small><strong>{formatNumber(roll.remaining)} yd</strong></span></div><div className="wh-roll-progress"><span style={{width:`${Math.min(100,(roll.remaining/Math.max(roll.original,1))*100)}%`}}/></div><footer><span><MapPin/> {roll.location}</span><span>{money(roll.activeCost)} / yd aktif</span><div className="wh-roll-actions"><button className="wh-roll-history" aria-expanded={rollHistory===roll.id} onClick={()=>showRollHistory(roll.id)}>Riwayat roll <ArrowRight/></button><button className="return wh-roll-return" disabled={returnable<=0} title={returnable<=0?'Stock On Hand roll sudah nol':'Retur penuh atau sebagian ke supplier'} onClick={()=>{setReturnTarget({kind:'fabric',id:roll.id,label:`${roll.material} · ${roll.id}`,supplier:roll.supplier,unit:'yd',maxQty:returnable,location:roll.location});setReturnModalOpen(true)}}><RotateCcw/><span><strong>{returnable<=0?'Saldo roll habis':'Retur supplier'}</strong><small>{returnable<=0?'Tidak ada saldo untuk diretur':`${formatNumber(returnable)} yd bisa diretur`}</small></span></button></div></footer>{rollHistory===roll.id&&historyFor(roll.id,roll.source,roll.original)}</article>})}</div>
         </main>
       </div>
     </div>
     <section className="panel fabric-receipts" aria-label="Roll untuk Potongan">
-      <header className="conversion-return-line"><h2>Roll untuk Potongan</h2>
-        <a className="soft-btn" href="/gudang/pembelian-penerimaan/?koreksi=ganti-roll">Ganti roll sumber pemakaian <ArrowRight size={15}/></a></header>
-      {cutStock.map(roll=><div className="fabric-receipt-roll" key={roll.id}><span>{roll.material} · {roll.id} · {roll.source}</span>
-        <strong>{formatNumber(yardsLeft(roll.id,session))} yd</strong></div>)}
-      {(session.fabricReceipts??[]).filter(row=>row.unit==='m').flatMap(row=>row.rolls.filter(roll=>browseMatch(query,row.material,roll.id,row.number,formatNumber(roll.length))).map(roll=><div className="fabric-receipt-roll" key={roll.id}>
-        <span>{row.material} · {roll.id}</span><strong>{formatNumber(roll.length)} m</strong>
+      <header className="conversion-return-line"><h2>Roll untuk Potongan</h2></header>
+      {cutStock.map(roll=><div className="stock-roll-history-entry" key={roll.id}>
+        <div className="fabric-receipt-roll"><span>{roll.material} · {roll.physicalCode??roll.id} · {roll.source}</span>
+          <strong>{formatNumber(yardsLeft(roll.id,session))} yd</strong>
+          <button className="soft-btn" type="button" aria-expanded={rollHistory===roll.id}
+            aria-label={'Riwayat roll '+(roll.physicalCode??roll.id)} onClick={()=>showRollHistory(roll.id)}>Riwayat roll <ArrowRight size={15}/></button></div>
+        {rollHistory===roll.id&&historyFor(roll.id,roll.source,roll.yards)}
+      </div>)}
+      {(session.fabricReceipts??[]).filter(row=>row.unit==='m'&&!row.reversal).flatMap(row=>receiptRolls(row).filter(roll=>browseMatch(query,row.material,roll.id,roll.physicalCode,row.number,formatNumber(roll.length))).map(roll=><div className="stock-roll-history-entry" key={roll.id}>
+        <div className="fabric-receipt-roll"><span>{row.material} · {roll.physicalCode??roll.id}</span><strong>{formatNumber(roll.length)} m</strong>
+          <button className="soft-btn" type="button" aria-expanded={rollHistory===roll.id}
+            aria-label={'Riwayat roll '+(roll.physicalCode??roll.id)} onClick={()=>showRollHistory(roll.id)}>Riwayat roll <ArrowRight size={15}/></button></div>
+        {rollHistory===roll.id&&historyFor(roll.id,row.number,roll.length,'m')}
       </div>))}
     </section>
     {returnModalOpen&&<SupplierReturnModal key={returnTarget?.id??'fabric-history'} kind="fabric" target={returnTarget} onClose={()=>setReturnModalOpen(false)}/>}
@@ -331,7 +359,7 @@ function AccessoryStock() {
   const [query,setQuery] = useState('')
   const [category,setCategory] = useState('Semua')
   const [status,setStatus] = useState('Semua')
-  const [selectedId,setSelectedId] = useState(stock[0].id)
+  const [selectedId,setSelectedId] = useState(()=>new URLSearchParams(location.search).get('item')??stock[0].id)
   const [returnModalOpen,setReturnModalOpen] = useState(false)
   const [returnTarget,setReturnTarget] = useState<SupplierReturnTarget|null>(null)
   const visible = stock.filter((item)=>{
@@ -353,32 +381,38 @@ function AccessoryStock() {
     { ref:'RCV-260827-018', date:'Kemarin · 15:08', note:`Terima dari ${selected.supplier}`, delta:4800, balance:priorBalance+selected.supplierReturned },
   ]
   const conversions=session.stockEvents??[]
-  const trackedMovements=[
-    ...(session.accessoryReceipts??[]).filter(row=>row.code===selected.id).map(row=>({ref:row.number,date:row.day,note:'Terima dari '+row.supplier,delta:row.qty})),
+  type Movement={ref:string;date:string;note:string;delta:number;href?:string}
+  const trackedMovements:Movement[]=[
+    ...(session.accessoryReceipts??[]).filter(row=>row.code===selected.id).flatMap(row=>{
+      const movement={ref:row.number,date:row.day,note:'Terima dari '+row.supplier,delta:row.qty,href:receiptDocumentPath(row.number,'aksesori')}
+      return row.reversal?[movement,{...movement,ref:row.number+' · balik',date:row.reversal.at.slice(0,10),note:row.reversal.reason,delta:-row.qty}]:[movement]
+    }),
     ...conversions.flatMap(event=>{
       const source=event.reverses?conversions.find(row=>row.id===event.reverses):event
       const qty=source?.kit?.used.reduce((sum,row)=>sum+(row.code===selected.id&&(row.location??mainAccessories)===mainAccessories?row.qty:0),0)??0
-      return qty?[{ref:'Konversi '+event.id.slice(0,8),date:event.date??'',note:event.reverses?'Pembalikan pemakaian':'Dipakai untuk Ganti Merek',delta:event.reverses?qty:-qty}]:[]
+      return qty?[{ref:'Konversi '+event.id.slice(0,8),date:event.date??'',note:event.reverses?'Pembalikan pemakaian':'Dipakai untuk Ganti Merek',delta:event.reverses?qty:-qty,href:'/gudang/ganti-merek/?mutasi='+encodeURIComponent(source!.id)+'#riwayat-konversi'}]:[]
     }),
     ...(session.conversionReturns??[]).filter(row=>row.code===selected.id).flatMap(row=>{
-      const head={ref:'Bongkaran '+row.id.slice(0,8),date:row.day,note:'Bongkaran layak pakai',delta:row.good}
+      const head={ref:'Bongkaran '+row.id.slice(0,8),date:row.day,note:'Bongkaran layak pakai',delta:row.good,href:'/gudang/ganti-merek/?mutasi='+encodeURIComponent(row.conversion)+'#aksesori-konversi'}
       return row.reversed?[head,{...head,ref:head.ref+' · balik',note:row.reversed,delta:-row.good}]:[head]
     }),
-    ...serviceStockMoves(session,selected.id,mainAccessories),
-    ...(session.accessorySalvage??[]).filter(row=>row.code===selected.id).flatMap(row=>row.inspections.filter(check=>check.good>0).map(check=>({
-      ref:row.id,date:check.day,note:'Bongkaran lulus pemeriksaan',delta:check.good
-    }))),
+    ...serviceStockMoves(session,selected.id,mainAccessories).map(row=>({...row,href:serviceDocumentPath(row.ref.split(' · ')[0])})),
+    ...(session.accessorySalvage??[]).filter(row=>row.code===selected.id).flatMap(row=>row.inspections.filter(check=>check.good>0).flatMap(check=>{
+      const movement={ref:check.id,date:check.day,note:'Bongkaran lulus pemeriksaan',delta:check.good,href:salvageDocumentPath(row.id)}
+      return check.reversal?[movement,{...movement,ref:check.id+' · balik',date:check.reversal.at.slice(0,10),note:check.reversal.reason,delta:-check.good}]:[movement]
+    })),
     ...readAccessoryNotes().flatMap(doc=>{
       const qty=doc.lines.reduce((sum,line)=>sum+(masterCode(line.id)===selected.id?line.qty:0),0)*(doc.inventoryChange??0)
+      const href='/keuangan/nota-ambil-mandor/?nota='+encodeURIComponent(doc.number)
       const returns=(doc.returns??[]).flatMap(row=>{
         const delta=row.lines.reduce((sum,line)=>sum+(masterCode(line.lineId)===selected.id?line.qty:0),0)
-        return delta?[{ref:row.id,date:row.day,note:'Retur dari '+doc.mandor,delta}]:[]
+        return delta?[{ref:row.id,date:row.day,note:'Retur dari '+doc.mandor,delta,href}]:[]
       })
-      return qty?[{ref:doc.number,date:doc.issuedOn,note:doc.mandor,delta:qty},...returns]:returns
+      return qty?[{ref:doc.number,date:doc.issuedOn,note:doc.mandor,delta:qty,href},...returns]:returns
     }),
   ].reverse().sort((left,right)=>right.date.localeCompare(left.date))
   let running=available
-  const movementRows=book.items.some(item=>item.code===selected.id)?trackedMovements.slice(0,12).map(row=>{
+  const movementRows:(Movement&{balance:number})[]=book.items.some(item=>item.code===selected.id)?trackedMovements.map(row=>{
     const balance=running
     running-=row.delta
     return {...row,balance}
@@ -394,7 +428,7 @@ function AccessoryStock() {
         <main className="wh-detail"><header className="wh-detail-head"><div><span>ITEM TERPILIH</span><h2>{selected.name}</h2><p>{selected.id} · {selected.category} · {selected.supplier}</p></div><div className="wh-detail-total"><span>STOCK ON HAND · FIXTURE</span><strong>{formatNumber(available,0)} {selected.unit}</strong><small>{money(selected.avgCost)} / {selected.unit} moving average · simulasi</small></div></header>
           <div className="wh-accessory-facts"><div><MapPin/><span><small>LOCATION</small><strong>{selected.location}</strong></span></div><div><Boxes/><span><small>STOCK ON HAND</small><strong>{formatNumber(selected.physical,0)} {selected.unit}</strong></span></div><div><Tag/><span><small>VALUATION</small><strong>Moving average · simulasi</strong></span></div><div className="returned"><RotateCcw/><span><small>RETURNED TO SUPPLIER</small><strong>{formatNumber(selected.supplierReturned,0)} {selected.unit}</strong></span></div><div><ShieldCheck/><span><small>DASAR STATUS</small><strong>Batas belum diatur</strong></span></div></div>
           <div className="wh-stock-health-shell"><div><span>STATUS STOK · DATA SIMULASI</span><strong>Reserved, incoming, demand, dan lead time belum tersedia.</strong><small>Klik badge untuk melihat operand null dan jejak data yang nantinya wajib berasal dari backend.</small></div><StockHealthExplainability itemName={selected.name} result={selectedHealth} lineage={stockLineage('ACCESSORY',selected.id)}/></div>
-          <section className="wh-mini-ledger"><header><div><span>MUTASI TERAKHIR · SIMULASI</span><strong>{selected.lastMovement}</strong></div><a className="soft-btn" href="/gudang/ganti-merek/#aksesori-konversi">Riwayat konversi <ArrowRight size={15}/></a></header><div className="wh-mini-ledger-head"><span>Waktu / ref</span><span>Keterangan</span><span>Mutasi</span><span>Saldo fisik</span></div>{!movementRows.length&&<p>Belum ada mutasi aksesori ini di demo.</p>}{movementRows.map((row)=><article key={row.ref}><span><strong>{row.ref}</strong><small>{row.date}</small></span><span>{row.note}</span><b className={row.delta<0?'negative':row.delta>0?'positive':''}>{row.delta>0?'+':''}{formatNumber(row.delta,0)} {selected.unit}</b><strong>{formatNumber(row.balance,0)} {selected.unit}</strong></article>)}</section>
+          <section className="wh-mini-ledger"><header><div><span>MUTASI TERAKHIR · SIMULASI</span><strong>{selected.lastMovement}</strong></div><a className="soft-btn" href="/gudang/ganti-merek/#aksesori-konversi">Riwayat konversi <ArrowRight size={15}/></a></header><div className="wh-mini-ledger-head"><span>Waktu / ref</span><span>Keterangan</span><span>Mutasi</span><span>Saldo fisik</span></div>{!movementRows.length&&<p>Belum ada mutasi aksesori ini di demo.</p>}{movementRows.map((row)=><article key={row.ref}><span>{row.href?<a className="source-row-link" href={row.href}><strong>{row.ref}</strong><ArrowRight size={14}/></a>:<strong>{row.ref}</strong>}<small>{row.date}</small></span><span>{row.note}</span><b className={row.delta<0?'negative':row.delta>0?'positive':''}>{row.delta>0?'+':''}{formatNumber(row.delta,0)} {selected.unit}</b><strong>{formatNumber(row.balance,0)} {selected.unit}</strong></article>)}</section>
         </main>
       </div>
     </div>

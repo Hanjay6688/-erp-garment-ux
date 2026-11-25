@@ -1,5 +1,4 @@
 import PocketReceiptForm from './PocketReceiptForm'
-import RollCorrectionPanel from './RollCorrectionPanel'
 import { Icon } from '../components/AppIcon'
 import { cleanMoneyInput, formatMoneyInput } from '../moneyInput'
 import { Field } from './controls'
@@ -8,7 +7,10 @@ import { ReceiptRollRows } from './ReceiptRollRows'
 import { useState } from 'react'
 import { changeSession, usePlannerSession } from './planner/session'
 import { yardsLeft, type AccessoryReceipt, type FabricReceipt } from './planner/model'
-import { prepareFabricReceipt, postFabricReceipt, type FabricReceiptDraft } from './fabricReceipts'
+import { accessoryReceiptBlockers, correctFabricReceiptRoll, fabricReceiptBlockers, prepareFabricReceipt, postFabricReceipt, reverseWarehouseReceipt, type FabricReceiptDraft } from './fabricReceipts'
+import { receiptRolls, type ReceiptRoll } from './receiptRollCorrection'
+import { ReceiptRollEditor } from './ReceiptRollEditor'
+import { StockSourceReversal } from './StockSourceReversal'
 import { ReasonDialog } from './planner/ReasonDialog'
 import { dayOk, lastWarehouseDay } from './warehouseDay'
 import { useAccessoryBook } from './accessoryPricing'
@@ -31,6 +33,8 @@ export function ProcurementPage() {
   const [receiptPreview,setReceiptPreview]=useState<FabricReceipt|null>(null)
   const [receiptNotice,setReceiptNotice]=useState('')
   const [receiptError,setReceiptError]=useState('')
+  const [rollCorrection,setRollCorrection]=useState<{receipt:FabricReceipt;roll:ReceiptRoll}|null>(null)
+  const linkedReceipt=new URLSearchParams(location.search).get('surat')
   const [mode,setMode] = useState<ReceiptMode>(()=>{
     const kind=new URLSearchParams(location.search).get('jenis')
     return kind==='kantong'?'pocket':kind==='aksesori'?'accessory':'fabric'
@@ -158,15 +162,23 @@ export function ProcurementPage() {
         }}>Simpan draft</button><button className="primary-btn" onClick={mode==='fabric'?reviewReceipt:reviewAccessory}>Review penerimaan <Icon name="arrow"/></button></div>
       </div>
       <aside className="procurement-side">{mode==='fabric'?<>
-        {!!session.fabricReceipts?.length&&<section className="panel fabric-receipts" aria-label="Penerimaan kain tersimpan">
+        {!!session.fabricReceipts?.length&&<section className="panel fabric-receipts" id="dokumen-penerimaan" aria-label="Penerimaan kain tersimpan">
           <h2>Riwayat penerimaan kain</h2>
-          {session.fabricReceipts.map(receipt=><details key={receipt.id}>
-            <summary><strong>{receipt.rolls.length} roll · {formatQuantity(receipt.rolls.reduce((sum,roll)=>sum+roll.length,0))} {receipt.unit}</strong>
-              <small>{receipt.number} · {receipt.material} · {receipt.supplier}</small></summary>
+          {session.fabricReceipts.map(receipt=><details key={receipt.id} open={linkedReceipt===receipt.number||undefined}>
+            <summary><strong>{receipt.rolls.length} roll · {formatQuantity(receiptRolls(receipt).reduce((sum,roll)=>sum+roll.length,0))} {receipt.unit}</strong>
+              <small>{receipt.number} · {receipt.material} · {receipt.supplier}{receipt.reversal?' · Dibalik':''}</small></summary>
             <p>{receipt.day} · {money(receipt.rate)}/{receipt.unit}</p>
-            {receipt.rolls.map(roll=><div className="fabric-receipt-roll" key={roll.id}>
-              <span>{roll.id}</span><strong>{formatQuantity(receipt.unit==='yd'?yardsLeft(roll.id,session):roll.length)} {receipt.unit} tersisa</strong>
+            {receiptRolls(receipt).map(roll=><div className="fabric-receipt-roll" key={roll.id}>
+              <div><strong>{formatQuantity(roll.length)} {receipt.unit} diterima</strong><small>{roll.physicalCode??roll.id}{roll.physicalCode?' · kode ERP '+roll.id:''}</small></div>
+              {!receipt.reversal&&<><small>{formatQuantity(receipt.unit==='yd'?yardsLeft(roll.id,session):roll.length)} {receipt.unit} tersisa</small>
+                <button className="soft-btn" type="button" aria-label={'Koreksi roll '+(roll.physicalCode??roll.id)} onClick={()=>setRollCorrection({receipt,roll})}>Koreksi roll</button></>}
             </div>)}
+            {!!receipt.corrections?.length&&<details className="demo-operation-history"><summary>Riwayat koreksi roll ({receipt.corrections.length})</summary>
+              {receipt.corrections.map(row=><article key={row.id}><strong>{formatQuantity(row.beforeLength)} → {formatQuantity(row.length)} {receipt.unit}</strong>
+                <small>{row.beforeCode??row.roll} → {row.physicalCode??row.roll} · {row.reason}</small></article>)}
+            </details>}
+            <StockSourceReversal label="Balikkan penerimaan kain" document={receipt.number} reversal={receipt.reversal} blockers={fabricReceiptBlockers(session,receipt)}
+              onReverse={reason=>{changeSession(current=>reverseWarehouseReceipt(current,'fabric',receipt.id,reason));setReceiptNotice(receipt.number+' dibalik.')}}/>
           </details>)}
         </section>}
         <div className="panel current-receipt-card">
@@ -177,18 +189,25 @@ export function ProcurementPage() {
           {historyOpen&&<div className="price-history"><div><span className="timeline-dot current"/><div><strong>Rp49.200 / yd</strong><small>Kasbon aktual · 26 Agu 2026</small></div><b>Aktif</b></div><div><span className="timeline-dot"/><div><strong>Rp48.500 / yd</strong><small>Benchmark saat barang datang · 21 Agu 2026</small></div><b>Awal</b></div><div className="price-delta"><span>Selisih nilai</span><strong>+{money(3029.5*(49200-48500))}</strong></div></div>}
           <button className="roll-preview-toggle" aria-expanded={rollDetailOpen} onClick={()=>setRollDetailOpen(!rollDetailOpen)}><span>Rincian 27 roll</span><Icon name={rollDetailOpen?'up':'down'}/></button>
           {rollDetailOpen&&<div className="roll-preview-grid">{[131.5,91,124,115.5,109,127.25].map((yard,index)=><span key={`${yard}-${index}`}><small>ROLL {String(index+1).padStart(2,'0')}</small><strong>{formatQuantity(yard,2)} yd</strong></span>)}<span className="more-rolls"><strong>+21</strong><small>roll lainnya</small></span></div>}
-          <RollCorrectionPanel/>
         </div>
         <div className="panel pending-cost-card"><div><span className="estimated-dot"/><div><strong>Malibu · Denim 14 oz</strong><small>18 gulung · 1.984 yd</small></div><span>Menunggu kasbon</span></div><div><small>Harga benchmark aktif sementara</small><strong>{money(47800)} / yd</strong><em>{money(1984*47800)}</em></div></div>
       </>:<>
-        {!!session.accessoryReceipts?.length&&<section className="panel fabric-receipts" aria-label="Penerimaan aksesori tersimpan">
-          <h2>Riwayat penerimaan aksesori</h2>{session.accessoryReceipts.map(row=><div className="fabric-receipt-roll" key={row.id}>
-            <span>{accessoryItems.find(item=>item.code===row.code)?.name??row.code} · {row.number} · {row.supplier}</span><strong>{formatQuantity(row.qty,0)} pcs</strong>
-          </div>)}</section>}
+        {!!session.accessoryReceipts?.length&&<section className="panel fabric-receipts" id="dokumen-penerimaan" aria-label="Penerimaan aksesori tersimpan">
+          <h2>Riwayat penerimaan aksesori</h2>{session.accessoryReceipts.map(row=><details key={row.id} open={linkedReceipt===row.number||undefined}>
+            <summary><strong>{formatQuantity(row.qty,0)} pcs · {accessoryItems.find(item=>item.code===row.code)?.name??row.code}</strong>
+              <small>{row.number} · {row.supplier}{row.reversal?' · Dibalik':''}</small></summary>
+            <StockSourceReversal label="Balikkan penerimaan aksesori" document={row.number} reversal={row.reversal} blockers={accessoryReceiptBlockers(session,row)}
+              onReverse={reason=>{changeSession(current=>reverseWarehouseReceipt(current,'accessory',row.id,reason));setReceiptNotice(row.number+' dibalik.')}}/>
+          </details>)}</section>}
         <div className="panel current-receipt-card accessory-current"><div className="current-receipt-head"><div><span>PENERIMAAN TERAKHIR</span><h2>Kancing Metal 17 mm</h2><small>Mitra Aksesori · SJ-MA-0827-08</small></div><span className="actual-pill"><Icon name="check"/> Diterima</span></div><div className="accessory-quantity-hero"><span>Jumlah masuk</span><strong>1.200 pcs</strong><small>Tidak perlu dibuat roll atau yard.</small></div><div className="active-price"><span>Harga aktif</span><strong>{money(850)}<small>/ pcs</small></strong><em>Total {money(1200*850)}</em></div></div>
         <div className="panel procurement-note"><Icon name="link"/><div><strong>Tetap satu alur gudang</strong><p>Kain dan aksesori masuk dari surat jalan yang sama, tetapi cara hitung fisiknya tetap sesuai bentuk barang.</p></div></div>
       </>}</aside>
     </section>}
+    {rollCorrection&&<ReceiptRollEditor roll={rollCorrection.roll} receipt={rollCorrection.receipt.number} unit={rollCorrection.receipt.unit}
+      onClose={()=>setRollCorrection(null)} onSave={input=>{
+        changeSession(current=>correctFabricReceiptRoll(current,rollCorrection.receipt.id,rollCorrection.roll.id,input))
+        setReceiptNotice('Koreksi roll tercatat di '+rollCorrection.receipt.number+'.')
+      }}/>}
     {accessoryPreview&&<ReasonDialog title={'Terima '+accessoryPreview.number} closeLabel="Kembali" onClose={()=>setAccessoryPreview(null)} className="demo-operation-dialog">
       <div className="demo-operation-form">
         <p>{accessoryItems.find(item=>item.code===accessoryPreview.code)?.name} · {accessoryPreview.supplier} · {accessoryPreview.day}</p>

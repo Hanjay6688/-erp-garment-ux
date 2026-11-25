@@ -1,8 +1,9 @@
 import {fgQuantity} from '../fgQuantity'
 import RecordTable from '../RecordTable'
 import {ReasonDialog} from './planner/ReasonDialog'
+import {StockSourceReversal} from './StockSourceReversal'
 import {useState} from 'react'
-import {rangeChange,reverseRange,stockAt} from './planner/inventory'
+import {rangeChange,rangeReversalBlockers,reverseRange,stockAt} from './planner/inventory'
 import {type Article,type Session,rangeLabel,type StockChange} from './planner/model'
 import {changeSession,usePlannerSession} from './planner/session'
 import {allSkus,skuByKey} from './skuCatalog'
@@ -17,11 +18,28 @@ export function SkuRangePage({mode,historyOnly=false}:{mode:'adjust'|'convert';h
 function RangeHistory({mode}:{mode:'convert'|'adjust'}){
   const session=usePlannerSession()
   const [message,setMessage]=useState('')
-  const [undo,setUndo]=useState<{doc:string;id:string}|null>(null),[undoReason,setUndoReason]=useState(''),[undoError,setUndoError]=useState('')
+  const linked=new URLSearchParams(location.search).get('mutasi')
   const events=(session.stockEvents??[]).filter(e=>e.action===mode)
-
-  return <>{events.length>0&&<section className="document-history"><h3>Riwayat {mode==='adjust'?'Stock Adjustment':'Ganti Merek'}</h3><RecordTable><thead><tr><th>Tanggal fisik</th><th>SKU dan ukuran</th><th>Alasan</th><th>Status</th><th>Tindakan</th></tr></thead><tbody>{[...events].reverse().map(e=>{const reversed=events.some(r=>r.reverses===e.id);return <tr key={e.id}><td>{e.date??'Tanggal fisik belum tercatat'}{e.date&&e.physicalTime&&' · '+e.physicalTime+' WIB'}</td><td>{[...new Set(e.changes.map(c=>c.key))].map(key=><div key={key}>{key} · {rangeLabel(skuByKey(key)?.sizes??[])}</div>)}<details><summary>Detail ukuran</summary>{e.changes.map(c=><div key={c.key+c.size}>{c.key} · {c.size} · {c.delta>0?'+':''}{fgQuantity(c.delta)}</div>)}</details></td><td>{e.reason}</td><td>{e.reverses?'Pembalikan':reversed?'Sudah dibalik':'Posted'}</td><td>{!e.reverses&&!reversed&&<button type="button" onClick={()=>{setUndo({doc:e.id,id:crypto.randomUUID()});setUndoReason('');setUndoError('')}}>Balikkan transaksi</button>}</td></tr>})}</tbody></RecordTable></section>}    {undo&&<ReasonDialog title="Balikkan transaksi stok" closeLabel="Kembali" onClose={()=>setUndo(null)}><p>Semua slot ukuran pada transaksi ini akan dikembalikan bersama.</p><label>Alasan pembalikan · wajib<input required value={undoReason} onChange={e=>setUndoReason(e.target.value)}/></label><button type="button" disabled={!undoReason.trim()} onClick={()=>{try{changeSession(s=>reverseRange(s,undo.doc,undo.id,undoReason));setUndo(null);setMessage('Pembalikan tercatat. Saldo stok dan Planner sudah diperbarui.')}catch(e){setUndoError((e as Error).message)}}}>Simpan pembalikan</button>{undoError&&<p role="alert">{undoError}</p>}</ReasonDialog>}
-{message&&<p role="status">{message}</p>}</>
+  const shown=linked&&events.some(row=>row.id===linked)?events.filter(row=>row.id===linked||row.reverses===linked):events
+  return <>{events.length>0&&<section className="document-history" id="riwayat-konversi">
+    <h3>Riwayat {mode==='adjust'?'Stock Adjustment':'Ganti Merek'}</h3>
+    {linked&&<a className="soft-btn" href={location.pathname+'#riwayat-konversi'}>Lihat seluruh riwayat</a>}
+    <RecordTable><thead><tr><th>Tanggal fisik</th><th>SKU dan ukuran</th><th>Alasan</th><th>Status</th><th>Tindakan</th></tr></thead>
+      <tbody>{[...shown].reverse().map(event=>{
+        const reversed=events.some(row=>row.reverses===event.id)
+        return <tr key={event.id} data-source-selected={event.id===linked||undefined}>
+          <td>{event.date??'Tanggal fisik belum tercatat'}{event.date&&event.physicalTime&&' · '+event.physicalTime+' WIB'}</td>
+          <td>{[...new Set(event.changes.map(c=>c.key))].map(key=><div key={key}>{key} · {rangeLabel(skuByKey(key)?.sizes??[])}</div>)}
+            <details><summary>Detail ukuran</summary>{event.changes.map(c=><div key={c.key+c.size}>{c.key} · {c.size} · {c.delta>0?'+':''}{fgQuantity(c.delta)}</div>)}</details></td>
+          <td>{event.reason}</td><td>{event.reverses?'Pembalikan':reversed?'Sudah dibalik':'Posted'}</td>
+          <td>{!event.reverses&&!reversed&&<StockSourceReversal label="Balikkan transaksi" title="Balikkan transaksi stok" document={event.id}
+            blockers={rangeReversalBlockers(session,event.id)} onReverse={reason=>{
+              changeSession(current=>reverseRange(current,event.id,crypto.randomUUID(),reason));setMessage('Pembalikan tercatat. Saldo stok dan Planner sudah diperbarui.')
+            }}/>}</td>
+        </tr>
+      })}</tbody>
+    </RecordTable>
+  </section>}{message&&<p role="status">{message}</p>}</>
 }
 
 function RangeEditor(){

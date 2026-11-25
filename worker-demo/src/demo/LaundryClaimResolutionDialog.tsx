@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { ShieldCheck } from 'lucide-react'
 import { laundryDigits, laundryOutstandingSizes, type LaundryClaim, type LaundryClaimResolution, type LaundryDelivery } from './laundryModel'
 import { validClaimResolution } from './laundryCredits'
 import { amountText } from './accessoryPricing'
@@ -19,7 +20,7 @@ export function LaundryClaimResolutionDialog({delivery,claim,used,onClose,onSave
   const [error,setError]=useState('')
   const closedSizes=claim.type==='BS'?[]:sizes.map(value=>Number(value||0))
   const chosen=closedSizes.reduce((sum,qty)=>sum+qty,0)
-  return <ReasonDialog title="Selesaikan klaim laundry" closeLabel="Kembali" className="demo-operation-dialog" onClose={onClose}>
+  return <ReasonDialog title="Selesaikan klaim laundry" closeLabel="Kembali" className="demo-operation-dialog money-dialog" icon={<ShieldCheck/>} onClose={onClose}>
     <form className="demo-operation-form" onSubmit={event=>{
       event.preventDefault()
       const resolution={kind,day,reason:reason.trim(),sizes:closedSizes}

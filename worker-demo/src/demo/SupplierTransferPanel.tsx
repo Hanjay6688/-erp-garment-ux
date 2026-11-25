@@ -25,7 +25,7 @@ export function SupplierTransferPanel({doc,transfers,onSaved}:{doc:Payable;trans
     setDraft({id:'TRF-'+crypto.randomUUID().slice(0,8).toUpperCase(),day:record?.day??lastWarehouseDay(),
       account:record?.account??'',reference:record?.reference??'',amount:String(record?transferTotal(record):remaining/100).replace('.',','),reason:'',original:record})
   }
-  return <section className="demo-ops-card demo-supplier-transfers" aria-label="Pembayaran supplier">
+  return <section className="demo-ops-card demo-supplier-transfers" id="pembayaran-invoice" aria-label="Pembayaran supplier">
     <header className="demo-ops-header"><div className="demo-operation-heading"><i><Banknote/></i><div><h3>Pembayaran invoice</h3><p>{doc.party} · {doc.number}</p></div></div>
       {remaining>0&&<button type="button" className="primary-btn" onClick={()=>open()}><Banknote size={17}/> Bayar invoice</button>}</header>
     {history.length>0&&<details className="demo-operation-history" open><summary>Riwayat pembayaran ({history.length})</summary>
@@ -36,7 +36,7 @@ export function SupplierTransferPanel({doc,transfers,onSaved}:{doc:Payable;trans
             <button className="soft-btn" onClick={()=>{setError('');setUndo({doc:row,day:lastWarehouseDay(),reason:''})}}><Undo2 size={16}/> Balikkan pembayaran</button></div>}
       </article>)}
     </details>}
-    {draft&&<ReasonDialog title={draft.original?'Koreksi pembayaran invoice':'Bayar invoice supplier'} closeLabel="Kembali" className="demo-operation-dialog" onClose={()=>setDraft(null)}>
+    {draft&&<ReasonDialog title={draft.original?'Koreksi pembayaran invoice':'Bayar invoice supplier'} closeLabel="Kembali" className="demo-operation-dialog money-dialog" icon={<Banknote/>} onClose={()=>setDraft(null)}>
       <form className="demo-operation-form" onSubmit={event=>{
         event.preventDefault()
         try{onSaved(saveSupplierTransfer({id:draft.id,party:doc.party,day:draft.day,account:draft.account,reference:draft.reference.trim(),
@@ -53,7 +53,7 @@ export function SupplierTransferPanel({doc,transfers,onSaved}:{doc:Payable;trans
       {draft.original&&<label>Alasan koreksi<textarea required minLength={4} maxLength={400} value={draft.reason} onChange={event=>setDraft({...draft,reason:event.target.value})}/></label>}
       {error&&<p role="alert">{error}</p>}<footer><button className="primary-btn" disabled={!valid}>{draft.original?'Simpan koreksi pembayaran':'Simpan pembayaran'}</button></footer>
       </form></ReasonDialog>}
-    {undo&&<ReasonDialog title="Balikkan pembayaran invoice" closeLabel="Kembali" className="demo-operation-dialog" onClose={()=>setUndo(null)}>
+    {undo&&<ReasonDialog title="Balikkan pembayaran invoice" closeLabel="Kembali" className="demo-operation-dialog money-dialog" icon={<Undo2/>} onClose={()=>setUndo(null)}>
       <form className="demo-operation-form" onSubmit={event=>{
         event.preventDefault()
         try{onSaved(reverseSupplierTransfer(undo.doc.id,undo.day,undo.reason));setUndo(null)}catch(failure){setError((failure as Error).message)}

@@ -2,7 +2,8 @@ import { useState } from 'react'
 import { ArrowLeftRight, ClipboardCheck, PackageOpen, Plus, ScanLine, Search, Wrench, X } from 'lucide-react'
 import { browseMatchPieces } from '../browseMatch'
 import { accessoryStockAt, amountText, mainAccessories, serviceAccessories, useAccessoryBook, type AccessoryLocation } from './accessoryPricing'
-import { closeCustody, inspectSalvage, openSalvage, postCustody, postService, receiveSalvage, salvageLinks, salvageProgress, serviceActions, type SalvageDocument, type ServiceAction } from './accessoryOperations'
+import { closeCustody, inspectSalvage, openSalvage, postCustody, postService, receiveSalvage, reverseSalvageInspection, reverseService, salvageInspectionBlockers, salvageLinks, salvageProgress, serviceActions, serviceReversalBlockers, type SalvageDocument, type ServiceAction } from './accessoryOperations'
+import { StockSourceReversal } from './StockSourceReversal'
 import { ReasonDialog } from './planner/ReasonDialog'
 import { changeSession, usePlannerSession } from './planner/session'
 import { lastWarehouseDay } from './warehouseDay'
@@ -23,7 +24,7 @@ export function AccessoryService() {
   const [custody,setCustody]=useState<CustodyDraft|null>(null)
   const [release,setRelease]=useState<{id:string;day:string}|null>(null)
   const [error,setError]=useState('')
-  const [query,setQuery]=useState('')
+  const [query,setQuery]=useState(()=>new URLSearchParams(location.search).get('dokumen')??'')
   const [feedback,setFeedback]=useState('')
   const atService=items.map(item=>({item,qty:accessoryStockAt(item,serviceAccessories,session)})).filter(row=>row.qty>0)
   const docs=(session.serviceDocuments??[]).filter(doc=>browseMatchPieces(query,doc.lines.map(row=>row.qty),doc.id,doc.day,doc.reason,
@@ -49,13 +50,16 @@ export function AccessoryService() {
         {notes.map(row=><article key={row.id}><strong>{qtyText(row.qty)} · {row.item}</strong><small>{row.customer} · {row.job} · {row.day}</small>
           {row.returnedOn?<small>Dikembalikan {row.returnedOn}</small>:<div><button className="soft-btn" onClick={()=>{setError('');setRelease({id:row.id,day:lastWarehouseDay()})}}>Kembalikan ke pelanggan</button></div>}</article>)}</section>
     </div>
-    <section className="demo-operation-history demo-ops-card"><div className="demo-operation-heading"><i><ClipboardCheck/></i><div><h3>Riwayat pemakaian dan transfer</h3></div></div>
+    <section className="demo-operation-history demo-ops-card" id="riwayat-servis"><div className="demo-operation-heading"><i><ClipboardCheck/></i><div><h3>Riwayat pemakaian dan transfer</h3></div></div>
       <label className="biz-search"><Search/><input aria-label="Cari mutasi servis" placeholder="Cari barang, pekerjaan, atau jumlah pcs…" value={query} onChange={event=>setQuery(event.target.value)}/></label>
       {!docs.length&&<p>Belum ada mutasi yang cocok.</p>}
       {docs.map(doc=><article key={doc.id}><strong>{qtyText(doc.lines.reduce((sum,row)=>sum+row.qty,0))} · {serviceActions[doc.action]}</strong>
         <small>{doc.day} · {doc.location} · {doc.id}</small>
         {doc.lines.map((line,index)=><span key={index}>{qtyText(line.qty)} · {line.name}{line.job?' · '+line.job:''}</span>)}
-        <small>{doc.reason}{doc.action==='USE'?' · Biaya servis '+amountText(doc.lines.reduce((sum,line)=>sum+line.rate*line.qty,0)):''}</small></article>)}
+        <small>{doc.reason}{doc.action==='USE'?' · Biaya servis '+amountText(doc.lines.reduce((sum,line)=>sum+line.rate*line.qty,0)):''}</small>
+        <StockSourceReversal label="Balikkan mutasi servis" document={doc.id} reversal={doc.reversal} blockers={serviceReversalBlockers(session,doc)}
+          onReverse={reason=>{changeSession(current=>reverseService(current,doc.id,reason));setFeedback('Dokumen '+doc.id+' dibalik.')}}/>
+      </article>)}
     </section>
     {draft&&<ReasonDialog title="Catat mutasi servis" closeLabel="Kembali" className="demo-operation-dialog" onClose={()=>setDraft(null)}>
       <form className="demo-operation-form" onSubmit={event=>{event.preventDefault();save(()=>changeSession(live=>postService(live,{...draft,lines:draft.lines.map(row=>({code:row.code,qty:Number(row.qty),job:row.job}))})), 'Mutasi servis tersimpan. Saldo lokasi diperbarui.')}}>
@@ -101,7 +105,8 @@ export function AccessorySalvage() {
   const master=useAccessoryBook().items.filter(item=>item.active&&item.stockUom==='pcs')
   const [intake,setIntake]=useState<SalvageDraft|null>(null)
   const [action,setAction]=useState<Inspection|null>(null)
-  const [query,setQuery]=useState('')
+  const linkedDoc=new URLSearchParams(location.search).get('dokumen')
+  const [query,setQuery]=useState(linkedDoc??'')
   const [notice,setNotice]=useState('')
   const [error,setError]=useState('')
   const links=intake?salvageLinks(session,intake.code):[]
@@ -123,14 +128,17 @@ export function AccessorySalvage() {
     <label className="biz-search"><Search/><input aria-label="Cari bongkaran" placeholder="Cari barang, pemegang, atau jumlah pcs…" value={query} onChange={event=>setQuery(event.target.value)}/></label>
     {notice&&<p role="status" className="biz-inline-notice">{notice}</p>}
     {!visible.length&&<div className="biz-empty"><ScanLine/><strong>Belum ada penerimaan yang cocok</strong></div>}
-    <div className="demo-operation-history">
+    <div className="demo-operation-history" id="riwayat-bongkaran">
       {visible.map(({doc,received,good,damaged,pending,held})=><article key={doc.id}>
         <div className="demo-ops-header"><div><strong>{qtyText(received)} · {doc.name}</strong><small>{doc.id} · {doc.day} · Dari {doc.holder}</small></div>
           <b className="biz-pill">{pending?'Menunggu Pemeriksaan':held?'Kembali sebagian':'Pemeriksaan selesai'}</b></div>
         <small>{qtyText(good)} layak · {qtyText(damaged)} rusak · {qtyText(pending)} menunggu · {qtyText(held)} ditahan</small>
         {(doc.conversion||doc.reference)&&<small>Sumber {doc.reference||'Ganti Merek '+doc.conversion?.slice(0,8)}</small>}
-        <details><summary>Jejak penerimaan dan pemeriksaan</summary>{doc.receipts.map(row=><p key={row.id}>{row.day} · {qtyText(row.qty)} diterima</p>)}
-          {doc.inspections.map(row=><p key={row.id}>{row.day} · {qtyText(row.good)} layak · {qtyText(row.damaged)} rusak · {row.note}</p>)}</details>
+        <details open={linkedDoc===doc.id||undefined}><summary>Jejak penerimaan dan pemeriksaan</summary>{doc.receipts.map(row=><p key={row.id}>{row.day} · {qtyText(row.qty)} diterima</p>)}
+          {doc.inspections.map(row=><div key={row.id}><p>{row.day} · {qtyText(row.good)} layak · {qtyText(row.damaged)} rusak · {row.note}</p>
+            <StockSourceReversal label="Balikkan pemeriksaan" document={doc.id+' · '+row.id} reversal={row.reversal} blockers={salvageInspectionBlockers(session,doc,row)}
+              onReverse={reason=>{changeSession(current=>reverseSalvageInspection(current,doc.id,row.id,reason));setNotice('Pemeriksaan '+row.id+' dibalik.')}}/>
+          </div>)}</details>
         <div className="demo-operation-actions">{pending>0&&<button className="primary-btn" onClick={()=>start(doc,'check')}><ClipboardCheck size={16}/> Periksa barang</button>}
           {held>0&&<button className="soft-btn" onClick={()=>start(doc,'receive')}>Terima susulan</button>}</div>
       </article>)}

@@ -1,32 +1,31 @@
-import { laundryOutstanding, laundryOutstandingSizes, laundryPhysicalTime, type LaundryBillCredit, type LaundryClaim, type LaundryClaimResolution, type LaundryDelivery, type LaundryFinalBill } from './laundryModel'
+import { isPostedLaundryInvoice, laundryOutstanding, laundryOutstandingSizes, laundryPhysicalTime, type LaundryBillCredit, type LaundryClaim, type LaundryClaimResolution, type LaundryDelivery, type LaundryFinalBill } from './laundryModel'
 import { dayOk } from './warehouseDay'
 
 export const billGross = (bill: LaundryFinalBill) => bill.parts
   ?bill.parts.reduce((sum,line)=>sum+Math.round(line.rate*line.qty*100),0):Math.round(bill.rate * bill.qty * 100)
 export const billCredit = (bill: LaundryFinalBill) => (bill.credits??[]).reduce((sum, credit)=>sum+(credit.reversed ? 0 : credit.cents),0)
-export const billPaid = (bill: LaundryFinalBill) => (bill.payments??[]).reduce((sum,row)=>sum+row.cents,0)
+export const billPaid = (bill: LaundryFinalBill) => (bill.payments??[]).reduce((sum,row)=>sum+(row.reversal?0:row.cents),0)
 export const vendorCreditApplied = (deliveries: LaundryDelivery[], deliveryId:string, billNumber:string) => deliveries
   .flatMap(row=>row.finalBills??[]).flatMap(bill=>bill.vendorUses??[])
-  .reduce((sum,use)=>sum+(use.target?.delivery===deliveryId&&use.target.bill===billNumber?use.cents:0),0)
+  .reduce((sum,use)=>sum+(!use.reversal&&use.target?.delivery===deliveryId&&use.target.bill===billNumber?use.cents:0),0)
 export const billRemaining = (rows:LaundryDelivery[], delivery:LaundryDelivery, bill:LaundryFinalBill) =>
   Math.max(0,billGross(bill)-billCredit(bill)-vendorCreditApplied(rows,delivery.id,bill.number)-billPaid(bill))
 export const vendorReceivable = (rows:LaundryDelivery[], delivery:LaundryDelivery, bill:LaundryFinalBill) =>
   Math.max(0,billPaid(bill)-Math.max(0,billGross(bill)-billCredit(bill)-vendorCreditApplied(rows,delivery.id,bill.number)))
 export const vendorBalance = (rows:LaundryDelivery[],delivery:LaundryDelivery,bill:LaundryFinalBill) =>
-  vendorReceivable(rows,delivery,bill)-(bill.vendorUses??[]).reduce((sum,use)=>sum+use.cents,0)
+  vendorReceivable(rows,delivery,bill)-(bill.vendorUses??[]).reduce((sum,use)=>sum+(use.reversal?0:use.cents),0)
 export const claimUse = (deliveries: LaundryDelivery[], id:string) =>
   deliveries.flatMap(row=>row.finalBills??[]).flatMap(bill=>bill.credits??[])
     .reduce((sum,credit)=>sum+(credit.claim===id&&!credit.reversed ? credit.cents : 0),0)
 
-export const claimedPieces = (delivery: LaundryDelivery, type: LaundryClaim['type']) =>
-  (delivery.claims??[]).reduce((sum,claim)=>sum+(claim.type===type&&!claim.reversed&&(type==='BS'||!claim.resolution) ? claim.qty : 0),0)
-export const claimedOutsidePieces = (delivery:LaundryDelivery) => claimedPieces(delivery,'STUCK')+claimedPieces(delivery,'MISSING')
+export const claimedOutsidePieces = (delivery:LaundryDelivery) =>
+  (delivery.claims??[]).reduce((sum,claim)=>sum+(claim.type!=='BS'&&!claim.reversed&&!claim.resolution?claim.qty:0),0)
 
-export const eligibleClaimPieces = (delivery: LaundryDelivery, type: LaundryClaim['type']) =>
-  Math.max(0,type==='BS' ? delivery.bs-claimedPieces(delivery,type) : laundryOutstanding(delivery)-claimedOutsidePieces(delivery))
+export const eligibleOutsideClaims = (delivery:LaundryDelivery) =>
+  Math.max(0,laundryOutstanding(delivery)-claimedOutsidePieces(delivery))
 
 export function validClaim(delivery: LaundryDelivery, claim: LaundryClaim) {
-  return Number.isSafeInteger(claim.qty)&&claim.qty>0&&claim.qty<=eligibleClaimPieces(delivery,claim.type)
+  return Number.isSafeInteger(claim.qty)&&claim.qty>0&&(claim.type==='BS'||claim.qty<=eligibleOutsideClaims(delivery))
     && Number.isSafeInteger(claim.cents)&&claim.cents>=(claim.type==='BS'?1:0)&&claim.reason.trim().length>=4
     && dayOk(claim.day)&&claim.day>=laundryPhysicalTime(delivery.sentAt).slice(0,10)
 }
@@ -47,17 +46,21 @@ export function availableCredits(deliveries: LaundryDelivery[], vendor:string) {
     }))).filter(row=>row.remaining>0)
 }
 
-export function validCredit(deliveries: LaundryDelivery[], delivery: LaundryDelivery, bill: LaundryFinalBill, credit: LaundryBillCredit) {
-  const available=availableCredits(deliveries,delivery.vendor).find(row=>row.claim.id===credit.claim)
-  return !!available&&Number.isSafeInteger(credit.cents)&&credit.cents>0
-    && credit.cents<=Math.min(available.remaining,billRemaining(deliveries,delivery,bill))&&credit.reason.trim().length>=4
-    && dayOk(credit.day)&&credit.day>=bill.day&&credit.day>=(bill.corrections?.at(-1)?.day??'')
-    && credit.day>=(available.claim.resolution?.day??available.claim.approvedOn??'')
-}
-
-export function applyLaundryCredit(rows:LaundryDelivery[],deliveryId:string,billNumber:string,credit:LaundryBillCredit) {
+export function applyLaundryCredits(rows:LaundryDelivery[],deliveryId:string,billNumber:string,credits:LaundryBillCredit[]) {
   const delivery=rows.find(row=>row.id===deliveryId)
-  const bill=delivery?.finalBills?.find(row=>row.number===billNumber)
-  if(!delivery||!bill||bill.credits?.some(row=>row.id===credit.id)||!validCredit(rows,delivery,bill,credit))return rows
-  return rows.map(row=>row===delivery?{...row,finalBills:row.finalBills?.map(entry=>entry===bill?{...entry,credits:[...(entry.credits??[]),credit]}:entry)}:row)
+  const bill=delivery?.finalBills?.find(row=>row.number===billNumber&&isPostedLaundryInvoice(row))
+  if(!delivery||!bill||!credits.length)throw Error('Pilih kredit dan invoice yang siap dibayar.')
+  const total=credits.reduce((sum,credit)=>sum+credit.cents,0)
+  const sources=new Map(availableCredits(rows,delivery.vendor).map(row=>[row.claim.id,row]))
+  const existing=bill.credits??[]
+  if(credits.every(credit=>existing.some(row=>row.id===credit.id&&JSON.stringify(row)===JSON.stringify(credit))))return rows
+  if(new Set(credits.map(credit=>credit.claim)).size!==credits.length||new Set(credits.map(credit=>credit.id)).size!==credits.length
+    ||!Number.isSafeInteger(total)||total>billRemaining(rows,delivery,bill)||credits.some(credit=>{
+      const source=sources.get(credit.claim)
+      return !source||existing.some(row=>row.id===credit.id)||!Number.isSafeInteger(credit.cents)||credit.cents<=0
+        ||credit.cents>source.remaining||credit.reason.trim().length<4||!dayOk(credit.day)
+        ||credit.day<bill.day||credit.day<(bill.corrections?.at(-1)?.day??'')
+        ||credit.day<(source.claim.resolution?.day??source.claim.approvedOn??'')
+    }))throw Error('Periksa tanggal, bukti potongan, saldo kredit, dan sisa invoice.')
+  return rows.map(row=>row===delivery?{...row,finalBills:row.finalBills?.map(entry=>entry===bill?{...entry,credits:[...existing,...credits]}:entry)}:row)
 }

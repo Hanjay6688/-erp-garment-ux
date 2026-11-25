@@ -7,7 +7,9 @@ import { productSizes } from './stockModel'
 import { Field, MultiCheckFilter } from './controls'
 import {ReasonDialog} from './planner/ReasonDialog'
 import { AdviceBox, pickupPath } from './planner/ProductionAdvice'
-import { articles, articleChoice, correctionRolls, cutArticle, planningPattern, rangeLabel, cutRolls, lotLabel, lotPattern, modelSeries, patternFor, plan, productFor, recordCut, seriesLabel, suggestedCut, yardsLeft, type Plan } from './planner/model'
+import { articles, articleChoice, correctionRolls, cutArticle, cutReversalBlockers, planningPattern, rangeLabel, cutRolls, lotLabel, lotPattern, lotSeries, modelSeries, originalCutLots, patternFor, physicalRollId, plan, productFor, recordCut, reverseCutReceipt, seriesLabel, suggestedCut, yardsLeft, type Plan } from './planner/model'
+import { StockSourceReversal } from './StockSourceReversal'
+import { switchRollPath } from './receiptRollCorrection'
 import { usePlannerSession, changeSession } from './planner/session'
 import {dateLabel} from './PeriodFilter'
 import {lastWarehouseDay} from './warehouseDay'
@@ -59,7 +61,10 @@ export function CuttingRollPage() {
   const [eta,setEta]=useState(draft?.eta??'')
   const linked=cutArticle(sku)
   const [notice,setNotice]=useState('')
-  const [savedId,setSavedId]=useState('')
+  const [savedId,setSavedId]=useState(()=>{
+    const id=new URLSearchParams(location.search).get('pot')
+    return originalCutLots({...session,cutReversals:undefined}).find(row=>row.id===id)?.id??''
+  })
   const requestId=useRef(crypto.randomUUID())
   const formRef=useRef<HTMLElement>(null)
   const [query,setQuery]=useState(()=>new URLSearchParams(location.search).get('cari')??'')
@@ -105,7 +110,7 @@ export function CuttingRollPage() {
   const columnFillDraggedRef=useRef(false)
   const selectedIdSet=useMemo(()=>new Set(selectedRollIds),[selectedRollIds])
   const visibleRolls=fabricRollCatalog.filter((roll)=>{
-    const matchesQuery=browseMatch(query,roll.id,'roll '+roll.sequence,roll.supplier,roll.material,roll.yards)
+    const matchesQuery=browseMatch(query,roll.id,roll.physicalCode,'roll '+roll.sequence,roll.supplier,roll.material,roll.yards)
     return roll.yards>0&&matchesQuery&&selectedSuppliers.includes(roll.supplier)&&selectedMaterials.includes(roll.material)
   })
   const selectedRolls=fabricRollCatalog.filter((roll)=>selectedIdSet.has(roll.id))
@@ -401,11 +406,28 @@ export function CuttingRollPage() {
     setNotice('Form kosong siap diisi.')
   }
   const heading=<section className="hero-copy compact cutting-hero"><div className="eyebrow">PRODUKSI · CUTTING</div><h1>Buat Potongan</h1><p>Pilih pola dan roll, lalu isi jumlah potongan per ukuran.</p>{!savedId&&<button type="button" className="gar-text" onClick={clearForm}>Mulai form kosong</button>}</section>
-  const saved=session.cuts.find(lot=>lot.id===savedId)
-  if(saved)return <>{heading}<div className="gar-success" role="status">{notice} <a href={pickupPath+'?pot='+saved.id}>Bagi {saved.id}</a></div>
-    <section className="panel gar-panel"><div className="gar-panel-head"><h2>{saved.id} · {lotLabel(saved)}</h2><span>Menunggu mandor</span></div>
-      <p>{saved.qty} pcs · {seriesLabel(saved.series!)} · {lotPattern(saved).name}</p>{cutRolls(saved).map(r=><div key={r.id}><p>Roll {r.id} · {r.sourceYards} yd sebelum dipotong · dipakai {r.usedYards} yd · sisa {r.remainingYards} yd.</p><small>{r.slots.filter(s=>s.qty>0).map(s=>s.size+s.image+' = '+s.qty+' pcs').join(' · ')}</small></div>)}
-      <div className="gar-actions"><a className="gar-button" href="/analisis/planner/">Lihat perubahan di Planner</a><button type="button" className="gar-button" disabled>Simpan Potongan ke WIP · sudah tersimpan</button></div></section>
+  const saved=originalCutLots({...session,cutReversals:undefined}).find(lot=>lot.id===savedId)
+  const reversed=saved&&session.cutReversals?.[saved.id]
+  if(saved)return <>{heading}<div className="gar-success" role="status">{notice} {!reversed&&<a href={pickupPath+'?pot='+saved.id}>Bagi {saved.id}</a>}</div>
+    <section className="panel gar-panel"><div className="gar-panel-head"><h2>{saved.id} · {lotLabel(saved)}</h2><span>{reversed?'Dibalik':'Potongan tercatat'}</span></div>
+      <p><strong>{saved.qty} pcs</strong> · {seriesLabel(lotSeries(saved))} · {lotPattern(saved).name}</p>
+      {cutRolls(saved).map(roll=>{
+        const physicalId=physicalRollId(saved.id,roll.id,session)
+        return <div key={roll.id}>
+          <p>Roll {physicalId} · {physicalId===roll.id&&<>{formatQuantity(roll.sourceYards,2)} yd sebelum dipotong · </>}
+            dipakai <strong>{formatQuantity(roll.usedYards,2)} yd</strong> · {physicalId===roll.id
+              ?'sisa '+formatQuantity(roll.remainingYards,2)+' yd saat pencatatan'
+              :'saldo saat ini '+formatQuantity(yardsLeft(physicalId,session),2)+' yd'}</p>
+          <small>{roll.slots.filter(slot=>slot.qty>0).map(slot=>slot.size+slot.image+' = '+slot.qty+' pcs').join(' · ')}</small>
+        </div>
+      })}
+      <div className="gar-actions"><a className="gar-button" href="/analisis/planner/">Lihat perubahan di Planner</a>
+        {!reversed&&<a className="gar-button" href={switchRollPath(saved.id)}>Ke Switch Roll di Bahan &amp; Roll</a>}
+        {!!notice&&!reversed&&<button type="button" className="gar-button" disabled>Simpan Potongan ke WIP · sudah tersimpan</button>}
+      </div>
+      <StockSourceReversal label="Balikkan Potongan" document={saved.id} blockers={cutReversalBlockers(session,saved.id)} reversal={reversed}
+        onReverse={reason=>{changeSession(current=>reverseCutReceipt(current,saved.id,reason));setNotice('Potongan dibalik. Panjang kembali ke saldo roll.')}}/>
+    </section>
     <AdviceBox mode="cut" session={session} onCut={useAdvice}/></>
   return <>{heading}
     <AdviceBox mode="cut" session={session} onCut={useAdvice}/>
@@ -416,7 +438,7 @@ export function CuttingRollPage() {
         <div className="cutting-panel-head"><div><span>01 · SUMBER KAIN</span><h2>Pilih roll yang mau dipotong</h2><p>Satu roll tetap satu baris. Urutan dan yard asal tidak digabung.</p></div><span className="selection-pill">{selectedRolls.length} dipilih</span></div>
         <div className="roll-catalog-toolbar"><div className="roll-search"><Icon name="search"/><input value={query} onChange={(event)=>setQuery(event.target.value)} placeholder="Cari roll, pabrik, bahan, atau yard..."/></div><div className="roll-filters"><MultiCheckFilter label="Pabrik" options={fabricRollSuppliers} selected={selectedSuppliers} onChange={setSelectedSuppliers}/><MultiCheckFilter label="Bahan" options={fabricRollMaterials} selected={selectedMaterials} onChange={setSelectedMaterials}/></div></div>
         <div className="roll-list-caption"><span>{visibleRolls.length} roll tersedia</span><button type="button" onClick={toggleVisible}>{allVisibleSelected?'Batalkan hasil tampil':'Pilih semua hasil'}</button></div>
-        <div className="cutting-roll-list">{visibleRolls.map((roll)=>{const selected=selectedIdSet.has(roll.id);return <button type="button" aria-pressed={selected} className={`stock-roll-row ${selected?'selected':''}`} key={roll.id} onClick={()=>toggleRoll(roll.id)}><span className="roll-select-box">{selected&&<Icon name="check"/>}</span><span className="stock-roll-seq">{String(roll.sequence).padStart(2,'0')}</span><span className="stock-roll-name"><strong>{roll.material}</strong><small>{roll.supplier} · {roll.id} · masuk {roll.receivedAt}</small></span><span className="stock-roll-yard"><strong>{formatQuantity(roll.yards,2)} yd</strong><small>{selected?'Masuk pembagian':'Siap dipilih'}</small></span></button>})}{visibleRolls.length===0&&<div className="catalog-empty"><Icon name="search"/><strong>Roll tidak ditemukan</strong><small>Periksa pencarian atau pilihan filter pabrik dan bahan.</small></div>}</div>
+        <div className="cutting-roll-list">{visibleRolls.map((roll)=>{const selected=selectedIdSet.has(roll.id);return <button type="button" aria-pressed={selected} className={`stock-roll-row ${selected?'selected':''}`} key={roll.id} onClick={()=>toggleRoll(roll.id)}><span className="roll-select-box">{selected&&<Icon name="check"/>}</span><span className="stock-roll-seq">{String(roll.sequence).padStart(2,'0')}</span><span className="stock-roll-name"><strong>{roll.material}</strong><small>{roll.supplier} · {roll.physicalCode??roll.id} · masuk {roll.receivedAt}</small></span><span className="stock-roll-yard"><strong>{formatQuantity(roll.yards,2)} yd</strong><small>{selected?'Masuk pembagian':'Siap dipilih'}</small></span></button>})}{visibleRolls.length===0&&<div className="catalog-empty"><Icon name="search"/><strong>Roll tidak ditemukan</strong><small>Periksa pencarian atau pilihan filter pabrik dan bahan.</small></div>}</div>
       </BrowsePane>
       <aside className="panel cutting-live-summary">
         <div className="eyebrow">BATCH PRODUKSI</div><h2>{model||'Potongan baru'}</h2><p>{series?seriesLabel(series):'Seri belum dipilih'}{linked?' · '+linked.key+' · '+linked.colour:''}</p><p>Hasil cutting ini belum didistribusikan ke batch Mandor.</p>

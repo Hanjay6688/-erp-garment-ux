@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Check, FilePlus2, Plus, ReceiptText, Search, X } from 'lucide-react'
+import { ArrowRight, Check, FilePlus2, Plus, ReceiptText, Search, X } from 'lucide-react'
 import { browseMatchPieces } from '../browseMatch'
 import { amountText } from './accessoryPricing'
 import { ReasonDialog } from './planner/ReasonDialog'
@@ -25,45 +25,59 @@ export function SupplierInvoiceComposer({group,rows,previous,onClose,onSave}:{
     try{onSave(saveSupplierInvoice(draft,status))}
     catch(failure){setError((failure as Error).message);setReview(null)}
   }
-  return <ReasonDialog title={previous?'Edit draf invoice supplier':'Susun invoice supplier'} closeLabel="Kembali" className="demo-operation-dialog" onClose={onClose}>
+  return <ReasonDialog title={previous?'Edit draf invoice supplier':'Susun invoice supplier'} closeLabel="Kembali" className="demo-operation-dialog money-dialog invoice-composer" icon={<FilePlus2/>} onClose={onClose}>
     <form className="demo-operation-form" onSubmit={event=>{
       event.preventDefault()
       try{setReview(quoteSupplierInvoice(draft,'POSTED'));setError('')}
       catch(failure){setError((failure as Error).message)}
     }}>
-      <div className="demo-operation-fields"><label>Supplier<select required disabled={!!previous} value={draft.supplier} onChange={event=>change({supplier:event.target.value,lines:[]})}>
-        {suppliers.map(supplier=><option key={supplier}>{supplier}</option>)}</select></label>
-        <label>Nomor invoice supplier<input required maxLength={90} value={draft.number} onChange={event=>change({number:event.target.value})}/></label>
-        <label>Tanggal invoice<input required type="date" max={lastWarehouseDay()} value={draft.day} onChange={event=>change({day:event.target.value})}/></label></div>
-      <div className="demo-ops-columns">
-        <section className="demo-ops-card" aria-label="Kasbon tersedia"><div className="demo-operation-heading"><i><ReceiptText/></i><div><h3>Kasbon tersedia</h3><p>Pilih dari penerimaan supplier ini.</p></div></div>
-          <label className="supplier-draft-search"><Search size={16}/><input type="search" aria-label="Cari kasbon" placeholder="Nomor, bahan, atau pcs…" value={query} onChange={event=>setQuery(event.target.value)}/></label>
-          {available.map(({source,qty})=><article className="laundry-money-source" key={source.id}>
-            <div className="demo-ops-header"><div><strong>{qty.toLocaleString('id-ID')} {source.unit}</strong><small>{source.name} · {source.number}</small><small>{supplierDateLabel(source.day)}</small></div>
-              <button className="soft-btn" type="button" aria-label={'Tambah '+source.number} onClick={()=>change({lines:[...draft.lines,{sourceId:source.id,qty:String(qty).replace('.',','),rate:String(source.rate).replace('.',',')}]})}><Plus size={16}/> Tambah</button></div>
-          </article>)}
-          {!available.length&&<p>Tidak ada kasbon tersedia untuk pilihan ini.</p>}
-        </section>
-        <section className="demo-ops-card supplier-draft-selected" aria-label="Kasbon di invoice ini"><div className="demo-operation-heading"><i><Check/></i><div><h3>Di invoice ini</h3><p>{draft.lines.length} kasbon dipilih</p></div></div>
-          {!draft.lines.length&&<p>Kasbon yang dipilih akan muncul di sini.</p>}
-          {draft.lines.map(line=>{
-            const source=remaining.find(row=>row.source.id===line.sourceId)
-            const edit=(patch:Partial<typeof line>)=>change({lines:draft.lines.map(row=>row===line?{...row,...patch}:row)})
-            return <article className="laundry-money-source" key={line.sourceId}>
-              <div className="demo-ops-header"><div><strong>{source?.source.name??'Periksa sumber kasbon'}</strong><small>{source?.source.number??line.sourceId}</small></div>
-                <button className="soft-btn" type="button" aria-label={'Lepas '+source?.source.number} onClick={()=>change({lines:draft.lines.filter(row=>row!==line)})}><X size={16}/> Lepas</button></div>
-              <div className="demo-operation-fields"><label>Jumlah ditagih ({source?.source.unit??'unit'})<input required inputMode="decimal" value={line.qty} onChange={event=>edit({qty:event.target.value})}/>
-                {source&&<small>Tersedia {source.qty.toLocaleString('id-ID')} {source.source.unit}</small>}</label>
-                <label>Harga aktual (Rp per unit)<input required inputMode="decimal" value={line.rate} onChange={event=>edit({rate:event.target.value})}/><small>Cocokkan harga dengan invoice supplier.</small></label></div>
-            </article>
-          })}
-        </section>
+      <div className="invoice-composer-body">
+        <div className="demo-operation-fields invoice-composer-meta"><label>Supplier<select required disabled={!!previous} value={draft.supplier} onChange={event=>change({supplier:event.target.value,lines:[]})}>
+          {suppliers.map(supplier=><option key={supplier}>{supplier}</option>)}</select></label>
+          <label>Nomor invoice supplier<input required maxLength={90} value={draft.number} onChange={event=>change({number:event.target.value})}/></label>
+          <label>Tanggal invoice<input required type="date" max={lastWarehouseDay()} value={draft.day} onChange={event=>change({day:event.target.value})}/></label></div>
+        <div className="invoice-composer-columns">
+          <section className="invoice-composer-pane" aria-label="Kasbon tersedia">
+            <div className="demo-operation-heading"><i><ReceiptText aria-hidden="true"/></i><div><h3>Kasbon tersedia</h3><p>Penerimaan dari supplier terpilih</p></div></div>
+            <label className="supplier-draft-search"><Search aria-hidden="true"/><input type="search" aria-label="Cari kasbon" placeholder="Nomor, bahan, atau pcs…" value={query} onChange={event=>setQuery(event.target.value)}/></label>
+            <div className="invoice-composer-list">
+              {available.map(({source,qty})=><article className="invoice-source-card" key={source.id}>
+                <header className="demo-ops-header">
+                  <div><strong>{qty.toLocaleString('id-ID')} {source.unit}</strong><span>{source.name}</span><small>{source.number} · {supplierDateLabel(source.day)}</small></div>
+                  <button className="soft-btn invoice-add" type="button" aria-label={'Tambah '+source.number} onClick={()=>change({lines:[...draft.lines,{sourceId:source.id,qty:String(qty).replace('.',','),rate:String(source.rate).replace('.',',')}]})}><Plus aria-hidden="true"/> Tambah</button>
+                </header>
+              </article>)}
+              {!available.length&&<p className="invoice-list-empty">Tidak ada kasbon tersedia untuk pilihan ini.</p>}
+            </div>
+          </section>
+          <section className="invoice-composer-pane invoice-composer-selected" aria-label="Kasbon di invoice ini">
+            <div className="demo-operation-heading"><i><Check aria-hidden="true"/></i><div><h3>Di invoice ini</h3><p aria-live="polite">{draft.lines.length} kasbon dipilih</p></div></div>
+            <div className="invoice-composer-list">
+              {!draft.lines.length&&<p className="invoice-list-empty">Klik Tambah pada kasbon untuk memasukkannya ke invoice.</p>}
+              {draft.lines.map(line=>{
+                const source=remaining.find(row=>row.source.id===line.sourceId)
+                const edit=(patch:Partial<typeof line>)=>change({lines:draft.lines.map(row=>row===line?{...row,...patch}:row)})
+                return <article className="invoice-source-card" key={line.sourceId}>
+                  <header className="demo-ops-header"><div><strong>{source?.source.name??'Periksa sumber kasbon'}</strong><small>{source?.source.number??line.sourceId}</small></div>
+                    <button className="soft-btn invoice-remove" type="button" aria-label={'Lepas '+(source?.source.number??line.sourceId)} onClick={()=>change({lines:draft.lines.filter(row=>row!==line)})}><X aria-hidden="true"/> Lepas</button></header>
+                  <div className="demo-operation-fields">
+                    <label>Jumlah ditagih ({source?.source.unit??'unit'})<input required inputMode="decimal" value={line.qty} onChange={event=>edit({qty:event.target.value})}/>
+                      {source&&<small>Tersedia {source.qty.toLocaleString('id-ID')} {source.source.unit}</small>}</label>
+                    <label>Harga aktual (Rp per unit)<input required inputMode="decimal" value={line.rate} onChange={event=>edit({rate:event.target.value})}/><small>Sesuai invoice supplier</small></label>
+                  </div>
+                </article>
+              })}
+            </div>
+          </section>
+        </div>
+        {error&&<p role="alert">{error}</p>}
       </div>
-      {review&&<div className="demo-operation-facts"><article><span>Total satu invoice</span><strong>{amountText(supplierInvoiceAmount(review))}</strong><small>{review.number} · {review.lines.length} kasbon</small></article></div>}
-      {error&&<p role="alert">{error}</p>}
-      <footer><button className="soft-btn" type="button" onClick={()=>save('DRAFT')}>Simpan draf</button>
-        {review?<button className="primary-btn" type="button" onClick={()=>save('POSTED')}><Check size={16}/> Posting satu invoice</button>
-          :<button className="primary-btn" disabled={!draft.lines.length}><FilePlus2 size={16}/> Review invoice</button>}</footer>
+      <footer className="invoice-composer-footer">
+        {review&&<div className="invoice-review-total" role="status"><span>Total satu invoice</span><strong>{amountText(supplierInvoiceAmount(review))}</strong><small>{review.number} · {review.lines.length} kasbon</small></div>}
+        <div className="invoice-composer-actions"><button className="soft-btn" type="button" onClick={()=>save('DRAFT')}>Simpan draf</button>
+          {review?<button className="primary-btn" type="button" onClick={()=>save('POSTED')}><Check aria-hidden="true"/> Posting satu invoice</button>
+            :<button className="primary-btn" disabled={!draft.lines.length}>Review invoice <ArrowRight aria-hidden="true"/></button>}</div>
+      </footer>
     </form>
   </ReasonDialog>
 }

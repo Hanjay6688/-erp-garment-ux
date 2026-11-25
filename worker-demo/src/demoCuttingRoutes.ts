@@ -12,6 +12,7 @@ export const productionForms = {
   'materials-rolls':{name:'Bahan & Roll',path:'/gudang/bahan-roll/'},
   accessories:{name:'Aksesori',path:'/gudang/aksesori/'},
   'pocket-fabric':{name:'Kain kantong',path:'/gudang/kain-kantong/'},
+  'finance-cash':{name:'Kas & Bank',path:'/keuangan/kas-bank/'},
   'finance-payroll':{name:'Payroll & Kasbon',path:'/keuangan/payroll-kasbon/'},
   'finance-ap':{name:'Hutang Supplier & Vendor',path:'/keuangan/hutang-supplier/'},
   'operations-attendance':{name:'Absensi Pekerja',path:'/keuangan/absensi/'},

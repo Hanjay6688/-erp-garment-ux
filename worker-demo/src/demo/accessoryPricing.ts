@@ -69,9 +69,11 @@ export function serviceStockMoves(session:Session,code:string,location:Accessory
   return (session.serviceDocuments??[]).flatMap(doc=>{
     const qty=doc.lines.reduce((sum,line)=>sum+(line.code===code?line.qty:0),0)
     if(!qty)return []
-    if(doc.action==='USE')return doc.location===location?[{ref:doc.id,date:doc.day,note:'Pemakaian servis',delta:-qty}]:[]
+    if(doc.action==='USE'&&doc.location!==location)return []
     const positive=doc.action==='TO_SERVICE'?location===serviceAccessories:location===mainAccessories
-    return [{ref:doc.id,date:doc.day,note:doc.action==='TO_SERVICE'?'Transfer ke Pos Servis':'Kembali dari Pos Servis',delta:positive?qty:-qty}]
+    const delta=doc.action==='USE'?-qty:positive?qty:-qty
+    const movement={ref:doc.id,date:doc.day,note:doc.action==='USE'?'Pemakaian servis':doc.action==='TO_SERVICE'?'Transfer ke Pos Servis':'Kembali dari Pos Servis',delta}
+    return doc.reversal?[movement,{...movement,ref:doc.id+' · balik',date:doc.reversal.at.slice(0,10),note:doc.reversal.reason,delta:-delta}]:[movement]
   })
 }
 export function noteStock(code:string,opening:number,docs?:InventoryNote[],session:Session=readPlannerSession(),location:AccessoryLocation=mainAccessories):number {
@@ -83,8 +85,8 @@ export function noteStock(code:string,opening:number,docs?:InventoryNote[],sessi
   const service=serviceStockMoves(session,code,location).reduce((sum,row)=>sum+row.delta,0)
   if(location===serviceAccessories)return service-used
   const returned=(session.conversionReturns??[]).reduce((sum,row)=>sum+(!row.reversed&&row.code===code?row.good:0),0)
-  const received=(session.accessoryReceipts??[]).reduce((sum,row)=>sum+(row.code===code?row.qty:0),0)
-  const inspected=(session.accessorySalvage??[]).filter(row=>row.code===code).flatMap(row=>row.inspections).reduce((sum,row)=>sum+row.good,0)
+  const received=(session.accessoryReceipts??[]).reduce((sum,row)=>sum+(!row.reversal&&row.code===code?row.qty:0),0)
+  const inspected=(session.accessorySalvage??[]).filter(row=>row.code===code).flatMap(row=>row.inspections).reduce((sum,row)=>sum+(row.reversal?0:row.good),0)
   const mandorReturns=ledger.flatMap(doc=>doc.returns??[]).flatMap(doc=>doc.lines).reduce((sum,line)=>sum+(masterCode(line.lineId)===code?line.qty:0),0)
   return opening+received+returned+inspected+service+mandorReturns-used+ledger.reduce((balance,d)=>balance+(d.inventoryChange??0)*d.lines.reduce((sum,l)=>sum+(masterCode(l.id)===code?l.qty:0),0),0)
 }
