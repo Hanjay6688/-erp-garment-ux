@@ -3,7 +3,7 @@
   "candidate_branch": "pre-cp5/cutting-persistence-pickup-wip-r1-20260903",
   "source_base_sha": "8bfac13b91ea1be92111139e2fddcabccf9ae19a",
   "source_base_tree": "a9b193010266bb686c57709865a992769a835855",
-  "generation_parent_sha": "cc3f12261ee38536bd72f483b9452e1aab9e95ec",
+  "generation_parent_sha": "71b7a2ce0b1f1c6376fb18bd4293df9c50f220d4",
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
@@ -636,8 +636,8 @@
       "sha256": "8dcafcf1ead9dec38713f7a75f317eed63de1bf64a666e0e354c540e913a7ab4"
     },
     "tests/browser/cp8-worker.spec.ts": {
-      "bytes": 65916,
-      "sha256": "dd73f38962bd84fd52045430c8650e0a995ab274be4e58a6ad6efad46c91bf0b"
+      "bytes": 67910,
+      "sha256": "303ac5e4f2cfdb4e728b5a2ad0d075a6c3c5d0c7280ff15aea91a4fca3ba149d"
     },
     "tests/fg-quantity.test.ts": {
       "bytes": 1251,
@@ -1652,20 +1652,20 @@
       "sha256": "697b0b9e7787ecce3e4aa16d7c637a9108b284dce74a373f12e7526cfefc5755"
     },
     "worker-demo/src/demo/MandorWipPage.tsx": {
-      "bytes": 50696,
-      "sha256": "41269e80752978454f1885169c263d9fa4d50f78c20acd3f61427e8aff1edfcf"
+      "bytes": 51445,
+      "sha256": "d0430cab76c7b8060a80a1a7a6f63b6a868a9d39ba3ff73d3ff54be1eb665d89"
     },
     "worker-demo/src/demo/PeriodFilter.tsx": {
       "bytes": 2266,
       "sha256": "f7a454f304d2694e7058c096937955f7f9a5f0251f3d53718bcb32b46b421676"
     },
     "worker-demo/src/demo/PocketFabric.tsx": {
-      "bytes": 18345,
-      "sha256": "b2b07b9bad3243718238d7aa28d8cd3704024c5ed9c6c39b7907f968592f9854"
+      "bytes": 18558,
+      "sha256": "695e0c8d29744135804057be85c6b2a1f64d4566888f6dd2deba5dc27a300f22"
     },
     "worker-demo/src/demo/PocketReceiptForm.tsx": {
-      "bytes": 13380,
-      "sha256": "16a713c5d009d4c31f29231af497796de614d78aeb950553b323f799b290d6cf"
+      "bytes": 13840,
+      "sha256": "e1456c755ba83f1e915b928b44eea2dacee8433e4a0c9ba57aa9c9adfd8b86da"
     },
     "worker-demo/src/demo/PostedFgDetail.tsx": {
       "bytes": 4835,
@@ -1808,8 +1808,8 @@
       "sha256": "c724275cccd63351c485be7e766094bda13091f9ea54dcc5a7d986cdaf57912a"
     },
     "worker-demo/src/demo/pocketFabric.css": {
-      "bytes": 6840,
-      "sha256": "18f5396b918bb7c3119659054e260225932bfafc95febe73945c036ea515b165"
+      "bytes": 8077,
+      "sha256": "1dd3d3b0b8b99c86cc8a93c2a686bbe339937ff57c3f1979ea4e6b5e6ca8198d"
     },
     "worker-demo/src/demo/pocketReceipts.ts": {
       "bytes": 4520,
@@ -2420,8 +2420,8 @@
       "sha256": "f1715ca01efa1f8bc271ba7257909e8a616938acd8185510e9f84f6067c6de38"
     },
     "worker-demo/src/procurement.css": {
-      "bytes": 88076,
-      "sha256": "5e85031eb61b4e9469212ea3342512469fdacca41947cffce004e458bfd051cb"
+      "bytes": 87975,
+      "sha256": "4e04f4608ed49b1ae411a46b8b14f8649c00f2e5b56d994d19823d968bf2e36d"
     },
     "worker-demo/src/procurementContract.ts": {
       "bytes": 12345,

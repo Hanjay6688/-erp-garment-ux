@@ -168,6 +168,13 @@
   overflow-wrap: anywhere;
 }
 
+.pocket-workspace .pocket-quantity,
+.pocket-receipt .pocket-quantity {
+  font-size: 1.07rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
 .pocket-in-stock dd {
   color: var(--green);
 }
@@ -209,6 +216,23 @@
   font-size: .8rem;
 }
 
+.pocket-history .wh-register-row,
+.pocket-review .wh-register-row {
+  padding-inline: 10px;
+}
+
+.pocket-receipt .wh-receipt-register > details:nth-of-type(odd),
+.pocket-history .wh-register-row:nth-of-type(odd),
+.pocket-review .wh-register-row:nth-of-type(odd) {
+  background: var(--browse-first, var(--panel-2));
+}
+
+.pocket-receipt .wh-receipt-register > details:nth-of-type(even),
+.pocket-history .wh-register-row:nth-of-type(even),
+.pocket-review .wh-register-row:nth-of-type(even) {
+  background: var(--browse-second, var(--panel));
+}
+
 .pocket-dialog-form p {
   margin: 8px 0;
   color: var(--soft);
@@ -222,7 +246,7 @@
   border: 1px solid var(--line-strong);
   background: var(--panel-2);
   border-radius: 9px;
-  padding: 0 12px;
+  overflow: hidden;
   margin-top: 12px;
 }
 
@@ -231,7 +255,7 @@
 }
 
 .pocket-total {
-  padding: 10px 0;
+  padding: 10px;
   border-top: 1px solid var(--line-strong);
 }
 
@@ -308,6 +332,14 @@
   background: var(--panel-2);
 }
 
+.pocket-receipt :is(.wh-fields, .wh-roll-inputs) input[inputmode="decimal"],
+.pocket-dialog-form .wh-fields input[inputmode="decimal"] {
+  min-height: 44px;
+  font-size: 1rem;
+  font-weight: 750;
+  font-variant-numeric: tabular-nums;
+}
+
 .pocket-receipt .wh-roll-inputs + button {
   margin-top: 8px;
 }
@@ -379,5 +411,20 @@
 
   .pocket-receipt-totals strong {
     font-size: .93rem;
+  }
+}
+
+@media (max-width: 460px) {
+  .pocket-receipt .wh-roll-inputs > div {
+    grid-template-columns: minmax(0, 1fr) 44px;
+  }
+
+  .pocket-receipt .wh-roll-inputs label:first-of-type {
+    grid-column: 1 / -1;
+  }
+
+  .pocket-receipt .wh-roll-inputs .remove-roll {
+    min-width: 44px;
+    min-height: 44px;
   }
 }

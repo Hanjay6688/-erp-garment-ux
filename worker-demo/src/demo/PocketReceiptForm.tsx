@@ -164,19 +164,20 @@ export default function PocketReceiptForm() {
       <header className="pocket-panel-head"><h2>Riwayat penerimaan</h2><ClipboardList size={19} aria-hidden="true"/></header>
       <label className="pocket-search">Cari penerimaan<input type="search" placeholder="Surat jalan, supplier, atau roll" value={historyQuery} onChange={e => setHistoryQuery(e.target.value)}/></label>
       {receipts.map(r => <details key={r.number} open={expanded === r.number || undefined}>
-        <summary><strong>{r.number}</strong><small>{r.day} · {r.supplier} · {r.rolls.length} roll · {r.reversal ? 'Dibalik' : 'Diterima'}</small></summary>
+        <summary><strong className="pocket-quantity">{r.rolls.length} roll · {fmt(r.rolls.reduce((total, roll) => total + roll.length, 0))} {r.rolls[0].unit}</strong>
+          <small className="record-code">{r.number} · {r.day} · {r.supplier} · {r.reversal ? 'Dibalik' : 'Diterima'}</small></summary>
         <p>{r.rolls[0].location} · {r.rolls[0].name}</p>
         {r.rolls.map(roll => <div className="wh-register-row" key={roll.id}>
-          <span>{roll.id} · {fmt(roll.length)} {roll.unit}</span>
+          <span><strong className="pocket-quantity">{fmt(roll.length)} {roll.unit}</strong><small className="record-code">{roll.id}</small></span>
           {!r.reversal && <a href={link(roll.id)}>Buka roll</a>}
         </div>)}
         {r.reversal ? <small>Alasan pembalikan · {r.reversal.reason}</small> :
           <button type="button" className="soft-btn" onClick={() => { setUndo(r.number); setWhy(''); setError('') }}>Balikkan penerimaan</button>}
       </details>)}
       {openingShown && <details open={expanded === 'SJ-KT-001' || undefined}>
-        <summary><strong>SJ-KT-001</strong><small>20 Nov 2026 · 2 roll · Saldo pembukaan</small></summary>
+        <summary><strong className="pocket-quantity">{seedRolls.length} roll · Saldo pembukaan</strong><small className="record-code">SJ-KT-001 · 20 Nov 2026</small></summary>
         {seedRolls.map(roll => <div className="wh-register-row" key={roll.id}>
-          <span>{roll.id} · {fmt(roll.length)} {roll.unit}</span><a href={link(roll.id)}>Buka roll</a>
+          <span><strong className="pocket-quantity">{fmt(roll.length)} {roll.unit}</strong><small className="record-code">{roll.id}</small></span><a href={link(roll.id)}>Buka roll</a>
         </div>)}
       </details>}
       {!openingShown && !receipts.length && <p>Surat jalan atau roll tidak ditemukan.</p>}
@@ -187,10 +188,10 @@ export default function PocketReceiptForm() {
         <p><strong>{preview.supplier} · {preview.rolls[0].location}</strong><br/>{preview.rolls[0].name} · {preview.day} · {rateText(preview.rolls[0].rate, preview.rolls[0].unit)}</p>
         <div className="pocket-review">
           {preview.rolls.map(r => <div className="wh-register-row" key={r.id}>
-            <span><strong>{r.id}</strong><small>{fmt(r.length)} {r.unit} masuk</small></span><strong>{amountText(Math.round(r.length * r.rate * 100) / 100)}</strong>
+            <span><strong className="pocket-quantity">{fmt(r.length)} {r.unit} masuk</strong><small className="record-code">{r.id}</small></span><strong>{amountText(Math.round(r.length * r.rate * 100) / 100)}</strong>
           </div>)}
           <div className="pocket-total">
-            <span>{preview.rolls.length} roll · {fmt(preview.rolls.reduce((sum, r) => sum + r.length, 0))} {preview.rolls[0].unit}</span>
+            <strong className="pocket-quantity">{preview.rolls.length} roll · {fmt(preview.rolls.reduce((sum, r) => sum + r.length, 0))} {preview.rolls[0].unit}</strong>
             <strong>{amountText(preview.rolls.reduce((sum, r) => sum + Math.round(r.length * r.rate * 100), 0) / 100)}</strong>
           </div>
         </div>

@@ -147,7 +147,7 @@ export default function PocketFabric() {
             <dl className="pocket-stock-metrics">
               <div><dt>Masuk</dt><dd>{length(incoming, roll.unit)}</dd></div>
               <div><dt>Terpakai</dt><dd>{length(incoming - left, roll.unit)}</dd></div>
-              <div className={left ? 'pocket-in-stock' : ''}><dt>Sisa</dt><dd>{length(left, roll.unit)}</dd></div>
+              <div className={left ? 'pocket-in-stock' : ''}><dt>Sisa</dt><dd className="pocket-quantity">{length(left, roll.unit)}</dd></div>
             </dl>
             <button type="button" className="soft-btn pocket-use-button" aria-label={'Catat pemakaian ' + roll.id} disabled={left <= 0}
               onClick={() => openUsage({ rolls: [roll], whole: false })}><Scissors size={15} aria-hidden="true"/>Pakai roll</button>
@@ -181,7 +181,7 @@ export default function PocketFabric() {
           const unit = issue.unit ?? rolls.find(r => r.id === issue.roll)?.unit
             ?? readReceipts().flatMap(r => r.rolls).find(r => r.id === issue.roll)?.unit ?? 'yd'
           return <div className="wh-register-row" key={issue.id}>
-            <span><strong>{issue.roll} · {length(issue.qty, unit)}</strong><small>{issue.date} · {issue.id} · {rupiah(issue.cents)} · {issue.reason}</small></span>
+            <span><strong className="pocket-quantity">{length(issue.qty, unit)} keluar</strong><small>{issue.roll} · {issue.date} · {issue.id} · {rupiah(issue.cents)} · {issue.reason}</small></span>
             {issue.reversal ? <span>Dibalik · {issue.reversal}</span> : <button type="button" className="soft-btn" onClick={() => openReverse({ kind: 'issue', id: issue.id })}>Balikkan pemakaian</button>}
           </div>
         })}
@@ -204,7 +204,7 @@ export default function PocketFabric() {
         <p>Sumber {preview.sources.join(', ')}</p>
         <div className="pocket-table-scroll" tabIndex={0} role="region" aria-label="Rincian alokasi HPP">
           <RecordTable><thead><tr><th>PO / mandor</th><th>Selesai dijahit</th><th>WIP</th><th>FG tersedia</th><th>HPP terjual</th></tr></thead>
-            <tbody>{preview.parts.map(p => <tr key={p.po}><td>{p.po} · {p.mandor}</td><td>{p.pcs} pcs</td><td>{rupiah(p.wip)}</td><td>{rupiah(p.fg)}</td><td>{rupiah(p.sold)}</td></tr>)}</tbody>
+            <tbody>{preview.parts.map(p => <tr key={p.po}><td>{p.mandor} <small className="record-code">{p.po}</small></td><td><strong className="pocket-quantity">{p.pcs} pcs</strong></td><td>{rupiah(p.wip)}</td><td>{rupiah(p.fg)}</td><td>{rupiah(p.sold)}</td></tr>)}</tbody>
           </RecordTable>
         </div>
         <button className="primary-btn" type="button" disabled={!allocReason.trim()} onClick={postAllocation}>Sahkan pembagian</button>
@@ -213,7 +213,7 @@ export default function PocketFabric() {
         <h3>Riwayat pembagian biaya</h3>
         {book.allocations.length === 0 && <p>Belum ada pembagian biaya.</p>}
         {[...book.allocations].reverse().map(a => <div className="wh-register-row" key={a.id}>
-          <span><strong>{a.id} · {rupiah(a.cents)}</strong><small>{a.start} – {a.end} · {a.pcs} pcs · {a.reason}</small></span>
+          <span><strong><span className="pocket-quantity">{a.pcs} pcs</span> · {rupiah(a.cents)}</strong><small>{a.start} – {a.end} · {a.id} · {a.reason}</small></span>
           {a.reversal ? <span>Dibatalkan · {a.reversal}</span> : <button type="button" className="soft-btn" onClick={() => openReverse({ kind: 'period', id: a.id })}>Batalkan pembagian</button>}
         </div>)}
       </section>
@@ -282,7 +282,7 @@ function PocketUsageForm({ selection, book, onClose, onConfirm }: {
       {(error || invalid) && <p className="wh-feedback" role="alert">{error || invalid}</p>}
       {lines.length > 0 && <div className="pocket-review">
         {lines.map(({ roll, qty, left, cents }) => <div key={roll.id} className="wh-register-row">
-          <span><strong>{roll.id}</strong><small>Keluar {length(qty, roll.unit)} · Sisa gudang {length(left, roll.unit)}</small></span>
+          <span><strong className="pocket-quantity">Keluar {length(qty, roll.unit)}</strong><small>{roll.id} · Sisa gudang {length(left, roll.unit)}</small></span>
           <strong>{rupiah(cents)}</strong>
         </div>)}
         <div className="pocket-total"><span>Masuk biaya periode</span><strong>{rupiah(lines.reduce((sum, row) => sum + row.cents, 0))}</strong></div>
