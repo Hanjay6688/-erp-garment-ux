@@ -51,7 +51,6 @@ import type { KeyboardEvent as ReactKeyboardEvent } from 'react'
 import { applyUxTampilan, readUxTampilan, saveUxTampilan, type UxTampilan } from './uxTampilan'
 import { UxTampilanToggle } from './UxTampilanToggle'
 import { StageLots } from './demo/planner/StageLots'
-import { SkuRangePage } from './demo/SkuRangePage'
 import { cuttingFormAt, productionForms } from './demoCuttingRoutes'
 
 export { UnassignedRollCard } from './demo/CuttingRollPage'
@@ -624,7 +623,7 @@ function ErpApp() {
         />}
         {page === 'hpp' && <Suspense fallback={<WorkspaceFallback label="HPP & Rekalkulasi"/>}>{runtime.mode === 'DEMO_SIMULATION' ? <HppPage /> : <ConnectedSkuHppPage/>}</Suspense>}
         {(page === 'master-fabric' || page === 'master-accessory') && <Suspense fallback={<WorkspaceFallback label="Master Material"/>}>{runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedMasterPage view={page}/> : <MaterialMasterPages view={page}/>}</Suspense>}
-        {(page === 'master-products' || page === 'master-customers' || page === 'master-partners' || page === 'master-workforce' || page === 'master-locations') && <Suspense fallback={<WorkspaceFallback label="Master Data"/>}>{page === 'master-products' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedSkuMasterPage/> : page !== 'master-products' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedMasterPage view={page}/> : <>{page==='master-products'&&<SkuRangePage mode="master"/>}<MasterDataPages view={page}/></>}</Suspense>}
+        {(page === 'master-products' || page === 'master-customers' || page === 'master-partners' || page === 'master-workforce' || page === 'master-locations') && <Suspense fallback={<WorkspaceFallback label="Master Data"/>}>{page === 'master-products' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedSkuMasterPage/> : page !== 'master-products' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedMasterPage view={page}/> : <MasterDataPages view={page}/>}</Suspense>}
         {page === 'master-pattern' && <Suspense fallback={<WorkspaceFallback label="Master Pola"/>}><PatternPage/></Suspense>}
         {page === 'admin-access' && <Suspense fallback={<WorkspaceFallback label="Pengguna & Hak Akses"/>}><AccessControlPage/></Suspense>}
         {page === 'pocket-fabric' && <Suspense fallback={<WorkspaceFallback label="Kain kantong"/>}>{runtime.mode==='DEMO_SIMULATION'?<PocketFabricDemo/>:<ConnectedPocketFabricPage/>}</Suspense>}

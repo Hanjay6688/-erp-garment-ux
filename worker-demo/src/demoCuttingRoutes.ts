@@ -17,6 +17,7 @@ export const productionForms = {
   'sales-history':{name:'Riwayat Pelanggan',path:'/penjualan/riwayat/'},
 
   'master-partners':{name:'Supplier & Vendor',path:'/master/supplier-vendor/'},
+  'master-fabric':{name:'Kain & Benchmark',path:'/master/kain-benchmark/'},
   'master-accessory':{name:'Master Aksesori',path:'/master/aksesori/'},
   'contractor-issue':{name:'Nota Ambil Mandor',path:'/keuangan/nota-ambil-mandor/'},
   'brand-conversion':{name:'Ganti Merek',path:'/gudang/ganti-merek/'},

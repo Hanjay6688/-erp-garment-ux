@@ -5,6 +5,8 @@ import {
   Ruler, Search, ShieldCheck, Tag, X,
 } from 'lucide-react'
 import { cleanMoneyInput, formatMoneyInput } from './moneyInput'
+import PocketMaterialMaster from './demo/PocketMaterialMaster'
+import { pocketMasterPath } from './demo/pocketMaterials'
 import {accessorySeeds,contractorNames,useAccessoryBook,updateAccessoryBook,priceOn,specialOn,saveRateVersion,saveSpecial,usedByNote,noteStock,amountText,validRateUnit,type PriceHistory,type AccessoryMaster} from './demo/accessoryPricing'
 import './material-master.css'
 
@@ -38,7 +40,10 @@ const currentConversion=(uom:UomMaster)=>uom.conversions.find((item)=>item.statu
 function StatePill({active}:{active:boolean}){return <em className={`mm-state ${active?'active':'inactive'}`}>{active?'AKTIF':'NONAKTIF'}</em>}
 function MasterHero({title,description,kind}:{title:string;description:string;kind:string}){return <section className="hero-copy compact mm-hero"><div><div className="eyebrow">MASTER DATA · {kind}</div><h1>{title}</h1><p>{description}</p></div><div className="mm-contract"><ShieldCheck/><span><strong>Data latihan</strong><em>{kind==='AKSESORI'?'Riwayat nota tersedia di tab ini.':'Master material demo.'}</em></span></div></section>}
 
-export default function MaterialMasterPages({view}:Props){return view==='master-fabric'?<FabricWorkspace/>:<AccessoryWorkspace/>}
+export default function MaterialMasterPages({view}:Props){
+  if(view!=='master-fabric')return <AccessoryWorkspace/>
+  return new URLSearchParams(location.search).get('bagian')==='kain-kantong' ? <PocketMaterialMaster/> : <FabricWorkspace/>
+}
 
 function FabricWorkspace(){
   const [fabrics,setFabrics]=useState(fabricSeeds)
@@ -79,6 +84,7 @@ function FabricWorkspace(){
   }
   return <>
     <MasterHero kind="KAIN" title="Kain & Benchmark Harga" description="Master identitas kain dipisah dari harga. Benchmark berlaku berdasarkan waktu untuk GRNI dan estimasi HPP; invoice supplier final tidak pernah ditimpa benchmark."/>
+    <a className="soft-btn pocket-master-entry" href={pocketMasterPath}><Layers3 size={16} aria-hidden="true"/>Master kain kantong <ArrowRight size={16} aria-hidden="true"/></a>
     <section className="mm-metrics"><article><span>MASTER AKTIF</span><strong>{fabrics.filter((item)=>item.active).length}</strong><small>Identitas kain siap dipakai</small></article><article><span>BENCHMARK BERLAKU</span><strong>{fabrics.filter((item)=>currentPrice(item.benchmark)>0).length}</strong><small>Effective-dated estimate</small></article><article><span>FINAL AP PRICE</span><strong>Invoice supplier</strong><small>Bukan benchmark master</small></article><article><span>HARD DELETE</span><strong>Dilarang</strong><small>Nonaktifkan bila tak dipakai</small></article></section>
     <section className="panel mm-layout"><aside><header><div><span>BROWSER KAIN</span><strong>{visible.length} master</strong></div><Layers3/></header><label className="mm-search"><Search/><input value={query} onChange={(event)=>setQuery(event.target.value)} placeholder="Cari kode, nama, family..."/></label><div>{visible.map((fabric)=><button className={fabric.id===selected.id?'active':''} key={fabric.id} onClick={()=>{setSelectedId(fabric.id);setNotice('')}}><i><Ruler/></i><span><strong>{fabric.name}</strong><small>{fabric.code} · {fabric.family}</small><em>{currentPrice(fabric.benchmark)>0?`${money(currentPrice(fabric.benchmark))}/${fabric.defaultUom}`:'Benchmark belum ada'}</em></span><StatePill active={fabric.active}/></button>)}</div><footer><button onClick={()=>openFabricEditor('create')}><Plus/> Tambah kain</button><small>Record baru dimulai tanpa histori atau harga terselubung.</small></footer></aside><main>
       <header className="mm-detail-head"><div><span>IDENTITAS KAIN</span><h2>{selected.name}</h2><p>{selected.code} · {selected.family}</p></div><div><StatePill active={selected.active}/><small>row version {selected.rowVersion}</small></div></header>

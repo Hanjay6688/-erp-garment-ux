@@ -579,8 +579,7 @@
 .ux-rapih .po-preview>.icon{color:#85d5b5}
 .ux-rapih .po-preview strong{font-size:var(--fs-xs)}
 .ux-rapih .po-preview span{color:#8c97aa;font-size:var(--fs-xs);line-height:1.4}
-.ux-rapih .cutting-meta-grid{border-bottom:1px solid var(--line)}
-.ux-rapih .cutting-meta-grid .field>span,.ux-rapih .future-po-field>span{color:#8e99ad;font-size:var(--fs-xs);font-weight:700}
+.ux-rapih .future-po-field>span{color:#8e99ad;font-size:var(--fs-xs);font-weight:700}
 .ux-rapih .future-po-field{border:1px dashed rgba(124,141,255,0.32)}
 .ux-rapih .future-po-field strong{font-size:var(--fs-xs)}
 .ux-rapih .future-po-field small{color:#8b96a8;font-size:var(--fs-xs)}
@@ -1060,10 +1059,6 @@
 .ux-rapih .laundry-size-pills span{color:#8b96a8;font-size:var(--fs-xs)}
 .ux-rapih .laundry-size-pills b{color:#cfd4df}
 .ux-rapih .laundry-switch-note{color:#8e97a9;font-size:var(--fs-xs)}
-.ux-rapih .laundry-destination{border:1px solid rgba(124,141,255,0.27)}
-.ux-rapih .laundry-destination>span{color:#929fff;font-size:var(--fs-xs);font-weight:700}
-.ux-rapih .laundry-destination strong{font-size:var(--fs-lg)}
-.ux-rapih .laundry-destination small{color:#929caf;font-size:var(--fs-xs)}
 .ux-rapih .laundry-ticket select,.ux-rapih .laundry-ticket input{border:1px solid var(--line);color:#dfe3ed;font-size:var(--fs-xs)}
 .ux-rapih .laundry-cost-review{border:1px solid var(--line)}
 .ux-rapih .laundry-cost-review p{border-bottom:1px solid rgba(255,255,255,0.125);color:#8b96a9;font-size:var(--fs-xs)}
@@ -1219,8 +1214,6 @@
 .ux-rapih .laundry-send-by-size label small{font-size:var(--fs-xs)}
 .ux-rapih .laundry-send-by-size input{font-size:var(--fs-base)}
 .ux-rapih .laundry-send-by-size em{font-size:var(--fs-xs)}
-.ux-rapih .laundry-destination>span{font-size:var(--fs-xs)}
-.ux-rapih .laundry-destination small{font-size:var(--fs-xs)}
 .ux-rapih .laundry-ticket select,.ux-rapih .laundry-ticket input{font-size:var(--fs-sm)}
 .ux-rapih .laundry-cost-review p{font-size:var(--fs-xs)}
 .ux-rapih .laundry-estimate-note{font-size:var(--fs-xs)}

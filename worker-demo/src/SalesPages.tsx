@@ -1,4 +1,4 @@
-import { browseMatch } from './browseMatch'
+import { browseMatch, browseMatchPieces } from './browseMatch'
 import {dozenPieces,fgQuantity} from './fgQuantity'
 import {readInvoices,writeInvoices,postInvoice,invoiceLines,sourceLines,saleStock,compareInvoices,type DraftLine,type DemoInvoice} from './demo/saleBook'
 import {PeriodFilter,periodFor,periodLabel,matchesPeriod} from './demo/PeriodFilter'
@@ -128,7 +128,7 @@ function InvoiceGoods({ invoice, initialQuery }: { invoice: DemoInvoice; initial
     const details = invoice.lines ?? (rows.every(row => row.qty > 0 && productCatalog.some(product => product.code === row.sku)) ? sourceLines(invoice) : [])
     return rows.map((row, index) => ({ ...row, detail: details[index] }))
   }, [invoice])
-  const visible = query.trim() ? items.filter(item => browseMatch(query, item.sku, item.detail?.product.name, item.detail?.product.color)) : items
+  const visible = query.trim() ? items.filter(item => browseMatchPieces(query, item.qty === null ? [] : [item.qty], item.sku, item.detail?.product.name, item.detail?.product.color)) : items
   const start = page * invoiceItemPageSize
   const current = visible.slice(start, start + invoiceItemPageSize)
   const visibleDetails = current.flatMap(item => item.detail ? [item.detail] : [])
@@ -330,7 +330,7 @@ function AllocationWorkspace({ onNavigate }: { onNavigate: SalesPageProps['onNav
   const registerQuery = useDeferredValue(query.trim())
   const visible = useMemo(() => invoices.filter(invoice => matchesPeriod(invoice.dateKey, period) &&
     (customer === 'ALL' || invoice.customer === customer) && (status === 'ALL' || invoice.status === status) &&
-    (!registerQuery || browseMatch(registerQuery, invoice.number, invoice.customer, ...(skuByInvoice.get(invoice.number) ?? []))))
+    (!registerQuery || browseMatchPieces(registerQuery, [invoice.qty], invoice.number, invoice.customer, ...(skuByInvoice.get(invoice.number) ?? []))))
     .sort(compareInvoices(sort)), [invoices, registerQuery, skuByInvoice, customer, status, sort, period])
   const currentPage = Math.min(registerPage, Math.max(0, Math.ceil(visible.length / invoicePageSize) - 1))
   const shown = visible.slice(currentPage * invoicePageSize, (currentPage + 1) * invoicePageSize)
@@ -353,7 +353,7 @@ function AllocationWorkspace({ onNavigate }: { onNavigate: SalesPageProps['onNav
       <header><div><span>DAFTAR INVOICE</span><strong>{visible.length} nota sesuai filter</strong><small>Pilih nota untuk membuka rincian barang.</small></div>
         <button className="primary-btn" onClick={()=>onNavigate('sales-invoice')}><Plus/> Buat invoice</button></header>
       <div className="biz-history-toolbar compact">
-        <label className="biz-search"><Search aria-hidden="true"/><input type="search" aria-label="Cari invoice, toko, atau SKU" value={query} onChange={event=>{setQuery(event.target.value);setRegisterPage(0)}} placeholder="Cari invoice, toko, atau SKU…"/></label>
+        <label className="biz-search"><Search aria-hidden="true"/><input type="search" aria-label="Cari invoice, toko, atau SKU" value={query} onChange={event=>{setQuery(event.target.value);setRegisterPage(0)}} placeholder="Cari invoice, toko, SKU, jumlah potong…"/></label>
         <select aria-label="Toko" value={customer} onChange={event=>{setCustomer(event.target.value);setRegisterPage(0)}}><option value="ALL">Semua toko</option>{customers.map(name=><option key={name}>{name}</option>)}</select>
         <select aria-label="Status invoice" value={status} onChange={event=>{setStatus(event.target.value);setRegisterPage(0)}}><option value="ALL">Semua status</option><option value="POSTED">Posted</option><option value="PAID">Paid</option><option value="DRAFT">Draft · reserved</option><option value="REVERSED">Dibalik</option></select>
         <select aria-label="Urutkan invoice" value={sort} onChange={event=>{setSort(event.target.value);setRegisterPage(0)}}><option value="NEWEST">Terbaru dulu</option><option value="OLDEST">Terlama dulu</option><option value="VALUE_ASC">Total terkecil</option><option value="VALUE_DESC">Total terbesar</option><option value="STORE">Urut toko</option></select>
@@ -435,7 +435,8 @@ function ReturnsWorkspace() {
   const [reason,setReason]=useState('Ukuran tidak sesuai pesanan toko')
   const [reviewOpen,setReviewOpen]=useState(false)
   const [notice,setNotice]=useState('')
-  const visible=returnableInvoices.filter((invoice)=>`${invoice.number} ${invoice.customer}`.toLowerCase().includes(query.toLowerCase()))
+  const visible=returnableInvoices.filter(invoice=>browseMatchPieces(query,[invoice.lines.reduce((sum, line)=>sum+line.sold,0)],
+    invoice.number,invoice.customer,...invoice.lines.map(line=>line.sku)))
   const selected=returnableInvoices.find((invoice)=>invoice.number===selectedNumber)??returnableInvoices[0]
   const returnQty=selected.lines.reduce((sum,line)=>sum+(quantities[line.key]??0),0)
   const refund=selected.lines.reduce((sum,line)=>sum+(quantities[line.key]??0)*line.price,0)
@@ -481,9 +482,10 @@ function CustomerHistoryWorkspace() {
     ...registered.map(d=>({date:d.day+' · '+d.time,dateKey:d.dateKey,time:d.time,customer:d.customer,type:'SALE',number:d.number,description:'Penjualan '+d.sku,sku:d.sku,qty:d.qty,amount:d.gross})),
     ...customerEvents.filter(e=>e.type!=='SALE').map(e=>({...e,dateKey:'2026-08-'+e.date.slice(0,2),time:e.date.slice(-5)}))
   ]
-  const visible=events.filter(e=>matchesPeriod(e.dateKey,period)&&[e.customer,e.number,e.description,e.sku].join(' ').toLowerCase().includes(query.toLowerCase())&&(customer==='ALL'||e.customer===customer)&&(type==='ALL'||e.type===type))
+  const visible=events.filter(e=>matchesPeriod(e.dateKey,period)&&browseMatchPieces(query,[e.qty],e.customer,e.number,e.description,e.sku)&&(customer==='ALL'||e.customer===customer)&&(type==='ALL'||e.type===type))
     .sort((a,b)=>(historyOrder==='new'?-1:1)*(a.dateKey.localeCompare(b.dateKey)||a.time.localeCompare(b.time)||a.number.localeCompare(b.number)))
-  const openAr=registered.filter(d=>matchesPeriod(d.dateKey,period)&&(customer==='ALL'||d.customer===customer)&&[d.customer,d.number,d.sku].join(' ').toLowerCase().includes(query.toLowerCase())).reduce((n,d)=>n+Math.max(0,d.gross-d.returns-d.paid),0)
+  const openAr=registered.filter(d=>matchesPeriod(d.dateKey,period)&&(customer==='ALL'||d.customer===customer)
+    &&browseMatchPieces(query,[d.qty],d.customer,d.number,'Penjualan '+d.sku,d.sku)).reduce((n,d)=>n+Math.max(0,d.gross-d.returns-d.paid),0)
   const sales=visible.filter((event)=>event.type==='SALE').reduce((sum,event)=>sum+event.amount,0)
   const payments=visible.filter((event)=>event.type==='PAYMENT').reduce((sum,event)=>sum+event.amount,0)
   const returns=Math.abs(visible.filter((event)=>event.type==='RETURN').reduce((sum,event)=>sum+event.amount,0))

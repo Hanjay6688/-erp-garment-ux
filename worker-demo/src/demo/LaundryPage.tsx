@@ -1,4 +1,4 @@
-import {browseMatch} from '../browseMatch'
+import {browseMatchPieces} from '../browseMatch'
 import {allSkus} from './skuCatalog'
 import {usePlannerSession} from './planner/session'
 import { StageLots } from './planner/StageLots'
@@ -7,6 +7,7 @@ import { cellQuantity } from './cuttingAllocation'
 import { instructionsFor, laundryRecipePath, readLaundryColourMaster, type LaundryInstructions } from './laundryRecipes'
 import './laundryRecipe.css'
 import { money } from './format'
+import { ArrowRight, CalendarDays, FileText, Palette, Truck } from 'lucide-react'
 import {
   laundryDeliveryStatus,
   laundryDigits,
@@ -39,6 +40,11 @@ const defaultReturnTime = (delivery: LaundryDelivery) => [trainingReturnTime, la
 
 import { LAUNDRY_ALL_MANDORS, laundryMandorOf, laundryMandorOptions, matchesLaundryMandor } from './laundryMandor'
 
+function matchesReadyBatch(query: string, batch: LaundryReadyBatch, parentTotal = batch.qty) {
+  return browseMatchPieces(query, [batch.qty, parentTotal], batch.parentId, batch.id, 'batch ' + Number(batch.id.split('-').at(-1)),
+    batch.skuRef, batch.model, batch.material, laundryMandorOf(batch), batch.vendor, batch.note, patternSnapshotLabel(batch.pattern), ...batch.sizeLabels)
+}
+
 export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,setDeliveries,onDraftVendor,onPosted,onReturnToWip,onOpenQc}:{
   prefill:LaundryPrefill|null
   readyBatches:LaundryReadyBatch[]
@@ -53,7 +59,7 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
   const articles=allSkus(usePlannerSession(),true)
   const linkQuery=new URLSearchParams(location.search).get('cari')??''
   const [saved]=useState(()=>{try{return JSON.parse(sessionStorage.getItem('erp.demo.laundry.ticket.v1')??'null')}catch{return null}})
-  const linked=linkQuery?readyBatches.find(b=>browseMatch(linkQuery,b.id,b.parentId,b.skuRef,b.vendor)):undefined
+  const linked=linkQuery?readyBatches.find(batch=>matchesReadyBatch(linkQuery,batch)):undefined
   const initialBatch=linked??readyBatches.find(b=>b.id===prefill?.batchId)??readyBatches.find(b=>saved?.ids?.includes(b.id))??readyBatches[0]
   const restore=!!initialBatch&&!linkQuery&&!prefill&&saved?.ids?.includes(initialBatch.id)
   const [activeTab,setActiveTab]=useState<LaundryView>(new URLSearchParams(location.search).get('tab')==='kembali'?'return':prefill?.view??'send')
@@ -86,7 +92,12 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
   const scopedReady=readyBatches.filter((batch)=>matchesLaundryMandor(batch,mandorFilter))
   const scopedDeliveries=deliveries.filter((delivery)=>matchesLaundryMandor(delivery,mandorFilter))
 
-  const visibleReady=scopedReady.filter((batch)=>vendorFilter==='Semua laundry'||batch.vendor===vendorFilter).filter((batch)=>!patternFilter||batch.pattern?.id===patternFilter).filter(batch=>browseMatch(query,batch.parentId,batch.id,'batch '+Number(batch.id.split('-').at(-1)),batch.skuRef,batch.model,batch.material,batch.mandor,batch.vendor,batch.note,patternSnapshotLabel(batch.pattern),...batch.sizeLabels)).sort((a,b)=>b.sequence-a.sequence)
+  const readyForFilters = scopedReady.filter(batch => (vendorFilter === 'Semua laundry' || batch.vendor === vendorFilter)
+    && (!patternFilter || batch.pattern?.id === patternFilter))
+  const readyTotals = new Map<string, number>()
+  for (const batch of readyForFilters) readyTotals.set(batch.parentId, (readyTotals.get(batch.parentId) ?? 0) + batch.qty)
+  const visibleReady = readyForFilters.filter(batch => matchesReadyBatch(query, batch, readyTotals.get(batch.parentId)))
+    .sort((a,b)=>b.sequence-a.sequence)
   const groupedReady=Array.from(visibleReady.reduce((groups,batch)=>groups.set(batch.parentId,[...(groups.get(batch.parentId)??[]),batch]),new Map<string,LaundryReadyBatch[]>()).entries())
   const selectedBatches=readyBatches.filter((batch)=>selectedIds.includes(batch.id))
   const selectedParent=selectedBatches[0]?.parentId??''
@@ -131,7 +142,11 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
   const masterLink = laundryRecipePath + '&' + new URLSearchParams({
     vendor: selectedVendor, sku: skuRef, tanggal: sentAt.slice(0, 10), kembali: 'laundry',
   })
-  const visibleDeliveries=scopedDeliveries.filter((delivery)=>vendorFilter==='Semua laundry'||delivery.vendor===vendorFilter).filter((delivery)=>!patternFilter||delivery.pattern?.id===patternFilter).filter(d=>browseMatch(query,d.id,d.parentId,d.batchId,d.skuRef,d.model,d.material,d.mandor,d.vendor,d.targetColor,d.colourProcess,d.process,patternSnapshotLabel(d.pattern),...d.sizeLabels)).sort((a,b)=>b.sequence-a.sequence)
+  const visibleDeliveries = scopedDeliveries.filter(delivery => (vendorFilter === 'Semua laundry' || delivery.vendor === vendorFilter)
+    && (!patternFilter || delivery.pattern?.id === patternFilter))
+    .filter(d => browseMatchPieces(query, [d.qty, d.good + d.bs, laundryOutstanding(d)], d.id, d.parentId, d.batchId,
+      d.skuRef, d.model, d.material, laundryMandorOf(d), d.vendor, d.targetColor, d.colourProcess, d.process, patternSnapshotLabel(d.pattern), ...d.sizeLabels))
+    .sort((a,b)=>b.sequence-a.sequence)
   const outsideQty=scopedDeliveries.reduce((sum,delivery)=>sum+laundryOutstanding(delivery),0)
   const partialCount=scopedDeliveries.filter((delivery)=>laundryDeliveryStatus(delivery)==='Kembali sebagian').length
   const totalBs=scopedDeliveries.reduce((sum,delivery)=>sum+delivery.bs,0)
@@ -241,7 +256,8 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
     <section className="panel laundry-workspace">
       <div className="laundry-toolbar">
         <div className="laundry-tabs"><button className={activeTab==='send'?'active':''} onClick={()=>{setActiveTab('send');setNotice('')}}><Icon name="arrow"/> Kirim ke laundry</button><button className={activeTab==='return'?'active':''} onClick={()=>{setActiveTab('return');setNotice('')}}><Icon name="boxes"/> Terima kembali</button></div>
-        <label className="laundry-search"><Icon name="search"/><input value={query} onChange={(event)=>setQuery(event.target.value)} placeholder="Cari Potongan, batch, Pola, bahan..."/></label>
+        <label className="laundry-search"><Icon name="search"/><input type="search" aria-label="Cari batch, SKU, atau jumlah potong" value={query}
+          onChange={event=>setQuery(event.target.value)} placeholder="Cari batch, SKU, bahan, jumlah potong…"/></label>
         <label className="laundry-pattern-filter"><span>POLA</span><select aria-label="Filter Pola Laundry" value={patternFilter} onChange={(event)=>setPatternFilter(event.target.value)}><option value="">Semua Pola</option>{patternOptions.map((pattern)=><option value={pattern.id} key={pattern.id}>{pattern.code} · {pattern.revision}</option>)}</select><small>DATA SIMULASI</small></label>
         <label className="laundry-mandor-filter"><span>MANDOR</span><select aria-label="Filter Mandor Laundry" value={mandorFilter} onChange={(event)=>setMandorFilter(event.target.value)}><option value={LAUNDRY_ALL_MANDORS}>{LAUNDRY_ALL_MANDORS}</option>{mandorOptions.map((mandor)=><option value={mandor} key={mandor}>{mandor}</option>)}</select><small>{mandorFiltered?'FILTER AKTIF':'PENANGGUNG JAWAB'}</small></label>
         <div className="laundry-vendors">{vendorOptions.map((vendor)=><button type="button" className={vendorFilter===vendor?'active':''} onClick={()=>setVendorFilter(vendor)} key={vendor}>{vendor}</button>)}</div>
@@ -260,35 +276,58 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
             </div>})}</div>
           </article>})}{groupedReady.length===0&&<div className="laundry-empty"><Icon name="search"/><strong>Batch tidak ditemukan</strong><small>Coba ganti laundry, mandor, Pola, atau kata pencarian.</small></div>}</div>
         </div>
-        <aside className="laundry-ticket"><div className="laundry-section-head"><div><span>SURAT KIRIM</span><h2>Review sebelum keluar</h2></div></div>
+        <aside className="laundry-ticket" aria-labelledby="laundry-ticket-title">
+          <header className="laundry-section-head laundry-ticket-heading">
+            <i><FileText aria-hidden="true"/></i>
+            <div><span>SURAT KIRIM</span><h2 id="laundry-ticket-title">Review sebelum keluar</h2></div>
+          </header>
           {selectedBatches.length>0?<div className="laundry-ticket-content">
-            <div className="laundry-destination"><label>Laundry terpilih<select aria-label="Laundry terpilih" value={selectedVendor==='Belum dipilih'?'':selectedVendor} onChange={e=>changeVendor(e.target.value)}><option value="" disabled>Pilih laundry tujuan</option>{laundryVendorNames.map(v=><option key={v}>{v}</option>)}</select></label><small>{selectedParent} · {selectedBatches[0].material}</small></div>
-            <fieldset className="laundry-colour-fields"><legend>Instruksi warna · opsional</legend>
-              <label>Ambil dari SKU<select aria-label="Referensi SKU laundry" value={skuRef} onChange={e => changeSku(e.target.value)}>
+            <section className="laundry-ticket-card" aria-label="Tujuan surat kirim">
+              <header><i><Truck aria-hidden="true"/></i><h3 id="laundry-destination-title">Laundry terpilih</h3>
+                <strong className="laundry-ticket-quantity piece-total">{selectedTotal} pcs</strong></header>
+              <select aria-labelledby="laundry-destination-title" value={selectedVendor==='Belum dipilih'?'':selectedVendor} onChange={e=>changeVendor(e.target.value)}>
+                <option value="" disabled>Pilih laundry tujuan</option>{laundryVendorNames.map(v=><option key={v}>{v}</option>)}
+              </select>
+              <p className="laundry-ticket-context"><span>{selectedBatches.length} batch · {selectedBatches[0].material}</span><small className="record-code">{selectedParent}</small></p>
+            </section>
+            <section className="laundry-ticket-card laundry-ticket-colour" aria-labelledby="laundry-colour-title">
+              <header><i><Palette aria-hidden="true"/></i><h3 id="laundry-colour-title">Instruksi warna</h3><span>Opsional</span></header>
+              <label><span>Ambil dari SKU</span><select aria-label="Referensi SKU laundry" value={skuRef} onChange={e => changeSku(e.target.value)}>
                 <option value="">Tanpa SKU</option>{articles.map(article => <option key={article.key} value={article.key}>{article.key} · {article.colour}</option>)}
               </select></label>
-              {instructionSource && <p className="laundry-recipe-origin">{instructionSource}</p>}
-              <label>Jenis pewarnaan<select aria-label="Proses warna" value={typeChoice} onChange={e => setOverrides(current => ({ ...current, typeId: e.target.value, colourProcess: undefined }))}>
-                <option value="">Belum ditentukan</option>{catalog.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}
-                {typeChoice === legacyChoice && <option value={legacyChoice}>{legacyTypeName} · dari draft lama</option>}
-              </select></label>
-              {selectedType?.note && <p className="laundry-recipe-origin">{selectedType.note}</p>}
-              {catalog.length === 0 && <p className="laundry-recipe-origin">{laundryVendorNames.includes(selectedVendor) ? 'Laundry ini belum punya jenis pewarnaan.' : 'Pilih laundry untuk melihat jenis pewarnaannya.'}</p>}
-              <label>Warna target<input aria-label="Warna target" value={colour} onChange={e => changeInstruction('colour', e.target.value)} placeholder="Isi jika sudah tahu"/></label>
-              <a className="laundry-master-link" href={masterLink} onClick={() => saveTicket(false)}>Buka Master jenis pewarnaan</a>
-            </fieldset>
-            <label><span>Waktu fisik dikirim (WIB)</span><input type="datetime-local" value={sentAt} onChange={(event)=>setSentAt(event.target.value)}/></label>
-            <label><span>CATATAN · OPSIONAL</span><input value={sendNote} onChange={(event)=>setSendNote(event.target.value)} placeholder="Contoh: pisahkan warna maroon"/></label>
-            <details className="laundry-service-choice">
-              <summary>Layanan untuk estimasi biaya</summary>
-              <label>Layanan untuk estimasi<select aria-label="Layanan untuk estimasi" value={selectedProcess} onChange={e => changeInstruction('service', e.target.value)}>
-                <option value="">Lengkapi saat kontra bon</option>{laundryProcesses.map(process => <option key={process}>{process}</option>)}
-              </select></label>
-            </details>
-            <div className="laundry-cost-review"><p><span>Batch terpilih</span><b>{selectedBatches.length} batch</b></p><p><span>Qty dikirim</span><b>{selectedTotal} pcs</b></p><p><span>Tarif estimasi</span><b>{rate===null?'Belum diketahui':money(rate)+' / pcs'}</b></p><div><span>ESTIMASI BIAYA</span><strong>{estimatedCost===null?'Belum diketahui':money(estimatedCost)}</strong></div></div>
-            <p className="laundry-estimate-note">{!sendTimeOk ? 'Waktu kirim harus sama atau sesudah batch selesai dijahit.' : rate === null
-              ? 'Barang tetap bisa dikirim dan diterima. Jenis cucian serta biaya dapat dilengkapi saat kontra bon.'
-              : 'Tarif estimasi mengikuti laundry, jenis cucian, dan tanggal kirim.'}</p>
+              {instructionSource && <p className="laundry-recipe-origin"><Icon name="link"/>{instructionSource}</p>}
+              <div className="laundry-ticket-colour-pair">
+                <div><label><span>Jenis pewarnaan</span><select aria-label="Proses warna" value={typeChoice} onChange={e => setOverrides(current => ({ ...current, typeId: e.target.value, colourProcess: undefined }))}>
+                  <option value="">Belum ditentukan</option>{catalog.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}
+                  {typeChoice === legacyChoice && <option value={legacyChoice}>{legacyTypeName} · dari draft lama</option>}
+                </select></label>
+                  {selectedType?.note && <p className="laundry-colour-note">{selectedType.note}</p>}
+                  {catalog.length === 0 && <p className="laundry-colour-note">{laundryVendorNames.includes(selectedVendor) ? 'Laundry ini belum punya jenis pewarnaan.' : 'Pilih laundry untuk melihat jenis pewarnaannya.'}</p>}
+                </div>
+                <label><span>Warna target</span><input aria-label="Warna target" value={colour} onChange={e => changeInstruction('colour', e.target.value)} placeholder="Isi jika sudah tahu"/></label>
+              </div>
+              <a className="laundry-master-link" href={masterLink} onClick={() => saveTicket(false)}>Buka Master jenis pewarnaan <ArrowRight aria-hidden="true"/></a>
+            </section>
+            <section className="laundry-ticket-card laundry-ticket-schedule" aria-labelledby="laundry-schedule-title">
+              <header><i><CalendarDays aria-hidden="true"/></i><h3 id="laundry-schedule-title">Jadwal kirim</h3></header>
+              <label><span>Waktu fisik dikirim (WIB)</span><input type="datetime-local" value={sentAt} aria-invalid={!sendTimeOk}
+                aria-describedby={sendTimeOk ? undefined : 'laundry-invalid-time'} onChange={e=>setSentAt(e.target.value)}/></label>
+              {!sendTimeOk && <p className="laundry-colour-note" id="laundry-invalid-time" role="status">Waktu kirim harus sama atau sesudah batch selesai dijahit.</p>}
+              <label><span>Catatan <small>· opsional</small></span><input value={sendNote} onChange={e=>setSendNote(e.target.value)} placeholder="Contoh: pisahkan warna maroon"/></label>
+            </section>
+            <section className="laundry-cost-review" aria-label="Estimasi biaya">
+              <details className="laundry-service-choice">
+                <summary>Layanan untuk estimasi biaya</summary>
+                <label>Layanan untuk estimasi<select aria-label="Layanan untuk estimasi" value={selectedProcess} onChange={e => changeInstruction('service', e.target.value)}>
+                  <option value="">Lengkapi saat kontra bon</option>{laundryProcesses.map(process => <option key={process}>{process}</option>)}
+                </select></label>
+              </details>
+              <p><span>Tarif estimasi</span><b>{rate===null?'Belum diketahui':money(rate)+' / pcs'}</b></p>
+              <div><span>ESTIMASI BIAYA</span><strong>{estimatedCost===null?'Belum diketahui':money(estimatedCost)}</strong></div>
+            </section>
+            <p className="laundry-estimate-note">{rate === null
+              ? 'Jenis cucian dan biaya bisa dilengkapi saat kontra bon.'
+              : 'Tarif mengikuti laundry, layanan, dan tanggal kirim.'}</p>
             <div className="laundry-ticket-actions"><button type="button" className="soft-btn" onClick={() => saveTicket()}>Simpan draft</button><button type="button" className="primary-btn" disabled={selectedTotal<=0||!sendTimeOk||!laundryVendorNames.includes(selectedVendor)} onClick={postDelivery}>Catat dikirim <Icon name="arrow"/></button></div>
           </div>:<div className="laundry-empty ticket"><Icon name="boxes"/><strong>Belum ada batch dipilih</strong><small>Tekan batch di kiri. Surat kirim otomatis mengikuti Batch Produksi dan laundry tujuan.</small></div>}
         </aside>

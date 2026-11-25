@@ -5,7 +5,7 @@ import type {QcFinalResult} from '../QcFinalPage'
 import type {WipControlMode,WipControlParent,WipControlResult} from '../WipBatchControlLayer'
 import {deriveWipControlStatus} from '../wipControlPolicy'
 import {MultiCheckFilter} from './controls'
-import {browseMatch} from '../browseMatch'
+import {browseMatchPieces} from '../browseMatch'
 import {cellQuantity} from './cuttingAllocation'
 import {laundryOutstanding,summarizeLaundryBatch,laundryReadyFromRows,type LaundryDelivery,type LaundryReadyBatch,type LaundryView} from './laundryModel'
 import {patternSnapshotLabel} from './productionModel'
@@ -54,10 +54,15 @@ export function SewingWipPage({
     }))==='COMPLETED'
   }
   const completedParentCount=parentGroups.filter(parentIsCompleted).length
-  const visibleGroups=parentGroups.filter(p=>p.batches.some(b=>selectedMandors.includes(b.line.mandor))
-    &&(!patternFilter||p.pattern?.id===patternFilter)
-    &&browseMatch(query,p.id,p.model,p.material,p.plannedBrand,p.skuRef,p.pattern?.code,p.pattern?.name,p.pattern?.revision,...p.batches.flatMap(b=>[b.id,'Batch '+b.number,b.line.mandor,noteOf(p,b),sewingStatus(b.line,b.id,deliveries,laundryDrafts),...b.line.sources.map(s=>s.rollId)]))
-    &&(statusFilter==='ALL'||(statusFilter==='COMPLETED')===parentIsCompleted(p)))
+  const visibleGroups=parentGroups.filter(p=>{
+    const batches = p.batches.filter(b=>!b.line.closed && selectedMandors.includes(b.line.mandor))
+    const quantities = [batches.reduce((qty,b)=>qty+b.qty,0), ...batches.flatMap(b=>[b.qty, completedOf(b), b.qty-completedOf(b)])]
+    return p.batches.some(b=>selectedMandors.includes(b.line.mandor))
+      && (!patternFilter||p.pattern?.id===patternFilter)
+      && (statusFilter==='ALL'||(statusFilter==='COMPLETED')===parentIsCompleted(p))
+      && browseMatchPieces(query,quantities,p.id,p.model,p.material,p.plannedBrand,p.skuRef,p.pattern?.code,p.pattern?.name,p.pattern?.revision,
+        ...p.batches.flatMap(b=>[b.id,'Batch '+b.number,b.line.mandor,noteOf(p,b),sewingStatus(b.line,b.id,deliveries,laundryDrafts),...b.line.sources.map(s=>s.rollId)]))
+  })
   const visibleBatches=visibleGroups.flatMap(p=>p.batches.filter(b=>!b.line.closed))
   const visibleQty=visibleBatches.reduce((n,b)=>n+b.qty,0)
   const visibleCompleted=visibleBatches.reduce((n,b)=>n+completedOf(b),0)

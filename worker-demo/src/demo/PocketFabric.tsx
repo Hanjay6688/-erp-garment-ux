@@ -5,6 +5,7 @@ import RecordTable from '../RecordTable'
 import { amountText, fixtureDate } from './accessoryPricing'
 import { ReasonDialog } from './planner/ReasonDialog'
 import { pocketRollLabel, pocketRolls, readReceipts, receiptPath, type PocketRoll, type PocketUnit } from './pocketReceipts'
+import { pocketMasterPath, pocketMaterialLabel, readPocketMaterials } from './pocketMaterials'
 import {
   periodActive, planPocketAllocation, planPocketUsage, pocketBalance, pocketBookKey,
   pocketScale, readPocketBook, type PocketAllocation, type PocketBook, type UsageLine,
@@ -52,12 +53,16 @@ export default function PocketFabric() {
   const [undo, setUndo] = useState<Reverse | null>(null)
   const [why, setWhy] = useState('')
   const detail = rolls.find(r => r.id === detailId)
+  const materialKey = (roll: PocketRoll) => roll.materialId ?? roll.name
+  const catalog = new Map(readPocketMaterials().map(item => [item.id, pocketMaterialLabel(item)]))
   const records: RollPosition[] = rolls.map(roll => ({ roll, incoming: Math.round(roll.length * pocketScale), left: pocketBalance(book, roll) }))
-  const matched = records.filter(({ roll }) => (!warehouse || roll.location === warehouse)
-    && browseMatch(query, roll.id, pocketRollLabel(roll), roll.name, roll.receipt, roll.location, roll.unit, roll.date))
-  const names = [...new Set(matched.map(row => row.roll.name))].sort()
-  const activeMaterial = names.includes(material) ? material : ''
-  const scoped = matched.filter(row => !activeMaterial || row.roll.name === activeMaterial)
+  const matched = records.filter(({ roll, incoming, left }) => (!warehouse || roll.location === warehouse)
+    && browseMatch(query, roll.id, pocketRollLabel(roll), roll.name, catalog.get(materialKey(roll)), roll.factory, roll.supplier, roll.receipt, roll.location, roll.unit, roll.date,
+      length(incoming, roll.unit), length(left, roll.unit), length(incoming-left, roll.unit)))
+  const materialNames = new Map(matched.map(({roll})=>[materialKey(roll),catalog.get(materialKey(roll)) ?? roll.name]))
+  const materialIds = [...materialNames.keys()].sort((a,b)=>(materialNames.get(a)??a).localeCompare(materialNames.get(b)??b,'id'))
+  const activeMaterial = materialNames.has(material) ? material : ''
+  const scoped = matched.filter(row => !activeMaterial || materialKey(row.roll) === activeMaterial)
   const visible = onlyAvailable ? scoped.filter(row => row.left > 0) : scoped
   const selected = rolls.filter(roll => checked.includes(roll.id))
   const feedbackRef = useRef<HTMLParagraphElement>(null)
@@ -148,7 +153,8 @@ export default function PocketFabric() {
   return <div className="pocket-workspace">
     <header className="hero-copy compact wh-hero pocket-heading">
       <div><div className="eyebrow">GUDANG · BAHAN PER ROLL</div><h1>Kain kantong</h1><p>Pilih bahan, cek sisa tiap roll, lalu catat panjang yang dipakai.</p></div>
-      <a className="primary-btn" href={receiptPath}><ArrowDownLeft size={17} aria-hidden="true"/>Terima kain kantong</a>
+      <div className="pocket-heading-actions"><a className="soft-btn" href={pocketMasterPath}><Layers3 size={17} aria-hidden="true"/>Master kain kantong</a>
+        <a className="primary-btn" href={receiptPath}><ArrowDownLeft size={17} aria-hidden="true"/>Terima kain kantong</a></div>
     </header>
     <nav className="pocket-navigation" aria-label="Kain kantong">
       <button type="button" aria-current={tab === 'stock'} onClick={() => switchTab('stock')}>Stok &amp; pemakaian</button>
@@ -158,7 +164,7 @@ export default function PocketFabric() {
       {feedback && !undo && <p ref={feedbackRef} tabIndex={-1} className="wh-feedback" role={feedback.error ? 'alert' : 'status'}>{feedback.text}</p>}
       <section className="panel wh-workspace material-rolls-workspace pocket-stock-workspace">
         <div className="wh-toolbar pocket-toolbar">
-          <label className="wh-search"><Search aria-hidden="true"/><input type="search" aria-label="Cari roll" value={query} onChange={e => setQuery(e.target.value)} placeholder="Cari roll, bahan, atau surat jalan…"/></label>
+          <label className="wh-search"><Search aria-hidden="true"/><input type="search" aria-label="Cari roll" value={query} onChange={e => setQuery(e.target.value)} placeholder="Cari roll, bahan, pabrik, atau surat jalan…"/></label>
           <label className="pocket-filter">Gudang<select value={warehouse} onChange={e => setWarehouse(e.target.value)}><option value="">Semua gudang</option>
             {[...new Set(rolls.map(roll => roll.location))].map(location => <option key={location}>{location}</option>)}</select></label>
           <label className="pocket-filter">Saldo<select value={onlyAvailable ? 'available' : ''} onChange={e => setOnlyAvailable(e.target.value === 'available')}>
@@ -166,19 +172,19 @@ export default function PocketFabric() {
         </div>
         <div className="wh-master-detail rolls">
           <aside className="wh-browser pocket-browser">
-            <header><div><span>BAHAN</span><strong>{names.length} jenis kain kantong</strong></div><Layers3 size={18} aria-hidden="true"/></header>
+            <header><div><span>BAHAN</span><strong>{materialIds.length} jenis kain kantong</strong></div><Layers3 size={18} aria-hidden="true"/></header>
             <div className="wh-browser-list">
-              {['', ...names].map(name => {
-                const group = name ? matched.filter(row => row.roll.name === name) : matched
-                return <button key={name} type="button" aria-pressed={name === activeMaterial} className={name === activeMaterial ? 'active' : ''}
-                  onClick={() => setMaterial(name)}><span className="wh-index"><Ruler size={17} aria-hidden="true"/></span>
-                  <div><strong>{name || 'Semua kain kantong'}</strong><small>{group.filter(row => row.left > 0).length} roll bersaldo</small></div><b>{sumLengths(group, row => row.left)}</b>
+              {['', ...materialIds].map(id => {
+                const group = id ? matched.filter(row => materialKey(row.roll) === id) : matched
+                return <button key={id} type="button" aria-pressed={id === activeMaterial} className={id === activeMaterial ? 'active' : ''}
+                  onClick={() => setMaterial(id)}><span className="wh-index"><Ruler size={17} aria-hidden="true"/></span>
+                  <div><strong>{materialNames.get(id) ?? 'Semua kain kantong'}</strong><small>{group.filter(row => row.left > 0).length} roll bersaldo</small></div><b>{sumLengths(group, row => row.left)}</b>
                 </button>
               })}
             </div>
           </aside>
           <div className="wh-detail">
-            <header className="wh-detail-head"><div><span>STOK PER ROLL</span><h2>{activeMaterial || 'Semua kain kantong'}</h2><p>{scoped.filter(row => row.left > 0).length} dari {scoped.length} roll masih bersaldo</p></div></header>
+            <header className="wh-detail-head"><div><span>STOK PER ROLL</span><h2>{materialNames.get(activeMaterial) ?? 'Semua kain kantong'}</h2><p>{scoped.filter(row => row.left > 0).length} dari {scoped.length} roll masih bersaldo</p></div></header>
             <dl className="pocket-stock-totals" aria-label="Ringkasan panjang kain kantong">
               <div className="pocket-incoming"><dt>Panjang masuk</dt><dd>{sumLengths(scoped, row => row.incoming)}</dd></div>
               <div className="pocket-spent"><dt>Terpakai</dt><dd>{sumLengths(scoped, row => row.incoming - row.left)}</dd></div>
@@ -191,7 +197,7 @@ export default function PocketFabric() {
             <ul className="wh-roll-list pocket-stock-list" aria-label="Stok per roll">
               {visible.map(({ roll, incoming, left }) => <li key={roll.id} className="pocket-stock-row">
                 <article>
-                  <header><div className="wh-roll-id"><i><Ruler aria-hidden="true"/></i><div><strong>{roll.name}</strong><small className="record-code">{pocketRollLabel(roll)} · {roll.receipt} · {roll.date}</small></div></div>
+                  <header><div className="wh-roll-id"><i><Ruler aria-hidden="true"/></i><div><strong>{roll.name}</strong>{(roll.factory||roll.supplier)&&<small>{[roll.factory,roll.supplier].filter(Boolean).join(' · ')}</small>}<small className="record-code">{pocketRollLabel(roll)} · {roll.receipt} · {roll.date}</small></div></div>
                     <label className="pocket-check"><input type="checkbox" aria-label={'Pilih roll ' + roll.id} disabled={left <= 0} checked={checked.includes(roll.id)}
                       onChange={e => setChecked(ids => e.target.checked ? [...ids, roll.id] : ids.filter(id => id !== roll.id))}/><span>Pilih</span></label>
                   </header>

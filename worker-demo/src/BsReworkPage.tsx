@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { browseMatchPieces } from './browseMatch'
 import {
   ArrowLeft, ArrowRight, Check, CheckCircle2, ChevronRight, CircleMinus, CirclePlus,
   ClipboardCheck, Clock3, FilePlus2, Filter, History,
@@ -315,8 +316,9 @@ export default function BsReworkPage({ initialResult, initialWorkspace, onWorksp
   const visibleCases = useMemo(() => cases.filter((item) => {
     const people = caseMandors(item).join(' ')
     const sourceText = item.kind === 'BS' ? `${item.sourceNote} ${item.source} ${(item.conversions ?? []).map((conversion) => `${conversion.newSku} ${conversion.newName}`).join(' ')}` : `${item.laundry} ${item.deliveryRef} ${item.receiptRef}`
-    const haystack = `${item.id} ${item.parentId} ${item.batchId} ${people} ${item.brand} ${item.sku} ${bsSkuName(item.brand, item.sku)} ${item.material} ${sourceText}`.toLowerCase()
-    return haystack.includes(query.toLowerCase())
+    const quantities = [sum(item.qtyBySize)]
+    if (item.kind === 'BS' && item.conversions?.length) quantities.push(item.conversions.reduce((total, row) => total + sum(row.qtyBySize), 0))
+    return browseMatchPieces(query, quantities, item.id, item.parentId, item.batchId, people, item.brand, item.sku, bsSkuName(item.brand, item.sku), item.material, sourceText)
       && (kindFilter === 'ALL' || item.kind === kindFilter)
       && (mandorFilter === 'Semua mandor' || caseMandors(item).includes(mandorFilter))
       && (statusFilter === 'ALL' || (statusFilter === 'ACTIVE' ? !caseIsDone(item) : caseIsDone(item)))

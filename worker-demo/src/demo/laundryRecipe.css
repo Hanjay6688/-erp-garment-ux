@@ -1,23 +1,142 @@
-.laundry-colour-fields legend {
-  font-weight: 750;
+.laundry-section-head.laundry-ticket-heading { justify-content: flex-start; align-items: center; gap: 12px; }
+.laundry-ticket .laundry-ticket-heading h2 { margin: 2px 0 0; font-weight: 700; }
+.laundry-ticket-heading > i, .laundry-ticket-card header > i {
+  display: grid;
+  place-items: center;
+  flex: none;
+  border-radius: 10px;
 }
-.laundry-colour-fields .laundry-recipe-origin {
+.laundry-ticket-heading > i { width: 42px; height: 42px; background: var(--accent-bg); color: var(--blue); }
+.laundry-ticket-heading > i svg { width: 20px; height: 20px; }
+.laundry-ticket-card {
+  --ticket-accent: var(--blue);
+  --ticket-fill: color-mix(in srgb, var(--panel-2), var(--accent-bg) 45%);
+  display: grid;
+  gap: 11px;
+  min-width: 0;
+  padding: 13px;
+  border: 1px solid color-mix(in srgb, var(--line-strong), var(--ticket-accent) 23%);
+  border-radius: 14px;
+  box-shadow: inset 2px 0 color-mix(in srgb, var(--ticket-accent), var(--ticket-fill) 50%);
+  background: var(--ticket-fill);
+}
+.laundry-ticket-colour {
+  --ticket-accent: var(--green);
+  --ticket-fill: color-mix(in srgb, var(--panel-2), var(--success-bg) 38%);
+}
+.laundry-ticket-schedule { --ticket-accent: var(--amber); --ticket-fill: var(--panel-2); }
+.laundry-ticket-card > header { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.laundry-ticket-card > header > i {
+  width: 32px;
+  height: 32px;
+  background: color-mix(in srgb, var(--ticket-fill), var(--ticket-accent) 13%);
+  color: var(--ticket-accent);
+}
+.laundry-ticket-card > header svg { width: 17px; height: 17px; }
+.laundry-ticket-card h3 { flex: 1; margin: 0; font-size: 15px; font-weight: 700; line-height: 1.3; }
+.laundry-ticket-card header > span {
+  padding: 3px 8px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  color: var(--soft);
+  font-size: 12px;
+}
+.laundry-ticket-card .laundry-ticket-quantity {
+  padding: 3px 8px;
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.laundry-ticket-card .laundry-ticket-context {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px 10px;
   margin: 0;
   color: var(--soft);
+  font-size: 13px;
 }
-.laundry-colour-fields .laundry-master-link {
-  color: var(--blue);
-  font-weight: 650;
+.laundry-ticket-context small { font-size: 12px; overflow-wrap: anywhere; }
+.laundry-ticket .laundry-ticket-card label { min-width: 0; gap: 5px; }
+.laundry-ticket .laundry-ticket-card label > span {
+  color: var(--soft);
+  letter-spacing: normal;
+  font-size: 13px;
+  font-weight: 600;
 }
+.laundry-ticket-card label small { color: var(--muted); font-size: 12px; font-weight: 400; }
+.laundry-ticket .laundry-ticket-content :is(select, input) {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 44px;
+  box-sizing: border-box;
+  border: 1px solid var(--control-border);
+  border-radius: 9px;
+  background: var(--panel);
+  color: var(--text);
+  color-scheme: inherit;
+  font-size: 14px;
+}
+.laundry-ticket .laundry-ticket-card input[aria-invalid=true] { border-color: var(--red); }
+.laundry-ticket-card #laundry-invalid-time { color: var(--red); }
+.laundry-ticket-colour-pair {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr));
+  column-gap: 10px;
+  row-gap: 11px;
+  align-items: start;
+}
+.laundry-ticket-card .laundry-recipe-origin, .laundry-ticket-card .laundry-colour-note {
+  margin: 0;
+  color: var(--soft);
+  font-size: 13px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.laundry-ticket-card .laundry-recipe-origin {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  padding: 7px 9px;
+  border-radius: 7px;
+  background: var(--panel);
+}
+.laundry-recipe-origin svg, .laundry-master-link svg { width: 15px; height: 15px; flex: none; }
+.laundry-recipe-origin svg { color: var(--green); margin-top: 1px; }
+.laundry-ticket-colour-pair .laundry-colour-note { margin-top: 6px; }
+.laundry-master-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 42px;
+  padding-top: 3px;
+  border-top: 1px solid var(--line-strong);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.laundry-master-link svg { color: var(--green); }
+.laundry-cost-review { background: var(--panel-2); }
+.laundry-cost-review .laundry-service-choice { border-bottom: 1px solid var(--line); }
 .laundry-service-choice summary {
+  padding: 11px 12px;
   cursor: pointer;
-  font-weight: 650;
+  font-size: 13px;
+  font-weight: 600;
   color: var(--soft);
 }
-.laundry-service-choice label {
-  display: grid;
-  gap: 5px;
-  margin-top: 8px;
+.laundry-service-choice label { padding: 0 12px 12px; font-size: 13px; }
+.laundry-service-choice summary:focus-visible { outline-offset: -3px; }
+@media (max-width: 700px) {
+  .laundry-ticket .laundry-ticket-content :is(select, input) { font-size: 16px; }
 }
 
 .md-laundry-entry {

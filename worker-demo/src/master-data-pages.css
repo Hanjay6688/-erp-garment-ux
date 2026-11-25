@@ -25,3 +25,7 @@
 @media(max-width:980px){.md-rate-cards,.md-bulk-fields{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:720px){.md-bulk-fields{grid-template-columns:1fr}}
 @media(max-width:500px){.md-rate-cards{grid-template-columns:1fr}}
+.md-workspace > :is(main, aside) { min-width: 0; }
+@media (max-width: 980px) {
+  .md-workspace { grid-template-columns: minmax(0, 1fr); }
+}

@@ -1,6 +1,6 @@
 import { isConnectedRuntime } from './config/runtime'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { AlertTriangle, Check, Plus, Search, X } from 'lucide-react'
+import { AlertTriangle, Check, ChevronDown, Layers3, Plus, Search, X } from 'lucide-react'
 import { useAuth } from './auth/AuthProvider'
 import { hasPermission } from './auth/accessCatalog'
 import { getUatSupabaseClient } from './lib/supabase'
@@ -38,12 +38,14 @@ export function mergeCreatedPattern(rows: readonly PatternRow[], choice: Cutting
   }]
 }
 
-export default function CuttingPatternPicker({ value, onChange, suspended = false, onAuthorityLost }: {
+export default function CuttingPatternPicker({ value, onChange, suspended = false, onAuthorityLost, layout = 'standard' }: {
   value: CuttingPatternChoice | null
   onChange: (value: CuttingPatternChoice | null) => void
   suspended?: boolean
   onAuthorityLost?: () => void
+  layout?: 'standard' | 'workbench'
 }) {
+  const workbench = layout === 'workbench'
   const { runtime, identity } = useAuth()
   const connected = isConnectedRuntime(runtime)
   const client = useMemo(() => connected ? getUatSupabaseClient(runtime) : null, [connected, runtime])
@@ -60,6 +62,8 @@ export default function CuttingPatternPicker({ value, onChange, suspended = fals
   const [saving, setSaving] = useState(false)
   const savingRef = useRef(false)
   const requestIdRef = useRef(globalThis.crypto.randomUUID())
+  const searchRef = useRef<HTMLInputElement>(null)
+  const changeRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     if (!client) return
@@ -94,6 +98,21 @@ export default function CuttingPatternPicker({ value, onChange, suspended = fals
 
   const visible = connected ? rows : rows.filter((row) =>
     `${row.code} ${row.revision} ${row.name}`.toLowerCase().includes(query.toLowerCase()))
+
+  function choosePattern(choice: CuttingPatternChoice) {
+    onChange(choice)
+    if (workbench) {
+      setQuery('')
+      setQuickOpen(false)
+      setError('')
+      requestAnimationFrame(() => changeRef.current?.focus({ preventScroll: true }))
+    }
+  }
+
+  function clearPattern() {
+    onChange(null)
+    if (workbench) requestAnimationFrame(() => searchRef.current?.focus())
+  }
 
   const openQuick = () => {
     if (suspended || !canManage) return
@@ -133,7 +152,7 @@ export default function CuttingPatternPicker({ value, onChange, suspended = fals
         choice = createdPatternChoice(data)
       }
       setRows((current) => mergeCreatedPattern(current, choice))
-      onChange(choice)
+      choosePattern(choice)
       setQuickOpen(false)
       setQuery('')
     } catch (saveError) {
@@ -144,16 +163,33 @@ export default function CuttingPatternPicker({ value, onChange, suspended = fals
     }
   }
 
-  return <section className="cutting-pattern-picker" aria-hidden={suspended || undefined} style={suspended ? { display: 'none' } : undefined}>
-    <header><div><span>POLA · WAJIB</span><strong>{value ? `${value.code} · ${value.revision}` : 'Pilih atau buat Pola'}</strong><small>{value ? `${value.name} · pattern_id siap mengikat snapshot transaksi` : 'Master boleh kosong, tetapi Potongan baru wajib memiliki Pola.'}</small></div>{value && <button type="button" aria-label="Ganti Pola" title="Kosongkan pilihan sementara untuk mengganti Pola" onClick={() => onChange(null)}><X/></button>}</header>
-    <label><Search/><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Cari kode, revisi, atau nama Pola…"/></label>
-    <div className="cutting-pattern-results" role="listbox" aria-label="Pola aktif">
-      {loading ? <span>Memuat Pola aktif…</span> : visible.map((row) => <button type="button" role="option" aria-selected={value?.id === row.id} className={value?.id === row.id ? 'selected' : ''} key={row.id} onClick={() => onChange({ id: row.id, code: row.code, revision: row.revision, name: row.name })}><span><strong>{row.code} · {row.revision}</strong><small>{row.name}</small></span>{value?.id === row.id && <Check/>}</button>)}
-      {!loading && visible.length === 0 && <span>Belum ada Pola aktif yang cocok.</span>}
-    </div>
-    <button type="button" className="cutting-pattern-add" disabled={!canManage} title={canManage ? 'Tambah ke Master Pola dan pilih otomatis' : 'Butuh permission master.pattern.manage'} onClick={openQuick}><Plus/> Tambah Pola Baru</button>
-    {error && <div className="cutting-pattern-error" role="alert"><AlertTriangle/>{error}</div>}
-    {quickOpen && <div className="cutting-pattern-quick"><label>Kode<input autoFocus value={code} onChange={(event) => setCode(event.target.value.toUpperCase().replace(/[^A-Z0-9_-]/g, '').slice(0, 32))} placeholder="REG"/></label><label>Revisi<input value={revision} onChange={(event) => setRevision(event.target.value.toUpperCase().replace(/[^A-Z0-9._-]/g, '').slice(0, 16))} placeholder="R1"/></label><label>Nama<input value={name} onChange={(event) => setName(event.target.value)} placeholder="Regular"/></label><div><button type="button" onClick={() => setQuickOpen(false)}>Batal</button><button type="button" disabled={saving} onClick={() => void quickCreate()}>{saving ? 'Menyimpan…' : 'Buat & pilih'}</button></div></div>}
-    <footer>{connected ? 'MASTER POLA UAT CONNECTED' : 'MASTER POLA SIMULATION'} · akses Buat Potongan tidak otomatis memberi hak membuat Pola.</footer>
+  return <section className={`cutting-pattern-picker${workbench ? ' cutting-pattern-workbench' : ''}`} aria-hidden={suspended || undefined} style={suspended ? { display: 'none' } : undefined}>
+    <header>
+      {workbench && <i><Layers3 aria-hidden="true"/></i>}
+      <div><span>POLA · WAJIB</span>
+        {workbench ? <><strong>{value?.name ?? 'Pilih pola potongan'}</strong>{value && <small>{value.code} · {value.revision}</small>}</>
+          : <><strong>{value ? `${value.code} · ${value.revision}` : 'Pilih atau buat Pola'}</strong><small>{value ? `${value.name} · pattern_id siap mengikat snapshot transaksi` : 'Master boleh kosong, tetapi Potongan baru wajib memiliki Pola.'}</small></>}
+      </div>
+      {value && <button ref={changeRef} type="button" aria-label="Ganti Pola" onClick={clearPattern}>
+        {workbench ? <>Ganti Pola <ChevronDown aria-hidden="true"/></> : <X aria-hidden="true"/>}
+      </button>}
+    </header>
+    {(!workbench || !value) && <>
+      <label><Search aria-hidden="true"/><input ref={searchRef} aria-label="Cari pola potongan" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Cari kode, revisi, atau nama Pola…"/></label>
+      <div className="cutting-pattern-results" role="listbox" aria-label="Pola aktif">
+        {loading ? <span>Memuat Pola aktif…</span> : visible.map(row => {
+          const codeRevision = `${row.code} · ${row.revision}`
+          return <button type="button" role="option" aria-selected={value?.id === row.id} className={value?.id === row.id ? 'selected' : ''} key={row.id} onClick={() => choosePattern({ id: row.id, code: row.code, revision: row.revision, name: row.name })}>
+            <span><strong>{workbench ? row.name : codeRevision}</strong><small>{workbench ? codeRevision : row.name}</small></span>
+            {value?.id === row.id && <Check aria-hidden="true"/>}
+          </button>
+        })}
+        {!loading && visible.length === 0 && <span>Belum ada Pola aktif yang cocok.</span>}
+      </div>
+      <button type="button" className="cutting-pattern-add" disabled={!canManage} title={canManage ? 'Tambah ke Master Pola dan pilih otomatis' : 'Butuh permission master.pattern.manage'} onClick={openQuick}><Plus aria-hidden="true"/> Tambah Pola Baru</button>
+      {error && <div className="cutting-pattern-error" role="alert"><AlertTriangle aria-hidden="true"/>{error}</div>}
+      {quickOpen && <div className="cutting-pattern-quick"><label>Kode<input autoFocus value={code} onChange={(event) => setCode(event.target.value.toUpperCase().replace(/[^A-Z0-9_-]/g, '').slice(0, 32))} placeholder="REG"/></label><label>Revisi<input value={revision} onChange={(event) => setRevision(event.target.value.toUpperCase().replace(/[^A-Z0-9._-]/g, '').slice(0, 16))} placeholder="R1"/></label><label>Nama<input value={name} onChange={(event) => setName(event.target.value)} placeholder="Regular"/></label><div><button type="button" onClick={() => setQuickOpen(false)}>Batal</button><button type="button" disabled={saving} onClick={() => void quickCreate()}>{saving ? 'Menyimpan…' : 'Buat & pilih'}</button></div></div>}
+    </>}
+    <footer>{connected ? 'MASTER POLA UAT CONNECTED' : 'MASTER POLA SIMULATION'}{(!workbench || !canManage) && ' · akses Buat Potongan tidak otomatis memberi hak membuat Pola.'}</footer>
   </section>
 }

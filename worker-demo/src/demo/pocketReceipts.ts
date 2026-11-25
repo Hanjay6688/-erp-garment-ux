@@ -1,7 +1,8 @@
 import {dayOk} from './warehouseDay'
 import {pocketScale, readPocketBook, readPocketNumber} from './pocketUsage'
+import {readPocketMaterials} from './pocketMaterials'
 export type PocketUnit='yd'|'m'
-export type PocketRoll={id:string;name:string;length:number;rate:number;unit:PocketUnit;date:string;location:string;receipt:string;sequence?:number}
+export type PocketRoll={id:string;name:string;length:number;rate:number;unit:PocketUnit;date:string;location:string;receipt:string;sequence?:number;materialId?:string;factory?:string;supplier?:string}
 type RollInput={number:string;qty:string}
 export type ReceiptDraft={request:string;number:string;supplier:string;location:string;material:string;day:string;unit:PocketUnit;rate:string;reason:string;notes:string;rolls:RollInput[]}
 export type PocketReceipt={request:string;number:string;supplier:string;day:string;reason:string;notes:string|null;rolls:PocketRoll[];reversal?:{reason:string;at:string}}
@@ -20,9 +21,10 @@ export function pocketBenchmark(d:Pick<ReceiptDraft,'supplier'|'material'|'unit'
 }
 export function prepareReceipt(d:ReceiptDraft):PocketReceipt{
   const clean=(v:string)=>v.trim()
+  const material=readPocketMaterials().find(item=>item.id===d.material)
   if(!clean(d.number))throw Error('Isi nomor surat jalan.')
   if(!dayOk(d.day))throw Error('Isi tanggal barang datang yang sah.')
-  if(!clean(d.supplier)||!clean(d.location)||!clean(d.material))throw Error('Pilih supplier, gudang, dan nama kain kantong.')
+  if(!clean(d.supplier)||!clean(d.location)||!material)throw Error('Pilih supplier, gudang, dan nama kain kantong dari master.')
   if(!clean(d.reason))throw Error('Isi alasan penerimaan.')
   const rate=clean(d.rate)?readPocketNumber(d.rate):pocketBenchmark(d)
   if(rate===null)throw Error('Harga master belum diatur untuk supplier, bahan dan satuan ini. Isi harga sementara.')
@@ -39,14 +41,19 @@ export function prepareReceipt(d:ReceiptDraft):PocketReceipt{
     }
     if(seen.has(id.toLowerCase()))throw Error('Nomor roll '+id+' ditulis lebih dari sekali di surat jalan.')
     seen.add(id.toLowerCase())
-    return {id,name:clean(d.material),length:qty,rate,unit:d.unit,date:d.day,location:clean(d.location),receipt:clean(d.number),...(!number&&{sequence})}
+    return {id,name:material.name,length:qty,rate,unit:d.unit,date:d.day,location:clean(d.location),receipt:clean(d.number),...(!number&&{sequence}),
+      materialId:material.id,factory:material.factory||undefined,supplier:clean(d.supplier)}
   })
   if(!rolls.length)throw Error('Isi minimal satu roll.')
   return {request:d.request,number:clean(d.number),supplier:clean(d.supplier),day:d.day,reason:clean(d.reason),notes:clean(d.notes)||null,rolls}
 }
 export function reviewPocketReceipt(d:ReceiptDraft){
   const doc=prepareReceipt(d),rows=readReceipts(),same=rows.find(r=>r.request===doc.request)
-  if(same){if(JSON.stringify(doc)!==JSON.stringify(same))throw Error('Permintaan sudah digunakan.');return same}
+  if(same){
+    const comparable = (receipt: PocketReceipt) => JSON.stringify({ ...receipt, rolls: receipt.rolls.map(({name,materialId,factory: _factory,supplier: _supplier,...roll}) => ({...roll, material: materialId??name})) })
+    if(comparable(doc)!==comparable(same))throw Error('Permintaan sudah digunakan.')
+    return same
+  }
   const used=[...seedRolls,...rows.flatMap(r=>r.rolls)]
   if(used.some(r=>r.receipt.toLowerCase()===doc.number.toLowerCase()))throw Error('Nomor surat jalan sudah tercatat.')
   const duplicate=doc.rolls.find(r=>used.some(old=>old.id.toLowerCase()===r.id.toLowerCase()))
