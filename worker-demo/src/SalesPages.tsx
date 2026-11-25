@@ -17,6 +17,8 @@ import type { Product } from './productCatalog'
 import { cleanMoneyInput, formatMoneyInput } from './moneyInput'
 import { distributeDozensEvenly } from './sales/distributeDozensEvenly'
 import { isSellableGoodAtLocation, parseManualPieceQuantity } from './sales/salesEligibility'
+import { SaleReturns } from './demo/SaleReturns'
+import { readSaleReturns } from './demo/saleReturnJournal'
 import './business-pages.css'
 
 export type SalesView = 'sales-invoice' | 'sales-allocation' | 'sales-returns' | 'sales-payments' | 'sales-history'
@@ -43,26 +45,6 @@ function makeLine(product: Product, dozens: number): DraftLine {
     priceDozen: product.brand === 'Widie' ? 1_140_000 : 1_080_000,
   }
 }
-
-const returnableInvoices = [
-  {
-    number:'INV-JUAL-0241', customer:'Toko Maju Jaya', date:'27 Agu 2026',
-    lines:[
-      { key:'73001-28', sku:'Vivo · 73001', size:'28', sold:12, returned:0, price:90_000, lot:'FG-73001-0821' },
-      { key:'73001-29', sku:'Vivo · 73001', size:'29', sold:12, returned:2, price:90_000, lot:'FG-73001-0822' },
-      { key:'73001-30', sku:'Vivo · 73001', size:'30', sold:12, returned:0, price:90_000, lot:'FG-73001-0820' },
-      { key:'73002-31', sku:'Vivo · 73002', size:'31', sold:16, returned:0, price:95_000, lot:'FG-73002-0820' },
-    ],
-  },
-  {
-    number:'INV-JUAL-0240', customer:'Nusantara Fashion', date:'26 Agu 2026',
-    lines:[
-      { key:'73005-31', sku:'Widie · 73005', size:'31', sold:24, returned:0, price:95_000, lot:'FG-73005-0819' },
-      { key:'73005-32', sku:'Widie · 73005', size:'32', sold:24, returned:0, price:95_000, lot:'FG-73005-0818' },
-      { key:'73005-33', sku:'Widie · 73005', size:'33', sold:24, returned:0, price:95_000, lot:'FG-73005-0817' },
-    ],
-  },
-]
 
 const receivables = [
   { invoice:'INV-JUAL-0241', customer:'Toko Maju Jaya', invoiceDate:'27 Agu 2026', dueDate:'26 Sep 2026', gross:7_830_000, returns:180_000, paid:4_820_000, status:'PARTIAL' },
@@ -485,43 +467,27 @@ function AllocationWorkspace({ onNavigate }: { onNavigate: SalesPageProps['onNav
         {['POSTED','PAID'].includes(selectedInvoice.status)&&<article><ShieldCheck/><span><strong>Invoice terkunci</strong><small>AR, revenue, dan COGS terbentuk dalam posting yang sama</small></span></article>}
       </div>
       {selectedInvoice.status==='DRAFT'&&<div className="biz-invoice-correction-actions"><button type="button" className="soft-btn" onClick={()=>{globalThis.location.assign('/penjualan/invoice/?nota='+encodeURIComponent(selectedInvoice.number))}}><ReceiptText/> Buka & edit Draft</button><span><strong>Reserve mengikuti isi Draft real-time.</strong><small>Tambah qty membuat reserve −selisih; kurangi atau batal membuat release +selisih.</small></span></div>}
-      {['POSTED','PAID'].includes(selectedInvoice.status)&&<div className="biz-invoice-correction-actions"><button type="button" className="soft-btn" disabled={!!selectedPayroll&&(selectedPayroll.reserved>0||selectedPayroll.settled>0)} onClick={()=>{setSelectedInvoice(null);onNavigate('sales-returns')}}><Undo2/> Retur fisik</button><span><strong>{selectedPayroll&&(selectedPayroll.reserved>0||selectedPayroll.settled>0)?'Invoice terhubung ke payroll.':'Edit langsung dinonaktifkan.'}</strong><small>{selectedPayroll&&(selectedPayroll.reserved>0||selectedPayroll.settled>0)?'Balikkan atau lepaskan alokasi payroll sebelum memperbaiki invoice.':'Koreksi nominal/qty memakai reversal + draft pengganti. Retur fisik memakai dokumen retur.'}</small></span></div>}
+      {['POSTED','PAID'].includes(selectedInvoice.status)&&<div className="biz-invoice-correction-actions">{!selectedPayroll&&<a className="soft-btn" href={'/penjualan/retur/?nota='+encodeURIComponent(selectedInvoice.number)}><Undo2/> Retur fisik</a>}<span><strong>{selectedPayroll&&(selectedPayroll.reserved>0||selectedPayroll.settled>0)?'Invoice terhubung ke payroll.':'Edit langsung dinonaktifkan.'}</strong><small>{selectedPayroll&&(selectedPayroll.reserved>0||selectedPayroll.settled>0)?'Balikkan atau lepaskan alokasi payroll sebelum memperbaiki invoice.':'Koreksi nominal/qty memakai reversal + draft pengganti. Retur fisik memakai dokumen retur.'}</small></span></div>}
       {selectedInvoice.paid>0&&['POSTED','PAID'].includes(selectedInvoice.status)&&<div className="biz-guard warn"><AlertTriangle/><span><strong>Reversal diblokir karena sudah ada pembayaran {money(selectedInvoice.paid)}.</strong><small>Void/reverse payment terkait lebih dulu atau gunakan retur/koreksi yang tidak merusak settlement.</small></span></div>}
     </ReviewModal>}
   </>
 }
 
 function ReturnsWorkspace() {
-  const [selectedNumber,setSelectedNumber]=useState(returnableInvoices[0].number)
-  const [query,setQuery]=useState('')
-  const [quantities,setQuantities]=useState<Record<string,number>>({'73001-29':1})
-  const [destination,setDestination]=useState('Gudang FG Utama')
-  const [grade,setGrade]=useState('GRADE_A')
-  const [reason,setReason]=useState('Ukuran tidak sesuai pesanan toko')
-  const [reviewOpen,setReviewOpen]=useState(false)
-  const [notice,setNotice]=useState('')
-  const visible = returnableInvoices.filter(invoice => {
-    const quantities = [invoice.lines.reduce((sum, line) => sum + line.sold, 0),
-      ...invoice.lines.flatMap(line => [line.sold, line.returned, line.sold - line.returned])]
-    return browseMatchPieces(query, quantities, invoice.number, invoice.customer, ...invoice.lines.map(line => line.sku))
-  })
-  const selected=returnableInvoices.find((invoice)=>invoice.number===selectedNumber)??returnableInvoices[0]
-  const returnQty=selected.lines.reduce((sum,line)=>sum+(quantities[line.key]??0),0)
-  const refund=selected.lines.reduce((sum,line)=>sum+(quantities[line.key]??0)*line.price,0)
-  const valid=selected.lines.every((line)=>(quantities[line.key]??0)<=line.sold-line.returned)
   return <>
-    <SalesHero eyebrow="PENJUALAN · KOREKSI TERKENDALI" title="Retur Penjualan" description="Cari invoice asal dan allocation yang benar, lalu preview dampak AR, revenue, stok FG, serta COGS. Retur tidak membuat transaksi lama hilang." icon={Undo2}/>
-    <section className="panel biz-master-detail"><BrowsePane aria-label="Daftar invoice asal"><header><div><span>INVOICE ASAL</span><strong>{visible.length} ditemukan</strong></div><FileSearch/></header><label className="biz-search"><Search/><input value={query} onChange={(event)=>setQuery(event.target.value)} placeholder="Cari invoice, pelanggan, atau jumlah pcs…"/></label><div className="biz-browser-list">{visible.map((invoice)=><button key={invoice.number} className={invoice.number===selected.number?'active':''} onClick={()=>{setSelectedNumber(invoice.number);setQuantities({});setNotice('')}}><span>IN</span><div><strong>{invoice.number}</strong><small>{invoice.customer}</small><em>{invoice.date} · {invoice.lines.length} baris</em></div><ArrowRight/></button>)}</div></BrowsePane><main><header className="biz-detail-head"><div><span>RETUR DARI INVOICE</span><h2>{selected.number}</h2><p>{selected.customer} · {selected.date}</p></div><Pill tone="warn">DRAFT RETURN</Pill></header><div className="biz-return-meta"><label><span>WAKTU FISIK KEMBALI</span><input type="datetime-local" defaultValue="2026-08-28T10:45"/></label><label><span>TUJUAN</span><select value={destination} onChange={(event)=>setDestination(event.target.value)}><option>Gudang FG Utama</option><option>Gudang FG Cadangan</option><option>Area QC Retur</option></select></label><label><span>GRADE MASUK</span><select value={grade} onChange={(event)=>setGrade(event.target.value)}><option value="GRADE_A">Good / Grade A</option><option value="GRADE_B">Grade B</option><option value="HOLD">Hold QC</option></select></label></div><div className="biz-return-lines"><div><span>SKU / size / lot</span><span>Terjual</span><span>Sudah retur</span><span>Retur sekarang</span><span>Sisa eligible</span></div>{selected.lines.map((line)=>{const qty=quantities[line.key]??0;const eligible=line.sold-line.returned;return <article key={line.key} className={qty>eligible?'invalid':''}><strong>{line.sku}<small>Size {line.size} · {line.lot}</small></strong><span>{line.sold} pcs</span><span>{line.returned} pcs</span><label><input inputMode="numeric" value={qty||''} placeholder="0" onChange={(event)=>setQuantities((current)=>({...current,[line.key]:Math.max(0,Number(event.target.value.replace(/\D/g,''))||0)}))}/><b>pcs</b></label><b>{Math.max(0,eligible-qty)} pcs</b></article>})}</div><label className="biz-wide-field"><span>ALASAN RETUR</span><textarea value={reason} onChange={(event)=>setReason(event.target.value)} placeholder="Kenapa barang kembali?"/></label><div className="biz-impact-grid"><article><span>FG masuk kembali</span><strong>+ {returnQty} pcs</strong><small>{destination} · {grade}</small></article><article><span>AR / refund</span><strong>− {money(refund)}</strong><small>Net invoice pelanggan</small></article><article><span>COGS reversal</span><strong>Lot asal</strong><small>HPP versi sale tetap ditelusuri</small></article></div>{!valid&&<div className="biz-guard danger"><AlertTriangle/><span>Qty retur melebihi sisa eligible pada invoice asal.</span></div>}{notice&&<div className="biz-inline-notice"><CheckCircle2/> {notice}</div>}<footer className="biz-detail-actions"><span>Retur tidak menghapus sale; backend membuat dokumen dan jurnal koreksi baru.</span><button className="primary-btn" disabled={returnQty<=0||!valid||!reason.trim()} onClick={()=>setReviewOpen(true)}>Review retur <ArrowRight/></button></footer></main></section>
-    {reviewOpen&&<ReviewModal title="Retur siap direview" description="Allocation sale asal, stok masuk, AR, revenue, COGS, dan jurnal harus dikoreksi atomically." onClose={()=>setReviewOpen(false)} action={()=>{setReviewOpen(false);setNotice('Simulasi retur tersimpan di layar. Backend belum berubah.')}}><div className="biz-impact-grid"><article><span>Qty</span><strong>{returnQty} pcs</strong><small>Ke {destination}</small></article><article><span>Nilai retur</span><strong>{money(refund)}</strong><small>Mengurangi AR/revenue</small></article><article><span>HPP</span><strong>Versi sale asal</strong><small>Bukan HPP current baru</small></article></div></ReviewModal>}
+    <SalesHero eyebrow="PENJUALAN · RETUR" title="Retur Penjualan" description="Pilih invoice asal dan catat barang kembali per ukuran. Tinjau tujuan stok, potongan piutang, dan sisa kredit sebelum simpan." icon={Undo2}/>
+    <SaleReturns/>
   </>
 }
 
 function PaymentsWorkspace() {
   const [query,setQuery]=useState('')
   const [customer,setCustomer]=useState('ALL')
-  const filtered=receivables.filter((item)=>`${item.invoice} ${item.customer}`.toLowerCase().includes(query.toLowerCase())&&(customer==='ALL'||item.customer===customer))
+  const invoices=readInvoices()
+  const openInvoices=receivables.map(row=>({...row,returns:invoices.find(doc=>doc.number===row.invoice)?.returns??row.returns}))
+  const filtered=openInvoices.filter((item)=>`${item.invoice} ${item.customer}`.toLowerCase().includes(query.toLowerCase())&&(customer==='ALL'||item.customer===customer))
   const [selectedInvoice,setSelectedInvoice]=useState(receivables[0].invoice)
-  const selected=receivables.find((item)=>item.invoice===selectedInvoice)??receivables[0]
+  const selected=openInvoices.find((item)=>item.invoice===selectedInvoice)??openInvoices[0]
   const outstanding=Math.max(0,selected.gross-selected.returns-selected.paid)
   const [amount,setAmount]=useState('2000000')
   const [method,setMethod]=useState('TRANSFER')
@@ -533,7 +499,7 @@ function PaymentsWorkspace() {
   const invalid=paid<=0||paid>outstanding
   return <>
     <SalesHero eyebrow="PENJUALAN · KAS & PIUTANG" title="Pembayaran Pelanggan" description="Pilih invoice terbuka, catat uang yang benar-benar diterima, lalu lihat saldo AR sebelum dan sesudah. Payment tidak pernah disamakan dengan sale." icon={WalletCards}/>
-    <section className="biz-metrics"><div className="panel"><span>AR TERBUKA</span><strong>{money(receivables.reduce((sum,item)=>sum+item.gross-item.returns-item.paid,0))}</strong><small>Net retur dan payment</small></div><div className="panel danger"><span>OVERDUE</span><strong>2 invoice</strong><small>Perlu ditagih hari ini</small></div><div className="panel warn"><span>PARTIAL</span><strong>2 invoice</strong><small>Pembayaran sebagian</small></div><div className="panel good"><span>MASUK HARI INI</span><strong>Rp7,7 jt</strong><small>Posted cash receipts</small></div></section>
+    <section className="biz-metrics"><div className="panel"><span>AR TERBUKA</span><strong>{money(openInvoices.reduce((sum,item)=>sum+Math.max(0,item.gross-item.returns-item.paid),0))}</strong><small>Net retur dan payment</small></div><div className="panel danger"><span>OVERDUE</span><strong>2 invoice</strong><small>Perlu ditagih hari ini</small></div><div className="panel warn"><span>PARTIAL</span><strong>2 invoice</strong><small>Pembayaran sebagian</small></div><div className="panel good"><span>MASUK HARI INI</span><strong>Rp7,7 jt</strong><small>Posted cash receipts</small></div></section>
     <section className="panel biz-master-detail"><BrowsePane aria-label="Daftar piutang terbuka"><header><div><span>PIUTANG TERBUKA</span><strong>{filtered.length} invoice</strong></div><Banknote/></header><label className="biz-search"><Search/><input value={query} onChange={(event)=>setQuery(event.target.value)} placeholder="Cari invoice atau toko..."/></label><select value={customer} onChange={(event)=>setCustomer(event.target.value)}><option value="ALL">Semua pelanggan</option>{[...new Set(receivables.map((item)=>item.customer))].map((name)=><option key={name}>{name}</option>)}</select><div className="biz-browser-list">{filtered.map((item)=>{const open=item.gross-item.returns-item.paid;return <button key={item.invoice} className={item.invoice===selected.invoice?'active':''} onClick={()=>{setSelectedInvoice(item.invoice);setAmount(String(Math.min(2_000_000,open)));setNotice('')}}><span>AR</span><div><strong>{item.invoice}</strong><small>{item.customer}</small><em>Jatuh tempo {item.dueDate}</em></div><b>{money(open)}</b><Pill tone={statusTone(item.status)}>{item.status}</Pill></button>})}</div></BrowsePane><main><header className="biz-detail-head"><div><span>CATAT UANG MASUK</span><h2>{selected.invoice}</h2><p>{selected.customer} · invoice {selected.invoiceDate}</p></div><Pill tone={statusTone(selected.status)}>{selected.status}</Pill></header><div className="biz-ar-equation"><span><small>GROSS SALE</small><strong>{money(selected.gross)}</strong></span><i>−</i><span><small>RETUR</small><strong>{money(selected.returns)}</strong></span><i>−</i><span><small>SUDAH DIBAYAR</small><strong>{money(selected.paid)}</strong></span><i>=</i><span><small>OUTSTANDING</small><strong>{money(outstanding)}</strong></span></div><div className="biz-payment-form"><label><span>JUMLAH DITERIMA</span><div><b>Rp</b><input inputMode="numeric" value={formatMoneyInput(amount)} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>setAmount(cleanMoneyInput(event.target.value))}/></div></label><label><span>METODE</span><select value={method} onChange={(event)=>setMethod(event.target.value)}><option>TRANSFER</option><option>CASH</option><option>GIRO</option></select></label><label><span>AKUN KAS / BANK</span><select value={account} onChange={(event)=>setAccount(event.target.value)}><option>BCA Operasional</option><option>Kas Utama</option><option>Mandiri Payroll</option></select></label><label><span>REFERENSI BANK</span><input value={reference} onChange={(event)=>setReference(event.target.value)} placeholder="Nomor transfer / bukti"/></label></div><div className="biz-impact-grid"><article><span>Kas / bank naik</span><strong>+ {money(paid)}</strong><small>{account}</small></article><article><span>AR turun</span><strong>− {money(paid)}</strong><small>{selected.invoice}</small></article><article><span>Sisa sesudah</span><strong>{money(Math.max(0,outstanding-paid))}</strong><small>{paid===outstanding?'Lunas':'Masih terbuka'}</small></article></div>{invalid&&paid>0&&<div className="biz-guard danger"><AlertTriangle/><span>Pembayaran tidak boleh melebihi outstanding invoice.</span></div>}{notice&&<div className="biz-inline-notice"><CheckCircle2/> {notice}</div>}<footer className="biz-detail-actions"><span>Invoice tetap utuh; payment menjadi transaksi uang terpisah.</span><button className="primary-btn" disabled={invalid||!reference.trim()} onClick={()=>setReviewOpen(true)}>Review payment <ArrowRight/></button></footer></main></section>
     {reviewOpen&&<ReviewModal title="Pembayaran siap direview" description="Kas/bank dan AR akan bergerak bersama saat domain RPC nanti diaktifkan." onClose={()=>setReviewOpen(false)} action={()=>{setReviewOpen(false);setNotice('Simulasi payment tersimpan. Tidak ada uang atau backend yang berubah.')}}><div className="biz-impact-grid"><article><span>Diterima</span><strong>{money(paid)}</strong><small>{method}</small></article><article><span>Akun</span><strong>{account}</strong><small>{reference}</small></article><article><span>Saldo AR</span><strong>{money(Math.max(0,outstanding-paid))}</strong><small>{selected.invoice}</small></article></div></ReviewModal>}
   </>
@@ -548,7 +514,12 @@ function CustomerHistoryWorkspace() {
   const registered=readInvoices().filter(d=>!['DRAFT','REVERSED','CANCELLED'].includes(d.status))
   const events=[
     ...registered.map(d=>({date:d.day+' · '+d.time,dateKey:d.dateKey,time:d.time,customer:d.customer,type:'SALE',number:d.number,description:'Penjualan '+d.sku,sku:d.sku,qty:d.qty,amount:d.gross})),
-    ...customerEvents.filter(e=>e.type!=='SALE').map(e=>({...e,dateKey:'2026-08-'+e.date.slice(0,2),time:e.date.slice(-5)}))
+    ...customerEvents.filter(e=>e.type!=='SALE').map(e=>({...e,dateKey:'2026-08-'+e.date.slice(0,2),time:e.date.slice(-5)})),
+    ...readSaleReturns().filter(doc=>!doc.replacedBy).map(doc=>({
+      date:doc.at.replace('T',' · '),dateKey:doc.at.slice(0,10),time:doc.at.slice(11),customer:registered.find(row=>row.number===doc.invoice)?.customer??'',
+      type:'RETURN',number:doc.number,description:'Retur '+doc.grade+' · '+doc.invoice,sku:[...new Set(doc.lines.map(line=>line.sku))].join(' · '),
+      qty:doc.lines.reduce((sum,line)=>sum+line.qty,0),amount:-doc.amount
+    }))
   ]
   const visible=events.filter(e=>matchesPeriod(e.dateKey,period)&&browseMatchPieces(query,[e.qty],e.customer,e.number,e.description,e.sku)&&(customer==='ALL'||e.customer===customer)&&(type==='ALL'||e.type===type))
     .sort((a,b)=>(historyOrder==='new'?-1:1)*(a.dateKey.localeCompare(b.dateKey)||a.time.localeCompare(b.time)||a.number.localeCompare(b.number)))

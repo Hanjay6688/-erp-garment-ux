@@ -1,6 +1,7 @@
 import { useSyncExternalStore } from 'react'
 import { emptySession, type Session } from './model'
 import type { LaundryDelivery } from '../laundryModel'
+import { invoiceKey, readSaleReturns } from '../saleReturnJournal'
 
 const key = 'atelier.planner.nov24.1'
 const changed = 'atelier-planner-example-updated'
@@ -26,7 +27,7 @@ function parse(value: string): Session {
     return Array.isArray(data.cuts) && Array.isArray(data.pickups) ? {...data, confirmed:Array.isArray(data.confirmed)?data.confirmed:[],elsewhere:Array.isArray(data.elsewhere)?data.elsewhere:[]} : emptySession
   } catch { return emptySession }
 }
-export const readPlannerSession = () => typeof window === 'undefined' ? emptySession : withLaundry(parse(read()), readLaundry())
+export const readPlannerSession = () => typeof window === 'undefined' ? emptySession : { ...withLaundry(parse(read()), readLaundry()), saleReturns:readSaleReturns() }
 function subscribe(update: () => void) {
   window.addEventListener(changed, update)
   return () => window.removeEventListener(changed, update)
@@ -34,11 +35,12 @@ function subscribe(update: () => void) {
 export function usePlannerSession() {
   const main = useSyncExternalStore(subscribe, read, () => '')
   const laundry = useSyncExternalStore(subscribe, readLaundry, () => '')
-  return withLaundry(parse(main), laundry)
+  useSyncExternalStore(subscribe, () => window.sessionStorage.getItem(invoiceKey), () => null)
+  return { ...withLaundry(parse(main), laundry), saleReturns:readSaleReturns() }
 }
 export function changeSession(edit: (current: Session) => Session) {
   const next = edit(readPlannerSession())
-  window.sessionStorage.setItem(key, JSON.stringify({ ...next, laundry: undefined }))
+  window.sessionStorage.setItem(key, JSON.stringify({ ...next, laundry: undefined, saleReturns: undefined }))
   refreshPlanner()
   return next
 }

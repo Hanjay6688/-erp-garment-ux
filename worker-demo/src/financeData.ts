@@ -47,6 +47,7 @@ export type Receivable = {
 export type FgSizeRow = {size:string; sewn:number; good:number; bs:number; hold:number; rewash:number}
 
 export type RegularFgWorkCard = {
+  standardBom?: {category:string;quantity:number;uom:string}[]
   sizeRows?: FgSizeRow[]
   id: string
   source: string
@@ -117,6 +118,7 @@ export type PayrollNote = {
     qty: number
     unit: string
     unitPrice: number
+    returnDeduction?: number
     lines?: Array<{item:string;qty:number;unit:string;price:number;total:number}>
     total: number
   }>

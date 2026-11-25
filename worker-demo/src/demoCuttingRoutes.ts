@@ -13,9 +13,12 @@ export const productionForms = {
   accessories:{name:'Aksesori',path:'/gudang/aksesori/'},
   'pocket-fabric':{name:'Kain kantong',path:'/gudang/kain-kantong/'},
   'finance-payroll':{name:'Payroll & Kasbon',path:'/keuangan/payroll-kasbon/'},
+  'finance-ap':{name:'Hutang Supplier & Vendor',path:'/keuangan/hutang-supplier/'},
+  'operations-attendance':{name:'Absensi Pekerja',path:'/keuangan/absensi/'},
   'fg-handoff':{name:'Susun Nota FG',path:'/produksi/susun-nota-fg/'},
   'sales-allocation':{name:'Semua Invoice',path:'/penjualan/semua-invoice/'},
   'sales-invoice':{name:'Penjualan & Invoice',path:'/penjualan/invoice/'},
+  'sales-returns':{name:'Retur Penjualan',path:'/penjualan/retur/'},
   'sales-history':{name:'Riwayat Pelanggan',path:'/penjualan/riwayat/'},
 
   'master-partners':{name:'Supplier & Vendor',path:'/master/supplier-vendor/'},

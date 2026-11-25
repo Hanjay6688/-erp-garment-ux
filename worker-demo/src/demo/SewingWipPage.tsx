@@ -1,3 +1,4 @@
+import { MandorCorrectionDemo } from './MandorCorrectionDemo'
 import '../wip-control.css'
 import {StageLots} from './planner/StageLots'
 import {Icon} from '../components/AppIcon'
@@ -22,10 +23,11 @@ type Target={group:string;id:string;no:number;revision:number;mode:WipControlMod
 
 export function SewingWipPage({
   batchNotes,deliveries,finalizedResults,laundryDrafts,reverseNotice,onClearReverseNotice,
-  onConfirmLaundry,onOpenLaundry,onOpenQc,
+  onConfirmLaundry,onOpenLaundry,onOpenQc,onCorrectMandor,
 }:{
   batchNotes:string[];deliveries:LaundryDelivery[];finalizedResults:QcFinalResult[];laundryDrafts:Record<string,string>
   reverseNotice:string|null;onClearReverseNotice:()=>void
+  onCorrectMandor:(ids:string[])=>void
   onConfirmLaundry:(ready:LaundryReadyBatch)=>void
   onOpenLaundry:(id:string,vendor:string,view:LaundryView)=>void;onOpenQc:(group:string,id:string)=>void
 }){
@@ -136,6 +138,7 @@ export function SewingWipPage({
         return <article className="sewing-parent-card" key={parent.id} aria-label={'Distribusi '+parent.id}>
           <header className="sewing-parent-head"><span className="sewing-parent-order">{String(parentIndex+1).padStart(2,'0')}</span><div><small>{parent.plannedBrand ? `MEREK RENCANA · OPSIONAL · ${parent.plannedBrand}` : 'MEREK BELUM DITENTUKAN'} · BATCH PRODUKSI</small><h2>{parent.model}</h2><small className="record-code">{parent.id}</small><p>{parent.material} · pickup {parent.pickupAt}{parent.skuRef?' · '+parent.skuRef:''}</p><div className="sewing-parent-pattern" data-pattern-snapshot={parent.pattern?.id??'legacy-null'}><Icon name="audit"/><span><small>POLA SNAPSHOT</small><strong>{patternSnapshotLabel(parent.pattern)}</strong></span></div></div><span className="sewing-mandor-pill"><Icon name="user"/><span><small>MANDOR</small><strong>{[...new Set(active.map(b=>b.line.mandor))].join(' · ')||parent.mandor}</strong></span></span><div className="sewing-parent-total"><strong className="piece-total">{parentCompleted}/{parentQty} pcs</strong><small>{parentQty} pcs di WIP · {parent.ledger.returns.reduce((n,r)=>n+total(r.sources),0)} pcs di Bagi Potongan</small><small>{parentVendors.length>0?`${parentVendors.join(' & ')} · ${parentOutside} di luar · ${parentReturned} kembali`:`${active.length} Batch Distribusi · ${parentProgress}%`}</small></div></header>
           <div className="sewing-parent-progress"><span style={{width:`${parentProgress}%`}}/></div>
+          <MandorCorrectionDemo group={parent} deliveries={deliveries} drafts={laundryDrafts} qc={finalizedResults} onCorrect={onCorrectMandor}/>
           <div className="sewing-child-grid">{parent.batches.map((batch,batchIndex)=>{
             const completed=completedOf(batch)
             const progress=Math.round((completed/Math.max(1,batch.qty))*100)

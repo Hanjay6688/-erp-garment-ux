@@ -10,7 +10,8 @@ import { cleanMoneyInput, formatMoneyInput, readRupiahInput } from '../moneyInpu
 import { dayOk, lastWarehouseDay } from './warehouseDay'
 import { ReasonDialog } from './planner/ReasonDialog'
 import { LaundryBillCard, LaundryClaims } from './LaundryCreditActions'
-import { claimedPieces } from './laundryCredits'
+import { claimedOutsidePieces } from './laundryCredits'
+import { FailedWashPanel } from './FailedWashPanel'
 import './laundryRecipe.css'
 import { money } from './format'
 import { ArrowRight, CalendarDays, FileText, Palette, ReceiptText, Truck } from 'lucide-react'
@@ -25,11 +26,9 @@ import {
   validLaundryTime,
   laundryPhysicalTime,
   laundryReadyFromDelivery,
-  laundryReadyFromSewingBatch,
   laundryReturnedSizes,
-  proportionalLaundrySizes,
 } from './laundryModel'
-import type { LaundryDelivery, LaundryPrefill, LaundryReadyBatch, LaundryView } from './laundryModel'
+import type { FailedWash, LaundryDelivery, LaundryPrefill, LaundryReadyBatch, LaundryView } from './laundryModel'
 import { patternSnapshotLabel } from './productionModel'
 import type { ProductionPatternSnapshot, QtyTuple } from './productionModel'
 import { laundryVendorNames } from './sewingModel'
@@ -227,7 +226,7 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
     const bsSizes=values.bs.map(cellQuantity) as QtyTuple
     try {
       const updated = returnLaundry(delivery, returnTimes[delivery.id] ?? defaultReturnTime(delivery), goodSizes, bsSizes)
-      if(laundryOutstanding(updated)<claimedPieces(delivery,'STUCK'))throw Error('Balikkan dulu klaim Stuck untuk potongan yang kembali.')
+      if(laundryOutstanding(updated)<claimedOutsidePieces(delivery))throw Error('Balikkan dulu klaim Stuck untuk potongan yang kembali.')
       setDeliveries(current => current.map(item => item.id === delivery.id ? updated : item))
       setReturnInputs(current => ({ ...current, [delivery.id]: emptyReturnDraft(delivery) }))
       setNotice((updated.good - delivery.good) + ' Good + ' + (updated.bs - delivery.bs) + ' BS diterima dari ' + delivery.vendor + '.')
@@ -236,31 +235,38 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
     }
   }
 
-  const confirmReverse=()=>{
-    if(!pendingReverse)return
-    const outstanding=laundryOutstanding(pendingReverse)
-    if(outstanding<=0){setPendingReverse(null);return}
-    if(claimedPieces(pendingReverse,'STUCK')>0){setPendingReverse(null);setNotice('Balikkan dulu klaim Stuck sebelum memindahkan sisa potongan ke WIP.');return}
-    const reverseSizes=laundryOutstandingSizes(pendingReverse)
-    setDeliveries((current)=>current.map((delivery)=>delivery.id===pendingReverse.id?{...delivery,reversed:delivery.reversed+outstanding,reversedSizes:delivery.reversedSizes.map((value,index)=>value+reverseSizes[index]) as QtyTuple,reverseNote:'Pindah laundry di detik akhir'}:delivery))
-    const restored=laundryReadyFromDelivery(pendingReverse,outstanding)
-    setReadyBatches((current)=>{
-      const existing=current.find((batch)=>batch.id===pendingReverse.batchId)
-      return existing?current.map((batch)=>{
-        if(batch.id!==pendingReverse.batchId)return batch
-        const nextQty=batch.qty+outstanding
-        const source=laundryReadyFromSewingBatch(batch.id,'Belum dipilih')
-        return {...batch,qty:nextQty,sizes:source?proportionalLaundrySizes(source.sizes,source.qty,nextQty):batch.sizes,vendor:'Belum dipilih'}
-      }):[restored,...current]
-    })
-    const existingReady=readyBatches.find((batch)=>batch.id===pendingReverse.batchId)
-    const restoredSizes=(existingReady?existingReady.sizes.map((value,index)=>value+reverseSizes[index]):reverseSizes) as QtyTuple
-    setSendSizeInputs((current)=>({...current,[pendingReverse.batchId]:restoredSizes.map(String) as string[]}))
-    const batchId=pendingReverse.batchId
-    const vendor=pendingReverse.vendor
+  function restoreToWip(delivery:LaundryDelivery,attempt?:FailedWash) {
+    const outstanding=laundryOutstanding(delivery)
+    if(!outstanding)return
+    if(claimedOutsidePieces(delivery)>0){
+      setPendingReverse(null);setNotice('Balikkan dulu klaim Stuck atau Hilang sebelum memindahkan sisa potongan ke WIP.');return
+    }
+    const reverseSizes=laundryOutstandingSizes(delivery)
+    setDeliveries(current=>current.map(row=>row.id!==delivery.id?row:{
+      ...row,reversed:row.reversed+outstanding,
+      reversedSizes:row.reversedSizes.map((qty,index)=>qty+reverseSizes[index]) as QtyTuple,
+      reverseNote:attempt?'Kembali belum diproses · '+attempt.reason:'Pindah laundry di detik akhir',
+      failedWashes:attempt?[...(row.failedWashes??[]),attempt]:row.failedWashes,
+    }))
+    const restored=laundryReadyFromDelivery(delivery,outstanding)
+    setReadyBatches(current=>current.some(batch=>batch.id===delivery.batchId)?current.map(batch=>batch.id!==delivery.batchId?batch:{
+      ...batch,qty:batch.qty+outstanding,sizes:batch.sizeLabels.map((size,index)=>batch.sizes[index]+(reverseSizes[delivery.sizeLabels.indexOf(size)]??0)) as QtyTuple,
+      vendor:'Belum dipilih',
+    }):[restored,...current])
+    const existing=readyBatches.find(batch=>batch.id===delivery.batchId)
+    const sizes=existing?existing.sizeLabels.map((size,index)=>existing.sizes[index]+(reverseSizes[delivery.sizeLabels.indexOf(size)]??0)):reverseSizes
+    setSendSizeInputs(current=>({...current,[delivery.batchId]:sizes.map(String)}))
     setPendingReverse(null)
-    onReturnToWip(batchId,vendor,outstanding)
+    onReturnToWip(delivery.batchId,delivery.vendor,outstanding)
   }
+
+  function recordFailedWash(delivery:LaundryDelivery,entry:FailedWash) {
+    if(entry.custody==='RETURN'){restoreToWip(delivery,entry);return}
+    setDeliveries(current=>current.map(row=>row.id!==delivery.id?row:{...row,failedWashes:[...(row.failedWashes??[]),entry]}))
+    setNotice(entry.qty+' pcs masih di '+delivery.vendor+'. Riwayat cuci gagal tersimpan.')
+  }
+
+  const confirmReverse=()=>{if(pendingReverse)restoreToWip(pendingReverse);}
 
   const billedDelivery = deliveries.find(delivery => delivery.id === bill?.deliveryId)
 
@@ -416,6 +422,8 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
             {unbilledPieces(delivery)>0&&<button type="button" className="soft-btn laundry-bill-button" onClick={()=>openBill(delivery)}>
               <ReceiptText size={16} aria-hidden="true"/>Catat kontrabon</button>}
             <LaundryClaims delivery={delivery} deliveries={deliveries} update={setDeliveries}/>
+            <FailedWashPanel delivery={delivery} onRecord={entry=>recordFailedWash(delivery,entry)} onPrice={(id,rate,day)=>setDeliveries(current=>
+              current.map(row=>row.id!==delivery.id?row:{...row,failedWashes:row.failedWashes?.map(attempt=>attempt.id===id&&attempt.rate===null?{...attempt,rate,pricedOn:day}:attempt)}))}/>
             {delivery.returns?.length ? <details className="laundry-return-history"><summary>Riwayat kembali ({delivery.returns.length})</summary>
               {delivery.returns.map((row, i) => <p key={i}><time dateTime={row.at + '+07:00'}>{row.at.replace('T', ' · ')} WIB</time> · {row.good.reduce((sum, qty) => sum + qty, 0)} Good · {row.bs.reduce((sum, qty) => sum + qty, 0)} BS</p>)}
             </details> : null}{received>0&&<><small>Akumulasi: <b className="good">{delivery.good} Good</b> · <b className="bs">{delivery.bs} BS</b></small><button type="button" className="laundry-open-qc" onClick={()=>onOpenQc(delivery.parentId,delivery.batchId)}><Icon name="audit"/><span><strong>Buka QC & Final SKU</strong><small>{received} pcs sudah bisa diperiksa sekarang</small></span><Icon name="arrow"/></button></>}{delivery.reversed>0&&<small className="reversed-note"><b>{delivery.reversed} pcs kembali ke WIP</b> · {delivery.reverseNote}</small>}{outstanding>0&&<button type="button" className="laundry-reverse-btn" onClick={()=>setPendingReverse(delivery)}><Icon name="reset"/><span><strong>Kembalikan ke WIP</strong><small>{outstanding} pcs bisa pilih laundry lain</small></span></button>}</div>

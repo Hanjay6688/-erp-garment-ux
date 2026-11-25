@@ -2,6 +2,7 @@ import {productCatalog} from '../productCatalog'
 import {saleMoves} from './saleBook'
 import {initialMovements} from './stockModel'
 import {atPosition,nativePosition} from './skuCatalog'
+import {saleReturnActivity} from './saleReturnJournal'
 import type {Article,Session} from './planner/model'
 
 export type FgMovement={
@@ -36,6 +37,12 @@ export function fgActivity(article:Article,s:Session,location:string,grade:strin
     if(!changes.length)continue
     rows.push({id:e.id,ref:e.id,day:e.date??'',physicalTime:e.physicalTime??'',type:e.reverses?'Pembalikan':e.action==='adjust'?'Stock Adjustment':'Ganti Merek',
       note:e.reason,delta:article.sizes.map(size=>changes.filter(c=>c.size===size).reduce((n,c)=>n+c.delta,0)),balance:[],sequence:e.recordedAt})
+  }
+  for(const event of saleReturnActivity(s.saleReturns??[])){
+    const changes=event.changes.filter(c=>c.key===article.key&&atPosition(c,location,grade))
+    if(!changes.length)continue
+    rows.push({id:event.id,ref:event.id,day:event.day,physicalTime:event.time,type:event.type,note:event.note,
+      delta:article.sizes.map(size=>changes.filter(c=>c.size===size).reduce((n,c)=>n+c.delta,0)),balance:[],sequence:event.recordedAt})
   }
   return rows
 }

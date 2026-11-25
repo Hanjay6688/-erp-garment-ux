@@ -1,5 +1,5 @@
 import {payrollNotes,type PayrollNote} from '../financeData'
-import {readNotes,lineTotal} from './issueDocuments'
+import {readNotes,lineTotal,outstandingIssue} from './issueDocuments'
 import {normalizeMandor} from './accessoryPricing'
 import {isPieceUnit} from '../browseMatch'
 import type {DemoInvoice} from './saleBook'
@@ -11,7 +11,8 @@ export type Source={kind:'FG';mandor:string;day:string;doc:FgSource}|{kind:'ACCE
 type SavedFg={mandor:string;day:string;doc:FgSource;cards:string[]}
 type MandorDebt = { invoice: string; amount: number }
 export type PayrollPayment = {id:string;amount:number;day:string;account:string;reference:string;reversed?:string}
-export type PayDraft=PayrollNote&{start?:string;end?:string;mandorDebts?:MandorDebt[];payments?:PayrollPayment[]}
+type AccessoryReturnCredit={id:string;note:string;day:string;amount:number;mandor:string}
+export type PayDraft=PayrollNote&{start?:string;end?:string;mandorDebts?:MandorDebt[];payments?:PayrollPayment[];accessoryCredits?:AccessoryReturnCredit[]}
 export function fgSourcePieces(doc: FgSource) {
   const returned = doc.good + doc.bs
   return [doc.good, doc.bs, doc.stuck, returned, returned + doc.stuck]
@@ -51,9 +52,9 @@ export function allPayrollSources():Source[]{
   for(const n of readNotes()){
     if(n.status!=='POSTED'||n.settledAt||n.lines.some(l=>lineTotal(l)===null)){catalog.delete(n.number);continue}
     const lines=n.lines.map(l=>({item:l.item,qty:l.qty,unit:l.unit,price:l.sellingPrice!,total:lineTotal(l)!}))
-    const total=lines.reduce((sum,l)=>sum+l.total,0),single=lines.length===1
+    const total=outstandingIssue(n),single=lines.length===1
     if(total<=0){catalog.delete(n.number);continue}
-    catalog.set(n.number,{kind:'ACCESSORY',mandor:n.mandor,day:n.issuedOn,doc:{number:n.number,date:n.issuedAt,source:n.productionBatch||n.location,item:lines.map(l=>l.item).join(' · '),qty:single?lines[0].qty:lines.length,unit:single?lines[0].unit:'baris',unitPrice:single?lines[0].price:0,total,lines}})
+    catalog.set(n.number,{kind:'ACCESSORY',mandor:n.mandor,day:n.issuedOn,doc:{number:n.number,date:n.issuedAt,source:n.productionBatch||n.location,item:lines.map(l=>l.item).join(' · '),qty:single?lines[0].qty:lines.length,unit:single?lines[0].unit:'baris',unitPrice:single?lines[0].price:0,total,returnDeduction:lines.reduce((sum,row)=>sum+row.total,0)-total,lines}})
   }
   return [...catalog.values()]
 }
@@ -74,6 +75,23 @@ export function payrollPeriod(n: PayDraft) {
 const cutoff=(n:PayDraft)=>payrollPeriod(n).end
 export const editablePayroll=(n:PayDraft)=>['DRAFT','CALCULATED','REVIEW'].includes(n.status)
 export const payrollDebtTotal = (note: PayDraft) => (note.mandorDebts ?? []).reduce((sum, debt) => sum + debt.amount, 0)
+export const payrollAccessoryCreditTotal = (note:PayDraft) => (note.accessoryCredits??[]).reduce((sum,row)=>sum+row.amount,0)
+export function accessoryCreditsForPayroll(notes:PayDraft[],note:PayDraft) {
+  return readNotes().filter(doc=>doc.status==='POSTED'&&matchMandor(doc.mandor,note.contractor)).flatMap(doc=>
+    (doc.returns??[]).filter(row=>row.credit>0&&row.day<=cutoff(note)).map(row=>({id:row.id,note:doc.number,day:row.day,amount:row.credit,mandor:doc.mandor}))
+  ).filter(credit=>!notes.some(row=>row.number!==note.number&&row.status!=='REVERSED'&&row.accessoryCredits?.some(item=>item.id===credit.id)))
+}
+export function chooseAccessoryCredit(notes:PayDraft[],number:string,id:string,include:boolean) {
+  const note=notes.find(row=>row.number===number)
+  if(!note||!editablePayroll(note))throw Error('Payroll periode ini sudah dikunci.')
+  const credit=accessoryCreditsForPayroll(notes,note).find(row=>row.id===id)
+  if(include&&!credit)throw Error('Kredit tidak tersedia untuk periode ini.')
+  const accessoryCredits=(note.accessoryCredits??[]).filter(row=>row.id!==id)
+  if(include&&credit)accessoryCredits.push(credit)
+  const updated=totalPay({...note,status:'DRAFT',accessoryCredits})
+  if(payrollDebtTotal(note)>0&&updated.netPayable<0)throw Error('Kurangi potongan piutang mandor sebelum melepaskan kredit ini.')
+  return notes.map(row=>row===note?updated:row)
+}
 
 export function mandorDebtBalance(invoice: DemoInvoice, notes: PayDraft[]) {
   let settled = 0
@@ -134,6 +152,9 @@ export function postPayrollPayment(notes:PayDraft[], invoices:DemoInvoice[], num
 export function reversePayrollPayment(notes:PayDraft[],number:string,id:string|null,reason:string):PayDraft[] {
   const note=notes.find(row=>row.number===number)
   if(!note||!reason.trim())throw Error('Pilih pembayaran dan isi alasan pembalikan.')
+  if(note.status==='PAID'&&readNotes().some(doc=>!doc.settledAt&&note.accessoryNotes.some(row=>row.number===doc.number)&&doc.returns?.some(row=>row.credit>0))){
+    throw Error('Nota biaya aksesori sudah menghasilkan kredit retur. Periksa kredit itu sebelum membalik pembayaran payroll ini.')
+  }
   if(!id&&note.status==='PAID'&&!note.payments) {
     return notes.map(row=>row===note?{...row,status:'APPROVED'}:row)
   }
@@ -158,12 +179,15 @@ export const availableSources=(notes:PayDraft[],n:PayDraft)=>allPayrollSources()
 function totalPay(n:PayDraft):PayDraft{
   const sum=(xs:number[])=>Math.round(xs.reduce((a,b)=>a+b,0)*100)/100
   const labor=sum(n.fgNotes.map(d=>d.labor)),reimbursement=sum(n.fgNotes.map(d=>d.reimbursement)),deduction=sum([...n.accessoryNotes.map(d=>d.total),...n.deductions.map(d=>d.amount),payrollDebtTotal(n)])
-  return {...n,labor,reimbursement,deduction,workQty:n.fgNotes.reduce((qty,doc)=>qty+doc.good+doc.bs+doc.stuck,0),netPayable:sum([labor,reimbursement,n.attendance,-deduction])}
+  return {...n,labor,reimbursement,deduction,workQty:n.fgNotes.reduce((qty,doc)=>qty+doc.good+doc.bs+doc.stuck,0),netPayable:sum([labor,reimbursement,n.attendance,payrollAccessoryCreditTotal(n),-deduction])}
 }
 export function readPayDrafts():PayDraft[]{
-  const raw=sessionStorage.getItem(ledgerKey);if(raw)return JSON.parse(raw)
   const catalog=allPayrollSources()
-  return [newPayDraft('Mandor Afui','2026-11-23','2026-11-29'),...payrollNotes.map(n=>editablePayroll(n)?totalPay({...n,accessoryNotes:n.accessoryNotes.flatMap(old=>{const s=catalog.find(s=>s.doc.number===old.number);return s?.kind==='ACCESSORY'?[s.doc]:[]})}):n)]
+  const read=sessionStorage.getItem(ledgerKey)
+  const notes:PayDraft[]=read?JSON.parse(read):[newPayDraft('Mandor Afui','2026-11-23','2026-11-29'),...payrollNotes]
+  return notes.map(note=>editablePayroll(note)?totalPay({...note,accessoryNotes:note.accessoryNotes.flatMap(old=>{
+    const source=catalog.find(row=>row.doc.number===old.number);return source?.kind==='ACCESSORY'?[source.doc]:[]
+  })}):note)
 }
 export const savePayDrafts=(notes:PayDraft[])=>{sessionStorage.setItem(ledgerKey,JSON.stringify(notes));return notes}
 export const payrollClaim=(id:string)=>readPayDrafts().find(n=>n.status!=='REVERSED'&&n.accessoryNotes.some(a=>a.number===id))?.number

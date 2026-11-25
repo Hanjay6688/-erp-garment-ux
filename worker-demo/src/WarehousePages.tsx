@@ -5,7 +5,8 @@ import {dozenPieces,fgQuantity} from './fgQuantity'
 import {FgHistory} from './demo/FgHistory'
 import {correctionRolls,rangeLabel,yardsLeft} from './demo/planner/model'
 import {usePlannerSession} from './demo/planner/session'
-import {masterCode,noteStock,useAccessoryBook} from './demo/accessoryPricing'
+import {mainAccessories,masterCode,noteStock,serviceStockMoves,useAccessoryBook} from './demo/accessoryPricing'
+import {AccessorySalvage,AccessoryService} from './demo/AccessoryOperations'
 import {readNotes as readAccessoryNotes} from './demo/issueDocuments'
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import {
@@ -308,6 +309,18 @@ function MaterialsRollsPage() {
 }
 
 function AccessoriesPage() {
+  const tab=new URLSearchParams(location.search).get('tab')
+  const active=tab==='servis'||tab==='bongkaran'?tab:'stok'
+  return <>
+    <nav className="demo-operation-actions demo-ops-tabs" aria-label="Ruang kerja aksesori">
+      {([['stok','Stok aksesori'],['servis','Pemakaian & Pos Servis'],['bongkaran','Bongkaran']] as const).map(([key,label])=><a key={key} className={key===active?'primary-btn':'soft-btn'}
+        aria-current={key===active?'page':undefined} href={'/gudang/aksesori/'+(key==='stok'?'':'?tab='+key)}>{label}</a>)}
+    </nav>
+    {active==='servis'?<AccessoryService/>:active==='bongkaran'?<AccessorySalvage/>:<AccessoryStock/>}
+  </>
+}
+
+function AccessoryStock() {
   const session=usePlannerSession()
   const book=useAccessoryBook()
   const stock=accessories.filter(item=>item.id!=='ACC-LBL-VV').concat(book.items.filter(item=>item.active).map((item):Accessory=>({
@@ -344,16 +357,24 @@ function AccessoriesPage() {
     ...(session.accessoryReceipts??[]).filter(row=>row.code===selected.id).map(row=>({ref:row.number,date:row.day,note:'Terima dari '+row.supplier,delta:row.qty})),
     ...conversions.flatMap(event=>{
       const source=event.reverses?conversions.find(row=>row.id===event.reverses):event
-      const line=source?.kit?.used.find(row=>row.code===selected.id)
-      return line?[{ref:'Konversi '+event.id.slice(0,8),date:event.date??'',note:event.reverses?'Pembalikan pemakaian':'Dipakai untuk Ganti Merek',delta:event.reverses?line.qty:-line.qty}]:[]
+      const qty=source?.kit?.used.reduce((sum,row)=>sum+(row.code===selected.id&&(row.location??mainAccessories)===mainAccessories?row.qty:0),0)??0
+      return qty?[{ref:'Konversi '+event.id.slice(0,8),date:event.date??'',note:event.reverses?'Pembalikan pemakaian':'Dipakai untuk Ganti Merek',delta:event.reverses?qty:-qty}]:[]
     }),
     ...(session.conversionReturns??[]).filter(row=>row.code===selected.id).flatMap(row=>{
       const head={ref:'Bongkaran '+row.id.slice(0,8),date:row.day,note:'Bongkaran layak pakai',delta:row.good}
       return row.reversed?[head,{...head,ref:head.ref+' · balik',note:row.reversed,delta:-row.good}]:[head]
     }),
+    ...serviceStockMoves(session,selected.id,mainAccessories),
+    ...(session.accessorySalvage??[]).filter(row=>row.code===selected.id).flatMap(row=>row.inspections.filter(check=>check.good>0).map(check=>({
+      ref:row.id,date:check.day,note:'Bongkaran lulus pemeriksaan',delta:check.good
+    }))),
     ...readAccessoryNotes().flatMap(doc=>{
       const qty=doc.lines.reduce((sum,line)=>sum+(masterCode(line.id)===selected.id?line.qty:0),0)*(doc.inventoryChange??0)
-      return qty?[{ref:doc.number,date:doc.issuedOn,note:doc.mandor,delta:qty}]:[]
+      const returns=(doc.returns??[]).flatMap(row=>{
+        const delta=row.lines.reduce((sum,line)=>sum+(masterCode(line.lineId)===selected.id?line.qty:0),0)
+        return delta?[{ref:row.id,date:row.day,note:'Retur dari '+doc.mandor,delta}]:[]
+      })
+      return qty?[{ref:doc.number,date:doc.issuedOn,note:doc.mandor,delta:qty},...returns]:returns
     }),
   ].reverse().sort((left,right)=>right.date.localeCompare(left.date))
   let running=available
@@ -365,8 +386,6 @@ function AccessoriesPage() {
   return <>
     <section className="hero-copy compact wh-hero"><div><div className="eyebrow">GUDANG · KOMPONEN</div><h1>Aksesori</h1><p>Qty langsung per unit. Status stok dipisahkan dari dasar perhitungannya; angka yang belum berasal dari backend ditandai sebagai simulasi.</p></div><div className="wh-rule"><Boxes/><div><span>POLA INPUT</span><strong>Qty langsung, bukan gulungan</strong><small>PCS, meter, set, atau unit master item.</small></div></div></section>
     <div className="wh-context-control"><div className="wh-context-copy"><i><History/></i><span><strong>Riwayat retur aksesori ke supplier</strong><small>Lihat total lifetime dan seluruh dokumen retur—bukan adjustment atau retur sisa mandor.</small></span></div><button className="wh-return-history-button" onClick={()=>{setReturnTarget(null);setReturnModalOpen(true)}}><span><small>SEMUA DOKUMEN</small><strong>Cek retur</strong></span><ArrowRight/></button></div>
-    <div className="wh-context-control"><div className="wh-context-copy"><i><PackageCheck/></i><span><strong>Aksesori bongkaran</strong><small>Terima dan periksa barang yang kembali dari Ganti Merek.</small></span></div>
-      <a className="soft-btn" href="/gudang/ganti-merek/#aksesori-konversi">Penerimaan bongkaran <ArrowRight size={15}/></a></div>
     <section className="wh-metrics"><MetricCard label="Stock On Hand" value={formatNumber(stock.filter(item=>isPieceUnit(item.unit)).reduce((sum,item)=>sum+item.physical,0),0)+' pcs'} note="Stok pcs di demo" icon={Package}/><MetricCard label="Dasar Perhitungan" value="Belum diatur" note="Tidak ada rekomendasi palsu" tone="neutral" icon={AlertTriangle}/><MetricCard label="Moving Average" value={stock.length+" item"} note="Valuasi fixture per item" icon={Tag}/><MetricCard label="Returned to Supplier" value="720 pcs" note="2 dokumen fixture" tone="neutral" icon={RotateCcw}/></section>
     <div className="panel wh-workspace">
       <div className="wh-toolbar"><SearchBox value={query} onChange={setQuery} placeholder="Cari aksesori, kode, supplier..."/><SelectFilter label="Kategori" value={category} options={[...new Set(stock.map((item)=>item.category))]} onChange={setCategory}/><SelectFilter label="Status" value={status} options={[...new Set(accessories.map((item)=>getStockHealthLabel(prototypeStockHealth('ACCESSORY',item.physical,item.unit,item.id))))]} onChange={setStatus}/><button className="wh-reset" onClick={()=>{setQuery('');setCategory('Semua');setStatus('Semua')}}><RotateCcw/> Reset</button></div>
@@ -418,7 +437,7 @@ function FinishedGoodsSummaryPage() {
           <nav className="owner-workspace-tabs" aria-label="Detail barang jadi"><button aria-pressed={!historyOpen} onClick={()=>setHistoryOpen(false)}>Ringkasan SKU</button><button aria-pressed={historyOpen} onClick={()=>setHistoryOpen(true)}>Kartu stok · Riwayat</button></nav>
           {historyOpen?<FgHistory product={selected} session={session} key={positionKey(selected)}/>:<>          <div className="wh-stock-health-shell"><div><span>STATUS SKU · DATA SIMULASI</span><strong>Belum cukup data · batas belum diatur.</strong><small>Pre-QC WIP tidak dihitung sebagai incoming. Hanya serah FG/QC accepted yang terkonfirmasi boleh masuk projected stock.</small></div><StockHealthExplainability itemName={`${selected.brand} ${selected.code}`} result={selectedHealth} lineage={stockLineage('FG',`${selected.brand}-${selected.code}`)}/></div>
           <div className="wh-fg-size-grid">{selected.sizes.map((size,index)=>{const sizeHealth=prototypeStockHealth('FG',selected.stocks[index],'pcs',`${selected.brand}-${selected.code}-${size}`);return <article key={size}><span>SIZE</span><strong>{size}</strong><div><small>SALDO FIXTURE</small><b className="piece-total">{selected.stocks[index]} pcs</b></div><div><small>LUSIN / POTONG</small><b>{dozenPieces(selected.stocks[index])}</b></div><StockHealthExplainability compact itemName={`${selected.brand} ${selected.code} · Size ${size}`} result={sizeHealth} lineage={stockLineage('FG',`${selected.brand}-${selected.code}-${size}`)}/></article>})}</div>
-          <section className="wh-fg-location"><header><div><span>POSISI STOK</span><strong>Lokasi dan grade tidak dicampur</strong></div><button type="button" onClick={()=>setHistoryOpen(true)}>Buka kartu stok <ArrowRight/></button></header><div><article><MapPin/><span><small>LOKASI</small><strong>{selected.location}</strong><em>Bin FG-{selected.brand==='Vivo'?'A':'B'}-{selected.code.slice(-2)}</em></span><b>{fgQuantity(total)}</b></article><article><ShieldCheck/><span><small>GRADE</small><strong>{selected.grade}</strong><em>{selected.grade==='Good'?'Boleh dialokasikan ke penjualan':'Masuk jalur BS / rework'}</em></span><b>{selected.grade==='Good'?'READY':'HOLD'}</b></article></div></section>
+          <section className="wh-fg-location"><header><div><span>POSISI STOK</span><strong>Lokasi dan grade tidak dicampur</strong></div><button type="button" onClick={()=>setHistoryOpen(true)}>Buka kartu stok <ArrowRight/></button></header><div><article><MapPin/><span><small>LOKASI</small><strong>{selected.location}</strong><em>Bin FG-{selected.brand==='Vivo'?'A':'B'}-{selected.code.slice(-2)}</em></span><b>{fgQuantity(total)}</b></article><article><ShieldCheck/><span><small>GRADE</small><strong>{selected.grade}</strong><em>{selected.grade==='Good'?'Boleh dialokasikan ke penjualan':selected.grade==='Grade B'?'Stok retur Grade B':selected.grade==='Hold QC'?'Menunggu pemeriksaan':'Masuk jalur BS / rework'}</em></span><b>{selected.grade==='Good'?'READY':'HOLD'}</b></article></div></section>
         </>}</main>}</div>
     </div>
   </>

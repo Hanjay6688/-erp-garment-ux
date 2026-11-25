@@ -1,3 +1,4 @@
+import {defaultBom,productStore,type BomLine} from './demo/trainingBom'
 import { BrowsePane } from './components/BrowsePane'
 import LaundryRecipeMaster from './demo/LaundryRecipeMaster'
 import { laundryRecipePath } from './demo/laundryRecipes'
@@ -23,7 +24,6 @@ type FieldType='text'|'number'|'select'|'sizes'|'date'|'boolean'
 type FieldDefinition={key:string;label:string;type:FieldType;options?:readonly string[];placeholder?:string;money?:boolean;suffix?:string;optional?:boolean}
 type Dependency={label:string;value:string;tone:'safe'|'warn'|'neutral'}
 type AuditEntry={at:string;actor:string;action:string}
-type BomLine={id:string;category:string;quantity:number;uom:string}
 type CategoryRate={category:string;chargeUom:string;reimbursementUom:string;mandorCharge:number;reimbursement:number;effectiveFrom:string;version:number;configured:boolean}
 type MasterEntity={
   id:string;code:string;name:string;active:boolean;rowVersion:number;updatedAt:string
@@ -61,12 +61,6 @@ const categoryRateSeeds:CategoryRate[]=[
   {category:'Kain Kantong',chargeUom:'pcs',reimbursementUom:'pcs',mandorCharge:0,reimbursement:0,effectiveFrom:'',version:0,configured:false},
   {category:'Label',chargeUom:'pcs',reimbursementUom:'pcs',mandorCharge:0,reimbursement:0,effectiveFrom:'',version:0,configured:false},
   {category:'Kain Keras',chargeUom:'pcs',reimbursementUom:'pcs',mandorCharge:0,reimbursement:0,effectiveFrom:'',version:0,configured:false},
-]
-
-const defaultBom=(prefix:string):BomLine[]=>[
-  {id:`${prefix}-button`,category:'Kancing',quantity:1,uom:'pcs'},
-  {id:`${prefix}-zipper`,category:'Sleting',quantity:1,uom:'pcs'},
-  {id:`${prefix}-hang-tag`,category:'Hang Tag',quantity:1,uom:'pcs'},
 ]
 
 const productSeeds:MasterEntity[]=[
@@ -258,7 +252,6 @@ function productRecords(base: MasterEntity[]) {
 }
 
 function MasterWorkspace({config}:{config:MasterConfig}){
-  const productStore='erp.demo.master-products.records.v1'
   const [entities,storeEntities]=useState<MasterEntity[]>(()=>config.view==='master-products'?productRecords(JSON.parse(sessionStorage.getItem(productStore)??'null')??config.seeds):config.seeds)
   function setEntities(update:(rows:MasterEntity[])=>MasterEntity[]){
     storeEntities(rows=>{const next=update(rows);if(config.view==='master-products')sessionStorage.setItem(productStore,JSON.stringify(next));return next})

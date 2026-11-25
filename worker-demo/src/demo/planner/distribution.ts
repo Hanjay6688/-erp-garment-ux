@@ -100,7 +100,7 @@ export function correctionLock(b:Batch) {
 type CommandBase={id:string;group:string;no:number;revision:number;recorded:string;physical:string}
 export type Command=CommandBase&(
   {kind:'Koreksi';reason:string;edits:CountEdit[];operation:CountOperation;chosen:Record<string,string>}|
-  {kind:'Reverse';reason:string}|
+  {kind:'Reverse';reason:string;mandorCorrection?:true}|
   {kind:'Adjust';reason:string;sizes:Record<string,number>;note:string}|
   {kind:'Bagi ulang';pickup:Pickup;pickupRequest:string}|
   {kind:'Proses';proof:ProofKind;pcs:number}
@@ -142,7 +142,9 @@ export function applyBatch(session:Session,cmd:Command):Session {
     if(b.closed||!Number.isSafeInteger(cmd.pcs)||cmd.pcs<1||cmd.pcs>b.qty||(cmd.proof==='Jahit'&&(b.sewn+cmd.pcs>b.qty||(b.proof&&b.proof!=='Jahit'))))throw Error('Jumlah proses melebihi sisa batch atau batch sudah ditutup.')
     event.proof=cmd.proof;event.pcs=cmd.pcs
   }else{
-    const lock=correctionLock(b)
+    const canCorrectSewing=cmd.kind==='Reverse'&&cmd.mandorCorrection&&!b.closed&&(!b.proof||b.proof==='Jahit')
+      && b.sources.length>0&&total(b.sources)===b.qty
+    const lock=canCorrectSewing?'':correctionLock(b)
     if(lock)throw Error(lock)
     event.reason=cmd.reason.trim()
     if(!event.reason)throw Error('Isi alasan koreksi.')

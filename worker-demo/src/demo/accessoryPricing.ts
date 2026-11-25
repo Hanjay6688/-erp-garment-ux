@@ -59,17 +59,36 @@ export function issueQuote(book:AccessoryBook,item:AccessoryMaster,mandor:string
 }
 
 export const noteStorage='atelier.demo.accessory-notes.v2'
-const oldCodes:Record<string,string>={'ACC-BTN-017':'ACC-BTN-017-SLV','ACC-ZIP-014':'ACC-ZIP-014-BLK','ACC-LBL-004':'ACC-LBL-VIVO'}
+const oldCodes:Record<string,string>={'ACC-BTN-017':'ACC-BTN-017-SLV','ACC-BTN-MET':'ACC-BTN-017-MTL','ACC-ZIP-014':'ACC-ZIP-014-BLK','ACC-LBL-004':'ACC-LBL-VIVO'}
 export const masterCode=(code:string)=>oldCodes[code]??code
-export function noteStock(code:string,opening:number,docs?:{inventoryChange?:number;lines:{id:string;qty:number}[]}[],session:Session=readPlannerSession()):number {
-  const ledger=docs??(JSON.parse(sessionStorage.getItem(noteStorage)??'[]') as {inventoryChange?:number;lines:{id:string;qty:number}[]}[])
+export const mainAccessories='Gudang Aksesori Utama'
+export const serviceAccessories='Pos Servis'
+export type AccessoryLocation = typeof mainAccessories | typeof serviceAccessories
+type InventoryNote={inventoryChange?:number;lines:{id:string;qty:number}[];returns?:{lines:{lineId:string;qty:number}[]}[]}
+export function serviceStockMoves(session:Session,code:string,location:AccessoryLocation) {
+  return (session.serviceDocuments??[]).flatMap(doc=>{
+    const qty=doc.lines.reduce((sum,line)=>sum+(line.code===code?line.qty:0),0)
+    if(!qty)return []
+    if(doc.action==='USE')return doc.location===location?[{ref:doc.id,date:doc.day,note:'Pemakaian servis',delta:-qty}]:[]
+    const positive=doc.action==='TO_SERVICE'?location===serviceAccessories:location===mainAccessories
+    return [{ref:doc.id,date:doc.day,note:doc.action==='TO_SERVICE'?'Transfer ke Pos Servis':'Kembali dari Pos Servis',delta:positive?qty:-qty}]
+  })
+}
+export function noteStock(code:string,opening:number,docs?:InventoryNote[],session:Session=readPlannerSession(),location:AccessoryLocation=mainAccessories):number {
+  const ledger=docs??(JSON.parse(sessionStorage.getItem(noteStorage)??'[]') as InventoryNote[])
   const events=session.stockEvents??[]
   const reversed=new Set(events.flatMap(event=>event.reverses?[event.reverses]:[]))
-  const used=events.reduce((sum,event)=>sum+(reversed.has(event.id) ? 0 : event.kit?.used.find(line=>line.code===code)?.qty??0),0)
+  const used=events.filter(event=>!reversed.has(event.id)).flatMap(event=>event.kit?.used??[])
+    .reduce((sum,line)=>sum+(line.code===code&&(line.location??mainAccessories)===location?line.qty:0),0)
+  const service=serviceStockMoves(session,code,location).reduce((sum,row)=>sum+row.delta,0)
+  if(location===serviceAccessories)return service-used
   const returned=(session.conversionReturns??[]).reduce((sum,row)=>sum+(!row.reversed&&row.code===code?row.good:0),0)
   const received=(session.accessoryReceipts??[]).reduce((sum,row)=>sum+(row.code===code?row.qty:0),0)
-  return opening+received+returned-used+ledger.reduce((balance,d)=>balance+(d.inventoryChange??0)*d.lines.reduce((sum,l)=>sum+(masterCode(l.id)===code?l.qty:0),0),0)
+  const inspected=(session.accessorySalvage??[]).filter(row=>row.code===code).flatMap(row=>row.inspections).reduce((sum,row)=>sum+row.good,0)
+  const mandorReturns=ledger.flatMap(doc=>doc.returns??[]).flatMap(doc=>doc.lines).reduce((sum,line)=>sum+(masterCode(line.lineId)===code?line.qty:0),0)
+  return opening+received+returned+inspected+service+mandorReturns-used+ledger.reduce((balance,d)=>balance+(d.inventoryChange??0)*d.lines.reduce((sum,l)=>sum+(masterCode(l.id)===code?l.qty:0),0),0)
 }
+export const accessoryStockAt=(item:AccessoryMaster,location:AccessoryLocation,session:Session=readPlannerSession())=>noteStock(item.code,item.stock,undefined,session,location)
 
 export function usedByNote(version:string,from:string):boolean {
   const documents=JSON.parse(sessionStorage.getItem(noteStorage)??'[]') as {issuedOn:string;status:string;lines:{version?:string}[]}[]

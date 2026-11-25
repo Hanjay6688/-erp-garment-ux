@@ -1,3 +1,4 @@
+import { AttendanceCostChoice } from '../demo/AttendanceCostChoice'
 import { useMemo, useState, type FormEvent } from 'react'
 import {
   AlertTriangle,
@@ -193,16 +194,22 @@ const bulkLabel: Record<BulkAttendanceAction, string> = {
   COPY_PREVIOUS_WEEK: 'Salin minggu sebelumnya',
 }
 
+const postedAttendanceKey='erp.demo.attendance-posted.v1'
+type PostedAttendance={books:Record<string,AttendanceBook>;statuses:Record<string,AttendancePeriodStatus>;dates:Record<string,string>}
+function readAttendance():PostedAttendance {
+  return JSON.parse(sessionStorage.getItem(postedAttendanceKey)??'{"books":{},"statuses":{},"dates":{}}')
+}
+
 export default function AttendancePage({onNavigate}: AttendancePageProps) {
   const [contractors] = useState<Contractor[]>(CONTRACTORS)
   const [workers, setWorkers] = useState<Worker[]>(() => INITIAL_WORKERS)
   const [rates, setRates] = useState<WorkerRateVersion[]>(() => INITIAL_RATES)
-  const [books, setBooks] = useState<Record<string, AttendanceBook>>({})
+  const [books, setBooks] = useState(()=>readAttendance().books)
   const [selectedContractorId, setSelectedContractorId] = useState('epi')
   const [periodStart, setPeriodStart] = useState('2026-08-24')
   const [periodEnd, setPeriodEnd] = useState('2026-08-30')
-  const [periodPayDates, setPeriodPayDates] = useState<Record<string, string>>({})
-  const [periodStatuses, setPeriodStatuses] = useState<Record<string, AttendancePeriodStatus>>({})
+  const [periodPayDates, setPeriodPayDates] = useState(()=>readAttendance().dates)
+  const [periodStatuses, setPeriodStatuses] = useState(()=>readAttendance().statuses)
   const [showInactive, setShowInactive] = useState(false)
   const [bulkPreview, setBulkPreview] = useState<BulkAttendancePreview | null>(null)
   const [workerEditor, setWorkerEditor] = useState<WorkerEditor | null>(null)
@@ -488,6 +495,8 @@ export default function AttendancePage({onNavigate}: AttendancePageProps) {
       .map((workDate) => attendanceKey(worker.id, workDate)))
     try {
       const postedBook = snapshotAttendanceRates(book, rates, periodEntryKeys)
+      const posted=readAttendance()
+      sessionStorage.setItem(postedAttendanceKey,JSON.stringify({books:{...posted.books,[periodKey]:postedBook},statuses:{...posted.statuses,[periodKey]:'POSTED'},dates:{...posted.dates,[periodKey]:payDate}}))
       setBooks((allBooks) => ({...allBooks, [periodKey]: postedBook}))
     } catch (error) {
       setFormError(error instanceof Error ? error.message : 'Rate snapshot tidak lengkap; posting dibatalkan.')
@@ -613,6 +622,7 @@ export default function AttendancePage({onNavigate}: AttendancePageProps) {
       {notice ? <div className="ops-notice" aria-live="polite"><CheckCircle2/><span>{notice}</span><button aria-label="Tutup pemberitahuan" onClick={() => setNotice('')}><XCircle/></button></div> : null}
     </section>
 
+    {periodStatus==='POSTED'&&<AttendanceCostChoice key={periodKey} mandor={selectedContractor.name} start={periodStart} end={periodEnd} cost={periodTotals.nominal}/>}
     <section className="panel attendance2-roster">
       <header>
         <div><span>ROSTER PEKERJA · {selectedContractor.name.toUpperCase()}</span><strong>Tambah dan edit langsung dari Absensi</strong><small>Nonaktifkan pekerja lama; jangan hard-delete histori.</small></div>

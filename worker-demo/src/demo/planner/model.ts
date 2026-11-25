@@ -1,6 +1,8 @@
 import {lastWarehouseDay} from '../warehouseDay'
 import {sewingBatchId, sewingReceipts} from '../sewingReceipts'
 import type { LaundryDelivery } from '../laundryModel'
+import type { SaleReturn } from '../saleReturnJournal'
+import type { CustodyNote, SalvageDocument, ServiceDocument } from '../accessoryOperations'
 import { stageBatch } from './laundryStages'
 import { applyBatch, distribution, distributionLot, pickupsIn, returnId, sliceLot, total, type BatchEvent, type Source } from './distribution'
 import { sizeRangeLabel } from '../../sizeRangeLabel'
@@ -37,7 +39,7 @@ type SourceClaim = { roll:string; slot:number; qty:number; start?:number }
 type Destination = { id: string; sku: string; eta: string; sources?:SourceClaim[] }
 export type StockChange = { key:string; size:string; delta:number; location?:string; grade?:string; after?:number }
 export type ConversionKit = {
-  used:{code:string;name:string;qty:number;rate:number}[]
+  used:{code:string;name:string;qty:number;rate:number;location?:string}[]
   expected:{code:string;name:string;qty:number;holder:string}[]
 }
 export type ConversionReturn = {id:string;conversion:string;code:string;good:number;damaged:number;day:string;reason:string;reversed?:string}
@@ -47,7 +49,7 @@ export type RollCorrection = {
 }
 export type FabricReceipt = {id:string;number:string;material:string;supplier:string;day:string;unit:'yd'|'m';rate:number;rolls:{id:string;length:number}[]}
 export type AccessoryReceipt = {id:string;number:string;code:string;supplier:string;day:string;rate:number;qty:number}
-export type Session = { laundry?: LaundryDelivery[]; batchEvents?:BatchEvent[]; skuUpdates?:Record<string,{article:Article;active:boolean}>; skuPairs?:Record<string,string|null>; stockEvents?:StockEvent[]; patternRefs?:Record<string,string|null>; destinations?: Destination[]; fabricReceipts?:FabricReceipt[]; accessoryReceipts?:AccessoryReceipt[]; rollCorrections?:RollCorrection[]; conversionReturns?:ConversionReturn[]; cuts: Lot[]; pickups: Pickup[]; confirmed: string[]; elsewhere: string[] }
+export type Session = { laundry?: LaundryDelivery[]; saleReturns?:SaleReturn[]; batchEvents?:BatchEvent[]; skuUpdates?:Record<string,{article:Article;active:boolean}>; skuPairs?:Record<string,string|null>; stockEvents?:StockEvent[]; patternRefs?:Record<string,string|null>; destinations?: Destination[]; fabricReceipts?:FabricReceipt[]; accessoryReceipts?:AccessoryReceipt[]; rollCorrections?:RollCorrection[]; conversionReturns?:ConversionReturn[]; serviceDocuments?:ServiceDocument[]; accessoryCustody?:CustodyNote[]; accessorySalvage?:SalvageDocument[]; cuts: Lot[]; pickups: Pickup[]; confirmed: string[]; elsewhere: string[] }
 export const emptySession: Session = { cuts: [], pickups: [], confirmed: [], elsewhere: [] }
 export const stageName: Record<string, string> = { cut: 'Meja potong', sewing: 'Jahit', laundry: 'Laundry', qc: 'QC' }
 export const productFor = (sku: string | null | undefined) => products.find(p => p.sku === sku)
@@ -113,7 +115,10 @@ export function recipePattern(p:Product,session:Session) {
   return session.patternRefs && Object.hasOwn(session.patternRefs,key) ? session.patternRefs[key] : p.routes[0].pattern
 }
 export function stockDelta(key:string,size:string,session:Session) {
-  return (session.stockEvents??[]).flatMap(e=>e.changes).reduce((n,c)=>n+(c.key===key && c.size===size?c.delta:0),0)
+  const changes=(session.stockEvents??[]).flatMap(e=>e.changes)
+  const returned=(session.saleReturns??[]).filter(row=>!row.replacedBy&&row.grade==='Good')
+    .flatMap(row=>row.lines).reduce((n,line)=>n+(line.sku===key&&line.size===size?line.qty:0),0)
+  return returned+changes.reduce((n,c)=>n+(c.key===key && c.size===size?c.delta:0),0)
 }
 export function eligiblePieces(lot: Lot, p: Product, session:Session=emptySession) {
   if (lot.kind==='quality-hold') return 0

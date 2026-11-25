@@ -1,9 +1,10 @@
-import {masterBook,noteStock} from './accessoryPricing'
+import {accessoryStockAt,mainAccessories,masterBook,noteStock,serviceAccessories,type AccessoryLocation} from './accessoryPricing'
+import {salvageProgress} from './accessoryOperations'
 import type {ConversionKit,ConversionReturn,Session} from './planner/model'
 import {dayOk} from './warehouseDay'
 
 export type ConversionAccessoryDraft = {
-  used:{code:string;qty:string}[]
+  used:{code:string;qty:string;location?:AccessoryLocation}[]
   expected:{code:string;qty:string;holder:string}[]
 }
 export const emptyAccessories:ConversionAccessoryDraft = {used:[],expected:[]}
@@ -12,13 +13,14 @@ export const accessoryPcs = (value:string) => /^\d{1,9}$/.test(value.trim()) ? N
 export function checkConversionAccessories(session:Session,draft?:ConversionAccessoryDraft):ConversionKit|undefined {
   if(!draft||!draft.used.length&&!draft.expected.length)return undefined
   const available=masterBook().items.filter(item=>item.active&&item.stockUom.toLowerCase()==='pcs')
-  if(new Set(draft.used.map(row=>row.code)).size!==draft.used.length||new Set(draft.expected.map(row=>row.code)).size!==draft.expected.length) {
+  if(new Set(draft.used.map(row=>row.code+'|'+(row.location??mainAccessories))).size!==draft.used.length||new Set(draft.expected.map(row=>row.code)).size!==draft.expected.length) {
     throw Error('Gabungkan jumlah aksesori yang sama dalam satu baris.')
   }
   const used=draft.used.map(row=>{
     const item=available.find(item=>item.code===row.code),qty=accessoryPcs(row.qty)
-    if(!item||!(qty>0)||qty>noteStock(item.code,item.stock,undefined,session))throw Error('Periksa stok dan jumlah aksesori yang dipakai.')
-    return {code:item.code,name:item.name,qty,rate:item.movingAverage}
+    const location=row.location??mainAccessories
+    if(!item||!(qty>0)||![mainAccessories,serviceAccessories].includes(location)||qty>accessoryStockAt(item,location,session))throw Error('Periksa stok di lokasi sumber dan jumlah aksesori yang dipakai.')
+    return {code:item.code,name:item.name,qty,rate:item.movingAverage,location}
   })
   const expected=draft.expected.map(row=>{
     const item=available.find(item=>item.code===row.code),qty=accessoryPcs(row.qty)
@@ -30,8 +32,11 @@ export function checkConversionAccessories(session:Session,draft?:ConversionAcce
 
 export const kitCost = (kit:ConversionKit) => kit.used.reduce((sum,row)=>sum+Math.round(row.qty*row.rate*100),0)/100
 export function receivedConversionAccessories(session:Session,conversion:string,code:string) {
-  return (session.conversionReturns??[]).filter(row=>row.conversion===conversion&&row.code===code&&!row.reversed)
+  const received=(session.conversionReturns??[]).filter(row=>row.conversion===conversion&&row.code===code&&!row.reversed)
     .reduce((sum,row)=>({good:sum.good+row.good,damaged:sum.damaged+row.damaged}),{good:0,damaged:0})
+  return (session.accessorySalvage??[]).filter(doc=>doc.conversion===conversion&&doc.code===code)
+    .reduce((sum,doc)=>{const state=salvageProgress(doc);return {good:sum.good+state.good,damaged:sum.damaged+state.damaged,pending:sum.pending+state.pending,held:sum.held+state.held}},
+      {...received,pending:0,held:0})
 }
 
 export function receiveConversionAccessories(session:Session,row:ConversionReturn):Session {
@@ -44,7 +49,7 @@ export function receiveConversionAccessories(session:Session,row:ConversionRetur
   const total=row.good+row.damaged
   if(!doc||!expected||session.stockEvents?.some(event=>event.reverses===doc.id)||
     !dayOk(row.day)||row.day<(doc.date??'')||!row.reason.trim()||!Number.isSafeInteger(row.good)||!Number.isSafeInteger(row.damaged)
-    ||row.good<0||row.damaged<0||total<=0||total>expected.qty-received.good-received.damaged) {
+    ||row.good<0||row.damaged<0||total<=0||total>expected.qty-received.good-received.damaged-received.pending-received.held) {
     throw Error('Periksa tanggal, jumlah yang masih ditunggu, dan hasil pemeriksaan aksesori.')
   }
   return {...session,conversionReturns:[...ledger,row]}

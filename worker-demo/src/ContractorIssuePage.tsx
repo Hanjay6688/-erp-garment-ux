@@ -1,3 +1,5 @@
+import { AccessoryStandards } from './demo/AccessoryStandards'
+import { IssueReturnPanel } from './demo/IssueReturnPanel'
 import { BrowsePane } from './components/BrowsePane'
 import { browseMatchPieces, isPieceUnit } from './browseMatch'
 import { useMemo, useState, useSyncExternalStore } from 'react'
@@ -34,6 +36,10 @@ function Status({value,settled}:{value:IssueStatus;settled:boolean}) {
 }
 
 export default function ContractorIssuePage() {
+  return new URLSearchParams(location.search).get('tab')==='standar'?<AccessoryStandards/>:<IssueWorkspace/>
+}
+
+function IssueWorkspace() {
   const documents=useSyncExternalStore(subscribe,readNotes),setDocuments=saveNotes,book=useAccessoryBook()
   const catalog:IssueLine[]=book.items.filter(i=>i.active&&i.stockUom.toLowerCase()==='pcs').map(i=>({id:i.code,item:i.name,category:i.category,qty:0,stock:noteStock(i.code,i.stock,documents),unit:i.stockUom,averageCost:i.movingAverage,sellingPrice:null,mode:'MASTER'}))
   const payrollMandor=new URLSearchParams(location.search).get('mandor')
@@ -118,6 +124,7 @@ export default function ContractorIssuePage() {
   }
   const reverse = () => {
     if(!selected||!reverseNote.trim())return
+    if(selected.returns?.length){setNotice('Nota mempunyai retur aksesori. Periksa riwayat retur sebelum membalik nota.');setReverseOpen(false);return}
     if(payrollClaim(selected.number)){setNotice('Lepaskan nota ini dari payroll yang terkait lebih dahulu.');setReverseOpen(false);return}
     saveNotes(docs=>docs.map(d=>d.number===selected.number&&d.status==='POSTED'&&!d.settledAt?{...d,status:'REVERSED',inventoryChange:(d.inventoryChange??0)+1,rowVersion:d.rowVersion+1,note:`${d.note} · Pembalikan: ${reverseNote.trim()}`}:d))
     setReverseOpen(false)
@@ -149,6 +156,7 @@ export default function ContractorIssuePage() {
       <button className={`ci-show-settled ${showSettled?'active':''}`} onClick={()=>setShowSettled((current)=>!current)}>{showSettled?<EyeOff/>:<Eye/>}<span><small>NOTA LUNAS</small><strong>{showSettled?'Sembunyikan lagi':'Tampilkan kembali'}</strong></span><b>{settledCount}</b></button>
       {periodFilter==='Custom'&&<div className="ci-custom-range"><CalendarDays/><span><small>PERIODE CUSTOM</small><strong>{dateFrom||'Tanggal awal'} → {dateTo||'Tanggal akhir'}</strong></span><label><small>DARI</small><input type="date" value={dateFrom} max={dateTo||undefined} onChange={(event)=>setDateFrom(event.target.value)}/></label><label><small>SAMPAI</small><input type="date" value={dateTo} min={dateFrom||undefined} onChange={(event)=>setDateTo(event.target.value)}/></label></div>}
     </section>
+    <div className="demo-operation-actions demo-ops-tabs"><a className="soft-btn" href="/keuangan/nota-ambil-mandor/?tab=standar">Aktual vs standar BOM <ArrowRight size={16}/></a></div>
     <section className="panel ci-layout">
       <BrowsePane aria-label="Daftar nota aksesori"><header><div><span>BROWSER NOTA</span><strong>{visible.length} dokumen tampil</strong></div><ReceiptText/></header><div className="ci-browser">{ordered.map((document)=><button className={document.number===selected?.number?'active':''} key={document.number} onClick={()=>{setSelectedNumber(document.number);setNotice('')}}><i><PackageMinus/></i><span><strong>{document.number}</strong><small>{document.mandor} · {document.productionBatch}</small><em>Batch Distribusi {document.distributionBatch} · {document.issuedAt}</em></span><b>{amountDue(document.status==='DRAFT'?{...document,lines:document.lines.map(line=>priceLine(book,document,line,documents))}:document)}</b><Status value={document.status} settled={Boolean(document.settledAt)}/></button>)}{visible.length===0&&<div className="ci-empty browser"><Search/><strong>Tidak ada nota yang cocok</strong><small>Ubah mandor, status, rentang tanggal, atau buka kembali nota lunas.</small></div>}</div></BrowsePane>
       {selected ? <main><header className="ci-detail-head"><div><span>{selected.settledAt?'POSTED · SETTLED':selected.status==='DRAFT'?'DRAFT · BOLEH DIEDIT':'POSTED SOURCE · READ ONLY'}</span><h2>{selected.number}</h2><p>{selected.productionBatch||'Tanpa PO'}{selected.distributionBatch?' · Batch '+selected.distributionBatch:''}</p></div><div><Status value={selected.status} settled={Boolean(selected.settledAt)}/><small>row version {selected.rowVersion}</small></div></header>
@@ -161,6 +169,7 @@ export default function ContractorIssuePage() {
         {selected.status==='DRAFT'&&<label className="ci-note"><span>ALASAN NOTA · WAJIB</span><input aria-label="Alasan nota" required maxLength={1000} value={selected.reason??''} onChange={e=>updateDocument({reason:e.target.value})}/></label>}
         <div className="ci-equation"><span><small>HPP STOK</small><strong>{money(selected.lines.reduce((sum,line)=>sum+line.qty*line.averageCost,0))}</strong></span><i>≠</i><span><small>HARGA JUAL MANDOR</small><strong>{totalLabel}</strong></span><i>→</i><span className="result"><small>KASBON PAYROLL</small><strong>{totalLabel}</strong></span></div>
         <p className="ci-sample-policy">Aturan latihan berlaku 24 Nov 2026 untuk Afui · Kancing.</p><div className="ci-guard"><ShieldCheck/><span><strong>BOM tetap kategori; pengambilan tetap barang detail.</strong><small>Kancing Silver/Metal sama-sama memenuhi kategori Kancing, dengan stok dan HPP masing-masing. Harga jual mengikuti kategori dan mandor pada tanggal nota.</small></span></div>
+        {selected.status==='POSTED'&&<IssueReturnPanel key={selected.number} doc={selected}/>}
         {notice&&<div className="ci-notice"><CheckCircle2/> {notice}</div>}
         {selected.status==='POSTED'&&!selected.settledAt&&documentTotal(selected)>0&&<div className="owner-payroll-actions">{(!selectedPayroll||editablePayroll(selectedPayroll))&&<button type="button" className="soft-btn" onClick={adjustPayment}>{selectedPayroll?'Lepas dari pembayaran':'Masukkan ke payroll'}</button>}{selectedPayroll&&<small>{selectedPayroll.number}</small>}</div>}
         <footer><span>{selected.settledAt?'Nota sudah diselesaikan di payroll dan terkunci.':selected.status==='DRAFT'?'Draft belum mengurangi stok atau membentuk kasbon.':'Posted tidak diedit atau dihapus; koreksi lewat reversal.'}</span>{selected.status==='DRAFT'?<><button type="button" className="soft-btn" onClick={()=>{setDeleteReason('');setDeleteOpen(true)}}>Hapus draft</button><button className="soft-btn" onClick={()=>setNotice('Draft disimpan sebagai simulasi; backend belum berubah.')}>Simpan draft</button><button className="primary-btn" disabled={!canPost} onClick={()=>{setReviewQuote(quoteId(selected));setReviewOpen(true)}}>Review & post <ArrowRight/></button></>:<button className="soft-btn" disabled={selected.status!=='POSTED'||Boolean(selected.settledAt)||!!payrollClaim(selected.number)} title={payrollClaim(selected.number)?'Terpilih di '+payrollClaim(selected.number):undefined} onClick={()=>setReverseOpen(true)}><Undo2/> Reverse nota</button>}</footer>

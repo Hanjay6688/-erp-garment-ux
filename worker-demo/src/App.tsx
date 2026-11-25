@@ -534,6 +534,10 @@ function ErpApp() {
           laundryDrafts={laundryDrafts}
           reverseNotice={wipReverseNotice}
           onClearReverseNotice={()=>setWipReverseNotice(null)}
+          onCorrectMandor={ids=>{
+            setLaundryReadyBatches(current=>current.filter(batch=>!ids.includes(batch.id)))
+            setLaundryDrafts(current=>Object.fromEntries(Object.entries(current).filter(([id])=>!ids.includes(id))))
+          }}
           onConfirmLaundry={(ready)=>{
             const {id:batchId,vendor}=ready
             setLaundryDrafts(current=>({...current,[batchId]:vendor}))
