@@ -1,10 +1,10 @@
 import { BrowsePane } from './components/BrowsePane'
-import {browseMatch, browseMatchPieces} from './browseMatch'
+import {browseMatchPieces} from './browseMatch'
 import {PeriodFilter,periodFor,periodLabel} from './demo/PeriodFilter'
 import {fgQuantity} from './fgQuantity'
 import {fgDrafts} from './demo/fgDraft'
 import {readNotes as readIssueSources} from './demo/issueDocuments'
-import {availableSources,allPayrollSources,choosePayrollSource,editablePayroll,newPayDraft,readPayDrafts,savePayDrafts,payrollPeriod,type PayDraft} from './demo/payrollSources'
+import {accessorySourcePieces,availableSources,allPayrollSources,choosePayrollSource,editablePayroll,fgSourcePieces,newPayDraft,readPayDrafts,savePayDrafts,payrollPeriod,type PayDraft} from './demo/payrollSources'
 import {contractorNames,normalizeMandor} from './demo/accessoryPricing'
 import {ReasonDialog} from './demo/planner/ReasonDialog'
 import { useMemo, useState } from 'react'
@@ -216,7 +216,8 @@ function PayrollWorkspace({onAttendance,onOpenFg}:{onAttendance:()=>void;onOpenF
       || item.status===statusFilter.toUpperCase()
     const period=payrollPeriod(item)
     const overlaps=(!workPeriod.start||period.end>=workPeriod.start)&&(!workPeriod.end||period.start<=workPeriod.end)&&(!workPeriod.start||!workPeriod.end||workPeriod.start<=workPeriod.end)
-    return overlaps&&browseMatchPieces(query,[item.workQty],item.number,item.contractor,item.period)
+    const quantities = [item.workQty, ...item.fgNotes.flatMap(fgSourcePieces), ...item.accessoryNotes.flatMap(accessorySourcePieces)]
+    return overlaps&&browseMatchPieces(query,quantities,item.number,item.contractor,item.period)
       && (mandorFilter==='Semua mandor'||item.contractor===mandorFilter)
       && statusMatches
   }).sort((a,b)=>{
@@ -229,7 +230,13 @@ function PayrollWorkspace({onAttendance,onOpenFg}:{onAttendance:()=>void;onOpenF
   function focus(id:string){setSelectedNumber(id);sessionStorage.setItem('erp.owner.payroll.focus',id);setPickOpen(null);setSourceSelection(null);setNotice('')}
   function choose(number:string,add:boolean){if(!selected)return;try{setNotes(ns=>choosePayrollSource(ns,selected.number,number,add));setNotice(add?number+' ditambahkan ke pembayaran ini.':number+' dilepas. Bisa dipilih di pembayaran berikutnya.')}catch(e){setNotice((e as Error).message)}}
   const available=selected?availableSources(notes,selected):[]
-  const choices=available.filter(s=>s.kind===pickOpen&&browseMatch(sourceQuery,s.doc.number,s.kind==='FG'?s.doc.sku:s.doc.item,s.day))
+  const choices = available.filter(source => {
+    if (source.kind !== pickOpen) return false
+    const { doc, day } = source
+    return source.kind === 'FG'
+      ? browseMatchPieces(sourceQuery, fgSourcePieces(source.doc), doc.number, source.doc.sku, day, doc.source)
+      : browseMatchPieces(sourceQuery, accessorySourcePieces(source.doc), doc.number, source.doc.item, day, doc.source)
+  })
   const currentMandor=normalizeMandor(selected?.contractor??'')
   const draftSources=[
     ...fgDrafts().map(d=>({number:d.number,mandor:d.mandor,kind:'FG',detail:(d.results.length+d.repairs.length)+' kartu',href:'/produksi/susun-nota-fg/?dari=payroll&draft='+encodeURIComponent(d.number)})),
@@ -266,7 +273,27 @@ function PayrollWorkspace({onAttendance,onOpenFg}:{onAttendance:()=>void;onOpenF
     <details className="panel owner-period-disclosure"><summary>Periode &amp; urutan payroll · {periodLabel(workPeriod)}</summary><PeriodFilter label="Periode kerja payroll" value={workPeriod} onChange={setWorkPeriod}/><label className="sku-range-field">Urutkan payroll<select value={payrollSort} onChange={e=>setPayrollSort(e.target.value)}><option value="recent">Periode terbaru</option><option value="old">Periode terlama</option><option value="amount">Jumlah bayar terbesar</option><option value="contractor">Nama mandor</option></select></label></details>
     <section className="panel biz-master-detail finance-detail payroll-detail"><BrowsePane aria-label="Daftar nota payroll"><header><div><span>PAYROLL BROWSER</span><strong>{visible.length} nota tampil</strong></div><UsersRound/></header><div className="biz-browser-list">{visible.map((item)=><button key={item.number} className={item.number===selected?.number?'active':''} onClick={()=>{focus(item.number);setPayReference('')}}><span>PY</span><div><strong>{item.number}</strong><small>{item.contractor}</small><em>{item.period}</em></div><b>{money(item.netPayable)}</b><Pill>{item.status}</Pill></button>)}{visible.length===0&&<div className="biz-empty"><Search/><strong>Nota tidak ditemukan</strong><small>Ubah filter mandor atau status.</small></div>}</div></BrowsePane>{selected?<main><header className="biz-detail-head"><div><span>NOTA PAYROLL · SOURCE LINKED</span><h2>{selected.number}</h2><p>{selected.contractor} · {selected.period}</p></div><Pill>{selected.status}</Pill></header>
       <div className="biz-payroll-source-summary"><article><ReceiptText/><span><small>TOTAL NOTA FG POSTED</small><strong>{money(fgTotal)}</strong><em>{selected.fgNotes.length} nota siap dihitung</em></span></article><article><FileSearch/><span><small>TOTAL NOTA AKSESORI</small><strong>{money(accessoryTotal)}</strong><em>{selected.accessoryNotes.length} nota kasbon</em></span></article><article><RefreshCcw/><span><small>KOMPOSISI PEKERJAAN</small><strong>{fgRegularJobs} FG · {fgRepairJobs} BG</strong><em>BS hanya ada di detail Nota FG</em></span></article><article className={calculationMatches?'good':'danger'}><ShieldCheck/><span><small>REKONSILIASI</small><strong>{calculationMatches?'Pas':'Tidak cocok'}</strong><em>Dokumen sumber → net payable</em></span></article></div>
-      {pickOpen&&editablePayroll(selected)&&<ReasonDialog title={pickOpen==='FG'?'Pilih nota FG':'Pilih nota aksesori'} closeLabel="Selesai" onClose={()=>setPickOpen(null)}><label>Cari nomor atau barang<input value={sourceQuery} onChange={e=>setSourceQuery(e.target.value)}/></label>{choices.map(s=><div className="owner-doc-row" key={s.doc.number}><span><strong>{s.doc.number} · {s.kind==='FG'?'Nota FG':'Aksesori'}</strong><small>{s.day} · {s.kind==='FG'?s.doc.sku:s.doc.item} · {money(s.kind==='FG'?fgNoteTotal(s.doc):s.doc.total)}</small></span>{(s.kind==='FG'||readIssueSources().some(d=>d.number===s.doc.number))&&<a className="gar-button" onClick={rememberPayroll} href={(s.kind==='FG'?'/produksi/susun-nota-fg/':'/keuangan/nota-ambil-mandor/')+'?dari=payroll&nota='+encodeURIComponent(s.doc.number)}>Detail</a>}<button type="button" className="soft-btn" aria-label={'Tambahkan '+s.doc.number} onClick={()=>choose(s.doc.number,true)}>Tambahkan</button></div>)}{!choices.length&&<p>{sourceQuery?'Tidak ada nota yang cocok dengan pencarian.':'Semua nota jenis ini untuk mandor tersebut sudah dipilih.'}</p>}{notice&&<p role="status">{notice}</p>}</ReasonDialog>}
+      {pickOpen && editablePayroll(selected) && <ReasonDialog title={pickOpen === 'FG' ? 'Pilih nota FG' : 'Pilih nota aksesori'} closeLabel="Selesai" onClose={() => setPickOpen(null)}>
+        <label>Cari nota, barang, atau jumlah pcs<input type="search" value={sourceQuery} onChange={event => setSourceQuery(event.target.value)}/></label>
+        {choices.map(source => {
+          const { doc } = source
+          const isFg = source.kind === 'FG'
+          const identity = isFg ? source.doc.sku : source.doc.item
+          const amount = isFg ? fgNoteTotal(source.doc) : source.doc.total
+          const detailPath = isFg ? '/produksi/susun-nota-fg/' : '/keuangan/nota-ambil-mandor/'
+          const quantity = isFg ? source.doc.good.toLocaleString('id-ID') + ' pcs Good'
+            : (source.doc.lines?.length ?? 0) <= 1 ? source.doc.qty.toLocaleString('id-ID') + ' ' + source.doc.unit : ''
+          return <div className="owner-doc-row" key={doc.number}>
+            <span><strong>{doc.number} · {isFg ? 'Nota FG' : 'Aksesori'}</strong>
+              <small>{source.day} · {identity} · {quantity && <><b className="piece-total">{quantity}</b> · </>}{money(amount)}</small></span>
+            {(isFg || readIssueSources().some(issue => issue.number === doc.number)) && <a className="gar-button" onClick={rememberPayroll}
+              href={detailPath + '?dari=payroll&nota=' + encodeURIComponent(doc.number)}>Detail</a>}
+            <button type="button" className="soft-btn" aria-label={'Tambahkan ' + doc.number} onClick={() => choose(doc.number, true)}>Tambahkan</button>
+          </div>
+        })}
+        {!choices.length && <p>{sourceQuery ? 'Tidak ada nota yang cocok dengan pencarian.' : 'Semua nota jenis ini untuk mandor tersebut sudah dipilih.'}</p>}
+        {notice && <p role="status">{notice}</p>}
+      </ReasonDialog>}
       <section className="biz-payroll-documents compact payroll-source-block" aria-labelledby="payroll-sources-title">
         <header><div><h3 id="payroll-sources-title">Nota untuk pembayaran ini</h3><small>Nota yang dilepas bisa dipilih lagi di periode berikutnya.</small></div></header>
         <div className="biz-payroll-compact-groups payroll-source-grid">

@@ -1,12 +1,20 @@
 import {payrollNotes,type PayrollNote} from '../financeData'
 import {readNotes,lineTotal} from './issueDocuments'
 import {normalizeMandor} from './accessoryPricing'
+import {isPieceUnit} from '../browseMatch'
 
 export type FgSource=PayrollNote['fgNotes'][number]
 type AccSource=PayrollNote['accessoryNotes'][number]
 export type Source={kind:'FG';mandor:string;day:string;doc:FgSource}|{kind:'ACCESSORY';mandor:string;day:string;doc:AccSource}
 type SavedFg={mandor:string;day:string;doc:FgSource;cards:string[]}
 export type PayDraft=PayrollNote&{start?:string;end?:string}
+export function fgSourcePieces(doc: FgSource) {
+  const returned = doc.good + doc.bs
+  return [doc.good, doc.bs, doc.stuck, returned, returned + doc.stuck]
+}
+export function accessorySourcePieces(doc: AccSource) {
+  return (doc.lines?.length ? doc.lines : [doc]).filter(line => isPieceUnit(line.unit)).map(line => line.qty)
+}
 const ledgerKey='erp.owner.payroll.selections.1',fgKey='erp.owner.fg-posted.1'
 const readFg=():SavedFg[]=>JSON.parse(sessionStorage.getItem(fgKey)??'[]')
 export const postedPayrollCards=()=>readFg().flatMap(n=>n.cards)

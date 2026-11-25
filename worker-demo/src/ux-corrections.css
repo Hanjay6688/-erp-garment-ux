@@ -79,9 +79,16 @@
 .payroll-work-quantity.compact{grid-template-columns:repeat(5,minmax(0,1fr));gap:5px}.payroll-bs-components{padding:8px 9px;border-top:1px solid var(--line);background:var(--danger-bg)}.payroll-bs-components>span{display:block;margin-bottom:6px;color:var(--red);font-size:13px;font-weight:900;letter-spacing:.08em}.payroll-bs-components>div{display:flex;flex-wrap:wrap;gap:5px}.payroll-bs-components em{min-height:27px;padding:5px 7px;border:1px solid var(--line);border-radius:8px;background:var(--danger-bg);color:var(--text);display:flex;align-items:center;gap:5px;font-size:13px;font-style:normal}.payroll-bs-components em svg{width:11px;color:var(--red)}.payroll-bs-components em b{color:var(--red);font-size:13px}.payroll-bs-components small{color:var(--muted);font-size:13px}.payroll-bs-components.stuck-components{background:var(--warning-bg)}.payroll-bs-components.stuck-components>span{color:var(--amber)}.payroll-bs-components.stuck-components em{border-color:var(--line);background:var(--warning-bg)}.payroll-bs-components.stuck-components em svg{color:var(--amber)}.payroll-bs-components.stuck-components em b{color:var(--amber)}
 .payroll-regular-formula{padding:8px 9px;border-top:1px solid var(--line);background:var(--panel);display:grid;grid-template-columns:minmax(100px,1.08fr) 14px minmax(88px,.9fr) 14px minmax(88px,.9fr) 14px minmax(115px,1fr);align-items:stretch;gap:4px}.payroll-regular-formula>span{min-height:61px;padding:7px;border:1px solid var(--line);border-radius:8px;background:var(--panel);display:flex;flex-direction:column;justify-content:center}.payroll-regular-formula>i{align-self:center;color:var(--text);text-align:center;font-style:normal}.payroll-regular-formula small,.payroll-regular-formula strong,.payroll-regular-formula em{display:block}.payroll-regular-formula small{color:var(--muted);font-size:13px;font-weight:850;letter-spacing:.06em}.payroll-regular-formula strong{margin-top:4px;color:var(--text);font-size:13px}.payroll-regular-formula em{margin-top:4px;color:var(--blue);font-size:13px;font-style:normal}.payroll-regular-formula .deduction{border-color:var(--line);background:var(--danger-bg)}.payroll-regular-formula .deduction strong,.payroll-regular-formula .deduction em{color:var(--red)}.payroll-regular-formula .result{border-color:var(--line);background:var(--success-bg)}.payroll-regular-formula .result strong{color:var(--green);font-size:13px}.payroll-regular-formula .result em{color:var(--green)}
 @media(max-width:680px){.payroll-work-quantity.compact{display:grid;grid-template-columns:1fr 1fr;overflow:visible}.payroll-work-quantity.compact>span{min-width:0}.payroll-work-quantity.compact>span:first-child{grid-column:1/-1}.payroll-regular-formula{display:flex;overflow-x:auto}.payroll-regular-formula>span{min-width:145px}.payroll-regular-formula>i{min-width:14px}}
+.payroll-detail > main { container: payroll-detail / inline-size; }
 .payroll-detail .biz-payroll-source-summary {
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 9px;
+}
+@container payroll-detail (min-width: 656px) {
+  .payroll-detail .biz-payroll-source-summary { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@container payroll-detail (max-width: 326px) {
+  .payroll-detail .biz-payroll-source-summary { grid-template-columns: 1fr; }
 }
 .payroll-detail .biz-payroll-source-summary strong { color: var(--text); font-size: 16px; }
 .payroll-source-block > header h3 { margin: 0; font-size: 16px; font-weight: 700; }

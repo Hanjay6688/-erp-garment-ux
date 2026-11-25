@@ -1,6 +1,7 @@
 export const browseText=(value:string)=>value.normalize('NFKD').replace(/\p{M}/gu,'').toLocaleLowerCase('id').trim()
 const compact=(value:string)=>value.replace(/[^\p{L}\p{N}]/gu,'')
 type BrowseField = string | number | null | undefined
+export const isPieceUnit = (unit: string) => unit.trim().toLowerCase() === 'pcs'
 
 export function browseMatch(query:string,...values:BrowseField[]){
   const terms=browseText(query).split(/\s+/).filter(Boolean)
@@ -9,10 +10,18 @@ export function browseMatch(query:string,...values:BrowseField[]){
 }
 
 export function browseMatchPieces(query: string, quantities: readonly number[], ...fields: BrowseField[]) {
-  const terms = browseText(query).replace(/(^|\s)(\d+(?:\.\d{3})*)\s+(pcs|potong)(?=\s|$)/g, '$1$2$3').split(/\s+/)
+  const terms = browseText(query).replaceAll('−', '-')
+    .replace(/(^|\s)([+-]?\d+(?:\.\d{3})*)\s+(pcs|potong)(?=\s|$)/g, '$1$2$3')
+    .split(/\s+/).filter(Boolean)
   return terms.every(term => {
-    const amount = /^(\d+(?:\.\d{3})*)(pcs|potong)?$/.exec(term)
-    const matchesAmount = amount && quantities.includes(Number(amount[1].replaceAll('.', '')))
-    return matchesAmount || (!amount?.[2] && browseMatch(term, ...fields))
+    const amount = /^([+-]?)(\d+(?:\.\d{3})*)(pcs|potong)?$/.exec(term)
+    if (amount) {
+      const [, sign, digits, unit] = amount
+      const value = Number(digits.replaceAll('.', ''))
+      const matches = quantities.some(quantity =>
+        sign === '-' ? quantity === -value : sign === '+' ? quantity === value : Math.abs(quantity) === value)
+      if (matches || unit) return matches
+    }
+    return browseMatch(term, ...fields)
   })
 }

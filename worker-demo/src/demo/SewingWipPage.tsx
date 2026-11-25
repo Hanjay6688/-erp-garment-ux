@@ -56,7 +56,15 @@ export function SewingWipPage({
   const completedParentCount=parentGroups.filter(parentIsCompleted).length
   const visibleGroups=parentGroups.filter(p=>{
     const batches = p.batches.filter(b=>!b.line.closed && selectedMandors.includes(b.line.mandor))
-    const quantities = [batches.reduce((qty,b)=>qty+b.qty,0), ...batches.flatMap(b=>[b.qty, completedOf(b), b.qty-completedOf(b)])]
+    const quantities = [
+      batches.reduce((qty, batch) => qty + batch.qty, 0),
+      batches.reduce((qty, batch) => qty + completedOf(batch), 0),
+      ...batches.flatMap(batch => {
+        const completed = completedOf(batch)
+        const laundry = summarizeLaundryBatch(deliveries, batch.id)
+        return [batch.qty, completed, batch.qty - completed, laundry.returned, laundry.outside, ...batch.sizes]
+      }),
+    ]
     return p.batches.some(b=>selectedMandors.includes(b.line.mandor))
       && (!patternFilter||p.pattern?.id===patternFilter)
       && (statusFilter==='ALL'||(statusFilter==='COMPLETED')===parentIsCompleted(p))

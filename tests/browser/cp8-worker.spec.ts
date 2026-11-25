@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import type { Page } from '@playwright/test'
+import type { Locator, Page } from '@playwright/test'
 import { readFile } from 'node:fs/promises'
 import JSZip from 'jszip'
 
@@ -508,6 +508,9 @@ test('Semua Invoice tetap ringkas dengan banyak nota dan 56 SKU pada satu nota',
   await dialog.getByRole('button', { name: 'barang berikutnya', exact: true }).click()
   await expect(rows).toHaveCount(16)
   await expect(rows.last()).toContainText('CONTOH-056')
+  await dialog.getByRole('searchbox', { name: 'Cari SKU di nota' }).fill('2 pcs CONTOH-056')
+  await expect(rows).toHaveCount(1)
+  await expect(rows.first()).toContainText('CONTOH-056')
   await dialog.getByRole('searchbox', { name: 'Cari SKU di nota' }).fill('CONTOH-041')
   await expect(rows).toHaveCount(1)
   await expect(rows.first()).toContainText('CONTOH-041')
@@ -606,7 +609,14 @@ test('total FG seluruh gudang, filter dan saldo SKU selalu dihitung dari potong'
   await pageFits(page)
 })
 test('payroll difilter lewat tanggal kerja dan diurutkan sebelum memilih nota',async({page})=>{
+  await page.setViewportSize({ width: 1180, height: 850 })
   await page.goto('/keuangan/payroll-kasbon/')
+  const cards = page.locator('.biz-payroll-source-summary > article')
+  await expect(cards).toHaveCount(4)
+  const [first, second, third, fourth] = await cards.evaluateAll(nodes => nodes.map(node => node.getBoundingClientRect().top))
+  expect(first).toBe(second)
+  expect(third).toBe(fourth)
+  expect(third).toBeGreaterThan(first)
   await page.locator('.owner-period-disclosure summary').click()
   const f=page.getByRole('group',{name:'Periode kerja payroll'})
   await f.getByRole('button',{name:'Harian'}).click()
@@ -1085,6 +1095,73 @@ test('pencarian laundry menemukan jumlah potong dan kode batch di kedua tab', as
   await expect(delivered).toHaveCount(1)
   await expect(delivered.first()).toContainText('LDR-260827-011')
   await expect(delivered.first().locator('.laundry-counts')).toContainText('64 pcs')
+})
+
+async function expectPieceSearch(search: Locator, rows: Locator, quantity: string, identity: string) {
+  for (const query of [quantity, quantity + ' pcs']) {
+    await search.fill(query)
+    await expect(rows.filter({ hasText: identity }).first()).toBeVisible()
+  }
+  await search.fill('987654321 pcs')
+  await expect(rows).toHaveCount(0)
+  await search.clear()
+}
+
+test('pencarian pcs menyaring Bagi Potongan, Jahit, Barang Jadi, dan penyesuaian stok', async ({ page }) => {
+  for (const [path, input, row, quantity, identity] of [
+    ['/produksi/bagi-potongan/', '.wip-search input', '.wip-queue-card', '24', 'POT-021'],
+    ['/produksi/jahit/', '.sewing-toolbar input', '.sewing-parent-card', '114', 'POT-260825-039'],
+    ['/gudang/barang-jadi/', '.wh-toolbar .wh-search input', '.wh-browser-list > button', '24', 'Vivo · 93001'],
+    ['/gudang/stock-adjustment/', '.ic-browser-tools input', '.ic-case-list > button', '−12', 'ADJ-ACC-260828-004'],
+  ] as const) {
+    await test.step(path, async () => {
+      await page.goto(path)
+      await expectPieceSearch(page.locator(input), page.locator(row), quantity, identity)
+    })
+  }
+})
+
+test('pencarian pcs berlaku di penjualan, nota aksesori, dan master stok', async ({ page }) => {
+  for (const [path, input, row, quantity, identity] of [
+    ['/penjualan/invoice/', '.biz-catalog .biz-search input', '.biz-catalog-list > button', '288', 'Vivo · 73001'],
+    ['/penjualan/semua-invoice/', '.biz-invoice-register .biz-search input', '.invoice-register-row', '72', 'INV-JUAL-0245'],
+    ['/keuangan/nota-ambil-mandor/', '.ci-filter-bar .ci-search input', '.ci-browser > button', '20', 'NAA-261123-006'],
+    ['/master/aksesori/', '.mm-layout .mm-search input', '.mm-layout > aside > div > button', '4.800', 'Kancing Jeans 17 mm · Silver'],
+    ['/analisis/stock/', '.gar-search input', '.gar-report tbody > tr', '72', 'Vivo 93001'],
+  ] as const) {
+    await test.step(path, async () => {
+      await page.goto(path)
+      await expectPieceSearch(page.locator(input), page.locator(row), quantity, identity)
+    })
+  }
+
+  await page.goto('/')
+  await openGroup(page, 'Penjualan')
+  await page.getByRole('button', { name: '• Retur Penjualan', exact: true }).click()
+  await expectPieceSearch(page.locator('.biz-master-detail .biz-search input'), page.locator('.biz-browser-list > button'), '24', 'INV-JUAL-0240')
+})
+
+test('pencarian pcs di pemilih nota Payroll dan pencarian global', async ({ page }) => {
+  await page.goto('/keuangan/payroll-kasbon/')
+  for (const [label, quantity, doc] of [
+    [/Pilih nota FG/, '48', 'NFG-261123-012'],
+    [/Pilih nota aksesori/, '20', 'NAA-261123-006'],
+  ] as const) {
+    await page.getByRole('button', { name: label }).click()
+    const chooser = page.getByRole('dialog')
+    await expectPieceSearch(chooser.getByRole('searchbox'), chooser.locator('.owner-doc-row'), quantity, doc)
+    await chooser.getByRole('button', { name: 'Selesai', exact: true }).click()
+  }
+  await page.getByRole('button', { name: 'Cari menu', exact: true }).click()
+  const finder = page.getByRole('search', { name: 'Cari menu ERP' })
+  const results = finder.locator('.finder-records a')
+  for (const [quantity, identity] of [
+    ['20', 'NAA-261123-006'],
+    ['24', 'Vivo 93001'],
+    ['244', 'POT-260826-041'],
+  ]) {
+    await expectPieceSearch(finder.getByRole('searchbox'), results, quantity, identity)
+  }
 })
 
 async function checkBrowseEnd(page: Page, minScrollRange = 0) {

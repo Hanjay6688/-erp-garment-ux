@@ -1,5 +1,5 @@
 import { BrowsePane } from './components/BrowsePane'
-import {browseMatch, browseMatchPieces} from './browseMatch'
+import {browseMatch, browseMatchPieces, isPieceUnit} from './browseMatch'
 import {fgProducts,fgTotals,piecesIn,positionKey} from './demo/fgOverview'
 import {dozenPieces,fgQuantity} from './fgQuantity'
 import {FgHistory} from './demo/FgHistory'
@@ -302,7 +302,10 @@ function AccessoriesPage() {
   const [returnTarget,setReturnTarget] = useState<SupplierReturnTarget|null>(null)
   const visible = useMemo(()=>accessories.filter((item)=>{
     const health = prototypeStockHealth('ACCESSORY', item.physical, item.unit, item.id)
-    return browseMatch(query,item.name,item.category,item.supplier,item.id,`${formatNumber(item.physical)} ${item.unit}`) && (category==='Semua'||item.category===category) && (status==='Semua'||getStockHealthLabel(health)===status)
+    const pieceUnit = isPieceUnit(item.unit)
+    return browseMatchPieces(query, pieceUnit ? [item.physical] : [], item.name, item.category, item.supplier, item.id,
+      pieceUnit ? undefined : `${formatNumber(item.physical)} ${item.unit}`)
+      && (category==='Semua'||item.category===category) && (status==='Semua'||getStockHealthLabel(health)===status)
   }),[query,category,status])
   const selected = accessories.find((item)=>item.id===selectedId) ?? accessories[0]
   const available = selected.physical

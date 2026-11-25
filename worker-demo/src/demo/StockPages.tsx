@@ -171,7 +171,7 @@ export function Movements({ bookName, bookBrands, setBookBrands, movements, setM
   const visibleRows = bookRows.filter(movement=>{
     const customer = movement.customer??'Tanpa toko'
     const product = productCatalog.find(item=>productKey(item)===movementProductKey(movement))
-    const quantities = [Math.abs(movement.delta.reduce((sum,qty)=>sum+qty,0)),movement.before.reduce((sum,qty)=>sum+qty,0),movement.after.reduce((sum,qty)=>sum+qty,0)]
+    const quantities = [movement.delta.reduce((sum,qty)=>sum+qty,0),movement.before.reduce((sum,qty)=>sum+qty,0),movement.after.reduce((sum,qty)=>sum+qty,0)]
     return bookBrands.includes(movement.brand) && selectedCustomers.includes(customer) && selectedTypes.includes(movement.type)
       && browseMatchPieces(movementQuery,quantities,movement.brand,movement.sku,product?.name,product?.color,movement.ref,movement.note,customer)
   })

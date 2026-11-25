@@ -114,10 +114,10 @@ export function StockAdjustmentPage() {
   const [notice, setNotice] = useState('')
 
   const visibleCases = cases.filter((item) => {
-    const quantities = [Math.abs(item.physicalQty - item.systemQty), item.systemQty, item.physicalQty]
+    const quantities = [item.physicalQty - item.systemQty, item.systemQty, item.physicalQty]
     return (scopeFilter === 'Semua' || item.scope === scopeFilter)
       && browseMatchPieces(query, item.unit === 'pcs' ? quantities : [], item.id, item.scope, item.item, item.reason, item.source, item.actor,
-        ...(item.unit === 'pcs' ? [] : quantities.map(qty=>`${number(qty)} ${item.unit}`)))
+        ...(item.unit === 'pcs' ? [] : quantities.map(qty=>`${number(Math.abs(qty))} ${item.unit}`)))
   })
   const selectedCase = cases.find((item) => item.id === selectedId) ?? inventoryCases[0]
   const scopedItems = countItems.filter((item) => item.scope === scope)

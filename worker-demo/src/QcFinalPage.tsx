@@ -77,13 +77,6 @@ export default function QcFinalPage({seeds,initialSeedId,finalizedResults,posted
     seeds.forEach((seed)=>{if(seed.pattern)byId.set(seed.pattern.id,seed.pattern)})
     return [...byId.values()].sort((left,right)=>left.code.localeCompare(right.code)||left.revision.localeCompare(right.revision))
   },[seeds])
-  const visible=useMemo(()=>seeds.filter((seed)=>{
-    const patternLabel=seed.pattern?`${seed.pattern.code} ${seed.pattern.revision} ${seed.pattern.name}`:'Pola belum tercatat'
-    const quantities = [total(seed.expected), total(seed.returnedGoodBySize) + total(seed.returnedBsBySize), total(seed.stuckBySize)]
-    return browseMatchPieces(query, quantities, seed.parentId, seed.batchId, seed.model, seed.material, seed.mandor, seed.laundry, seed.plannedBrand, patternLabel)
-      && (mandorFilter==='Semua mandor'||seed.mandor===mandorFilter) && (laundryFilter==='Semua laundry'||seed.laundry===laundryFilter) && (!patternFilter||seed.pattern?.id===patternFilter)
-  }),[seeds,query,mandorFilter,laundryFilter,patternFilter])
-  const selected=visible.find((seed)=>keyOf(seed)===selectedId)??visible[0]
   const finalizedById=useMemo(()=>{
     const latest=new Map<string,QcFinalResult>()
     finalizedResults.forEach((result)=>{
@@ -93,6 +86,21 @@ export default function QcFinalPage({seeds,initialSeedId,finalizedResults,posted
     })
     return latest
   },[finalizedResults])
+  const visible=useMemo(()=>seeds.filter((seed)=>{
+    const patternLabel=seed.pattern?`${seed.pattern.code} ${seed.pattern.revision} ${seed.pattern.name}`:'Pola belum tercatat'
+    const expected = total(seed.expected)
+    const good = total(seed.returnedGoodBySize)
+    const bs = total(seed.returnedBsBySize)
+    const result = finalizedById.get(keyOf(seed))
+    const quantities = [expected, good + bs, good, bs, total(seed.stuckBySize)]
+    if (result) {
+      const completed = total(result.qcGood) + total(result.qcBs)
+      quantities.push(completed, total(result.readyRemainingBySize), expected - completed)
+    }
+    return browseMatchPieces(query, quantities, seed.parentId, seed.batchId, seed.model, seed.material, seed.mandor, seed.laundry, seed.plannedBrand, patternLabel)
+      && (mandorFilter==='Semua mandor'||seed.mandor===mandorFilter) && (laundryFilter==='Semua laundry'||seed.laundry===laundryFilter) && (!patternFilter||seed.pattern?.id===patternFilter)
+  }),[seeds,query,mandorFilter,laundryFilter,patternFilter,finalizedById])
+  const selected=visible.find((seed)=>keyOf(seed)===selectedId)??visible[0]
   const finalizedSelected=selected?finalizedById.get(keyOf(selected)):undefined
   const selectedKey=selected?keyOf(selected):null
   const nextPending=visible.find((seed)=>keyOf(seed)!==selectedKey&&finalizedById.get(keyOf(seed))?.completionStatus!=='COMPLETE')
