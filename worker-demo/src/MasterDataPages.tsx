@@ -1,3 +1,4 @@
+import LaundryRecipeMaster from './demo/LaundryRecipeMaster'
 import {changeSession} from './demo/planner/session'
 import {editSku,skuByKey} from './demo/skuCatalog'
 import { useMemo, useState } from 'react'
@@ -293,5 +294,5 @@ function MasterWorkspace({config}:{config:MasterConfig}){
 }
 
 export default function MasterDataPages({view}:{view:BusinessMasterView}){
-  return <MasterWorkspace key={view} config={masterConfigs[view]}/>
+  return <>{view === 'master-partners' && <LaundryRecipeMaster/>}<MasterWorkspace key={view} config={masterConfigs[view]}/></>
 }

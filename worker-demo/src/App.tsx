@@ -572,7 +572,7 @@ function ErpApp() {
             else if(notaOrigin==='BS_REWORK'){setBsBackPage('fg-handoff');setPage('bs-rework')}
           }}
           onOpenQc={()=>{if(qcResult)setQcSeedId(`${qcResult.parentId}::${qcResult.batchId}`);setPage('qc')}}
-          onOpenBs={()=>{setBsPrefill(qcResult);setBsBackPage('fg-handoff');setPage('bs-rework')}}
+          onOpenBs={source=>{setBsPrefill(source??qcResult);setBsBackPage('fg-handoff');setPage('bs-rework')}}
         /></Suspense>}
         {page === 'bs-rework' && runtime.bsResolutionMode === 'CONNECTED' && <Suspense fallback={<WorkspaceFallback label="BS Resolution connected"/>}><ConnectedBsResolutionPage/></Suspense>}
         {page === 'bs-rework' && runtime.bsResolutionMode === 'SIMULATION' && <Suspense fallback={<WorkspaceFallback label="Barang BS & Rework"/>}><BsReworkPage

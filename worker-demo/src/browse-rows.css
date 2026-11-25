@@ -1,11 +1,11 @@
 /* Shade the whole business record. Its labels, size rows and notes share the same surface. */
 .page-wrap,.menu-finder {
-  --browse-first:color-mix(in srgb,var(--panel-2,var(--panel)) 89%,white);
-  --browse-second:color-mix(in srgb,var(--panel-2,var(--panel)) 92%,black);
+  --browse-first:color-mix(in srgb,var(--panel-2,var(--panel)) 94%,var(--text) 6%);
+  --browse-second:color-mix(in srgb,var(--panel-2,var(--panel)) 98%,var(--bg) 2%);
 }
-.page-wrap :is(.wh-browser-list,.biz-browser-list,.md-browser-list,.sku-browser-list,.qc-browser-list,.wh-roll-list,.cutting-roll-list,.allocation-roll-list,.wip-queue-list,.laundry-parent-list,.laundry-return-list,.sewing-child-grid,.sewing-parent-list,.owner-pay-choices,.wh-roll-ledger) > :is(button,article,section,.wh-register-row):nth-of-type(odd):not(.active,.selected,[aria-pressed=true]),
+.page-wrap :is(.wh-browser-list,.biz-browser-list,.md-browser-list,.sku-browser-list,.qc-browser-list,.wh-roll-list,.cutting-roll-list,.allocation-roll-list,.wip-queue-list,.laundry-parent-list,.laundry-return-list,.sewing-child-grid,.sewing-parent-list,.owner-pay-choices,.bsr-case-list,.wh-roll-ledger) > :is(button,article,section,.wh-register-row):nth-of-type(odd):not(.active,.selected,[aria-pressed=true]),
 .page-wrap .wh-moves>tbody>tr:nth-child(odd)>td,.page-wrap .biz-all-invoice-table>button:nth-of-type(odd),.menu-finder .finder-records a:nth-child(odd) {background-color:var(--browse-first)}
-.page-wrap :is(.wh-browser-list,.biz-browser-list,.md-browser-list,.sku-browser-list,.qc-browser-list,.wh-roll-list,.cutting-roll-list,.allocation-roll-list,.wip-queue-list,.laundry-parent-list,.laundry-return-list,.sewing-child-grid,.sewing-parent-list,.owner-pay-choices,.wh-roll-ledger) > :is(button,article,section,.wh-register-row):nth-of-type(even):not(.active,.selected,[aria-pressed=true]),
+.page-wrap :is(.wh-browser-list,.biz-browser-list,.md-browser-list,.sku-browser-list,.qc-browser-list,.wh-roll-list,.cutting-roll-list,.allocation-roll-list,.wip-queue-list,.laundry-parent-list,.laundry-return-list,.sewing-child-grid,.sewing-parent-list,.owner-pay-choices,.bsr-case-list,.wh-roll-ledger) > :is(button,article,section,.wh-register-row):nth-of-type(even):not(.active,.selected,[aria-pressed=true]),
 .page-wrap .wh-moves>tbody>tr:nth-child(even)>td,.page-wrap .biz-all-invoice-table>button:nth-of-type(even),.menu-finder .finder-records a:nth-child(even) {background-color:var(--browse-second)}
 .page-wrap .erp-table-tools~table:not(:has(>tbody+tbody))>tbody>tr:nth-child(odd):not(.active,.selected)>td {background-color:var(--browse-first)}
 .page-wrap .erp-table-tools~table:not(:has(>tbody+tbody))>tbody>tr:nth-child(even):not(.active,.selected)>td {background-color:var(--browse-second)}
@@ -31,3 +31,13 @@
 
 .page-wrap table:has(>tbody+tbody)>tbody:nth-of-type(odd)>tr>:is(td,th){background-color:var(--browse-first)}
 .page-wrap table:has(>tbody+tbody)>tbody:nth-of-type(even)>tr>:is(td,th){background-color:var(--browse-second)}
+
+.page-wrap :is(h1,h2,h3) {font-weight:750}
+.page-wrap .piece-total {font-weight:800;font-variant-numeric:tabular-nums;color:var(--text)}
+.page-wrap .record-code {font-weight:500;color:var(--soft);overflow-wrap:anywhere}
+.page-wrap :is(.wip-queue-card-numbers,.sewing-parent-total,.laundry-counts,.wh-detail-total) .piece-total {
+  letter-spacing:-.02em;
+}
+@media(pointer:coarse) {
+  .page-wrap :is(select,.row-fill-handle,[data-column-fill-slot]) {touch-action:pan-y}
+}
