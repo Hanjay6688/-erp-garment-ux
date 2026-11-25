@@ -7,6 +7,7 @@ import { amountText, fixtureDate } from './accessoryPricing'
 import { ReasonDialog } from './planner/ReasonDialog'
 import { pocketRollLabel, pocketRolls, readReceipts, receiptPath, type PocketRoll, type PocketUnit } from './pocketReceipts'
 import { pocketMasterPath, pocketMaterialLabel, readPocketMaterials } from './pocketMaterials'
+import { pocketAllocationPath, pocketIssuePath, receiptDocumentPath } from './receiptRollCorrection'
 import {
   periodActive, planPocketAllocation, planPocketUsage, pocketBalance, pocketBookKey, pocketIssueCost,
   pocketScale, readPocketBook, type PocketAllocation, type PocketBook, type UsageLine,
@@ -33,11 +34,13 @@ function sumLengths<T extends { roll: PocketRoll }>(rows: T[], quantity: (row: T
 }
 
 export default function PocketFabric() {
+  const linkedIssue=new URLSearchParams(location.search).get('pakai')
+  const linkedAllocation=new URLSearchParams(location.search).get('pembagian')
   const rolls = pocketRolls()
   const rollById = new Map(rolls.map(roll => [roll.id, roll]))
   const [detailId, setDetailId] = useState(() => new URLSearchParams(location.search).get('roll'))
   const [book, setBook] = useState(readPocketBook)
-  const [tab, setTab] = useState<'stock' | 'cost'>('stock')
+  const [tab, setTab] = useState<'stock' | 'cost'>(linkedAllocation?'cost':'stock')
   const [query, setQuery] = useState(() => new URLSearchParams(location.search).get('surat') ?? '')
   const [material, setMaterial] = useState('')
   const [warehouse, setWarehouse] = useState('')
@@ -54,6 +57,14 @@ export default function PocketFabric() {
   const [feedback, setFeedback] = useState<Feedback | null>(null)
   const [undo, setUndo] = useState<Reverse | null>(null)
   const [why, setWhy] = useState('')
+  const targetIssue=undo?.kind==='issue'?book.issues.find(row=>row.id===undo.id):undefined
+  const issueBlockers=targetIssue?book.allocations.filter(row=>!row.reversal&&row.start<=targetIssue.date&&targetIssue.date<=row.end):[]
+  useEffect(()=>{
+    const target=linkedIssue??linkedAllocation
+    if(!target)return
+    const frame=requestAnimationFrame(()=>document.getElementById('pocket-source-'+target)?.scrollIntoView({block:'center'}))
+    return ()=>cancelAnimationFrame(frame)
+  },[linkedIssue,linkedAllocation])
   const detail = rolls.find(r => r.id === detailId)
   const materialKey = (roll: PocketRoll) => roll.materialId ?? roll.name
   const catalog = new Map(readPocketMaterials().map(item => [item.id, pocketMaterialLabel(item)]))
@@ -229,12 +240,12 @@ export default function PocketFabric() {
                   <h3>Mutasi roll · {pocketRollLabel(roll)}</h3>
                   <div className="wh-register-row">
                     <span><strong>Masuk · {length(incoming, roll.unit)}</strong><small>{roll.date} · {roll.receipt}</small></span>
-                    <a href={receiptPath + '&surat=' + encodeURIComponent(roll.receipt)}>Lihat penerimaan</a>
+                    <a className="soft-btn" href={receiptDocumentPath(roll.receipt,'kantong')}>Lihat penerimaan <ArrowRight size={15}/></a>
                   </div>
                   {book.issues.filter(i => i.roll === roll.id).map(issue => <div className="wh-register-row" key={issue.id}>
                     <span><strong>Keluar · {length(issue.qty, roll.unit)}</strong><small>{issue.date} · {issue.id} · Tercatat {rupiah(issue.cents)}</small>
                       {pocketIssueCost(issue, roll) !== issue.cents && <small>Harga final · {rupiah(pocketIssueCost(issue, roll))}</small>}</span>
-                    {issue.reversal ? <span>Dibalik · {issue.reversal}</span> : <button type="button" className="soft-btn" onClick={() => openReverse({ kind: 'issue', id: issue.id })}>Balikkan {issue.id}</button>}
+                    <a className="soft-btn" href={pocketIssuePath(issue.id)}>Buka pemakaian <ArrowRight size={15}/></a>
                   </div>)}
                 </section>}
               </li>)}
@@ -247,14 +258,14 @@ export default function PocketFabric() {
       </section>
       {usage && <PocketUsageForm key={JSON.stringify([usage.whole, ...usage.rolls.map(r => r.id)])} selection={usage} book={book} onClose={() => setUsage(null)}
         onConfirm={(date, reason, drafts, lines) => confirmUsage(usage, date, reason, drafts, lines)}/>}
-      <details className="panel wh-pocket-use pocket-history">
+      <details className="panel wh-pocket-use pocket-history" id="pemakaian-kantong" open={!!linkedIssue||undefined}>
         <summary><ClipboardList size={16} aria-hidden="true"/>Riwayat pemakaian <span>{book.issues.length}</span></summary>
         {book.issues.length === 0 && <p>Belum ada pemakaian.</p>}
         {[...book.issues].reverse().map(issue => {
           const roll = rolls.find(r => r.id === issue.roll)
           const previous = roll ?? readReceipts().flatMap(r => r.rolls).find(r => r.id === issue.roll)
           const unit = issue.unit ?? previous?.unit ?? 'yd'
-          return <div className="wh-register-row" key={issue.id}>
+          return <div className="wh-register-row" key={issue.id} id={'pocket-source-'+issue.id} data-source-selected={linkedIssue===issue.id||undefined}>
             <span><strong className="pocket-quantity">{length(issue.qty, unit)} keluar</strong><small>{previous ? `${pocketRollLabel(previous)} · ${previous.receipt}` : issue.roll} · {issue.date} · {issue.id} · {rupiah(issue.cents)} · {issue.reason}</small></span>
             {roll && <a href={'/gudang/kain-kantong/?roll=' + encodeURIComponent(roll.id)}>Buka mutasi roll</a>}
             {issue.reversal ? <span>Dibalik · {issue.reversal}</span> : <button type="button" className="soft-btn" onClick={() => openReverse({ kind: 'issue', id: issue.id })}>Balikkan pemakaian</button>}
@@ -284,10 +295,10 @@ export default function PocketFabric() {
         </div>
         <button className="primary-btn" type="button" disabled={!allocReason.trim()} onClick={postAllocation}>Sahkan pembagian</button>
       </div>}
-      <section className="pocket-history">
+      <section className="pocket-history" id="pembagian-kantong">
         <h3>Riwayat pembagian biaya</h3>
         {book.allocations.length === 0 && <p>Belum ada pembagian biaya.</p>}
-        {[...book.allocations].reverse().map(a => <div className="wh-register-row" key={a.id}>
+        {[...book.allocations].reverse().map(a => <div className="wh-register-row" key={a.id} id={'pocket-source-'+a.id} data-source-selected={linkedAllocation===a.id||undefined}>
           <span><strong><span className="pocket-quantity">{a.pcs} pcs</span> · {rupiah(a.cents)}</strong><small>{a.start} – {a.end} · {a.id} · {a.reason}</small>
             {!a.reversal && allocationDifference(a) !== 0 && <small className="pocket-price-difference">Harga final mengubah biaya sebesar {rupiah(allocationDifference(a))}. Balikkan dan hitung ulang periode ini.</small>}</span>
           {a.reversal ? <span>Dibatalkan · {a.reversal}</span> : <button type="button" className="soft-btn" onClick={() => openReverse({ kind: 'period', id: a.id })}>Batalkan pembagian</button>}
@@ -297,9 +308,11 @@ export default function PocketFabric() {
     {undo && <ReasonDialog title={'Pembalikan ' + undo.id} onClose={() => setUndo(null)} closeLabel="Kembali">
       <form className="pocket-dialog-form" onSubmit={reverse}>
         <p>{undo.kind === 'issue' ? 'Panjang yang keluar akan kembali ke saldo roll.' : 'Nilai kembali ke biaya periode dan saldo roll tetap.'}</p>
-        <label>Alasan pembalikan<input required value={why} onChange={e => setWhy(e.target.value)}/></label>
+        {issueBlockers.length?<section className="stock-source-blockers"><h3>Bereskan pembagian biaya terkait dulu</h3>
+          {issueBlockers.map(row=><a key={row.id} className="soft-btn" href={pocketAllocationPath(row.id)}>{row.id} · {row.start} – {row.end} <ArrowRight size={15}/></a>)}
+        </section>:<label>Alasan pembalikan<input required value={why} onChange={e => setWhy(e.target.value)}/></label>}
         {feedback && <p role="alert">{feedback.text}</p>}
-        <button className="primary-btn" disabled={!why.trim()} type="submit">Konfirmasi pembalikan</button>
+        {!issueBlockers.length&&<button className="primary-btn" disabled={!why.trim()} type="submit">Konfirmasi pembalikan</button>}
       </form>
     </ReasonDialog>}
   </div>

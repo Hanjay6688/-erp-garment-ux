@@ -22,7 +22,7 @@ function returnChanges(doc:SaleReturn,sign:number):StockChange[] {
 
 export function saleReturnActivity(returns:SaleReturn[]) {
   return returns.flatMap(doc=>{
-    const change = { id:doc.number, day:doc.at.slice(0,10), time:doc.at.slice(11), note:doc.reason,
+    const change = { id:doc.number, invoice:doc.invoice, day:doc.at.slice(0,10), time:doc.at.slice(11), note:doc.reason,
       recordedAt:doc.recordedAt, type:'Retur penjualan', changes:returnChanges(doc,1) }
     const replacement = returns.find(row=>row.number===doc.replacedBy)
     return replacement ? [change,{...change,id:doc.number+'-BALIK',note:replacement.reason,

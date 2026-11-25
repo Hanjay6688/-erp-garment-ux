@@ -6,14 +6,12 @@ import { StageLots } from './planner/StageLots'
 import { Icon } from '../components/AppIcon'
 import { cellQuantity } from './cuttingAllocation'
 import { instructionsFor, laundryRecipePath, readLaundryColourMaster, type LaundryInstructions } from './laundryRecipes'
-import { cleanMoneyInput, formatMoneyInput, readRupiahInput } from '../moneyInput'
-import { dayOk, lastWarehouseDay } from './warehouseDay'
-import { ReasonDialog } from './planner/ReasonDialog'
-import { LaundryBillCard, LaundryClaims } from './LaundryCreditActions'
+import { cleanMoneyInput, formatMoneyInput } from '../moneyInput'
+import { LaundryClaims } from './LaundryCreditActions'
 import { claimedOutsidePieces } from './laundryCredits'
 import { FailedWashPanel } from './FailedWashPanel'
 import { LaundryMoneyWorkspace } from './LaundryMoneyWorkspace'
-import { LaundryInvoiceComposer } from './LaundryInvoiceComposer'
+import { LaundryContractComposer } from './LaundryInvoiceComposer'
 import './laundryRecipe.css'
 import { money } from './format'
 import { ArrowRight, CalendarDays, FileText, Palette, ReceiptText, Truck, WalletCards } from 'lucide-react'
@@ -37,17 +35,11 @@ import type { FailedWash, LaundryDelivery, LaundryPrefill, LaundryReadyBatch, La
 import { patternSnapshotLabel } from './productionModel'
 import type { ProductionPatternSnapshot, QtyTuple } from './productionModel'
 import { laundryVendorNames } from './sewingModel'
-import { useMemo, useState, type FormEvent } from 'react'
-
-function laundryLastPhysicalDay(delivery: LaundryDelivery) {
-  const sentDay = laundryPhysicalTime(delivery.sentAt).slice(0, 10)
-  return [sentDay, ...(delivery.returns ?? []).map(row => row.at.slice(0, 10))].sort().at(-1)!
-}
+import { useMemo, useState } from 'react'
 
 const trainingSendTime = '2026-08-27T16:00'
 const trainingReturnTime = '2026-08-27T17:30'
 type TicketOverrides = Partial<LaundryInstructions> & { typeId?: string; estimate?: string }
-type BillDraft = { deliveryId: string; number: string; day: string; process: string; rate: string }
 const defaultSendTime = (batch?: LaundryReadyBatch) => {
   const latest = [trainingSendTime, laundryPhysicalTime(batch?.pickupAt ?? ''), laundryPhysicalTime(batch?.sewingDoneAt ?? '')].sort().at(-1)!
   return validLaundryTime(latest) ? latest : trainingSendTime
@@ -99,11 +91,9 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
   const [returnInputs,setReturnInputs]=useState<Record<string,{good:string[];bs:string[]}>>({})
   const [returnTimes,setReturnTimes]=useState<Record<string,string>>({})
   const [pendingReverse,setPendingReverse]=useState<LaundryDelivery|null>(null)
-  const [bill, setBill] = useState<BillDraft | null>(null)
-  const [billError, setBillError] = useState('')
-  const [combinedVendor,setCombinedVendor]=useState<string|null>(null)
+  const [contractVendor,setContractVendor]=useState<string|null>(null)
   const unbilledPieces=(delivery:LaundryDelivery)=>unbilledLaundryPieces(deliveries,delivery)
-  function focusBills(vendor:string) {
+  function focusContracts(vendor:string) {
     setVendorFilter(vendor);setPatternFilter('');setMandorFilter(LAUNDRY_ALL_MANDORS);setQuery('');setActiveTab('money')
   }
   const vendorOptions=['Semua laundry',...laundryVendorNames]
@@ -277,36 +267,6 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
 
   const confirmReverse=()=>{if(pendingReverse)restoreToWip(pendingReverse);}
 
-  const billedDelivery = deliveries.find(delivery => delivery.id === bill?.deliveryId)
-
-  function openBill(delivery: LaundryDelivery) {
-    setBillError('')
-    setBill({ deliveryId: delivery.id, number: '', day: lastWarehouseDay(), process: delivery.process, rate: '' })
-  }
-
-  function saveBill(event: FormEvent) {
-    event.preventDefault()
-    if (!bill || !billedDelivery) return
-    const qty = unbilledPieces(billedDelivery)
-    const number = bill.number.trim()
-    const rate = readRupiahInput(bill.rate)
-    if (!number || !dayOk(bill.day) || bill.day < laundryLastPhysicalDay(billedDelivery) || !laundryProcesses.includes(bill.process)
-      || !Number.isSafeInteger(Math.round(rate * qty * 100)) || qty <= 0) {
-      setBillError('Periksa nomor, tanggal, layanan aktual, dan harga dari kontrabon.')
-      return
-    }
-    const hasBill = (delivery: LaundryDelivery) => delivery.finalBills?.some(existing => existing.number.toLowerCase() === number.toLowerCase())
-    if (deliveries.some(row=>row.vendor===billedDelivery.vendor&&hasBill(row))) {
-      setBillError('Nomor kontrabon sudah tercatat untuk vendor ini.')
-      return
-    }
-    const finalBill = { number, day: bill.day, process: bill.process, rate, qty }
-    setDeliveries(current => current.map(delivery => delivery.id === billedDelivery.id && unbilledLaundryPieces(current,delivery) === qty && !current.some(row=>row.vendor===delivery.vendor&&hasBill(row))
-      ? { ...delivery, finalBills: [...(delivery.finalBills ?? []), finalBill] } : delivery))
-    setBill(null)
-    setNotice('Kontrabon ' + finalBill.number + ' dicatat untuk ' + billedDelivery.id + '.')
-  }
-
   return <>
     <section className="hero-copy compact laundry-hero"><div className="eyebrow">PRODUKSI · SETELAH SEWING</div><h1>Laundry</h1><p>Kirim Batch Distribusi yang jahitannya sudah penuh, lalu catat Good dan BS ketika kembali. Urutannya tetap mengikuti Batch Produksi.</p></section>
     <StageLots stage="laundry"/>
@@ -327,7 +287,7 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
         <div className="laundry-tabs laundry-mode-tabs" aria-label="Bagian Laundry">
           <button type="button" aria-pressed={activeTab==='send'} className={activeTab==='send'?'active':''} onClick={()=>{setActiveTab('send');setNotice('')}}><Icon name="arrow"/> Kirim ke laundry</button>
           <button type="button" aria-pressed={activeTab==='return'} className={activeTab==='return'?'active':''} onClick={()=>{setActiveTab('return');setNotice('')}}><Icon name="boxes"/> Terima kembali</button>
-          <button type="button" aria-pressed={activeTab==='money'} className={activeTab==='money'?'active':''} onClick={()=>{setActiveTab('money');setNotice('')}}><WalletCards size={16}/> Klaim &amp; Tagihan</button>
+          <button type="button" aria-pressed={activeTab==='money'} className={activeTab==='money'?'active':''} onClick={()=>{setActiveTab('money');setNotice('')}}><WalletCards size={16}/> Klaim &amp; Kontrabon</button>
         </div>
         <label className="laundry-search"><Icon name="search"/><input type="search" aria-label="Cari batch, SKU, atau jumlah potong" value={query}
           onChange={event=>setQuery(event.target.value)} placeholder="Cari batch, SKU, bahan, jumlah potong…"/></label>
@@ -412,7 +372,7 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
           </div>:<div className="laundry-empty ticket"><Icon name="boxes"/><strong>Belum ada batch dipilih</strong><small>Tekan batch di kiri. Surat kirim otomatis mengikuti Batch Produksi dan laundry tujuan.</small></div>}
         </aside>
       </div>:activeTab==='money'?<LaundryMoneyWorkspace visible={visibleDeliveries} deliveries={deliveries} update={setDeliveries}
-        openBill={openBill} unbilled={unbilledPieces} openCombined={setCombinedVendor}/>:<div className="laundry-return-pane">
+        unbilled={unbilledPieces} openContract={setContractVendor}/>:<div className="laundry-return-pane">
         <div className="laundry-section-head"><div><span>BARANG KEMBALI</span><h2>Good + BS dari laundry</h2><p>Boleh kembali sebagian. Good lanjut ke QC; BS otomatis menjadi kasus terbuka.</p></div><b>{visibleDeliveries.length} surat kirim</b></div>
         <div className="laundry-return-list">{visibleDeliveries.map((delivery,index)=>{
           const replaced=laundryReplacementQty(delivery)
@@ -436,12 +396,11 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
             <FailedWashPanel delivery={delivery} onRecord={entry=>recordFailedWash(delivery,entry)} onPrice={(id,rate,day)=>setDeliveries(current=>
               current.map(row=>row.id!==delivery.id?row:{...row,failedWashes:row.failedWashes?.map(attempt=>attempt.id===id&&attempt.rate===null?{...attempt,rate,pricedOn:day}:attempt)}))}/>
             {delivery.estimatedRate !== undefined && <small>Estimasi saat kirim · {delivery.estimatedRate === null ? 'Belum diketahui' : money(delivery.estimatedRate) + ' / pcs'}</small>}
-            {delivery.finalBills?.map(finalBill=><LaundryBillCard key={finalBill.number} delivery={delivery} bill={finalBill} deliveries={deliveries} update={setDeliveries}/>)}
-            {unbilledPieces(delivery)>0&&<button type="button" className="soft-btn laundry-bill-button" onClick={()=>openBill(delivery)}>
-              <ReceiptText size={16} aria-hidden="true"/>Catat kontrabon</button>}
+            <button type="button" className="soft-btn laundry-bill-button" onClick={()=>focusContracts(delivery.vendor)}>
+              <ReceiptText size={16} aria-hidden="true"/> Buka klaim &amp; kontrabon <ArrowRight size={16} aria-hidden="true"/></button>
             {loss>0&&<small className="laundry-resolved-count"><strong>{loss} pcs ditutup lewat kompensasi</strong></small>}
             {replaced>0&&<small className="laundry-resolved-count"><strong>{replaced} pcs pengganti diterima · siap QC</strong></small>}
-            <LaundryClaims delivery={delivery} deliveries={deliveries} update={setDeliveries} onShowBills={()=>focusBills(delivery.vendor)}/>
+            <LaundryClaims delivery={delivery} deliveries={deliveries} update={setDeliveries}/>
             {delivery.returns?.length ? <details className="laundry-return-history"><summary>Riwayat kembali ({delivery.returns.length})</summary>
               {delivery.returns.map((row, i) => <p key={i}><time dateTime={row.at + '+07:00'}>{row.at.replace('T', ' · ')} WIB</time> · {row.good.reduce((sum, qty) => sum + qty, 0)} Good · {row.bs.reduce((sum, qty) => sum + qty, 0)} BS</p>)}
             </details> : null}{received>0&&<><small>Akumulasi: <b className="good">{delivery.good} Good</b> · <b className="bs">{delivery.bs} BS</b></small><button type="button" className="laundry-open-qc" onClick={()=>onOpenQc(delivery.parentId,delivery.batchId)}><Icon name="audit"/><span><strong>Buka QC & Final SKU</strong><small>{received} pcs sudah bisa diperiksa sekarang</small></span><Icon name="arrow"/></button></>}{delivery.reversed>0&&<small className="reversed-note"><b>{delivery.reversed} pcs kembali ke WIP</b> · {delivery.reverseNote}</small>}{outstanding>0&&<button type="button" className="laundry-reverse-btn" onClick={()=>setPendingReverse(delivery)}><Icon name="reset"/><span><strong>Kembalikan ke WIP</strong><small>{outstanding} pcs bisa pilih laundry lain</small></span></button>}</div>
@@ -450,23 +409,8 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
         </article>})}{visibleDeliveries.length===0&&<div className="laundry-empty"><Icon name="search"/><strong>Surat kirim tidak ditemukan</strong><small>Coba ganti laundry, mandor, Pola, atau kata pencarian.</small></div>}</div>
       </div>}
     </section>
-    {combinedVendor&&<LaundryInvoiceComposer vendor={combinedVendor} deliveries={deliveries} update={setDeliveries} onClose={()=>setCombinedVendor(null)} onSaved={number=>setNotice('Kontrabon '+number+' siap dibayar.')}/>}
-    {bill && billedDelivery && <ReasonDialog title="Catat kontrabon laundry" onClose={() => setBill(null)} closeLabel="Kembali">
-      <form className="laundry-bill-editor" onSubmit={saveBill}>
-        <p>{billedDelivery.vendor} · {billedDelivery.id} · <strong>{unbilledPieces(billedDelivery)} pcs siap ditagih</strong></p>
-        <div className="laundry-bill-fields">
-          <label>Nomor kontrabon<input required value={bill.number} onChange={e => setBill({ ...bill, number: e.target.value })}/></label>
-          <label>Tanggal kontrabon<input required type="date" min={laundryLastPhysicalDay(billedDelivery)} max={lastWarehouseDay()} value={bill.day} onChange={e => setBill({ ...bill, day: e.target.value })}/></label>
-          <label>Jenis layanan aktual<select required value={bill.process} onChange={e => setBill({ ...bill, process: e.target.value })}>
-            <option value="">Pilih layanan</option>{laundryProcesses.map(service => <option key={service}>{service}</option>)}
-          </select></label>
-          <label>Harga aktual per pcs (Rp)<input required inputMode="decimal" value={bill.rate} onChange={e => setBill({ ...bill, rate: e.target.value })}/></label>
-        </div>
-        {billedDelivery.estimatedRate != null && <p>Acuan saat kirim <strong>{money(billedDelivery.estimatedRate)} / pcs</strong></p>}
-        {billError && <p className="wh-feedback" role="alert">{billError}</p>}
-        <button className="primary-btn" type="submit">Simpan kontrabon</button>
-      </form>
-    </ReasonDialog>}
+    {contractVendor&&<LaundryContractComposer vendor={contractVendor} deliveries={deliveries} update={setDeliveries}
+      onClose={()=>setContractVendor(null)} onSaved={number=>setNotice('Kontrabon '+number+' siap dipilih di Hutang.')}/>}
     {pendingReverse&&<div className="wip-confirm-layer" role="presentation"><section className="wip-confirm-dialog laundry-reverse-dialog" role="alertdialog" aria-modal="true" aria-labelledby="reverse-laundry-title"><div className="wip-confirm-icon reverse"><Icon name="reset"/></div><div><span>REVERSE PENGIRIMAN</span><h2 id="reverse-laundry-title">Kembalikan ke WIP?</h2><p><strong>{laundryOutstanding(pendingReverse)} pcs</strong> yang masih di {pendingReverse.vendor} akan muncul lagi di WIP dan bisa langsung dipilihkan laundry lain. {pendingReverse.good+pendingReverse.bs>0&&`${pendingReverse.good+pendingReverse.bs} pcs yang sudah kembali tetap tercatat.`}</p><small>Jejak surat kirim lama tidak dihapus; statusnya berubah menjadi Kembali ke WIP.</small></div><div className="wip-confirm-actions"><button type="button" className="soft-btn" onClick={()=>setPendingReverse(null)}>Jangan</button><button type="button" className="primary-btn reverse" onClick={confirmReverse}>Ya, kembali ke WIP <Icon name="arrow"/></button></div></section></div>}
   </>
 }

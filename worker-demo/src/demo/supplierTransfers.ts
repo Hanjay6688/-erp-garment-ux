@@ -1,6 +1,6 @@
 import { cashAccounts, payables, type Payable } from '../financeData'
 import { dayOk } from './warehouseDay'
-import { invoicePayable, readSupplierInvoices, type SupplierInvoice } from './supplierInvoices'
+import { invoicePayable, readSupplierInvoices, writeSupplierInvoices, type SupplierInvoice } from './supplierInvoices'
 
 type Allocation={number:string;cents:number}
 export type SupplierTransfer={id:string;party:string;day:string;account:string;reference:string;allocations:Allocation[];replaces?:string;reversed?:{day:string;reason:string;replacement?:string}}
@@ -18,13 +18,23 @@ const invoiceReceived=(value:string)=>{
 
 export function transferPayables(rows:SupplierTransfer[],except?:string,invoices:SupplierInvoice[]=readSupplierInvoices()):Payable[] {
   const allocations=rows.filter(row=>!row.reversed&&row.id!==except).flatMap(row=>row.allocations)
-  return [...trainingPayables,...invoices.filter(row=>row.status==='POSTED').map(invoicePayable)].map(item=>{
+  return [...trainingPayables,...invoices.filter(row=>row.status==='POSTED'&&!row.reversal).map(invoicePayable)].map(item=>{
     const paidCents=allocations.reduce((sum,row)=>sum+(row.number===item.number?row.cents:0),Math.round(item.paid*100))
     if(paidCents===Math.round(item.paid*100))return item
     return {...item,paid:paidCents/100,status:paidCents>=Math.round(item.amount*100)?'PAID':item.status==='OVERDUE'?'OVERDUE':'PARTIAL'}
   })
 }
 export const transferTotal=(row:SupplierTransfer)=>row.allocations.reduce((sum,item)=>sum+item.cents,0)/100
+export const supplierInvoicePayments=(rows:SupplierTransfer[],invoice:SupplierInvoice)=>rows.filter(row=>!row.reversed&&row.party===invoice.supplier&&row.allocations.some(item=>item.number===invoice.number))
+
+export function reverseSupplierInvoice(id:string,reason:string) {
+  const rows=readSupplierInvoices()
+  const doc=rows.find(row=>row.id===id&&!row.reversal)
+  if(!doc||reason.trim().length<4||supplierInvoicePayments(readSupplierTransfers(),doc).length)throw Error('Periksa invoice dan balikkan pembayaran aktif dulu.')
+  const next=rows.map(row=>row===doc?{...row,reversal:{reason:reason.trim(),at:new Date().toISOString()}}:row)
+  writeSupplierInvoices(next)
+  return next
+}
 
 export function saveSupplierTransfer(input:SupplierTransfer,declaredCents:number,reason='') {
   const rows=readSupplierTransfers()

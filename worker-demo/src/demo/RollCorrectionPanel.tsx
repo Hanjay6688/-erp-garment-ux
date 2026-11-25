@@ -38,7 +38,10 @@ function evaluateSwitch(session:Session,sourceKey:string,destination:string,reas
 export default function RollCorrectionPanel() {
   const session=usePlannerSession()
   const [open,setOpen]=useState(()=>new URLSearchParams(location.search).get('koreksi')==='ganti-roll')
-  const [sourceKey,setSource]=useState('')
+  const [sourceKey,setSource]=useState(()=>{
+    const params=new URLSearchParams(location.search)
+    return sources(session).find(row=>row.lot.id===params.get('pot')&&(!params.has('roll')||row.current===params.get('roll')))?.key??''
+  })
   const [destination,setDestination]=useState('')
   const [reason,setReason]=useState('')
   const [review,setReview]=useState<ReturnType<typeof evaluateSwitch>|null>(null)
@@ -63,21 +66,21 @@ export default function RollCorrectionPanel() {
       setMessage('Sumber '+review.correction.cut+' dipindah ke '+review.correction.to+'. Saldo kedua roll diperbarui.')
     } catch(failure) { setError((failure as Error).message) }
   }
-  return <section className="roll-correction" aria-label="Ganti roll sumber pemakaian">
-    <div className="demo-operation-heading"><i><Ruler aria-hidden="true"/></i><div><h3>Ganti roll sumber pemakaian</h3>
-      <p>Koreksi roll yang tercatat di Potongan dengan roll yang dipakai fisik.</p></div></div>
-    <button type="button" className="soft-btn" onClick={()=>{setOpen(true);resetReview()}}>Buka Ganti roll <ArrowRight/></button>
+  return <section className="panel roll-correction" aria-label="Ganti roll sumber pemakaian">
+    <div className="demo-operation-heading"><i><Ruler aria-hidden="true"/></i><div><h3>Switch Roll</h3>
+      <p>Pilih pemakaian di Potongan, lalu pilih roll yang benar-benar dipakai. Tinjau perubahan saldo dan selisih biaya kain.</p></div></div>
+    <button type="button" className="primary-btn" onClick={()=>{setOpen(true);resetReview()}}>Buka Ganti roll <ArrowRight aria-hidden="true"/></button>
     {message&&<p className="wh-feedback" role="status">{message}</p>}
     {history.length>0&&<details className="demo-operation-history"><summary><History size={15} aria-hidden="true"/> Riwayat Ganti roll ({history.length})</summary>
       {[...history].reverse().map(event=><article key={event.id}><strong>{yard(event.yards)}</strong>
         <span>{event.cut} · {event.from} → {event.to}</span><small>{event.reason}</small></article>)}</details>}
-    {open&&<ReasonDialog title="Ganti roll sumber pemakaian" closeLabel="Kembali" onClose={()=>setOpen(false)} className="demo-operation-dialog">
+    {open&&<ReasonDialog title="Ganti roll sumber pemakaian" closeLabel="Kembali" onClose={()=>setOpen(false)} className="demo-operation-dialog money-dialog" icon={<Ruler/>}>
       <div className="demo-operation-form">
         <label>Pemakaian yang dikoreksi<select value={sourceKey} onChange={event=>{setSource(event.target.value);setDestination('');resetReview()}}>
           <option value="">Pilih potongan dan roll</option>{issues.map(row=><option key={row.key} value={row.key}>{yard(row.roll.usedYards)} · {row.current} · {row.lot.id}</option>)}
         </select></label>
         {source&&<label>Roll yang dipakai fisik<select value={destination} onChange={event=>{setDestination(event.target.value);resetReview()}}>
-          <option value="">Pilih roll pengganti</option>{choices.map(roll=><option key={roll.id} value={roll.id}>{roll.id} · {roll.material} · {yard(yardsLeft(roll.id,session))}</option>)}
+          <option value="">Pilih roll pengganti</option>{choices.map(roll=><option key={roll.id} value={roll.id}>{roll.physicalCode??roll.id} · {roll.material} · {yard(yardsLeft(roll.id,session))}</option>)}
         </select>{!choices.length&&<small>Belum ada roll dengan tanggal masuk dan saldo yang sesuai.</small>}</label>}
         <label>Alasan ganti roll<textarea value={reason} maxLength={500} onChange={event=>{setReason(event.target.value);resetReview()}}/></label>
         {review&&<section aria-label="Dampak Ganti roll">

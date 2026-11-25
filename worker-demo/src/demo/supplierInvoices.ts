@@ -3,11 +3,12 @@ import { readRupiahInput } from '../moneyInput'
 import { masterBook } from './accessoryPricing'
 import { readPlannerSession } from './planner/session'
 import { dayOk } from './warehouseDay'
+import { receiptRolls, type ReceiptReversal } from './receiptRollCorrection'
 
 export type SupplierGroup='FABRIC'|'ACCESSORY'
 export type KasbonSource={id:string;number:string;day:string;supplier:string;name:string;unit:string;qty:number;rate:number;group:SupplierGroup}
 type SupplierLine={source:KasbonSource;qty:number;rate:number;cents:number}
-export type SupplierInvoice={id:string;number:string;day:string;supplier:string;group:SupplierGroup;status:'DRAFT'|'POSTED';lines:SupplierLine[]}
+export type SupplierInvoice={id:string;number:string;day:string;supplier:string;group:SupplierGroup;status:'DRAFT'|'POSTED';lines:SupplierLine[];reversal?:ReceiptReversal}
 type DraftLine={sourceId:string;qty:string;rate:string}
 export type SupplierInvoiceDraft={id:string;number:string;day:string;supplier:string;group:SupplierGroup;lines:DraftLine[]}
 
@@ -19,22 +20,23 @@ const opening:KasbonSource[]=[
   {id:'acc-0048',number:'BELI-ACC-0048',day:'2026-11-23',supplier:'PT Kancing Nusantara',name:'Label Woven',unit:'pcs',qty:120,rate:530,group:'ACCESSORY'},
 ]
 export const readSupplierInvoices=():SupplierInvoice[]=>JSON.parse(sessionStorage.getItem(key)??'[]')
+export const writeSupplierInvoices=(rows:SupplierInvoice[])=>sessionStorage.setItem(key,JSON.stringify(rows))
 export const supplierInvoiceAmount=(doc:SupplierInvoice)=>doc.lines.reduce((sum,line)=>sum+line.cents,0)/100
 const scaled=(qty:number)=>Math.round(qty*1e6)
 export const supplierDateLabel=(day:string)=>new Intl.DateTimeFormat('id-ID',{day:'2-digit',month:'short',year:'numeric',timeZone:'UTC'}).format(new Date(day+'T12:00Z'))
 
 export function kasbonSources():KasbonSource[] {
   const session=readPlannerSession()
-  const fabric=(session.fabricReceipts??[]).map(row=>({id:'kain:'+row.id,number:row.number,day:row.day,supplier:row.supplier,
-    name:row.material,unit:row.unit,qty:row.rolls.reduce((sum,roll)=>sum+roll.length,0),rate:row.rate,group:'FABRIC' as const}))
+  const fabric=(session.fabricReceipts??[]).filter(row=>!row.reversal).map(row=>({id:'kain:'+row.id,number:row.number,day:row.day,supplier:row.supplier,
+    name:row.material,unit:row.unit,qty:receiptRolls(row).reduce((sum,roll)=>sum+roll.length,0),rate:row.rate,group:'FABRIC' as const}))
   const items=masterBook().items
-  const accessory=(session.accessoryReceipts??[]).map(row=>({id:'acc:'+row.id,number:row.number,day:row.day,supplier:row.supplier,
+  const accessory=(session.accessoryReceipts??[]).filter(row=>!row.reversal).map(row=>({id:'acc:'+row.id,number:row.number,day:row.day,supplier:row.supplier,
     name:items.find(item=>item.code===row.code)?.name??row.code,unit:'pcs',qty:row.qty,rate:row.rate,group:'ACCESSORY' as const}))
   return [...opening,...fabric,...accessory]
 }
 
 export function supplierSourceRemaining(rows:SupplierInvoice[],source:KasbonSource,except?:string) {
-  const reserved=rows.filter(row=>row.id!==except).flatMap(row=>row.lines).reduce((sum,line)=>sum+(line.source.id===source.id?scaled(line.qty):0),0)
+  const reserved=rows.filter(row=>row.id!==except&&!row.reversal).flatMap(row=>row.lines).reduce((sum,line)=>sum+(line.source.id===source.id?scaled(line.qty):0),0)
   return Math.max(0,scaled(source.qty)-reserved)/1e6
 }
 
@@ -42,7 +44,7 @@ export function quoteSupplierInvoice(draft:SupplierInvoiceDraft,status:SupplierI
   const previous=rows.find(row=>row.id===draft.id)
   const number=draft.number.trim()
   const sources=kasbonSources().filter(row=>row.supplier===draft.supplier&&row.group===draft.group)
-  if(previous?.status==='POSTED'||previous&&(previous.supplier!==draft.supplier||previous.group!==draft.group))throw Error('Invoice sudah terposting atau supplier asal berubah.')
+  if(previous?.status==='POSTED'||previous?.reversal||previous&&(previous.supplier!==draft.supplier||previous.group!==draft.group))throw Error('Periksa status invoice dan supplier asal.')
   const numberTaken=rows.some(row=>row.id!==draft.id&&row.number.toLowerCase()===number.toLowerCase())
     ||payables.some(row=>row.number.toLowerCase()===number.toLowerCase())||number.toLowerCase()==='inv-st-8823'
   if(!number||numberTaken||!dayOk(draft.day)||status==='POSTED'&&!draft.lines.length)throw Error('Isi nomor invoice yang unik, tanggal, dan minimal satu kasbon untuk posting.')
@@ -66,7 +68,7 @@ export function saveSupplierInvoice(draft:SupplierInvoiceDraft,status:SupplierIn
   const rows=readSupplierInvoices()
   const doc=quoteSupplierInvoice(draft,status,rows)
   const next=[doc,...rows.filter(row=>row.id!==doc.id)]
-  sessionStorage.setItem(key,JSON.stringify(next))
+  writeSupplierInvoices(next)
   return {doc,rows:next}
 }
 

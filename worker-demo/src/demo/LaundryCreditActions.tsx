@@ -1,37 +1,33 @@
 import { useState, type FormEvent } from 'react'
-import { ArrowRight, ReceiptText, ShieldCheck, WalletCards } from 'lucide-react'
+import { ArrowRight, FilePlus2, ReceiptText, ShieldCheck, Undo2, WalletCards } from 'lucide-react'
 import { readRupiahInput } from '../moneyInput'
-import { availableCredits, billCredit, billGross, billRemaining, claimUse, eligibleClaimPieces, validClaim, validClaimResolution, vendorBalance, vendorCreditApplied } from './laundryCredits'
+import { availableCredits, billRemaining, claimUse, eligibleOutsideClaims, validClaim, validClaimResolution, vendorBalance } from './laundryCredits'
 import { LaundrySettlement } from './LaundrySettlement'
 import { LaundryClaimResolutionDialog } from './LaundryClaimResolutionDialog'
-import { LaundryClaimCreditDialog, claimMoney as money, openLaundryBills, type UpdateLaundry } from './LaundryClaimCreditDialog'
-import type { LaundryBillCredit, LaundryClaim, LaundryClaimResolution, LaundryDelivery, LaundryFinalBill } from './laundryModel'
+import { LaundryClaimCreditDialog, claimMoney as money, type UpdateLaundry } from './LaundryClaimCreditDialog'
+import { isPostedLaundryInvoice, type LaundryBillCredit, type LaundryClaim, type LaundryClaimResolution, type LaundryDelivery, type LaundryFinalBill } from './laundryModel'
 import { ReasonDialog } from './planner/ReasonDialog'
 import { lastWarehouseDay } from './warehouseDay'
+import { laundryPayablesPath } from './laundryVendorInvoices'
 import './demoCorrection.css'
 
 const labels = {BS:'BS karena laundry',STUCK:'Stuck di laundry',MISSING:'Hilang di laundry'}
 
-export function LaundryClaims({delivery,deliveries,update,onShowBills}:{delivery:LaundryDelivery;deliveries:LaundryDelivery[];update:UpdateLaundry;onShowBills?:()=>void}) {
+export function LaundryClaims({delivery,deliveries,update}:{delivery:LaundryDelivery;deliveries:LaundryDelivery[];update:UpdateLaundry}) {
   const [draft,setDraft]=useState<{id:string;type:LaundryClaim['type'];qty:string;amount:string;reason:string;day:string}|null>(null)
   const [undo,setUndo]=useState<LaundryClaim|null>(null)
   const [resolveId,setResolveId]=useState<string|null>(null)
-  const [creditId,setCreditId]=useState<string|null>(null)
   const [undoReason,setUndoReason]=useState('')
   const [error,setError]=useState('')
   const claims=delivery.claims??[]
-  const bs=eligibleClaimPieces(delivery,'BS')
-  const stuck=eligibleClaimPieces(delivery,'STUCK')
-  const canStart=bs>0||stuck>0
+  const stuck=eligibleOutsideClaims(delivery)
   const resolving=claims.find(row=>row.id===resolveId)
   const available=availableCredits(deliveries,delivery.vendor)
-  const hasBill=openLaundryBills(deliveries,delivery.vendor).length>0
-  if(!claims.length&&!canStart)return null
 
   function create(event:FormEvent) {
     event.preventDefault()
     if(!draft)return
-    const claim:LaundryClaim={id:draft.id,type:draft.type,qty:/^[1-9]\d{0,8}$/.test(draft.qty)?Number(draft.qty):NaN,
+    const claim:LaundryClaim={id:draft.id,type:draft.type,qty:/^[1-9]\d*$/.test(draft.qty)?Number(draft.qty):NaN,
       cents:draft.amount.trim()?Math.round(readRupiahInput(draft.amount)*100):0,day:draft.day,reason:draft.reason.trim(),needsResolution:true}
     if(!validClaim(delivery,claim)){setError('Periksa jumlah pcs, nilai kompensasi, tanggal, dan alasan klaim.');return}
     update(rows=>rows.map(row=>row.id===delivery.id&&validClaim(row,claim)&&!row.claims?.some(current=>current.id===claim.id)
@@ -57,7 +53,7 @@ export function LaundryClaims({delivery,deliveries,update,onShowBills}:{delivery
   return <section className="laundry-claim-box" aria-label="Klaim laundry">
     <div className="demo-operation-heading"><i><ShieldCheck aria-hidden="true"/></i><div><h3>Klaim laundry</h3>
       <p>Catat klaim, konfirmasi persetujuan, lalu selesaikan saat vendor sudah mengganti.</p></div></div>
-    {canStart&&<button className="soft-btn" type="button" onClick={()=>{setError('');setDraft({id:crypto.randomUUID(),type:stuck>0?'STUCK':'BS',qty:'',amount:'',reason:'',day:lastWarehouseDay()})}}>Buat klaim BS / Stuck</button>}
+    <button className="soft-btn laundry-claim-start" type="button" onClick={()=>{setError('');setDraft({id:crypto.randomUUID(),type:stuck>0?'STUCK':'BS',qty:'',amount:'',reason:'',day:lastWarehouseDay()})}}><FilePlus2 aria-hidden="true"/> Buat klaim BS / Stuck</button>
     {claims.length>0&&<details className="demo-operation-history" open>
       <summary>Riwayat klaim ({claims.length})</summary>
       {claims.map(claim=>{
@@ -74,25 +70,23 @@ export function LaundryClaims({delivery,deliveries,update,onShowBills}:{delivery
           {!claim.reversed&&<div className="demo-operation-actions">
             {!claim.approvedOn&&<button type="button" className="soft-btn" onClick={()=>approve(claim)}>Setujui klaim {claim.type}</button>}
             {claim.approvedOn&&!claim.resolution&&<button type="button" className="primary-btn" onClick={()=>setResolveId(claim.id)}>Selesaikan klaim</button>}
-            {credit&&hasBill&&<button type="button" className="primary-btn" onClick={()=>setCreditId(claim.id)}><WalletCards size={16}/> Pakai kredit ke tagihan</button>}
-            {credit&&!hasBill&&<small>Catat dulu kontrabon terbuka untuk {delivery.vendor}.</small>}
-            {credit&&!hasBill&&onShowBills&&<button className="soft-btn" type="button" onClick={onShowBills}>Buka Klaim &amp; Tagihan <ArrowRight size={16}/></button>}
+            {credit&&<a className="soft-btn" href={laundryPayablesPath(delivery.vendor)}><WalletCards size={16}/> Pakai kredit di Hutang <ArrowRight size={16}/></a>}
             {!used&&!claim.resolution?.qcPosted&&<button type="button" className="soft-btn" onClick={()=>{setUndo(claim);setUndoReason('')}}>Balikkan klaim</button>}
             {claim.resolution?.qcPosted&&<small>Barang pengganti sudah diproses di QC.</small>}
           </div>}
         </article>
       })}
     </details>}
-    {draft&&<ReasonDialog title="Buat klaim laundry" closeLabel="Kembali" onClose={()=>setDraft(null)} className="demo-operation-dialog">
+    {draft&&<ReasonDialog title="Buat klaim laundry" closeLabel="Kembali" onClose={()=>setDraft(null)} className="demo-operation-dialog money-dialog" icon={<ShieldCheck/>}>
       <form className="demo-operation-form" onSubmit={create}>
         <p>{delivery.vendor} · {delivery.id}</p>
         <label>Jenis klaim<select value={draft.type} onChange={event=>{setError('');setDraft({...draft,type:event.target.value as LaundryClaim['type'],qty:''})}}>
-          {bs>0&&<option value="BS">{labels.BS}</option>}
+          <option value="BS">{labels.BS}</option>
           {stuck>0&&(['STUCK','MISSING'] as const).map(type=><option key={type} value={type}>{labels[type]}</option>)}
         </select></label>
         <div className="demo-operation-fields">
           <label>Jumlah diklaim (pcs)<input required inputMode="numeric" value={draft.qty} onChange={event=>setDraft({...draft,qty:event.target.value})}/>
-            <small>Tersedia {eligibleClaimPieces(delivery,draft.type)} pcs</small></label>
+            <small>{draft.type==='BS'?'Termasuk BS yang baru ditemukan di QC akhir.':`${stuck} pcs masih bisa diklaim`}</small></label>
           <label>Nilai kompensasi (Rp)<input required={draft.type==='BS'} inputMode="decimal" placeholder="Contoh 15.000" value={draft.amount} onChange={event=>setDraft({...draft,amount:event.target.value})}/>{draft.type!=='BS'&&<small>Boleh kosong untuk penggantian barang.</small>}</label>
         </div>
         <label>Tanggal klaim<input required type="date" max={lastWarehouseDay()} value={draft.day} onChange={event=>setDraft({...draft,day:event.target.value})}/></label>
@@ -102,35 +96,28 @@ export function LaundryClaims({delivery,deliveries,update,onShowBills}:{delivery
       </form>
     </ReasonDialog>}
     {resolving&&<LaundryClaimResolutionDialog delivery={delivery} claim={resolving} used={claimUse(deliveries,resolving.id)} onClose={()=>setResolveId(null)} onSave={resolve}/>}
-    {creditId&&<LaundryClaimCreditDialog deliveries={deliveries} vendor={delivery.vendor} claimId={creditId} update={update} onClose={()=>setCreditId(null)}/>}
-    {undo&&<ReasonDialog title="Balikkan klaim laundry" closeLabel="Kembali" onClose={()=>setUndo(null)} className="demo-operation-dialog">
+    {undo&&<ReasonDialog title="Balikkan klaim laundry" closeLabel="Kembali" onClose={()=>setUndo(null)} className="demo-operation-dialog money-dialog" icon={<Undo2/>}>
       <div className="demo-operation-form"><label>Alasan pembalikan<textarea value={undoReason} onChange={event=>setUndoReason(event.target.value)}/></label>
         <footer><button className="primary-btn" disabled={undoReason.trim().length<4} onClick={reverse}>Simpan pembalikan</button></footer></div>
     </ReasonDialog>}
   </section>
 }
 
-export function LaundryBillCard({delivery,bill,deliveries,update}:{delivery:LaundryDelivery;bill:LaundryFinalBill;deliveries:LaundryDelivery[];update:UpdateLaundry}) {
+export function LaundryInvoiceActions({delivery,bill,deliveries,update}:{delivery:LaundryDelivery;bill:LaundryFinalBill;deliveries:LaundryDelivery[];update:UpdateLaundry}) {
   const [formOpen,setFormOpen]=useState(false)
   const [undo,setUndo]=useState<LaundryBillCredit|null>(null)
   const [undoReason,setUndoReason]=useState('')
   const [error,setError]=useState('')
   const remaining=billRemaining(deliveries,delivery,bill)
-  const applied=billCredit(bill)+vendorCreditApplied(deliveries,delivery.id,bill.number)
   const credits=availableCredits(deliveries,delivery.vendor)
   function updateBill(rows:LaundryDelivery[], next:(live: LaundryFinalBill)=>LaundryFinalBill) {
-    return rows.map(row=>row.id!==delivery.id?row:{...row,finalBills:row.finalBills?.map(live=>live.number===bill.number?next(live):live)})
+    return rows.map(row=>row.id!==delivery.id?row:{...row,finalBills:row.finalBills?.map(live=>live.number===bill.number&&isPostedLaundryInvoice(live)?next(live):live)})
   }
-  return <section className="laundry-bill-card" aria-label={'Kontrabon '+bill.number}>
-    <div className="laundry-final-bill"><ReceiptText size={17} aria-hidden="true"/><span><strong>Kontrabon {bill.number}</strong>
-      <small>{bill.day} · {bill.parts?`${bill.parts.length} penerimaan · ${bill.qty} pcs`:`${bill.process} · ${bill.qty} pcs × ${money(bill.rate*100)}`}</small><small>Total {money(billGross(bill))} · Kredit {money(applied)}</small></span>
-      <div><small>Sisa tagihan</small><b>{money(remaining)}</b></div></div>
-    {!!bill.parts?.length&&<details className="demo-operation-history"><summary>Penerimaan dalam kontrabon ({bill.parts.length})</summary>
-      {bill.parts.map(line=><article key={line.delivery}><strong>{line.qty} pcs · {line.process}</strong><small>{line.delivery} · {money(line.rate*100)} / pcs</small></article>)}
-    </details>}
-    {remaining>0&&<div className="laundry-credit-control">
-      <button type="button" className="primary-btn" disabled={credits.length===0} onClick={()=>setFormOpen(true)}><WalletCards size={16}/> Potong tagihan</button>
-      {credits.length===0&&<small>Selesaikan dulu klaim yang memberi kredit untuk {delivery.vendor}.</small>}
+  return <section className="demo-ops-card demo-supplier-transfers laundry-invoice-actions" id="pembayaran-invoice" aria-label={'Penyelesaian invoice '+bill.number}>
+    <header className="demo-operation-heading"><i><ReceiptText aria-hidden="true"/></i><div><h3>Penyelesaian invoice</h3><p>{delivery.vendor} · {bill.number}</p></div></header>
+    {remaining>0&&<div className="laundry-credit-control" data-credit-available={credits.length>0}>
+      <div><strong>Kredit klaim tersedia</strong><small>{money(credits.reduce((sum,row)=>sum+row.remaining,0))} · {credits.length} klaim</small></div>
+      <button type="button" className="soft-btn" disabled={credits.length===0} onClick={()=>setFormOpen(true)}><WalletCards aria-hidden="true"/> Pakai kredit</button>
     </div>}
     {bill.credits?.length? <details className="demo-operation-history"><summary>Riwayat kredit ({bill.credits.length})</summary>
       {bill.credits.map(credit=><article key={credit.id}>
@@ -138,8 +125,8 @@ export function LaundryBillCard({delivery,bill,deliveries,update}:{delivery:Laun
         {!credit.reversed&&<button className="soft-btn" onClick={()=>{setError('');setUndo(credit);setUndoReason('')}}>Balikkan potongan</button>}
       </article>)}</details>:null}
     <LaundrySettlement delivery={delivery} bill={bill} deliveries={deliveries} update={update}/>
-    {formOpen&&<LaundryClaimCreditDialog deliveries={deliveries} vendor={delivery.vendor} target={{delivery,bill}} update={update} onClose={()=>setFormOpen(false)}/>}
-    {undo&&<ReasonDialog title="Balikkan potongan tagihan" closeLabel="Kembali" onClose={()=>setUndo(null)} className="demo-operation-dialog">
+    {formOpen&&<LaundryClaimCreditDialog deliveries={deliveries} delivery={delivery} bill={bill} update={update} onClose={()=>setFormOpen(false)}/>}
+    {undo&&<ReasonDialog title="Balikkan potongan invoice" closeLabel="Kembali" onClose={()=>setUndo(null)} className="demo-operation-dialog money-dialog" icon={<Undo2/>}>
       <div className="demo-operation-form"><label>Alasan pembalikan<textarea value={undoReason} onChange={event=>setUndoReason(event.target.value)}/></label>
         {error&&<p role="alert">{error}</p>}
         <footer><button className="primary-btn" disabled={undoReason.trim().length<4} onClick={()=>{

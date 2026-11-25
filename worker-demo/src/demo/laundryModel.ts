@@ -5,6 +5,7 @@ import { simulationPatternSnapshots } from './productionModel'
 import type { ProductionPatternSnapshot, QtyTuple, SizeTuple } from './productionModel'
 import { sewingWipSeeds } from './sewingModel'
 import type { SewingBatchSeed, SewingParentSeed } from './sewingModel'
+import type { ReceiptReversal } from './receiptRollCorrection'
 
 export type LaundryView = 'send' | 'return'
 
@@ -34,18 +35,32 @@ export type LaundryClaim = {
   approvedOn?:string; reversed?:string; needsResolution?:true; resolution?:LaundryClaimResolution
 }
 export type LaundryBillCredit = { id:string; claim:string; cents:number; day:string; reason:string; reversed?:string }
-export type LaundryBillPayment = {id:string; cents:number; day:string; account:string; reference:string}
+export type LaundryBillPayment = {id:string; cents:number; day:string; account:string; reference:string; reversal?:ReceiptReversal}
 export type LaundryBillCorrection = {id:string; day:string; previousRate:number; rate:number; reason:string; part?:string}
-export type LaundryVendorUse = {id:string; cents:number; day:string; reason:string; target?:{delivery:string;bill:string}; account?:string}
-export type LaundryBillPart = {delivery:string; qty:number; process:string; rate:number}
+export type LaundryVendorUse = {id:string; cents:number; day:string; reason:string; target?:{delivery:string;bill:string}; account?:string; reversal?:ReceiptReversal}
+export type LaundryBillPart = {delivery:string; qty:number; process:string; rate:number; id?:string; contract?:string}
+export type LaundryContractRef = {delivery:string; number:string}
 export type LaundryFinalBill = {
   number:string; day:string; process:string; rate:number; qty:number; credits?:LaundryBillCredit[]; parts?:LaundryBillPart[]
   payments?:LaundryBillPayment[]; corrections?:LaundryBillCorrection[]; vendorUses?:LaundryVendorUse[]
+  kind?:'CONTRABON'|'INVOICE'; invoiceId?:string; status?:'DRAFT'|'POSTED'; contracts?:LaundryContractRef[]; reversal?:ReceiptReversal
+}
+export const isLaundryInvoice=(bill:LaundryFinalBill)=>bill.kind!=='CONTRABON'
+export const isPostedLaundryInvoice=(bill:LaundryFinalBill)=>isLaundryInvoice(bill)&&bill.status!=='DRAFT'&&!bill.reversal
+export const laundryPartId=(part:LaundryBillPart)=>part.id??part.delivery
+export const laundryContractKey=(ref:LaundryContractRef)=>JSON.stringify([ref.delivery,ref.number])
+
+export function restoreLaundryBills(rows:LaundryDelivery[]) {
+  const used=new Set(rows.flatMap(row=>(row.finalBills??[]).flatMap(bill=>(bill.vendorUses??[])
+    .flatMap(use=>use.target?[laundryContractKey({delivery:use.target.delivery,number:use.target.bill})]:[]))))
+  return rows.map(row=>({...row,finalBills:row.finalBills?.map(bill=>
+    bill.kind||bill.payments?.length||bill.credits?.length||bill.corrections?.length||bill.vendorUses?.length
+      ||used.has(laundryContractKey({delivery:row.id,number:bill.number})) ? bill : {...bill,kind:'CONTRABON' as const})}))
 }
 
 export function unbilledLaundryPieces(rows:LaundryDelivery[],delivery:LaundryDelivery) {
   const billed=rows.reduce((sum,row)=>sum+(row.finalBills??[]).reduce((subtotal,bill)=>subtotal+
-    (bill.parts?bill.parts.find(part=>part.delivery===delivery.id)?.qty??0:row.id===delivery.id?bill.qty:0),0),0)
+    (bill.kind==='INVOICE'||bill.reversal?0:bill.parts?bill.parts.find(part=>part.delivery===delivery.id)?.qty??0:row.id===delivery.id?bill.qty:0),0),0)
   return Math.max(0,delivery.good+delivery.bs-billed)
 }
 export type FailedWash = {id:string; at:string; qty:number; custody:'STAY'|'RETURN'; rate:number|null; reason:string; pricedOn?:string}

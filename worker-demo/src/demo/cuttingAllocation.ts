@@ -9,6 +9,7 @@ export type AllocationMatrix = Record<string, string[]>
 export type RollBatchSizeMatrix = Record<string, string[][]>
 
 export type FabricRoll = {
+  physicalCode?: string
   id: string
   sequence: number
   supplier: string

@@ -4,10 +4,11 @@ import {initialMovements} from './stockModel'
 import {atPosition,nativePosition} from './skuCatalog'
 import {saleReturnActivity} from './saleReturnJournal'
 import type {Article,Session} from './planner/model'
+import {stockEventPath} from './receiptRollCorrection'
 
 export type FgMovement={
   id:string; ref:string; day:string; physicalTime:string; type:string; note:string
-  delta:number[]; balance:number[]; sequence?:string; fromOpeningBook?:true
+  delta:number[]; balance:number[]; sequence?:string; fromOpeningBook?:true; href?:string
 }
 const months='jan feb mar apr mei jun jul agu sep okt nov des'.split(' ')
 function seedDay(value:string){
@@ -29,20 +30,23 @@ export function fgActivity(article:Article,s:Session,location:string,grade:strin
       rows.push({fromOpeningBook:true,id:m.id,ref:m.ref,day:seedDay(m.date),physicalTime:documentTime(m.date),type:m.type,note:m.note,delta:sizeDelta(m.delta),balance:[]})
     }
     for(const m of saleMoves(article.brand+'::'+article.sku)){
-      rows.push({id:m.id,ref:m.ref,day:m.day,physicalTime:documentTime(m.when),type:m.type,note:m.note,delta:sizeDelta(m.delta),balance:[],sequence:m.recordedAt})
+      rows.push({id:m.id,ref:m.ref,day:m.day,physicalTime:documentTime(m.when),type:m.type,note:m.note,delta:sizeDelta(m.delta),balance:[],sequence:m.recordedAt,
+        href:'/penjualan/semua-invoice/?nota='+encodeURIComponent(m.ref)})
     }
   }
   for(const e of s.stockEvents??[]){
     const changes=e.changes.filter(c=>c.key===article.key&&atPosition(c,location,grade))
     if(!changes.length)continue
     rows.push({id:e.id,ref:e.id,day:e.date??'',physicalTime:e.physicalTime??'',type:e.reverses?'Pembalikan':e.action==='adjust'?'Stock Adjustment':'Ganti Merek',
-      note:e.reason,delta:article.sizes.map(size=>changes.filter(c=>c.size===size).reduce((n,c)=>n+c.delta,0)),balance:[],sequence:e.recordedAt})
+      note:e.reason,delta:article.sizes.map(size=>changes.filter(c=>c.size===size).reduce((n,c)=>n+c.delta,0)),balance:[],sequence:e.recordedAt,
+      href:stockEventPath(e.action,e.reverses??e.id)})
   }
   for(const event of saleReturnActivity(s.saleReturns??[])){
     const changes=event.changes.filter(c=>c.key===article.key&&atPosition(c,location,grade))
     if(!changes.length)continue
     rows.push({id:event.id,ref:event.id,day:event.day,physicalTime:event.time,type:event.type,note:event.note,
-      delta:article.sizes.map(size=>changes.filter(c=>c.size===size).reduce((n,c)=>n+c.delta,0)),balance:[],sequence:event.recordedAt})
+      delta:article.sizes.map(size=>changes.filter(c=>c.size===size).reduce((n,c)=>n+c.delta,0)),balance:[],sequence:event.recordedAt,
+      href:'/penjualan/retur/?nota='+encodeURIComponent(event.invoice)})
   }
   return rows
 }

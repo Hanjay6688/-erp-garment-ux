@@ -2,12 +2,13 @@ import {dayOk} from './warehouseDay'
 import {pocketScale, readPocketBook, readPocketNumber} from './pocketUsage'
 import {readPocketMaterials} from './pocketMaterials'
 import {readRupiahInput} from '../moneyInput'
+import { pocketAllocationPath, pocketIssuePath, receiptDocumentPath, receiptRolls, reviewRollReceiptCorrection, type ReceiptReversal, type RollReceiptCorrection, type StockSourceLink } from './receiptRollCorrection'
 export type PocketUnit='yd'|'m'
-export type PocketRoll={id:string;name:string;length:number;rate:number;unit:PocketUnit;date:string;location:string;receipt:string;sequence?:number;materialId?:string;factory?:string;supplier?:string;finalBill?:string}
+export type PocketRoll={id:string;name:string;length:number;rate:number;unit:PocketUnit;date:string;location:string;receipt:string;sequence?:number;materialId?:string;factory?:string;supplier?:string;finalBill?:string;physicalCode?:string}
 type RollInput={number:string;qty:string}
 export type ReceiptDraft={request:string;number:string;supplier:string;location:string;material:string;day:string;unit:PocketUnit;rate:string;reason:string;notes:string;rolls:RollInput[]}
 type PocketBill = { number: string; day: string; rate: number }
-export type PocketReceipt={request:string;number:string;supplier:string;day:string;reason:string;notes:string|null;rolls:PocketRoll[];bill?:PocketBill;reversal?:{reason:string;at:string}}
+export type PocketReceipt={request:string;number:string;supplier:string;day:string;reason:string;notes:string|null;rolls:PocketRoll[];bill?:PocketBill;reversal?:ReceiptReversal;corrections?:RollReceiptCorrection[];billReversals?:(PocketBill&ReceiptReversal)[]}
 const key='erp.demo.pocket.receipts.v1'
 export const seedRolls:PocketRoll[]=[
   {id:'KT-001',name:'Kain kantong putih',length:100,rate:9000,unit:'yd',date:'2026-11-20',location:'Gudang Bahan',receipt:'SJ-KT-001'},
@@ -15,9 +16,9 @@ export const seedRolls:PocketRoll[]=[
 ]
 export const readReceipts=():PocketReceipt[]=>JSON.parse(sessionStorage.getItem(key)??'[]')
 export const pocketRolls=()=>[...seedRolls,...readReceipts().filter(r=>!r.reversal).flatMap(r=>
-  r.bill ? r.rolls.map(roll => ({...roll, rate: r.bill!.rate, finalBill: r.bill!.number})) : r.rolls)]
+  receiptRolls(r).map(roll=>r.bill?{...roll,rate:r.bill.rate,finalBill:r.bill.number}:roll))]
 export const receiptPath='/gudang/pembelian-penerimaan/?jenis=kantong'
-export const pocketRollLabel = (roll: PocketRoll) => roll.sequence ? 'Roll ' + String(roll.sequence).padStart(2, '0') : roll.id
+export const pocketRollLabel = (roll: PocketRoll) => roll.physicalCode ?? (roll.sequence ? 'Roll ' + String(roll.sequence).padStart(2, '0') : roll.id)
 export function pocketBenchmark(d:Pick<ReceiptDraft,'material'|'unit'>){
   return readPocketMaterials().find(item => item.id === d.material)?.benchmarks?.[d.unit] ?? null
 }
@@ -28,7 +29,7 @@ export function recordPocketBill(receiptNumber: string, input: PocketBill) {
   if (!receipt || receipt.reversal || !number || !dayOk(input.day) || input.day < receipt.day) {
     throw Error('Isi nomor tagihan dan tanggal yang sama atau sesudah penerimaan.')
   }
-  if (!Number.isFinite(input.rate) || input.rate < 0 || !Number.isSafeInteger(receipt.rolls.reduce((sum, roll) => sum + Math.round(roll.length * input.rate * 100), 0))) {
+  if (!Number.isFinite(input.rate) || input.rate < 0 || !Number.isSafeInteger(receiptRolls(receipt).reduce((sum, roll) => sum + Math.round(roll.length * input.rate * 100), 0))) {
     throw Error('Periksa harga final per satuan.')
   }
   const bill = { ...input, number }
@@ -72,13 +73,13 @@ export function prepareReceipt(d:ReceiptDraft):PocketReceipt{
 export function reviewPocketReceipt(d:ReceiptDraft){
   const doc=prepareReceipt(d),rows=readReceipts(),same=rows.find(r=>r.request===doc.request)
   if(same){
-    const comparable = ({ bill: _bill, ...receipt }: PocketReceipt) => JSON.stringify({ ...receipt, rolls: receipt.rolls.map(({name,materialId,factory: _factory,supplier: _supplier,...roll}) => ({...roll, material: materialId??name})) })
+    const comparable = ({ bill: _bill, corrections: _corrections, billReversals: _reversals, ...receipt }: PocketReceipt) => JSON.stringify({ ...receipt, rolls: receipt.rolls.map(({name,materialId,factory: _factory,supplier: _supplier,...roll}) => ({...roll, material: materialId??name})) })
     if(comparable(doc)!==comparable(same))throw Error('Permintaan sudah digunakan.')
     return same
   }
-  const used=[...seedRolls,...rows.flatMap(r=>r.rolls)]
+  const used=[...seedRolls,...rows.flatMap(receiptRolls)]
   if(used.some(r=>r.receipt.toLowerCase()===doc.number.toLowerCase()))throw Error('Nomor surat jalan sudah tercatat.')
-  const duplicate=doc.rolls.find(r=>used.some(old=>old.id.toLowerCase()===r.id.toLowerCase()))
+  const duplicate=doc.rolls.find(r=>used.some(old=>[old.id,old.physicalCode].some(code=>code?.toLowerCase()===r.id.toLowerCase())))
   if(duplicate)throw Error('Nomor roll '+duplicate.id+' sudah tercatat.')
   return doc
 }
@@ -90,8 +91,43 @@ export function receivePocket(d:ReceiptDraft){
 export function reverseReceipt(number:string,why:string){
   const rows=readReceipts(),r=rows.find(x=>x.number===number)
   if(!r||r.reversal||!why.trim())throw Error('Pilih penerimaan aktif dan isi alasan pembalikan.')
-  if(r.bill)throw Error('Penerimaan sudah ditautkan ke tagihan final.')
-  const book=readPocketBook()
-  if(r.rolls.some(roll=>book.issues.some(i=>i.roll===roll.id&&!i.reversal)))throw Error('Roll sudah dipakai. Balikkan pemakaian terkait lebih dulu.')
+  if(receiptIssues(r).length)throw Error('Roll sudah dipakai. Balikkan dokumen pemakaian terlebih dahulu.')
+  if(r.bill)throw Error('Balikkan tagihan final terlebih dahulu.')
   sessionStorage.setItem(key,JSON.stringify(rows.map(x=>x===r?{...r,reversal:{at:new Date().toISOString(),reason:why.trim()}}:x)))
+}
+
+function receiptIssues(receipt:PocketReceipt) {
+  return readPocketBook().issues.filter(issue=>!issue.reversal&&receipt.rolls.some(roll=>roll.id===issue.roll))
+}
+
+export function pocketReceiptBlockers(receipt:PocketReceipt):StockSourceLink[] {
+  return [
+    ...(receipt.bill?[{label:'Tagihan final '+receipt.bill.number,href:receiptDocumentPath(receipt.number,'kantong')}]:[]),
+    ...receiptIssues(receipt).map(issue=>({label:'Pemakaian '+issue.id,href:pocketIssuePath(issue.id)})),
+  ]
+}
+
+export function pocketBillBlockers(receipt:PocketReceipt):StockSourceLink[] {
+  const uses=new Set(receiptIssues(receipt).map(issue=>issue.id))
+  return readPocketBook().allocations.filter(row=>!row.reversal&&row.sources.some(id=>uses.has(id)))
+    .map(row=>({label:'Pembagian biaya '+row.id,href:pocketAllocationPath(row.id)}))
+}
+
+export function reversePocketBill(number:string,reason:string) {
+  const rows=readReceipts(),receipt=rows.find(row=>row.number===number)
+  if(!receipt?.bill||receipt.reversal||reason.trim().length<4||pocketBillBlockers(receipt).length)
+    throw Error('Periksa tagihan dan pembagian biaya terkait.')
+  const history={...receipt.bill,reason:reason.trim(),at:new Date().toISOString()}
+  sessionStorage.setItem(key,JSON.stringify(rows.map(row=>row===receipt?{...row,bill:undefined,billReversals:[...(row.billReversals??[]),history]}:row)))
+}
+
+export function correctPocketReceiptRoll(number:string,id:string,input:{id:string;code:string;length:number;reason:string;at:string}) {
+  const rows=readReceipts(),receipt=rows.find(row=>row.number===number&&!row.reversal)
+  const roll=receipt&&receiptRolls(receipt).find(row=>row.id===id)
+  if(!receipt||!roll)throw Error('Pilih roll dari penerimaan aktif.')
+  if(receipt.bill&&roll.length!==input.length)throw Error('Balikkan tagihan final '+receipt.bill.number+' sebelum mengoreksi panjang.')
+  const used=receiptIssues(receipt).filter(issue=>issue.roll===id).reduce((sum,issue)=>sum+issue.qty,0)/pocketScale
+  const correction=reviewRollReceiptCorrection(roll,input,[...seedRolls,...rows.flatMap(receiptRolls)],used)
+  if(!Number.isSafeInteger(Math.round(correction.length*roll.rate*100)))throw Error('Nilai roll melebihi batas.')
+  sessionStorage.setItem(key,JSON.stringify(rows.map(row=>row===receipt?{...row,corrections:[...(row.corrections??[]),correction]}:row)))
 }

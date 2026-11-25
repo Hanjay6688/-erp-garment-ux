@@ -4,14 +4,16 @@ import { cashAccounts } from '../financeData'
 import { readRupiahInput } from '../moneyInput'
 import { amountText } from './accessoryPricing'
 import { billGross, billRemaining, vendorBalance, vendorReceivable } from './laundryCredits'
-import { laundryBillAtRate, settleLaundry, type Settlement } from './laundrySettlement'
-import type { LaundryDelivery, LaundryFinalBill } from './laundryModel'
+import { laundryBillAtRate, reverseLaundrySettlement, settleLaundry, type Settlement } from './laundrySettlement'
+import { isPostedLaundryInvoice, laundryPartId, type LaundryDelivery, type LaundryFinalBill } from './laundryModel'
 import { ReasonDialog } from './planner/ReasonDialog'
 import { lastWarehouseDay } from './warehouseDay'
+import { StockSourceReversal } from './StockSourceReversal'
+import { laundryPayablesPath } from './laundryVendorInvoices'
 
 type Form = {kind:'PAY'|'CORRECT'|'USE';id:string;amount:string;day:string;note:string;account:string;targetIndex:string;part?:string}
 const rupiah = (cents:number) => amountText(cents/100)
-const title = {PAY:'Catat pembayaran kontrabon',CORRECT:'Koreksi tarif kontrabon',USE:'Selesaikan piutang vendor'}
+const title = {PAY:'Bayar invoice Laundry',CORRECT:'Koreksi tarif invoice Laundry',USE:'Selesaikan piutang vendor'}
 
 export function LaundrySettlement({delivery,bill,deliveries,update}:{delivery:LaundryDelivery;bill:LaundryFinalBill;deliveries:LaundryDelivery[];update:(change:(rows:LaundryDelivery[])=>LaundryDelivery[])=>void}) {
   const [form,setForm]=useState<Form|null>(null)
@@ -19,15 +21,16 @@ export function LaundrySettlement({delivery,bill,deliveries,update}:{delivery:La
   const balance=vendorBalance(deliveries,delivery,bill)
   const remaining=billRemaining(deliveries,delivery,bill)
   const targets=deliveries.filter(row=>row.vendor===delivery.vendor).flatMap(row=>(row.finalBills??[])
-    .filter(item=>item!==bill&&billRemaining(deliveries,row,item)>0).map(item=>({delivery:row.id,bill:item.number,remaining:billRemaining(deliveries,row,item)})))
+    .filter(item=>item!==bill&&isPostedLaundryInvoice(item)&&billRemaining(deliveries,row,item)>0)
+    .map(item=>({delivery:row.id,bill:item.number,remaining:billRemaining(deliveries,row,item)})))
   const target=form?.targetIndex?targets[Number(form.targetIndex)-1]:undefined
   const value=form?readRupiahInput(form.amount):NaN
   const cents=Math.round(value*100)
-  const originalRate=bill.parts?.find(part=>part.delivery===form?.part)?.rate??bill.rate
+  const originalRate=bill.parts?.find(part=>laundryPartId(part)===form?.part)?.rate??bill.rate
   const adjusted=laundryBillAtRate(bill,value,form?.part)
   const correctedGross=billGross(adjusted)
   const correctionExcess=vendorReceivable(deliveries,delivery,adjusted)
-  const open=(kind:Form['kind'])=>{setError('');setForm({kind,id:crypto.randomUUID(),amount:kind==='PAY'?String(remaining/100).replace('.',','):'',day:lastWarehouseDay(),note:'',account:'',targetIndex:'',part:bill.parts?.[0].delivery})}
+  const open=(kind:Form['kind'])=>{setError('');setForm({kind,id:crypto.randomUUID(),amount:kind==='PAY'?String(remaining/100).replace('.',','):'',day:lastWarehouseDay(),note:'',account:'',targetIndex:'',part:bill.parts?.[0]?laundryPartId(bill.parts[0]):undefined})}
   const patch=(values:Partial<Form>)=>{setForm(current=>current?{...current,...values}:null);setError('')}
   function save(event:FormEvent) {
     event.preventDefault()
@@ -45,21 +48,34 @@ export function LaundrySettlement({delivery,bill,deliveries,update}:{delivery:La
 
   return <>
     <div className="demo-operation-actions">
-      {remaining>0&&<button type="button" className="soft-btn" onClick={()=>open('PAY')}><Banknote size={16}/> Bayar kontrabon</button>}
+      {remaining>0&&<button type="button" className="primary-btn" onClick={()=>open('PAY')}><Banknote size={16}/> Bayar invoice</button>}
       <button type="button" className="soft-btn" onClick={()=>open('CORRECT')}><FilePenLine size={16}/> Koreksi tarif</button>
     </div>
     {balance>0&&<div className="demo-vendor-credit"><WalletCards size={19}/><div><h4>Piutang vendor</h4><strong>{rupiah(balance)}</strong></div>
       <button type="button" className="soft-btn" onClick={()=>open('USE')}>Selesaikan piutang</button></div>}
-    {((bill.payments?.length??0)+(bill.corrections?.length??0)+(bill.vendorUses?.length??0)>0)&&<details className="demo-operation-history"><summary>Riwayat pembayaran dan koreksi</summary>
-      {bill.payments?.map(row=><article key={row.id}><strong>{rupiah(row.cents)} · Pembayaran</strong><small>{row.day} · {row.account} · {row.reference}</small></article>)}
+    {((bill.payments?.length??0)+(bill.corrections?.length??0)+(bill.vendorUses?.length??0)>0)&&<details className="demo-operation-history" open><summary>Riwayat pembayaran dan koreksi</summary>
+      {bill.payments?.map(row=><article key={row.id}><strong>{rupiah(row.cents)} · Pembayaran</strong><small>{row.day} · {row.account} · {row.reference}</small>
+        <StockSourceReversal label="Balikkan pembayaran" document={row.reference} reversal={row.reversal}
+          blockers={(bill.vendorUses??[]).filter(use=>!use.reversal).map(use=>({label:'Penyelesaian piutang · '+use.reason,href:laundryPayablesPath(delivery.vendor,bill.number)+'#pembayaran-invoice'}))}
+          onReverse={reason=>{
+            const next=reverseLaundrySettlement(deliveries,delivery.id,bill.number,'PAY',row.id,reason)
+            update(current=>current===deliveries?next:current)
+          }}/>
+      </article>)}
       {bill.corrections?.map(row=><article key={row.id}><strong>{amountText(row.previousRate)} → {amountText(row.rate)} / pcs</strong><small>{row.day} · {row.part??bill.number} · {row.reason}</small></article>)}
-      {bill.vendorUses?.map(row=><article key={row.id}><strong>{rupiah(row.cents)} · {row.target?'Potong kontrabon '+row.target.bill:'Uang kembali ke '+row.account}</strong><small>{row.day} · {row.reason}</small></article>)}
+      {bill.vendorUses?.map(row=><article key={row.id}><strong>{rupiah(row.cents)} · {row.target?'Potong invoice '+row.target.bill:'Uang kembali ke '+row.account}</strong><small>{row.day} · {row.reason}</small>
+        <StockSourceReversal label="Balikkan penyelesaian piutang" document={bill.number} reversal={row.reversal} blockers={[]}
+          onReverse={reason=>{
+            const next=reverseLaundrySettlement(deliveries,delivery.id,bill.number,'USE',row.id,reason)
+            update(current=>current===deliveries?next:current)
+          }}/>
+      </article>)}
     </details>}
-    {form&&<ReasonDialog title={title[form.kind]} closeLabel="Kembali" onClose={()=>setForm(null)} className="demo-operation-dialog">
+    {form&&<ReasonDialog title={title[form.kind]} closeLabel="Kembali" onClose={()=>setForm(null)} className="demo-operation-dialog money-dialog" icon={form.kind==='CORRECT'?<FilePenLine/>:form.kind==='USE'?<WalletCards/>:<Banknote/>}>
       <form className="demo-operation-form" onSubmit={save}>
         <p>{delivery.vendor} · {bill.number}</p>
         {form.kind==='CORRECT'&&bill.parts&&<label>Penerimaan yang dikoreksi<select value={form.part} onChange={event=>patch({part:event.target.value,amount:''})}>
-          {bill.parts.map(part=><option key={part.delivery} value={part.delivery}>{part.delivery} · {part.qty} pcs · {part.process}</option>)}
+          {bill.parts.map(part=><option key={laundryPartId(part)} value={laundryPartId(part)}>{part.contract?part.contract+' · ':''}{part.delivery} · {part.qty} pcs · {part.process}</option>)}
         </select></label>}
         {form.kind==='USE'&&<label>Penyelesaian<select value={form.targetIndex} onChange={event=>patch({targetIndex:event.target.value,amount:''})}>
           <option value="">Terima uang dari vendor</option>{targets.map((row,index)=><option value={String(index+1)} key={row.delivery+row.bill}>Potong {row.bill} · {rupiah(row.remaining)}</option>)}</select></label>}
