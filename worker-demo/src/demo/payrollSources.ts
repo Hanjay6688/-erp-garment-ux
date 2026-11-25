@@ -3,13 +3,15 @@ import {readNotes,lineTotal} from './issueDocuments'
 import {normalizeMandor} from './accessoryPricing'
 import {isPieceUnit} from '../browseMatch'
 import type {DemoInvoice} from './saleBook'
+import {dayOk} from './warehouseDay'
 
 export type FgSource=PayrollNote['fgNotes'][number]
 type AccSource=PayrollNote['accessoryNotes'][number]
 export type Source={kind:'FG';mandor:string;day:string;doc:FgSource}|{kind:'ACCESSORY';mandor:string;day:string;doc:AccSource}
 type SavedFg={mandor:string;day:string;doc:FgSource;cards:string[]}
 type MandorDebt = { invoice: string; amount: number }
-export type PayDraft=PayrollNote&{start?:string;end?:string;mandorDebts?:MandorDebt[]}
+export type PayrollPayment = {id:string;amount:number;day:string;account:string;reference:string;reversed?:string}
+export type PayDraft=PayrollNote&{start?:string;end?:string;mandorDebts?:MandorDebt[];payments?:PayrollPayment[]}
 export function fgSourcePieces(doc: FgSource) {
   const returned = doc.good + doc.bs
   return [doc.good, doc.bs, doc.stuck, returned, returned + doc.stuck]
@@ -108,6 +110,36 @@ export function validMandorDebts(invoices: DemoInvoice[], notes: PayDraft[], not
     const balance = mandorDebtBalance(invoice, notes)
     return balance.reserved <= balance.outstanding
   })
+}
+
+export const payrollPaid = (note:PayDraft) => note.status==='PAID'&&!note.payments
+  ? note.netPayable : (note.payments??[]).reduce((sum,row)=>sum+(row.reversed?0:Math.round(row.amount*100)),0)/100
+export const payrollRemaining = (note:PayDraft) => Math.max(0,Math.round((note.netPayable-payrollPaid(note))*100)/100)
+
+export function postPayrollPayment(notes:PayDraft[], invoices:DemoInvoice[], number:string, payment:PayrollPayment):PayDraft[] {
+  const note=notes.find(row=>row.number===number)
+  if(!note)throw Error('Payroll tidak ditemukan.')
+  const duplicate=note.payments?.find(row=>row.id===payment.id)
+  if(duplicate){if(JSON.stringify(duplicate)!==JSON.stringify(payment))throw Error('Pembayaran sudah tercatat.');return notes}
+  const remaining=payrollRemaining(note)
+  if(note.status!=='APPROVED'||!validMandorDebts(invoices,notes,note)||!dayOk(payment.day)||!payment.account||!payment.reference.trim()
+    || !Number.isSafeInteger(Math.round(payment.amount*100))||payment.amount!==Math.round(payment.amount*100)/100
+    ||payment.amount<0||payment.amount>remaining||payment.amount===0&&remaining>0) {
+    throw Error('Periksa status payroll, tanggal, dan nominal sisa pembayaran.')
+  }
+  const status=payment.amount===remaining?'PAID':'APPROVED'
+  return notes.map(row=>row===note?{...row,status,payments:[...(row.payments??[]),payment]}:row)
+}
+
+export function reversePayrollPayment(notes:PayDraft[],number:string,id:string|null,reason:string):PayDraft[] {
+  const note=notes.find(row=>row.number===number)
+  if(!note||!reason.trim())throw Error('Pilih pembayaran dan isi alasan pembalikan.')
+  if(!id&&note.status==='PAID'&&!note.payments) {
+    return notes.map(row=>row===note?{...row,status:'APPROVED'}:row)
+  }
+  const payment=note.payments?.find(row=>row.id===id&&!row.reversed)
+  if(!payment)throw Error('Pembayaran ini sudah dibalik atau tidak ditemukan.')
+  return notes.map(row=>row===note?{...row,status:'APPROVED',payments:row.payments?.map(current=>current===payment?{...current,reversed:reason.trim()}:current)}:row)
 }
 
 export function chooseMandorDebt(invoices: DemoInvoice[], notes: PayDraft[], payrollNumber: string, invoiceNumber: string, amount: number) {

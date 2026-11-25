@@ -3,8 +3,10 @@ import {browseMatch, browseMatchPieces, isPieceUnit} from './browseMatch'
 import {fgProducts,fgTotals,piecesIn,positionKey} from './demo/fgOverview'
 import {dozenPieces,fgQuantity} from './fgQuantity'
 import {FgHistory} from './demo/FgHistory'
-import {rangeLabel} from './demo/planner/model'
+import {correctionRolls,rangeLabel,yardsLeft} from './demo/planner/model'
 import {usePlannerSession} from './demo/planner/session'
+import {masterCode,noteStock,useAccessoryBook} from './demo/accessoryPricing'
+import {readNotes as readAccessoryNotes} from './demo/issueDocuments'
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import {
   AlertTriangle, ArrowRight, Boxes, Check, ChevronDown, ClipboardCheck,
@@ -15,6 +17,7 @@ import {
 import { StockHealthExplainability, getStockHealthLabel, type StockLineageLink } from './stock/StockHealthExplainability'
 import { calculateStockHealth, createUnconfiguredPrototypeStock, type StockHealthResult } from './stock/stockHealth'
 import './warehouse.css'
+import './demo/demoCorrection.css'
 
 const StockAdjustmentPage = lazy(() => import('./InventoryControlPages').then((module) => ({ default: module.StockAdjustmentPage })))
 const BrandConversionPage = lazy(() => import('./InventoryControlPages').then((module) => ({ default: module.BrandConversionPage })))
@@ -256,12 +259,14 @@ function WarehouseDashboard({ onNavigate }: { onNavigate: (view: WarehouseView) 
 }
 
 function MaterialsRollsPage() {
+  const session=usePlannerSession()
   const [query,setQuery] = useState('')
   const [supplier,setSupplier] = useState('Semua')
   const [status,setStatus] = useState('Semua')
   const [selectedId,setSelectedId] = useState(materials[0].id)
   const [returnModalOpen,setReturnModalOpen] = useState(false)
   const [returnTarget,setReturnTarget] = useState<SupplierReturnTarget|null>(null)
+  const cutStock=correctionRolls(session).filter(roll=>yardsLeft(roll.id,session)>0&&browseMatch(query,roll.id,roll.material,roll.supplier,roll.source,formatNumber(yardsLeft(roll.id,session))))
   const selected = materials.find((item)=>item.id===selectedId) ?? materials[0]
   const selectedHealth = prototypeStockHealth('FABRIC', selected.stockOnHandYards, 'yd', selected.id)
   const visibleMaterials = useMemo(()=>materials.filter((item)=>{
@@ -289,47 +294,88 @@ function MaterialsRollsPage() {
         </main>
       </div>
     </div>
-    {returnModalOpen&&<SupplierReturnModal key={returnTarget?.id??'fabric-history'} kind="fabric" target={returnTarget} onClose={()=>setReturnModalOpen(false)}/>} 
+    <section className="panel fabric-receipts" aria-label="Roll untuk Potongan">
+      <header className="conversion-return-line"><h2>Roll untuk Potongan</h2>
+        <a className="soft-btn" href="/gudang/pembelian-penerimaan/?koreksi=ganti-roll">Ganti roll sumber pemakaian <ArrowRight size={15}/></a></header>
+      {cutStock.map(roll=><div className="fabric-receipt-roll" key={roll.id}><span>{roll.material} · {roll.id} · {roll.source}</span>
+        <strong>{formatNumber(yardsLeft(roll.id,session))} yd</strong></div>)}
+      {(session.fabricReceipts??[]).filter(row=>row.unit==='m').flatMap(row=>row.rolls.filter(roll=>browseMatch(query,row.material,roll.id,row.number,formatNumber(roll.length))).map(roll=><div className="fabric-receipt-roll" key={roll.id}>
+        <span>{row.material} · {roll.id}</span><strong>{formatNumber(roll.length)} m</strong>
+      </div>))}
+    </section>
+    {returnModalOpen&&<SupplierReturnModal key={returnTarget?.id??'fabric-history'} kind="fabric" target={returnTarget} onClose={()=>setReturnModalOpen(false)}/>}
   </>
 }
 
 function AccessoriesPage() {
+  const session=usePlannerSession()
+  const book=useAccessoryBook()
+  const stock=accessories.filter(item=>item.id!=='ACC-LBL-VV').concat(book.items.filter(item=>item.active).map((item):Accessory=>({
+    id:item.code,name:item.name,category:item.category,supplier:'Master aksesori',unit:item.stockUom,
+    physical:noteStock(item.code,item.stock,undefined,session),supplierReturned:0,avgCost:item.movingAverage,
+    location:'Gudang Aksesori Utama',lastMovement:'Saldo demo · nota dan konversi',
+  })))
   const [query,setQuery] = useState('')
   const [category,setCategory] = useState('Semua')
   const [status,setStatus] = useState('Semua')
-  const [selectedId,setSelectedId] = useState(accessories[0].id)
+  const [selectedId,setSelectedId] = useState(stock[0].id)
   const [returnModalOpen,setReturnModalOpen] = useState(false)
   const [returnTarget,setReturnTarget] = useState<SupplierReturnTarget|null>(null)
-  const visible = useMemo(()=>accessories.filter((item)=>{
+  const visible = stock.filter((item)=>{
     const health = prototypeStockHealth('ACCESSORY', item.physical, item.unit, item.id)
     const pieceUnit = isPieceUnit(item.unit)
     return browseMatchPieces(query, pieceUnit ? [item.physical] : [], item.name, item.category, item.supplier, item.id,
       pieceUnit ? undefined : `${formatNumber(item.physical)} ${item.unit}`)
       && (category==='Semua'||item.category===category) && (status==='Semua'||getStockHealthLabel(health)===status)
-  }),[query,category,status])
-  const selected = accessories.find((item)=>item.id===selectedId) ?? accessories[0]
+  })
+  const selected = stock.find((item)=>item.id===selectedId) ?? stock[0]
   const available = selected.physical
   const selectedHealth = prototypeStockHealth('ACCESSORY', selected.physical, selected.unit, selected.id)
   const priorBalance = selected.physical + 1200
-  const movementRows = [
+  const sampleMovements = [
     { ref:'OUT-260828-018', date:'Hari ini · 10:22', note:'Keluar ke Mandor Asep', delta:-1200, balance:selected.physical },
     selected.supplierReturned>0
       ? { ref:'RTS-260827-012', date:'Kemarin · 16:18', note:`Retur ke ${selected.supplier}`, delta:-selected.supplierReturned, balance:priorBalance }
       : { ref:'MOV-260827-012', date:'Kemarin · 16:18', note:'Pindah lokasi internal', delta:0, balance:priorBalance },
     { ref:'RCV-260827-018', date:'Kemarin · 15:08', note:`Terima dari ${selected.supplier}`, delta:4800, balance:priorBalance+selected.supplierReturned },
   ]
+  const conversions=session.stockEvents??[]
+  const trackedMovements=[
+    ...(session.accessoryReceipts??[]).filter(row=>row.code===selected.id).map(row=>({ref:row.number,date:row.day,note:'Terima dari '+row.supplier,delta:row.qty})),
+    ...conversions.flatMap(event=>{
+      const source=event.reverses?conversions.find(row=>row.id===event.reverses):event
+      const line=source?.kit?.used.find(row=>row.code===selected.id)
+      return line?[{ref:'Konversi '+event.id.slice(0,8),date:event.date??'',note:event.reverses?'Pembalikan pemakaian':'Dipakai untuk Ganti Merek',delta:event.reverses?line.qty:-line.qty}]:[]
+    }),
+    ...(session.conversionReturns??[]).filter(row=>row.code===selected.id).flatMap(row=>{
+      const head={ref:'Bongkaran '+row.id.slice(0,8),date:row.day,note:'Bongkaran layak pakai',delta:row.good}
+      return row.reversed?[head,{...head,ref:head.ref+' · balik',note:row.reversed,delta:-row.good}]:[head]
+    }),
+    ...readAccessoryNotes().flatMap(doc=>{
+      const qty=doc.lines.reduce((sum,line)=>sum+(masterCode(line.id)===selected.id?line.qty:0),0)*(doc.inventoryChange??0)
+      return qty?[{ref:doc.number,date:doc.issuedOn,note:doc.mandor,delta:qty}]:[]
+    }),
+  ].reverse().sort((left,right)=>right.date.localeCompare(left.date))
+  let running=available
+  const movementRows=book.items.some(item=>item.code===selected.id)?trackedMovements.slice(0,12).map(row=>{
+    const balance=running
+    running-=row.delta
+    return {...row,balance}
+  }):sampleMovements
   return <>
     <section className="hero-copy compact wh-hero"><div><div className="eyebrow">GUDANG · KOMPONEN</div><h1>Aksesori</h1><p>Qty langsung per unit. Status stok dipisahkan dari dasar perhitungannya; angka yang belum berasal dari backend ditandai sebagai simulasi.</p></div><div className="wh-rule"><Boxes/><div><span>POLA INPUT</span><strong>Qty langsung, bukan gulungan</strong><small>PCS, meter, set, atau unit master item.</small></div></div></section>
     <div className="wh-context-control"><div className="wh-context-copy"><i><History/></i><span><strong>Riwayat retur aksesori ke supplier</strong><small>Lihat total lifetime dan seluruh dokumen retur—bukan adjustment atau retur sisa mandor.</small></span></div><button className="wh-return-history-button" onClick={()=>{setReturnTarget(null);setReturnModalOpen(true)}}><span><small>SEMUA DOKUMEN</small><strong>Cek retur</strong></span><ArrowRight/></button></div>
-    <section className="wh-metrics"><MetricCard label="Stock On Hand" value="31.960 unit" note="Fixture frontend · belum backend" icon={Package}/><MetricCard label="Dasar Perhitungan" value="Belum diatur" note="Tidak ada rekomendasi palsu" tone="neutral" icon={AlertTriangle}/><MetricCard label="Moving Average" value="6 item" note="Valuasi fixture per item" icon={Tag}/><MetricCard label="Returned to Supplier" value="720 pcs" note="2 dokumen fixture" tone="neutral" icon={RotateCcw}/></section>
+    <div className="wh-context-control"><div className="wh-context-copy"><i><PackageCheck/></i><span><strong>Aksesori bongkaran</strong><small>Terima dan periksa barang yang kembali dari Ganti Merek.</small></span></div>
+      <a className="soft-btn" href="/gudang/ganti-merek/#aksesori-konversi">Penerimaan bongkaran <ArrowRight size={15}/></a></div>
+    <section className="wh-metrics"><MetricCard label="Stock On Hand" value={formatNumber(stock.filter(item=>isPieceUnit(item.unit)).reduce((sum,item)=>sum+item.physical,0),0)+' pcs'} note="Stok pcs di demo" icon={Package}/><MetricCard label="Dasar Perhitungan" value="Belum diatur" note="Tidak ada rekomendasi palsu" tone="neutral" icon={AlertTriangle}/><MetricCard label="Moving Average" value={stock.length+" item"} note="Valuasi fixture per item" icon={Tag}/><MetricCard label="Returned to Supplier" value="720 pcs" note="2 dokumen fixture" tone="neutral" icon={RotateCcw}/></section>
     <div className="panel wh-workspace">
-      <div className="wh-toolbar"><SearchBox value={query} onChange={setQuery} placeholder="Cari aksesori, kode, supplier..."/><SelectFilter label="Kategori" value={category} options={[...new Set(accessories.map((item)=>item.category))]} onChange={setCategory}/><SelectFilter label="Status" value={status} options={[...new Set(accessories.map((item)=>getStockHealthLabel(prototypeStockHealth('ACCESSORY',item.physical,item.unit,item.id))))]} onChange={setStatus}/><button className="wh-reset" onClick={()=>{setQuery('');setCategory('Semua');setStatus('Semua')}}><RotateCcw/> Reset</button></div>
+      <div className="wh-toolbar"><SearchBox value={query} onChange={setQuery} placeholder="Cari aksesori, kode, supplier..."/><SelectFilter label="Kategori" value={category} options={[...new Set(stock.map((item)=>item.category))]} onChange={setCategory}/><SelectFilter label="Status" value={status} options={[...new Set(accessories.map((item)=>getStockHealthLabel(prototypeStockHealth('ACCESSORY',item.physical,item.unit,item.id))))]} onChange={setStatus}/><button className="wh-reset" onClick={()=>{setQuery('');setCategory('Semua');setStatus('Semua')}}><RotateCcw/> Reset</button></div>
       <div className="wh-master-detail accessory">
         <BrowsePane className="wh-browser" aria-label="Daftar stok aksesori"><header><div><span>BROWSE AKSESORI</span><strong>{visible.length} item tampil</strong></div><small>Klik status untuk dasar hitung</small></header><div className="wh-browser-list wh-accessory-browser">{visible.map((item)=>{const itemAvailable=item.physical;const health=prototypeStockHealth('ACCESSORY',item.physical,item.unit,item.id);return <article key={item.id} className={selected.id===item.id?'active':''}><button type="button" className="wh-accessory-select" onClick={()=>setSelectedId(item.id)}><span className="wh-index"><Package/></span><div><strong>{item.name}</strong><small>{item.id} · {item.category}</small><em>{item.supplier} · {item.location}</em></div><b>{formatNumber(itemAvailable,0)} {item.unit}</b></button><StockHealthExplainability compact itemName={item.name} result={health} lineage={stockLineage('ACCESSORY',item.id)}/><button className="wh-accessory-return" disabled={itemAvailable<=0} onClick={()=>{setSelectedId(item.id);setReturnTarget({kind:'accessory',id:item.id,label:item.name,supplier:item.supplier,unit:item.unit,maxQty:itemAvailable,location:item.location});setReturnModalOpen(true)}}><RotateCcw/><span><strong>Retur supplier</strong><small>{formatNumber(itemAvailable,0)} {item.unit} maksimal</small></span><ArrowRight/></button></article>})}{visible.length===0&&<EmptyResult title="Aksesori tidak ditemukan" note="Coba kategori lain atau reset filter."/>}</div></BrowsePane>
         <main className="wh-detail"><header className="wh-detail-head"><div><span>ITEM TERPILIH</span><h2>{selected.name}</h2><p>{selected.id} · {selected.category} · {selected.supplier}</p></div><div className="wh-detail-total"><span>STOCK ON HAND · FIXTURE</span><strong>{formatNumber(available,0)} {selected.unit}</strong><small>{money(selected.avgCost)} / {selected.unit} moving average · simulasi</small></div></header>
           <div className="wh-accessory-facts"><div><MapPin/><span><small>LOCATION</small><strong>{selected.location}</strong></span></div><div><Boxes/><span><small>STOCK ON HAND</small><strong>{formatNumber(selected.physical,0)} {selected.unit}</strong></span></div><div><Tag/><span><small>VALUATION</small><strong>Moving average · simulasi</strong></span></div><div className="returned"><RotateCcw/><span><small>RETURNED TO SUPPLIER</small><strong>{formatNumber(selected.supplierReturned,0)} {selected.unit}</strong></span></div><div><ShieldCheck/><span><small>DASAR STATUS</small><strong>Batas belum diatur</strong></span></div></div>
           <div className="wh-stock-health-shell"><div><span>STATUS STOK · DATA SIMULASI</span><strong>Reserved, incoming, demand, dan lead time belum tersedia.</strong><small>Klik badge untuk melihat operand null dan jejak data yang nantinya wajib berasal dari backend.</small></div><StockHealthExplainability itemName={selected.name} result={selectedHealth} lineage={stockLineage('ACCESSORY',selected.id)}/></div>
-          <section className="wh-mini-ledger"><header><div><span>MUTASI TERAKHIR · SIMULASI</span><strong>{selected.lastMovement}</strong></div><button>Semua riwayat <ArrowRight/></button></header><div className="wh-mini-ledger-head"><span>Waktu / ref</span><span>Keterangan</span><span>Mutasi</span><span>Saldo fisik</span></div>{movementRows.map((row)=><article key={row.ref}><span><strong>{row.ref}</strong><small>{row.date}</small></span><span>{row.note}</span><b className={row.delta<0?'negative':row.delta>0?'positive':''}>{row.delta>0?'+':''}{formatNumber(row.delta,0)} {selected.unit}</b><strong>{formatNumber(row.balance,0)} {selected.unit}</strong></article>)}</section>
+          <section className="wh-mini-ledger"><header><div><span>MUTASI TERAKHIR · SIMULASI</span><strong>{selected.lastMovement}</strong></div><a className="soft-btn" href="/gudang/ganti-merek/#aksesori-konversi">Riwayat konversi <ArrowRight size={15}/></a></header><div className="wh-mini-ledger-head"><span>Waktu / ref</span><span>Keterangan</span><span>Mutasi</span><span>Saldo fisik</span></div>{!movementRows.length&&<p>Belum ada mutasi aksesori ini di demo.</p>}{movementRows.map((row)=><article key={row.ref}><span><strong>{row.ref}</strong><small>{row.date}</small></span><span>{row.note}</span><b className={row.delta<0?'negative':row.delta>0?'positive':''}>{row.delta>0?'+':''}{formatNumber(row.delta,0)} {selected.unit}</b><strong>{formatNumber(row.balance,0)} {selected.unit}</strong></article>)}</section>
         </main>
       </div>
     </div>

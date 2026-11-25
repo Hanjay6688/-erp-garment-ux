@@ -4,6 +4,7 @@ import {nativePosition,positionDelta,skuByKey} from '../skuCatalog'
 import {dayOk} from '../warehouseDay'
 import {fgActivity,comparePhysical,type FgMovement} from '../fgTimeline'
 import {type Article,type Session,type StockChange} from './model'
+import {checkConversionAccessories,type ConversionAccessoryDraft} from '../conversionAccessories'
 
 export function stockAt(a:Article,size:string,s:Session,location=nativePosition(a).location,grade=nativePosition(a).grade) {
   const home=nativePosition(a),p=productCatalog.find(p=>p.brand===a.brand&&p.code===a.sku)
@@ -14,7 +15,7 @@ export function sizeBalanceAt(current:number,index:number,activity:FgMovement[],
   const cut={day,physicalTime}
   return activity.reduce((balance,row)=>row.day&&comparePhysical(row,cut)>0?balance-row.delta[index]:balance,current)
 }
-export type MoveInput={source:string;target:string;values:Record<string,string>;sizeMap:Record<string,string>;location:string;grade:string;date:string;physicalTime?:string;reason:string;notes?:string}
+export type MoveInput={source:string;target:string;values:Record<string,string>;sizeMap:Record<string,string>;location:string;grade:string;date:string;physicalTime?:string;reason:string;notes?:string;accessories?:ConversionAccessoryDraft}
 export function moveSnapshot(s:Session,m:MoveInput) {
   const out:Record<string,number>={}
   for(const key of [m.source,m.target]){
@@ -28,7 +29,8 @@ export function convertStock(s:Session,m:MoveInput,id:string,expected?:Record<st
   if(!a||!b||a.key===b.key||s.skuUpdates?.[m.source]?.active===false||s.skuUpdates?.[m.target]?.active===false)throw Error('Pilih dua SKU aktif yang berbeda.')
   if(!id||!m.reason.trim()||!m.location||m.grade!=='Good'||!dayOk(m.date))throw Error('Isi tanggal fisik, lokasi, dan alasan transaksi.')
   const lines=Object.entries(m.values).filter(([,v])=>v.trim()).sort(([x],[y])=>x.localeCompare(y))
-  const intent=JSON.stringify([a.key,b.key,m.location,m.grade,m.date,m.reason.trim(),m.notes?.trim()||null,lines.map(([size,q])=>[size,m.sizeMap[size]??'',q]),...(m.physicalTime?[m.physicalTime]:[])])
+  const hasAccessories=!!(m.accessories?.used.length||m.accessories?.expected.length)
+  const intent=JSON.stringify([a.key,b.key,m.location,m.grade,m.date,m.reason.trim(),m.notes?.trim()||null,lines.map(([size,q])=>[size,m.sizeMap[size]??'',q]),...(m.physicalTime?[m.physicalTime]:[]),...(hasAccessories?[m.accessories]:[])])
   const prior=s.stockEvents?.find(e=>e.id===id)
   if(prior){if(prior.intent!==intent)throw Error('Permintaan ini sudah dipakai dengan isi berbeda.');return s}
   const balances=moveSnapshot(s,m)
@@ -51,5 +53,6 @@ export function convertStock(s:Session,m:MoveInput,id:string,expected?:Record<st
   if(m.physicalTime&&!/^([01]\d|2[0-3]):[0-5]\d$/.test(m.physicalTime))throw Error('Jam fisik tidak valid.')
   if(!changes.length)throw Error('Isi setidaknya satu ukuran yang berubah.')
   for(const c of changes)c.after=balances[c.key+'|'+c.size]+c.delta
-  return {...s,stockEvents:[...(s.stockEvents??[]),{id,action:'convert',date:m.date,physicalTime:m.physicalTime||undefined,recordedAt:new Date().toISOString(),intent,reason:m.reason.trim(),notes:m.notes?.trim()||null,changes}]}
+  const kit=checkConversionAccessories(s,m.accessories)
+  return {...s,stockEvents:[...(s.stockEvents??[]),{id,action:'convert',date:m.date,physicalTime:m.physicalTime||undefined,recordedAt:new Date().toISOString(),intent,reason:m.reason.trim(),notes:m.notes?.trim()||null,changes,kit}]}
 }

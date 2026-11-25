@@ -7,9 +7,10 @@ import { Icon } from '../components/AppIcon'
 import { cellQuantity } from './cuttingAllocation'
 import { instructionsFor, laundryRecipePath, readLaundryColourMaster, type LaundryInstructions } from './laundryRecipes'
 import { cleanMoneyInput, formatMoneyInput, readRupiahInput } from '../moneyInput'
-import { amountText } from './accessoryPricing'
 import { dayOk, lastWarehouseDay } from './warehouseDay'
 import { ReasonDialog } from './planner/ReasonDialog'
+import { LaundryBillCard, LaundryClaims } from './LaundryCreditActions'
+import { claimedPieces } from './laundryCredits'
 import './laundryRecipe.css'
 import { money } from './format'
 import { ArrowRight, CalendarDays, FileText, Palette, ReceiptText, Truck } from 'lucide-react'
@@ -226,6 +227,7 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
     const bsSizes=values.bs.map(cellQuantity) as QtyTuple
     try {
       const updated = returnLaundry(delivery, returnTimes[delivery.id] ?? defaultReturnTime(delivery), goodSizes, bsSizes)
+      if(laundryOutstanding(updated)<claimedPieces(delivery,'STUCK'))throw Error('Balikkan dulu klaim Stuck untuk potongan yang kembali.')
       setDeliveries(current => current.map(item => item.id === delivery.id ? updated : item))
       setReturnInputs(current => ({ ...current, [delivery.id]: emptyReturnDraft(delivery) }))
       setNotice((updated.good - delivery.good) + ' Good + ' + (updated.bs - delivery.bs) + ' BS diterima dari ' + delivery.vendor + '.')
@@ -238,6 +240,7 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
     if(!pendingReverse)return
     const outstanding=laundryOutstanding(pendingReverse)
     if(outstanding<=0){setPendingReverse(null);return}
+    if(claimedPieces(pendingReverse,'STUCK')>0){setPendingReverse(null);setNotice('Balikkan dulu klaim Stuck sebelum memindahkan sisa potongan ke WIP.');return}
     const reverseSizes=laundryOutstandingSizes(pendingReverse)
     setDeliveries((current)=>current.map((delivery)=>delivery.id===pendingReverse.id?{...delivery,reversed:delivery.reversed+outstanding,reversedSizes:delivery.reversedSizes.map((value,index)=>value+reverseSizes[index]) as QtyTuple,reverseNote:'Pindah laundry di detik akhir'}:delivery))
     const restored=laundryReadyFromDelivery(pendingReverse,outstanding)
@@ -409,13 +412,10 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
           <header><span>{String(index+1).padStart(2,'0')}</span><div><small>{delivery.plannedBrand ? `MEREK RENCANA · ${delivery.plannedBrand}` : 'MEREK BELUM DITENTUKAN'} · {delivery.id}</small><h3>{delivery.model}</h3><p className="record-code">{delivery.parentId} · Batch {delivery.batchId} · {delivery.material}</p>{(delivery.skuRef||delivery.targetColor||delivery.colourProcess)&&<p>{[delivery.skuRef,delivery.colourProcess,delivery.targetColor].filter(Boolean).join(' · ')}</p>}{delivery.sendNote&&<p>{delivery.sendNote}</p>}{delivery.instructionSource&&<small>{delivery.instructionSource}</small>}<p className="laundry-pattern-snapshot">POLA · {patternSnapshotLabel(delivery.pattern)}</p></div><em className={status==='Selesai'?'done':status==='Kembali sebagian'?'partial':reversedStatus?'reversed':''}>{status}</em><div><strong>{delivery.vendor}</strong><small>{delivery.process||'Jenis cucian belum ditentukan'}</small></div></header>
           <div className="laundry-return-body"><div className="laundry-return-facts"><div className="laundry-mandor-hero"><Icon name="user"/><span><small>MANDOR PENANGGUNG JAWAB</small><strong>{laundryMandorOf(delivery)}</strong></span></div><div className="laundry-counts"><span><small>DIKIRIM</small><strong className="piece-total">{delivery.qty} pcs</strong></span><span><small>SUDAH KEMBALI</small><strong className="piece-total">{received} pcs</strong></span><span><small>MASIH DI LUAR</small><strong className="piece-total">{outstanding} pcs</strong></span></div><div className="laundry-progress"><span style={{width:`${progress}%`}}/></div><p><Icon name="calendar"/> Dikirim {delivery.sentAt} WIB</p>
             {delivery.estimatedRate !== undefined && <small>Estimasi saat kirim · {delivery.estimatedRate === null ? 'Belum diketahui' : money(delivery.estimatedRate) + ' / pcs'}</small>}
-            {delivery.finalBills?.map(finalBill=><div className="laundry-final-bill" key={finalBill.number}>
-              <ReceiptText size={17} aria-hidden="true"/><span><strong>Kontrabon {finalBill.number}</strong>
-                <small>{finalBill.day} · {finalBill.process} · {finalBill.qty} pcs × {amountText(finalBill.rate)}</small></span>
-              <b>{amountText(finalBill.rate * finalBill.qty)}</b>
-            </div>)}
+            {delivery.finalBills?.map(finalBill=><LaundryBillCard key={finalBill.number} delivery={delivery} bill={finalBill} deliveries={deliveries} update={setDeliveries}/>)}
             {unbilledPieces(delivery)>0&&<button type="button" className="soft-btn laundry-bill-button" onClick={()=>openBill(delivery)}>
               <ReceiptText size={16} aria-hidden="true"/>Catat kontrabon</button>}
+            <LaundryClaims delivery={delivery} deliveries={deliveries} update={setDeliveries}/>
             {delivery.returns?.length ? <details className="laundry-return-history"><summary>Riwayat kembali ({delivery.returns.length})</summary>
               {delivery.returns.map((row, i) => <p key={i}><time dateTime={row.at + '+07:00'}>{row.at.replace('T', ' · ')} WIB</time> · {row.good.reduce((sum, qty) => sum + qty, 0)} Good · {row.bs.reduce((sum, qty) => sum + qty, 0)} BS</p>)}
             </details> : null}{received>0&&<><small>Akumulasi: <b className="good">{delivery.good} Good</b> · <b className="bs">{delivery.bs} BS</b></small><button type="button" className="laundry-open-qc" onClick={()=>onOpenQc(delivery.parentId,delivery.batchId)}><Icon name="audit"/><span><strong>Buka QC & Final SKU</strong><small>{received} pcs sudah bisa diperiksa sekarang</small></span><Icon name="arrow"/></button></>}{delivery.reversed>0&&<small className="reversed-note"><b>{delivery.reversed} pcs kembali ke WIP</b> · {delivery.reverseNote}</small>}{outstanding>0&&<button type="button" className="laundry-reverse-btn" onClick={()=>setPendingReverse(delivery)}><Icon name="reset"/><span><strong>Kembalikan ke WIP</strong><small>{outstanding} pcs bisa pilih laundry lain</small></span></button>}</div>

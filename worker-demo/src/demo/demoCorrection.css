@@ -1,0 +1,143 @@
+.demo-operation-heading {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+}
+.demo-operation-heading > i {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  color: var(--blue);
+  background: var(--accent-bg);
+}
+.demo-operation-heading svg { width: 18px; height: 18px; }
+.demo-operation-heading h3 { margin: 0; font-size: 15px; font-weight: 800; }
+.demo-operation-heading p, .demo-operation-form p { margin: 4px 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
+.demo-operation-form { display: grid; gap: 13px; margin-top: 15px; }
+.demo-operation-form label { display: grid; gap: 6px; min-width: 0; font-size: 13px; font-weight: 700; }
+.demo-operation-fields { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(180px,100%),1fr)); gap: 10px; }
+.demo-operation-fields label > small { color: var(--muted); font-weight: 400; }
+.demo-operation-actions { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.demo-operation-form :is(input, select, textarea) {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 8px 11px;
+  border: 1px solid var(--line-strong);
+  border-radius: 9px;
+  color: var(--text);
+  background: var(--panel);
+}
+.demo-operation-form textarea { min-height: 65px; resize: vertical; }
+.demo-operation-form :is(input, select, textarea):focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.demo-operation-form footer { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; padding-top: 10px; border-top: 1px solid var(--line); }
+.demo-operation-form [role='alert'] { color: var(--red); }
+.demo-operation-facts { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(185px,100%),1fr)); gap: 8px; }
+.demo-operation-facts article {
+  display: grid;
+  gap: 5px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--text);
+  background: var(--panel-2);
+}
+.demo-operation-facts article:nth-child(even) { background: var(--success-bg); }
+.demo-operation-facts article strong { font-size: 17px; font-weight: 800; }
+.demo-operation-facts article :is(small, span) { color: var(--muted); font-size: 13px; }
+.demo-operation-history summary { cursor: pointer; font-size: 13px; font-weight: 700; }
+.demo-operation-history summary svg { vertical-align: middle; }
+.demo-operation-history article {
+  display: grid;
+  gap: 4px;
+  margin-top: 7px;
+  padding: 9px 11px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-2);
+  overflow-wrap: anywhere;
+}
+.demo-operation-history article:nth-of-type(even) { background: var(--panel-3); }
+.demo-operation-history article small { color: var(--muted); }
+.roll-correction { display: grid; gap: 10px; padding: 14px 16px; border-top: 1px solid var(--line); background: var(--panel-2); }
+.roll-correction > button { justify-self: start; }
+.laundry-claim-box, .laundry-bill-card {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  margin: 8px 0;
+  padding: 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 10px;
+  background: var(--panel-2);
+}
+.laundry-claim-box { background: var(--warning-bg); }
+.laundry-bill-card .laundry-final-bill { margin: 0; min-width: 0; }
+.laundry-bill-card .laundry-final-bill > div { flex: none; text-align: right; }
+.laundry-bill-card .laundry-final-bill b { display: block; font-size: 16px; }
+.laundry-claim-box > button, .laundry-bill-card > button { justify-self: start; }
+.laundry-bill-card .demo-operation-history button { justify-self: start; }
+.conversion-accessory-sections {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(min(310px,100%),1fr));
+  align-items: start;
+  gap: 10px;
+}
+.conversion-accessory-sections > section, .conversion-accessory-document {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 11px;
+  background: var(--panel-2);
+}
+.conversion-accessory-sections > section:nth-child(2) { background: var(--success-bg); }
+.conversion-accessory-sections > section > button { justify-self: start; }
+.conversion-accessory-line {
+  display: grid;
+  grid-template-columns: minmax(0,2fr) minmax(95px,1fr) auto;
+  gap: 7px;
+  align-items: end;
+}
+.conversion-accessory-line.expected { grid-template-columns: minmax(0,2fr) minmax(95px,1fr); }
+.conversion-accessory-line.expected > button { justify-self: end; }
+.conversion-accessory-history { display: grid; gap: 12px; padding: 16px; margin: 12px 0; scroll-margin-top: 110px; }
+.conversion-accessory-history h2 { margin: 0; font-size: 19px; }
+.conversion-accessory-document > header, .conversion-return-log, .conversion-return-line {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+}
+.conversion-accessory-document h3 { margin: 0; font-size: 15px; }
+.conversion-accessory-document small { display: block; color: var(--muted); }
+.conversion-used, .conversion-return-line, .conversion-return-log {
+  padding: 9px 11px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--panel);
+}
+.conversion-return-line b { font-weight: 800; }
+.fabric-generate-rolls { display: flex; flex-wrap: wrap; gap: 8px; align-items: end; margin-bottom: 10px; }
+.fabric-generate-rolls label { display: grid; gap: 5px; width: 105px; font-size: 13px; font-weight: 700; }
+.fabric-generate-rolls input { min-height: 44px; font-size: 16px; }
+.fabric-receipts { padding: 14px; }
+.fabric-receipts h2 { margin: 0 0 10px; font-size: 17px; }
+.fabric-receipts summary { cursor: pointer; }
+.fabric-receipts summary small { display: block; margin-top: 4px; color: var(--muted); }
+.fabric-receipts details { margin: 8px 0; padding: 10px; border: 1px solid var(--line); border-radius: 9px; background: var(--panel-2); }
+.fabric-receipts details:nth-of-type(even) { background: var(--panel-3); }
+.fabric-receipt-roll { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 10px; padding: 7px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
+.fabric-receipt-review { max-height: 34dvh; overflow: auto; }
+@media (max-width: 420px) {
+  .conversion-accessory-line, .conversion-accessory-line.expected { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .demo-operation-form :is(input, select, textarea) { font-size: 16px; }
+  .demo-operation-form > footer > button { width: 100%; }
+}
