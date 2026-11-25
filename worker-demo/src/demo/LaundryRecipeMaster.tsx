@@ -1,6 +1,6 @@
 import { BrowsePane } from '../components/BrowsePane'
 import { useState, type FormEvent } from 'react'
-import { ArrowLeft, Droplets, Link2, Pencil, Plus, Search, WashingMachine } from 'lucide-react'
+import { ArrowLeft, Droplets, Link2, Pencil, Plus, Search, Tag, WashingMachine } from 'lucide-react'
 import { browseMatch } from '../browseMatch'
 import { laundryProcesses } from './laundryModel'
 import { readLaundryColourMaster, removeLaundryColourDefault, saveLaundryColourLink, saveLaundryColourType, type LaundryColourLink, type LaundryColourType } from './laundryRecipes'
@@ -8,7 +8,8 @@ import { ReasonDialog } from './planner/ReasonDialog'
 import { usePlannerSession } from './planner/session'
 import { laundryVendorNames } from './sewingModel'
 import { allSkus } from './skuCatalog'
-import { fixtureDate } from './accessoryPricing'
+import { amountText, fixtureDate } from './accessoryPricing'
+import { cleanMoneyInput, formatMoneyInput } from '../moneyInput'
 import { lastWarehouseDay } from './warehouseDay'
 import './warehouseForms.css'
 import './laundryRecipe.css'
@@ -22,6 +23,7 @@ export default function LaundryRecipeMaster() {
   const [vendor, setVendor] = useState(() => laundryVendorNames.find(name => name === params.get('vendor')) ?? 'Laundry Intan')
   const [query, setQuery] = useState('')
   const [typeDraft, setTypeDraft] = useState<LaundryColourType | null>(null)
+  const [benchmark, setBenchmark] = useState('')
   const [linkDraft, setLinkDraft] = useState<LaundryColourLink | null>(null)
   const [previousLink, setPreviousLink] = useState<LaundryColourLink | null>(null)
   const [removeFrom, setRemoveFrom] = useState<string | null>(null)
@@ -34,6 +36,7 @@ export default function LaundryRecipeMaster() {
 
   function openType(type?: LaundryColourType) {
     setTypeDraft(type ?? { id: '', vendor, name: '', note: '' })
+    setBenchmark(type?.benchmark === undefined ? '' : String(type.benchmark))
     setError(''); setNotice('')
   }
 
@@ -50,7 +53,7 @@ export default function LaundryRecipeMaster() {
     event.preventDefault()
     if (!typeDraft) return
     try {
-      const result = saveLaundryColourType(typeDraft)
+      const result = saveLaundryColourType({ ...typeDraft, benchmark: benchmark === '' ? undefined : Number(benchmark) })
       setMaster(result.master)
       setNotice(`${result.type.name} tersimpan di ${vendor}.`)
       setQuery(''); setTypeDraft(null)
@@ -110,6 +113,8 @@ export default function LaundryRecipeMaster() {
               return <article key={type.id} className="colour-type-card" aria-label={'Jenis ' + type.name}>
                 <header><i><Droplets size={18} aria-hidden="true"/></i><div><h3>{type.name}</h3>{type.note && <p>{type.note}</p>}</div>
                   <button type="button" className="soft-btn colour-edit" aria-label={'Edit jenis ' + type.name} onClick={() => openType(type)}><Pencil size={15} aria-hidden="true"/> Edit</button></header>
+                <div className="colour-benchmark"><Tag size={16} aria-hidden="true"/><span>Harga acuan</span>
+                  <strong>{type.benchmark === undefined ? 'Belum diisi' : amountText(type.benchmark) + ' / pcs'}</strong></div>
                 <div className="colour-links">
                   <div><span className="colour-link-caption"><Link2 size={15} aria-hidden="true"/>{new Set(links.map(link => link.sku)).size} SKU tertaut</span>
                     <button type="button" className="soft-btn" aria-label={'Tautkan SKU ke ' + type.name} onClick={() => openLink(type)}><Plus size={15} aria-hidden="true"/> Tautkan SKU</button></div>
@@ -131,6 +136,8 @@ export default function LaundryRecipeMaster() {
         <div className="wh-fields">
           <label>Nama jenis pewarnaan<input required maxLength={100} placeholder="Contoh Tinting Indigo" value={typeDraft.name} onChange={e => setTypeDraft({ ...typeDraft, name: e.target.value })}/></label>
           <label>Catatan proses (opsional)<input maxLength={240} value={typeDraft.note} onChange={e => setTypeDraft({ ...typeDraft, note: e.target.value })}/></label>
+          <label>Harga acuan per pcs (opsional)<input inputMode="numeric" maxLength={20} placeholder="Rp per pcs" value={formatMoneyInput(benchmark)}
+            onChange={e => setBenchmark(cleanMoneyInput(e.target.value))}/><small>Estimasi di surat kirim. Nominal kontrabon diisi dari tagihan aktual.</small></label>
         </div>
         {error && <p className="wh-feedback" role="alert">{error}</p>}
         <button type="submit" className="primary-btn">Simpan jenis pewarnaan</button>

@@ -1,6 +1,7 @@
 import {readPlannerSession} from './planner/session'
 import {positionDelta} from './skuCatalog'
 import {productCatalog,type Product} from '../productCatalog'
+import {mandorDebtBalance,readPayDrafts} from './payrollSources'
 export type DraftLine={key:string;product:Product;quantities:number[];priceDozen:number}
 export const allInvoices = [
   { number:'INV-JUAL-0245', customer:'Nusantara Fashion', dateKey:'2026-08-28', day:'28 Agu 2026', time:'10:30', sku:'73001 · 73005', qty:72, gross:6_660_000, returns:0, paid:0, status:'DRAFT' },
@@ -17,7 +18,7 @@ export const allInvoices = [
 ]
 
 
-export type DemoInvoice=typeof allInvoices[number]&{lines?:DraftLine[];terms?:string;due?:string;location?:string;changeReason?:string;notes?:string;corrects?:string}
+export type DemoInvoice=typeof allInvoices[number]&{buyerKind?:'MANDOR';lines?:DraftLine[];terms?:string;due?:string;location?:string;changeReason?:string;notes?:string;corrects?:string}
 const invoiceKey='erp.owner.invoice-register.v2'
 type SaleMove={id:string;recordedAt?:string;ref:string;day:string;when:string;type:string;note:string;key:string;delta:number[];balance:number[]}
 type Journal={docs:DemoInvoice[];moves:SaleMove[]}
@@ -70,11 +71,18 @@ export function baseSaleStock(p:Product,docs:DemoInvoice[],editing?:string){
   for(const d of docs)if(d.number!==editing&&counts(d))quantities(d,p).forEach((q,i)=>balance[i]-=q)
   return balance
 }
+export function invoiceHasPayrollAllocation(invoice: DemoInvoice) {
+  if (invoice.buyerKind !== 'MANDOR') return false
+  const {reserved, settled} = mandorDebtBalance(invoice, readPayDrafts())
+  return reserved > 0 || settled > 0
+}
+
 export function postInvoice(id:string){
   const rows=readInvoices(),draft=rows.find(d=>d.number===id)
   if(!draft||draft.status!=='DRAFT')throw Error('Dokumen ini sudah ditutup.')
   const original=draft.corrects?rows.find(d=>d.number===draft.corrects):null
   if(draft.corrects&&(!original||original.status!=='POSTED'||original.paid||original.returns))throw Error('Periksa pembayaran, retur dan status invoice asal.')
+  if (original && invoiceHasPayrollAllocation(original)) throw Error('Selesaikan atau balikkan alokasi payroll untuk invoice asal lebih dulu.')
   return writeInvoices(rows.map(d=>d.number===id?{...d,status:'POSTED'}:original&&d.number===original.number?{...d,status:'REVERSED'}:d))
 }
 

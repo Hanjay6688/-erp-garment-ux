@@ -1,6 +1,6 @@
 import { BrowsePane } from '../components/BrowsePane'
 import { useEffect, useRef, useState, type FormEvent } from 'react'
-import { ArrowDownLeft, ArrowRight, ClipboardList, Layers3, MapPin, Ruler, Scissors, Search } from 'lucide-react'
+import { ArrowDownLeft, ArrowRight, CalendarDays, ClipboardList, Layers3, MapPin, Ruler, Scissors, Search } from 'lucide-react'
 import { browseMatch } from '../browseMatch'
 import RecordTable from '../RecordTable'
 import { amountText, fixtureDate } from './accessoryPricing'
@@ -8,7 +8,7 @@ import { ReasonDialog } from './planner/ReasonDialog'
 import { pocketRollLabel, pocketRolls, readReceipts, receiptPath, type PocketRoll, type PocketUnit } from './pocketReceipts'
 import { pocketMasterPath, pocketMaterialLabel, readPocketMaterials } from './pocketMaterials'
 import {
-  periodActive, planPocketAllocation, planPocketUsage, pocketBalance, pocketBookKey,
+  periodActive, planPocketAllocation, planPocketUsage, pocketBalance, pocketBookKey, pocketIssueCost,
   pocketScale, readPocketBook, type PocketAllocation, type PocketBook, type UsageLine,
 } from './pocketUsage'
 import { lastWarehouseDay } from './warehouseDay'
@@ -34,6 +34,7 @@ function sumLengths<T extends { roll: PocketRoll }>(rows: T[], quantity: (row: T
 
 export default function PocketFabric() {
   const rolls = pocketRolls()
+  const rollById = new Map(rolls.map(roll => [roll.id, roll]))
   const [detailId, setDetailId] = useState(() => new URLSearchParams(location.search).get('roll'))
   const [book, setBook] = useState(readPocketBook)
   const [tab, setTab] = useState<'stock' | 'cost'>('stock')
@@ -66,6 +67,11 @@ export default function PocketFabric() {
   const scoped = matched.filter(row => !activeMaterial || materialKey(row.roll) === activeMaterial)
   const visible = onlyAvailable ? scoped.filter(row => row.left > 0) : scoped
   const selected = rolls.filter(roll => checked.includes(roll.id))
+  const issueById = new Map(book.issues.map(issue => [issue.id, issue]))
+  const allocationDifference = (allocation: PocketAllocation) => allocation.sources.reduce((sum, id) => {
+    const issue = issueById.get(id)
+    return sum + (issue ? pocketIssueCost(issue, rollById.get(issue.roll)) : 0)
+  }, 0) - allocation.cents
   const feedbackRef = useRef<HTMLParagraphElement>(null)
 
   useEffect(() => {
@@ -102,7 +108,7 @@ export default function PocketFabric() {
 
   function showAllocation() {
     try {
-      setPreview(planPocketAllocation(readPocketBook(), start, end))
+      setPreview(planPocketAllocation(readPocketBook(), start, end, pocketRolls()))
       setFeedback(null)
     } catch (error) {
       setPreview(null)
@@ -113,7 +119,7 @@ export default function PocketFabric() {
   function postAllocation() {
     try {
       const current = readPocketBook()
-      const latest = planPocketAllocation(current, start, end)
+      const latest = planPocketAllocation(current, start, end, pocketRolls())
       if (!allocReason.trim() || JSON.stringify(latest) !== JSON.stringify(preview)) {
         throw Error('Periksa lagi perhitungan dan isi alasan pembagian.')
       }
@@ -163,7 +169,7 @@ export default function PocketFabric() {
     </nav>
     {tab === 'stock' ? <>
       {feedback && !undo && <p ref={feedbackRef} tabIndex={-1} className="wh-feedback" role={feedback.error ? 'alert' : 'status'}>{feedback.text}</p>}
-      <section className="panel wh-workspace material-rolls-workspace pocket-stock-workspace">
+      <section className="panel wh-workspace pocket-stock-workspace">
         <div className="wh-toolbar pocket-toolbar">
           <label className="wh-search"><Search aria-hidden="true"/><input type="search" aria-label="Cari roll" value={query} onChange={e => setQuery(e.target.value)} placeholder="Cari roll, bahan, pabrik, atau surat jalan…"/></label>
           <label className="pocket-filter">Gudang<select value={warehouse} onChange={e => setWarehouse(e.target.value)}><option value="">Semua gudang</option>
@@ -171,8 +177,8 @@ export default function PocketFabric() {
           <label className="pocket-filter">Saldo<select value={onlyAvailable ? 'available' : ''} onChange={e => setOnlyAvailable(e.target.value === 'available')}>
             <option value="">Semua saldo</option><option value="available">Masih bersaldo</option></select></label>
         </div>
-        <div className="wh-master-detail rolls">
-          <BrowsePane embedded className="wh-browser pocket-browser" aria-label="Daftar stok kain kantong">
+        <div className="wh-master-detail pocket-rolls">
+          <BrowsePane className="wh-browser pocket-browser" aria-label="Daftar stok kain kantong">
             <header><div><span>BAHAN</span><strong>{materialIds.length} jenis kain kantong</strong></div><Layers3 size={18} aria-hidden="true"/></header>
             <div className="wh-browser-list">
               {['', ...materialIds].map(id => {
@@ -193,8 +199,12 @@ export default function PocketFabric() {
             </dl>
             <div className="wh-roll-head pocket-roll-head">
               <strong>Roll di gudang</strong>
-              {selected.length > 0 && <span>{selected.length} roll dipilih</span>}
             </div>
+            {selected.length > 0 && <div className="pocket-bulk">
+              <p><strong>{selected.length} roll dipilih</strong><small>{selected.map(pocketRollLabel).join(', ')}</small></p>
+              <button type="button" className="soft-btn" onClick={() => openUsage({ rolls: selected, whole: true })}>Pakai seluruh sisa · {selected.length} roll</button>
+              <button type="button" className="primary-btn" onClick={() => openUsage({ rolls: selected, whole: false })}>Atur pemakaian <ArrowRight size={16} aria-hidden="true"/></button>
+            </div>}
             <ul className="wh-roll-list pocket-stock-list" aria-label="Stok per roll">
               {visible.map(({ roll, incoming, left }) => <li key={roll.id} className="pocket-stock-row">
                 <article>
@@ -208,7 +218,7 @@ export default function PocketFabric() {
                     <div className="pocket-remaining"><dt>Sisa</dt><dd className="pocket-quantity">{length(left, roll.unit)}</dd></div>
                   </dl>
                   <div className="wh-roll-progress" aria-hidden="true"><span style={{ width: `${100 * left / Math.max(incoming, 1)}%` }}/></div>
-                  <footer><span><MapPin aria-hidden="true"/>{roll.location}</span><span>{amountText(roll.rate)} / {roll.unit}</span>
+                  <footer><span><MapPin aria-hidden="true"/>{roll.location}</span><span>{roll.finalBill ? 'Harga final' : 'Harga saat masuk'} · {amountText(roll.rate)} / {roll.unit}</span>
                     <div className="wh-roll-actions"><button type="button" className="wh-roll-history" aria-expanded={detailId === roll.id}
                       onClick={() => setDetailId(detailId === roll.id ? null : roll.id)}>Riwayat roll <ArrowRight aria-hidden="true"/></button>
                     <button type="button" className="pocket-use-button" aria-label={'Catat pemakaian ' + roll.id} disabled={left <= 0}
@@ -222,7 +232,8 @@ export default function PocketFabric() {
                     <a href={receiptPath + '&surat=' + encodeURIComponent(roll.receipt)}>Lihat penerimaan</a>
                   </div>
                   {book.issues.filter(i => i.roll === roll.id).map(issue => <div className="wh-register-row" key={issue.id}>
-                    <span><strong>Keluar · {length(issue.qty, roll.unit)}</strong><small>{issue.date} · {issue.id} · {rupiah(issue.cents)}</small></span>
+                    <span><strong>Keluar · {length(issue.qty, roll.unit)}</strong><small>{issue.date} · {issue.id} · Tercatat {rupiah(issue.cents)}</small>
+                      {pocketIssueCost(issue, roll) !== issue.cents && <small>Harga final · {rupiah(pocketIssueCost(issue, roll))}</small>}</span>
                     {issue.reversal ? <span>Dibalik · {issue.reversal}</span> : <button type="button" className="soft-btn" onClick={() => openReverse({ kind: 'issue', id: issue.id })}>Balikkan {issue.id}</button>}
                   </div>)}
                 </section>}
@@ -231,11 +242,6 @@ export default function PocketFabric() {
             {!visible.length && (onlyAvailable && scoped.length > 0
               ? <div className="pocket-empty"><p>Semua roll di daftar ini sudah habis.</p><button type="button" className="soft-btn" onClick={() => setOnlyAvailable(false)}>Lihat roll habis</button></div>
               : <p className="pocket-empty">Tidak ada roll yang cocok dengan pencarian.</p>)}
-            {selected.length > 0 && <div className="pocket-bulk">
-              <p><strong>{selected.length} roll dipilih</strong><small>{selected.map(pocketRollLabel).join(', ')}</small></p>
-              <button type="button" className="soft-btn" onClick={() => openUsage({ rolls: selected, whole: true })}>Pakai seluruh sisa · {selected.length} roll</button>
-              <button type="button" className="primary-btn" onClick={() => openUsage({ rolls: selected, whole: false })}>Atur pemakaian <ArrowRight size={16} aria-hidden="true"/></button>
-            </div>}
           </div>
         </div>
       </section>
@@ -282,7 +288,8 @@ export default function PocketFabric() {
         <h3>Riwayat pembagian biaya</h3>
         {book.allocations.length === 0 && <p>Belum ada pembagian biaya.</p>}
         {[...book.allocations].reverse().map(a => <div className="wh-register-row" key={a.id}>
-          <span><strong><span className="pocket-quantity">{a.pcs} pcs</span> · {rupiah(a.cents)}</strong><small>{a.start} – {a.end} · {a.id} · {a.reason}</small></span>
+          <span><strong><span className="pocket-quantity">{a.pcs} pcs</span> · {rupiah(a.cents)}</strong><small>{a.start} – {a.end} · {a.id} · {a.reason}</small>
+            {!a.reversal && allocationDifference(a) !== 0 && <small className="pocket-price-difference">Harga final mengubah biaya sebesar {rupiah(allocationDifference(a))}. Balikkan dan hitung ulang periode ini.</small>}</span>
           {a.reversal ? <span>Dibatalkan · {a.reversal}</span> : <button type="button" className="soft-btn" onClick={() => openReverse({ kind: 'period', id: a.id })}>Batalkan pembagian</button>}
         </div>)}
       </section>
@@ -343,16 +350,19 @@ function PocketUsageForm({ selection, book, onClose, onConfirm }: {
   const title = whole ? `Pakai seluruh sisa · ${rolls.length} roll` : rolls.length > 1 ? `Atur pemakaian · ${rolls.length} roll` : 'Pakai ' + (first.sequence ? pocketRollLabel(first) : 'roll ' + first.id)
   return <ReasonDialog title={title} onClose={onClose} closeLabel="Kembali" className="pocket-usage-modal">
     <form className="pocket-dialog-form pocket-usage-form" onSubmit={submit} noValidate>
-      <div className="wh-fields pocket-usage-meta">
-        <label>Tanggal pemakaian<input type="date" required min={minDay} max={lastWarehouseDay()} value={date} onChange={e => { setDate(e.target.value); setError('') }}/></label>
-        <label>Alasan pemakaian<input required value={reason} onChange={e => { setReason(e.target.value); setError('') }}/></label>
-      </div>
+      <section className="pocket-usage-document">
+        <header className="pocket-stage-title"><i><CalendarDays aria-hidden="true"/></i><h3>Waktu dan keperluan</h3></header>
+        <div className="wh-fields pocket-usage-meta">
+          <label>Tanggal pemakaian<input type="date" required min={minDay} max={lastWarehouseDay()} value={date} onChange={e => { setDate(e.target.value); setError('') }}/></label>
+          <label>Alasan pemakaian<input required value={reason} onChange={e => { setReason(e.target.value); setError('') }}/></label>
+        </div>
+      </section>
       <section className="pocket-usage-workbench" aria-label="Panjang yang dipakai per roll">
-        <h3>Panjang yang dipakai per roll</h3>
+        <header className="pocket-stage-title"><i><Scissors aria-hidden="true"/></i><h3>Panjang yang dipakai per roll</h3></header>
         <div className="pocket-usage-rows">
           {rows.map(({ roll, left, draft, line, invalid }, index) => <article key={roll.id} className="pocket-usage-row">
             <header className="wh-roll-id"><i><Ruler aria-hidden="true"/></i><div><strong>{roll.name}</strong><small className="record-code">{pocketRollLabel(roll)} · {roll.receipt} · {roll.location}</small></div></header>
-            <div className="pocket-usage-before"><small>Sebelum</small><strong>{length(left, roll.unit)}</strong></div>
+            <div className="pocket-usage-before"><small>Tersedia</small><strong>{length(left, roll.unit)}</strong></div>
             {!whole ? <div className="wh-fields pocket-usage-inputs">
               <label>Cara mencatat<select value={draft.mode} onChange={e => updateDraft(index, { mode: e.target.value as UsageMode, amount: '' })}>
                 <option value="keluar">Isi yang dipakai</option><option value="sisa">Isi sisa fisik</option><option value="utuh">Pakai semua sisa</option>
@@ -361,7 +371,10 @@ function PocketUsageForm({ selection, book, onClose, onConfirm }: {
                 <input required inputMode="decimal" aria-invalid={Boolean(invalid)} placeholder="0" value={draft.amount} onChange={e => updateDraft(index, { amount: e.target.value })}/>
               </label>}
             </div> : <div className="pocket-usage-before"><small>Dipakai</small><strong>Seluruh sisa</strong></div>}
-            <div className="pocket-usage-after"><small>Sisa setelah dipakai</small><strong>{line ? length(line.left, roll.unit) : '—'}</strong></div>
+            <div className="pocket-usage-results">
+              <div><small>Dipakai</small><strong>{line ? length(line.qty, roll.unit) : '—'}</strong></div>
+              <div className="pocket-usage-after"><small>Sisa setelah dipakai</small><strong>{line ? length(line.left, roll.unit) : '—'}</strong></div>
+            </div>
             {invalid && <p className="wh-feedback" role="alert">{invalid}</p>}
           </article>)}
         </div>

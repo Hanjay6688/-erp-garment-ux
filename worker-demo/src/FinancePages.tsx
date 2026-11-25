@@ -3,9 +3,10 @@ import {browseMatchPieces} from './browseMatch'
 import {PeriodFilter,periodFor,periodLabel} from './demo/PeriodFilter'
 import {fgQuantity} from './fgQuantity'
 import {fgDrafts} from './demo/fgDraft'
-import {readNotes as readIssueSources} from './demo/issueDocuments'
-import {accessorySourcePieces,availableSources,allPayrollSources,choosePayrollSource,editablePayroll,fgSourcePieces,newPayDraft,readPayDrafts,savePayDrafts,payrollPeriod,type PayDraft} from './demo/payrollSources'
-import {contractorNames,normalizeMandor} from './demo/accessoryPricing'
+import {mandorNames,readNotes as readIssueSources} from './demo/issueDocuments'
+import {accessorySourcePieces,availableSources,allPayrollSources,chooseMandorDebt,choosePayrollSource,editablePayroll,fgSourcePieces,mandorBillsForPayroll,mandorDebtBalance,newPayDraft,payrollDebtTotal,readPayDrafts,savePayDrafts,payrollPeriod,validMandorDebts,type PayDraft} from './demo/payrollSources'
+import {fixtureDate,normalizeMandor} from './demo/accessoryPricing'
+import {readInvoices} from './demo/saleBook'
 import {ReasonDialog} from './demo/planner/ReasonDialog'
 import { useMemo, useState } from 'react'
 import {
@@ -18,7 +19,7 @@ import {
   cashAccounts, cashMovements, closeChecks, journals, payables, payrollNotes,
   receivables,
 } from './financeData'
-import type { JournalEntry, Payable, PayrollNote } from './financeData'
+import type { JournalEntry, Payable, PayrollNote, Receivable } from './financeData'
 import EnterpriseSelect from './EnterpriseSelect'
 import SupplierInvoiceMatchModal from './SupplierInvoiceMatchModal'
 import { cleanMoneyInput, formatMoneyInput } from './moneyInput'
@@ -43,7 +44,21 @@ const outstandingPayable=(item:Payable)=>Math.max(0,item.amount-item.paid)
 const august={grossSales:414_200_000,returns:8_100_000,cogs:272_900_000,operating:57_800_000,otherNet:1_650_000}
 const augustNetSales=august.grossSales-august.returns,augustGrossProfit=augustNetSales-august.cogs,augustNetProfit=augustGrossProfit-august.operating+august.otherNet
 const augustMargin=(augustGrossProfit/augustNetSales*100).toFixed(1).replace('.',',')
-const outstandingReceivable=(item:(typeof receivables)[number])=>Math.max(0,item.gross-item.returns-item.paid)
+const outstandingReceivable=(item:Pick<Receivable,'gross'|'returns'|'paid'>)=>Math.max(0,item.gross-item.returns-item.paid)
+type DemoReceivable = Omit<Receivable, 'status'> & { status: Receivable['status'] | 'PAID'; qty?: number; mandor?: ReturnType<typeof mandorDebtBalance> }
+function demoReceivables(): DemoReceivable[] {
+  const notes = readPayDrafts()
+  const mandor = readInvoices().filter(invoice => invoice.buyerKind === 'MANDOR' && invoice.status === 'POSTED').map((invoice): DemoReceivable => {
+    const balance = mandorDebtBalance(invoice, notes)
+    const paid = invoice.paid + balance.settled
+    return {
+      invoice: invoice.number, customer: invoice.customer, invoiceDate: invoice.day, dueDate: invoice.due || 'Tanpa jatuh tempo',
+      gross: invoice.gross, returns: invoice.returns, paid, qty: invoice.qty, mandor: balance,
+      status: balance.outstanding === 0 ? 'PAID' : invoice.due && invoice.due < fixtureDate ? 'OVERDUE' : paid > 0 ? 'PARTIAL' : 'OPEN',
+    }
+  })
+  return [...receivables, ...mandor]
+}
 
 function financeTone(status:string):Tone {
   if(['POSTED','PAID','APPROVED','ACTUAL','CLEAR'].includes(status))return 'good'
@@ -110,7 +125,7 @@ export default function FinancePages({view,onNavigate,onSalesPayment,onAttendanc
 
 function FinanceOverview({onNavigate}:{onNavigate:FinanceProps['onNavigate']}) {
   const totalCash=cashAccounts.reduce((sum,item)=>sum+item.balance,0)
-  const totalAr=receivables.reduce((sum,item)=>sum+outstandingReceivable(item),0)
+  const totalAr=demoReceivables().reduce((sum,item)=>sum+outstandingReceivable(item),0)
   const totalAp=payables.reduce((sum,item)=>sum+outstandingPayable(item),0)
   const grni=payables.filter((item)=>item.kind==='MATERIAL_GRNI').reduce((sum,item)=>sum+outstandingPayable(item),0)
   const grniCount=payables.filter((item)=>item.kind==='MATERIAL_GRNI'&&outstandingPayable(item)>0).length
@@ -176,32 +191,91 @@ function PayablesWorkspace() {
 }
 
 function ReceivablesWorkspace({onSalesPayment}:{onSalesPayment:()=>void}) {
+  const [accounts]=useState(demoReceivables)
   const [customer,setCustomer]=useState('ALL')
   const [status,setStatus]=useState('OPEN')
   const [query,setQuery]=useState('')
-  const [selectedInvoice,setSelectedInvoice]=useState(receivables[0].invoice)
-  const visible=receivables.filter((item)=>`${item.invoice} ${item.customer}`.toLowerCase().includes(query.toLowerCase())&&(customer==='ALL'||item.customer===customer)&&(status==='ALL'||(status==='OPEN'?!['PAID'].includes(item.status):item.status===status)))
-  const selected=receivables.find((item)=>item.invoice===selectedInvoice)??receivables[0]
+  const [selectedInvoice,setSelectedInvoice]=useState(accounts[0].invoice)
+  const visible=accounts.filter((item)=>browseMatchPieces(query,item.qty===undefined?[]:[item.qty],item.invoice,item.customer)
+    && (customer==='ALL'||item.customer===customer) && (status==='ALL'||(status==='OPEN'?item.status!=='PAID':item.status===status)))
+  const selected=accounts.find((item)=>item.invoice===selectedInvoice)??accounts[0]
   const outstanding=outstandingReceivable(selected)
   return <>
-    <FinanceHero eyebrow="KEUANGAN · COLLECTION COCKPIT" title="Piutang Pelanggan" description="Lihat invoice, retur, pembayaran, jatuh tempo, dan risiko per toko. Pencatatan uang tetap dilakukan di flow Penjualan agar payment tidak ganda." icon={CircleDollarSign}/>
-    <section className="biz-metrics"><div className="panel warn"><span>TOTAL AR</span><strong>{compactMoney(receivables.reduce((sum,item)=>sum+outstandingReceivable(item),0))}</strong><small>Net retur dan payment</small></div><div className="panel danger"><span>OVERDUE</span><strong>Rp7,7 jt</strong><small>2 invoice</small></div><div className="panel"><span>DUE ≤ 7 HARI</span><strong>Rp4,8 jt</strong><small>Prioritas collection</small></div><div className="panel good"><span>PAYMENT HARI INI</span><strong>Rp7,7 jt</strong><small>Dari dua pelanggan</small></div></section>
-    <section className="panel biz-master-detail finance-detail"><BrowsePane aria-label="Daftar piutang"><header><div><span>AR BROWSER</span><strong>{visible.length} invoice</strong></div><CircleDollarSign/></header><label className="biz-search"><Search/><input value={query} onChange={(event)=>setQuery(event.target.value)} placeholder="Cari invoice atau pelanggan..."/></label><div className="biz-double-filter"><select value={customer} onChange={(event)=>setCustomer(event.target.value)}><option value="ALL">Semua pelanggan</option>{[...new Set(receivables.map((item)=>item.customer))].map((item)=><option key={item}>{item}</option>)}</select><select value={status} onChange={(event)=>setStatus(event.target.value)}><option value="OPEN">Semua terbuka</option><option value="ALL">Semua status</option><option>OVERDUE</option><option>PARTIAL</option></select></div><div className="biz-browser-list">{visible.map((item)=><button key={item.invoice} className={item.invoice===selected.invoice?'active':''} onClick={()=>setSelectedInvoice(item.invoice)}><span>AR</span><div><strong>{item.invoice}</strong><small>{item.customer}</small><em>Due {item.dueDate}</em></div><b>{money(outstandingReceivable(item))}</b><Pill>{item.status}</Pill></button>)}</div></BrowsePane><main><header className="biz-detail-head"><div><span>INVOICE PELANGGAN</span><h2>{selected.invoice}</h2><p>{selected.customer} · {selected.invoiceDate}</p></div><Pill>{selected.status}</Pill></header><div className="biz-ar-equation"><span><small>GROSS SALE</small><strong>{money(selected.gross)}</strong></span><i>−</i><span><small>RETUR</small><strong>{money(selected.returns)}</strong></span><i>−</i><span><small>PAYMENT</small><strong>{money(selected.paid)}</strong></span><i>=</i><span><small>OUTSTANDING</small><strong>{money(outstanding)}</strong></span></div><div className="biz-date-audit"><article><CalendarClock/><span><small>INVOICE DATE</small><strong>{selected.invoiceDate}</strong><em>Tanggal sale posted</em></span></article><article><Clock3/><span><small>DUE DATE</small><strong>{selected.dueDate}</strong><em>{selected.status==='OVERDUE'?'Lewat jatuh tempo':'Belum jatuh tempo'}</em></span></article><article><TrendingDown/><span><small>RETUR</small><strong>{money(selected.returns)}</strong><em>Dokumen terpisah</em></span></article></div><section className="biz-source-chain"><span>ALUR PIUTANG</span><div><article><small>01</small><strong>Sale posted</strong><em>Revenue + AR</em></article><ArrowRight/><article><small>02</small><strong>Retur bila ada</strong><em>AR + revenue turun</em></article><ArrowRight/><article><small>03</small><strong>Payment</strong><em>Kas naik · AR turun</em></article></div></section><div className="biz-guard"><ShieldCheck/><span>Piutang di sini read-only. Pembayaran dicatat dari invoice eligible di Penjualan agar allocation uang tidak dobel.</span></div><footer className="biz-detail-actions"><span>Outstanding {money(outstanding)} · {selected.status}</span><button className="primary-btn" onClick={onSalesPayment}><WalletCards/> Catat pembayaran pelanggan</button></footer></main></section>
+    <FinanceHero eyebrow="KEUANGAN · COLLECTION COCKPIT" title="Piutang Pelanggan" description="Lihat invoice, retur, pembayaran, jatuh tempo, dan risiko per toko. Buka rincian invoice pelanggan dan piutang belanja mandor yang terhubung ke payroll." icon={CircleDollarSign}/>
+    <section className="biz-metrics"><div className="panel warn"><span>TOTAL AR</span><strong>{compactMoney(accounts.reduce((sum,item)=>sum+outstandingReceivable(item),0))}</strong><small>Net retur dan payment</small></div><div className="panel danger"><span>OVERDUE</span><strong>Rp7,7 jt</strong><small>2 invoice</small></div><div className="panel"><span>DUE ≤ 7 HARI</span><strong>Rp4,8 jt</strong><small>Prioritas collection</small></div><div className="panel good"><span>PAYMENT HARI INI</span><strong>Rp7,7 jt</strong><small>Dari dua pelanggan</small></div></section>
+    <section className="panel biz-master-detail finance-detail"><BrowsePane aria-label="Daftar piutang"><header><div><span>AR BROWSER</span><strong>{visible.length} invoice</strong></div><CircleDollarSign/></header><label className="biz-search"><Search/><input value={query} onChange={(event)=>setQuery(event.target.value)} placeholder="Cari invoice atau pelanggan..."/></label><div className="biz-double-filter"><select value={customer} onChange={(event)=>setCustomer(event.target.value)}><option value="ALL">Semua pelanggan</option>{[...new Set(accounts.map((item)=>item.customer))].map((item)=><option key={item}>{item}</option>)}</select><select value={status} onChange={(event)=>setStatus(event.target.value)}><option value="OPEN">Semua terbuka</option><option value="ALL">Semua status</option><option>OVERDUE</option><option>PARTIAL</option><option value="PAID">Lunas</option></select></div><div className="biz-browser-list">{visible.map((item)=><button key={item.invoice} className={item.invoice===selected.invoice?'active':''} onClick={()=>setSelectedInvoice(item.invoice)}><span>AR</span><div><strong>{item.invoice}</strong><small>{item.customer}</small><em>Due {item.dueDate}</em></div><b>{money(outstandingReceivable(item))}</b><Pill>{item.status}</Pill></button>)}</div></BrowsePane><main><header className="biz-detail-head"><div><span>{selected.mandor?'PIUTANG BELANJA MANDOR':'INVOICE PELANGGAN'}</span><h2>{selected.invoice}</h2><p>{selected.customer} · {selected.invoiceDate}</p></div><Pill>{selected.status}</Pill></header><div className="biz-ar-equation"><span><small>GROSS SALE</small><strong>{money(selected.gross)}</strong></span><i>−</i><span><small>RETUR</small><strong>{money(selected.returns)}</strong></span><i>−</i><span><small>{selected.mandor?'DIBAYAR VIA PAYROLL':'PAYMENT'}</small><strong>{money(selected.paid)}</strong></span><i>=</i><span><small>OUTSTANDING</small><strong>{money(outstanding)}</strong></span></div><div className="biz-date-audit"><article><CalendarClock/><span><small>INVOICE DATE</small><strong>{selected.invoiceDate}</strong><em>Tanggal sale posted</em></span></article><article><Clock3/><span><small>DUE DATE</small><strong>{selected.dueDate}</strong><em>{selected.status==='OVERDUE'?'Lewat jatuh tempo':'Belum jatuh tempo'}</em></span></article><article><TrendingDown/><span><small>RETUR</small><strong>{money(selected.returns)}</strong><em>Dokumen terpisah</em></span></article></div>{selected.mandor ? <section className="mandor-debt-panel" aria-label="Alokasi piutang mandor"><header><WalletCards aria-hidden="true"/><div><h3>Alokasi payroll</h3><p>Saldo piutang berkurang saat payroll dibayar.</p></div></header><dl className="mandor-debt-balances"><div><dt>Dialokasikan</dt><dd>{money(selected.mandor.reserved)}</dd></div><div><dt>Saldo bebas</dt><dd>{money(selected.mandor.available)}</dd></div></dl></section> : <><section className="biz-source-chain"><span>ALUR PIUTANG</span><div><article><small>01</small><strong>Sale posted</strong><em>Revenue + AR</em></article><ArrowRight/><article><small>02</small><strong>Retur bila ada</strong><em>AR + revenue turun</em></article><ArrowRight/><article><small>03</small><strong>Payment</strong><em>Kas naik · AR turun</em></article></div></section><div className="biz-guard"><ShieldCheck/><span>Piutang di sini read-only. Pembayaran dicatat dari invoice eligible di Penjualan agar allocation uang tidak dobel.</span></div></>}<footer className="biz-detail-actions"><span>Outstanding {money(outstanding)} · {selected.status}</span>{selected.mandor ? <a className="soft-btn" href={'/penjualan/semua-invoice/?nota='+encodeURIComponent(selected.invoice)}>Buka invoice <ArrowRight/></a> : <button className="primary-btn" onClick={onSalesPayment}><WalletCards/> Catat pembayaran pelanggan</button>}</footer></main></section>
   </>
+}
+
+function MandorDebtPicker({note,bills,linked,onChoose,onClose}:{
+  note:PayDraft; bills:ReturnType<typeof mandorBillsForPayroll>; linked:string|null;
+  onChoose:(invoice:string,amount:number)=>void; onClose:()=>void;
+}) {
+  const initial = bills.find(bill=>bill.invoice.number===linked) ?? bills[0]
+  const [invoice,setInvoice]=useState(initial?.invoice.number ?? '')
+  const [amount,setAmount]=useState(initial?.allocated ? String(initial.allocated) : '')
+  const [error,setError]=useState('')
+  const bill=bills.find(row=>row.invoice.number===invoice)
+  const proposed=Number(amount)
+  const canSave=!!bill&&Number.isSafeInteger(proposed)&&proposed>0&&proposed<=bill.maximum
+  function choose(amountToApply:number) {
+    if (!bill) return
+    try { onChoose(invoice,amountToApply) }
+    catch (failure) { setError((failure as Error).message) }
+  }
+  return <ReasonDialog title="Potongan piutang mandor" closeLabel="Tutup" onClose={onClose} className="mandor-debt-dialog">
+    <p>{note.contractor} · {note.period}</p>
+    {bill ? <form onSubmit={event=>{event.preventDefault();if(canSave)choose(proposed)}}>
+      <label>Invoice piutang
+        <select value={invoice} onChange={event=>{
+          const next=bills.find(row=>row.invoice.number===event.target.value)
+          setInvoice(event.target.value);setAmount(next?.allocated ? String(next.allocated) : '');setError('')
+        }}>{bills.map(row=><option key={row.invoice.number} value={row.invoice.number}>{row.invoice.number} · {money(row.outstanding)} tersisa</option>)}</select>
+      </label>
+      <dl className="mandor-debt-balances">
+        <div><dt>Sisa piutang</dt><dd>{money(bill.outstanding)}</dd></div>
+        <div><dt>Batas potongan periode ini</dt><dd>{money(bill.maximum)}</dd></div>
+      </dl>
+      <label>Nominal potongan
+        <input inputMode="numeric" maxLength={22} value={formatMoneyInput(amount)} onChange={event=>{setAmount(cleanMoneyInput(event.target.value));setError('')}} placeholder="Rp 0"/>
+      </label>
+      <p>{bill.maximum>0 ? 'Saldo piutang turun saat payroll dibayar.' : 'Tambahkan nota upah atau cek alokasi piutang di periode lain.'}</p>
+      {error&&<p role="alert">{error}</p>}
+      <footer>
+        <button type="button" className="soft-btn" disabled={bill.maximum<=0} onClick={()=>setAmount(String(bill.maximum))}>Isi batas potongan</button>
+        {bill.allocated>0&&<button type="button" className="soft-btn" onClick={()=>choose(0)}>Lepas potongan</button>}
+        <button className="primary-btn" disabled={!canSave}>Simpan potongan</button>
+      </footer>
+    </form> : <div className="mandor-debt-empty">
+      <p>Invoice belanja {note.contractor} yang sudah dipost akan muncul sesuai periode payroll.</p>
+      <a className="soft-btn" href={'/penjualan/invoice/?mandor='+encodeURIComponent(note.contractor)}>Buat invoice mandor <ArrowRight/></a>
+    </div>}
+  </ReasonDialog>
 }
 
 function PayrollWorkspace({onAttendance,onOpenFg}:{onAttendance:()=>void;onOpenFg?:()=>void}) {
   const [notes,renderNotes]=useState(readPayDrafts)
   function setNotes(update:(notes:PayDraft[])=>PayDraft[]){renderNotes(savePayDrafts(update(readPayDrafts())))}
-  const [compose,setCompose]=useState(false),[mandor,setMandor]=useState('Mandor Afui'),[from,setFrom]=useState('2026-11-23'),[until,setUntil]=useState('2026-11-29')
+  const [salesInvoices]=useState(readInvoices)
+  const [debtLink]=useState(()=>new URLSearchParams(location.search))
+  const linkedInvoice=salesInvoices.find(invoice=>invoice.number===debtLink.get('piutang')&&invoice.buyerKind==='MANDOR'&&invoice.status==='POSTED')
+  const suggestedPeriod=periodFor('week',linkedInvoice?.dateKey??fixtureDate)
+  const [compose,setCompose]=useState(false)
+  const [mandor,setMandor]=useState(linkedInvoice?.customer??'Mandor Afui')
+  const [from,setFrom]=useState(suggestedPeriod.start),[until,setUntil]=useState(suggestedPeriod.end)
   const [pickOpen,setPickOpen]=useState<'FG'|'ACCESSORY'|null>(null),[sourceQuery,setSourceQuery]=useState('')
+  const [debtOpen,setDebtOpen]=useState(false)
   const [workPeriod,setWorkPeriod]=useState(()=>periodFor('all','2026-11-24'))
   const [payrollSort,setPayrollSort]=useState('recent')
 
   const [statusFilter,setStatusFilter]=useState('Aktif · lunas disembunyikan')
-  const [mandorFilter,setMandorFilter]=useState('Semua mandor')
+  const [mandorFilter,setMandorFilter]=useState(()=>notes.find(note=>note.contractor===linkedInvoice?.customer)?.contractor??'Semua mandor')
   const [query,setQuery]=useState('')
-  const [selectedNumber,setSelectedNumber]=useState(()=>sessionStorage.getItem('erp.owner.payroll.focus')??notes[0].number)
+  const [selectedNumber,setSelectedNumber]=useState(()=>{
+    const linkedNote=linkedInvoice && notes.filter(editablePayroll).sort((left,right)=>payrollPeriod(right).end.localeCompare(payrollPeriod(left).end))
+      .find(note=>mandorBillsForPayroll(salesInvoices,notes,note).some(bill=>bill.invoice.number===linkedInvoice.number))
+    return linkedNote?.number ?? sessionStorage.getItem('erp.owner.payroll.focus') ?? notes[0].number
+  })
   const [sourceSelection,setSourceSelection]=useState<PayrollSourceSelection>(null)
   const [payOpen,setPayOpen]=useState(false)
   const [payReference,setPayReference]=useState('')
@@ -227,7 +301,7 @@ function PayrollWorkspace({onAttendance,onOpenFg}:{onAttendance:()=>void;onOpenF
     return payrollSort==='old'?byPeriod:-byPeriod
   }),[mandorFilter,notes,query,statusFilter,payrollSort,workPeriod])
   const selected=visible.find((item)=>item.number===selectedNumber)??visible[0]??null
-  function focus(id:string){setSelectedNumber(id);sessionStorage.setItem('erp.owner.payroll.focus',id);setPickOpen(null);setSourceSelection(null);setNotice('')}
+  function focus(id:string){setSelectedNumber(id);sessionStorage.setItem('erp.owner.payroll.focus',id);setPickOpen(null);setDebtOpen(false);setSourceSelection(null);setNotice('')}
   function choose(number:string,add:boolean){if(!selected)return;try{setNotes(ns=>choosePayrollSource(ns,selected.number,number,add));setNotice(add?number+' ditambahkan ke pembayaran ini.':number+' dilepas. Bisa dipilih di pembayaran berikutnya.')}catch(e){setNotice((e as Error).message)}}
   const available=selected?availableSources(notes,selected):[]
   const choices = available.filter(source => {
@@ -249,11 +323,26 @@ function PayrollWorkspace({onAttendance,onOpenFg}:{onAttendance:()=>void;onOpenF
   const fgRepairJobs=selected?.fgNotes.reduce((sum,item)=>sum+fgRepairCount(item),0)??0
   const accessoryTotal=selected?.accessoryNotes.reduce((sum,item)=>sum+item.total,0)??0
   const otherDeductions=selected?.deductions.reduce((sum,item)=>sum+item.amount,0)??0
-  const recomputed=fgTotal+(selected?.attendance??0)-accessoryTotal-otherDeductions
+  const mandorTotal=selected ? payrollDebtTotal(selected) : 0
+  const mandorBills=selected ? mandorBillsForPayroll(salesInvoices,notes,selected) : []
+  const linkedBalance=linkedInvoice && mandorDebtBalance(linkedInvoice,notes)
+  const recomputed=Math.round((fgTotal+(selected?.attendance??0)-accessoryTotal-otherDeductions-mandorTotal)*100)/100
   const calculationMatches=Boolean(selected
-    && fgTotal===selected.labor+selected.reimbursement
-    && accessoryTotal+otherDeductions===selected.deduction
-    && recomputed===selected.netPayable)
+    && Math.round((fgTotal-selected.labor-selected.reimbursement)*100)===0
+    && Math.round((accessoryTotal+otherDeductions+mandorTotal-selected.deduction)*100)===0
+    && recomputed===selected.netPayable
+    && validMandorDebts(salesInvoices,notes,selected))
+  function changePayrollStatus(next:'REVIEW'|'APPROVED'|'PAID') {
+    if (!selected) return false
+    try {
+      setNotes(current=>{
+        const note=current.find(row=>row.number===selected.number)
+        if (!note || note.status!==selected.status || !validMandorDebts(readInvoices(),current,note)) throw Error('Komposisi payroll berubah. Periksa lagi nota dan saldo piutangnya.')
+        return current.map(row=>row===note ? {...row,status:next} : row)
+      })
+      return true
+    } catch (failure) { setNotice((failure as Error).message);return false }
+  }
   const activeNotes=notes.filter((item)=>!['PAID','REVERSED'].includes(item.status))
   const activeDeductions=activeNotes.reduce((sum,item)=>sum+item.deduction,0)
   const eligibleLines=activeNotes.reduce((sum,item)=>sum+item.eligibleLines,0)
@@ -266,9 +355,11 @@ function PayrollWorkspace({onAttendance,onOpenFg}:{onAttendance:()=>void;onOpenF
     <FinanceHero eyebrow="KEUANGAN · PAYROLL & SETTLEMENT" title="Payroll & Kasbon" description="Nota FG yang sudah posted berjajar sebagai sumber bayar. Absensi dan rate harian dikelola di halaman terpisah, lalu masuk ke sini sebagai snapshot posted." icon={UsersRound} action={<button className="primary-btn biz-hero-action" onClick={onAttendance}><CalendarDays/> Buka Absensi & Rate</button>}/>
     <section className="biz-metrics"><div className="panel"><span>NOTA TERBUKA</span><strong>{activeNotes.length}</strong><small>Draft sampai approved</small></div><div className="panel warn"><span>ELIGIBLE BELUM DITARIK</span><strong>{eligibleLines} baris</strong><small>Masuk nota berikutnya</small></div><div className="panel danger"><span>KASBON & POTONGAN</span><strong>{compactMoney(activeDeductions)}</strong><small>Aksesori aktual + koreksi</small></div><div className="panel good"><span>SIAP DIBAYAR</span><strong>{compactMoney(readyToPay)}</strong><small>Nota approved</small></div></section>
     <div className="owner-payroll-actions"><button type="button" className="primary-btn" onClick={()=>setCompose(true)}>Buat payroll untuk periode lain</button><button type="button" className="soft-btn" onClick={()=>{rememberPayroll();if(onOpenFg)onOpenFg();else location.assign('/produksi/susun-nota-fg/?dari=payroll')}}>Susun Nota FG</button>{selected&&<a className="gar-button" onClick={rememberPayroll} href={'/keuangan/nota-ambil-mandor/?dari=payroll&mandor='+encodeURIComponent(selected.contractor)}>Nota Ambil Aksesori</a>}</div>
+    {linkedInvoice&&linkedBalance&&linkedBalance.available>0&&!mandorBills.some(bill=>bill.invoice.number===linkedInvoice.number)&&
+      <div className="biz-guard"><WalletCards aria-hidden="true"/><span>Untuk potong tagihan {linkedInvoice.number} milik {linkedInvoice.customer}, pilih atau buat payroll dengan akhir periode sejak {linkedInvoice.day}.</span></div>}
     {selected&&<details className="panel owner-source-drafts"><summary>Draft nota sumber · {selected.contractor} ({draftSources.length})</summary>
       {draftSources.length?draftSources.map(d=><div className="owner-doc-row" key={d.number}><span><strong>{d.number} · {d.kind}</strong><small>{d.detail}</small></span><a className="gar-button" onClick={rememberPayroll} href={d.href}>Buka &amp; edit</a></div>):<p>Belum ada draft nota FG atau aksesori untuk mandor ini.</p>}</details>}
-    {compose&&<ReasonDialog title="Buat payroll" closeLabel="Kembali" onClose={()=>setCompose(false)}><div className="sku-range-fields"><label>Mandor payroll<select value={mandor} onChange={e=>setMandor(e.target.value)}>{[...new Set([...contractorNames.map(n=>'Mandor '+n),...notes.map(n=>n.contractor),...allPayrollSources().map(s=>s.mandor)])].map(n=><option key={n}>{n}</option>)}</select></label><label>Mulai payroll<input type="date" value={from} onChange={e=>setFrom(e.target.value)}/></label><label>Akhir payroll<input type="date" value={until} onChange={e=>setUntil(e.target.value)}/></label></div><button className="primary-btn" disabled={!from||!until||from>until} onClick={()=>{const draft=newPayDraft(mandor,from,until);setNotes(ns=>ns.some(n=>n.number===draft.number)?ns:[draft,...ns]);setMandorFilter('Semua mandor');setStatusFilter('Semua status');setQuery('');focus(draft.number);setWorkPeriod(periodFor('all',from));setCompose(false)}}>Buka draft periode ini</button></ReasonDialog>}
+    {compose&&<ReasonDialog title="Buat payroll" closeLabel="Kembali" onClose={()=>setCompose(false)}><div className="sku-range-fields"><label>Mandor payroll<select value={mandor} onChange={e=>setMandor(e.target.value)}>{[...new Set([...mandorNames,...notes.map(n=>n.contractor),...allPayrollSources().map(s=>s.mandor)])].map(n=><option key={n}>{n}</option>)}</select></label><label>Mulai payroll<input type="date" value={from} onChange={e=>setFrom(e.target.value)}/></label><label>Akhir payroll<input type="date" value={until} onChange={e=>setUntil(e.target.value)}/></label></div><button className="primary-btn" disabled={!from||!until||from>until} onClick={()=>{const draft=newPayDraft(mandor,from,until);setNotes(ns=>ns.some(n=>n.number===draft.number)?ns:[draft,...ns]);setMandorFilter('Semua mandor');setStatusFilter('Semua status');setQuery('');focus(draft.number);setWorkPeriod(periodFor('all',from));setCompose(false)}}>Buka draft periode ini</button></ReasonDialog>}
     <section className="panel biz-payroll-browser-toolbar"><label className="biz-search"><Search/><input value={query} onChange={(event)=>setQuery(event.target.value)} placeholder="Cari nota, mandor, periode..."/></label><EnterpriseSelect label="MANDOR" value={mandorFilter} options={mandorOptions} onChange={setMandorFilter}/><EnterpriseSelect label="STATUS" value={statusFilter} options={['Aktif · lunas disembunyikan','Semua status','Draft','Calculated','Review','Approved','Paid','Reversed']} onChange={setStatusFilter}/></section>
     <details className="panel owner-period-disclosure"><summary>Periode &amp; urutan payroll · {periodLabel(workPeriod)}</summary><PeriodFilter label="Periode kerja payroll" value={workPeriod} onChange={setWorkPeriod}/><label className="sku-range-field">Urutkan payroll<select value={payrollSort} onChange={e=>setPayrollSort(e.target.value)}><option value="recent">Periode terbaru</option><option value="old">Periode terlama</option><option value="amount">Jumlah bayar terbesar</option><option value="contractor">Nama mandor</option></select></label></details>
     <section className="panel biz-master-detail finance-detail payroll-detail"><BrowsePane aria-label="Daftar nota payroll"><header><div><span>PAYROLL BROWSER</span><strong>{visible.length} nota tampil</strong></div><UsersRound/></header><div className="biz-browser-list">{visible.map((item)=><button key={item.number} className={item.number===selected?.number?'active':''} onClick={()=>{focus(item.number);setPayReference('')}}><span>PY</span><div><strong>{item.number}</strong><small>{item.contractor}</small><em>{item.period}</em></div><b>{money(item.netPayable)}</b><Pill>{item.status}</Pill></button>)}{visible.length===0&&<div className="biz-empty"><Search/><strong>Nota tidak ditemukan</strong><small>Ubah filter mandor atau status.</small></div>}</div></BrowsePane>{selected?<main><header className="biz-detail-head"><div><span>NOTA PAYROLL · SOURCE LINKED</span><h2>{selected.number}</h2><p>{selected.contractor} · {selected.period}</p></div><Pill>{selected.status}</Pill></header>
@@ -315,11 +406,24 @@ function PayrollWorkspace({onAttendance,onOpenFg}:{onAttendance:()=>void;onOpenF
           </section>
         </div>
       </section>
-      <section className="biz-payroll-calculation"><header><div><span>03 · REKONSILIASI PAYROLL</span><strong>Hitung dari dokumen sumber yang sudah posted</strong></div><span>{selected.number}</span></header><div className="biz-payroll-calculation-lines"><article className="positive"><span><strong>Total Nota FG</strong><small>Upah jahit + BOM + komisi, termasuk Bikin Bagus</small></span><b>+ {money(fgTotal)}</b></article><article className="positive"><span><strong>Attendance eligible</strong><small>Hanya pekerja yang memang wajib attendance</small></span><b>+ {money(selected.attendance)}</b></article><article className="negative"><span><strong>Total Nota Ambil Aksesori</strong><small>{selected.accessoryNotes.map((item)=>item.number).join(' · ')}</small></span><b>− {money(accessoryTotal)}</b></article>{selected.deductions.map((item)=><article className="negative" key={item.label}><span><strong>{item.label}</strong><small>{item.reference}</small></span><b>− {money(item.amount)}</b></article>)}<footer><span><small>NET PAYABLE</small><strong>{money(recomputed)}</strong></span><div><small>ELIGIBLE BELUM DITARIK</small><strong>{selected.eligibleLines} baris</strong></div><div><small>RENCANA BAYAR</small><strong>{selected.paymentDate}</strong></div></footer></div></section>
+      <section className="mandor-debt-panel" aria-labelledby="payroll-mandor-debt-title">
+        <header><WalletCards aria-hidden="true"/><div><h3 id="payroll-mandor-debt-title">Potongan piutang mandor</h3><p>Invoice belanja dari Penjualan yang dipilih untuk periode ini.</p></div><strong>{money(mandorTotal)}</strong></header>
+        {selected.mandorDebts?.length ? <ul className="mandor-payroll-sources">{selected.mandorDebts.map(debt=><li key={debt.invoice}>
+          <a href={'/penjualan/semua-invoice/?nota='+encodeURIComponent(debt.invoice)}>{debt.invoice} <ArrowRight/></a><b>{money(debt.amount)}</b>
+        </li>)}</ul> : null}
+        {editablePayroll(selected)&&<button type="button" className="soft-btn" onClick={()=>setDebtOpen(true)}>Pilih piutang mandor ({mandorBills.length}) <ArrowRight/></button>}
+      </section>
+      {debtOpen&&editablePayroll(selected)&&<MandorDebtPicker key={selected.number} note={selected} bills={mandorBills} linked={debtLink.get('piutang')} onClose={()=>setDebtOpen(false)}
+        onChoose={(invoice,amount)=>{
+          setNotes(current=>chooseMandorDebt(readInvoices(),current,selected.number,invoice,amount))
+          setDebtOpen(false)
+          setNotice(amount>0?money(amount)+' dialokasikan ke payroll periode ini.':'Potongan dilepas. Saldo bisa dipilih di periode lain.')
+        }}/>}
+      <section className="biz-payroll-calculation"><header><div><span>03 · REKONSILIASI PAYROLL</span><strong>Hitung dari dokumen sumber yang sudah posted</strong></div><span>{selected.number}</span></header><div className="biz-payroll-calculation-lines"><article className="positive"><span><strong>Total Nota FG</strong><small>Upah jahit + BOM + komisi, termasuk Bikin Bagus</small></span><b>+ {money(fgTotal)}</b></article><article className="positive"><span><strong>Attendance eligible</strong><small>Hanya pekerja yang memang wajib attendance</small></span><b>+ {money(selected.attendance)}</b></article><article className="negative"><span><strong>Total Nota Ambil Aksesori</strong><small>{selected.accessoryNotes.map((item)=>item.number).join(' · ')}</small></span><b>− {money(accessoryTotal)}</b></article>{selected.deductions.map((item)=><article className="negative" key={item.label}><span><strong>{item.label}</strong><small>{item.reference}</small></span><b>− {money(item.amount)}</b></article>)}{mandorTotal>0&&<article className="negative"><span><strong>Potongan piutang mandor</strong><small>{selected.mandorDebts?.length} invoice belanja</small></span><b>− {money(mandorTotal)}</b></article>}<footer><span><small>NET PAYABLE</small><strong>{money(recomputed)}</strong></span><div><small>ELIGIBLE BELUM DITARIK</small><strong>{selected.eligibleLines} baris</strong></div><div><small>RENCANA BAYAR</small><strong>{selected.paymentDate}</strong></div></footer></div></section>
       {selected.eligibleLines>0&&<div className="biz-guard warn"><AlertTriangle/><span>{selected.eligibleLines} baris eligible belum masuk nota. Penarikan harus atomic dan idempotent; payroll tidak boleh menebak dari frontend.</span></div>}
-      <section className="biz-payroll-rules"><article><Check/><span><strong>Selesai Dijahit menjadi dasar</strong><small>Stuck tidak menghapus hak jahit; hanya komponen yang belum dipasang yang ditahan. Good hanya menentukan stok FG.</small></span></article><article><Check/><span><strong>Checkbox hanya di Bikin Bagus</strong><small>Tarif komponen terpilih menjadi pengurang BS sekaligus batas pembayaran rework.</small></span></article><article><Check/><span><strong>BS melekat pada pekerjaan asal</strong><small>Pengurang sudah ada di Nota FG dan tidak menjadi potongan Payroll kedua kali.</small></span></article><article><Check/><span><strong>Kasbon aksesori tetap barang detail</strong><small>Stok dan HPP memakai moving average; harga mandor memakai snapshot tersendiri.</small></span></article></section>{notice&&<div className="biz-inline-notice"><CheckCircle2/> {notice}</div>}<footer className="biz-detail-actions"><button className="soft-btn" disabled={selected.status!=='PAID'} onClick={()=>setReverseOpen(true)}><Undo2/> Reverse payment</button>{editablePayroll(selected)&&<button className="soft-btn" disabled={!calculationMatches||recomputed<0||!selected.fgNotes.length&&!selected.accessoryNotes.length} onClick={()=>{setNotes(ns=>ns.map(n=>n.number===selected.number?{...n,status:n.status==='REVIEW'?'APPROVED':'REVIEW'}:n));setNotice(selected.status==='REVIEW'?'Payroll disetujui.':'Komposisi siap ditinjau.')}}>{selected.status==='REVIEW'?'Setujui payroll':'Review pembayaran ini'}</button>}<button className="primary-btn" disabled={selected.status!=='APPROVED'||!calculationMatches} onClick={()=>setPayOpen(true)}><Banknote/> Bayar nota</button></footer></main>:<main className="biz-empty payroll"><Search/><strong>Tidak ada detail payroll</strong><small>Sesuaikan filter di atas.</small></main>}</section>
+      <section className="biz-payroll-rules"><article><Check/><span><strong>Selesai Dijahit menjadi dasar</strong><small>Stuck tidak menghapus hak jahit; hanya komponen yang belum dipasang yang ditahan. Good hanya menentukan stok FG.</small></span></article><article><Check/><span><strong>Checkbox hanya di Bikin Bagus</strong><small>Tarif komponen terpilih menjadi pengurang BS sekaligus batas pembayaran rework.</small></span></article><article><Check/><span><strong>BS melekat pada pekerjaan asal</strong><small>Pengurang sudah ada di Nota FG dan tidak menjadi potongan Payroll kedua kali.</small></span></article><article><Check/><span><strong>Kasbon aksesori tetap barang detail</strong><small>Stok dan HPP memakai moving average; harga mandor memakai snapshot tersendiri.</small></span></article></section>{notice&&<div className="biz-inline-notice"><CheckCircle2/> {notice}</div>}<footer className="biz-detail-actions"><button className="soft-btn" disabled={selected.status!=='PAID'} onClick={()=>setReverseOpen(true)}><Undo2/> Reverse payment</button>{editablePayroll(selected)&&<button className="soft-btn" disabled={!calculationMatches||recomputed<0||!selected.fgNotes.length&&!selected.accessoryNotes.length} onClick={()=>{if(changePayrollStatus(selected.status==='REVIEW'?'APPROVED':'REVIEW'))setNotice(selected.status==='REVIEW'?'Payroll disetujui.':'Komposisi siap ditinjau.')}}>{selected.status==='REVIEW'?'Setujui payroll':'Review pembayaran ini'}</button>}<button className="primary-btn" disabled={selected.status!=='APPROVED'||!calculationMatches} onClick={()=>setPayOpen(true)}><Banknote/> Bayar nota</button></footer></main>:<main className="biz-empty payroll"><Search/><strong>Tidak ada detail payroll</strong><small>Sesuaikan filter di atas.</small></main>}</section>
     {sourceSelection&&selected&&<PayrollSourceModal selection={sourceSelection} note={selected} onRelease={editablePayroll(selected)?()=>{choose(sourceSelection.number,false);setSourceSelection(null)}:undefined} onClose={()=>setSourceSelection(null)}/>}
-    {payOpen&&selected&&<FinanceModal title="Bayar nota payroll?" description="Kas keluar dan status nota berubah bersama. Komponen nota tidak dihitung ulang saat payment." onClose={()=>setPayOpen(false)} action={()=>{setNotes((current)=>current.map((item)=>item.number===selected.number?{...item,status:'PAID'}:item));setPayOpen(false);setNotice(`${selected.number} ditandai lunas dalam simulasi dan otomatis disembunyikan dari daftar aktif. Backend dan uang belum berubah.`)}} disabled={!payReference.trim()}><div className="biz-payment-form"><EnterpriseSelect label="AKUN BAYAR" value={payAccount} options={['Mandiri Payroll','BCA Operasional','Kas Utama']} onChange={setPayAccount}/><label><span>TANGGAL BAYAR</span><input type="date" defaultValue="2026-08-28"/></label><label><span>REFERENSI</span><input value={payReference} onChange={(event)=>setPayReference(event.target.value)} placeholder="Nomor transfer / bukti"/></label></div><div className="biz-impact-grid"><article><span>Payroll payable</span><strong>− {money(selected.netPayable)}</strong><small>{selected.number}</small></article><article><span>Kas / bank</span><strong>− {money(selected.netPayable)}</strong><small>{payAccount}</small></article><article><span>Status</span><strong>PAID</strong><small>Otomatis keluar dari daftar aktif</small></article></div></FinanceModal>}
+    {payOpen&&selected&&<FinanceModal title="Bayar nota payroll?" description="Kas keluar dan status nota berubah bersama. Komponen nota tidak dihitung ulang saat payment." onClose={()=>setPayOpen(false)} action={()=>{const saved=changePayrollStatus('PAID');setPayOpen(false);if(saved)setNotice(`${selected.number} tercatat lunas dalam simulasi.${mandorTotal ? ' Piutang mandor berkurang ' + money(mandorTotal) + '.' : ''}`)}} disabled={!payReference.trim()}><div className="biz-payment-form"><EnterpriseSelect label="AKUN BAYAR" value={payAccount} options={['Mandiri Payroll','BCA Operasional','Kas Utama']} onChange={setPayAccount}/><label><span>TANGGAL BAYAR</span><input type="date" defaultValue={payrollPeriod(selected).end || fixtureDate}/></label><label><span>REFERENSI</span><input value={payReference} onChange={(event)=>setPayReference(event.target.value)} placeholder="Nomor transfer / bukti"/></label></div><div className="biz-impact-grid"><article><span>Payroll payable</span><strong>− {money(selected.netPayable)}</strong><small>{selected.number}</small></article><article><span>Kas / bank</span><strong>− {money(selected.netPayable)}</strong><small>{payAccount}</small></article><article><span>Status</span><strong>PAID</strong><small>Otomatis keluar dari daftar aktif</small></article>{mandorTotal>0&&<article><span>Piutang mandor dilunasi</span><strong>{money(mandorTotal)}</strong><small>Dipotong dari pembayaran payroll</small></article>}</div></FinanceModal>}
     {reverseOpen&&selected&&<FinanceModal danger title="Reverse pembayaran payroll?" description="Ini tidak menghapus nota. Backend membuat reversal kas dan mengembalikan payable dengan audit trail." onClose={()=>setReverseOpen(false)} action={()=>{setNotes((current)=>current.map((item)=>item.number===selected.number?{...item,status:'APPROVED'}:item));setStatusFilter('Aktif · lunas disembunyikan');setReverseOpen(false);setNotice(`${selected.number} kembali ke Approved dalam simulasi. Backend belum berubah.`)}} actionLabel="Review reversal" disabled={!reason.trim()}><label className="biz-wide-field"><span>ALASAN REVERSAL · WAJIB</span><textarea value={reason} onChange={(event)=>setReason(event.target.value)} placeholder="Jelaskan salah akun, salah nominal, atau salah penerima..."/></label></FinanceModal>}
   </>
 }

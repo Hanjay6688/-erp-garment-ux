@@ -6,9 +6,13 @@ import { StageLots } from './planner/StageLots'
 import { Icon } from '../components/AppIcon'
 import { cellQuantity } from './cuttingAllocation'
 import { instructionsFor, laundryRecipePath, readLaundryColourMaster, type LaundryInstructions } from './laundryRecipes'
+import { cleanMoneyInput, formatMoneyInput, readRupiahInput } from '../moneyInput'
+import { amountText } from './accessoryPricing'
+import { dayOk, lastWarehouseDay } from './warehouseDay'
+import { ReasonDialog } from './planner/ReasonDialog'
 import './laundryRecipe.css'
 import { money } from './format'
-import { ArrowRight, CalendarDays, FileText, Palette, Truck } from 'lucide-react'
+import { ArrowRight, CalendarDays, FileText, Palette, ReceiptText, Truck } from 'lucide-react'
 import {
   laundryDeliveryStatus,
   laundryDigits,
@@ -28,11 +32,20 @@ import type { LaundryDelivery, LaundryPrefill, LaundryReadyBatch, LaundryView } 
 import { patternSnapshotLabel } from './productionModel'
 import type { ProductionPatternSnapshot, QtyTuple } from './productionModel'
 import { laundryVendorNames } from './sewingModel'
-import { useMemo, useState } from 'react'
+import { useMemo, useState, type FormEvent } from 'react'
+
+function laundryLastPhysicalDay(delivery: LaundryDelivery) {
+  const sentDay = laundryPhysicalTime(delivery.sentAt).slice(0, 10)
+  return [sentDay, ...(delivery.returns ?? []).map(row => row.at.slice(0, 10))].sort().at(-1)!
+}
+
+const unbilledPieces = (delivery: LaundryDelivery) =>
+  delivery.good + delivery.bs - (delivery.finalBills ?? []).reduce((sum, bill) => sum + bill.qty, 0)
 
 const trainingSendTime = '2026-08-27T16:00'
 const trainingReturnTime = '2026-08-27T17:30'
-type TicketOverrides = Partial<LaundryInstructions> & { typeId?: string }
+type TicketOverrides = Partial<LaundryInstructions> & { typeId?: string; estimate?: string }
+type BillDraft = { deliveryId: string; number: string; day: string; process: string; rate: string }
 const defaultSendTime = (batch?: LaundryReadyBatch) => {
   const latest = [trainingSendTime, laundryPhysicalTime(batch?.pickupAt ?? ''), laundryPhysicalTime(batch?.sewingDoneAt ?? '')].sort().at(-1)!
   return validLaundryTime(latest) ? latest : trainingSendTime
@@ -82,6 +95,8 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
   const [returnInputs,setReturnInputs]=useState<Record<string,{good:string[];bs:string[]}>>({})
   const [returnTimes,setReturnTimes]=useState<Record<string,string>>({})
   const [pendingReverse,setPendingReverse]=useState<LaundryDelivery|null>(null)
+  const [bill, setBill] = useState<BillDraft | null>(null)
+  const [billError, setBillError] = useState('')
   const vendorOptions=['Semua laundry',...laundryVendorNames]
   const patternOptions=useMemo(()=>{
     const patterns=new Map<string,ProductionPatternSnapshot>()
@@ -118,12 +133,16 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
   const selectedProcess = overrides.service ?? recipe.service
   const colourAdjusted = (colour || colourProcess) && (colour !== recipe.colour || colourProcess !== recipe.colourProcess)
   const instructionSource = [recipe.source, colourAdjusted ? 'Diubah untuk surat ini' : ''].filter(Boolean).join(' · ')
-  const rate = sendTimeOk ? laundryRateAt(selectedVendor, selectedProcess, sentAt.slice(0, 10)) : null
+  const colourRate = selectedType?.benchmark ?? null
+  const estimate = overrides.estimate ?? ''
+  const candidateRate = estimate !== '' ? Number(estimate) : colourRate ?? laundryRateAt(selectedVendor, selectedProcess, sentAt.slice(0, 10))
+  const rateInvalid = candidateRate !== null && (candidateRate < 0 || !Number.isSafeInteger(candidateRate) || !Number.isSafeInteger(candidateRate * selectedTotal))
+  const rate = !sendTimeOk || rateInvalid ? null : candidateRate
   const estimatedCost = rate === null ? null : selectedTotal * rate
   const changeInstruction = (field: keyof LaundryInstructions, value: string) => setOverrides(current => ({ ...current, [field]: value }))
   function changeSku(value: string) {
     setSkuRef(value)
-    if (value) setOverrides({})
+    setOverrides(current => value ? {} : { ...current, estimate: undefined })
   }
   function changeVendor(vendor: string) {
     if (!laundryVendorNames.includes(vendor)) return
@@ -171,7 +190,7 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
       const sizes=(sendSizeInputs[batch.id]??batch.sizes.map(String)).map((value,index)=>Math.min(batch.sizes[index],cellQuantity(value))) as QtyTuple
       return{batch,sizes,qty:sizes.reduce((sum,value)=>sum+value,0)}
     }).filter((row)=>row.qty>0)
-    if(!posted.length||!laundryVendorNames.includes(selectedVendor)||!sendTimeOk)return
+    if(!posted.length||!laundryVendorNames.includes(selectedVendor)||!sendTimeOk||rateInvalid)return
     const startNo=deliveries.length+12
     const [physicalDate,physicalTime]=sentAt.split('T')
     const physicalSentAt=physicalDate==='2026-08-27'?`27 Agu 2026 · ${physicalTime}`:`${physicalDate} · ${physicalTime}`
@@ -240,6 +259,36 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
     onReturnToWip(batchId,vendor,outstanding)
   }
 
+  const billedDelivery = deliveries.find(delivery => delivery.id === bill?.deliveryId)
+
+  function openBill(delivery: LaundryDelivery) {
+    setBillError('')
+    setBill({ deliveryId: delivery.id, number: '', day: lastWarehouseDay(), process: delivery.process, rate: '' })
+  }
+
+  function saveBill(event: FormEvent) {
+    event.preventDefault()
+    if (!bill || !billedDelivery) return
+    const qty = unbilledPieces(billedDelivery)
+    const number = bill.number.trim()
+    const rate = readRupiahInput(bill.rate)
+    if (!number || !dayOk(bill.day) || bill.day < laundryLastPhysicalDay(billedDelivery) || !laundryProcesses.includes(bill.process)
+      || !Number.isSafeInteger(Math.round(rate * qty * 100)) || qty <= 0) {
+      setBillError('Periksa nomor, tanggal, layanan aktual, dan harga dari kontrabon.')
+      return
+    }
+    const hasBill = (delivery: LaundryDelivery) => delivery.finalBills?.some(existing => existing.number.toLowerCase() === number.toLowerCase())
+    if (hasBill(billedDelivery)) {
+      setBillError('Nomor kontrabon sudah tercatat untuk surat kirim ini.')
+      return
+    }
+    const finalBill = { number, day: bill.day, process: bill.process, rate, qty }
+    setDeliveries(current => current.map(delivery => delivery.id === billedDelivery.id && unbilledPieces(delivery) === qty && !hasBill(delivery)
+      ? { ...delivery, finalBills: [...(delivery.finalBills ?? []), finalBill] } : delivery))
+    setBill(null)
+    setNotice('Kontrabon ' + finalBill.number + ' dicatat untuk ' + billedDelivery.id + '.')
+  }
+
   return <>
     <section className="hero-copy compact laundry-hero"><div className="eyebrow">PRODUKSI · SETELAH SEWING</div><h1>Laundry</h1><p>Kirim Batch Distribusi yang jahitannya sudah penuh, lalu catat Good dan BS ketika kembali. Urutannya tetap mengikuti Batch Produksi.</p></section>
     <StageLots stage="laundry"/>
@@ -299,7 +348,7 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
               </select></label>
               {instructionSource && <p className="laundry-recipe-origin"><Icon name="link"/>{instructionSource}</p>}
               <div className="laundry-ticket-colour-pair">
-                <div><label><span>Jenis pewarnaan</span><select aria-label="Proses warna" value={typeChoice} onChange={e => setOverrides(current => ({ ...current, typeId: e.target.value, colourProcess: undefined }))}>
+                <div><label><span>Jenis pewarnaan</span><select aria-label="Proses warna" value={typeChoice} onChange={e => setOverrides(current => ({ ...current, typeId: e.target.value, colourProcess: undefined, estimate: undefined }))}>
                   <option value="">Belum ditentukan</option>{catalog.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}
                   {typeChoice === legacyChoice && <option value={legacyChoice}>{legacyTypeName} · dari draft lama</option>}
                 </select></label>
@@ -324,13 +373,20 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
                   <option value="">Lengkapi saat kontra bon</option>{laundryProcesses.map(process => <option key={process}>{process}</option>)}
                 </select></label>
               </details>
+              <section className="laundry-estimate-editor">
+                {colourRate !== null && <aside className="laundry-estimate-offer"><span><small>ACUAN {selectedType?.name}</small><strong>{money(colourRate)} / pcs</strong></span>
+                  <button type="button" className="soft-btn" onClick={() => setOverrides(current => ({ ...current, estimate: String(colourRate) }))}>Pakai harga acuan</button></aside>}
+                <label><span>Tarif estimasi per pcs</span><input inputMode="numeric" value={formatMoneyInput(estimate)} placeholder={rate === null ? 'Opsional' : formatMoneyInput(rate)}
+                  aria-invalid={rateInvalid} onChange={e => setOverrides(current => ({ ...current, estimate: cleanMoneyInput(e.target.value) }))}/></label>
+                {rateInvalid && <small role="alert">Tarif estimasi melebihi nilai yang dapat dicatat.</small>}
+              </section>
               <p><span>Tarif estimasi</span><b>{rate===null?'Belum diketahui':money(rate)+' / pcs'}</b></p>
               <div><span>ESTIMASI BIAYA</span><strong>{estimatedCost===null?'Belum diketahui':money(estimatedCost)}</strong></div>
             </section>
             <p className="laundry-estimate-note">{rate === null
               ? 'Jenis cucian dan biaya bisa dilengkapi saat kontra bon.'
-              : 'Tarif mengikuti laundry, layanan, dan tanggal kirim.'}</p>
-            <div className="laundry-ticket-actions"><button type="button" className="soft-btn" onClick={() => saveTicket()}>Simpan draft</button><button type="button" className="primary-btn" disabled={selectedTotal<=0||!sendTimeOk||!laundryVendorNames.includes(selectedVendor)} onClick={postDelivery}>Catat dikirim <Icon name="arrow"/></button></div>
+              : 'Harga ini untuk perkiraan. Kontrabon memakai tagihan aktual.'}</p>
+            <div className="laundry-ticket-actions"><button type="button" className="soft-btn" onClick={() => saveTicket()}>Simpan draft</button><button type="button" className="primary-btn" disabled={selectedTotal<=0||!sendTimeOk||rateInvalid||!laundryVendorNames.includes(selectedVendor)} onClick={postDelivery}>Catat dikirim <Icon name="arrow"/></button></div>
           </div>:<div className="laundry-empty ticket"><Icon name="boxes"/><strong>Belum ada batch dipilih</strong><small>Tekan batch di kiri. Surat kirim otomatis mengikuti Batch Produksi dan laundry tujuan.</small></div>}
         </aside>
       </div>:<div className="laundry-return-pane">
@@ -353,6 +409,13 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
           <header><span>{String(index+1).padStart(2,'0')}</span><div><small>{delivery.plannedBrand ? `MEREK RENCANA · ${delivery.plannedBrand}` : 'MEREK BELUM DITENTUKAN'} · {delivery.id}</small><h3>{delivery.model}</h3><p className="record-code">{delivery.parentId} · Batch {delivery.batchId} · {delivery.material}</p>{(delivery.skuRef||delivery.targetColor||delivery.colourProcess)&&<p>{[delivery.skuRef,delivery.colourProcess,delivery.targetColor].filter(Boolean).join(' · ')}</p>}{delivery.sendNote&&<p>{delivery.sendNote}</p>}{delivery.instructionSource&&<small>{delivery.instructionSource}</small>}<p className="laundry-pattern-snapshot">POLA · {patternSnapshotLabel(delivery.pattern)}</p></div><em className={status==='Selesai'?'done':status==='Kembali sebagian'?'partial':reversedStatus?'reversed':''}>{status}</em><div><strong>{delivery.vendor}</strong><small>{delivery.process||'Jenis cucian belum ditentukan'}</small></div></header>
           <div className="laundry-return-body"><div className="laundry-return-facts"><div className="laundry-mandor-hero"><Icon name="user"/><span><small>MANDOR PENANGGUNG JAWAB</small><strong>{laundryMandorOf(delivery)}</strong></span></div><div className="laundry-counts"><span><small>DIKIRIM</small><strong className="piece-total">{delivery.qty} pcs</strong></span><span><small>SUDAH KEMBALI</small><strong className="piece-total">{received} pcs</strong></span><span><small>MASIH DI LUAR</small><strong className="piece-total">{outstanding} pcs</strong></span></div><div className="laundry-progress"><span style={{width:`${progress}%`}}/></div><p><Icon name="calendar"/> Dikirim {delivery.sentAt} WIB</p>
             {delivery.estimatedRate !== undefined && <small>Estimasi saat kirim · {delivery.estimatedRate === null ? 'Belum diketahui' : money(delivery.estimatedRate) + ' / pcs'}</small>}
+            {delivery.finalBills?.map(finalBill=><div className="laundry-final-bill" key={finalBill.number}>
+              <ReceiptText size={17} aria-hidden="true"/><span><strong>Kontrabon {finalBill.number}</strong>
+                <small>{finalBill.day} · {finalBill.process} · {finalBill.qty} pcs × {amountText(finalBill.rate)}</small></span>
+              <b>{amountText(finalBill.rate * finalBill.qty)}</b>
+            </div>)}
+            {unbilledPieces(delivery)>0&&<button type="button" className="soft-btn laundry-bill-button" onClick={()=>openBill(delivery)}>
+              <ReceiptText size={16} aria-hidden="true"/>Catat kontrabon</button>}
             {delivery.returns?.length ? <details className="laundry-return-history"><summary>Riwayat kembali ({delivery.returns.length})</summary>
               {delivery.returns.map((row, i) => <p key={i}><time dateTime={row.at + '+07:00'}>{row.at.replace('T', ' · ')} WIB</time> · {row.good.reduce((sum, qty) => sum + qty, 0)} Good · {row.bs.reduce((sum, qty) => sum + qty, 0)} BS</p>)}
             </details> : null}{received>0&&<><small>Akumulasi: <b className="good">{delivery.good} Good</b> · <b className="bs">{delivery.bs} BS</b></small><button type="button" className="laundry-open-qc" onClick={()=>onOpenQc(delivery.parentId,delivery.batchId)}><Icon name="audit"/><span><strong>Buka QC & Final SKU</strong><small>{received} pcs sudah bisa diperiksa sekarang</small></span><Icon name="arrow"/></button></>}{delivery.reversed>0&&<small className="reversed-note"><b>{delivery.reversed} pcs kembali ke WIP</b> · {delivery.reverseNote}</small>}{outstanding>0&&<button type="button" className="laundry-reverse-btn" onClick={()=>setPendingReverse(delivery)}><Icon name="reset"/><span><strong>Kembalikan ke WIP</strong><small>{outstanding} pcs bisa pilih laundry lain</small></span></button>}</div>
@@ -361,6 +424,22 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
         </article>})}{visibleDeliveries.length===0&&<div className="laundry-empty"><Icon name="search"/><strong>Surat kirim tidak ditemukan</strong><small>Coba ganti laundry, mandor, Pola, atau kata pencarian.</small></div>}</div>
       </div>}
     </section>
+    {bill && billedDelivery && <ReasonDialog title="Catat kontrabon laundry" onClose={() => setBill(null)} closeLabel="Kembali">
+      <form className="laundry-bill-editor" onSubmit={saveBill}>
+        <p>{billedDelivery.vendor} · {billedDelivery.id} · <strong>{unbilledPieces(billedDelivery)} pcs siap ditagih</strong></p>
+        <div className="laundry-bill-fields">
+          <label>Nomor kontrabon<input required value={bill.number} onChange={e => setBill({ ...bill, number: e.target.value })}/></label>
+          <label>Tanggal kontrabon<input required type="date" min={laundryLastPhysicalDay(billedDelivery)} max={lastWarehouseDay()} value={bill.day} onChange={e => setBill({ ...bill, day: e.target.value })}/></label>
+          <label>Jenis layanan aktual<select required value={bill.process} onChange={e => setBill({ ...bill, process: e.target.value })}>
+            <option value="">Pilih layanan</option>{laundryProcesses.map(service => <option key={service}>{service}</option>)}
+          </select></label>
+          <label>Harga aktual per pcs (Rp)<input required inputMode="decimal" value={bill.rate} onChange={e => setBill({ ...bill, rate: e.target.value })}/></label>
+        </div>
+        {billedDelivery.estimatedRate != null && <p>Acuan saat kirim <strong>{money(billedDelivery.estimatedRate)} / pcs</strong></p>}
+        {billError && <p className="wh-feedback" role="alert">{billError}</p>}
+        <button className="primary-btn" type="submit">Simpan kontrabon</button>
+      </form>
+    </ReasonDialog>}
     {pendingReverse&&<div className="wip-confirm-layer" role="presentation"><section className="wip-confirm-dialog laundry-reverse-dialog" role="alertdialog" aria-modal="true" aria-labelledby="reverse-laundry-title"><div className="wip-confirm-icon reverse"><Icon name="reset"/></div><div><span>REVERSE PENGIRIMAN</span><h2 id="reverse-laundry-title">Kembalikan ke WIP?</h2><p><strong>{laundryOutstanding(pendingReverse)} pcs</strong> yang masih di {pendingReverse.vendor} akan muncul lagi di WIP dan bisa langsung dipilihkan laundry lain. {pendingReverse.good+pendingReverse.bs>0&&`${pendingReverse.good+pendingReverse.bs} pcs yang sudah kembali tetap tercatat.`}</p><small>Jejak surat kirim lama tidak dihapus; statusnya berubah menjadi Kembali ke WIP.</small></div><div className="wip-confirm-actions"><button type="button" className="soft-btn" onClick={()=>setPendingReverse(null)}>Jangan</button><button type="button" className="primary-btn reverse" onClick={confirmReverse}>Ya, kembali ke WIP <Icon name="arrow"/></button></div></section></div>}
   </>
 }

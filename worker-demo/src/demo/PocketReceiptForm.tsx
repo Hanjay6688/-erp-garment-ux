@@ -1,14 +1,15 @@
 import { useState, type FormEvent } from 'react'
-import { ArrowLeft, ArrowRight, ClipboardList, Layers3, Plus } from 'lucide-react'
+import { ArrowLeft, ArrowRight, ClipboardList, FileText, Layers3, PackageOpen, Plus, ReceiptText, Ruler, Search, Tag } from 'lucide-react'
 import { amountText, fixtureDate } from './accessoryPricing'
 import { browseMatch } from '../browseMatch'
 import { ReasonDialog } from './planner/ReasonDialog'
 import { ReceiptRollRows } from './ReceiptRollRows'
 import {
-  pocketBenchmark, pocketRollLabel, readReceipts, receivePocket, reviewPocketReceipt, reverseReceipt, seedRolls,
+  pocketBenchmark, pocketRollLabel, readReceipts, receivePocket, recordPocketBill, reviewPocketReceipt, reverseReceipt, seedRolls,
   type PocketReceipt, type ReceiptDraft,
 } from './pocketReceipts'
 import { readPocketNumber } from './pocketUsage'
+import { readRupiahInput } from '../moneyInput'
 import { pocketMasterPath, pocketMaterialLabel, readPocketMaterials } from './pocketMaterials'
 import { lastWarehouseDay } from './warehouseDay'
 import './warehouseForms.css'
@@ -25,14 +26,17 @@ const fresh = (): ReceiptDraft => ({
 const fmt = (n: number) => n.toLocaleString('id-ID', { maximumFractionDigits: 6 })
 const link = (id: string) => rollPath + '?roll=' + encodeURIComponent(id)
 const rateText = (value: number, unit: string) => amountText(value) + '/' + unit
+type BillDraft = { receipt: PocketReceipt; number: string; day: string; rate: string }
 
 export default function PocketReceiptForm() {
   const [saved, setSaved] = useState(() => sessionStorage.getItem(draftKey) !== null)
   const [materials] = useState(readPocketMaterials)
   const [draft, setDraft] = useState<ReceiptDraft>(() => {
-    const savedDraft: ReceiptDraft = JSON.parse(sessionStorage.getItem(draftKey) ?? 'null') ?? fresh()
+    const stored: (ReceiptDraft & { localRate?: true }) | null = JSON.parse(sessionStorage.getItem(draftKey) ?? 'null')
+    const savedDraft = stored ? { ...stored, rate: stored.localRate ? stored.rate : stored.rate.replace('.', ',') } : fresh()
     const chosen = materials.find(item=>item.id===new URLSearchParams(location.search).get('bahan'))
-    return chosen ? { ...savedDraft, material: chosen.id, supplier: savedDraft.supplier || chosen.supplier } : savedDraft
+    if (!chosen || chosen.id === savedDraft.material) return savedDraft
+    return { ...savedDraft, material: chosen.id, supplier: savedDraft.supplier || chosen.supplier, rate: '' }
   })
   const [rollCountInput, setRollCountInput] = useState<string | null>(null)
   const [rollCountError, setRollCountError] = useState('')
@@ -46,6 +50,11 @@ export default function PocketReceiptForm() {
   const [undo, setUndo] = useState('')
   const [why, setWhy] = useState('')
   const [deleting, setDeleting] = useState(false)
+  const [bill, setBill] = useState<BillDraft | null>(null)
+
+  function storeDraft() {
+    sessionStorage.setItem(draftKey, JSON.stringify({ ...draft, localRate: true }))
+  }
 
   function patch(change: Partial<ReceiptDraft>) {
     setDraft(d => ({ ...d, ...change }))
@@ -86,8 +95,9 @@ export default function PocketReceiptForm() {
   }
 
   function post() {
+    if (!preview) return
     try {
-      const receipt = receivePocket(draft)
+      const receipt = receivePocket({ ...draft, rate: String(preview.rolls[0].rate).replace('.', ',') })
       setRows(readReceipts())
       setPosted(receipt)
       setExpanded(receipt.number)
@@ -97,6 +107,18 @@ export default function PocketReceiptForm() {
     } catch (failure) {
       setError((failure as Error).message)
     }
+  }
+
+  function saveBill(event: FormEvent) {
+    event.preventDefault()
+    if (!bill) return
+    try {
+      recordPocketBill(bill.receipt.number, { number: bill.number, day: bill.day, rate: readRupiahInput(bill.rate) })
+      setRows(readReceipts())
+      setNotice('Harga final ' + bill.number + ' berlaku untuk roll pada ' + bill.receipt.number + '.')
+      setError('')
+      setBill(null)
+    } catch (failure) { setError((failure as Error).message) }
   }
 
   function removeDraft() {
@@ -111,7 +133,7 @@ export default function PocketReceiptForm() {
   const chosenMaterial = materials.find(item=>item.id===draft.material)
   const suppliers = [...new Set(['Sinaran','Malibu','Mitra Tekstil', ...materials.map(item=>item.supplier), draft.supplier].filter(Boolean))]
   const benchmark = pocketBenchmark(draft)
-  const rate = draft.rate.trim() ? readPocketNumber(draft.rate) : benchmark
+  const rate = draft.rate.trim() ? readRupiahInput(draft.rate) : benchmark
   const pricingKnown = rate !== null && Number.isFinite(rate)
   const receipts = rows.filter(r => browseMatch(historyQuery, r.number, r.supplier, r.day, ...r.rolls.flatMap(roll => [roll.id, roll.name, pocketRollLabel(roll)])))
   const openingShown = browseMatch(historyQuery, 'SJ-KT-001', 'Saldo pembukaan', ...seedRolls.map(r => r.id))
@@ -119,7 +141,7 @@ export default function PocketReceiptForm() {
   return <section className="procurement-layout pocket-receipt" aria-label="Penerimaan kain kantong">
     <form className="panel receipt-editor" onSubmit={review} noValidate>
       <header className="pocket-panel-head">
-        <div><h1>Penerimaan kain kantong</h1><p>Isi surat jalan, tentukan jumlah roll, lalu ketik panjangnya.</p></div>
+        <div className="pocket-stage-title"><i><PackageOpen aria-hidden="true"/></i><div><h1>Penerimaan kain kantong</h1><p>Catat surat jalan dan panjang fisik per roll.</p></div></div>
         <a className="soft-btn" href={rollPath}><ArrowLeft size={16} aria-hidden="true"/>Stok kain kantong</a>
       </header>
       {notice && <div className="wh-feedback" role="status">
@@ -129,7 +151,7 @@ export default function PocketReceiptForm() {
       </div>}
 
       <section className="pocket-receipt-block">
-        <h3>Surat jalan</h3>
+        <header className="pocket-stage-title"><i><FileText aria-hidden="true"/></i><h3>Surat jalan dan bahan</h3></header>
         <div className="wh-fields">
           <label>Nomor surat jalan<input required value={draft.number} placeholder="Contoh SJ-KT-012" onChange={e => patch({ number: e.target.value })}/></label>
           <label>Tanggal barang datang<input type="date" required max={lastWarehouseDay()} value={draft.day} onChange={e => patch({ day: e.target.value })}/></label>
@@ -142,7 +164,7 @@ export default function PocketReceiptForm() {
           </select></label>
           <label>Nama kain kantong<select required value={draft.material} onChange={event => {
             const item = materials.find(material=>material.id===event.target.value)
-            patch({ material: event.target.value, supplier: draft.supplier || item?.supplier || '' })
+            patch({ material: event.target.value, supplier: draft.supplier || item?.supplier || '', rate: '' })
           }}>
             <option value="">Pilih kain</option>{materials.map(item=><option key={item.id} value={item.id}>{pocketMaterialLabel(item)}</option>)}
           </select></label>
@@ -152,12 +174,12 @@ export default function PocketReceiptForm() {
         </div>
         <div className="pocket-receipt-master">
           {chosenMaterial && <span>Pabrik asal <strong>{chosenMaterial.factory || 'Belum tercatat'}</strong></span>}
-          <a href={pocketMasterPath} onClick={()=>sessionStorage.setItem(draftKey,JSON.stringify(draft))}><Layers3 size={15} aria-hidden="true"/>Master kain kantong</a>
+          <a href={pocketMasterPath} onClick={storeDraft}><Layers3 size={15} aria-hidden="true"/>Master kain kantong</a>
         </div>
       </section>
 
       <section className="pocket-receipt-block pocket-roll-entry" aria-labelledby="pocket-roll-title">
-        <div className="roll-entry-head"><h3 id="pocket-roll-title">Rincian gulung</h3>
+        <div className="roll-entry-head"><div className="pocket-stage-title"><i><Ruler aria-hidden="true"/></i><h3 id="pocket-roll-title">Panjang per roll</h3></div>
           <button type="button" className="soft-btn add-roll" onClick={() => setRollRows([...draft.rolls, newRoll()])}><Plus size={16} aria-hidden="true"/>Tambah roll</button>
         </div>
         <div className="pocket-roll-count">
@@ -178,13 +200,15 @@ export default function PocketReceiptForm() {
         </details>
       </section>
 
-      <section className="pocket-receipt-block">
-        <h3>Nilai penerimaan</h3>
+      <section className="pocket-receipt-block pocket-receipt-price">
+        <header className="pocket-stage-title"><i><Tag aria-hidden="true"/></i><h3>Harga sementara</h3></header>
+        {benchmark !== null && <div className="pocket-benchmark-offer"><span><small>ACUAN MASTER</small><strong>{rateText(benchmark, draft.unit)}</strong></span>
+          <button type="button" className="soft-btn" onClick={() => patch({ rate: String(benchmark).replace('.', ',') })}>Pakai harga acuan</button></div>}
         <div className="wh-fields">
           <label>Harga sementara per {draft.unit} (Rp)
             <input aria-label="Harga sementara per satuan" aria-describedby="pocket-rate-help" inputMode="decimal"
               placeholder={benchmark === null ? 'Isi harga per ' + draft.unit : fmt(benchmark)} value={draft.rate} onChange={e => patch({ rate: e.target.value })}/>
-            <small id="pocket-rate-help">{benchmark === null ? 'Isi harga jika tarif acuan belum tersedia.' : 'Jika kosong, pakai acuan ' + rateText(benchmark, draft.unit) + '.'}</small>
+            <small id="pocket-rate-help">{benchmark === null ? 'Belum ada acuan untuk satuan ini.' : 'Jika dikosongkan, nilai mengikuti acuan master.'} Tagihan final dicatat setelah diterima.</small>
           </label>
           <label>Alasan penerimaan<input required value={draft.reason} onChange={e => patch({ reason: e.target.value })}/></label>
           <label>Catatan (opsional)<input value={draft.notes} onChange={e => patch({ notes: e.target.value })}/></label>
@@ -199,7 +223,7 @@ export default function PocketReceiptForm() {
       {error && !preview && !undo && <p className="wh-feedback" role="alert">{error}</p>}
       <footer className="receipt-actions">
         <button type="button" className="soft-btn" onClick={() => {
-          sessionStorage.setItem(draftKey, JSON.stringify(draft))
+          storeDraft()
           setSaved(true); setError(''); setPosted(null); setNotice('Draft penerimaan tersimpan.')
         }}>Simpan draft</button>
         {saved && <button type="button" className="soft-btn" onClick={() => setDeleting(true)}>Hapus draft</button>}
@@ -208,18 +232,25 @@ export default function PocketReceiptForm() {
     </form>
 
     <aside className="panel wh-receipt-register">
-      <header className="pocket-panel-head"><h2>Riwayat penerimaan</h2><ClipboardList size={19} aria-hidden="true"/></header>
-      <label className="pocket-search">Cari penerimaan<input type="search" placeholder="Surat jalan, supplier, atau roll" value={historyQuery} onChange={e => setHistoryQuery(e.target.value)}/></label>
+      <header className="pocket-panel-head"><div className="pocket-stage-title"><i><ClipboardList aria-hidden="true"/></i><h2>Riwayat penerimaan</h2></div></header>
+      <label className="pocket-master-search"><Search size={16} aria-hidden="true"/><input type="search" aria-label="Cari penerimaan" placeholder="Surat jalan, supplier, atau roll" value={historyQuery} onChange={e => setHistoryQuery(e.target.value)}/></label>
       {receipts.map(r => <details key={r.number} open={expanded === r.number || undefined}>
         <summary><strong className="pocket-quantity">{r.rolls.length} roll · {fmt(r.rolls.reduce((total, roll) => total + roll.length, 0))} {r.rolls[0].unit}</strong>
           <small className="record-code">{r.number} · {r.day} · {r.supplier} · {r.reversal ? 'Dibalik' : 'Diterima'}</small></summary>
         <p>{r.rolls[0].location} · {r.rolls[0].name}</p>
+        <dl className="pocket-master-rates">
+          <div><dt>Harga saat diterima</dt><dd>{rateText(r.rolls[0].rate, r.rolls[0].unit)}</dd></div>
+          <div><dt>Harga tagihan final</dt><dd>{r.bill ? rateText(r.bill.rate, r.rolls[0].unit) : 'Belum diterima'}</dd>
+            {r.bill && <small>{r.bill.number} · {r.bill.day}</small>}</div>
+        </dl>
         {r.rolls.map(roll => <div className="wh-register-row" key={roll.id}>
           <span><strong className="pocket-quantity">{fmt(roll.length)} {roll.unit}</strong><small className="record-code">{pocketRollLabel(roll)}</small></span>
           {!r.reversal && <a href={link(roll.id)}>Buka roll</a>}
         </div>)}
-        {r.reversal ? <small>Alasan pembalikan · {r.reversal.reason}</small> :
-          <button type="button" className="soft-btn" onClick={() => { setUndo(r.number); setWhy(''); setError('') }}>Balikkan penerimaan</button>}
+        {r.reversal ? <small>Alasan pembalikan · {r.reversal.reason}</small> : !r.bill && <footer className="pocket-register-actions">
+          <button type="button" className="soft-btn" onClick={() => { setBill({ receipt: r, number: '', day: r.day > fixtureDate ? r.day : fixtureDate, rate: '' }); setError('') }}><ReceiptText size={15} aria-hidden="true"/>Catat tagihan final</button>
+          <button type="button" className="soft-btn" onClick={() => { setUndo(r.number); setWhy(''); setError('') }}>Balikkan penerimaan</button>
+        </footer>}
       </details>)}
       {openingShown && <details open={expanded === 'SJ-KT-001' || undefined}>
         <summary><strong className="pocket-quantity">{seedRolls.length} roll · Saldo pembukaan</strong><small className="record-code">SJ-KT-001 · 20 Nov 2026</small></summary>
@@ -229,6 +260,23 @@ export default function PocketReceiptForm() {
       </details>}
       {!openingShown && !receipts.length && <p>Surat jalan atau roll tidak ditemukan.</p>}
     </aside>
+
+    {bill && <ReasonDialog className="pocket-editor-modal" title="Harga tagihan final kain kantong" closeLabel="Kembali" onClose={() => { setBill(null); setError('') }}>
+      <form className="pocket-master-editor" onSubmit={saveBill}>
+        <p className="pocket-bill-reference">{bill.receipt.supplier} · {bill.receipt.number} · {bill.receipt.rolls.length} roll</p>
+        <fieldset className="pocket-editor-section pocket-editor-prices">
+          <legend><ReceiptText size={17} aria-hidden="true"/> Tagihan supplier</legend>
+          <div className="pocket-editor-grid">
+            <label>Nomor tagihan<input required value={bill.number} onChange={e => setBill({ ...bill, number: e.target.value })}/></label>
+            <label>Tanggal tagihan<input required type="date" min={bill.receipt.day} max={lastWarehouseDay()} value={bill.day} onChange={e => setBill({ ...bill, day: e.target.value })}/></label>
+            <label>Harga final per {bill.receipt.rolls[0].unit} (Rp)<input required inputMode="decimal" value={bill.rate} onChange={e => setBill({ ...bill, rate: e.target.value })}/></label>
+            <p>Harga saat diterima <strong>{rateText(bill.receipt.rolls[0].rate, bill.receipt.rolls[0].unit)}</strong></p>
+          </div>
+        </fieldset>
+        {error && <p className="wh-feedback" role="alert">{error}</p>}
+        <footer className="pocket-editor-actions"><button type="submit" className="primary-btn">Simpan harga final</button></footer>
+      </form>
+    </ReasonDialog>}
 
     {preview && <ReasonDialog title={'Terima ' + preview.number} closeLabel="Kembali" onClose={() => { setPreview(null); setError('') }}>
       <div className="pocket-dialog-form">
