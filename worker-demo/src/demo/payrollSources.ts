@@ -1,5 +1,5 @@
 import {payrollNotes,type PayrollNote} from '../financeData'
-import {readNotes,lineTotal,outstandingIssue} from './issueDocuments'
+import {activeIssueReturns,readNotes,lineTotal,outstandingIssue} from './issueDocuments'
 import {normalizeMandor} from './accessoryPricing'
 import {isPieceUnit} from '../browseMatch'
 import type {DemoInvoice} from './saleBook'
@@ -78,7 +78,7 @@ export const payrollDebtTotal = (note: PayDraft) => (note.mandorDebts ?? []).red
 export const payrollAccessoryCreditTotal = (note:PayDraft) => (note.accessoryCredits??[]).reduce((sum,row)=>sum+row.amount,0)
 export function accessoryCreditsForPayroll(notes:PayDraft[],note:PayDraft) {
   return readNotes().filter(doc=>doc.status==='POSTED'&&matchMandor(doc.mandor,note.contractor)).flatMap(doc=>
-    (doc.returns??[]).filter(row=>row.credit>0&&row.day<=cutoff(note)).map(row=>({id:row.id,note:doc.number,day:row.day,amount:row.credit,mandor:doc.mandor}))
+    activeIssueReturns(doc).filter(row=>row.credit>0&&row.day<=cutoff(note)).map(row=>({id:row.id,note:doc.number,day:row.day,amount:row.credit,mandor:doc.mandor}))
   ).filter(credit=>!notes.some(row=>row.number!==note.number&&row.status!=='REVERSED'&&row.accessoryCredits?.some(item=>item.id===credit.id)))
 }
 export function chooseAccessoryCredit(notes:PayDraft[],number:string,id:string,include:boolean) {
@@ -152,7 +152,7 @@ export function postPayrollPayment(notes:PayDraft[], invoices:DemoInvoice[], num
 export function reversePayrollPayment(notes:PayDraft[],number:string,id:string|null,reason:string):PayDraft[] {
   const note=notes.find(row=>row.number===number)
   if(!note||!reason.trim())throw Error('Pilih pembayaran dan isi alasan pembalikan.')
-  if(note.status==='PAID'&&readNotes().some(doc=>!doc.settledAt&&note.accessoryNotes.some(row=>row.number===doc.number)&&doc.returns?.some(row=>row.credit>0))){
+  if(note.status==='PAID'&&readNotes().some(doc=>!doc.settledAt&&note.accessoryNotes.some(row=>row.number===doc.number)&&activeIssueReturns(doc).some(row=>row.credit>0))){
     throw Error('Nota biaya aksesori sudah menghasilkan kredit retur. Periksa kredit itu sebelum membalik pembayaran payroll ini.')
   }
   if(!id&&note.status==='PAID'&&!note.payments) {

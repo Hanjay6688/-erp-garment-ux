@@ -13,7 +13,7 @@ import EnterpriseSelect from './EnterpriseSelect'
 import {fixtureDate,issueQuote,masterBook,noteStock,masterCode,useAccessoryBook,type AccessoryBook,type PricingMode} from './demo/accessoryPricing'
 import './contractor-issue.css'
 
-import {seedDocuments,readNotes,saveNotes,subscribe,mandorNames,money,lineTotal,documentTotal,amountDue,type IssueDocument,type IssueLine} from './demo/issueDocuments'
+import {activeIssueReturns,seedDocuments,readNotes,saveNotes,subscribe,mandorNames,money,lineTotal,documentTotal,amountDue,type IssueDocument,type IssueLine} from './demo/issueDocuments'
 import {choosePayrollSource,payForSource,payrollClaim,readPayDrafts,savePayDrafts,editablePayroll} from './demo/payrollSources'
 type IssueStatus=IssueDocument['status']
 type PeriodFilter = 'Hari ini' | '7 hari terakhir' | 'Bulan ini' | 'Semua tanggal' | 'Custom'
@@ -124,7 +124,7 @@ function IssueWorkspace() {
   }
   const reverse = () => {
     if(!selected||!reverseNote.trim())return
-    if(selected.returns?.length){setNotice('Nota mempunyai retur aksesori. Periksa riwayat retur sebelum membalik nota.');setReverseOpen(false);return}
+    if(activeIssueReturns(selected).length){setNotice('Balikkan retur aktif di riwayat retur sebelum membalik nota ini.');setReverseOpen(false);return}
     if(payrollClaim(selected.number)){setNotice('Lepaskan nota ini dari payroll yang terkait lebih dahulu.');setReverseOpen(false);return}
     saveNotes(docs=>docs.map(d=>d.number===selected.number&&d.status==='POSTED'&&!d.settledAt?{...d,status:'REVERSED',inventoryChange:(d.inventoryChange??0)+1,rowVersion:d.rowVersion+1,note:`${d.note} · Pembalikan: ${reverseNote.trim()}`}:d))
     setReverseOpen(false)

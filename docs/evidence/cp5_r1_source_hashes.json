@@ -3,7 +3,7 @@
   "candidate_branch": "pre-cp5/cutting-persistence-pickup-wip-r1-20260903",
   "source_base_sha": "8bfac13b91ea1be92111139e2fddcabccf9ae19a",
   "source_base_tree": "a9b193010266bb686c57709865a992769a835855",
-  "generation_parent_sha": "020d5147a26444cd86c3984b6a72a186429a0525",
+  "generation_parent_sha": "53af1c233456d6a0be3f8c98d6ed2e69a8abb2c6",
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
@@ -636,8 +636,8 @@
       "sha256": "8dcafcf1ead9dec38713f7a75f317eed63de1bf64a666e0e354c540e913a7ab4"
     },
     "tests/browser/cp8-worker.spec.ts": {
-      "bytes": 147464,
-      "sha256": "d571c844fe10deccbabdef6917f21aa5fba918d996d93ad72e901493e152389e"
+      "bytes": 149027,
+      "sha256": "70d0d75077cf36a0a04dd906b37829f5f9445eea780027847b0443b24fccf072"
     },
     "tests/fg-quantity.test.ts": {
       "bytes": 1251,
@@ -880,8 +880,8 @@
       "sha256": "ee9ba1317dea44240030548c77ad058066e479e02a5b867606f654cb8c8c9d18"
     },
     "worker-demo/src/ContractorIssuePage.tsx": {
-      "bytes": 27234,
-      "sha256": "e1394f8594a31dda9144314d358c1ba5a2906297d56ad4f662b6f769d0cf4e06"
+      "bytes": 27253,
+      "sha256": "fe8a941a97768b0fd099fb8c2db0cfdf22caa837027cfba3df17493508ed923f"
     },
     "worker-demo/src/Cp6PermissionNotice.tsx": {
       "bytes": 1278,
@@ -936,8 +936,8 @@
       "sha256": "27671fcd8c9de9e7b2f105463266e5e895a8f747a30ec06793fbc39200c6cb9d"
     },
     "worker-demo/src/FinancePages.tsx": {
-      "bytes": 103074,
-      "sha256": "0aabdf29e5870d98672e932a99c38762e9a142cb703f8a885475a073e3fd7109"
+      "bytes": 103100,
+      "sha256": "73aeb7ea2187662b4eb33b12a54dc0f9f4c490b0f51c215717cd00bf99f60d0c"
     },
     "worker-demo/src/FinancePeriodPanel.tsx": {
       "bytes": 6859,
@@ -1340,8 +1340,8 @@
       "sha256": "4f188557772cc8e63f80ccabfb081e6d415be160ce88b803d1091a5e16f1b496"
     },
     "worker-demo/src/WarehousePages.tsx": {
-      "bytes": 56617,
-      "sha256": "78ffdd5fdb4362c835aa839aba452b31aa5a801d08d70dfd15085f0ec7c26591"
+      "bytes": 56887,
+      "sha256": "77be3a6ff889e758ff4cafb00b8917ac29c32f713b029998d59a80a880f65c33"
     },
     "worker-demo/src/WipBatchControlLayer.tsx": {
       "bytes": 12280,
@@ -1672,8 +1672,8 @@
       "sha256": "77aefcbb4405bf257cf1ba1e5a945135a280cd3623cfe76167728b0d68597772"
     },
     "worker-demo/src/demo/IssueReturnPanel.tsx": {
-      "bytes": 4179,
-      "sha256": "f4922183511d355f488072abece4aae5873cb60012da6455d53e1587040776e3"
+      "bytes": 4642,
+      "sha256": "f00851511c97552f44a68b3b75ba1cf50f1aa1496d0ac495bbe3e6b97f4f6352"
     },
     "worker-demo/src/demo/LaundryClaimCreditDialog.tsx": {
       "bytes": 5074,
@@ -1792,8 +1792,8 @@
       "sha256": "477e7689811f55d37d3fd7536c06d729e03ea454c8dca49d24a402e5b89f9323"
     },
     "worker-demo/src/demo/accessoryPricing.ts": {
-      "bytes": 12195,
-      "sha256": "809890a24bdcf6a90482ba305017349074d48f8687e2c502af71db64c844dacd"
+      "bytes": 12245,
+      "sha256": "cebf845fa9b316f856d7cd4b5f92b33de73dd7b4a2c0c9ae68e8c8cf1ba40d7e"
     },
     "worker-demo/src/demo/controls.tsx": {
       "bytes": 2756,
@@ -1840,12 +1840,12 @@
       "sha256": "e362c74e7f66f2cc33e3e7413aa0723c82d700b807a847615ed6dd08bc9a0dec"
     },
     "worker-demo/src/demo/issueDocuments.ts": {
-      "bytes": 4732,
-      "sha256": "94b217afb6e87ea7066d9c9b8e951618232c8a5012caa4729a14b3900f924a10"
+      "bytes": 4921,
+      "sha256": "481031fbe045783b4cf29bcfd2b98f4aab62cb3888de1ae640eece6223409b60"
     },
     "worker-demo/src/demo/issueReturns.ts": {
-      "bytes": 2701,
-      "sha256": "01bfb1f10f1376976b6da2fdf4996f3622f9c34787c8d3c9da6990230eb01487"
+      "bytes": 5214,
+      "sha256": "8c40efbe08ad95a14b3a4e84a3bcf9b839d1ab012454bdb0463b14c0220ce931"
     },
     "worker-demo/src/demo/laundryCredits.ts": {
       "bytes": 5395,
@@ -1876,8 +1876,8 @@
       "sha256": "ac78974787351b0b882f66de00789603d6b0a9bd776c1b0a9a0967b187bf6468"
     },
     "worker-demo/src/demo/payrollSources.ts": {
-      "bytes": 16138,
-      "sha256": "138e937b16a57e157a5200b8def95549c770fe7fb919a7a1556afcf1fbe572ad"
+      "bytes": 16174,
+      "sha256": "79d46c8f2f918744bd6db75b68aa820be251dfdd9478095c4b0fbf29d126763e"
     },
     "worker-demo/src/demo/planner/ProductionAdvice.tsx": {
       "bytes": 12916,

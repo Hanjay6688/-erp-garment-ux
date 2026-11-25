@@ -64,7 +64,7 @@ export const masterCode=(code:string)=>oldCodes[code]??code
 export const mainAccessories='Gudang Aksesori Utama'
 export const serviceAccessories='Pos Servis'
 export type AccessoryLocation = typeof mainAccessories | typeof serviceAccessories
-type InventoryNote={inventoryChange?:number;lines:{id:string;qty:number}[];returns?:{lines:{lineId:string;qty:number}[]}[]}
+type InventoryNote={inventoryChange?:number;lines:{id:string;qty:number}[];returns?:{lines:{lineId:string;qty:number}[];reversal?:unknown}[]}
 export function serviceStockMoves(session:Session,code:string,location:AccessoryLocation) {
   return (session.serviceDocuments??[]).flatMap(doc=>{
     const qty=doc.lines.reduce((sum,line)=>sum+(line.code===code?line.qty:0),0)
@@ -87,7 +87,8 @@ export function noteStock(code:string,opening:number,docs?:InventoryNote[],sessi
   const returned=(session.conversionReturns??[]).reduce((sum,row)=>sum+(!row.reversed&&row.code===code?row.good:0),0)
   const received=(session.accessoryReceipts??[]).reduce((sum,row)=>sum+(!row.reversal&&row.code===code?row.qty:0),0)
   const inspected=(session.accessorySalvage??[]).filter(row=>row.code===code).flatMap(row=>row.inspections).reduce((sum,row)=>sum+(row.reversal?0:row.good),0)
-  const mandorReturns=ledger.flatMap(doc=>doc.returns??[]).flatMap(doc=>doc.lines).reduce((sum,line)=>sum+(masterCode(line.lineId)===code?line.qty:0),0)
+  const mandorReturns=ledger.flatMap(doc=>doc.returns??[]).filter(row=>!row.reversal).flatMap(doc=>doc.lines)
+    .reduce((sum,line)=>sum+(masterCode(line.lineId)===code?line.qty:0),0)
   return opening+received+returned+inspected+service+mandorReturns-used+ledger.reduce((balance,d)=>balance+(d.inventoryChange??0)*d.lines.reduce((sum,l)=>sum+(masterCode(l.id)===code?l.qty:0),0),0)
 }
 export const accessoryStockAt=(item:AccessoryMaster,location:AccessoryLocation,session:Session=readPlannerSession())=>noteStock(item.code,item.stock,undefined,session,location)

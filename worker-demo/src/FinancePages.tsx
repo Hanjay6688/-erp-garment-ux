@@ -643,7 +643,7 @@ function PayrollWorkspace({onAttendance,onOpenFg}:{onAttendance:()=>void;onOpenF
           setDebtOpen(false)
           setNotice(amount>0?money(amount)+' dialokasikan ke payroll periode ini.':'Potongan dilepas. Saldo bisa dipilih di periode lain.')
         }}/>}
-      {(accessoryCredits.length>0||accessoryCreditTotal>0)&&<section className="mandor-debt-panel" aria-label="Kredit retur aksesori">
+      {(accessoryCredits.length>0||accessoryCreditTotal>0)&&<section className="mandor-debt-panel" id="kredit-retur-payroll" aria-label="Kredit retur aksesori">
         <header><ReceiptText aria-hidden="true"/><div><h3>Kredit retur aksesori</h3><p>Kelebihan retur dari nota yang sudah dibayar.</p></div><strong>{money(accessoryCreditTotal)}</strong></header>
         {!!selected.accessoryCredits?.length&&<ul className="mandor-payroll-sources">{selected.accessoryCredits.map(credit=><li key={credit.id}>
           <a href={'/keuangan/nota-ambil-mandor/?nota='+encodeURIComponent(credit.note)}>{credit.note} <ArrowRight/></a><b>+ {money(credit.amount)}</b></li>)}</ul>}

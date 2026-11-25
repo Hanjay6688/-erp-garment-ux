@@ -8,6 +8,7 @@ import {usePlannerSession} from './demo/planner/session'
 import {mainAccessories,masterCode,noteStock,serviceStockMoves,useAccessoryBook} from './demo/accessoryPricing'
 import {AccessorySalvage,AccessoryService} from './demo/AccessoryOperations'
 import {readNotes as readAccessoryNotes} from './demo/issueDocuments'
+import {issueReturnPath} from './demo/issueReturns'
 import RollCorrectionPanel from './demo/RollCorrectionPanel'
 import {fabricRollUses} from './demo/fabricReceipts'
 import {cutDocumentPath,receiptDocumentPath,receiptRolls} from './demo/receiptRollCorrection'
@@ -406,7 +407,9 @@ function AccessoryStock() {
       const href='/keuangan/nota-ambil-mandor/?nota='+encodeURIComponent(doc.number)
       const returns=(doc.returns??[]).flatMap(row=>{
         const delta=row.lines.reduce((sum,line)=>sum+(masterCode(line.lineId)===selected.id?line.qty:0),0)
-        return delta?[{ref:row.id,date:row.day,note:'Retur dari '+doc.mandor,delta,href}]:[]
+        const movement={ref:row.id,date:row.day,note:'Retur dari '+doc.mandor,delta,href:issueReturnPath(doc.number,row.id)}
+        if(!delta)return []
+        return row.reversal?[movement,{...movement,ref:row.id+' · balik',date:row.reversal.at.slice(0,10),note:row.reversal.reason,delta:-delta}]:[movement]
       })
       return qty?[{ref:doc.number,date:doc.issuedOn,note:doc.mandor,delta:qty,href},...returns]:returns
     }),
