@@ -1,8 +1,8 @@
-import { laundryOutstandingSizes, laundryPhysicalTime, type LaundryDelivery } from '../laundryModel'
+import { laundryClaimSizes, laundryOutstandingSizes, laundryPhysicalTime, laundryQcSizes, type LaundryDelivery } from '../laundryModel'
 import { sizeTotals, total, type Batch, type Source } from './distribution'
 import type { Lot } from './model'
 
-type StageRow = { id: string; stage: 'sewing' | 'laundry' | 'qc'; place: string; sizes: Record<string, number>; hold?: boolean }
+type StageRow = { id: string; stage: 'sewing' | 'laundry' | 'qc'; place: string; sizes: Record<string, number>; hold?: boolean; closed?:boolean }
 type Projection = (lot: Lot, sources: Source[]) => Lot
 
 export function stageBatch(
@@ -24,8 +24,9 @@ export function stageBatch(
       if (Object.keys(sizes).length) rows.push({ ...row, sizes })
     }
     append({ id: delivery.id, stage: 'laundry', place: delivery.vendor }, pending)
-    append({ id: delivery.id + '-QC', stage: 'qc', place: 'Meja QC' }, delivery.goodSizes)
+    append({ id: delivery.id + '-QC', stage: 'qc', place: 'Meja QC' }, laundryQcSizes(delivery))
     append({ id: delivery.id + '-BS', stage: 'qc', place: 'Pemeriksaan BS', hold: true }, delivery.bsSizes)
+    append({ id: delivery.id + '-KLAIM', stage: 'laundry', place: delivery.vendor, closed:true }, laundryClaimSizes(delivery,'CREDIT'))
   }
   if (Object.values(remaining).some(qty => qty < 0)) return null
   rows.push({ id, stage: 'sewing', place: batch.mandor, sizes: remaining })
@@ -38,10 +39,10 @@ export function stageBatch(
     return new Set(lot.outputs?.filter(roll => rollIds.has(roll.id)).map(roll => roll.material)).size > 1
   })
   const pool = batch.sources.map(source => ({ ...source }))
-  return rows.flatMap(({ id, stage, place, sizes, hold }) => {
+  return rows.flatMap(({ id, stage, place, sizes, hold, closed }) => {
     const base = { ...lot, id, stage, place, originId: lot.id, kind: hold ? 'quality-hold' : lot.kind }
     if (!sourced || hasMaterialAmbiguity) {
-      return Object.entries(sizes).filter(([, qty]) => qty > 0).map(([size, qty]) => ({
+      return closed?[]:Object.entries(sizes).filter(([, qty]) => qty > 0).map(([size, qty]) => ({
         ...base, id: id + '-' + size, size, qty, outputs: undefined, roll: undefined,
         ...(hasMaterialAmbiguity ? { material: 'Bahan campuran', eta: null } : {}),
       }))
@@ -55,6 +56,8 @@ export function stageBatch(
       row.qty -= take
       left[row.size] -= take
     }
-    return sources.length ? [project(base, sources)] : []
+    if(!sources.length)return []
+    const projected=project(base,sources)
+    return closed?[]:[projected]
   })
 }

@@ -12,7 +12,7 @@ import { useMemo, useState } from 'react'
 import {
   AlertTriangle, ArrowRight, Banknote, CalendarClock, CalendarDays, Check,
   CheckCircle2, CircleDollarSign, Clock3, FileClock, FileSearch, Landmark,
-  Link2, LockKeyhole, NotebookTabs, ReceiptText, RefreshCcw, Search, ShieldAlert,
+  FilePlus2, Layers3, LockKeyhole, NotebookTabs, Package, ReceiptText, RefreshCcw, Search, ShieldAlert, Waves,
   ShieldCheck, TrendingDown, TrendingUp, Undo2, UsersRound, WalletCards, X,
 } from 'lucide-react'
 import {
@@ -25,7 +25,10 @@ import { SupplierTransferPanel } from './demo/SupplierTransferPanel'
 import { readSupplierTransfers, transferPayables, transferTotal } from './demo/supplierTransfers'
 import { readPlannerSession } from './demo/planner/session'
 import { readSaleReturns } from './demo/saleReturnJournal'
-import SupplierInvoiceMatchModal from './SupplierInvoiceMatchModal'
+import { SupplierInvoiceComposer } from './demo/SupplierInvoiceComposer'
+import { kasbonSources, readSupplierInvoices, supplierDateLabel, supplierInvoiceAmount, supplierSourceRemaining, type SupplierGroup, type SupplierInvoice } from './demo/supplierInvoices'
+import { billCredit, billGross, billPaid, billRemaining, vendorCreditApplied } from './demo/laundryCredits'
+import { amountText } from './demo/accessoryPricing'
 import { cleanMoneyInput, formatMoneyInput, readRupiahInput } from './moneyInput'
 import { dayOk, lastWarehouseDay } from './demo/warehouseDay'
 import { calculateRegularWorkEntitlement } from './payroll/regularWorkEntitlement'
@@ -162,7 +165,7 @@ function CashWorkspace({onNavigate}:{onNavigate:FinanceProps['onNavigate']}) {
   const [query,setQuery]=useState('')
   const extra:CashMovement[]=[
     ...readSupplierTransfers().map((row):CashMovement=>({date:row.day,number:row.id,source:'SUPPLIER_PAYMENT',account:row.account,
-      counterparty:row.party,description:row.reference+' · '+row.allocations.length+' tagihan',amount:-transferTotal(row),status:row.reversed?'REVERSED':'POSTED'})),
+      counterparty:row.party,description:row.reference+' · '+row.allocations.map(item=>item.number).join(' · '),amount:-transferTotal(row),status:row.reversed?'REVERSED':'POSTED'})),
     ...(readPlannerSession().laundry??[]).flatMap(delivery=>(delivery.finalBills??[]).flatMap(bill=>[
       ...(bill.payments??[]).map((row):CashMovement=>({date:row.day,number:'PAY-'+row.id.slice(0,8),source:'VENDOR_PAYMENT',account:row.account,counterparty:delivery.vendor,
         description:bill.number+' · '+row.reference,amount:-row.cents/100,status:'POSTED'})),
@@ -190,28 +193,98 @@ function CashWorkspace({onNavigate}:{onNavigate:FinanceProps['onNavigate']}) {
 }
 
 function PlusIcon(){return <span className="biz-plus">+</span>}
-function LinkIcon(){return <Link2/>}
+const payableSections=[{key:'FABRIC',label:'Vendor Kain',icon:Layers3},{key:'LAUNDRY',label:'Laundry',icon:Waves},{key:'ACCESSORY',label:'Aksesori',icon:Package}] as const
+type PayableSection=typeof payableSections[number]['key']
+type PayableRow={key:string;number:string;party:string;reference:string;amount:number;paid:number;balance:number;status:string;credit?:number;payable?:Payable;invoice?:SupplierInvoice;href?:string}
 
 function PayablesWorkspace() {
-  const [kind,setKind]=useState('ALL')
+  const [section,setSection]=useState<PayableSection>(()=>new URLSearchParams(location.search).get('bagian')==='laundry'?'LAUNDRY':new URLSearchParams(location.search).get('bagian')==='aksesori'?'ACCESSORY':'FABRIC')
   const [state,setState]=useState('OPEN')
   const [query,setQuery]=useState('')
   const [transfers,setTransfers]=useState(readSupplierTransfers)
-  const payables=transferPayables(transfers)
-  const [selectedNumber,setSelectedNumber]=useState(payables[0].number)
-  const [matchOpen,setMatchOpen]=useState(false)
+  const [invoices,setInvoices]=useState(readSupplierInvoices)
+  const [selectedKey,setSelectedKey]=useState('')
+  const [composer,setComposer]=useState<true|SupplierInvoice|null>(null)
   const [notice,setNotice]=useState('')
-  const visible=payables.filter((item)=>`${item.number} ${item.party} ${item.reference}`.toLowerCase().includes(query.toLowerCase())&&(kind==='ALL'||item.kind===kind)&&(state==='ALL'||(state==='OPEN'?!['PAID'].includes(item.status):item.status===state)))
-  const selected=payables.find((item)=>item.number===selectedNumber)??payables[0]
-  const outstanding=outstandingPayable(selected)
-  const isGrni=selected.kind==='MATERIAL_GRNI'
+  const category=payableSections.find(row=>row.key===section)!
+  const laundry=readPlannerSession().laundry??[]
+  const posted=transferPayables(transfers,undefined,invoices).filter(row=>row.kind!=='MATERIAL_GRNI')
+  const docs:PayableRow[]=[
+    ...invoices.filter(doc=>doc.group===section&&doc.status==='DRAFT').map(invoice=>({key:invoice.id,number:invoice.number,party:invoice.supplier,reference:invoice.lines.map(line=>line.source.number).join(' · '),
+      amount:supplierInvoiceAmount(invoice),paid:0,balance:0,status:'DRAFT',invoice})),
+    ...posted.filter(doc=>{
+      const invoice=invoices.find(row=>row.number===doc.number)
+      const group=invoice?.group??(doc.kind==='LAUNDRY_AP'?'LAUNDRY':doc.reference.startsWith('BELI-ACC')?'ACCESSORY':'FABRIC')
+      return group===section
+    }).map(payable=>({key:payable.number,number:payable.number,party:payable.party,reference:payable.reference,amount:payable.amount,paid:payable.paid,
+      balance:outstandingPayable(payable),status:payable.status,payable,invoice:invoices.find(row=>row.number===payable.number)})),
+    ...(section==='LAUNDRY'?laundry.flatMap(delivery=>(delivery.finalBills??[]).map(bill=>{
+      const balance=billRemaining(laundry,delivery,bill)
+      return {key:delivery.id+'|'+bill.number,number:bill.number,party:delivery.vendor,reference:bill.parts?.map(part=>part.delivery).join(' · ')??delivery.id,
+        amount:billGross(bill)/100,paid:billPaid(bill)/100,balance:balance/100,credit:(billCredit(bill)+vendorCreditApplied(laundry,delivery.id,bill.number))/100,
+        status:balance===0?'PAID':billPaid(bill)>0?'PARTIAL':'OPEN',
+        href:'/produksi/laundry/?'+new URLSearchParams({tab:'tagihan',vendor:delivery.vendor,cari:bill.number})}
+    })):[]),
+  ]
+  const sources=section==='LAUNDRY'?[]:kasbonSources().filter(row=>row.group===section)
+  const openSources=sources.filter(row=>supplierSourceRemaining(invoices,row)>0)
+  const visible=docs.filter(doc=>browseMatchPieces(query,doc.invoice?.lines.filter(line=>line.source.unit==='pcs').map(line=>line.qty)??[],
+    doc.number,doc.party,doc.reference)&&(state==='ALL'||(state==='OPEN'?doc.status!=='PAID':doc.status===state)))
+  const selected=visible.find(doc=>doc.key===selectedKey)??visible[0]
+  const payablesOpen=docs.filter(doc=>doc.balance>0)
+  function chooseSection(next:PayableSection) {
+    setSection(next);setState('OPEN');setQuery('');setSelectedKey('');setNotice('')
+  }
+  function handleCompose() {
+    if(section!=='LAUNDRY')setComposer(true)
+  }
+
   return <>
-    <FinanceHero eyebrow="KEUANGAN · AP & GRNI" title="Hutang Supplier & Vendor" description="Pisahkan barang yang sudah datang tetapi invoice belum final (GRNI), hutang bahan final, dan hutang laundry. Invoice bukan pembayaran; uang keluar dicatat terpisah." icon={ReceiptText}/>
-    <section className="biz-metrics"><div className="panel danger"><span>TOTAL TERBUKA</span><strong>{compactMoney(payables.reduce((sum,item)=>sum+outstandingPayable(item),0))}</strong><small>AP + GRNI</small></div><div className="panel warn"><span>GRNI / ESTIMATED</span><strong>{compactMoney(payables.filter((item)=>item.kind==='MATERIAL_GRNI').reduce((sum,item)=>sum+outstandingPayable(item),0))}</strong><small>Barang datang, invoice belum final</small></div><div className="panel danger"><span>OVERDUE</span><strong>Rp26,9 jt</strong><small>Sesudah pembayaran parsial</small></div><div className="panel"><span>RECALC PENDING</span><strong>1 invoice</strong><small>Margin masih provisional</small></div></section>
-    <section className="panel biz-master-detail finance-detail"><BrowsePane aria-label="Daftar utang dan GRNI"><header><div><span>AP BROWSER</span><strong>{visible.length} dokumen</strong></div><ReceiptText/></header><label className="biz-search"><Search/><input value={query} onChange={(event)=>setQuery(event.target.value)} placeholder="Cari supplier, invoice, receipt..."/></label><div className="biz-double-filter"><select value={kind} onChange={(event)=>setKind(event.target.value)}><option value="ALL">Semua jenis</option><option>MATERIAL_GRNI</option><option>MATERIAL_AP</option><option>LAUNDRY_AP</option></select><select value={state} onChange={(event)=>setState(event.target.value)}><option value="OPEN">Semua terbuka</option><option value="ALL">Semua status</option><option>OVERDUE</option><option>PARTIAL</option><option>PAID</option></select></div><div className="biz-browser-list">{visible.map((item)=><button key={item.number} className={item.number===selected.number?'active':''} onClick={()=>{setSelectedNumber(item.number);setNotice('')}}><span>{item.kind==='MATERIAL_GRNI'?'GR':'AP'}</span><div><strong>{item.number}</strong><small>{item.party}</small><em>{item.reference}</em></div><b>{money(outstandingPayable(item))}</b><Pill>{item.status}</Pill></button>)}</div></BrowsePane><main><header className="biz-detail-head"><div><span>{selected.kind.replaceAll('_',' ')}</span><h2>{selected.number}</h2><p>{selected.party} · {selected.reference}</p></div><div className="biz-detail-pills"><Pill>{selected.status}</Pill><Pill>{selected.costState}</Pill></div></header><div className="biz-date-audit"><article><CalendarClock/><span><small>TANGGAL EKONOMI</small><strong>{selected.economicDate}</strong><em>Barang/jasa terjadi</em></span></article><article><FileClock/><span><small>INVOICE DITERIMA ERP</small><strong>{selected.receivedDate}</strong><em>Boleh jauh lebih lambat</em></span></article><article><Clock3/><span><small>JATUH TEMPO</small><strong>{selected.dueDate}</strong><em>{selected.status==='OVERDUE'?'Sudah lewat':'Sesuai invoice final'}</em></span></article></div><div className="biz-ar-equation"><span><small>NILAI TAGIHAN</small><strong>{money(selected.amount)}</strong></span><i>−</i><span><small>SUDAH DIBAYAR</small><strong>{money(selected.paid)}</strong></span><i>=</i><span><small>OUTSTANDING</small><strong>{money(outstanding)}</strong></span></div>{isGrni&&<div className="biz-guard warn"><AlertTriangle/><span><strong>Ini GRNI, bukan invoice final.</strong> Nilai benchmark/estimated boleh mengisi hutang sementara dan HPP provisional, tetapi belum boleh dibayar sebagai AP final.</span></div>}{selected.costState==='RECALC_PENDING'&&<div className="biz-guard danger"><RefreshCcw/><span><strong>Invoice terlambat memicu recost kronologis.</strong> Dampak harus dipisah ke RM, WIP, FG tersisa, COGS terjual, retur, dan periode tertutup.</span></div>}<section className="biz-source-chain"><span>JEJAK SUMBER</span><div><article><small>01</small><strong>Penerimaan fisik</strong><em>{selected.reference}</em></article><ArrowRight/><article><small>02</small><strong>{isGrni?'GRNI sementara':'Invoice final'}</strong><em>{selected.number}</em></article><ArrowRight/><article><small>03</small><strong>{selected.costState}</strong><em>HPP & GL impact</em></article></div></section>{notice&&<div className="biz-inline-notice"><CheckCircle2/> {notice}</div>}{isGrni&&<footer className="biz-detail-actions"><button className="primary-btn" onClick={()=>setMatchOpen(true)}><LinkIcon/> Cocokkan invoice final</button></footer>}
-      <SupplierTransferPanel key={selected.party} doc={selected} transfers={transfers} onSaved={setTransfers}/>
-    </main></section>
-    {matchOpen&&<SupplierInvoiceMatchModal grniNumber={selected.number} supplier={selected.party} purchaseReference={selected.reference} estimatedAmount={selected.amount} onClose={()=>setMatchOpen(false)} onSaved={(result)=>{setMatchOpen(false);setNotice(result.kind==='DRAFT'?`Draft ${result.invoiceNumber} tersimpan sebagai simulasi; GRNI dan GL belum berubah.`:`${result.invoiceNumber} diposting sebagai simulasi ${money(result.amount)} dari ${result.receiptCount} receipt${result.partial?'; sisa qty tetap GRNI.':'; GRNI terpilih selesai.'}`)}}/>}
+    <FinanceHero eyebrow="KEUANGAN · HUTANG" title="Hutang Supplier & Vendor" description="Pilih sumber tagihan per supplier. Susun kasbon ke satu invoice, lalu catat pembayaran dari invoice tersebut." icon={ReceiptText}/>
+    <nav className="payable-section-tabs" aria-label="Jenis tagihan">
+      {payableSections.map(({key,label,icon:Glyph})=><button type="button" key={key} className={section===key?'active':''} aria-pressed={section===key} onClick={()=>chooseSection(key)}><Glyph size={19}/><strong>{label}</strong></button>)}
+    </nav>
+    <section className="panel demo-ops-panel payable-start"><header className="demo-ops-header">
+      <div className="demo-operation-heading"><i><category.icon/></i><div><h2>{category.label}</h2><p>{payablesOpen.length} invoice belum lunas{section!=='LAUNDRY'?' · '+openSources.length+' kasbon siap dipilih':''}</p></div></div>
+      {section==='LAUNDRY'?<a className="primary-btn" href="/produksi/laundry/?tab=tagihan"><WalletCards size={17}/> Buka Klaim &amp; Tagihan Laundry</a>
+        :<button type="button" className="primary-btn" onClick={handleCompose}><FilePlus2 size={17}/> Susun invoice supplier</button>}
+    </header></section>
+    {notice&&<div className="biz-inline-notice" role="status"><CheckCircle2/> {notice}</div>}
+    <section className="panel biz-master-detail finance-detail">
+      <BrowsePane aria-label="Daftar utang dan GRNI"><header><div><span>{category.label.toUpperCase()}</span><strong>{visible.length} invoice</strong></div><ReceiptText/></header>
+        <label className="biz-search"><Search/><input aria-label="Cari invoice supplier" type="search" value={query} onChange={event=>setQuery(event.target.value)} placeholder="Cari invoice, supplier, atau kasbon…"/></label>
+        <label className="payable-filter-label">Status invoice<select value={state} onChange={event=>setState(event.target.value)}>
+          <option value="OPEN">Draf &amp; belum lunas</option><option value="ALL">Semua invoice</option><option value="DRAFT">Draf</option><option value="PAID">Lunas</option>
+        </select></label>
+        <div className="biz-browser-list">{visible.map(doc=><button type="button" key={doc.key} aria-pressed={doc===selected} className={doc===selected?'active':''} onClick={()=>setSelectedKey(doc.key)}>
+          <span><ReceiptText size={16}/></span><div><strong>{money(doc.status==='DRAFT'?doc.amount:doc.balance)}</strong><small>{doc.party}</small><em>{doc.number}</em></div>
+          <Pill>{doc.status}</Pill>
+        </button>)}</div>
+      </BrowsePane>
+      {selected?<main>
+        <header className="biz-detail-head"><div><span>{selected.party}</span><h2>{selected.number}</h2><p>{selected.invoice?supplierDateLabel(selected.invoice.day):selected.reference}</p></div><Pill>{selected.status}</Pill></header>
+        <div className="demo-operation-facts payable-balance">
+          <article><span>Total invoice</span><strong>{money(selected.amount)}</strong></article>
+          {selected.status!=='DRAFT'&&<><article><span>Sudah dibayar</span><strong>{money(selected.paid)}</strong></article>
+            {!!selected.credit&&<article><span>Potongan kredit</span><strong>{money(selected.credit)}</strong></article>}
+            <article><span>Sisa tagihan</span><strong>{money(selected.balance)}</strong></article></>}
+        </div>
+        {selected.invoice&&<section className="demo-ops-card demo-supplier-transfers" aria-label="Kasbon dalam invoice">
+          <header className="demo-ops-header"><div className="demo-operation-heading"><i><ReceiptText/></i><div><h3>Kasbon dalam invoice ini</h3><p>{selected.invoice.lines.length} kasbon · {selected.party}</p></div></div>
+            {selected.status==='DRAFT'&&<button type="button" className="primary-btn" onClick={()=>setComposer(selected.invoice!)}>Tambah / lepas kasbon <ArrowRight size={16}/></button>}</header>
+          <div className="demo-operation-history">{selected.invoice.lines.map(line=><article key={line.source.id}>
+            <strong>{line.qty.toLocaleString('id-ID')} {line.source.unit} · {line.source.name}</strong><small>{line.source.number} · {supplierDateLabel(line.source.day)}</small><span>{amountText(line.cents/100)}</span>
+          </article>)}</div>
+        </section>}
+        {selected.href&&<div className="demo-supplier-transfers"><a className="primary-btn" href={selected.href}><WalletCards size={17}/> Buka kontrabon &amp; pembayaran</a></div>}
+        {selected.payable&&<SupplierTransferPanel key={selected.key} doc={selected.payable} transfers={transfers} onSaved={rows=>{setTransfers(rows);setState('ALL');setSelectedKey(selected.key)}}/>}
+      </main>:<main className="biz-empty"><ReceiptText/><strong>Belum ada invoice untuk pilihan ini</strong><small>Ubah pencarian atau pilih Susun invoice supplier.</small></main>}
+    </section>
+    {composer&&section!=='LAUNDRY'&&<SupplierInvoiceComposer group={section as SupplierGroup} rows={invoices} previous={composer===true?undefined:composer} onClose={()=>setComposer(null)}
+      onSave={({doc,rows})=>{
+        setComposer(null);setInvoices(rows);setState('OPEN');setQuery('');setSelectedKey(doc.status==='DRAFT'?doc.id:doc.number)
+        setNotice(doc.status==='DRAFT'?'Draf '+doc.number+' tersimpan. Buka lagi untuk tambah atau lepas kasbon.':'Invoice '+doc.number+' terposting dan siap dibayar.')
+      }}/>}
   </>
 }
 

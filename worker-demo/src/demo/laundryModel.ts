@@ -28,14 +28,25 @@ export type LaundryReadyBatch = {
 }
 
 type LaundryReturn = { at: string; good: QtyTuple; bs: QtyTuple }
-export type LaundryClaim = { id:string; type:'BS'|'STUCK'|'MISSING'; qty:number; cents:number; reason:string; day:string; approvedOn?:string; reversed?:string }
+export type LaundryClaimResolution = {kind:'CREDIT'|'REPLACEMENT';day:string;reason:string;sizes:QtyTuple;qcPosted?:boolean}
+export type LaundryClaim = {
+  id:string; type:'BS'|'STUCK'|'MISSING'; qty:number; cents:number; reason:string; day:string
+  approvedOn?:string; reversed?:string; needsResolution?:true; resolution?:LaundryClaimResolution
+}
 export type LaundryBillCredit = { id:string; claim:string; cents:number; day:string; reason:string; reversed?:string }
 export type LaundryBillPayment = {id:string; cents:number; day:string; account:string; reference:string}
-export type LaundryBillCorrection = {id:string; day:string; previousRate:number; rate:number; reason:string}
+export type LaundryBillCorrection = {id:string; day:string; previousRate:number; rate:number; reason:string; part?:string}
 export type LaundryVendorUse = {id:string; cents:number; day:string; reason:string; target?:{delivery:string;bill:string}; account?:string}
+export type LaundryBillPart = {delivery:string; qty:number; process:string; rate:number}
 export type LaundryFinalBill = {
-  number:string; day:string; process:string; rate:number; qty:number; credits?:LaundryBillCredit[]
+  number:string; day:string; process:string; rate:number; qty:number; credits?:LaundryBillCredit[]; parts?:LaundryBillPart[]
   payments?:LaundryBillPayment[]; corrections?:LaundryBillCorrection[]; vendorUses?:LaundryVendorUse[]
+}
+
+export function unbilledLaundryPieces(rows:LaundryDelivery[],delivery:LaundryDelivery) {
+  const billed=rows.reduce((sum,row)=>sum+(row.finalBills??[]).reduce((subtotal,bill)=>subtotal+
+    (bill.parts?bill.parts.find(part=>part.delivery===delivery.id)?.qty??0:row.id===delivery.id?bill.qty:0),0),0)
+  return Math.max(0,delivery.good+delivery.bs-billed)
 }
 export type FailedWash = {id:string; at:string; qty:number; custody:'STAY'|'RETURN'; rate:number|null; reason:string; pricedOn?:string}
 export type LaundryDelivery = {
@@ -107,41 +118,61 @@ export const laundryDigits = (value:string,max:number) => {
   return digits===''?'':String(Math.min(max,Number(digits)))
 }
 
-export const laundryOutstanding = (delivery:LaundryDelivery) => Math.max(0,delivery.qty-delivery.good-delivery.bs-delivery.reversed)
+const count=(sizes:number[])=>sizes.reduce((sum,qty)=>sum+qty,0)
+export function laundryClaimSizes(delivery:LaundryDelivery,kind:LaundryClaimResolution['kind']):QtyTuple {
+  const resolutions=(delivery.claims??[]).filter(claim=>!claim.reversed&&claim.resolution?.kind===kind).map(claim=>claim.resolution!)
+  return delivery.sizes.map((_,index)=>resolutions.reduce((sum,row)=>sum+(row.sizes[index]??0),0))
+}
+export const laundryLossQty=(delivery:LaundryDelivery)=>count(laundryClaimSizes(delivery,'CREDIT'))
+export const laundryReplacementQty=(delivery:LaundryDelivery)=>count(laundryClaimSizes(delivery,'REPLACEMENT'))
+export const laundryOutstanding = (delivery:LaundryDelivery) => Math.max(0,delivery.qty-delivery.good-delivery.bs-delivery.reversed-laundryLossQty(delivery)-laundryReplacementQty(delivery))
 
-export const laundryReturnedSizes = (delivery:LaundryDelivery):QtyTuple => delivery.goodSizes.map((qty,index)=>qty+delivery.bsSizes[index]) as QtyTuple
+export function laundryQcSizes(delivery:LaundryDelivery):QtyTuple {
+  const replacement=laundryClaimSizes(delivery,'REPLACEMENT')
+  return delivery.goodSizes.map((qty,index)=>qty+replacement[index])
+}
 
-export const laundryOutstandingSizes = (delivery:LaundryDelivery):QtyTuple => delivery.sizes.map((qty,index)=>Math.max(0,qty-delivery.goodSizes[index]-delivery.bsSizes[index]-delivery.reversedSizes[index])) as QtyTuple
+export const laundryReturnedSizes = (delivery:LaundryDelivery):QtyTuple => laundryQcSizes(delivery).map((qty,index)=>qty+delivery.bsSizes[index])
+
+export function laundryOutstandingSizes(delivery:LaundryDelivery):QtyTuple {
+  const returned=laundryReturnedSizes(delivery)
+  const lost=laundryClaimSizes(delivery,'CREDIT')
+  return delivery.sizes.map((qty,index)=>Math.max(0,qty-returned[index]-delivery.reversedSizes[index]-lost[index]))
+}
 
 export const summarizeLaundryBatch = (deliveries:LaundryDelivery[],batchId:string) => {
   const rows=deliveries.filter((delivery)=>delivery.batchId===batchId)
-  const good=rows.reduce((sum,delivery)=>sum+delivery.good,0)
+  const good=rows.reduce((sum,delivery)=>sum+delivery.good+laundryReplacementQty(delivery),0)
   const bs=rows.reduce((sum,delivery)=>sum+delivery.bs,0)
   const returned=good+bs
   const outside=rows.reduce((sum,delivery)=>sum+laundryOutstanding(delivery),0)
   const reversed=rows.reduce((sum,delivery)=>sum+delivery.reversed,0)
   const sizeLabels=Array.from(new Set(rows.flatMap(row=>row.sizeLabels)))
-  const goodSizes=(sizeLabels.map((size)=>rows.reduce((sum,delivery)=>sum+(delivery.goodSizes[delivery.sizeLabels.indexOf(size)] ?? 0),0)) as QtyTuple)
+  const bySize=(quantities:(delivery:LaundryDelivery)=>QtyTuple)=>sizeLabels.map(size=>rows.reduce((sum,delivery)=>sum+(quantities(delivery)[delivery.sizeLabels.indexOf(size)]??0),0))
+  const goodSizes=bySize(laundryQcSizes)
   const bsSizes=(sizeLabels.map((size)=>rows.reduce((sum,delivery)=>sum+(delivery.bsSizes[delivery.sizeLabels.indexOf(size)] ?? 0),0)) as QtyTuple)
-  const outsideSizes=(sizeLabels.map((size)=>rows.reduce((sum,delivery)=>sum+(laundryOutstandingSizes(delivery)[delivery.sizeLabels.indexOf(size)] ?? 0),0)) as QtyTuple)
+  const outsideSizes=bySize(laundryOutstandingSizes)
+  const lossSizes=bySize(delivery=>laundryClaimSizes(delivery,'CREDIT'))
   const activeVendors=Array.from(new Set(rows.filter((delivery)=>laundryOutstanding(delivery)>0).map((delivery)=>delivery.vendor)))
-  const returnedVendors=Array.from(new Set(rows.filter((delivery)=>delivery.good+delivery.bs>0).map((delivery)=>delivery.vendor)))
-  return {good,bs,returned,outside,reversed,sizeLabels,goodSizes,bsSizes,outsideSizes,activeVendors,returnedVendors}
+  const returnedVendors=Array.from(new Set(rows.filter((delivery)=>delivery.good+delivery.bs+laundryReplacementQty(delivery)>0).map((delivery)=>delivery.vendor)))
+  return {good,bs,returned,outside,reversed,loss:count(lossSizes),sizeLabels,goodSizes,bsSizes,outsideSizes,lossSizes,activeVendors,returnedVendors}
 }
 
 function makeQcSeed(parent:SewingParentSeed,batch:SewingBatchSeed,summary:ReturnType<typeof summarizeLaundryBatch>):QcSeed {
   const sizes=Array.from(new Set([...parent.sizes,...summary.sizeLabels]))
   const good=alignSizeQuantities(summary.sizeLabels,summary.goodSizes,sizes),bs=alignSizeQuantities(summary.sizeLabels,summary.bsSizes,sizes),outside=alignSizeQuantities(summary.sizeLabels,summary.outsideSizes,sizes)
-  const qcSourceSizes=sizes.map((_,index)=>good[index]+bs[index]+outside[index])
+  const lost=alignSizeQuantities(summary.sizeLabels,summary.lossSizes,sizes)
+  const qcSourceSizes=sizes.map((_,index)=>good[index]+bs[index]+outside[index]+lost[index])
   return {
     parentId:parent.id,batchId:batch.id,plannedBrand:parent.plannedBrand,pattern:parent.pattern,model:parent.model,material:parent.material,mandor:parent.mandor,
     laundry:[...new Set([...summary.activeVendors,...summary.returnedVendors])].join(' & '),
     sizes,expected:qcSourceSizes,returnedGoodBySize:good,returnedBsBySize:bs,stuckBySize:outside,
+    ...(summary.loss>0?{closedByClaimBySize:lost}:{}),
   }
 }
 
 export function buildQcSeeds(deliveries:LaundryDelivery[]):QcSeed[] {
-  const batchIds=Array.from(new Set(deliveries.filter((delivery)=>delivery.good+delivery.bs>0).map((delivery)=>delivery.batchId)))
+  const batchIds=Array.from(new Set(deliveries.filter((delivery)=>delivery.good+delivery.bs+laundryReplacementQty(delivery)>0).map((delivery)=>delivery.batchId)))
   return batchIds.map((batchId)=>{
     const rows=deliveries.filter((delivery)=>delivery.batchId===batchId)
     const first=rows[0]
@@ -149,9 +180,10 @@ export function buildQcSeeds(deliveries:LaundryDelivery[]):QcSeed[] {
     const batch=parent?.batches.find((item)=>item.id===batchId)
     if(parent&&batch)return makeQcSeed(parent,batch,summarizeLaundryBatch(deliveries,batchId))
     const summary=summarizeLaundryBatch(deliveries,batchId)
-    const {sizeLabels,goodSizes,bsSizes,outsideSizes:stuckBySize}=summary
-    const expected=sizeLabels.map((_,i)=>goodSizes[i]+bsSizes[i]+stuckBySize[i])
-    return {parentId:first.parentId,batchId,plannedBrand:first.plannedBrand,pattern:first.pattern,model:first.model,material:first.material,mandor:first.mandor,laundry:Array.from(new Set(rows.map(row=>row.vendor))).join(' & '),sizes:sizeLabels,expected,returnedGoodBySize:goodSizes,returnedBsBySize:bsSizes,stuckBySize}
+    const {sizeLabels,goodSizes,bsSizes,outsideSizes:stuckBySize,lossSizes}=summary
+    const expected=sizeLabels.map((_,i)=>goodSizes[i]+bsSizes[i]+stuckBySize[i]+lossSizes[i])
+    return {parentId:first.parentId,batchId,plannedBrand:first.plannedBrand,pattern:first.pattern,model:first.model,material:first.material,mandor:first.mandor,laundry:Array.from(new Set(rows.map(row=>row.vendor))).join(' & '),sizes:sizeLabels,expected,returnedGoodBySize:goodSizes,returnedBsBySize:bsSizes,stuckBySize,
+      ...(summary.loss>0?{closedByClaimBySize:lossSizes}:{})}
   }).sort((a,b)=>b.parentId.localeCompare(a.parentId))
 }
 
@@ -183,8 +215,10 @@ export const laundryReadyFromDelivery = (delivery:LaundryDelivery,qty:number):La
 }
 
 export const laundryDeliveryStatus = (delivery:LaundryDelivery) => {
-  const received=delivery.good+delivery.bs
+  const loss=laundryLossQty(delivery)
+  const received=delivery.good+delivery.bs+laundryReplacementQty(delivery)
   const outstanding=laundryOutstanding(delivery)
+  if(loss>0&&outstanding===0)return 'Selesai · klaim ditutup'
   if(delivery.reversed>0&&outstanding===0)return received>0?'Sisa kembali WIP':'Kembali ke WIP'
-  return received===0?'Di laundry':outstanding>0?'Kembali sebagian':'Selesai'
+  return outstanding===0?'Selesai':received>0||loss>0?'Kembali sebagian':'Di laundry'
 }

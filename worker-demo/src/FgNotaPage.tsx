@@ -47,7 +47,7 @@ const toRegularCard = (result: QcFinalResult, savedSnapshot?: RegularFgNotaSnaps
   const good = total(result.postedGoodBySize)
   const bs = total(result.postedBsBySize)
   const rewash = total(result.postedRewashBySize)
-  const hold = total(result.stuckBySize)
+  const hold = total(result.stuckBySize) + total(result.closedByClaimBySize??[])
   const returned = good + bs + rewash
   const sewnQty = total(result.expected)
   const defaultFullRate = total(laborBomComponents.map((component) => component.rate))

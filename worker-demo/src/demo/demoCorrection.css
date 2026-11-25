@@ -99,6 +99,25 @@
 .demo-ops-panel > .biz-search input { min-width: 0; }
 .demo-issue-return, .demo-supplier-transfers { margin: 12px; }
 .demo-mandor-correction { margin: 12px 14px; }
+.payable-section-tabs { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:9px; margin:0 0 14px; }
+.payable-section-tabs > button {
+  display:flex; align-items:center; justify-content:center; gap:9px;
+  min-height:48px; padding:9px 10px; border:1px solid var(--line-strong); border-radius:11px;
+  color:var(--text); background:var(--panel-2); font:inherit; cursor:pointer;
+}
+.payable-section-tabs > button svg { flex:none; color:var(--blue); }
+.payable-section-tabs > button:hover { background:var(--panel-3); }
+.payable-section-tabs > button.active { border-color:var(--blue); background:var(--accent-bg); }
+.payable-start { margin-bottom:14px; }
+.payable-balance { margin:12px; }
+.payable-filter-label { display:grid; gap:5px; padding:8px 12px; color:var(--muted); font-size:13px; }
+.payable-filter-label select { min-width:0; min-height:39px; border:1px solid var(--line-strong); border-radius:8px; padding:5px 9px; color:var(--text); background:var(--panel); }
+.supplier-draft-selected { background:var(--accent-bg); }
+.supplier-draft-search { display:flex !important; gap:7px; align-items:center; }
+.supplier-draft-search input { flex:1; }
+.laundry-return-facts .laundry-resolved-count { padding:8px; border:1px solid var(--line); border-radius:9px; background:var(--success-bg); color:var(--text); }
+.laundry-mode-tabs > button:focus-visible, .payable-section-tabs > button:focus-visible { outline:2px solid var(--blue); outline-offset:2px; }
+@media(max-width:450px) { .payable-section-tabs > button { gap:5px; padding-inline:5px; font-size:12px; } .payable-section-tabs svg { width:15px; } }
 .sale-return-workspace .biz-browser-list > button > i {
   display: grid; place-items: center; width: 34px; height: 34px; border-radius: 9px;
   color: var(--blue); background: var(--accent-bg);
@@ -126,6 +145,29 @@
 .laundry-bill-card .laundry-final-bill b { display: block; font-size: 16px; }
 .laundry-claim-box > button, .laundry-bill-card > button { justify-self: start; }
 .laundry-bill-card .demo-operation-history button { justify-self: start; }
+.laundry-money-workspace { display:grid; gap:12px; padding: clamp(10px,2vw,18px); }
+.laundry-money-workspace > .laundry-section-head { padding: 0; }
+.laundry-money-vendor { display:grid; gap:12px; padding:12px; border:1px solid var(--line-strong); border-radius:14px; background:var(--panel-2); }
+.laundry-money-vendor:nth-of-type(even) { background:var(--panel-3); }
+.laundry-money-vendor > header { padding-bottom:10px; border-bottom:1px solid var(--line); }
+.laundry-money-totals { display:flex; flex-wrap:wrap; gap:10px 18px; color:var(--muted); font-size:13px; }
+.laundry-money-totals strong { display:block; margin-top:2px; color:var(--text); font-size:17px; }
+.laundry-money-column, .laundry-money-sources { display:grid; gap:9px; min-width:0; }
+.laundry-money-column > small, .laundry-money-source small { color:var(--muted); }
+.laundry-money-source { padding:9px 11px; border:1px solid var(--line); border-radius:10px; background:var(--panel); min-width:0; }
+.laundry-money-source small { display:block; margin-top:3px; }
+.laundry-money-sources .laundry-money-source { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:8px; }
+.laundry-money-column .laundry-claim-box, .laundry-money-column .laundry-bill-card { margin-bottom:0; }
+.laundry-credit-control, .laundry-credit-source { display:grid; gap:5px; padding:8px; border:1px solid var(--line); border-radius:9px; background:var(--accent-bg); }
+.laundry-credit-control button { justify-self:start; }
+.laundry-credit-control small, .laundry-credit-source small { color:var(--muted); }
+.laundry-claim-sizes { margin:0; min-width:0; padding:10px; border:1px solid var(--line-strong); border-radius:9px; }
+.laundry-claim-sizes legend { padding-inline:5px; font-size:13px; font-weight:750; }
+.laundry-claim-sizes .demo-operation-fields { grid-template-columns:repeat(auto-fit,minmax(min(78px,100%),1fr)); }
+.laundry-claim-sizes > strong { display:block; margin-top:7px; }
+.laundry-tabs.laundry-mode-tabs { gap:7px; }
+.laundry-tabs.laundry-mode-tabs > button { padding:8px 11px; min-height:42px; border:1px solid var(--line-strong); border-radius:9px; }
+@media(max-width:480px) { .laundry-tabs.laundry-mode-tabs > button:last-child { grid-column:1/-1; } }
 .conversion-accessory-sections {
   display: grid;
   grid-template-columns: repeat(auto-fit,minmax(min(310px,100%),1fr));

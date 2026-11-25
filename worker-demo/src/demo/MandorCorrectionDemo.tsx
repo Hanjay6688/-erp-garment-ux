@@ -23,7 +23,7 @@ function blockers({group,deliveries,drafts,qc}:Props):Blocker[] {
     if(qc.some(row=>row.batchId===batch.id))rows.push({title:'Hasil QC / barang jadi',ref:batch.id,href:'/produksi/qc/'})
   }
   for(const delivery of deliveries.filter(row=>ids.has(row.batchId))){
-    if(laundryOutstanding(delivery)>0||delivery.good+delivery.bs>0){rows.push({title:'Surat kirim atau penerimaan Laundry',ref:delivery.id,href:'/produksi/laundry/?tab=kembali'})}
+    if(laundryOutstanding(delivery)>0||delivery.good+delivery.bs>0||delivery.claims?.some(row=>!row.reversed&&row.resolution)){rows.push({title:'Surat kirim atau penerimaan Laundry',ref:delivery.id,href:'/produksi/laundry/?tab=kembali'})}
     if(delivery.finalBills?.length||delivery.failedWashes?.some(row=>row.rate!==0))rows.push({title:'Harga aktual atau HPP Laundry',ref:delivery.id,href:'/produksi/laundry/?tab=kembali'})
   }
   const sources=allPayrollSources().filter(row=>row.kind==='FG'&&[row.doc.source,...(row.doc.regularCards??[]).map(card=>card.source)].some(source=>source.includes(group.id)))
@@ -74,7 +74,7 @@ export function MandorCorrectionDemo(props:Props) {
   return <section className="demo-ops-card demo-mandor-correction" aria-label="Koreksi mandor sesudah jahit">
     <header className="demo-ops-header"><div className="demo-operation-heading"><i><UserRound/></i><div><h3>Koreksi mandor sesudah jahit</h3>
       <p>Periksa dokumen terkait sebelum membagi ulang PO.</p></div></div>
-      {sewn>0&&<button type="button" className="soft-btn" onClick={()=>{setError('');setReason('');setRequest(crypto.randomUUID());setPhysical(wibTime());setOpen(true)}}><ListChecks size={16}/> Periksa koreksi mandor</button>}
+      {sewn>0&&<button type="button" className="primary-btn" onClick={()=>{setError('');setReason('');setRequest(crypto.randomUUID());setPhysical(wibTime());setOpen(true)}}><ListChecks size={16}/> Periksa koreksi mandor</button>}
     </header>
     {pending.length>0&&<div className="demo-operation-actions">{pending.map(row=><a key={row.no} className="soft-btn" href={pickupUrl(group.id,row.no)}>Batch {row.no} · Bagi ulang {total(row.sources)} pcs <ArrowRight size={16}/></a>)}</div>}
     {open&&<ReasonDialog title="Koreksi mandor seluruh PO" closeLabel="Kembali" className="demo-operation-dialog" onClose={()=>setOpen(false)}>
