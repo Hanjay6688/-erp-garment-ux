@@ -636,8 +636,8 @@
       "sha256": "8dcafcf1ead9dec38713f7a75f317eed63de1bf64a666e0e354c540e913a7ab4"
     },
     "tests/browser/cp8-worker.spec.ts": {
-      "bytes": 153781,
-      "sha256": "47b837f62b385e9635b6185a851214f5c02e73f819d3dd7b201e9e790125c742"
+      "bytes": 154004,
+      "sha256": "abf126dbaaeee43a78a327c68118ddfa312af397ddc4cc798c8a97b85c4d470c"
     },
     "tests/fg-quantity.test.ts": {
       "bytes": 1251,

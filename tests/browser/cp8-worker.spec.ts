@@ -1995,7 +1995,11 @@ test('pencarian pcs di pemilih nota Payroll dan pencarian global', async ({ page
 async function checkBrowseEnd(page: Page, minScrollRange = 0) {
   const browse = page.locator('.page-wrap .browse-pane')
   await expect(browse).toHaveAttribute('data-browse-layout', /^(split|embedded)$/)
-  await browse.evaluate(pane => window.scrollBy(0, pane.getBoundingClientRect().top - 299))
+  await browse.evaluate(async pane => {
+    window.scrollBy(0, pane.getBoundingClientRect().top - 299)
+    // BrowsePane measures its available height on the next animation frame after the page scroll.
+    await new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve())))
+  })
   await expect.poll(() => browse.evaluate(pane => pane.getBoundingClientRect().bottom - innerHeight)).toBeLessThanOrEqual(0)
   const before = await browse.evaluate(pane => ({
     remaining: pane.scrollHeight - pane.clientHeight,
