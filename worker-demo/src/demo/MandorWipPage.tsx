@@ -249,8 +249,11 @@ function PickupWorkbench({batchNotes:oldNotes,setBatchNotes:setOldNotes,active,s
   const queueDetailSlots=queueDetailItem?.rolls[0]?.slots.map(({size,image})=>({size,image}))??[]
   const queueDetailSourceYards=queueDetailItem?.rolls.reduce((sum,roll)=>sum+roll.sourceYards,0)??0
   const queueDetailRemainingYards=queueDetailItem?.rolls.reduce((sum,roll)=>sum+roll.remainingYards,0)??0
-  const resizeBatchCount = (requestedCount: number) => {
-    const nextCount = Math.max(1, Math.round(requestedCount || 1))
+  const resizeBatchCount = (nextCount: number) => {
+    if (!Number.isSafeInteger(nextCount) || nextCount < 1 || nextCount > wipTotal) {
+      setBatchResizeMessage(`Tidak bisa menerapkan. Isi jumlah batch dari 1 sampai ${wipTotal}. Setiap batch perlu minimal 1 potong.`)
+      return
+    }
     if (nextCount === batchCount) {
       setBatchCountInput(String(batchCount))
       setBatchResizeMessage('Jumlah batch tidak berubah; pembagian lu tetap aman.')
@@ -413,7 +416,28 @@ function PickupWorkbench({batchNotes:oldNotes,setBatchNotes:setOldNotes,active,s
 
         <section className="batch-builder-setup">
           <div className="batch-builder-copy"><span>03 · BENTUK BATCH SETELAH PICKUP</span><h2>Mau dibuat menjadi berapa batch?</h2><p>{allocationMode==='roll'?'Satu batch juga boleh. Setelah diterapkan, tarik roll yang belum ditempatkan ke batch tujuan.':'Jumlah batch bebas. Sistem hanya menyusun awal berdasarkan size; setelah itu angkanya tetap bisa lu atur sendiri.'}</p></div>
-          <div className="batch-count-control"><label><span>JUMLAH BATCH · MINIMAL 1</span><div><input type="text" pattern="[0-9]*" inputMode="numeric" value={batchCountInput} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>setBatchCountInput(event.target.value.replace(/[^0-9]/g,'').replace(/^0+(?=\d)/,''))}/><b>batch</b></div></label><div className="batch-count-buttons"><button type="button" aria-label="Hapus batch terakhir" disabled={batchCount<=1} onClick={()=>resizeBatchCount(batchCount-1)}>−</button><button type="button" aria-label="Tambah satu batch" onClick={()=>resizeBatchCount(batchCount+1)}>+</button><button type="button" className="soft-btn" onClick={applyBatchCount}>Terapkan</button></div>{batchResizeMessage&&<small className={batchResizeMessage.startsWith('Tidak bisa')?'warn':'success'}>{batchResizeMessage}</small>}</div>
+          <div className="batch-count-control">
+            <label><span>Jumlah batch</span><span className="batch-count-input">
+              <input type="text" pattern="[0-9]*" inputMode="numeric" enterKeyHint="done" value={batchCountInput}
+                onFocus={event => event.currentTarget.select()}
+                onChange={event => {
+                  setBatchCountInput(event.target.value.replace(/[^0-9]/g, '').replace(/^0+(?=\d)/, ''))
+                  setBatchResizeMessage('')
+                }}
+                onKeyDown={event => {
+                  if (event.key === 'Enter' && !event.nativeEvent.isComposing) {
+                    event.preventDefault()
+                    applyBatchCount()
+                  }
+                }}/>
+            </span></label>
+            <div className="batch-count-buttons">
+              <button type="button" aria-label="Hapus batch terakhir" disabled={batchCount <= 1} onClick={() => resizeBatchCount(batchCount - 1)}>−</button>
+              <button type="button" aria-label="Tambah satu batch" disabled={batchCount >= wipTotal} onClick={() => resizeBatchCount(batchCount + 1)}>+</button>
+              <button type="button" className="soft-btn" onClick={applyBatchCount}>Terapkan</button>
+            </div>
+            {batchResizeMessage && <small role="status" className={batchResizeMessage.startsWith('Tidak bisa') ? 'warn' : 'success'}>{batchResizeMessage}</small>}
+          </div>
         </section>
 
         <div className="wip-allocation-mode" role="group" aria-label="Dasar pembagian batch">
