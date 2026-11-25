@@ -1,4 +1,5 @@
 import {amountText,contractorNames,noteStorage,type PricingMode} from './accessoryPricing'
+import type { ReceiptReversal } from './receiptRollCorrection'
 type IssueStatus = 'DRAFT' | 'POSTED' | 'REVERSED'
 export type IssueLine = {
   id: string
@@ -11,7 +12,7 @@ export type IssueLine = {
   sellingPrice: number|null
   mode?:PricingMode;manual?:string;reimbursement?:number|null;source?:string;version?:string
 }
-export type IssueReturn = {id:string;day:string;reason:string;lines:{lineId:string;qty:number;amount:number}[];chargeReduction:number;credit:number}
+export type IssueReturn = {id:string;day:string;reason:string;lines:{lineId:string;qty:number;amount:number}[];chargeReduction:number;credit:number;reversal?:ReceiptReversal}
 export type IssueDocument = {
   number: string
   mandor: string
@@ -51,7 +52,8 @@ export const money=(v:number)=>amountText(v)
 export const cash=(n:number)=>Math.round((n+Number.EPSILON)*100)/100
 export const lineTotal=(l:IssueLine)=>l.sellingPrice===null?null:cash(l.qty*l.sellingPrice)
 export const documentTotal=(d:IssueDocument)=>d.lines.reduce((n,l)=>n+(lineTotal(l)??0),0)
-export const outstandingIssue=(d:IssueDocument,paid=d.settledAmount??(d.settledAt?documentTotal(d):0))=>Math.max(0,cash(documentTotal(d)-paid-(d.returns??[]).reduce((sum,row)=>sum+row.chargeReduction,0)))
+export const activeIssueReturns=(d:IssueDocument)=>(d.returns??[]).filter(row=>!row.reversal)
+export const outstandingIssue=(d:IssueDocument,paid=d.settledAmount??(d.settledAt?documentTotal(d):0))=>Math.max(0,cash(documentTotal(d)-paid-activeIssueReturns(d).reduce((sum,row)=>sum+row.chargeReduction,0)))
 export const amountDue=(d:IssueDocument)=>!d.lines.length?'Belum ada baris':d.lines.some(l=>lineTotal(l)===null)?'Belum dihitung':money(documentTotal(d))
 const key=noteStorage
 let cached:{raw:string|null;docs:IssueDocument[]}|undefined
