@@ -3,31 +3,25 @@
   --browse-first:color-mix(in srgb,var(--panel-2,var(--panel)) 89%,white);
   --browse-second:color-mix(in srgb,var(--panel-2,var(--panel)) 92%,black);
 }
-.page-wrap :is(.wh-browser-list,.biz-browser-list,.md-browser-list,.sku-browser-list,.qc-browser-list,.wh-roll-list,.cutting-roll-list,.allocation-roll-list,.wip-queue-list,.laundry-parent-list,.laundry-return-list,.pocket-roll-lines,.sewing-child-grid,.sewing-parent-list,.owner-pay-choices,.wh-roll-ledger) > :is(button,article,section,.pocket-roll-line,.wh-register-row):nth-of-type(odd):not(.active,.selected,[aria-pressed=true]),
-.page-wrap .wh-moves>tbody>tr:nth-child(odd)>td,.menu-finder .finder-records a:nth-child(odd) {background-color:var(--browse-first)}
-.page-wrap :is(.wh-browser-list,.biz-browser-list,.md-browser-list,.sku-browser-list,.qc-browser-list,.wh-roll-list,.cutting-roll-list,.allocation-roll-list,.wip-queue-list,.laundry-parent-list,.laundry-return-list,.pocket-roll-lines,.sewing-child-grid,.sewing-parent-list,.owner-pay-choices,.wh-roll-ledger) > :is(button,article,section,.pocket-roll-line,.wh-register-row):nth-of-type(even):not(.active,.selected,[aria-pressed=true]),
-.page-wrap .wh-moves>tbody>tr:nth-child(even)>td,.menu-finder .finder-records a:nth-child(even) {background-color:var(--browse-second)}
-.page-wrap .erp-table-tools~table>tbody>tr:nth-child(odd):not(.active,.selected)>td {background-color:var(--browse-first)}
-.page-wrap .erp-table-tools~table>tbody>tr:nth-child(even):not(.active,.selected)>td {background-color:var(--browse-second)}
-.pocket-roll-register {border:1px solid var(--line);border-radius:8px;padding:12px;margin:12px 0}
-.pocket-roll-register h3,.finder-records h3 {margin:0}
-.pocket-roll-register .wh-section-head>label,.laundry-colour-fields label,.laundry-destination label {display:grid;gap:4px;min-width:0}
-.pocket-roll-register input[type=search],.laundry-colour-fields input,.laundry-colour-fields select,.laundry-destination select {font:inherit;color:var(--text);background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:7px;max-width:100%;box-sizing:border-box}
-.pocket-roll-lines {margin:10px 0}
-.pocket-roll-line {display:grid;grid-template-columns:auto minmax(105px,2fr) repeat(3,minmax(58px,1fr));align-items:center;gap:8px;padding:9px 12px;border-bottom:1px solid var(--line)}
-.pocket-roll-line button {text-align:left;overflow-wrap:anywhere}
-.pocket-roll-line small,.pocket-roll-line span b,.fg-movement-date span,.fg-movement-date time {display:block}
-.pocket-roll-line small,.pocket-roll-line span,.laundry-colour-fields small {font-size:.8rem}
-.pocket-roll-line span b {color:var(--text)}
+.page-wrap :is(.wh-browser-list,.biz-browser-list,.md-browser-list,.sku-browser-list,.qc-browser-list,.wh-roll-list,.cutting-roll-list,.allocation-roll-list,.wip-queue-list,.laundry-parent-list,.laundry-return-list,.sewing-child-grid,.sewing-parent-list,.owner-pay-choices,.wh-roll-ledger) > :is(button,article,section,.wh-register-row):nth-of-type(odd):not(.active,.selected,[aria-pressed=true]),
+.page-wrap .wh-moves>tbody>tr:nth-child(odd)>td,.page-wrap .biz-all-invoice-table>button:nth-of-type(odd),.menu-finder .finder-records a:nth-child(odd) {background-color:var(--browse-first)}
+.page-wrap :is(.wh-browser-list,.biz-browser-list,.md-browser-list,.sku-browser-list,.qc-browser-list,.wh-roll-list,.cutting-roll-list,.allocation-roll-list,.wip-queue-list,.laundry-parent-list,.laundry-return-list,.sewing-child-grid,.sewing-parent-list,.owner-pay-choices,.wh-roll-ledger) > :is(button,article,section,.wh-register-row):nth-of-type(even):not(.active,.selected,[aria-pressed=true]),
+.page-wrap .wh-moves>tbody>tr:nth-child(even)>td,.page-wrap .biz-all-invoice-table>button:nth-of-type(even),.menu-finder .finder-records a:nth-child(even) {background-color:var(--browse-second)}
+.page-wrap .erp-table-tools~table:not(:has(>tbody+tbody))>tbody>tr:nth-child(odd):not(.active,.selected)>td {background-color:var(--browse-first)}
+.page-wrap .erp-table-tools~table:not(:has(>tbody+tbody))>tbody>tr:nth-child(even):not(.active,.selected)>td {background-color:var(--browse-second)}
+.finder-records h3 {margin:0}
+.laundry-colour-fields label,.laundry-destination label {display:grid;gap:4px;min-width:0}
+.laundry-colour-fields input,.laundry-colour-fields select,.laundry-destination select {font:inherit;color:var(--text);background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:7px;max-width:100%;box-sizing:border-box}
 .laundry-colour-fields {min-width:0;border:1px solid var(--line);border-radius:8px;padding:10px 12px;display:grid;gap:8px}
 .laundry-colour-fields>div {display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .fg-movement-date {border-left:3px solid var(--blue);padding-left:8px;margin-bottom:6px}
+.fg-movement-date span,.fg-movement-date time {display:block}
+.laundry-colour-fields small {font-size:.8rem}
 .fg-movement-date span {font-size:.72rem;color:var(--soft)}.fg-movement-date time {font-weight:700;font-size:.95rem;color:var(--text)}
 .menu-finder .finder-records {grid-column:1/-1;min-width:0;overflow:auto;max-height:45dvh}
 .menu-finder .finder-records>div {display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:3px}
 .finder-records a {display:grid;gap:2px;border:1px solid var(--line);border-radius:5px;padding:7px 10px;color:var(--text);text-decoration:none}
 .finder-records a span {color:var(--soft);font-size:.8rem}
-@media(max-width:520px){.pocket-roll-line{grid-template-columns:auto 1fr 1fr 1fr;padding:8px}.pocket-roll-line button{grid-column:2/-1}.pocket-roll-line span:first-of-type{grid-column:2}.pocket-roll-line span{font-size:.76rem}}
 @media(max-width:860px){
   .topbar.topbar {grid-template-columns:44px minmax(0,1fr) 40px 44px}
   .topbar .top-actions>button[aria-label="Cari menu"] {display:grid;grid-row:1;grid-column:3;place-self:center;width:40px;height:40px}

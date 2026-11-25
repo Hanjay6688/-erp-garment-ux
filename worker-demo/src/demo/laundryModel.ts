@@ -1,3 +1,4 @@
+import { dayOk } from './warehouseDay'
 import type { QcSeed } from '../QcFinalPage'
 import { alignSizeQuantities } from '../sizeQuantities'
 import { simulationPatternSnapshots } from './productionModel'
@@ -26,14 +27,18 @@ export type LaundryReadyBatch = {
   pattern:ProductionPatternSnapshot|null; pickupAt:string; sewingDoneAt:string; vendor:string; process:string; qty:number; sizes:QtyTuple; sizeLabels:SizeTuple; note:string
 }
 
+type LaundryReturn = { at: string; good: QtyTuple; bs: QtyTuple }
 export type LaundryDelivery = {
   id:string; parentId:string; sequence:number; batchId:string; plannedBrand?:string; skuRef?:string; model:string; material:string; mandor:string;
   pattern:ProductionPatternSnapshot|null; vendor:string; process:string; targetColor?:string|null; colourProcess?:string|null; sendNote?:string|null; sentAt:string; qty:number; sizes:QtyTuple; sizeLabels:SizeTuple;
   good:number; bs:number; goodSizes:QtyTuple; bsSizes:QtyTuple; reversed:number; reversedSizes:QtyTuple; reverseNote?:string
+  estimatedRate?: number | null; returns?: LaundryReturn[]
 }
 
 export function laundryPhysicalTime(value:string){
+  if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(value)) return value
   const [day,time]=value.split(' · ')
+  if (time && !/^(?:[01]\d|2[0-3]):[0-5]\d$/.test(time)) return ''
   if(/^\d{4}-\d{2}-\d{2}$/.test(day))return day+'T'+(time??'00:00')
   const [d,m,y]=day.split(' '),month=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'].indexOf(m)+1
   return month&&y?y+'-'+String(month).padStart(2,'0')+'-'+d.padStart(2,'0')+'T'+(time??'00:00'):''
@@ -41,7 +46,39 @@ export function laundryPhysicalTime(value:string){
 
 export const laundryProcesses = ['Stone Wash','Bio Wash','Enzyme Wash']
 
-export const laundryRates:Record<string,number> = {'Stone Wash':6500,'Bio Wash':5500,'Enzyme Wash':6000}
+// Rates in the training data. Connected screens use the dated vendor tariff catalogue.
+const trainingRates = [
+  { vendor: 'Laundry Berkah', process: 'Stone Wash', from: '2026-09-01', rate: 7000 },
+  { vendor: 'Laundry Berkah', process: 'Stone Wash', from: '2026-08-01', rate: 6500 },
+  { vendor: 'Laundry Intan', process: 'Stone Wash', from: '2026-08-01', rate: 7200 },
+  { vendor: 'Laundry Intan', process: 'Bio Wash', from: '2026-08-01', rate: 5500 },
+  { vendor: 'Cemerlang Wash', process: 'Enzyme Wash', from: '2026-08-01', rate: 6000 },
+]
+
+export function laundryRateAt(vendor: string, process: string, day: string) {
+  return trainingRates.find(row => row.vendor === vendor && row.process === process && row.from <= day)?.rate ?? null
+}
+
+export function validLaundryTime(value: string) {
+  return /^\d{4}-\d{2}-\d{2}T(?:[01]\d|2[0-3]):[0-5]\d$/.test(value) && dayOk(value.slice(0, 10))
+}
+
+export function returnLaundry(delivery: LaundryDelivery, at: string, good: QtyTuple, bs: QtyTuple): LaundryDelivery {
+  if (!validLaundryTime(at) || at < laundryPhysicalTime(delivery.sentAt)) throw Error('Waktu kembali harus sama atau sesudah waktu kirim.')
+  const remaining = laundryOutstandingSizes(delivery)
+  if (good.length !== remaining.length || bs.length !== remaining.length || remaining.some((qty, i) =>
+    !Number.isSafeInteger(good[i]) || !Number.isSafeInteger(bs[i]) || good[i] < 0 || bs[i] < 0 || good[i] + bs[i] > qty)) {
+    throw Error('Jumlah kembali per ukuran melebihi sisa surat kirim.')
+  }
+  const totalGood = good.reduce((sum, qty) => sum + qty, 0)
+  const totalBs = bs.reduce((sum, qty) => sum + qty, 0)
+  if (!totalGood && !totalBs) throw Error('Isi jumlah Good atau BS yang kembali.')
+  return {
+    ...delivery, good: delivery.good + totalGood, bs: delivery.bs + totalBs,
+    goodSizes: delivery.goodSizes.map((qty, i) => qty + good[i]), bsSizes: delivery.bsSizes.map((qty, i) => qty + bs[i]),
+    returns: [...(delivery.returns ?? []), { at, good, bs }],
+  }
+}
 
 export const laundryReadySeeds:LaundryReadyBatch[] = [
   {id:'042-02',skuRef:'Widie 66002',parentId:'POT-260827-042',sequence:42,plannedBrand:'Widie',pattern:simulationPatternSnapshots.lucyRegular,model:'Kulot Lucy',material:'Lucy',mandor:'Mandor Afat',pickupAt:'27 Agu 2026 · 10:30',sewingDoneAt:'27 Agu 2026 · 15:20',vendor:'Laundry Berkah',process:'Stone Wash',qty:225,sizes:[0,225,0],sizeLabels:['31','32','33'],note:'Maroon · obras rapat'},
@@ -108,17 +145,15 @@ export function buildQcSeeds(deliveries:LaundryDelivery[]):QcSeed[] {
   }).sort((a,b)=>b.parentId.localeCompare(a.parentId))
 }
 
-const vendorProcess = (vendor:string) => vendor==='Laundry Intan'?'Bio Wash':vendor==='Cemerlang Wash'?'Enzyme Wash':'Stone Wash'
-
 export function laundryReadyFromRows(parent:SewingParentSeed&{skuRef?:string},batch:SewingBatchSeed&{line?:{mandor:string;at:string}},vendor:string):LaundryReadyBatch{
   return {id:batch.id,parentId:parent.id,sequence:parent.sequence,plannedBrand:parent.plannedBrand,skuRef:parent.skuRef,pattern:parent.pattern,model:parent.model,material:parent.material,
-    mandor:batch.line?.mandor??parent.mandor,pickupAt:batch.line?.at??parent.pickupAt,sewingDoneAt:'Siap kirim',vendor,process:vendorProcess(vendor),qty:batch.qty,sizes:batch.sizes,sizeLabels:parent.sizes,note:batch.note}
+    mandor:batch.line?.mandor??parent.mandor,pickupAt:batch.line?.at??parent.pickupAt,sewingDoneAt:'Siap kirim',vendor,process:'',qty:batch.qty,sizes:batch.sizes,sizeLabels:parent.sizes,note:batch.note}
 }
 export function laundryReadyFromSewingBatch(batchId:string,vendor:string,snapshot?:{qty:number;sizes:QtyTuple}):LaundryReadyBatch|null {
   const parent=sewingWipSeeds.find((item)=>item.batches.some((batch)=>batch.id===batchId))
   const batch=parent?.batches.find((item)=>item.id===batchId)
   if(!parent||!batch)return null
-  return {id:batch.id,parentId:parent.id,sequence:parent.sequence,plannedBrand:parent.plannedBrand,pattern:parent.pattern,model:parent.model,material:parent.material,mandor:parent.mandor,pickupAt:parent.pickupAt,sewingDoneAt:'27 Agu 2026 · siap kirim',vendor,process:vendorProcess(vendor),qty:snapshot?.qty??batch.qty,sizes:snapshot?.sizes??batch.sizes,sizeLabels:parent.sizes,note:batch.note}
+  return {id:batch.id,parentId:parent.id,sequence:parent.sequence,plannedBrand:parent.plannedBrand,pattern:parent.pattern,model:parent.model,material:parent.material,mandor:parent.mandor,pickupAt:parent.pickupAt,sewingDoneAt:'27 Agu 2026 · siap kirim',vendor,process:'',qty:snapshot?.qty??batch.qty,sizes:snapshot?.sizes??batch.sizes,sizeLabels:parent.sizes,note:batch.note}
 }
 
 export const proportionalLaundrySizes = (sizes:QtyTuple,total:number,qty:number):QtyTuple => {

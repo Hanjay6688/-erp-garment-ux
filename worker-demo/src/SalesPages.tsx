@@ -1,3 +1,4 @@
+import { browseMatch } from './browseMatch'
 import {dozenPieces,fgQuantity} from './fgQuantity'
 import {readInvoices,writeInvoices,postInvoice,invoiceLines,sourceLines,saleStock,compareInvoices,type DraftLine,type DemoInvoice} from './demo/saleBook'
 import {PeriodFilter,periodFor,periodLabel,matchesPeriod} from './demo/PeriodFilter'
@@ -248,15 +249,16 @@ function InvoiceWorkspace({ onNavigate }: { onNavigate: SalesPageProps['onNaviga
 
 function AllocationWorkspace({ onNavigate }: { onNavigate: SalesPageProps['onNavigate'] }) {
   const [invoices,setInvoices]=useState(readInvoices)
-  const [period,setPeriod]=useState(()=>periodFor('month','2026-08-28'))
+  const linked = new URLSearchParams(location.search).get('nota')
+  const [period,setPeriod]=useState(()=>periodFor('month', invoices.find(invoice => invoice.number === linked)?.dateKey ?? '2026-08-28'))
   const [query,setQuery]=useState('')
   const [customer,setCustomer]=useState('ALL')
   const [status,setStatus]=useState('ALL')
   const [sort,setSort]=useState('NEWEST')
-  const [selectedInvoice,setSelectedInvoice]=useState<DemoInvoice|null>(()=>invoices.find(i=>i.number===new URLSearchParams(globalThis.location.search).get('nota'))??null)
+  const [selectedInvoice,setSelectedInvoice]=useState<DemoInvoice|null>(()=>invoices.find(i=>i.number===linked)??null)
   const [notice,setNotice]=useState('')
   const customers=[...new Set(invoices.map((invoice)=>invoice.customer))]
-  const visible=useMemo(()=>invoices.filter(invoice=>matchesPeriod(invoice.dateKey,period)&&`${invoice.number} ${invoice.customer} ${invoice.sku}`.toLowerCase().includes(query.toLowerCase())&&(customer==='ALL'||invoice.customer===customer)&&(status==='ALL'||invoice.status===status)).sort(compareInvoices(sort)),[invoices,query,customer,status,sort,period])
+  const visible=useMemo(()=>invoices.filter(invoice=>matchesPeriod(invoice.dateKey,period)&&browseMatch(query, invoice.number, invoice.customer, invoice.sku)&&(customer==='ALL'||invoice.customer===customer)&&(status==='ALL'||invoice.status===status)).sort(compareInvoices(sort)),[invoices,query,customer,status,sort,period])
   const counted=visible.filter((invoice)=>['POSTED','PAID'].includes(invoice.status))
   const gross=counted.reduce((sum,invoice)=>sum+invoice.gross,0)
   const returns=counted.reduce((sum,invoice)=>sum+invoice.returns,0)

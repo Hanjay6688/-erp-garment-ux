@@ -1,3 +1,4 @@
+import { laundryBookKey, refreshPlanner } from './demo/planner/session'
 import {RecordFinder} from './demo/RecordFinder'
 import {
   PAGE_PERMISSION_BY_ID,
@@ -315,11 +316,17 @@ function ErpApp() {
     'Warna hitam · cek sambungan samping',
   ])
   const [laundryPrefill,setLaundryPrefill] = useState<LaundryPrefill|null>(null)
-  const [savedLaundry]=useState(()=>{try{return demoAccess?JSON.parse(sessionStorage.getItem('erp.demo.laundry.book.v1')??'null'):null}catch{return null}})
+  const [savedLaundry]=useState(()=>{try{return demoAccess?JSON.parse(sessionStorage.getItem(laundryBookKey)??'null'):null}catch{return null}})
   const [laundryReadyBatches,setLaundryReadyBatches] = useState<LaundryReadyBatch[]>(()=>Array.isArray(savedLaundry?.ready)?savedLaundry.ready:laundryReadySeeds)
   const [laundryDeliveries,setLaundryDeliveries] = useState<LaundryDelivery[]>(()=>Array.isArray(savedLaundry?.deliveries)?savedLaundry.deliveries:laundryDeliverySeeds)
   const [laundryDrafts,setLaundryDrafts] = useState<Record<string,string>>(savedLaundry?.drafts??{})
-  useEffect(()=>{if(demoAccess)sessionStorage.setItem('erp.demo.laundry.book.v1',JSON.stringify({ready:laundryReadyBatches,deliveries:laundryDeliveries,drafts:laundryDrafts}))},[demoAccess,laundryReadyBatches,laundryDeliveries,laundryDrafts])
+  useEffect(() => {
+    if (!demoAccess) return
+    sessionStorage.setItem(laundryBookKey, JSON.stringify({
+      ready: laundryReadyBatches, deliveries: laundryDeliveries, drafts: laundryDrafts,
+    }))
+    refreshPlanner()
+  }, [demoAccess, laundryReadyBatches, laundryDeliveries, laundryDrafts])
   const [wipReverseNotice,setWipReverseNotice] = useState<string|null>(null)
   const [qcSeedId,setQcSeedId] = useState('POT-260826-041::041-02')
   const [qcResult,setQcResult] = useState<QcFinalResult|null>(null)

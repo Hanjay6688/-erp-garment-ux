@@ -29,10 +29,10 @@ export function ProcurementPage() {
   const removeRoll=(id:number)=>setRolls((rows)=>rows.length>1?rows.filter((roll)=>roll.id!==id):rows)
 
   return <>
-    <section className="hero-copy compact procurement-hero"><div className="eyebrow">GUDANG · PENERIMAAN BARANG</div><h1>Pembelian & penerimaan</h1><p>Catat surat jalan saat barang datang. Kain dan kain kantong masuk per roll. Aksesori masuk sesuai satuan pembelian.</p></section>
-    <div className="procurement-mode-bar panel" role="tablist" aria-label="Jenis penerimaan">
+    {mode!=='pocket'&&<section className="hero-copy compact procurement-hero"><div className="eyebrow">GUDANG · PENERIMAAN BARANG</div><h1>Pembelian & penerimaan</h1><p>Catat surat jalan saat barang datang. Kain dan kain kantong masuk per roll. Aksesori masuk sesuai satuan pembelian.</p></section>}
+    <div className={'procurement-mode-bar panel'+(mode==='pocket'?' pocket-receipt-modes':'')} role="tablist" aria-label="Jenis penerimaan">
       <div className="mode-tabs"><button role="tab" aria-selected={mode==='fabric'} className={mode==='fabric'?'active':''} onClick={()=>setMode('fabric')}><Icon name="ruler"/><span><strong>Kain</strong><small>Roll + {fabricUnitName}</small></span></button><button role="tab" aria-selected={mode==='accessory'} className={mode==='accessory'?'active':''} onClick={()=>setMode('accessory')}><Icon name="boxes"/><span><strong>Aksesori</strong><small>Qty langsung</small></span></button><button role="tab" aria-selected={mode==='pocket'} className={mode==='pocket'?'active':''} onClick={()=>setMode('pocket')}><Icon name="ruler"/><span><strong>Kain kantong</strong><small>Roll + panjang</small></span></button></div>
-      <div className="receiving-rule"><Icon name="document"/><span><strong>Dasar penerimaan: surat jalan</strong><small>Kasbon boleh menyusul tanpa menahan stok masuk.</small></span></div>
+      {mode!=='pocket'&&<div className="receiving-rule"><Icon name="document"/><span><strong>Dasar penerimaan: surat jalan</strong><small>Kasbon boleh menyusul tanpa menahan stok masuk.</small></span></div>}
     </div>
     {mode==='pocket'?<PocketReceiptForm/>:<section className="procurement-layout">
       <div className="panel receipt-editor">

@@ -1,5 +1,7 @@
 import {lastWarehouseDay} from '../warehouseDay'
-import {sewingReceipts} from '../sewingReceipts'
+import {sewingBatchId, sewingReceipts} from '../sewingReceipts'
+import type { LaundryDelivery } from '../laundryModel'
+import { stageBatch } from './laundryStages'
 import { applyBatch, distribution, distributionLot, pickupsIn, returnId, sliceLot, total, type BatchEvent, type Source } from './distribution'
 import { sizeRangeLabel } from '../../sizeRangeLabel'
 import sample from './sample.json'
@@ -35,7 +37,7 @@ type SourceClaim = { roll:string; slot:number; qty:number; start?:number }
 type Destination = { id: string; sku: string; eta: string; sources?:SourceClaim[] }
 export type StockChange = { key:string; size:string; delta:number; location?:string; grade?:string; after?:number }
 export type StockEvent = { id:string; action:'adjust'|'convert'; date?:string; physicalTime?:string; reverses?:string; reason:string; recordedAt?:string; intent?:string; notes?:string|null; changes:StockChange[] }
-export type Session = { batchEvents?:BatchEvent[]; skuUpdates?:Record<string,{article:Article;active:boolean}>; skuPairs?:Record<string,string|null>; stockEvents?:StockEvent[]; patternRefs?:Record<string,string|null>; destinations?: Destination[]; cuts: Lot[]; pickups: Pickup[]; confirmed: string[]; elsewhere: string[] }
+export type Session = { laundry?: LaundryDelivery[]; batchEvents?:BatchEvent[]; skuUpdates?:Record<string,{article:Article;active:boolean}>; skuPairs?:Record<string,string|null>; stockEvents?:StockEvent[]; patternRefs?:Record<string,string|null>; destinations?: Destination[]; cuts: Lot[]; pickups: Pickup[]; confirmed: string[]; elsewhere: string[] }
 export const emptySession: Session = { cuts: [], pickups: [], confirmed: [], elsewhere: [] }
 export const stageName: Record<string, string> = { cut: 'Meja potong', sewing: 'Jahit', laundry: 'Laundry', qc: 'QC' }
 export const productFor = (sku: string | null | undefined) => products.find(p => p.sku === sku)
@@ -80,6 +82,7 @@ export function stockDelta(key:string,size:string,session:Session) {
   return (session.stockEvents??[]).flatMap(e=>e.changes).reduce((n,c)=>n+(c.key===key && c.size===size?c.delta:0),0)
 }
 export function eligiblePieces(lot: Lot, p: Product, session:Session=emptySession) {
+  if (lot.kind==='quality-hold') return 0
   if ((lot.brand && p.brand !== lot.brand) || (lot.sku && lot.articleKey && lot.articleKey!==p.brand+' '+p.sku)) return 0
   const code=recipePattern(p,session)
   const materials=code && patternFor(code)?.id===lotPattern(lot).id ? p.routes.map(route=>route.material) : []
@@ -100,6 +103,7 @@ function matchingSources(lot:Lot,p:Product,session:Session):SourceClaim[] {
 // slice can cross that range; only their intersection contributes to Planner.
 const claimKey=(roll:string,slot:number)=>JSON.stringify([roll,slot])
 function allocationsFor(lot:Lot,session:Session) {
+  if (lot.kind==='quality-hold') return []
   const origin=lot.originId??lot.id
   const rows=(session.destinations??[]).filter(d=>d.id===origin)
   const cursors=new Map<string,number>()
@@ -146,7 +150,8 @@ export function lotsIn(session: Session): Lot[] {
     }
     const sewing={...lot,stage:'sewing',kind:lot.sku?'directed':'unassigned',place:pickup.mandor}
     const ledger=distribution(pickup,session)
-    if(!ledger.events.some(e=>e.kind!=='Proses'))return [sewing]
+    const deliveries = session.laundry?.filter(d => d.parentId === lot.id && d.qty > d.reversed) ?? []
+    if(!deliveries.length && !ledger.events.some(e=>e.kind!=='Proses'))return [sewing]
     const offsets:Record<string,number>={}
     const project=(row:Lot,sources:Source[])=>{
       const part={...sliceLot(row,cutRolls(lot),sources),originId:lot.id,offsets:{...offsets}}
@@ -155,6 +160,26 @@ export function lotsIn(session: Session): Lot[] {
         offsets[k]=(offsets[k]??0)+r.qty
       }
       return part
+    }
+    // Returns first, in original batch order, to keep allocation deterministic.
+    const returned=ledger.returns.map(r=>{
+      const parent=ledger.batches.find(b=>b.no===r.no)!
+      const release=ledger.events.find(e=>e.no===r.no&&(e.kind==='Reverse'||e.kind==='Adjust'))!
+      return project({...lot,id:returnId(lot.id,r.no),kind:sewing.kind,stage:'cut',place:'Meja potong',returnedBatch:r.no,returnRevision:parent.revision,earliestPickup:release.physical},r.sources)
+    })
+    if (deliveries.length) {
+      const staged: Lot[] = []
+      let complete = true
+      for (const batch of ledger.batches.filter(b => !b.closed)) {
+        const id = sewingBatchId(lot.id, batch.no)
+        const rows = stageBatch(sewing, batch, id, deliveries.filter(d => d.batchId === id), project)
+        if (!rows) { complete = false; break }
+        staged.push(...rows)
+      }
+      if (complete) return [...staged, ...returned]
+      // Keep the existing whole-batch projection when an older record cannot be matched by size.
+      for (const key of Object.keys(offsets)) delete offsets[key]
+      ledger.returns.forEach(r => { project(lot, r.sources) })
     }
     const mandors=new Map<string,{sources:Source[];qty:number}>()
     let undetailed=0
@@ -182,12 +207,6 @@ export function lotsIn(session: Session): Lot[] {
       if(remainder.every(r=>r.qty>=0)&&total(remainder)===undetailed)
         mandors.get(pickup.mandor)?.sources.push(...remainder.filter(r=>r.qty>0))
     }
-    // Returns first, in original batch order, to keep allocation deterministic.
-    const returned=ledger.returns.map(r=>{
-      const parent=ledger.batches.find(b=>b.no===r.no)!
-      const release=ledger.events.find(e=>e.no===r.no&&(e.kind==='Reverse'||e.kind==='Adjust'))!
-      return project({...lot,id:returnId(lot.id,r.no),kind:sewing.kind,stage:'cut',place:'Meja potong',returnedBatch:r.no,returnRevision:parent.revision,earliestPickup:release.physical},r.sources)
-    })
     const active=[...mandors].map(([mandor,owner],i)=>({...project({...sewing,id:i?lot.id+'-J'+(i+1):lot.id,place:mandor},owner.sources),qty:owner.qty}))
     return [...active,...returned]
   })

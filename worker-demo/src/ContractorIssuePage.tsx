@@ -1,3 +1,4 @@
+import { browseMatch } from './browseMatch'
 import { useMemo, useState, useSyncExternalStore } from 'react'
 import {
   AlertTriangle, ArrowRight, Boxes, CalendarDays, CheckCircle2, Clock3, Eye,
@@ -60,9 +61,8 @@ export default function ContractorIssuePage() {
     : periodFilter === 'Custom' ? dateFrom : ''
   const effectiveTo = periodFilter === 'Semua tanggal' ? '' : periodFilter === 'Custom' ? dateTo : fixtureDate
   const visible = useMemo(() => documents.filter((document) => {
-    const searchable = `${document.number} ${document.mandor} ${document.productionBatch} ${document.distributionBatch}`.toLowerCase()
     const statusMatches = statusFilter === 'Semua status' || document.status === statusFilter.toUpperCase()
-    return searchable.includes(query.toLowerCase())
+    return browseMatch(query, document.number, document.mandor, document.productionBatch, document.distributionBatch)
       && statusMatches
       && (mandorFilter === 'Semua mandor' || document.mandor === mandorFilter)
       && (!effectiveFrom || document.issuedOn >= effectiveFrom)

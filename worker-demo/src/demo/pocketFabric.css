@@ -1,0 +1,383 @@
+.pocket-workspace, .pocket-receipt, .pocket-dialog-form {
+  min-width: 0;
+}
+
+.pocket-heading, .pocket-panel-head, .pocket-bulk, .pocket-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 20px;
+  flex-wrap: wrap;
+}
+
+.pocket-heading .primary-btn,
+.pocket-panel-head .soft-btn {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  min-height: 40px;
+}
+
+.pocket-panel-head {
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.pocket-panel-head h1, .pocket-panel-head h2, .pocket-receipt-block h3, .pocket-history h3 {
+  margin: 0;
+}
+
+.pocket-panel-head p, .pocket-bulk p, .pocket-history p, .pocket-empty {
+  color: var(--soft);
+  margin: 5px 0 0;
+  font-size: .875rem;
+}
+
+.pocket-navigation {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 14px;
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.pocket-navigation button {
+  font: inherit;
+  font-weight: 650;
+  color: var(--soft);
+  padding: 10px 14px;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+}
+
+.pocket-navigation button[aria-current="true"] {
+  color: var(--text);
+  border-color: var(--blue);
+  background: var(--panel-2);
+}
+
+.pocket-search, .pocket-dialog-form > label {
+  display: grid;
+  gap: 5px;
+  color: var(--soft);
+  font-size: .8rem;
+  font-weight: 650;
+  min-width: 0;
+}
+
+.pocket-search input, .pocket-dialog-form > label input {
+  min-width: 0;
+  min-height: 40px;
+  width: 100%;
+  padding: 8px 10px;
+  font: inherit;
+  color: var(--text);
+  background: var(--panel);
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+}
+
+.wh-pocket-use .pocket-search {
+  width: min(100%, 270px);
+}
+
+.pocket-stock-list {
+  list-style: none;
+  padding: 0;
+  margin: 14px 0 0;
+}
+
+.pocket-stock-row {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1.1fr) minmax(0, 1.45fr) max-content;
+  align-items: center;
+  gap: 10px;
+  background: var(--browse-first, var(--panel-2));
+  margin-bottom: 7px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+.pocket-stock-row:nth-child(even) {
+  background: var(--browse-second, var(--panel));
+}
+
+.pocket-stock-row:has(input:checked) {
+  border-color: var(--blue);
+}
+
+.pocket-check {
+  min-height: 38px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.pocket-check input {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--blue);
+}
+
+.pocket-stock-id, .pocket-review, .pocket-total, .wh-receipt-register details {
+  overflow-wrap: anywhere;
+}
+
+.pocket-stock-id button.gar-text {
+  color: var(--blue);
+  font-size: .95rem;
+  font-weight: 750;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  padding: 0;
+  text-align: left;
+}
+
+.pocket-stock-id small {
+  display: block;
+  color: var(--soft);
+  margin-top: 3px;
+  font-size: .78rem;
+}
+
+.pocket-stock-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.pocket-stock-metrics > div {
+  border-left: 1px solid var(--line-strong);
+  padding-left: 9px;
+}
+
+.pocket-stock-metrics dt,
+.pocket-receipt-totals span {
+  color: var(--soft);
+  font-size: .75rem;
+}
+
+.pocket-stock-metrics dd {
+  margin: 3px 0 0;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.pocket-in-stock dd {
+  color: var(--green);
+}
+
+.pocket-bulk {
+  margin-top: 12px;
+}
+
+.pocket-bulk p {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.pocket-history {
+  margin-top: 17px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line-strong);
+}
+
+.pocket-history summary {
+  cursor: pointer;
+  font-weight: 700;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.pocket-history summary::after {
+  content: '⌄';
+  margin-left: auto;
+}
+
+.pocket-history[open] summary::after {
+  content: '⌃';
+}
+
+.pocket-history summary span {
+  color: var(--soft);
+  font-size: .8rem;
+}
+
+.pocket-dialog-form p {
+  margin: 8px 0;
+  color: var(--soft);
+}
+
+.pocket-dialog-form > .primary-btn {
+  margin-top: 12px;
+}
+
+.pocket-review {
+  border: 1px solid var(--line-strong);
+  background: var(--panel-2);
+  border-radius: 9px;
+  padding: 0 12px;
+  margin-top: 12px;
+}
+
+.pocket-review > .wh-register-row:first-child {
+  border-top: 0;
+}
+
+.pocket-total {
+  padding: 10px 0;
+  border-top: 1px solid var(--line-strong);
+}
+
+.pocket-period-fields {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.pocket-allocation {
+  min-width: 0;
+  margin-top: 12px;
+}
+
+.pocket-table-scroll {
+  overflow-x: auto;
+  margin-bottom: 14px;
+}
+
+
+.pocket-receipt .pocket-panel-head h1 {
+  font-size: clamp(1.35rem, 2.5vw, 2rem);
+}
+
+.pocket-receipt-modes .mode-tabs > button {
+  min-width: 0;
+  min-height: 40px;
+}
+
+.pocket-receipt-modes .mode-tabs small {
+  display: none;
+}
+
+.pocket-receipt-modes .mode-tabs > button.active {
+  background: var(--panel-3);
+}
+
+.pocket-receipt .receipt-editor {
+  padding: clamp(14px, 2vw, 24px);
+}
+
+.pocket-receipt .receipt-actions {
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 13px 0 0;
+}
+
+.pocket-receipt .wh-feedback a {
+  display: block;
+  margin-top: 6px;
+  color: var(--blue);
+}
+
+.pocket-receipt-block {
+  padding-top: 14px;
+  margin-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.pocket-receipt-block:first-of-type {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.pocket-receipt-block .wh-fields {
+  margin: 10px 0 0;
+}
+
+.pocket-receipt .wh-roll-inputs > div {
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 10px;
+  margin-top: 8px;
+  align-items: end;
+  background: var(--panel-2);
+}
+
+.pocket-receipt .wh-roll-inputs + button {
+  margin-top: 8px;
+}
+
+.pocket-receipt .pocket-search {
+  margin-top: 10px;
+}
+
+.pocket-receipt-totals {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin: 16px 0 10px;
+  background: var(--line-strong);
+  border: 1px solid var(--line-strong);
+  border-radius: 9px;
+  overflow: hidden;
+}
+
+.pocket-receipt-totals > div {
+  padding: 10px;
+  background: var(--panel-2);
+  min-width: 0;
+}
+
+.pocket-receipt-totals strong {
+  display: block;
+  margin-top: 4px;
+  overflow-wrap: anywhere;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 840px) {
+  .pocket-stock-row {
+    grid-template-columns: 32px minmax(0, 1fr) max-content;
+  }
+
+  .pocket-stock-metrics {
+    grid-column: 2 / -1;
+    grid-row: 2;
+  }
+}
+
+@media (max-width: 620px) {
+  .pocket-receipt-modes .mode-tabs {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .pocket-receipt-modes .mode-tabs .icon {
+    display: none;
+  }
+
+  .pocket-period-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .pocket-stock-row {
+    padding: 8px;
+    gap: 8px;
+  }
+
+  .pocket-stock-metrics {
+    grid-column: 1 / -1;
+  }
+
+  .pocket-receipt .receipt-actions .primary-btn {
+    flex: 1 1 auto;
+  }
+
+  .pocket-receipt-totals strong {
+    font-size: .93rem;
+  }
+}
