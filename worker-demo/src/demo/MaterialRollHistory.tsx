@@ -42,7 +42,7 @@ export default function MaterialRollHistory({ material, rolls, initialRoll = '' 
         {matches.slice(0, limit).map(({ roll, event, time }) => {
           const incoming = event.delta > 0, outgoing = event.delta < 0
           const Glyph = incoming ? ArrowDownLeft : outgoing ? ArrowUpRight : SlidersHorizontal
-          return <li key={roll.id + '/' + event.id}>
+          const content = <>
             <div className={'movement-amount ' + (incoming ? 'incoming' : outgoing ? 'outgoing' : 'correction')}>
               <span><Glyph size={15} aria-hidden="true"/>{incoming ? 'Masuk' : outgoing ? 'Keluar' : 'Koreksi'}</span>
               <strong>{incoming ? '+' : outgoing ? '−' : ''}{rollLength(Math.abs(event.delta), roll.unit)}</strong>
@@ -52,9 +52,12 @@ export default function MaterialRollHistory({ material, rolls, initialRoll = '' 
             <div className="material-history-source">{Number.isFinite(time)
               ? <time dateTime={event.at}>{dateFormat.format(time)}{event.at.length > 10 ? ' · ' + timeFormat.format(time) : ''}</time>
               : <small>Tanggal belum tercatat</small>}
-              {event.source && <a className="soft-btn" href={event.source.href}><FileText size={15} aria-hidden="true"/>{event.source.label}</a>}
+              {event.source && <span className="movement-open"><FileText size={15} aria-hidden="true"/>{event.source.label}</span>}
             </div>
-          </li>
+          </>
+          return <li key={roll.id+'/'+event.id}>{event.source
+            ? <a className="movement-row" href={event.source.href} aria-label={[event.source.label,event.ref,roll.label].join(' · ')}>{content}</a>
+            : <div className="movement-row">{content}</div>}</li>
         })}
       </ul>
       {limit < matches.length && <button type="button" className="soft-btn material-history-more"

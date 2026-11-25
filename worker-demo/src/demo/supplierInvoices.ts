@@ -1,3 +1,4 @@
+import {receiptMaterial} from './fabricArchive'
 import { payables, type Payable } from '../financeData'
 import { readRupiahInput } from '../moneyInput'
 import { masterBook } from './accessoryPricing'
@@ -28,7 +29,7 @@ export const supplierDateLabel=(day:string)=>new Intl.DateTimeFormat('id-ID',{da
 export function kasbonSources():KasbonSource[] {
   const session=readPlannerSession()
   const fabric=(session.fabricReceipts??[]).filter(row=>!row.reversal).map(row=>({id:'kain:'+row.id,number:row.number,day:row.day,supplier:row.supplier,
-    name:row.material,unit:row.unit,qty:receiptRolls(row).reduce((sum,roll)=>sum+roll.length,0),rate:row.rate,group:'FABRIC' as const}))
+    name:receiptMaterial(session,row),unit:row.unit,qty:receiptRolls(row).reduce((sum,roll)=>sum+roll.length,0),rate:row.rate,group:'FABRIC' as const}))
   const items=masterBook().items
   const accessory=(session.accessoryReceipts??[]).filter(row=>!row.reversal).map(row=>({id:'acc:'+row.id,number:row.number,day:row.day,supplier:row.supplier,
     name:items.find(item=>item.code===row.code)?.name??row.code,unit:'pcs',qty:row.qty,rate:row.rate,group:'ACCESSORY' as const}))

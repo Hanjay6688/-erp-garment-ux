@@ -1,3 +1,4 @@
+import {archiveDocuments, archiveIdentity, fabricIdentity, fabricRolls, type FabricIdentityCorrection} from './fabricArchive'
 import { readRupiahInput } from '../moneyInput'
 import { correctionRolls, cutRolls, originalCutLots, physicalRollId, yardsLeft, type AccessoryReceipt, type FabricReceipt, type Session } from './planner/model'
 import { cutDocumentPath, receiptRolls, reviewRollReceiptCorrection, type StockSourceLink } from './receiptRollCorrection'
@@ -38,6 +39,7 @@ export function postFabricReceipt(session:Session,doc:FabricReceipt):Session {
 
 function fabricRollIdentities(session:Session) {
   return [
+    ...fabricRolls.map(roll=>({id:roll.id,length:roll.original,physicalCode:archiveIdentity(session,roll.id).physicalCode})),
     ...correctionRolls({...session,fabricReceipts:[]}).map(row=>({id:row.id,length:row.yards,physicalCode:row.physicalCode})),
     ...(session.fabricReceipts??[]).flatMap(receiptRolls),
   ]
@@ -101,4 +103,25 @@ export function correctFabricReceiptRoll(session:Session,receiptId:string,rollId
   if(Math.round(total*pocketScale)<Math.round(invoiced*pocketScale))throw Error('Panjang baru kurang dari yang sudah dipilih di invoice. Periksa invoice terkait.')
   if(!Number.isSafeInteger(Math.round(total*receipt.rate*100)))throw Error('Periksa nilai penerimaan setelah koreksi.')
   return {...session,fabricReceipts:session.fabricReceipts?.map(row=>row===receipt?{...row,corrections:[...(row.corrections??[]),correction]}:row)}
+}
+
+export function correctFabricIdentity(session:Session, input:FabricIdentityCorrection):Session {
+  const edit={...input,after:input.after.trim(),reason:input.reason.trim()}
+  const history=session.fabricIdentities??[]
+  const previous=history.find(row=>row.id===edit.id)
+  if(previous) {
+    if (previous.source===edit.source&&previous.roll===edit.roll&&previous.before===edit.before&&previous.after===edit.after&&previous.reason===edit.reason) return session
+    throw Error('Permintaan koreksi ini sudah dipakai.')
+  }
+  const doc=archiveDocuments.find(row=>row.key===edit.source)
+  const receipt=session.fabricReceipts?.find(row=>'penerimaan:'+row.id===edit.source&&!row.reversal)
+  if(!doc&&!receipt || edit.roll&&!doc?.lines.some(line=>line.id===edit.roll))throw Error('Pilih dokumen dan roll yang masih aktif.')
+  const original=edit.roll??doc?.material??receipt!.material
+  const current=fabricIdentity(session,edit.source,original,edit.roll)
+  if(edit.before!==current)throw Error('Identitas sudah berubah. Buka ulang koreksi untuk melihat nilai terbaru.')
+  if(!edit.after||edit.after.length>90||edit.reason.length<4||!Number.isFinite(Date.parse(edit.at)))throw Error('Isi nama atau nomor yang benar dan alasan koreksi.')
+  if(edit.after===current)throw Error('Isi nilai baru sebelum menyimpan.')
+  if(edit.roll&&fabricRollIdentities(session).some(row=>row.id!==edit.roll&&[row.id,row.physicalCode].some(code=>code?.toLowerCase()===edit.after.toLowerCase())))
+    throw Error('Nomor roll fisik ini sudah dipakai oleh roll lain.')
+  return {...session,fabricIdentities:[...history,edit]}
 }

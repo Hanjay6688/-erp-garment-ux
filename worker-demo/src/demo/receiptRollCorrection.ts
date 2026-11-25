@@ -29,8 +29,8 @@ export function reviewRollReceiptCorrection(roll:ReceiptRoll,candidate:{id:strin
 
 export const cutDocumentPath=(cut:string)=>'/produksi/buat-potongan/?pot='+encodeURIComponent(cut)
 export const switchRollPath=(cut?:string,roll?:string)=>'/gudang/bahan-roll/?'+new URLSearchParams({koreksi:'ganti-roll',...(cut?{pot:cut}:{}),...(roll?{roll}:{})})
-export const receiptDocumentPath=(number:string,kind:'kain'|'kantong'|'aksesori'='kain')=>
-  '/gudang/pembelian-penerimaan/?'+new URLSearchParams({jenis:kind,surat:number})+'#dokumen-penerimaan'
+export const receiptDocumentPath=(number:string,kind:'kain'|'kantong'|'aksesori'='kain',roll?:string)=>
+  '/gudang/pembelian-penerimaan/?'+new URLSearchParams({jenis:kind,surat:number,...(roll?{roll}:{})})+'#dokumen-penerimaan'
 export const pocketIssuePath=(issue:string)=>'/gudang/kain-kantong/?pakai='+encodeURIComponent(issue)+'#pemakaian-kantong'
 export const pocketAllocationPath=(allocation:string)=>'/gudang/kain-kantong/?pembagian='+encodeURIComponent(allocation)+'#pembagian-kantong'
 export const stockEventPath=(kind:'adjust'|'convert',id:string)=>'/gudang/'+(kind==='adjust'?'stock-adjustment':'ganti-merek')+'/?mutasi='+encodeURIComponent(id)+'#riwayat-konversi'
