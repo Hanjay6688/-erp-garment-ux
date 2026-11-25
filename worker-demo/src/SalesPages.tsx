@@ -2,9 +2,9 @@ import { browseMatch } from './browseMatch'
 import {dozenPieces,fgQuantity} from './fgQuantity'
 import {readInvoices,writeInvoices,postInvoice,invoiceLines,sourceLines,saleStock,compareInvoices,type DraftLine,type DemoInvoice} from './demo/saleBook'
 import {PeriodFilter,periodFor,periodLabel,matchesPeriod} from './demo/PeriodFilter'
-import { useMemo, useState } from 'react'
+import { useDeferredValue, useMemo, useRef, useState } from 'react'
 import {
-  AlertTriangle, ArrowRight, Banknote, Boxes, Check, CheckCircle2, Clock3,
+  AlertTriangle, ArrowRight, Banknote, Boxes, Check, CheckCircle2, ChevronLeft, ChevronRight, Clock3,
   FileSearch, History, PackageCheck, PackageSearch, Plus, ReceiptText,
   Search, ShieldCheck, ShoppingBag, Store, Trash2, Undo2,
   WalletCards, X,
@@ -92,6 +92,73 @@ function statusTone(status: string): Tone {
 function invoiceStatusLabel(status:string){
   if(status==='DRAFT')return 'DRAFT · RESERVED'
   return status
+}
+
+const invoicePageSize = 25
+const invoiceItemPageSize = 20
+
+function invoiceSkuLabels(invoice: DemoInvoice) {
+  const labels = invoice.lines?.length
+    ? invoice.lines.map(line => `${line.product.brand} ${line.product.code}`)
+    : invoice.sku.split(' · ')
+  return [...new Set(labels.map(label => label.trim()).filter(label => label && label !== '—'))]
+}
+
+function InvoicePagination({ kind, page, perPage, count, onPage }: {
+  kind: 'nota' | 'barang'; page: number; perPage: number; count: number; onPage: (page: number) => void
+}) {
+  if (count <= perPage) return null
+  return <nav className="invoice-pagination" aria-label={'Halaman ' + kind}>
+    <button type="button" className="soft-btn" aria-label={kind + ' sebelumnya'} disabled={page === 0} onClick={() => onPage(page - 1)}><ChevronLeft size={16} aria-hidden="true"/>Sebelumnya</button>
+    <span aria-live="polite">{page * perPage + 1}–{Math.min((page + 1) * perPage, count)} dari {count} {kind}</span>
+    <button type="button" className="soft-btn" aria-label={kind + ' berikutnya'} disabled={(page + 1) * perPage >= count} onClick={() => onPage(page + 1)}>Berikutnya<ChevronRight size={16} aria-hidden="true"/></button>
+  </nav>
+}
+
+function InvoiceGoods({ invoice, initialQuery }: { invoice: DemoInvoice; initialQuery: string }) {
+  const tableRef = useRef<HTMLDivElement>(null)
+  const [page, setPage] = useState(0)
+  const [query, setQuery] = useState(initialQuery)
+  const items = useMemo(() => {
+    const rows = invoiceLines(invoice)
+    const skus = invoiceSkuLabels(invoice)
+    if (!invoice.lines && rows.length === 1 && skus.length > 1) {
+      return skus.map(sku => ({ sku, qty: null, amount: null, detail: undefined }))
+    }
+    const details = invoice.lines ?? (rows.every(row => row.qty > 0 && productCatalog.some(product => product.code === row.sku)) ? sourceLines(invoice) : [])
+    return rows.map((row, index) => ({ ...row, detail: details[index] }))
+  }, [invoice])
+  const visible = query.trim() ? items.filter(item => browseMatch(query, item.sku, item.detail?.product.name, item.detail?.product.color)) : items
+  const start = page * invoiceItemPageSize
+  const current = visible.slice(start, start + invoiceItemPageSize)
+  const visibleDetails = current.flatMap(item => item.detail ? [item.detail] : [])
+
+  function pageTo(next: number) {
+    setPage(next)
+    tableRef.current?.scrollTo({ top: 0 })
+  }
+
+  return <section className="owner-invoice-lines invoice-goods">
+    <header><div><h3>Rincian barang</h3><p>{invoice.customer} · {invoice.day} · {invoice.time} WIB</p></div>
+      {(items.length > 8 || initialQuery) && <label className="biz-search"><Search aria-hidden="true"/><input type="search" aria-label="Cari SKU di nota" placeholder="Cari SKU di nota…" value={query}
+        onChange={event => { setQuery(event.target.value); pageTo(0) }}/></label>}
+    </header>
+    {current.length > 0 ? <div className="invoice-goods-table" ref={tableRef} tabIndex={0} role="region" aria-label="Daftar SKU pada nota">
+      <table><thead><tr><th scope="col">SKU</th><th scope="col">Jumlah</th><th scope="col">Subtotal</th></tr></thead>
+        <tbody>{current.map((item, index) => <tr key={item.sku + '-' + (start + index)}>
+          <th scope="row"><strong>{item.sku}</strong>{item.detail && <small>{item.detail.product.name}</small>}</th>
+          <td>{item.qty === null ? '—' : fgQuantity(item.qty)}</td><td>{item.amount === null ? '—' : money(item.amount)}</td>
+        </tr>)}</tbody>
+      </table>
+    </div> : <p role="status">SKU tidak ditemukan di nota ini.</p>}
+    <InvoicePagination kind="barang" page={page} perPage={invoiceItemPageSize} count={visible.length} onPage={pageTo}/>
+    {visibleDetails.length > 0 && <details><summary>Detail ukuran, warna dan harga</summary>
+      {visibleDetails.map((line, index) => <p key={line.key + '-' + index}><strong>{line.product.brand} {line.product.code} · {line.product.range}</strong> · {line.product.color} · {money(line.priceDozen)}/lusin<br/>
+        {line.product.sizes.map((size, i) => size + ' = ' + fgQuantity(line.quantities[i])).join(' · ')}</p>)}
+    </details>}
+    {invoice.notes && <p>Catatan · {invoice.notes}</p>}
+    <p>Bruto {money(invoice.gross)} · Retur {money(invoice.returns)} · Dibayar {money(invoice.paid)} · {invoice.status === 'DRAFT' ? 'Belum dibukukan' : 'Sisa tagihan ' + money(invoice.gross - invoice.returns - invoice.paid)}</p>
+  </section>
 }
 
 function InvoiceLifecycle({compact=false}:{compact?:boolean}){
@@ -255,10 +322,20 @@ function AllocationWorkspace({ onNavigate }: { onNavigate: SalesPageProps['onNav
   const [customer,setCustomer]=useState('ALL')
   const [status,setStatus]=useState('ALL')
   const [sort,setSort]=useState('NEWEST')
+  const [registerPage,setRegisterPage]=useState(0)
   const [selectedInvoice,setSelectedInvoice]=useState<DemoInvoice|null>(()=>invoices.find(i=>i.number===linked)??null)
   const [notice,setNotice]=useState('')
   const customers=[...new Set(invoices.map((invoice)=>invoice.customer))]
-  const visible=useMemo(()=>invoices.filter(invoice=>matchesPeriod(invoice.dateKey,period)&&browseMatch(query, invoice.number, invoice.customer, invoice.sku)&&(customer==='ALL'||invoice.customer===customer)&&(status==='ALL'||invoice.status===status)).sort(compareInvoices(sort)),[invoices,query,customer,status,sort,period])
+  const skuByInvoice = useMemo(() => new Map(invoices.map(invoice => [invoice.number, invoiceSkuLabels(invoice)])), [invoices])
+  const registerQuery = useDeferredValue(query.trim())
+  const visible = useMemo(() => invoices.filter(invoice => matchesPeriod(invoice.dateKey, period) &&
+    (customer === 'ALL' || invoice.customer === customer) && (status === 'ALL' || invoice.status === status) &&
+    (!registerQuery || browseMatch(registerQuery, invoice.number, invoice.customer, ...(skuByInvoice.get(invoice.number) ?? []))))
+    .sort(compareInvoices(sort)), [invoices, registerQuery, skuByInvoice, customer, status, sort, period])
+  const currentPage = Math.min(registerPage, Math.max(0, Math.ceil(visible.length / invoicePageSize) - 1))
+  const shown = visible.slice(currentPage * invoicePageSize, (currentPage + 1) * invoicePageSize)
+  const selectedSkus = selectedInvoice ? skuByInvoice.get(selectedInvoice.number) ?? [] : []
+  const skuQuery = registerQuery && selectedSkus.some(sku => browseMatch(registerQuery, sku)) ? registerQuery : ''
   const counted=visible.filter((invoice)=>['POSTED','PAID'].includes(invoice.status))
   const gross=counted.reduce((sum,invoice)=>sum+invoice.gross,0)
   const returns=counted.reduce((sum,invoice)=>sum+invoice.returns,0)
@@ -269,10 +346,45 @@ function AllocationWorkspace({ onNavigate }: { onNavigate: SalesPageProps['onNav
   return <>
     <SalesHero eyebrow="PENJUALAN · INVOICE REGISTER" title="Semua Invoice" description="Cari semua nota penjualan, urutkan per toko atau nilai, lalu lihat total setiap nota dan ringkasan sales per toko dari transaksi yang benar-benar posted." icon={ReceiptText}/>
     <InvoiceLifecycle compact/>
-    <PeriodFilter label="Periode penjualan dan ranking" value={period} onChange={setPeriod}/>
+    <PeriodFilter label="Periode penjualan dan ranking" value={period} onChange={value => { setPeriod(value); setRegisterPage(0) }}/>
     <section className="biz-metrics"><div className="panel"><span>INVOICE TAMPIL</span><strong>{visible.length}</strong><small>{counted.length} sudah posted / paid</small></div><div className="panel good"><span>PENJUALAN BRUTO</span><strong>{money(gross)}</strong><small>Draft tidak dihitung</small></div><div className="panel danger"><span>RETUR</span><strong>{money(returns)}</strong><small>Dokumen retur posted</small></div><div className="panel good"><span>NET SALES</span><strong>{money(net)}</strong><small>{counted.reduce((sum,invoice)=>sum+invoice.qty,0)} pcs</small></div></section>
     {notice&&<div className="biz-inline-notice biz-register-notice"><CheckCircle2/> {notice}</div>}
-    <section className="panel biz-invoice-register"><header><div><span>ALL INVOICE</span><strong>{visible.length} nota sesuai filter</strong><small>Klik Draft untuk edit reserve berjalan lalu tutup dengan Post. Invoice posted tetap read-only.</small></div><button className="primary-btn" onClick={()=>onNavigate('sales-invoice')}><Plus/> Buat invoice</button></header><div className="biz-history-toolbar compact"><label className="biz-search"><Search/><input value={query} onChange={(event)=>setQuery(event.target.value)} placeholder="Cari invoice, toko, atau SKU..."/></label><select value={customer} onChange={(event)=>setCustomer(event.target.value)}><option value="ALL">Semua toko</option>{customers.map((name)=><option key={name}>{name}</option>)}</select><select value={status} onChange={(event)=>setStatus(event.target.value)}><option value="ALL">Semua status</option><option value="POSTED">Posted</option><option value="PAID">Paid</option><option value="DRAFT">Draft · reserved</option><option value="REVERSED">Dibalik</option></select><select aria-label="Urutkan invoice" value={sort} onChange={(event)=>setSort(event.target.value)}><option value="NEWEST">Terbaru dulu</option><option value="OLDEST">Terlama dulu</option><option value="VALUE_ASC">Total terkecil</option><option value="VALUE_DESC">Total terbesar</option><option value="STORE">Urut toko</option></select></div><div className="biz-all-invoice-table"><div><span>Waktu / invoice</span><span>Toko</span><span>SKU / qty</span><span>Total nota</span><span>Retur</span><span>Net</span><span>Status</span></div>{visible.map((invoice)=><button type="button" onClick={()=>setSelectedInvoice(invoice)} className={!['POSTED','PAID'].includes(invoice.status)?'unposted':''} key={invoice.number}><span data-label="Invoice"><strong>{invoice.number}</strong><small>{invoice.day} · {invoice.time}</small></span><strong data-label="Toko">{invoice.customer}</strong><span data-label="SKU / qty">{invoice.sku}<small>{invoice.qty} pcs · {qtyLabel(invoice.qty)}</small></span><b data-label="Total">{money(invoice.gross)}</b><b data-label="Retur" className={invoice.returns>0?'negative':''}>{invoice.returns>0?`− ${money(invoice.returns)}`:'—'}</b><strong data-label="Net">{money(invoice.gross-invoice.returns)}</strong><span data-label="Status"><Pill tone={statusTone(invoice.status)}>{invoiceStatusLabel(invoice.status)}</Pill></span></button>)}</div><footer><ShieldCheck/><span><strong>Reserve terjadi saat Draft.</strong><small>Mutasi −qty langsung mengurangi stok siap jual. Post hanya mengunci invoice serta membentuk AR, revenue, dan COGS—tanpa mutasi stok kedua.</small></span></footer></section>
+    <section className="panel biz-invoice-register">
+      <header><div><span>DAFTAR INVOICE</span><strong>{visible.length} nota sesuai filter</strong><small>Pilih nota untuk membuka rincian barang.</small></div>
+        <button className="primary-btn" onClick={()=>onNavigate('sales-invoice')}><Plus/> Buat invoice</button></header>
+      <div className="biz-history-toolbar compact">
+        <label className="biz-search"><Search aria-hidden="true"/><input type="search" aria-label="Cari invoice, toko, atau SKU" value={query} onChange={event=>{setQuery(event.target.value);setRegisterPage(0)}} placeholder="Cari invoice, toko, atau SKU…"/></label>
+        <select aria-label="Toko" value={customer} onChange={event=>{setCustomer(event.target.value);setRegisterPage(0)}}><option value="ALL">Semua toko</option>{customers.map(name=><option key={name}>{name}</option>)}</select>
+        <select aria-label="Status invoice" value={status} onChange={event=>{setStatus(event.target.value);setRegisterPage(0)}}><option value="ALL">Semua status</option><option value="POSTED">Posted</option><option value="PAID">Paid</option><option value="DRAFT">Draft · reserved</option><option value="REVERSED">Dibalik</option></select>
+        <select aria-label="Urutkan invoice" value={sort} onChange={event=>{setSort(event.target.value);setRegisterPage(0)}}><option value="NEWEST">Terbaru dulu</option><option value="OLDEST">Terlama dulu</option><option value="VALUE_ASC">Total terkecil</option><option value="VALUE_DESC">Total terbesar</option><option value="STORE">Urut toko</option></select>
+      </div>
+      <div className="biz-all-invoice-table">
+        <div><span>Waktu / invoice</span><span>Toko</span><span>Barang</span><span>Total nota</span><span>Retur</span><span>Net</span><span>Status</span></div>
+        {shown.map(invoice=>{
+          const skus = skuByInvoice.get(invoice.number) ?? []
+          const matched = registerQuery ? skus.find(sku => browseMatch(registerQuery, sku)) : undefined
+          const preview = matched ? [matched, ...skus.filter(sku => sku !== matched).slice(0, 1)] : skus.slice(0, 2)
+          return <button type="button" onClick={()=>setSelectedInvoice(invoice)} className={'invoice-register-row' + (!['POSTED','PAID'].includes(invoice.status) ? ' unposted' : '')} key={invoice.number}>
+            <span data-label="Invoice"><strong>{invoice.number}</strong><small>{invoice.day} · {invoice.time}</small></span>
+            <strong data-label="Toko">{invoice.customer}</strong>
+            <span data-label="Barang" className="invoice-goods-cell"><strong className="piece-total">{invoice.qty.toLocaleString('id-ID')} pcs</strong>
+              <small>{skus.length} SKU · {qtyLabel(invoice.qty)}</small>
+              {preview.length > 0 && <span className="invoice-sku-preview">
+                {preview.map(sku => <span className="invoice-sku-chip" key={sku}>{sku}</span>)}
+                {skus.length > preview.length && <span className="invoice-sku-more" aria-label={`${skus.length - preview.length} SKU lain`}>+{skus.length - preview.length}</span>}
+              </span>}
+            </span>
+            <b data-label="Total">{money(invoice.gross)}</b>
+            <b data-label="Retur" className={invoice.returns>0?'negative':''}>{invoice.returns>0?`− ${money(invoice.returns)}`:'—'}</b>
+            <strong data-label="Net">{money(invoice.gross-invoice.returns)}</strong>
+            <span data-label="Status"><Pill tone={statusTone(invoice.status)}>{invoiceStatusLabel(invoice.status)}</Pill></span>
+          </button>
+        })}
+      </div>
+      {!visible.length && <p className="invoice-register-empty">Tidak ada invoice yang cocok.</p>}
+      <InvoicePagination kind="nota" page={currentPage} perPage={invoicePageSize} count={visible.length} onPage={setRegisterPage}/>
+      <footer><ShieldCheck/><span><strong>Reserve terjadi saat Draft.</strong><small>Mutasi −qty langsung mengurangi stok siap jual. Post hanya mengunci invoice serta membentuk AR, revenue, dan COGS—tanpa mutasi stok kedua.</small></span></footer>
+    </section>
     <section className="biz-store-sales-layout"><article className="panel biz-store-ranking"><header><div><span>SALES PER TOKO</span><strong>Ranking toko · {periodLabel(period)}</strong></div><Store/></header>{storeTotals.map((item,index)=>{const storeNet=item.gross-item.returns;return <div key={item.name}><span>{String(index+1).padStart(2,'0')}</span><div><strong>{item.name}</strong><small>{item.count} invoice · {fgQuantity(item.qty)} · retur {money(item.returns)}</small><i><b style={{width:`${storeNet/maxStore*100}%`}}/></i></div><b>{money(storeNet)}</b></div>})}{storeTotals.length===0&&<div className="biz-empty compact"><FileSearch/><strong>Belum ada sales posted</strong><small>Draft tetap terlihat di register, tetapi tidak masuk total toko.</small></div>}</article><article className="panel biz-sales-timetable"><header><div><span>TIME TABLE</span><strong>Penjualan per tanggal · {periodLabel(period)}</strong></div><Clock3/></header><div className="biz-sales-time-head"><span>Tanggal</span>{customers.map((name)=><span key={name}>{name}</span>)}<span>Total</span></div>{!days.length&&<p>Tidak ada penjualan posted di periode ini.</p>}{days.map((dateKey)=>{const dayRows=counted.filter((invoice)=>invoice.dateKey===dateKey);const label=dayRows[0]?.day??dateKey;return <div className="biz-sales-time-row" key={dateKey}><strong><details><summary>{label}</summary>{dayRows.map(r=><button type="button" className="gar-text" onClick={()=>setSelectedInvoice(r)} key={r.number}>{r.time} · {r.number}</button>)}</details></strong>{customers.map((name)=>{const amount=dayRows.filter((invoice)=>invoice.customer===name).reduce((sum,invoice)=>sum+invoice.gross-invoice.returns,0);return <span key={name}>{amount?compactSales(amount):'—'}</span>})}<b>{compactSales(dayRows.reduce((sum,invoice)=>sum+invoice.gross-invoice.returns,0))}</b></div>})}</article></section>
     {selectedInvoice&&<ReviewModal
       title={selectedInvoice.number}
@@ -294,12 +406,12 @@ function AllocationWorkspace({ onNavigate }: { onNavigate: SalesPageProps['onNav
     >
       <div className="biz-invoice-detail-summary">
         <article><span>STATUS</span><strong><Pill tone={statusTone(selectedInvoice.status)}>{invoiceStatusLabel(selectedInvoice.status)}</Pill></strong><small>{['POSTED','PAID'].includes(selectedInvoice.status)?'Read-only':'Boleh diedit atau dipost'}</small></article>
-        <article><span>QTY / SKU</span><strong>{fgQuantity(selectedInvoice.qty)}</strong><small>{selectedInvoice.sku}</small></article>
+        <article><span>JUMLAH BARANG</span><strong>{fgQuantity(selectedInvoice.qty)}</strong><small>{selectedSkus.length} SKU</small></article>
         <article><span>NET INVOICE</span><strong>{money(selectedInvoice.gross-selectedInvoice.returns)}</strong><small>Dibayar {money(selectedInvoice.paid)}</small></article>
         <article><span>STOK SIAP JUAL</span><strong>− {fgQuantity(selectedInvoice.qty)}</strong><small>{selectedInvoice.status==='DRAFT'?'Sudah turun sejak Draft':'Tidak dikurangi lagi saat Post'}</small></article>
       </div>
       {selectedInvoice.status==='DRAFT'&&<a className="gar-button primary" href={'/penjualan/invoice/?nota='+selectedInvoice.number}>Edit invoice ini</a>}
-      <section className="owner-invoice-lines"><h3>Rincian barang</h3><p>{selectedInvoice.customer} · {selectedInvoice.day} · {selectedInvoice.time} WIB</p><table><thead><tr><th>SKU</th><th>Jumlah</th><th>Subtotal</th></tr></thead><tbody>{invoiceLines(selectedInvoice).map(l=><tr key={l.sku}><td>{l.sku}</td><td>{fgQuantity(l.qty)}</td><td>{money(l.amount)}</td></tr>)}</tbody></table><details><summary>Detail ukuran, warna dan harga</summary>{sourceLines(selectedInvoice).map(l=><p key={l.key}><strong>{l.product.brand} {l.product.code} · {l.product.range}</strong> · {l.product.color} · {money(l.priceDozen)}/lusin<br/>{l.product.sizes.map((size,i)=>size+' = '+fgQuantity(l.quantities[i])).join(' · ')}</p>)}</details>{selectedInvoice.notes&&<p>Catatan · {selectedInvoice.notes}</p>}<p>Bruto {money(selectedInvoice.gross)} · Retur {money(selectedInvoice.returns)} · Dibayar {money(selectedInvoice.paid)} · {selectedInvoice.status==='DRAFT'?'Belum dibukukan':'Sisa tagihan '+money(selectedInvoice.gross-selectedInvoice.returns-selectedInvoice.paid)}</p></section>
+      <InvoiceGoods key={selectedInvoice.number} invoice={selectedInvoice} initialQuery={skuQuery}/>
       <div className="biz-invoice-event-log">
         <header><span>DOCUMENT HISTORY</span><strong>Jejak reservation dan stock event</strong></header>
         <article><Clock3/><span><strong>Draft dibuat</strong><small>{selectedInvoice.day} · {selectedInvoice.time} · masih boleh diedit</small></span></article>

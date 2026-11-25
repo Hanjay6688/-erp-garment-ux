@@ -1,7 +1,7 @@
 import {dayOk} from './warehouseDay'
 import {pocketScale, readPocketBook, readPocketNumber} from './pocketUsage'
 export type PocketUnit='yd'|'m'
-export type PocketRoll={id:string;name:string;length:number;rate:number;unit:PocketUnit;date:string;location:string;receipt:string}
+export type PocketRoll={id:string;name:string;length:number;rate:number;unit:PocketUnit;date:string;location:string;receipt:string;sequence?:number}
 type RollInput={number:string;qty:string}
 export type ReceiptDraft={request:string;number:string;supplier:string;location:string;material:string;day:string;unit:PocketUnit;rate:string;reason:string;notes:string;rolls:RollInput[]}
 export type PocketReceipt={request:string;number:string;supplier:string;day:string;reason:string;notes:string|null;rolls:PocketRoll[];reversal?:{reason:string;at:string}}
@@ -13,6 +13,7 @@ export const seedRolls:PocketRoll[]=[
 export const readReceipts=():PocketReceipt[]=>JSON.parse(sessionStorage.getItem(key)??'[]')
 export const pocketRolls=()=>[...seedRolls,...readReceipts().filter(r=>!r.reversal).flatMap(r=>r.rolls)]
 export const receiptPath='/gudang/pembelian-penerimaan/?jenis=kantong'
+export const pocketRollLabel = (roll: PocketRoll) => roll.sequence ? 'Roll ' + String(roll.sequence).padStart(2, '0') : roll.id
 export function pocketBenchmark(d:Pick<ReceiptDraft,'supplier'|'material'|'unit'|'day'>){
   if(d.supplier!=='Sinaran')return null
   return seedRolls.find(r=>r.name===d.material&&r.unit===d.unit&&r.date<=d.day)?.rate??null
@@ -28,12 +29,17 @@ export function prepareReceipt(d:ReceiptDraft):PocketReceipt{
   if(!['yd','m'].includes(d.unit)||!Number.isFinite(rate)||rate<0||!Number.isSafeInteger(Math.round(rate*100)))throw Error('Periksa satuan dan harga per satuan.')
   const seen=new Set<string>()
   const rolls=d.rolls.flatMap((r,index)=>{
-    if(!clean(r.number)&&!clean(r.qty))return []
-    const id=clean(r.number),qty=readPocketNumber(r.qty)
-    if(!id||!(qty>0)||!Number.isSafeInteger(Math.round(qty*pocketScale))||!Number.isSafeInteger(Math.round(qty*rate*100)))throw Error('Isi nomor roll dan panjang yang lebih dari nol di baris '+(index+1)+'.')
+    const number = clean(r.number)
+    if (!number && !clean(r.qty)) return []
+    const sequence = index + 1
+    const id = number || clean(d.number) + '-' + String(sequence).padStart(2, '0')
+    const qty = readPocketNumber(r.qty)
+    if (!(qty > 0) || !Number.isSafeInteger(Math.round(qty * pocketScale)) || !Number.isSafeInteger(Math.round(qty * rate * 100))) {
+      throw Error('Isi panjang yang lebih dari nol di roll ' + sequence + '.')
+    }
     if(seen.has(id.toLowerCase()))throw Error('Nomor roll '+id+' ditulis lebih dari sekali di surat jalan.')
     seen.add(id.toLowerCase())
-    return {id,name:clean(d.material),length:qty,rate,unit:d.unit,date:d.day,location:clean(d.location),receipt:clean(d.number)}
+    return {id,name:clean(d.material),length:qty,rate,unit:d.unit,date:d.day,location:clean(d.location),receipt:clean(d.number),...(!number&&{sequence})}
   })
   if(!rolls.length)throw Error('Isi minimal satu roll.')
   return {request:d.request,number:clean(d.number),supplier:clean(d.supplier),day:d.day,reason:clean(d.reason),notes:clean(d.notes)||null,rolls}

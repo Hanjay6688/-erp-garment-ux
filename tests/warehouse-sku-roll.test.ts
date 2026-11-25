@@ -6,7 +6,7 @@ import {rangeChange,reverseRange} from '../worker-demo/src/demo/planner/inventor
 import {pairOf,pairSku,mainFg,skuByKey} from '../worker-demo/src/demo/skuCatalog'
 import {fgProducts,fgTotals} from '../worker-demo/src/demo/fgOverview'
 import {historyRows} from '../worker-demo/src/demo/FgHistory'
-import {pocketRolls,prepareReceipt,receivePocket,reverseReceipt,type ReceiptDraft} from '../worker-demo/src/demo/pocketReceipts'
+import {pocketRollLabel,pocketRolls,prepareReceipt,receivePocket,reverseReceipt,type ReceiptDraft} from '../worker-demo/src/demo/pocketReceipts'
 
 const move:MoveInput={source:'Vivo 93001',target:'Widie 73005',values:{31:'2',32:'3'},sizeMap:{31:'33',32:'33'},location:mainFg,grade:'Good',date:'2026-11-24',reason:'Koreksi label'}
 beforeEach(()=>sessionStorage.clear())
@@ -69,5 +69,13 @@ describe('Warehouse workflows',()=>{
     expect(()=>reverseReceipt(receipt.number,'Salah')).toThrow('sudah dipakai')
     sessionStorage.removeItem('erp.demo.pocket.period.v1');reverseReceipt(receipt.number,'Salah nomor')
     expect(pocketRolls().some(r=>r.id==='U-02')).toBe(false)
+  })
+  it('assigns receipt-scoped roll identifiers without changing legacy supplier codes',()=>{
+    const rolls=[{number:'',qty:'4,5'},{number:'SUP-02',qty:'8'},{number:'',qty:''}]
+    const first=receivePocket({...receipt,rolls})
+    expect(first.rolls.map(r=>[r.id,pocketRollLabel(r)])).toEqual([['SJ-UJI-01-01','Roll 01'],['SUP-02','SUP-02']])
+    expect(receivePocket({...receipt,rolls})).toEqual(first)
+    expect(receivePocket({...receipt,request:'pr2',number:'SJ-UJI-02',rolls:[rolls[0]]}).rolls[0].id).toBe('SJ-UJI-02-01')
+    expect(()=>prepareReceipt({...receipt,rolls:[{number:'SUP-01',qty:''}]})).toThrow('panjang')
   })
 })
