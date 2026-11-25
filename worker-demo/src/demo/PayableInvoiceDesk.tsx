@@ -1,5 +1,5 @@
 import { useId, useRef, useState, type FormEvent, type ReactNode } from 'react'
-import { ArrowRight, Check, FilePenLine, FilePlus2, Files, FolderOpen, Plus, ReceiptText, Search } from 'lucide-react'
+import { ArrowRight, Check, FilePenLine, FilePlus2, Files, FolderOpen, Plus, ReceiptText, Search, WalletCards } from 'lucide-react'
 import { BrowsePane } from '../components/BrowsePane'
 import { amountText } from './accessoryPricing'
 import { supplierDateLabel } from './supplierInvoices'
@@ -49,7 +49,7 @@ export function PayableInvoiceDesk(props: DeskProps) {
     </nav>
     <div className="ap-desk-grid">
       <BrowsePane className="panel ap-source-pane" aria-label="Kontrabon belum masuk invoice">
-        <header className="ap-desk-heading"><i><ReceiptText/></i><div><h2>Kontrabon tersedia</h2><p>{props.party} · {props.sourceCount} tersedia</p></div></header>
+        <header className="ap-desk-heading"><i><ReceiptText/></i><div><h2>Kontrabon tersedia</h2><p>{props.party}</p></div><span className="ap-count">{props.sourceCount} tersedia</span></header>
         <div className="ap-source-body"><label className="supplier-draft-search"><Search aria-hidden="true"/>
           <input type="search" value={props.query} onChange={event=>props.onSearch(event.target.value)} aria-label="Cari kontrabon tersedia" placeholder="Cari kontrabon, barang, atau jumlah…"/></label>
           <div className="ap-source-list">{props.sources}</div>{props.sourceAction}
@@ -65,16 +65,16 @@ export function PayableInvoiceDesk(props: DeskProps) {
             <button className="soft-btn ap-mobile-next" type="button" onClick={()=>chooseStep('sources')}><Plus size={15}/> Pilih kontrabon</button>
             {props.error && <p role="alert">{props.error}</p>}</div>
           <footer className="ap-builder-footer">
-            <div className="ap-current-total"><span>Total invoice</span><strong>{amountText(props.total)}</strong></div>
+            <div className="ap-current-total"><span><WalletCards aria-hidden="true"/> Total invoice</span><strong>{amountText(props.total)}</strong></div>
             {props.review && <div className="ap-review" role="status"><Check size={16}/>{props.review}</div>}
             <div className="invoice-composer-actions">{props.actions}</div>
           </footer>
         </form>
         <section className="panel ap-drafts" aria-label="Semua draf invoice">
-          <header className="ap-desk-heading"><i><Files/></i><div><h2>Semua draf invoice</h2><p>{props.party} · {props.drafts.length} draf</p></div></header>
+          <header className="ap-desk-heading"><i><Files/></i><div><h2>Semua draf invoice</h2><p>{props.party}</p></div><span className="ap-count">{props.drafts.length} draf</span></header>
           {props.drafts.length ? <ul>{[...props.drafts].sort((a,b)=>b.day.localeCompare(a.day)||a.number.localeCompare(b.number,'id',{numeric:true})).map(item=><li key={item.id}>
-            <div><strong>{item.number}</strong><small>{supplierDateLabel(item.day)} · {item.count} {props.sourceName}</small></div>
-            <b>{amountText(item.amount)}</b><div className="ap-draft-actions">
+            <div><strong>{amountText(item.amount)}</strong><span>{item.number}</span><small>{supplierDateLabel(item.day)} · {item.count} {props.sourceName}</small></div>
+            <div className="ap-draft-actions">
               <button type="button" className="soft-btn" aria-label={'Detail '+item.number} onClick={()=>props.onDetail(item.id)}><FolderOpen size={15}/> Detail</button>
               <button type="button" className="soft-btn invoice-add" aria-label={'Lanjutkan '+item.number} onClick={()=>{props.onEdit(item.id);chooseStep('invoice')}}><FilePenLine size={15}/> Lanjutkan</button>
             </div></li>)}</ul> : <p className="invoice-list-empty">Belum ada draf invoice untuk {props.party}.</p>}

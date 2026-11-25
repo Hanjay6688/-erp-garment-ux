@@ -16,7 +16,7 @@ import MaterialRollHistory from './demo/MaterialRollHistory'
 import {fabricKey, formatRollTotal, identityMovements, operationalFabricRolls, rollBalance, rollLength, rollTotalsByUnit, stockLengths, type WarehouseRoll} from './demo/materialRollHistory'
 import {receiptDocumentPath} from './demo/receiptRollCorrection'
 import {salvageDocumentPath,serviceDocumentPath} from './demo/accessoryOperations'
-import { Fragment, lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react'
+import { Fragment, lazy, Suspense, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import {
   AlertTriangle, ArrowLeftRight, ArrowRight, Boxes, Check, ChevronDown, ClipboardCheck,
   Filter, History, Layers3, MapPin, Package, PackageCheck,
@@ -206,12 +206,12 @@ function SupplierReturnModal({ kind, target, recordId, onClose }: { recordId?:st
   </div>
 }
 
-export default function WarehousePages({ view, onNavigate }: { view: WarehouseView; onNavigate: (view: WarehouseView) => void }) {
+export default function WarehousePages({ view, onNavigate, inventoryNavigation }: { view: WarehouseView; onNavigate: (view: WarehouseView) => void; inventoryNavigation?: ReactNode }) {
   if (view === 'warehouse-dashboard') return <WarehouseDashboard onNavigate={onNavigate}/>
   if (view === 'materials-rolls') return <MaterialsRollsPage/>
   if (view === 'accessories') return <AccessoriesPage/>
   if (view === 'fg-summary') return <FinishedGoodsSummaryPage/>
-  return <Suspense fallback={<InventoryControlFallback/>}>{view==='stock-adjustment'?<StockAdjustmentPage/>:<BrandConversionPage/>}</Suspense>
+  return <Suspense fallback={<InventoryControlFallback/>}>{view==='stock-adjustment'?<StockAdjustmentPage navigation={inventoryNavigation}/>:<BrandConversionPage/>}</Suspense>
 }
 
 function InventoryControlFallback() {

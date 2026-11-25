@@ -1,17 +1,19 @@
 import { BrowsePane } from './components/BrowsePane'
+import { WorkspaceFigures } from './components/WorkspaceFigures'
 import BrandConversionForm from './demo/BrandConversionForm'
-import {fgQuantity} from './fgQuantity'
+import {dozenPieces,fgQuantity} from './fgQuantity'
 import {browseMatchPieces} from './browseMatch'
 import { ReasonDialog } from './demo/planner/ReasonDialog'
 import { SkuRangePage } from './demo/SkuRangePage'
-import { useState } from 'react'
+import { useState, type ReactNode } from 'react'
 import {
   AlertTriangle, ArrowRight, Boxes, Check, ClipboardCheck, FileClock,
-  FilePlus2, History, MapPin,
+  FilePlus2, History, MapPin, Layers3, Package, Shirt,
   RotateCcw, Search, ShieldCheck, Warehouse,
 } from 'lucide-react'
 import { productCatalog } from './productCatalog'
 import './inventory-control.css'
+import './stock-adjustment.css'
 
 type AdjustmentScope = 'Kain & Roll' | 'Aksesori' | 'Barang Jadi'
 type AdjustmentStatus = 'Draft' | 'Menunggu review' | 'Posted' | 'Perlu koreksi sumber'
@@ -44,7 +46,9 @@ type CountItem = {
   origin?: 'PURCHASE' | 'PRODUCTION' | 'CONVERSION'
 }
 
-const number = (value: number, digits = 1) => new Intl.NumberFormat('id-ID', { maximumFractionDigits: digits }).format(value)
+const areaIcons = { 'Kain & Roll': Layers3, 'Aksesori': Package, 'Barang Jadi': Shirt }
+
+const number = (value: number, digits = 6) => new Intl.NumberFormat('id-ID', { maximumFractionDigits: digits }).format(value)
 const parseNumber = (value: string) => {
   const parsed = Number(value.trim().replace(',', '.'))
   return Number.isFinite(parsed) ? parsed : 0
@@ -83,18 +87,22 @@ const adjustmentReasons = [
 ] as const
 
 function StatusPill({ status }: { status: AdjustmentStatus }) {
-  const tone = status === 'Posted' ? 'good' : status === 'Perlu koreksi sumber' ? 'danger' : 'warn'
+  const tone = status === 'Posted' ? 'good' : status === 'Perlu koreksi sumber' ? 'danger' : status === 'Draft' ? 'neutral' : 'warn'
   return <span className={`ic-status ${tone}`}>{status}</span>
 }
 
 function ControlHero({ type }: { type: 'adjustment' | 'brand' }) {
+  if (type === 'adjustment') return <section className="hero-copy compact ic-hero">
+    <div><div className="eyebrow">GUDANG · KONTROL STOK</div><h1>Stock Adjustment</h1>
+      <p>Catat hasil hitung fisik, periksa selisih dengan saldo buku, lalu telusuri dokumen koreksinya.</p></div>
+  </section>
   return <section className="hero-copy compact ic-hero">
-    <div><div className="eyebrow">GUDANG · INVENTORY CONTROL</div><h1>{type === 'adjustment' ? 'Stock Adjustment' : 'Ganti Merek'}</h1><p>{type === 'adjustment' ? 'Catat kondisi fisik yang benar; sistem menghitung selisihnya. Hilang, hama, banjir, rusak, atau barang mendadak ditemukan tetap punya alasan dan jejak.' : 'Pilih SKU asal dan tujuan. Padanan dari master muncul sebagai saran.'}</p></div>
-    <div className={`ic-hero-rule ${type}`}><ShieldCheck/><div><span>{type === 'adjustment' ? 'GOLDEN RULE' : 'STOCK CONVERSION'}</span><strong>{type === 'adjustment' ? 'Input fisik, bukan ketik plus/minus' : 'Sumber turun = tujuan naik'}</strong><small>{type === 'adjustment' ? 'System Qty terkunci. Delta selalu dihitung otomatis.' : 'Jumlah potong dan lokasi tetap sama. Ukuran tujuan bisa dipilih.'}</small></div></div>
+    <div><div className="eyebrow">GUDANG · INVENTORY CONTROL</div><h1>Ganti Merek</h1><p>Pilih SKU asal dan tujuan. Padanan dari master muncul sebagai saran.</p></div>
+    <div className="ic-hero-rule brand"><ShieldCheck/><div><span>STOCK CONVERSION</span><strong>Sumber turun = tujuan naik</strong><small>Jumlah potong dan lokasi tetap sama. Ukuran tujuan bisa dipilih.</small></div></div>
   </section>
 }
 
-export function StockAdjustmentPage() {
+export function StockAdjustmentPage({navigation}:{navigation?:ReactNode}) {
   const [mode, setMode] = useState<'browse' | 'new'>('browse')
   const [query, setQuery] = useState('')
   const [scopeFilter, setScopeFilter] = useState('Semua')
@@ -119,7 +127,7 @@ export function StockAdjustmentPage() {
       && browseMatchPieces(query, item.unit === 'pcs' ? quantities : [], item.id, item.scope, item.item, item.reason, item.source, item.actor,
         ...(item.unit === 'pcs' ? [] : quantities.map(qty=>`${number(Math.abs(qty))} ${item.unit}`)))
   })
-  const selectedCase = cases.find((item) => item.id === selectedId) ?? inventoryCases[0]
+  const selectedCase = visibleCases.find(item => item.id === selectedId) ?? visibleCases[0]
   const scopedItems = countItems.filter((item) => item.scope === scope)
   const baseItem = scopedItems.find((item) => item.id === itemId) ?? scopedItems[0]
   const original=cases.find(d=>d.id===editingId)
@@ -130,6 +138,7 @@ export function StockAdjustmentPage() {
   const blockedPositiveFg = hasPhysical && delta > 0 && scope === 'Barang Jadi' && (draftItem.origin === 'PRODUCTION' || draftItem.origin === 'CONVERSION')
   const reasonCopy = adjustmentReasons.find(([label]) => label === reason)?.[1] ?? ''
   function reviewCase(){
+    if (!selectedCase) return
     const known=countItems.find(d=>d.scope===selectedCase.scope&&d.label===selectedCase.item)
     if(!known){setSourceOpen(true);return}
     setPhysicalDate(selectedCase.dateKey??'2026-08-28');setScope(known.scope);setItemId(known.id);setEditingId(selectedCase.id);setPhysicalText(String(selectedCase.physicalQty).replace('.',','))
@@ -153,45 +162,58 @@ export function StockAdjustmentPage() {
     setNotice('')
   }
 
-  return <>
+  return <div className="stock-adjust-page">
     <ControlHero type="adjustment"/>
-    <section className="ic-metrics">
-      <article><ClipboardCheck/><span><small>OPEN CASES</small><strong>{cases.filter(c=>c.status!=='Posted').length} kasus</strong><em>Belum mengubah saldo</em></span></article>
-      <article className="danger"><AlertTriangle/><span><small>SELISIH NEGATIF · ARSIP</small><strong>7,5 yd kain · 12 pcs aksesori</strong><em>Periksa alasan dan satuan</em></span></article>
-      <article className="good"><History/><span><small>POSITIVE DELTA</small><strong>+{fgQuantity(2)}</strong><em>Tetap wajib sumber yang valid</em></span></article>
-      <article><ShieldCheck/><span><small>CONTROL</small><strong>Draft → Review → Post</strong><em>Tidak ada edit saldo langsung</em></span></article>
-    </section>
-    <section className="panel ic-shell">
-      <nav className="ic-mode-tabs"><button className={`ic-mode-option ${mode === 'browse' ? 'active' : ''}`} onClick={() => setMode('browse')}><i><History/></i><span><strong>Riwayat adjustment</strong><small>Lihat seluruh koreksi + / −</small></span><b>{cases.length}</b></button><button className={`ic-mode-option create ${mode === 'new' ? 'active' : ''}`} onClick={() => {setEditingId(null);setPhysicalDate('2026-11-24');setPhysicalText('');setReference('');setNote('');setNotice('');setMode('new')}}><i><FilePlus2/></i><span><strong>Catat hasil cek fisik</strong><small>Isi saldo nyata · sistem hitung + / −</small></span><ArrowRight/></button></nav>
+    {navigation}
+    <WorkspaceFigures label="Status dokumen cek fisik" figures={[
+      {label:'Draf cek fisik',value:cases.filter(c=>c.status==='Draft').length,icon:ClipboardCheck,tone:'blue'},
+      {label:'Menunggu review',value:cases.filter(c=>c.status==='Menunggu review').length,icon:FileClock,tone:'amber'},
+      {label:'Perlu koreksi sumber',value:cases.filter(c=>c.status==='Perlu koreksi sumber').length,icon:AlertTriangle,tone:'red'},
+    ]}/>
+    <section className="ic-shell">
+      <nav className="ic-mode-tabs" aria-label="Pekerjaan Stock Adjustment">
+        <button type="button" className={'ic-mode-option '+(mode==='browse'?'active':'')} aria-pressed={mode==='browse'} onClick={()=>setMode('browse')}><History aria-hidden="true"/><strong>Riwayat adjustment</strong></button>
+        <button type="button" className={'ic-mode-option '+(mode==='new'?'active':'')} aria-pressed={mode==='new'} onClick={()=>{setEditingId(null);setPhysicalDate('2026-11-24');setPhysicalText('');setReference('');setNote('');setNotice('');setMode('new')}}><FilePlus2 aria-hidden="true"/><strong>Catat hasil cek fisik</strong></button>
+      </nav>
       {mode === 'browse' ? <div className="ic-browse-layout">
-        <BrowsePane className="ic-case-browser" aria-label="Riwayat penyesuaian stok">
-          <header><div><span>BROWSE ADJUSTMENT</span><strong>Riwayat plus / minus stok</strong></div><small>{visibleCases.length} tampil</small></header>
-          <div className="ic-browser-tools"><label><Search/><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Cari item, alasan, atau pemeriksa..."/></label><div><select value={scopeFilter} onChange={(event) => setScopeFilter(event.target.value)}><option>Semua</option><option>Kain & Roll</option><option>Aksesori</option><option>Barang Jadi</option></select><button onClick={() => { setQuery(''); setScopeFilter('Semua') }}><RotateCcw/></button></div></div>
-          <div className="ic-case-list">{visibleCases.map((item) => {
-            const itemDelta = item.physicalQty - item.systemQty
-            return <button key={item.id} className={selectedCase.id === item.id ? 'active' : ''} onClick={() => setSelectedId(item.id)}><span className="ic-case-code">AD</span><div><strong>{item.item}</strong><small>{item.id} · {item.scope}</small><em>{item.reason} · {item.happenedAt}</em></div><b className={itemDelta < 0 ? 'negative' : 'positive'}>{itemDelta > 0 ? '+' : ''}{item.scope==='Barang Jadi'?fgQuantity(itemDelta):number(itemDelta)+' '+item.unit}</b><StatusPill status={item.status}/></button>
-          })}</div>
+        <BrowsePane className="ic-case-browser" id="daftar-cek-fisik" aria-label="Riwayat penyesuaian stok">
+          <header className="stock-section-head"><i><History aria-hidden="true"/></i><div><h2>Riwayat cek fisik</h2><small>{visibleCases.length} dokumen</small></div></header>
+          <div className="ic-browser-tools"><label><Search aria-hidden="true"/><input type="search" aria-label="Cari riwayat cek fisik" value={query} onChange={event=>setQuery(event.target.value)} placeholder="Cari barang, jumlah, atau dokumen…"/></label>
+            <div><select aria-label="Filter area stok" value={scopeFilter} onChange={event=>setScopeFilter(event.target.value)}><option>Semua</option><option>Kain &amp; Roll</option><option>Aksesori</option><option>Barang Jadi</option></select>
+              <button type="button" aria-label="Reset filter riwayat" onClick={()=>{setQuery('');setScopeFilter('Semua')}}><RotateCcw aria-hidden="true"/></button></div></div>
+          <div className="ic-case-list">{visibleCases.map(item=>{
+            const delta = item.physicalQty - item.systemQty
+            const Glyph = areaIcons[item.scope]
+            return <button type="button" key={item.id} aria-pressed={selectedCase?.id===item.id} className={selectedCase?.id===item.id?'active':''} onClick={()=>{setSelectedId(item.id);if(window.matchMedia('(max-width: 860px)').matches)document.getElementById('detail-cek-fisik')?.scrollIntoView({block:'start'})}}>
+              <i className="stock-item-icon"><Glyph aria-hidden="true"/></i>
+              <div><strong className={delta<0?'negative':'positive'}>{delta>0?'+':''}{number(delta)} {item.unit}</strong><span>{item.item}</span>
+                <small>{item.id} · {item.scope}</small></div>
+              <StatusPill status={item.status}/>
+            </button>
+          })}{!visibleCases.length&&<p className="stock-empty">Tidak ada dokumen yang cocok dengan pencarian ini.</p>}</div>
         </BrowsePane>
-        <main className="ic-case-detail">
-          <header><div><span>ADJUSTMENT · {selectedCase.scope.toUpperCase()}</span><h2>{selectedCase.item}</h2><p>{selectedCase.id} · {selectedCase.happenedAt}</p></div><StatusPill status={selectedCase.status}/></header>
-          <div className="ic-detail-facts"><article><MapPin/><span><small>LOCATION</small><strong>{selectedCase.location}</strong><em>{selectedCase.actor}</em></span></article><article><FileClock/><span><small>SOURCE</small><strong>{selectedCase.source}</strong><em>{selectedCase.reason}</em></span></article><article><Boxes/><span><small>ITEM DETAIL</small><strong>{selectedCase.detail}</strong><em>Identity locked after review</em></span></article></div>
+        {selectedCase?<main className="ic-case-detail" id="detail-cek-fisik">
+          <header className="stock-section-head"><i><ClipboardCheck aria-hidden="true"/></i><div><span>{selectedCase.scope}</span><h2>{selectedCase.item}</h2><p>{selectedCase.id} · {selectedCase.happenedAt}</p></div><StatusPill status={selectedCase.status}/></header>
           <BalanceEquation system={selectedCase.systemQty} physical={selectedCase.physicalQty} unit={selectedCase.unit} finished={selectedCase.scope==='Barang Jadi'}/>
+          <div className="ic-detail-facts"><article><MapPin/><span><small>Lokasi &amp; pemeriksa</small><strong>{selectedCase.location}</strong><em>{selectedCase.actor}</em></span></article>
+            <article><FileClock/><span><small>Dokumen sumber</small><strong>{selectedCase.source}</strong></span></article>
+            <article><Boxes/><span><small>Identitas barang</small><strong>{selectedCase.detail}</strong></span></article></div>
           <section className="ic-reason-card"><span>ALASAN & CATATAN</span><strong>{selectedCase.reason}</strong><p>{selectedCase.note}</p></section>
           {selectedCase.status === 'Perlu koreksi sumber' && <div className="ic-guard danger"><AlertTriangle/><div><strong>Jangan buat stok produksi muncul dari adjustment.</strong><small>Lot ini berasal dari QC/FG receipt. Buka transaksi sumber lalu koreksi penerimaannya supaya WIP, HPP, dan jejak produksi tetap nyambung.</small></div></div>}
-          <footer><button className="soft-btn" onClick={()=>setSourceOpen(true)}>Lihat dokumen sumber</button><button className="primary-btn" onClick={reviewCase} disabled={selectedCase.status === 'Posted' || selectedCase.status === 'Perlu koreksi sumber'}>{selectedCase.status === 'Posted' ? 'Sudah diposting' : selectedCase.status === 'Perlu koreksi sumber' ? 'Posting diblokir' : 'Review kasus'} <ArrowRight/></button></footer>
-        </main>
+          <footer><a className="soft-btn stock-back" href="#daftar-cek-fisik">Kembali ke riwayat</a><button className="soft-btn" onClick={()=>setSourceOpen(true)}><FileClock aria-hidden="true"/> Lihat dokumen sumber</button><button className="primary-btn" onClick={reviewCase} disabled={selectedCase.status === 'Posted' || selectedCase.status === 'Perlu koreksi sumber'}>{selectedCase.status === 'Posted' ? 'Sudah diposting' : selectedCase.status === 'Perlu koreksi sumber' ? 'Posting diblokir' : 'Review kasus'} <ArrowRight/></button></footer>
+        </main>:<main className="ic-case-detail stock-empty"><Search aria-hidden="true"/><h2>Belum ada dokumen terpilih</h2><p>Ubah pencarian atau pilih area stok lain.</p></main>}
       </div> : <div className="ic-draft">
-        <header><div><span>CATAT HASIL CEK FISIK · STOCK ADJUSTMENT</span><h2>Masukkan saldo nyata, bukan angka koreksi</h2><p>Pilih barang yang dihitung, isi jumlah fisik sebenarnya, lalu sistem otomatis membuat selisih plus atau minus terhadap ledger.</p></div><div className="ic-step-rail"><b className="active">1 · Hitung</b><i/><b>2 · Review</b><i/><b>3 · Post</b></div></header>
+        <header className="stock-section-head"><i><ClipboardCheck aria-hidden="true"/></i><div><span>{editingId?'Review dokumen':'Cek fisik baru'}</span><h2>{editingId?'Periksa hasil hitung':'Catat hasil hitung fisik'}</h2><p>Pilih area stok dan isi jumlah yang ditemukan saat dihitung.</p></div></header>
         <div className="ic-field-grid two area-stock"><label><span>Area stok</span><select aria-label="Area stok" disabled={!!editingId} value={scope} onChange={event=>changeScope(event.target.value as AdjustmentScope)}><option>Kain &amp; Roll</option><option>Aksesori</option><option>Barang Jadi</option></select></label></div>
         {scope==='Barang Jadi'?<SkuRangePage mode="adjust"/>:<div className="ic-draft-grid"><section className="ic-form-card"><div className="ic-field-grid two"><label><span>Item / roll</span><select value={draftItem.id} onChange={(event) => { setItemId(event.target.value); setPhysicalText(''); setNotice('') }}>{scopedItems.map((item) => <option key={item.id} value={item.id}>{item.label}</option>)}</select></label></div>
             <div className="ic-selected-item"><Warehouse/><div><span>ITEM TERPILIH</span><strong>{draftItem.label}</strong><small>{draftItem.detail} · {draftItem.location}</small></div></div>
-            <div className="ic-count-entry"><label className="locked"><span>SYSTEM QTY · LOCKED</span><div><strong>{number(draftItem.systemQty)} </strong><b>{draftItem.unit}</b><ShieldCheck/></div><small>Diambil dari stock ledger saat draft dibuat.</small></label><i>→</i><label><span>JUMLAH FISIK SEBENARNYA · INPUT</span><div><input inputMode="decimal" value={physicalText} placeholder="Ketik hasil hitung" onChange={(event) => setPhysicalText(event.target.value.replace(/[^0-9.,]/g, ''))} onFocus={(event) => event.currentTarget.select()}/><b>{draftItem.unit}</b></div><small>Bukan angka plus/minus. Isi hasil hitung total; selisih dibuat otomatis.</small></label></div>
-            <BalanceEquation system={draftItem.systemQty} physical={hasPhysical ? physical : draftItem.systemQty} unit={draftItem.unit}/>
-            <div className="ic-reason-select"><span>3 · KENAPA BERBEDA?</span><div>{adjustmentReasons.map(([label, copy]) => <button key={label} className={reason === label ? 'active' : ''} onClick={() => setReason(label)}><strong>{label}</strong><small>{copy}</small><Check/></button>)}</div><p>{reasonCopy}</p></div>
+            <div className="ic-count-entry"><label className="locked"><span>SALDO BUKU</span><div><strong>{number(draftItem.systemQty)} </strong><b>{draftItem.unit}</b><ShieldCheck/></div><small>Saldo tercatat saat draf dibuat.</small></label><i>→</i><label><span>HASIL HITUNG FISIK</span><div><input inputMode="decimal" value={physicalText} placeholder="Ketik hasil hitung" onChange={(event) => setPhysicalText(event.target.value.replace(/[^0-9.,]/g, ''))} onFocus={(event) => event.currentTarget.select()}/><b>{draftItem.unit}</b></div><small>Isi jumlah barang yang ditemukan.</small></label></div>
+            <BalanceEquation system={draftItem.systemQty} physical={hasPhysical ? physical : null} unit={draftItem.unit}/>
+            <div className="ic-reason-select"><span>Alasan selisih</span><div>{adjustmentReasons.map(([label, copy]) => <button key={label} className={reason === label ? 'active' : ''} onClick={() => setReason(label)}><strong>{label}</strong><small>{copy}</small><Check/></button>)}</div><p>{reasonCopy}</p></div>
             <div className="ic-field-grid three"><label><span>TANGGAL KEJADIAN / CEK</span><input aria-label="Tanggal cek fisik" type="date" value={physicalDate} onChange={e=>setPhysicalDate(e.target.value)}/></label><label><span>NOMOR PENYESUAIAN · WAJIB</span><input value={reference} readOnly={!!editingId} onChange={(event) => setReference(event.target.value)} placeholder="Contoh: OPN-260828-C"/></label><label><span>LOKASI</span><input value={draftItem.location} readOnly/></label></div>
             <label className="ic-note-field"><span>ALASAN PENYESUAIAN · WAJIB</span><textarea value={note} onChange={(event) => setNote(event.target.value)} placeholder="Ceritakan apa yang terjadi, siapa yang cek ulang, dan kondisi barang..."/></label>
           </section>
-          <aside className="ic-review-card"><span>REVIEW IMPACT</span><h3>{hasPhysical ? delta === 0 ? 'Tidak ada selisih' : `${delta > 0 ? '+' : ''}${number(delta)} ${draftItem.unit}` : 'Isi jumlah fisik'}</h3><p>{draftItem.label}</p><div><article><small>SYSTEM QTY</small><strong>{number(draftItem.systemQty)} {draftItem.unit}</strong></article><article><small>JUMLAH FISIK</small><strong>{hasPhysical ? number(physical) : '—'} {hasPhysical ? draftItem.unit : ''}</strong></article><article className={delta < 0 ? 'danger' : delta > 0 ? 'good' : ''}><small>LEDGER DELTA</small><strong>{hasPhysical ? `${delta > 0 ? '+' : ''}${number(delta)} ${draftItem.unit}` : '—'}</strong></article></div><section><small>ACCOUNTING PREVIEW</small><strong>{hasPhysical ? accounting : 'Menunggu angka fisik'}</strong><p>Jurnal baru terbentuk setelah review dan posting.</p></section>
+          <aside className="ic-review-card"><span>RINGKASAN KOREKSI</span><h3>{hasPhysical ? delta === 0 ? 'Tidak ada selisih' : `${delta > 0 ? '+' : ''}${number(delta)} ${draftItem.unit}` : 'Isi jumlah fisik'}</h3><p>{draftItem.label}</p><div><article><small>Saldo buku</small><strong>{number(draftItem.systemQty)} {draftItem.unit}</strong></article><article><small>JUMLAH FISIK</small><strong>{hasPhysical ? number(physical) : '—'} {hasPhysical ? draftItem.unit : ''}</strong></article><article className={delta < 0 ? 'danger' : delta > 0 ? 'good' : ''}><small>Selisih stok</small><strong>{hasPhysical ? `${delta > 0 ? '+' : ''}${number(delta)} ${draftItem.unit}` : '—'}</strong></article></div><section><small>Perkiraan jurnal</small><strong>{hasPhysical ? accounting : 'Menunggu angka fisik'}</strong><p>Jurnal baru terbentuk setelah review dan posting.</p></section>
             {blockedPositiveFg ? <div className="ic-guard danger"><AlertTriangle/><div><strong>Adjustment positif diblokir.</strong><small>Koreksi QC/FG receipt sumber lot produksi ini.</small></div></div> : <div className="ic-guard"><ShieldCheck/><div><strong>Saldo belum berubah.</strong><small>Draft ini hanya menyiapkan bukti untuk reviewer.</small></div></div>}
             <button className="primary-btn" disabled={!hasPhysical || !physicalDate || delta === 0 || !note.trim() || !reference.trim() || blockedPositiveFg} onClick={saveCountReview}>Review adjustment <ArrowRight/></button>
             {notice && <em className="ic-notice"><Check/> {notice}</em>}
@@ -199,15 +221,21 @@ export function StockAdjustmentPage() {
         </div>}
       </div>}
     </section>
-    {sourceOpen&&<ReasonDialog title={'Sumber · '+selectedCase.id} onClose={()=>setSourceOpen(false)} closeLabel="Kembali"><h3>{selectedCase.source}</h3><p>{selectedCase.item} · {selectedCase.location}</p><p>{selectedCase.actor} · {selectedCase.happenedAt}</p><BalanceEquation system={selectedCase.systemQty} physical={selectedCase.physicalQty} unit={selectedCase.unit} finished={selectedCase.scope==='Barang Jadi'}/><p>{selectedCase.reason} · {selectedCase.note}</p></ReasonDialog>}
+    {sourceOpen&&selectedCase&&<ReasonDialog title={'Sumber · '+selectedCase.id} onClose={()=>setSourceOpen(false)} closeLabel="Kembali"><h3>{selectedCase.source}</h3><p>{selectedCase.item} · {selectedCase.location}</p><p>{selectedCase.actor} · {selectedCase.happenedAt}</p><BalanceEquation system={selectedCase.systemQty} physical={selectedCase.physicalQty} unit={selectedCase.unit} finished={selectedCase.scope==='Barang Jadi'}/><p>{selectedCase.reason} · {selectedCase.note}</p></ReasonDialog>}
     {mode==="browse"&&<SkuRangePage mode="adjust" historyOnly/>}
-  </>
+  </div>
 }
 
-function BalanceEquation({ system, physical, unit, finished=false }: { system: number; physical: number; unit: string; finished?:boolean }) {
-  const quantity=(n:number)=>finished?fgQuantity(n):number(n)+' '+unit
-  const delta = physical - system
-  return <div className="ic-balance"><span><small>SYSTEM QTY</small><strong>{quantity(system)}</strong></span><i>{delta >= 0 ? '+' : '−'}</i><span className={delta < 0 ? 'negative' : delta > 0 ? 'positive' : ''}><small>DERIVED DELTA</small><strong>{delta > 0 ? '+' : delta < 0 ? '−' : ''}{quantity(Math.abs(delta))}</strong></span><i>=</i><span><small>PHYSICAL COUNT</small><strong>{quantity(physical)}</strong></span></div>
+function BalanceEquation({system,physical,unit,finished=false}:{system:number;physical:number|null;unit:string;finished?:boolean}) {
+  const delta = physical === null ? null : physical - system
+  const quantity = (value:number) => number(value)+' '+unit
+  return <dl className="stock-balance" aria-label="Perbandingan saldo stok">
+    <div><dt>Saldo buku</dt><dd>{quantity(system)}</dd></div>
+    <div data-delta={delta===null||delta===0?'zero':delta<0?'negative':'positive'}><dt>Selisih stok</dt>
+      <dd>{delta===null?'—':(delta>0?'+':delta<0?'−':'')+quantity(Math.abs(delta))}</dd></div>
+    <div><dt>Hasil hitung fisik</dt><dd>{physical===null?'—':quantity(physical)}</dd>
+      {finished&&physical!==null&&<small>{dozenPieces(physical)}</small>}</div>
+  </dl>
 }
 
 type ConversionCase = {
