@@ -1087,27 +1087,124 @@ test('pencarian laundry menemukan jumlah potong dan kode batch di kedua tab', as
   await expect(delivered.first().locator('.laundry-counts')).toContainText('64 pcs')
 })
 
-test('browse QC bisa digulir sampai paling bawah walau detail masih panjang', async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 560 })
-  await page.goto('/produksi/qc/')
-  const browse = page.locator('.qc-browser')
-  const rows = browse.locator('.qc-browser-list > button')
-  await expect(rows).toHaveCount(3)
-  await browse.evaluate(pane => window.scrollBy(0, pane.getBoundingClientRect().top - 84))
-  const distanceToBottom = await page.evaluate(() => document.documentElement.scrollHeight - innerHeight - scrollY)
-  expect(distanceToBottom).toBeGreaterThan(100)
-  const top = await page.evaluate(() => scrollY)
-  const box = (await browse.boundingBox())!
-  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2)
-  await page.mouse.wheel(0, 1500)
-  await expect.poll(() => browse.evaluate(pane => Math.round(pane.scrollHeight - pane.clientHeight - pane.scrollTop))).toBeLessThanOrEqual(1)
-  expect(await page.evaluate(() => scrollY)).toBe(top)
-  const last = (await rows.last().boundingBox())!
-  expect(last.y + last.height).toBeLessThanOrEqual(560)
+async function checkBrowseEnd(page: Page, minScrollRange = 0) {
+  const browse = page.locator('.page-wrap .browse-pane')
+  await expect(browse).toHaveAttribute('data-browse-layout', /^(split|embedded)$/)
+  await browse.evaluate(pane => window.scrollBy(0, pane.getBoundingClientRect().top - 299))
+  await expect.poll(() => browse.evaluate(pane => pane.getBoundingClientRect().bottom - innerHeight)).toBeLessThanOrEqual(0)
+  const before = await browse.evaluate(pane => ({
+    remaining: pane.scrollHeight - pane.clientHeight,
+    pageTop: scrollY,
+    pageRemaining: document.documentElement.scrollHeight - innerHeight - scrollY,
+    detailTop: pane.nextElementSibling!.scrollTop,
+  }))
+  expect(before.remaining).toBeGreaterThanOrEqual(minScrollRange)
+  if (before.remaining > 1) {
+    const box = (await browse.boundingBox())!
+    await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2)
+    await page.mouse.wheel(0, before.remaining + 100)
+    await expect.poll(() => browse.evaluate(pane => pane.scrollHeight - pane.clientHeight - pane.scrollTop)).toBeLessThanOrEqual(1)
+  }
+  const after = await browse.evaluate(pane => ({
+    pageTop: scrollY,
+    detailTop: pane.nextElementSibling!.scrollTop,
+    end: pane.lastElementChild!.getBoundingClientRect().bottom,
+  }))
+  expect(after.pageTop).toBe(before.pageTop)
+  expect(after.detailTop).toBe(before.detailTop)
+  expect(after.end).toBeLessThanOrEqual(640)
+  return before.pageRemaining
+}
 
-  await browse.getByRole('searchbox', { name: 'Cari antrean QC' }).fill('114 pcs')
-  await expect(rows).toHaveCount(1)
-  await expect(rows.first()).toContainText('039-02')
+test('browse produksi dan pencarian QC mencapai entri terakhir saat detail masih panjang', async ({ page }) => {
+  await page.setViewportSize({ width: 1600, height: 640 })
+  for (const [route, minScrollRange] of [
+    ['/produksi/qc/', 100],
+    ['/produksi/bagi-potongan/', 100],
+    ['/produksi/buat-potongan/', 100],
+    ['/produksi/laundry/', 100],
+    ['/produksi/susun-nota-fg/', 100],
+    ['/master/produk-sku/', 100],
+    ['/gudang/barang-jadi/', 100],
+    ['/gudang/kain-kantong/', 0],
+    ['/keuangan/payroll-kasbon/', 20],
+    ['/penjualan/invoice/', 40],
+  ] as const) {
+    await test.step(route, async () => {
+      await page.goto(route)
+      expect(await checkBrowseEnd(page, minScrollRange)).toBeGreaterThan(100)
+      if (route === '/produksi/qc/') {
+        const rows = page.locator('.qc-browser-list > button')
+        await expect(rows).toHaveCount(3)
+        await page.getByRole('searchbox', { name: 'Cari antrean QC' }).fill('114 pcs')
+        await expect(rows).toHaveCount(1)
+        await expect(rows.first()).toContainText('039-02')
+      }
+    })
+  }
+})
+
+test('browse menu samping memakai batas gulir yang sama', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 640 })
+  for (const [group, menus] of [
+    ['Produksi', ['Barang BS & Rework']],
+    ['Gudang', ['Bahan & Roll', 'Aksesori', 'Stock Adjustment']],
+    ['Penjualan', ['Retur Penjualan', 'Pembayaran Pelanggan']],
+    ['Keuangan', ['Hutang Supplier & Vendor', 'Piutang Pelanggan', 'Nota Ambil Aksesori', 'HPP & Rekalkulasi', 'Jurnal & Transaksi Lain']],
+    ['Master Data', ['Kain & Benchmark', 'Aksesori & Harga Mandor', 'Pelanggan', 'Supplier & Vendor', 'Mandor', 'Gudang & Lokasi']],
+    ['Pengaturan & Audit', ['Reminder', 'Pengguna & Hak Akses']],
+  ] as const) {
+    for (const menu of menus) {
+      await test.step(menu, async () => {
+        await page.goto('/')
+        await openGroup(page, group)
+        await page.locator('.sidebar').getByRole('button', { name: '• ' + menu, exact: true }).click()
+        if (menu === 'Jurnal & Transaksi Lain') await page.getByRole('button', { name: 'Browser jurnal' }).click()
+        await checkBrowseEnd(page, menu === 'Bahan & Roll' ? 100 : 0)
+      })
+    }
+  }
+  await page.goto('/master/supplier-vendor/?bagian=laundry')
+  await checkBrowseEnd(page)
+})
+
+test('browse Bagi Potongan dapat digulir dengan sentuhan di tablet dan mengikuti halaman di ponsel', async ({ browser, baseURL }) => {
+  const context = await browser.newContext({ baseURL, viewport: { width: 1180, height: 700 }, hasTouch: true })
+  try {
+    const page = await context.newPage()
+    await page.goto('/produksi/bagi-potongan/')
+    const browse = page.getByRole('complementary', { name: 'Antrean bagi potongan' })
+    await expect(browse).toHaveAttribute('data-browse-layout', 'split')
+    await browse.evaluate(pane => window.scrollBy(0, pane.getBoundingClientRect().top - 270))
+    await expect.poll(() => browse.evaluate(pane => pane.getBoundingClientRect().bottom - innerHeight)).toBeLessThanOrEqual(0)
+    const selected = await browse.locator('.wip-queue-card.selected').textContent()
+    const start = await page.evaluate(() => scrollY)
+    const box = (await browse.boundingBox())!
+    const x = Math.round(box.x + box.width / 2)
+    const y = Math.round(box.y + box.height - 25)
+    const cdp = await context.newCDPSession(page)
+    for (let swipe = 0; swipe < 5; swipe++) {
+      await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y }] })
+      for (const dy of [30, 80, 140, 220]) {
+        await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y: y - dy }] })
+      }
+      await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] })
+    }
+    await expect.poll(() => browse.evaluate(pane => pane.scrollHeight - pane.clientHeight - pane.scrollTop)).toBeLessThanOrEqual(1)
+    expect(await page.evaluate(() => scrollY)).toBe(start)
+    await expect(page.getByRole('dialog')).toHaveCount(0)
+    expect(await browse.locator('.wip-queue-card.selected').textContent()).toBe(selected)
+    expect((await browse.locator('.wip-queue-list > article').last().boundingBox())!.y).toBeLessThan(700)
+
+    await page.setViewportSize({ width: 390, height: 844 })
+    await expect(browse).not.toHaveAttribute('data-browse-layout')
+    await page.evaluate(() => window.scrollTo(0, 0))
+    await browse.locator('.wip-queue-list > article').last().scrollIntoViewIfNeeded()
+    expect(await page.evaluate(() => scrollY)).toBeGreaterThan(0)
+    expect(await browse.evaluate(pane => pane.scrollHeight - pane.clientHeight)).toBeLessThanOrEqual(1)
+  } finally {
+    await context.close()
+  }
 })
 
 test('jenis pewarnaan milik laundry bisa dipakai langsung atau ditautkan sebagai default SKU',async({page})=>{

@@ -1,3 +1,4 @@
+import { BrowsePane } from '../components/BrowsePane'
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { ArrowDownLeft, ArrowRight, ClipboardList, Layers3, MapPin, Ruler, Scissors, Search } from 'lucide-react'
 import { browseMatch } from '../browseMatch'
@@ -171,7 +172,7 @@ export default function PocketFabric() {
             <option value="">Semua saldo</option><option value="available">Masih bersaldo</option></select></label>
         </div>
         <div className="wh-master-detail rolls">
-          <aside className="wh-browser pocket-browser">
+          <BrowsePane embedded className="wh-browser pocket-browser" aria-label="Daftar stok kain kantong">
             <header><div><span>BAHAN</span><strong>{materialIds.length} jenis kain kantong</strong></div><Layers3 size={18} aria-hidden="true"/></header>
             <div className="wh-browser-list">
               {['', ...materialIds].map(id => {
@@ -182,7 +183,7 @@ export default function PocketFabric() {
                 </button>
               })}
             </div>
-          </aside>
+          </BrowsePane>
           <div className="wh-detail">
             <header className="wh-detail-head"><div><span>STOK PER ROLL</span><h2>{materialNames.get(activeMaterial) ?? 'Semua kain kantong'}</h2><p>{scoped.filter(row => row.left > 0).length} dari {scoped.length} roll masih bersaldo</p></div></header>
             <dl className="pocket-stock-totals" aria-label="Ringkasan panjang kain kantong">

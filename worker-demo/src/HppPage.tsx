@@ -1,3 +1,4 @@
+import { BrowsePane } from './components/BrowsePane'
 import { useMemo, useState } from 'react'
 import { browseMatchPieces } from './browseMatch'
 import {
@@ -281,7 +282,7 @@ function HppPage() {
     </section>
 
     <section className="hpp-master-detail">
-      <aside className="panel hpp-lot-browser">
+      <BrowsePane className="panel hpp-lot-browser" aria-label="Daftar lot HPP">
         <header><div><span>PILIH SKU</span><strong>{visibleSkuGroups.length} SKU · {visibleLots.length} lot</strong></div><PackageSearch /></header>
         <div className="hpp-search"><Search /><input aria-label="Cari PO, lot, SKU, atau bahan" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Cari PO, lot, SKU, bahan..." /></div>
         <div className="hpp-filter-row">
@@ -302,7 +303,7 @@ function HppPage() {
           })}
           {visibleSkuGroups.length === 0 && <div className="hpp-no-lot"><FileSearch /><strong>SKU tidak ketemu</strong><small>Ubah pencarian atau filter.</small></div>}
         </div>
-      </aside>
+      </BrowsePane>
 
       {visibleSkuGroups.length > 0 && <div className="hpp-detail-stack">
         <section className="panel hpp-sku-summary">

@@ -1,3 +1,4 @@
+import { BrowsePane } from '../components/BrowsePane'
 import {browseMatchPieces} from '../browseMatch'
 import {allSkus} from './skuCatalog'
 import {usePlannerSession} from './planner/session'
@@ -264,7 +265,7 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
       </div>
 
       {activeTab==='send'?<div className="laundry-send-layout">
-        <div className="laundry-ready-pane">
+        <BrowsePane as="div" className="laundry-ready-pane" aria-label="Batch siap dikirim">
           <div className="laundry-section-head"><div><span>SIAP BERANGKAT</span><h2>Pilih batch selesai jahit</h2><p>Satu surat kirim hanya berisi satu Batch Produksi dan satu laundry.</p></div><b>{visibleReady.length} batch</b></div>
           <div className="laundry-parent-list" data-keyboard-grid>{groupedReady.map(([parentId,batches],groupIndex)=>{const first=batches[0];return <article className="laundry-parent-card" key={parentId}>
             <header><span>{String(groupIndex+1).padStart(2,'0')}</span><div><small>{first.plannedBrand ? `MEREK RENCANA · OPSIONAL · ${first.plannedBrand}` : 'MEREK BELUM DITENTUKAN'} · BATCH PRODUKSI</small><h3>{first.model}</h3><small className="record-code">{parentId}</small><p className="laundry-pattern-snapshot">POLA · {patternSnapshotLabel(first.pattern)}</p><p className="laundry-mandor-line"><Icon name="user"/><span><small>MANDOR</small><strong>{laundryMandorOf(first)}</strong></span><em>{first.material}</em></p></div><div><strong className="piece-total">{batches.reduce((sum,batch)=>sum+batch.qty,0)} pcs</strong><small>{first.vendor}</small></div></header>
@@ -275,7 +276,7 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
               {foreign&&!selected&&<small className="laundry-switch-note">Memilih ini akan pindah ke surat kirim Potongan tersebut.</small>}
             </div>})}</div>
           </article>})}{groupedReady.length===0&&<div className="laundry-empty"><Icon name="search"/><strong>Batch tidak ditemukan</strong><small>Coba ganti laundry, mandor, Pola, atau kata pencarian.</small></div>}</div>
-        </div>
+        </BrowsePane>
         <aside className="laundry-ticket" aria-labelledby="laundry-ticket-title">
           <header className="laundry-section-head laundry-ticket-heading">
             <i><FileText aria-hidden="true"/></i>

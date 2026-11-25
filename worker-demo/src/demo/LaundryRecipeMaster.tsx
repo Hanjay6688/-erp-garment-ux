@@ -1,3 +1,4 @@
+import { BrowsePane } from '../components/BrowsePane'
 import { useState, type FormEvent } from 'react'
 import { ArrowLeft, Droplets, Link2, Pencil, Plus, Search, WashingMachine } from 'lucide-react'
 import { browseMatch } from '../browseMatch'
@@ -87,7 +88,7 @@ export default function LaundryRecipeMaster() {
       <article><Link2 aria-hidden="true"/><span>DEFAULT SKU TERSIMPAN</span><strong>{new Set(vendorLinks.filter(link => link.typeId).map(link => link.sku)).size} SKU</strong></article>
     </section>
     <section className="panel md-workspace colour-workspace">
-      <aside aria-label="Pilih laundry">
+      <BrowsePane aria-label="Pilih laundry">
         <header><div><span>VENDOR LAUNDRY</span><strong>{laundryVendorNames.length} laundry</strong></div><WashingMachine aria-hidden="true"/></header>
         <div className="md-browser-list colour-vendors" aria-label="Laundry untuk proses warna">
           {laundryVendorNames.map(name => <button type="button" key={name} className={vendor === name ? 'active' : ''} aria-pressed={vendor === name}
@@ -95,7 +96,7 @@ export default function LaundryRecipeMaster() {
             <div><strong>{name}</strong><small>{master.types.filter(type => type.vendor === name).length} jenis pewarnaan</small></div>
           </button>)}
         </div>
-      </aside>
+      </BrowsePane>
       <div className="colour-catalogue">
         <header className="md-detail-head colour-catalogue-head"><div><span>KATALOG VENDOR</span><h2>{vendor}</h2><p>Pilih jenis ini langsung dari surat kirim.</p></div>
           <button type="button" className="primary-btn" onClick={() => openType()}><Plus aria-hidden="true"/>Tambah jenis</button></header>

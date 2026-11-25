@@ -1,3 +1,4 @@
+import { BrowsePane } from '../components/BrowsePane'
 import {browseMatchPieces} from '../browseMatch'
 import { distribution, pickupsIn, total } from './planner/distribution'
 import RecordTable from '../RecordTable'
@@ -387,7 +388,7 @@ function PickupWorkbench({batchNotes:oldNotes,setBatchNotes:setOldNotes,active,s
   return <>
     <section className="wip-flow-rail panel" aria-label="Alur pickup dan pembentukan batch">{['Pilih WIP Potongan','Catat mandor mengambil','Tentukan jumlah batch','Drag roll / batch per size'].map((label,index)=><div className={index===0?'active':''} key={label}><span>{String(index+1).padStart(2,'0')}</span><strong>{label}</strong>{index<3&&<Icon name="arrow"/>}</div>)}</section>
     <section className="wip-pickup-layout">
-      <aside className="panel wip-queue-panel">
+      <BrowsePane className="panel wip-queue-panel" aria-label="Antrean bagi potongan">
         <div className="wip-queue-head"><div><span>WIP POTONGAN</span><h2>{queueFilter==='WAITING'?'Menunggu diambil':queueFilter==='PICKED'?'Sudah diambil':'Semua potongan'}</h2></div><span className="selection-pill">{visibleQueueItems.length} tampil</span></div>
         <div className="wip-queue-tabs" role="group" aria-label="Filter status pickup">{(['WAITING','PICKED','ALL'] as const).map((filter)=><button type="button" className={queueFilter===filter?'active':''} aria-pressed={queueFilter===filter} key={filter} onClick={()=>setQueueFilter(filter)}>{filter==='WAITING'?'Menunggu':filter==='PICKED'?'Sudah diambil':'Semua'}</button>)}</div>
         <label className="wip-search"><Icon name="search"/><input type="search" aria-label="Cari WIP potongan" value={queueQuery} onChange={(event)=>setQueueQuery(event.target.value)} placeholder="Cari kode, Pola, bahan, model, mandor..."/></label>
@@ -402,7 +403,7 @@ function PickupWorkbench({batchNotes:oldNotes,setBatchNotes:setOldNotes,active,s
           </div>
           <footer><span>{item.status==='PICKED'?`${new Set(item.rolls.flatMap((roll)=>roll.batchNumbers)).size} batch distribusi`:'Belum masuk Sewing'}</span>{active&&item.status==='READY'&&item.id!==active.id&&<button type="button" onClick={()=>onSelect(liveLots.find(l=>l.id===item.id)!)}>Pilih untuk dibagi</button>}<button type="button" onClick={()=>setQueueDetailId(item.id)}>Lihat detail roll <Icon name="arrow"/></button></footer>
         </article>})}{visibleQueueItems.length===0?<div className="wip-queue-empty"><Icon name="search"/><strong>Potongan tidak ditemukan</strong><small>Ubah filter status atau kata pencarian.</small></div>:null}</div>
-      </aside>
+      </BrowsePane>
 
       <div className="panel wip-batch-workspace">
         {active&&!active.returnedBatch&&(!active.sku||!active.eta)&&<DestinationChoice lot={active}/>}<div className="wip-selected-head" id="pembagian-terpilih"><div><span>{active?.returnedBatch?'BAGI ULANG · KEMBALI DARI WIP':'WIP TERPILIH'}</span><h2>{active?.returnedBatch?'Bagi ulang potongan':'Pembagian potongan'}</h2><small className="record-code">{active?.returnedBatch?active.originId+' · Batch '+active.returnedBatch:selectedQueueItem.id+' · '+selectedQueueItem.model}</small><p><strong className="piece-total">{wipTotal} pcs</strong> dari {wipRolls.length} roll · {active?seriesLabel(lotSeries(active))+' · hasil ukuran '+active.size+' · '+day(active.eta):'selesai potong 27 Agu 2026'}</p><div className="wip-selected-pattern" data-pattern-snapshot={selectedQueueItem.pattern?.id??'legacy-null'}><Icon name="audit"/><span><small>POLA SNAPSHOT · TERKUNCI</small><strong>{patternSnapshotLabel(selectedQueueItem.pattern)}</strong></span></div></div><span className="wip-waiting-pill"><span/> Belum diambil</span></div>
