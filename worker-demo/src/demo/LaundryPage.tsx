@@ -42,7 +42,7 @@ const defaultReturnTime = (delivery: LaundryDelivery) => [trainingReturnTime, la
 import { LAUNDRY_ALL_MANDORS, laundryMandorOf, laundryMandorOptions, matchesLaundryMandor } from './laundryMandor'
 
 function matchesReadyBatch(query: string, batch: LaundryReadyBatch, parentTotal = batch.qty) {
-  return browseMatchPieces(query, [batch.qty, parentTotal], batch.parentId, batch.id, 'batch ' + Number(batch.id.split('-').at(-1)),
+  return browseMatchPieces(query, [batch.qty, parentTotal, ...batch.sizes.filter(qty => qty > 0)], batch.parentId, batch.id, 'batch ' + Number(batch.id.split('-').at(-1)),
     batch.skuRef, batch.model, batch.material, laundryMandorOf(batch), batch.vendor, batch.note, patternSnapshotLabel(batch.pattern), ...batch.sizeLabels)
 }
 
@@ -145,7 +145,8 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
   })
   const visibleDeliveries = scopedDeliveries.filter(delivery => (vendorFilter === 'Semua laundry' || delivery.vendor === vendorFilter)
     && (!patternFilter || delivery.pattern?.id === patternFilter))
-    .filter(d => browseMatchPieces(query, [d.qty, d.good + d.bs, laundryOutstanding(d)], d.id, d.parentId, d.batchId,
+    .filter(d => browseMatchPieces(query, [d.qty, d.good + d.bs, laundryOutstanding(d), d.good, d.bs, d.reversed,
+      ...d.sizes, ...laundryReturnedSizes(d), ...laundryOutstandingSizes(d)], d.id, d.parentId, d.batchId,
       d.skuRef, d.model, d.material, laundryMandorOf(d), d.vendor, d.targetColor, d.colourProcess, d.process, patternSnapshotLabel(d.pattern), ...d.sizeLabels))
     .sort((a,b)=>b.sequence-a.sequence)
   const outsideQty=scopedDeliveries.reduce((sum,delivery)=>sum+laundryOutstanding(delivery),0)

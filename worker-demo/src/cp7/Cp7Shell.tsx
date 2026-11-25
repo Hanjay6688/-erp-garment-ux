@@ -1,4 +1,5 @@
 import RecordTable from '../RecordTable'
+import {browseMatchPieces} from '../browseMatch'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import { ArrowLeft, ArrowUpRight, Bell, BookOpen, Boxes, Clipboard, FileText, Layers3, MessageCircle, Scissors, Search, ShieldCheck, X } from 'lucide-react'
@@ -80,7 +81,13 @@ function PreviewWorkspace({ entry }: { entry?: Page }) {
   const request = useRef(0)
   const port = useMemo(() => createAnalysisReadPort('DEMO_SIMULATION'), [])
   const view = useMemo(() => projectShell(state, access), [state, access])
-  const rows = view.rows.filter(row => targetLabel(row.target).toLocaleLowerCase().includes(query.toLocaleLowerCase()))
+  const rows = view.rows.filter(row => {
+    const quantities = [row.actual_fg, row.q_base, row.q_conditional, row.feasible_new].flatMap(fact => {
+      const qty = 'value' in fact && fact.unit === 'PCS' ? Number(fact.value) : NaN
+      return Number.isSafeInteger(qty) ? [qty] : []
+    })
+    return browseMatchPieces(query, quantities, targetLabel(row.target))
+  })
   const actions = view.actions.filter(action => action.target_keys.some(key => rows.some(row => row.target.key === key)))
   const heading = pages.find(item => item.id === page)!.label
   useEffect(() => () => { request.current += 1 }, [])
@@ -134,7 +141,7 @@ function PreviewWorkspace({ entry }: { entry?: Page }) {
       <div className="cp7-notice" data-state={state.kind} role="status" aria-live="polite">{loading ? 'Memuat contoh…' : state.message}</div>
       {view.denied ? <Empty title="Akses contoh ditolak" text="Tidak ada angka, laporan atau prompt yang ditampilkan untuk hak ini." /> : <>
         {view.analysis && <div className="cp7-context"><span>Fakta sampai <b>{dateLabel(view.analysis.snapshot.effective_as_of)}</b></span><span>Skenario <b>{view.analysis.scenario.kind === 'CONDITIONAL' ? 'Bersyarat' : 'Dasar'}</b></span><span>Basis <b>{view.analysis.snapshot.knowledge_mode}</b></span><details><summary>Waktu & sumber</summary><p>Diketahui sampai: {dateLabel(view.analysis.snapshot.known_as_of)}<br />Dibuat: {dateLabel(view.analysis.snapshot.generated_at)}<br />Run: {view.analysis.run_id}<br />Skenario: {view.analysis.scenario.id} / {view.analysis.scenario.version}</p></details></div>}
-        {(page === 'planner' || page === 'stock') && <label className="cp7-search"><Search size={19} /><input aria-label="Cari SKU atau ukuran" placeholder="Cari merek, SKU, atau ukuran…" value={query} onChange={event => setQuery(event.target.value)} /></label>}
+        {(page === 'planner' || page === 'stock') && <label className="cp7-search"><Search size={19} /><input aria-label="Cari SKU atau ukuran" placeholder="Cari merek, SKU, ukuran, atau jumlah pcs…" value={query} onChange={event => setQuery(event.target.value)} /></label>}
         {!view.analysis && !['whatsapp', 'methods'].includes(page) ? <Empty title={loading ? 'Menyiapkan contoh' : state.kind === 'EMPTY' ? 'Ruang kerja siap menerima data' : 'Hasil belum dapat ditampilkan'} text="Stok, WIP, biaya, dan rekomendasi belum dibaca. Kosong di sini tidak berarti nol atau semua aman."><button className="cp7-button cp7-primary" disabled={loading} onClick={() => void loadExample('FRAMEWORK')}>Lihat contoh framework <ArrowUpRight size={17} /></button></Empty> : <>
           {page === 'planner' && <><div className="cp7-section-heading"><h2>Tindakan yang perlu ditinjau</h2><span>{actions.length} tindakan terlihat · {rows.length} target ukuran</span></div><ActionList view={view} actions={actions} onDetail={setDetail} /></>}
           {page === 'stock' && <><div className="cp7-section-heading"><h2>Per ukuran fisik</h2><span>FG, WIP dan kebutuhan ditampilkan terpisah</span></div>{rows.length ? rows.map(row => <TargetCard key={row.target.key} row={row} onDetail={setDetail} />) : <Empty title="Tidak ada hasil filter" text="Filter tidak mengubah analisis atau stok." />}</>}
