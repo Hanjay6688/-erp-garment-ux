@@ -2,12 +2,14 @@ import {payrollNotes,type PayrollNote} from '../financeData'
 import {readNotes,lineTotal} from './issueDocuments'
 import {normalizeMandor} from './accessoryPricing'
 import {isPieceUnit} from '../browseMatch'
+import type {DemoInvoice} from './saleBook'
 
 export type FgSource=PayrollNote['fgNotes'][number]
 type AccSource=PayrollNote['accessoryNotes'][number]
 export type Source={kind:'FG';mandor:string;day:string;doc:FgSource}|{kind:'ACCESSORY';mandor:string;day:string;doc:AccSource}
 type SavedFg={mandor:string;day:string;doc:FgSource;cards:string[]}
-export type PayDraft=PayrollNote&{start?:string;end?:string}
+type MandorDebt = { invoice: string; amount: number }
+export type PayDraft=PayrollNote&{start?:string;end?:string;mandorDebts?:MandorDebt[]}
 export function fgSourcePieces(doc: FgSource) {
   const returned = doc.good + doc.bs
   return [doc.good, doc.bs, doc.stuck, returned, returned + doc.stuck]
@@ -69,10 +71,61 @@ export function payrollPeriod(n: PayDraft) {
 }
 const cutoff=(n:PayDraft)=>payrollPeriod(n).end
 export const editablePayroll=(n:PayDraft)=>['DRAFT','CALCULATED','REVIEW'].includes(n.status)
+export const payrollDebtTotal = (note: PayDraft) => (note.mandorDebts ?? []).reduce((sum, debt) => sum + debt.amount, 0)
+
+export function mandorDebtBalance(invoice: DemoInvoice, notes: PayDraft[]) {
+  let settled = 0
+  let reserved = 0
+  for (const note of notes) {
+    if (note.status === 'REVERSED') continue
+    const amount = note.mandorDebts?.find(debt => debt.invoice === invoice.number)?.amount ?? 0
+    if (note.status === 'PAID') settled += amount
+    else reserved += amount
+  }
+  const outstanding = Math.max(0, invoice.gross - invoice.returns - invoice.paid - settled)
+  return { settled, reserved, outstanding, available: Math.max(0, outstanding - reserved) }
+}
+
+const canUseMandorInvoice = (invoice: DemoInvoice, note: PayDraft) =>
+  invoice.buyerKind === 'MANDOR' && invoice.status === 'POSTED' && matchMandor(invoice.customer, note.contractor) && invoice.dateKey <= cutoff(note)
+
+export function mandorBillsForPayroll(invoices: DemoInvoice[], notes: PayDraft[], note: PayDraft) {
+  return invoices.filter(invoice => canUseMandorInvoice(invoice, note)).map(invoice => {
+    const balance = mandorDebtBalance(invoice, notes)
+    const allocated = note.mandorDebts?.find(debt => debt.invoice === invoice.number)?.amount ?? 0
+    const editableAmount = editablePayroll(note) ? allocated : 0
+    const maximum = Math.max(0, Math.min(balance.available, Math.floor(note.netPayable)) + editableAmount)
+    return { invoice, ...balance, allocated, maximum }
+  }).filter(bill => bill.outstanding > 0 || bill.allocated > 0)
+    .sort((left, right) => right.invoice.dateKey.localeCompare(left.invoice.dateKey) || left.invoice.number.localeCompare(right.invoice.number))
+}
+
+export function validMandorDebts(invoices: DemoInvoice[], notes: PayDraft[], note: PayDraft) {
+  if (!note.mandorDebts?.length) return true
+  return note.netPayable >= 0 && note.mandorDebts.every(debt => {
+    const invoice = invoices.find(row => row.number === debt.invoice)
+    if (!invoice || !Number.isSafeInteger(debt.amount) || debt.amount <= 0 || !canUseMandorInvoice(invoice, note)) return false
+    const balance = mandorDebtBalance(invoice, notes)
+    return balance.reserved <= balance.outstanding
+  })
+}
+
+export function chooseMandorDebt(invoices: DemoInvoice[], notes: PayDraft[], payrollNumber: string, invoiceNumber: string, amount: number) {
+  const note = notes.find(row => row.number === payrollNumber)
+  if (!note || !editablePayroll(note)) throw Error('Payroll sudah dikunci.')
+  if (!Number.isSafeInteger(amount) || amount < 0) throw Error('Isi nominal potongan yang sah.')
+  if (amount > 0) {
+    const bill = mandorBillsForPayroll(invoices, notes, note).find(row => row.invoice.number === invoiceNumber)
+    if (!bill || amount > bill.maximum) throw Error('Potongan melebihi saldo bebas tagihan atau upah bersih.')
+  }
+  const mandorDebts = (note.mandorDebts ?? []).filter(debt => debt.invoice !== invoiceNumber)
+  if (amount > 0) mandorDebts.push({ invoice: invoiceNumber, amount })
+  return notes.map(row => row === note ? totalPay({ ...row, mandorDebts, status: 'DRAFT' }) : row)
+}
 export const availableSources=(notes:PayDraft[],n:PayDraft)=>allPayrollSources().filter(s=>matchMandor(s.mandor,n.contractor)&&s.day<=cutoff(n)&&!notes.some(pay=>pay.status!=='REVERSED'&&[...pay.fgNotes,...pay.accessoryNotes].some(doc=>doc.number===s.doc.number)))
 function totalPay(n:PayDraft):PayDraft{
   const sum=(xs:number[])=>Math.round(xs.reduce((a,b)=>a+b,0)*100)/100
-  const labor=sum(n.fgNotes.map(d=>d.labor)),reimbursement=sum(n.fgNotes.map(d=>d.reimbursement)),deduction=sum([...n.accessoryNotes.map(d=>d.total),...n.deductions.map(d=>d.amount)])
+  const labor=sum(n.fgNotes.map(d=>d.labor)),reimbursement=sum(n.fgNotes.map(d=>d.reimbursement)),deduction=sum([...n.accessoryNotes.map(d=>d.total),...n.deductions.map(d=>d.amount),payrollDebtTotal(n)])
   return {...n,labor,reimbursement,deduction,workQty:n.fgNotes.reduce((qty,doc)=>qty+doc.good+doc.bs+doc.stuck,0),netPayable:sum([labor,reimbursement,n.attendance,-deduction])}
 }
 export function readPayDrafts():PayDraft[]{
@@ -89,7 +142,9 @@ export function choosePayrollSource(notes:PayDraft[],payId:string,number:string,
   if(add){const s=availableSources(notes,n).find(s=>s.doc.number===number);if(!s)throw Error('Nota sudah terpakai atau belum layak dibayar untuk mandor dan periode ini.')
     if(s.kind==='FG')fgNotes=[...fgNotes,s.doc];else accessoryNotes=[...accessoryNotes,s.doc]
   }else{fgNotes=fgNotes.filter(d=>d.number!==number);accessoryNotes=accessoryNotes.filter(d=>d.number!==number)}
-  return notes.map(doc=>doc.number===payId?totalPay({...n,fgNotes,accessoryNotes,status:'DRAFT'}):doc)
+  const next = totalPay({ ...n, fgNotes, accessoryNotes, status: 'DRAFT' })
+  if (payrollDebtTotal(n) > 0 && next.netPayable < 0) throw Error('Lepas potongan piutang sebelum mengurangi sumber payroll ini.')
+  return notes.map(doc=>doc.number===payId?next:doc)
 }
 export function payForSource(number:string,preferredId:string|null,include:boolean){
   const source=allPayrollSources().find(s=>s.doc.number===number)

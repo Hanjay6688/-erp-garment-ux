@@ -8,7 +8,7 @@ const masterKey = 'erp.demo.laundry-colour-master.v2'
 const legacyKey = 'erp.demo.laundry-recipes.v1'
 
 export type LaundryInstructions = { colourProcess: string; colour: string; service: string }
-export type LaundryColourType = { id: string; vendor: string; name: string; note: string }
+export type LaundryColourType = { id: string; vendor: string; name: string; note: string; benchmark?: number }
 export type LaundryColourLink = { vendor: string; sku: string; from: string; typeId: string; colour: string; service: string; removed?: boolean }
 export type LaundryColourMaster = { types: LaundryColourType[]; links: LaundryColourLink[] }
 export const emptyInstructions: LaundryInstructions = { colourProcess: '', colour: '', service: '' }
@@ -58,6 +58,7 @@ export function saveLaundryColourType(draft: LaundryColourType) {
   const master = readLaundryColourMaster()
   const name = draft.name.trim().replace(/\s+/g, ' ')
   if (!laundryVendorNames.includes(draft.vendor) || !name || name.length > 100) throw Error('Isi nama jenis pewarnaan untuk laundry ini.')
+  if (draft.benchmark !== undefined && (!Number.isSafeInteger(draft.benchmark) || draft.benchmark < 0)) throw Error('Isi harga acuan dalam rupiah per pcs.')
   const existing = master.types.find(type => type.id === draft.id)
   if (draft.id && (!existing || existing.vendor !== draft.vendor)) throw Error('Jenis pewarnaan sudah berubah. Pilih lagi dari katalog.')
   if (master.types.some(type => type.vendor === draft.vendor && type.id !== draft.id && nameKey(type.name) === nameKey(name))) {

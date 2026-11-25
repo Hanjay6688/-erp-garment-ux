@@ -75,7 +75,11 @@ export function planPocketUsage(
   })
 }
 
-export function planPocketAllocation(book: PocketBook, start: string, end: string): PocketAllocation {
+export function pocketIssueCost(issue: PocketIssue, roll: PocketRoll | undefined) {
+  return roll?.finalBill ? Math.round(issue.qty / pocketScale * roll.rate * 100) : issue.cents
+}
+
+export function planPocketAllocation(book: PocketBook, start: string, end: string, rolls: PocketRoll[] = []): PocketAllocation {
   if (!dayOk(start) || !dayOk(end) || start > end || (Date.parse(end) - Date.parse(start)) / 86400000 > 366) {
     throw Error('Pilih periode sampai hari ini, maksimal 367 hari.')
   }
@@ -83,7 +87,8 @@ export function planPocketAllocation(book: PocketBook, start: string, end: strin
   const docs = book.issues.filter(i => !i.reversal && start <= i.date && i.date <= end)
   const jobs = sewn.filter(j => start <= j.day && j.day <= end)
   const pcs = jobs.reduce((sum, j) => sum + j.wip + j.fg + j.sold, 0)
-  const cents = docs.reduce((sum, i) => sum + i.cents, 0)
+  const byId = new Map(rolls.map(roll => [roll.id, roll]))
+  const cents = docs.reduce((sum, issue) => sum + pocketIssueCost(issue, byId.get(issue.roll)), 0)
   if (!cents) throw Error('Belum ada biaya kain keluar pada periode ini.')
   if (!pcs) throw Error('Belum ada hasil selesai dijahit pada periode ini.')
   let done = 0

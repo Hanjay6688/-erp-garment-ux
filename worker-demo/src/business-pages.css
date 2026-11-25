@@ -114,3 +114,71 @@
   .invoice-pagination button { padding-inline: 6px; }
   .invoice-goods-table :is(th, td) { padding: 7px 5px; font-size: .85rem; }
 }
+.mandor-debt-panel {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid var(--line-strong);
+  border-radius: 13px;
+  background: var(--panel-2);
+}
+.finance-detail main > .mandor-debt-panel { margin: 12px; }
+.mandor-debt-panel > header { display: flex; align-items: flex-start; gap: 12px; }
+.mandor-debt-panel > header > svg { flex: none; width: 22px; height: 22px; color: var(--blue); }
+.mandor-debt-panel > header > strong { margin-left: auto; font-size: 16px; white-space: nowrap; }
+.mandor-debt-panel h3 { margin: 0; font-size: 15px; font-weight: 800; }
+.mandor-debt-panel p, .mandor-debt-dialog p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+.mandor-debt-panel > :is(a,button), .mandor-debt-empty > a { justify-self: start; }
+.mandor-debt-balances { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; }
+.mandor-debt-balances > div {
+  flex: 1 1 140px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--panel);
+}
+.mandor-debt-balances dt { color: var(--muted); font-size: 13px; }
+.mandor-debt-balances dd { margin: 4px 0 0; font-size: 16px; font-weight: 800; }
+.mandor-payroll-sources { display: grid; gap: 6px; padding: 0; margin: 0; list-style: none; }
+.mandor-payroll-sources > li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 9px 12px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--panel);
+  overflow-wrap: anywhere;
+}
+.mandor-payroll-sources a { color: var(--blue); font-weight: 700; }
+.mandor-payroll-sources a svg { width: 15px; height: 15px; vertical-align: middle; }
+.mandor-debt-dialog > form, .mandor-debt-empty { display: grid; gap: 14px; margin-top: 16px; }
+.mandor-debt-dialog form > label { display: grid; gap: 6px; min-width: 0; font-size: 13px; font-weight: 700; }
+.mandor-debt-dialog :is(input, select) {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 8px 11px;
+  border: 1px solid var(--line-strong);
+  border-radius: 9px;
+  color: var(--text);
+  background: var(--panel-2);
+}
+.mandor-debt-dialog :is(input, select):focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.mandor-debt-dialog [role='alert'] { color: var(--red); }
+.mandor-debt-dialog form > footer { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+.biz-meta.invoice-buyer-fields { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.sales-timetable-buyer-grid :is(.biz-sales-time-head, .biz-sales-time-row) {
+  min-width: calc(240px + 125px * var(--time-buyers));
+  grid-template-columns: 120px repeat(var(--time-buyers), minmax(125px, 1fr)) 120px;
+}
+@media (max-width: 1000px) { .biz-meta.invoice-buyer-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) {
+  .biz-meta.invoice-buyer-fields { grid-template-columns: 1fr; }
+  .mandor-debt-panel > header { flex-wrap: wrap; }
+  .mandor-debt-panel > header > strong { margin-left: 34px; }
+  .mandor-debt-dialog form > footer > button { width: 100%; }
+}

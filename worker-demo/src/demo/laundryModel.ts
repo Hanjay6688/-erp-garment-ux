@@ -28,11 +28,12 @@ export type LaundryReadyBatch = {
 }
 
 type LaundryReturn = { at: string; good: QtyTuple; bs: QtyTuple }
+export type LaundryFinalBill = { number: string; day: string; process: string; rate: number; qty: number }
 export type LaundryDelivery = {
   id:string; parentId:string; sequence:number; batchId:string; plannedBrand?:string; skuRef?:string; model:string; material:string; mandor:string;
   pattern:ProductionPatternSnapshot|null; vendor:string; process:string; targetColor?:string|null; colourProcess?:string|null; sendNote?:string|null; sentAt:string; qty:number; sizes:QtyTuple; sizeLabels:SizeTuple;
   good:number; bs:number; goodSizes:QtyTuple; bsSizes:QtyTuple; reversed:number; reversedSizes:QtyTuple; reverseNote?:string
-  estimatedRate?: number | null; returns?: LaundryReturn[]; instructionSource?: string | null
+  estimatedRate?: number | null; returns?: LaundryReturn[]; instructionSource?: string | null; finalBills?: LaundryFinalBill[]
 }
 
 export function laundryPhysicalTime(value:string){
