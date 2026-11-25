@@ -1,3 +1,5 @@
+import {archiveDocumentFor, archiveIdentity, archiveSource, fabricRolls} from './demo/fabricArchive'
+import type {Session} from './demo/planner/model'
 import { BrowsePane } from './components/BrowsePane'
 import {browseMatch, browseMatchPieces, isPieceUnit} from './browseMatch'
 import {fgProducts,fgTotals,piecesIn,positionKey} from './demo/fgOverview'
@@ -11,14 +13,14 @@ import {readNotes as readAccessoryNotes} from './demo/issueDocuments'
 import {issueReturnPath} from './demo/issueReturns'
 import RollCorrectionPanel from './demo/RollCorrectionPanel'
 import MaterialRollHistory from './demo/MaterialRollHistory'
-import {fabricKey, operationalFabricRolls, rollBalance, rollLength, stockLengths, type WarehouseRoll} from './demo/materialRollHistory'
+import {fabricKey, formatRollTotal, identityMovements, operationalFabricRolls, rollBalance, rollLength, rollTotalsByUnit, stockLengths, type WarehouseRoll} from './demo/materialRollHistory'
 import {receiptDocumentPath} from './demo/receiptRollCorrection'
 import {salvageDocumentPath,serviceDocumentPath} from './demo/accessoryOperations'
-import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react'
+import { Fragment, lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import {
-  AlertTriangle, ArrowRight, Boxes, Check, ChevronDown, ClipboardCheck,
+  AlertTriangle, ArrowLeftRight, ArrowRight, Boxes, Check, ChevronDown, ClipboardCheck,
   Filter, History, Layers3, MapPin, Package, PackageCheck,
-  RotateCcw, Ruler, Search, ShieldCheck, SlidersHorizontal,
+  RotateCcw, Ruler, Scissors, Search, ShieldCheck, SlidersHorizontal,
   Sparkles, Tag, Truck, Warehouse, X,
 } from 'lucide-react'
 import { StockHealthExplainability, getStockHealthLabel, type StockLineageLink } from './stock/StockHealthExplainability'
@@ -45,20 +47,6 @@ type MaterialSummary = {
   avgCost: number
   location: string
   lastMovement: string
-}
-type FabricRoll = {
-  id: string
-  material: string
-  supplier: string
-  receivedAt: string
-  original: number
-  remaining: number
-  supplierReturned: number
-  location: string
-  status: 'Available' | 'In Use' | 'Empty'
-  costState: 'ACTUAL' | 'ESTIMATED'
-  activeCost: number
-  source: string
 }
 type Accessory = {
   id: string
@@ -98,17 +86,6 @@ const materials: MaterialSummary[] = [
   { id:'MAT-1069', material:'1069 Ori', supplier:'Sinaran', totalReceivedYards:3374.5, usedYards:345, supplierReturnedYards:0, stockOnHandYards:3029.5, totalRolls:27, availableRolls:11, avgCost:50750, location:'Rak Kain B', lastMovement:'Material issue POT-260828-041 · 09:42' },
   { id:'MAT-ZDK', material:'Zodiak KW', supplier:'Sumber Cahaya', totalReceivedYards:2112, usedYards:228, supplierReturnedYards:0, stockOnHandYards:1884, totalRolls:18, availableRolls:14, avgCost:47600, location:'Rak Kain C', lastMovement:'Penerimaan SJ-260827-018 · kemarin' },
   { id:'MAT-CRB', material:'Corduroy 8W', supplier:'Mitra Tekstil', totalReceivedYards:794.5, usedYards:126, supplierReturnedYards:18, stockOnHandYards:650.5, totalRolls:7, availableRolls:4, avgCost:68400, location:'Rak Kain D', lastMovement:'Retur supplier RTS-260827-004 · kemarin' },
-]
-
-const fabricRolls: FabricRoll[] = [
-  { id:'LCY-031', material:'Lucy', supplier:'Sinaran', receivedAt:'2026-08-27', original:131.5, remaining:113, supplierReturned:18.5, location:'A-02-03', status:'Available', costState:'ACTUAL', activeCost:49200, source:'SJ-260827-018' },
-  { id:'LCY-030', material:'Lucy', supplier:'Sinaran', receivedAt:'2026-08-27', original:124, remaining:96.5, supplierReturned:0, location:'A-02-02', status:'Available', costState:'ACTUAL', activeCost:49200, source:'SJ-260827-018' },
-  { id:'LCY-029', material:'Lucy', supplier:'Sinaran', receivedAt:'2026-08-27', original:91, remaining:18.5, supplierReturned:0, location:'Area Retur', status:'Available', costState:'ACTUAL', activeCost:49200, source:'RT-MD-260828-004' },
-  { id:'LCY-028', material:'Lucy', supplier:'Sinaran', receivedAt:'2026-08-25', original:140, remaining:140, supplierReturned:0, location:'Staging Potong', status:'Available', costState:'ESTIMATED', activeCost:48500, source:'SJ-260825-012' },
-  { id:'1069-027', material:'1069 Ori', supplier:'Sinaran', receivedAt:'2026-08-24', original:118, remaining:118, supplierReturned:0, location:'B-01-01', status:'Available', costState:'ACTUAL', activeCost:50750, source:'SJ-260824-009' },
-  { id:'1069-026', material:'1069 Ori', supplier:'Sinaran', receivedAt:'2026-08-24', original:107.5, remaining:33, supplierReturned:0, location:'B-01-02', status:'Available', costState:'ACTUAL', activeCost:50750, source:'SJ-260824-009' },
-  { id:'ZDK-018', material:'Zodiak KW', supplier:'Sumber Cahaya', receivedAt:'2026-08-27', original:103, remaining:103, supplierReturned:0, location:'C-02-01', status:'Available', costState:'ESTIMATED', activeCost:47600, source:'SJ-260827-021' },
-  { id:'CRB-007', material:'Corduroy 8W', supplier:'Mitra Tekstil', receivedAt:'2026-08-22', original:108, remaining:28.5, supplierReturned:18, location:'D-01-02', status:'Available', costState:'ACTUAL', activeCost:68400, source:'SJ-260822-006' },
 ]
 
 const accessories: Accessory[] = [
@@ -267,21 +244,65 @@ function WarehouseDashboard({ onNavigate }: { onNavigate: (view: WarehouseView) 
   </>
 }
 
-const archiveWarehouseRolls: WarehouseRoll[] = fabricRolls.map(roll => {
+const archiveWarehouseRolls = (session:Session):WarehouseRoll[] => fabricRolls.map(roll => {
+  const source=archiveSource(roll.id)
+  const {material,physicalCode}=archiveIdentity(session,roll.id)
   const returned = supplierReturnRecords.filter(doc => doc.rollId === roll.id)
   const used = roll.original - roll.supplierReturned - roll.remaining
-  const events: WarehouseRoll['events'] = [{ id: 'archive', at: roll.receivedAt, ref: roll.source, delta: roll.original,
-    title: roll.source.startsWith('SJ-') ? 'Penerimaan arsip' : 'Panjang awal roll' }]
-  if (used > 0) events.push({ id: 'used', title: 'Pemakaian arsip', ref: 'Rekap pemakaian roll', at: '', delta: -used })
-  for (const doc of returned) events.push({ id: doc.id, title: 'Retur ke supplier', at: doc.physicalAt!, ref: doc.id, delta: -doc.qty,
-    source: { label: 'Buka retur', href: '/gudang/bahan-roll/?' + new URLSearchParams({ bahan: roll.material, retur: doc.id }) } })
-  return { id: roll.id, label: roll.id, material: roll.material, materialKey: fabricKey(roll.material), supplier: roll.supplier,
+  const events: WarehouseRoll['events'] = [{ id: 'archive', flow: 'received', at: roll.receivedAt, ref: roll.source, delta: roll.original,
+    source, title: roll.source.startsWith('SJ-') ? 'Penerimaan arsip' : 'Retur masuk dari mandor' },
+    ...identityMovements(session,archiveDocumentFor(roll.id)!.key,roll.id,source,roll.source)]
+  if (used > 0) events.push({ id: 'used', flow: 'used', title: 'Pemakaian arsip', ref: 'Rekap pemakaian roll', at: '', delta: -used })
+  for (const doc of returned) events.push({ id: doc.id, flow: 'returned', title: 'Retur ke supplier', at: doc.physicalAt!, ref: doc.id, delta: -doc.qty,
+    source: { label: 'Buka retur', href: '/gudang/bahan-roll/?' + new URLSearchParams({ bahan: material, retur: doc.id }) } })
+  return { id: roll.id, label: physicalCode??roll.id, material, materialKey: fabricKey(material), supplier: roll.supplier,
     location: roll.location, unit: 'yd', rate: roll.activeCost, events }
 })
 
+const rollMeasures = [
+  { key: 'received', label: 'Panjang masuk', icon: Layers3, tone: 'neutral' },
+  { key: 'used', label: 'Terpakai', icon: Scissors, tone: 'warn' },
+  { key: 'returned', label: 'Retur supplier', icon: RotateCcw, tone: 'neutral' },
+  { key: 'balance', label: 'Sisa di gudang', icon: Warehouse, tone: 'good' },
+] as const
+
+function FabricRollFigures({totals, card = false}: { totals: ReturnType<typeof rollTotalsByUnit>; card?: boolean }) {
+  const symbols = ['−', '−', '=']
+  return <div className={card ? 'wh-roll-numbers lifetime fabric-figures' : 'wh-balance-equation lifetime fabric-figures'}>
+    {rollMeasures.map(({key,label},index)=><Fragment key={key}>
+      {!card && index>0 && <i aria-hidden="true">{symbols[index-1]}</i>}
+      <span className={key==='balance'?'available':key}><small>{label}</small><strong>{formatRollTotal(totals,key)}</strong></span>
+    </Fragment>)}
+  </div>
+}
+
+const rollDate = new Intl.DateTimeFormat('id-ID', {day:'numeric',month:'short',year:'numeric',timeZone:'Asia/Jakarta'})
+
+function FabricRollCard({roll,onHistory,onReturn}: {roll:WarehouseRoll;onHistory:()=>void;onReturn:(target:SupplierReturnTarget)=>void}) {
+  const totals = rollTotalsByUnit([roll])
+  const {received,used,balance} = totals.get(roll.unit)!
+  const first = roll.events[0]
+  const archive = fabricRolls.find(item=>item.id===roll.id)
+  const costState = archive?.costState ?? (first.id==='receipt'?'ESTIMATED':null)
+  const physical = balance<=0?'Habis':used>0?'Terpakai sebagian':'Tersedia'
+  return <article className="fabric-roll-row">
+    <header><div className="wh-roll-id"><i><Ruler aria-hidden="true"/></i><div><strong>{roll.label}</strong>
+      <small>{first.source?<a className="fabric-card-source" href={first.source.href}>{first.ref} <ArrowRight size={12} aria-hidden="true"/></a>:first.ref}{first.at && <> · <time dateTime={first.at}>{rollDate.format(new Date(first.at))}</time></>}</small></div></div>
+      <div className="fabric-roll-badges"><StatusBadge tone={balance>0?'good':'neutral'}>{physical}</StatusBadge>
+        {costState && <StatusBadge tone={costState==='ACTUAL'?'neutral':'warn'}>{costState==='ACTUAL'?'Harga aktual':'Harga acuan'}</StatusBadge>}</div></header>
+    <FabricRollFigures totals={totals} card/>
+    {received>0 && <div className="wh-roll-progress" aria-hidden="true"><span style={{width:Math.min(100,Math.max(0,balance/received*100))+'%'}}/></div>}
+    <footer><div className="fabric-roll-facts"><span><MapPin size={14} aria-hidden="true"/>{roll.location}</span>
+      {roll.rate!==undefined && <span><Tag size={14} aria-hidden="true"/>{money(roll.rate)} / {roll.unit}</span>}</div>
+      <div className="fabric-roll-tools"><button className="soft-btn" type="button" aria-label={'Riwayat roll '+roll.label} onClick={onHistory}><History size={15}/> Riwayat roll</button>
+        {archive && <button className="soft-btn" type="button" disabled={balance<=0} onClick={()=>onReturn({kind:'fabric',id:roll.id,label:roll.material+' · '+roll.label,supplier:roll.supplier,unit:roll.unit,maxQty:balance,location:roll.location})}><RotateCcw size={15}/> Retur supplier</button>}</div>
+    </footer>
+  </article>
+}
+
 function MaterialsRollsPage() {
   const session = usePlannerSession()
-  return <FabricWarehouseBrowser rolls={[...archiveWarehouseRolls, ...operationalFabricRolls(session)]}/>
+  return <FabricWarehouseBrowser rolls={[...archiveWarehouseRolls(session), ...operationalFabricRolls(session)]}/>
 }
 
 function FabricWarehouseBrowser({ rolls }: { rolls: WarehouseRoll[] }) {
@@ -291,7 +312,8 @@ function FabricWarehouseBrowser({ rolls }: { rolls: WarehouseRoll[] }) {
   const [supplier,setSupplier] = useState('Semua')
   const [status,setStatus] = useState('Semua')
   const [selectedId,setSelectedId] = useState(() => fabricKey(requestedMaterial ?? 'Lucy'))
-  const [view,setView] = useState<'history'|'stock'>('history')
+  const [view,setView] = useState<'history'|'stock'>(() => location.hash === '#riwayat-bahan' ? 'history' : 'stock')
+  const [switchOpen,setSwitchOpen] = useState(() => options.get('koreksi') === 'ganti-roll')
   const [initialRoll, setInitialRoll] = useState('')
   const [returnRecord,setReturnRecord] = useState(options.get('retur') ?? '')
   const [returnModalOpen,setReturnModalOpen] = useState(() => supplierReturnRecords.some(row => row.kind === 'fabric' && row.id === options.get('retur')))
@@ -320,14 +342,25 @@ function FabricWarehouseBrowser({ rolls }: { rolls: WarehouseRoll[] }) {
   })
   const selected = visible.find(group => group.key === selectedId) ?? visible[0]
   const scoped = selected?.rolls ?? []
-  const activeRolls = scoped.filter(roll => !roll.voided)
+  const activeRolls = scoped.filter(roll => !roll.voided).sort((a,b) => b.events[0].at.localeCompare(a.events[0].at))
+  const overallTotals = useMemo(() => rollTotalsByUnit(rolls), [rolls])
+  const materialTotals = rollTotalsByUnit(scoped)
+  const overallNotes = ['Penerimaan dan saldo awal', 'Pemakaian bersih di produksi', 'Dikembalikan ke pabrik', rolls.filter(roll=>rollBalance(roll)>0).length+' roll bersaldo']
+  const suppliers = [...new Set(scoped.map(roll=>roll.supplier))].join(' · ')
   const archive = materials.find(row => fabricKey(row.material) === selected?.key)
-  function chooseMaterial(group: typeof groups[number]) {
-    setSelectedId(group.key); setInitialRoll(''); setView('history')
+  function chooseMaterial(group: typeof groups[number], next: typeof view, rollId='') {
+    setSelectedId(group.key); setInitialRoll(rollId); setView(next)
     const url = new URL(location.href)
-    url.searchParams.set('bahan',group.name); url.searchParams.delete('retur'); url.searchParams.delete('koreksi'); url.searchParams.delete('switch'); url.hash = ''
+    url.searchParams.set('bahan',group.name)
+    for (const key of ['retur','koreksi','switch']) url.searchParams.delete(key)
+    url.hash = next==='history'?'riwayat-bahan':''
     window.history.replaceState(window.history.state,'',url)
-    if (window.matchMedia('(max-width: 980px)').matches) detail.current?.scrollIntoView({block:'start'})
+    if (next==='history' || window.matchMedia('(max-width: 980px)').matches) {
+      requestAnimationFrame(() => {
+        const target = next==='history' ? document.getElementById('riwayat-bahan') : detail.current
+        target?.scrollIntoView({block:'start'})
+      })
+    }
   }
   useEffect(() => {
     if (location.hash === '#riwayat-bahan') document.getElementById('riwayat-bahan')?.scrollIntoView({block:'start'})
@@ -336,12 +369,16 @@ function FabricWarehouseBrowser({ rolls }: { rolls: WarehouseRoll[] }) {
     setReturnRecord(''); setReturnTarget(target); setReturnModalOpen(true)
   }
   return <>
-    <section className="hero-copy compact wh-hero"><div><div className="eyebrow">GUDANG · KAIN</div><h1>Bahan &amp; Roll</h1>
-      <p>Pilih nama bahan untuk melihat roll yang masuk, dipakai di Potongan, atau dikembalikan.</p></div>
-      <div className="fabric-detail-actions"><a className="soft-btn" href="/gudang/pembelian-penerimaan/"><Truck size={17}/> Terima kain</a>
-        <button className="soft-btn" onClick={() => openReturns(null)}><RotateCcw size={16}/> Riwayat retur supplier</button></div>
+    <section className="hero-copy compact wh-hero fabric-hero"><div><div className="eyebrow">GUDANG · BAHAN BAKU</div><h1>Bahan &amp; Roll</h1>
+      <p>Pilih bahan untuk melihat sisa tiap gulung dan riwayat pemakaiannya.</p></div>
+      <div className="fabric-detail-actions"><a className="primary-btn" href="/gudang/pembelian-penerimaan/"><Truck size={17}/> Terima kain</a>
+        <button className="soft-btn" type="button" onClick={()=>setSwitchOpen(true)}><ArrowLeftRight size={17}/> Ganti roll</button>
+        <button className="soft-btn" type="button" onClick={()=>openReturns(null)}><History size={17}/> Riwayat retur supplier</button></div>
     </section>
-    <div className="panel wh-workspace material-rolls-workspace">
+    <section className="wh-metrics fabric-metrics" aria-label="Ringkasan seluruh roll tercatat">
+      {rollMeasures.map(({key,label,icon,tone},index)=><MetricCard key={key} label={label} value={formatRollTotal(overallTotals,key)} note={overallNotes[index]} icon={icon} tone={tone}/>)}
+    </section>
+    <div className="panel wh-workspace material-rolls-workspace fabric-catalog">
       <div className="wh-toolbar"><SearchBox value={query} onChange={setQuery} placeholder="Cari bahan, roll, pabrik, atau dokumen…"/>
         <SelectFilter label="Pabrik" value={supplier} options={[...new Set(rolls.map(roll=>roll.supplier))]} onChange={setSupplier}/>
         <SelectFilter label="Saldo" value={status} options={['Masih bersaldo','Saldo habis']} onChange={setStatus}/>
@@ -349,29 +386,23 @@ function FabricWarehouseBrowser({ rolls }: { rolls: WarehouseRoll[] }) {
       <div className="wh-master-detail rolls">
         <BrowsePane embedded className="wh-browser" aria-label="Daftar bahan"><header><div><span>BROWSE BAHAN</span><strong>{visible.length} nama bahan</strong></div><Layers3 size={18}/></header>
           <div className="wh-browser-list">{visible.map(group => <article key={group.key} className={'wh-stock-browser-row '+(group===selected?'active':'')}>
-            <button type="button" className="wh-stock-select" aria-pressed={group===selected} onClick={()=>chooseMaterial(group)}>
-              <span className="wh-index"><Ruler size={16}/></span><div><strong>{group.name}</strong><small>{[...new Set(group.rolls.map(r=>r.supplier))].join(' · ')}</small>
-                <em>{group.rolls.filter(roll=>rollBalance(roll)>0).length} roll bersaldo</em></div><b>{stockLengths(group.rolls)}</b></button>
+            <button type="button" className="wh-stock-select" aria-pressed={group===selected} onClick={()=>chooseMaterial(group,view)}>
+              <span className="wh-index"><Layers3 size={16}/></span><div><strong>{group.name}</strong><small>{[...new Set(group.rolls.map(r=>r.supplier))].join(' · ')}</small>
+                <em>{group.rolls.filter(roll=>rollBalance(roll)>0).length} dari {group.rolls.length} roll bersaldo</em></div><b>{stockLengths(group.rolls)}</b></button>
+            <button type="button" className="fabric-browse-history" aria-label={'Riwayat masuk dan keluar '+group.name} onClick={()=>chooseMaterial(group,'history')}><History size={14}/> Riwayat</button>
           </article>)}{!visible.length&&<EmptyResult title="Bahan tidak ditemukan" note="Ubah pencarian atau reset filter."/>}</div>
         </BrowsePane>
         <main ref={detail} className="wh-detail fabric-history-detail">{selected ? <>
-          <header className="wh-detail-head"><div><span>BAHAN TERPILIH</span><h2>{selected.name}</h2><p>{scoped.length} roll tercatat · {scoped.filter(roll=>rollBalance(roll)>0).length} masih bersaldo</p></div>
-            <div className="wh-detail-total"><span>SALDO ROLL TERCATAT</span><strong>{stockLengths(scoped)}</strong></div></header>
-          <nav className="material-view-nav" aria-label="Rincian bahan"><button type="button" aria-pressed={view==='history'} onClick={()=>{setView('history');setInitialRoll('')}}><History size={17}/> Riwayat masuk &amp; keluar</button>
-            <button type="button" aria-pressed={view==='stock'} onClick={()=>setView('stock')}><Ruler size={17}/> Daftar roll</button></nav>
+          <header className="wh-detail-head"><div><span>BAHAN TERPILIH</span><h2>{selected.name}</h2><p>{[suppliers,archive?.id].filter(Boolean).join(' · ')}</p></div>
+            <div className="wh-detail-total"><span>SALDO ROLL TERCATAT</span><strong>{formatRollTotal(materialTotals,'balance')}</strong><small>{activeRolls.filter(roll=>rollBalance(roll)>0).length} dari {scoped.length} roll bersaldo</small></div></header>
+          <FabricRollFigures totals={materialTotals}/>
+          <nav className="material-view-nav" aria-label="Rincian bahan"><button type="button" aria-pressed={view==='stock'} onClick={()=>chooseMaterial(selected,'stock')}><Ruler size={17}/> Daftar roll</button>
+            <button type="button" aria-pressed={view==='history'} onClick={()=>chooseMaterial(selected,'history')}><History size={17}/> Riwayat masuk &amp; keluar</button></nav>
           {view==='history' ? <MaterialRollHistory key={selected.key+'/'+initialRoll} material={selected.name} rolls={scoped} initialRoll={initialRoll}/> :
-            <section aria-label={'Daftar roll '+selected.name} className="wh-roll-list">
-              {activeRolls.map(roll => {
-                const balance = rollBalance(roll)
-                const legacy = fabricRolls.find(entry=>entry.id===roll.id)
-                return <article key={roll.id} className="fabric-roll-row"><header><div className="wh-roll-id"><i><Ruler/></i><div><strong>{roll.label}</strong>
-                  <small>{roll.supplier} · {roll.events[0].ref}</small></div></div>
-                  <div className="wh-detail-total"><span>SISA ROLL</span><strong>{rollLength(balance,roll.unit)}</strong></div></header>
-                  <footer><span><MapPin/>{roll.location}</span>{roll.rate!==undefined&&<span>{money(roll.rate)} / {roll.unit}{legacy?.costState==='ESTIMATED'?' · Acuan':''}</span>}
-                    <div className="fabric-roll-tools"><button className="soft-btn" type="button" aria-label={'Riwayat roll '+roll.label} onClick={()=>{setInitialRoll(roll.id);setView('history')}}><History size={15}/> Riwayat roll</button>
-                      {legacy && <button className="soft-btn" type="button" disabled={balance<=0} onClick={()=>openReturns({kind:'fabric',id:roll.id,label:roll.material+' · '+roll.label,supplier:roll.supplier,unit:roll.unit,maxQty:balance,location:roll.location})}><RotateCcw size={15}/> Retur supplier</button>}
-                    </div></footer></article>
-              })}{!activeRolls.length&&<EmptyResult title="Belum ada roll aktif" note="Penerimaan yang dibalik tetap tersedia di riwayat bahan."/>}
+            <section aria-label={'Daftar roll '+selected.name} className="fabric-roll-register">
+              <div className="wh-roll-head"><div><span>ROLL BAHAN</span><h3>{activeRolls.length} gulung · {selected.name}</h3></div><small>Penerimaan terbaru dulu</small></div>
+              <div className="wh-roll-list">{activeRolls.map(roll=><FabricRollCard key={roll.id} roll={roll} onHistory={()=>chooseMaterial(selected,'history',roll.id)} onReturn={openReturns}/>)}
+                {!activeRolls.length&&<EmptyResult title="Belum ada roll aktif" note="Riwayat bahan menyimpan setiap penerimaan dan pembalikan."/>}</div>
             </section>}
           {archive&&<details className="fabric-archive"><summary>Rekap gudang Agustus 2026 · {archive.material}</summary>
             <div className="wh-balance-equation lifetime"><span><small>DITERIMA</small><strong>{formatNumber(archive.totalReceivedYards)} yd</strong></span><i>−</i><span><small>DIPAKAI</small><strong>{formatNumber(archive.usedYards)} yd</strong></span><i>−</i><span><small>RETUR</small><strong>{formatNumber(archive.supplierReturnedYards)} yd</strong></span><i>=</i><span><small>SALDO ARSIP</small><strong>{formatNumber(archive.stockOnHandYards)} yd</strong></span></div>
@@ -380,7 +411,7 @@ function FabricWarehouseBrowser({ rolls }: { rolls: WarehouseRoll[] }) {
         </> : <EmptyResult title="Belum ada bahan untuk ditampilkan" note="Pilih bahan dari Browse."/>}</main>
       </div>
     </div>
-    <RollCorrectionPanel/>
+    <RollCorrectionPanel open={switchOpen} onClose={()=>setSwitchOpen(false)}/>
     {returnModalOpen&&<SupplierReturnModal key={returnTarget?.id??returnRecord} kind="fabric" recordId={returnRecord} target={returnTarget} onClose={()=>setReturnModalOpen(false)}/>}
   </>
 }

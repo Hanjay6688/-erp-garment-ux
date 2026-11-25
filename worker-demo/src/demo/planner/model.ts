@@ -1,3 +1,4 @@
+import {archiveDocumentFor, archiveIdentity, fabricIdentity, openingCorrectionRolls, receiptMaterial, type FabricIdentityCorrection} from '../fabricArchive'
 import {lastWarehouseDay} from '../warehouseDay'
 import {sewingBatchId, sewingReceipts} from '../sewingReceipts'
 import type { LaundryDelivery } from '../laundryModel'
@@ -50,7 +51,7 @@ export type RollCorrection = {
 }
 export type FabricReceipt = {id:string;number:string;material:string;supplier:string;day:string;unit:'yd'|'m';rate:number;rolls:ReceiptRoll[];corrections?:RollReceiptCorrection[];reversal?:ReceiptReversal}
 export type AccessoryReceipt = {id:string;number:string;code:string;supplier:string;day:string;rate:number;qty:number;reversal?:ReceiptReversal}
-export type Session = { laundry?: LaundryDelivery[]; saleReturns?:SaleReturn[]; batchEvents?:BatchEvent[]; skuUpdates?:Record<string,{article:Article;active:boolean}>; skuPairs?:Record<string,string|null>; stockEvents?:StockEvent[]; patternRefs?:Record<string,string|null>; destinations?: Destination[]; fabricReceipts?:FabricReceipt[]; accessoryReceipts?:AccessoryReceipt[]; rollCorrections?:RollCorrection[]; cutReversals?:Record<string,ReceiptReversal>; conversionReturns?:ConversionReturn[]; serviceDocuments?:ServiceDocument[]; accessoryCustody?:CustodyNote[]; accessorySalvage?:SalvageDocument[]; cuts: Lot[]; pickups: Pickup[]; confirmed: string[]; elsewhere: string[] }
+export type Session = { laundry?: LaundryDelivery[]; saleReturns?:SaleReturn[]; batchEvents?:BatchEvent[]; skuUpdates?:Record<string,{article:Article;active:boolean}>; skuPairs?:Record<string,string|null>; stockEvents?:StockEvent[]; patternRefs?:Record<string,string|null>; destinations?: Destination[]; fabricReceipts?:FabricReceipt[]; fabricIdentities?:FabricIdentityCorrection[]; accessoryReceipts?:AccessoryReceipt[]; rollCorrections?:RollCorrection[]; cutReversals?:Record<string,ReceiptReversal>; conversionReturns?:ConversionReturn[]; serviceDocuments?:ServiceDocument[]; accessoryCustody?:CustodyNote[]; accessorySalvage?:SalvageDocument[]; cuts: Lot[]; pickups: Pickup[]; confirmed: string[]; elsewhere: string[] }
 export const emptySession: Session = { cuts: [], pickups: [], confirmed: [], elsewhere: [] }
 export const stageName: Record<string, string> = { cut: 'Meja potong', sewing: 'Jahit', laundry: 'Laundry', qc: 'QC' }
 export const productFor = (sku: string | null | undefined) => products.find(p => p.sku === sku)
@@ -90,17 +91,9 @@ export function cutRolls(lot: Lot): CutRoll[] {
 export const physicalRollId = (lot: string, original: string, session: Session) =>
   session.rollCorrections?.reduce((id,correction)=>correction.cut===lot&&correction.original===original?correction.to:id,original) ?? original
 
-const historicalRolls = [
-  {id:'ORI-018', material:'1069 Ori', supplier:'Sinaran', yards:50, yardPerPiece:1.5, day:'2026-08-21', source:'SJ-SNR-0821-07', rate:49_200},
-  {id:'LCY-015', material:'Lucy', supplier:'Sinaran', yards:45, yardPerPiece:1.25, day:'2026-08-21', source:'SJ-SNR-0821-03', rate:49_200},
-]
-const demoRollRates: Record<string, number> = {'ORI-021':49_200,'KW-023':47_600,'LCY-022':49_200}
-const openingCorrectionRolls = [...rolls.map(roll=>({
-  ...roll, day:'2026-11-23', source:'Saldo latihan November', rate:demoRollRates[roll.id] as number|undefined, physicalCode:undefined,
-})), ...historicalRolls.map(roll=>({...roll,physicalCode:undefined}))]
-export const correctionRolls = (session:Session) => [...openingCorrectionRolls,
+export const correctionRolls = (session:Session) => [...openingCorrectionRolls.map(roll=>({...roll,...archiveIdentity(session,roll.id)})),
   ...(session.fabricReceipts??[]).filter(receipt=>receipt.unit==='yd'&&!receipt.reversal).flatMap(receipt=>receiptRolls(receipt).map(roll=>({
-    id:roll.id, material:receipt.material, supplier:receipt.supplier, yards:roll.length, yardPerPiece:0,
+    id:roll.id, material:receiptMaterial(session,receipt), supplier:receipt.supplier, yards:roll.length, yardPerPiece:0,
     day:receipt.day, source:receipt.number, rate:receipt.rate, physicalCode:roll.physicalCode,
   }))),
 ]
@@ -123,7 +116,11 @@ export function reverseCutReceipt(session:Session,id:string,reason:string):Sessi
 
 function cutRollMaterial(lot:Lot, roll:CutRoll, session:Session) {
   const actual=physicalRollId(lot.originId??lot.id,roll.id,session)
-  return actual===roll.id ? roll.material : correctionRolls(session).find(item=>item.id===actual)?.material ?? roll.material
+  if (actual!==roll.id) return correctionRolls(session).find(item=>item.id===actual)?.material ?? roll.material
+  if (!session.fabricIdentities?.length) return roll.material
+  const receipt=session.fabricReceipts?.find(doc=>doc.rolls.some(line=>line.id===actual))
+  const source=receipt?'penerimaan:'+receipt.id:archiveDocumentFor(actual)?.key
+  return source?fabricIdentity(session,source,roll.material):roll.material
 }
 export function recipePattern(p:Product,session:Session) {
   const key=p.brand+' '+p.sku
