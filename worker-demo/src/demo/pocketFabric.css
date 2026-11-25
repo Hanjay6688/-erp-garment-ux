@@ -180,6 +180,7 @@
 .pocket-bulk p small { display: block; margin-top: 3px; }
 .pocket-bulk button { display: inline-flex; gap: 6px; align-items: center; justify-content: center; }
 .pocket-empty { padding: 0 18px 14px; }
+.pocket-empty p { margin: 0 0 8px; }
 .pocket-review, .pocket-total, .wh-receipt-register details { overflow-wrap: anywhere; }
 
 .pocket-history {
@@ -317,25 +318,26 @@
   margin: 10px 0 0;
 }
 
-.pocket-receipt .wh-roll-inputs > div {
-  border: 1px solid var(--line);
-  border-radius: 9px;
-  padding: 10px;
-  margin-top: 8px;
-  align-items: end;
-  background: var(--panel-2);
-}
-
-.pocket-receipt :is(.wh-fields, .wh-roll-inputs) input[inputmode="decimal"],
+.pocket-roll-entry :is(.roll-entry-head, .roll-entry-list) { margin: 0; }
+.pocket-roll-entry .roll-entry-head { padding: 0 0 10px; gap: 8px; flex-wrap: wrap; }
+.pocket-roll-count { display: flex; align-items: end; gap: 8px; margin-bottom: 10px; }
+.pocket-roll-count label { display: grid; gap: 5px; width: 110px; color: var(--soft); font-size: .81rem; font-weight: 700; }
+.pocket-roll-count .erp-input { min-height: 44px; height: 44px; font-size: 1rem; }
+.pocket-roll-count button { min-height: 44px; }
+.pocket-roll-entry .roll-entry-row:nth-child(odd) { background: var(--browse-first, var(--panel-2)); }
+.pocket-roll-entry .roll-entry-row:nth-child(even) { background: var(--browse-second, var(--panel)); }
+.pocket-roll-entry .roll-entry-row .yard-input { min-height: 44px; background: var(--panel); }
+.pocket-roll-entry .yard-input:focus-within { border-color: var(--blue); }
+.pocket-supplier-rolls { margin-top: 10px; border: 1px solid var(--line); border-radius: 8px; }
+.pocket-supplier-rolls summary { padding: 9px 12px; cursor: pointer; color: var(--soft); font-weight: 650; }
+.pocket-supplier-rolls .wh-fields { padding: 0 12px 10px; margin: 0; }
+.pocket-receipt .roll-entry-row .yard-input input,
+.pocket-receipt .wh-fields input[inputmode="decimal"],
 .pocket-dialog-form .wh-fields input[inputmode="decimal"] {
   min-height: 44px;
   font-size: 1rem;
   font-weight: 750;
   font-variant-numeric: tabular-nums;
-}
-
-.pocket-receipt .wh-roll-inputs + button {
-  margin-top: 8px;
 }
 
 .pocket-receipt .pocket-search {
@@ -385,21 +387,6 @@
 
   .pocket-receipt-totals strong {
     font-size: .93rem;
-  }
-}
-
-@media (max-width: 460px) {
-  .pocket-receipt .wh-roll-inputs > div {
-    grid-template-columns: minmax(0, 1fr) 44px;
-  }
-
-  .pocket-receipt .wh-roll-inputs label:first-of-type {
-    grid-column: 1 / -1;
-  }
-
-  .pocket-receipt .wh-roll-inputs .remove-roll {
-    min-width: 44px;
-    min-height: 44px;
   }
 }
 

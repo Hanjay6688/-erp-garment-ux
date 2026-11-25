@@ -3,6 +3,7 @@ import { Icon } from '../components/AppIcon'
 import { cleanMoneyInput, formatMoneyInput } from '../moneyInput'
 import { Field } from './controls'
 import { formatQuantity, money, parseDecimal } from './format'
+import { ReceiptRollRows } from './ReceiptRollRows'
 import { useState } from 'react'
 
 type ReceiptMode = 'fabric' | 'accessory' | 'pocket'
@@ -19,7 +20,6 @@ export function ProcurementPage() {
   const [historyOpen,setHistoryOpen] = useState(false)
   const [rollDetailOpen,setRollDetailOpen] = useState(false)
   const fabricUnitName=fabricUom==='yd'?'yard':'meter'
-  const fabricUnitLabel=fabricUom==='yd'?'Yard (yd)':'Meter (m)'
   const activeRolls=rolls.filter((roll)=>parseDecimal(roll.yards)>0)
   const totalYards=activeRolls.reduce((sum,roll)=>sum+parseDecimal(roll.yards),0)
   const benchmark=parseDecimal(benchmarkPrice)
@@ -52,7 +52,8 @@ export function ProcurementPage() {
             <p><Icon name="audit"/> UOM menjadi snapshot penerimaan. Invoice final wajib mengikuti UOM receipt; layar ini tidak mengonversi Yard ↔ Meter diam-diam.</p>
           </div>
           <div className="roll-entry-head"><div><span>RINCIAN GULUNG</span><strong>Satu baris untuk satu roll</strong></div><button className="soft-btn add-roll" onClick={addRoll}><Icon name="plus"/> Tambah roll</button></div>
-          <div className="roll-entry-list" data-keyboard-grid>{rolls.map((roll,index)=><div className="roll-entry-row" key={roll.id}><span className="roll-number">{String(index+1).padStart(2,'0')}</span><div><label htmlFor={`roll-${roll.id}`}>{fabricUnitLabel} pada gulung</label><div className="yard-input"><input id={`roll-${roll.id}`} data-grid-row={index} data-grid-col={0} inputMode="decimal" value={roll.yards} placeholder="0" onChange={(event)=>updateRoll(roll.id,event.target.value)}/><span>{fabricUom}</span></div></div><small>{parseDecimal(roll.yards)>0?`${formatQuantity(parseDecimal(roll.yards))} ${fabricUnitName} siap diterima`:'Belum diisi'}</small><button className="remove-roll" aria-label={`Hapus roll ${index+1}`} onClick={()=>removeRoll(roll.id)} disabled={rolls.length===1}><Icon name="trash"/></button></div>)}</div>
+          <ReceiptRollRows rows={rolls.map(roll => ({ key: roll.id, length: roll.yards }))} unit={fabricUom}
+            onChange={(index, value) => updateRoll(rolls[index].id, value)} onRemove={index => removeRoll(rolls[index].id)}/>
           <div className="benchmark-entry"><div><Icon name="cost"/><span><strong>Harga benchmark / {fabricUnitName}</strong><small>Dipakai sementara sampai kasbon aktual datang.</small></span></div><div className="money-input"><span>Rp</span><input inputMode="numeric" value={formatMoneyInput(benchmarkPrice)} onChange={(event)=>setBenchmarkPrice(cleanMoneyInput(event.target.value))}/></div></div>
           <div className="receipt-total-strip"><div><span>TOTAL GULUNG</span><strong>{activeRolls.length}</strong><small>roll terisi</small></div><div><span>TOTAL PANJANG</span><strong>{formatQuantity(totalYards)} {fabricUom}</strong><small>jumlah semua roll</small></div><div className="receipt-grand-total"><span>NILAI BENCHMARK</span><strong>{money(totalYards*benchmark)}</strong><small>{formatQuantity(totalYards)} {fabricUom} × {money(benchmark)}</small></div></div>
         </>:<>

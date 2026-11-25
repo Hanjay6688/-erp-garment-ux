@@ -1,10 +1,11 @@
 import { useState, type FormEvent } from 'react'
-import { ArrowLeft, ArrowRight, ClipboardList, Plus, Trash2 } from 'lucide-react'
+import { ArrowLeft, ArrowRight, ClipboardList, Plus } from 'lucide-react'
 import { amountText, fixtureDate } from './accessoryPricing'
 import { browseMatch } from '../browseMatch'
 import { ReasonDialog } from './planner/ReasonDialog'
+import { ReceiptRollRows } from './ReceiptRollRows'
 import {
-  pocketBenchmark, readReceipts, receivePocket, reviewPocketReceipt, reverseReceipt, seedRolls,
+  pocketBenchmark, pocketRollLabel, readReceipts, receivePocket, reviewPocketReceipt, reverseReceipt, seedRolls,
   type PocketReceipt, type ReceiptDraft,
 } from './pocketReceipts'
 import { readPocketNumber } from './pocketUsage'
@@ -14,6 +15,7 @@ import './pocketFabric.css'
 
 const draftKey = 'erp.demo.pocket.receipt-draft.v1'
 const rollPath = '/gudang/kain-kantong/'
+const maxGeneratedRows = 999
 const newRoll = () => ({ number: '', qty: '' })
 const fresh = (): ReceiptDraft => ({
   request: crypto.randomUUID(), number: '', supplier: '', location: 'Gudang Bahan', material: '',
@@ -26,6 +28,8 @@ const rateText = (value: number, unit: string) => amountText(value) + '/' + unit
 export default function PocketReceiptForm() {
   const [saved, setSaved] = useState(() => sessionStorage.getItem(draftKey) !== null)
   const [draft, setDraft] = useState<ReceiptDraft>(() => JSON.parse(sessionStorage.getItem(draftKey) ?? 'null') ?? fresh())
+  const [rollCountInput, setRollCountInput] = useState<string | null>(null)
+  const [rollCountError, setRollCountError] = useState('')
   const [rows, setRows] = useState(readReceipts)
   const [expanded, setExpanded] = useState(() => new URLSearchParams(location.search).get('surat'))
   const [historyQuery, setHistoryQuery] = useState('')
@@ -46,6 +50,25 @@ export default function PocketReceiptForm() {
 
   function editRoll(index: number, field: 'number' | 'qty', value: string) {
     patch({ rolls: draft.rolls.map((roll, i) => i === index ? { ...roll, [field]: value } : roll) })
+  }
+
+  function setRollRows(rolls: ReceiptDraft['rolls']) {
+    patch({ rolls })
+    setRollCountInput(null)
+    setRollCountError('')
+  }
+
+  function applyRollCount() {
+    const count = Number(rollCountInput ?? draft.rolls.length)
+    if (!Number.isSafeInteger(count) || count < 1 || count > maxGeneratedRows) {
+      setRollCountError(`Isi jumlah antara 1 dan ${maxGeneratedRows} untuk membuat baris roll.`)
+      return
+    }
+    if (draft.rolls.slice(count).some(roll => roll.qty.trim() || roll.number.trim())) {
+      setRollCountError('Ada roll yang sudah terisi di baris akhir. Hapus roll itu satu per satu jika memang perlu.')
+      return
+    }
+    setRollRows(Array.from({ length: count }, (_, index) => draft.rolls[index] ?? newRoll()))
   }
 
   function review(event: FormEvent) {
@@ -73,26 +96,27 @@ export default function PocketReceiptForm() {
   function removeDraft() {
     sessionStorage.removeItem(draftKey)
     setDraft(fresh())
+    setRollCountInput(null)
+    setRollCountError('')
     setSaved(false)
   }
 
-  const complete = draft.rolls.map(r => ({ id: r.number.trim(), length: readPocketNumber(r.qty) }))
-    .filter(r => r.id && r.length > 0)
+  const complete = draft.rolls.map(r => readPocketNumber(r.qty)).filter(length => length > 0)
   const benchmark = pocketBenchmark(draft)
   const rate = draft.rate.trim() ? readPocketNumber(draft.rate) : benchmark
   const pricingKnown = rate !== null && Number.isFinite(rate)
-  const receipts = rows.filter(r => browseMatch(historyQuery, r.number, r.supplier, r.day, ...r.rolls.flatMap(roll => [roll.id, roll.name])))
+  const receipts = rows.filter(r => browseMatch(historyQuery, r.number, r.supplier, r.day, ...r.rolls.flatMap(roll => [roll.id, roll.name, pocketRollLabel(roll)])))
   const openingShown = browseMatch(historyQuery, 'SJ-KT-001', 'Saldo pembukaan', ...seedRolls.map(r => r.id))
 
   return <section className="procurement-layout pocket-receipt" aria-label="Penerimaan kain kantong">
     <form className="panel receipt-editor" onSubmit={review} noValidate>
       <header className="pocket-panel-head">
-        <div><h1>Penerimaan kain kantong</h1><p>Isi satu surat jalan, lalu masukkan nomor dan panjang tiap roll.</p></div>
+        <div><h1>Penerimaan kain kantong</h1><p>Isi surat jalan, tentukan jumlah roll, lalu ketik panjangnya.</p></div>
         <a className="soft-btn" href={rollPath}><ArrowLeft size={16} aria-hidden="true"/>Stok kain kantong</a>
       </header>
       {notice && <div className="wh-feedback" role="status">
         <strong>{notice}</strong>
-        {posted?.rolls.length === 1 && <a href={link(posted.rolls[0].id)}>Lihat {posted.rolls[0].id} di stok</a>}
+        {posted?.rolls.length === 1 && <a href={link(posted.rolls[0].id)}>Lihat {pocketRollLabel(posted.rolls[0])} di stok</a>}
         {posted && posted.rolls.length > 1 && <a href={rollPath + '?surat=' + encodeURIComponent(posted.number)}>Lihat roll yang baru masuk</a>}
       </div>}
 
@@ -117,18 +141,26 @@ export default function PocketReceiptForm() {
         </div>
       </section>
 
-      <section className="pocket-receipt-block">
-        <h3>Roll yang datang</h3>
-        <div className="wh-roll-inputs">
-          {draft.rolls.map((roll, i) => <div key={i}>
-            <span className="roll-number" aria-hidden="true">{i + 1}</span>
-            <label>Nomor roll<input aria-label={'Nomor roll ' + (i + 1)} placeholder="Kode pada roll" value={roll.number} onChange={e => editRoll(i, 'number', e.target.value)}/></label>
-            <label>Panjang ({draft.unit})<input aria-label={'Panjang roll ' + (i + 1)} inputMode="decimal" placeholder={draft.unit === 'm' ? '12,5' : '100'} value={roll.qty} onChange={e => editRoll(i, 'qty', e.target.value)}/></label>
-            <button type="button" className="remove-roll" aria-label={'Hapus roll ' + (i + 1)} disabled={draft.rolls.length === 1}
-              onClick={() => patch({ rolls: draft.rolls.filter((_, j) => j !== i) })}><Trash2 size={16}/></button>
-          </div>)}
+      <section className="pocket-receipt-block pocket-roll-entry" aria-labelledby="pocket-roll-title">
+        <div className="roll-entry-head"><h3 id="pocket-roll-title">Rincian gulung</h3>
+          <button type="button" className="soft-btn add-roll" onClick={() => setRollRows([...draft.rolls, newRoll()])}><Plus size={16} aria-hidden="true"/>Tambah roll</button>
         </div>
-        <button type="button" className="soft-btn" onClick={() => patch({ rolls: [...draft.rolls, newRoll()] })}><Plus size={16}/>Tambah roll</button>
+        <div className="pocket-roll-count">
+          <label>Jumlah roll<input className="erp-input" inputMode="numeric" enterKeyHint="done" value={rollCountInput ?? draft.rolls.length}
+            aria-invalid={Boolean(rollCountError)} aria-describedby={rollCountError ? 'pocket-roll-count-feedback' : undefined}
+            onChange={e => { setRollCountInput(e.target.value.replace(/[^0-9]/g, '')); setRollCountError('') }}
+            onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); applyRollCount() } }}/></label>
+          <button type="button" className="soft-btn" onClick={applyRollCount}>Buat baris</button>
+        </div>
+        {rollCountError && <p className="wh-feedback" id="pocket-roll-count-feedback" role="alert">{rollCountError}</p>}
+        <ReceiptRollRows rows={draft.rolls.map((roll, index) => ({ key: index, length: roll.qty }))} unit={draft.unit} byNumber readLength={readPocketNumber}
+          onChange={(index, value) => editRoll(index, 'qty', value)} onRemove={index => setRollRows(draft.rolls.filter((_, i) => i !== index))}/>
+        <details className="pocket-supplier-rolls" open={draft.rolls.some(roll => roll.number.trim()) || undefined}>
+          <summary>Kode roll dari supplier (opsional)</summary>
+          <div className="wh-fields">{draft.rolls.map((roll, index) => <label key={index}>Roll {String(index + 1).padStart(2, '0')}
+            <input aria-label={'Nomor roll ' + (index + 1)} placeholder="Kode pada roll" value={roll.number} onChange={e => editRoll(index, 'number', e.target.value)}/>
+          </label>)}</div>
+        </details>
       </section>
 
       <section className="pocket-receipt-block">
@@ -146,8 +178,8 @@ export default function PocketReceiptForm() {
 
       <div className="pocket-receipt-totals" aria-label="Ringkasan penerimaan">
         <div><span>Roll terisi</span><strong>{complete.length} roll</strong></div>
-        <div><span>Panjang masuk</span><strong>{fmt(complete.reduce((sum, r) => sum + r.length, 0))} {draft.unit}</strong></div>
-        <div><span>Nilai sementara</span><strong>{complete.length && pricingKnown ? amountText(complete.reduce((sum, r) => sum + Math.round(r.length * rate * 100), 0) / 100) : '—'}</strong></div>
+        <div><span>Panjang masuk</span><strong>{fmt(complete.reduce((sum, length) => sum + length, 0))} {draft.unit}</strong></div>
+        <div><span>Nilai sementara</span><strong>{complete.length && pricingKnown ? amountText(complete.reduce((sum, length) => sum + Math.round(length * rate * 100), 0) / 100) : '—'}</strong></div>
       </div>
       {error && !preview && !undo && <p className="wh-feedback" role="alert">{error}</p>}
       <footer className="receipt-actions">
@@ -168,7 +200,7 @@ export default function PocketReceiptForm() {
           <small className="record-code">{r.number} · {r.day} · {r.supplier} · {r.reversal ? 'Dibalik' : 'Diterima'}</small></summary>
         <p>{r.rolls[0].location} · {r.rolls[0].name}</p>
         {r.rolls.map(roll => <div className="wh-register-row" key={roll.id}>
-          <span><strong className="pocket-quantity">{fmt(roll.length)} {roll.unit}</strong><small className="record-code">{roll.id}</small></span>
+          <span><strong className="pocket-quantity">{fmt(roll.length)} {roll.unit}</strong><small className="record-code">{pocketRollLabel(roll)}</small></span>
           {!r.reversal && <a href={link(roll.id)}>Buka roll</a>}
         </div>)}
         {r.reversal ? <small>Alasan pembalikan · {r.reversal.reason}</small> :
@@ -188,7 +220,7 @@ export default function PocketReceiptForm() {
         <p><strong>{preview.supplier} · {preview.rolls[0].location}</strong><br/>{preview.rolls[0].name} · {preview.day} · {rateText(preview.rolls[0].rate, preview.rolls[0].unit)}</p>
         <div className="pocket-review">
           {preview.rolls.map(r => <div className="wh-register-row" key={r.id}>
-            <span><strong className="pocket-quantity">{fmt(r.length)} {r.unit} masuk</strong><small className="record-code">{r.id}</small></span><strong>{amountText(Math.round(r.length * r.rate * 100) / 100)}</strong>
+            <span><strong className="pocket-quantity">{fmt(r.length)} {r.unit} masuk</strong><small className="record-code">{pocketRollLabel(r)}</small></span><strong>{amountText(Math.round(r.length * r.rate * 100) / 100)}</strong>
           </div>)}
           <div className="pocket-total">
             <strong className="pocket-quantity">{preview.rolls.length} roll · {fmt(preview.rolls.reduce((sum, r) => sum + r.length, 0))} {preview.rolls[0].unit}</strong>

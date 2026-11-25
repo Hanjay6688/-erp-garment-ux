@@ -4,7 +4,7 @@ import { browseMatch } from '../browseMatch'
 import RecordTable from '../RecordTable'
 import { amountText, fixtureDate } from './accessoryPricing'
 import { ReasonDialog } from './planner/ReasonDialog'
-import { pocketRolls, readReceipts, receiptPath, type PocketRoll, type PocketUnit } from './pocketReceipts'
+import { pocketRollLabel, pocketRolls, readReceipts, receiptPath, type PocketRoll, type PocketUnit } from './pocketReceipts'
 import {
   periodActive, planPocketAllocation, planPocketUsage, pocketBalance, pocketBookKey,
   pocketScale, readPocketBook, type PocketAllocation, type PocketBook, type UsageLine,
@@ -38,7 +38,10 @@ export default function PocketFabric() {
   const [query, setQuery] = useState(() => new URLSearchParams(location.search).get('surat') ?? '')
   const [material, setMaterial] = useState('')
   const [warehouse, setWarehouse] = useState('')
-  const [onlyAvailable, setOnlyAvailable] = useState(false)
+  const [onlyAvailable, setOnlyAvailable] = useState(() => {
+    const linked = rolls.find(roll => roll.id === detailId)
+    return !linked || pocketBalance(book, linked) > 0
+  })
   const [checked, setChecked] = useState<string[]>([])
   const [usage, setUsage] = useState<UsageSelection | null>(null)
   const [start, setStart] = useState('2026-11-23')
@@ -50,11 +53,12 @@ export default function PocketFabric() {
   const [why, setWhy] = useState('')
   const detail = rolls.find(r => r.id === detailId)
   const records: RollPosition[] = rolls.map(roll => ({ roll, incoming: Math.round(roll.length * pocketScale), left: pocketBalance(book, roll) }))
-  const matched = records.filter(({ roll, left }) => (!onlyAvailable || left > 0) && (!warehouse || roll.location === warehouse)
-    && browseMatch(query, roll.id, roll.name, roll.receipt, roll.location, roll.unit, roll.date))
+  const matched = records.filter(({ roll }) => (!warehouse || roll.location === warehouse)
+    && browseMatch(query, roll.id, pocketRollLabel(roll), roll.name, roll.receipt, roll.location, roll.unit, roll.date))
   const names = [...new Set(matched.map(row => row.roll.name))].sort()
   const activeMaterial = names.includes(material) ? material : ''
-  const visible = matched.filter(row => !activeMaterial || row.roll.name === activeMaterial)
+  const scoped = matched.filter(row => !activeMaterial || row.roll.name === activeMaterial)
+  const visible = onlyAvailable ? scoped.filter(row => row.left > 0) : scoped
   const selected = rolls.filter(roll => checked.includes(roll.id))
   const feedbackRef = useRef<HTMLParagraphElement>(null)
 
@@ -83,7 +87,7 @@ export default function PocketFabric() {
       id: 'KT-' + String(current.issues.length + index + 1).padStart(3, '0') + '-OUT',
       roll: roll.id, unit: roll.unit, date, qty, cents, reason: reason.trim(),
     }))
-    const message = lines.length > 1 ? lines.length + ' roll dikeluarkan.' : length(lines[0].qty, lines[0].roll.unit) + ' keluar dari ' + lines[0].roll.id + '.'
+    const message = lines.length > 1 ? lines.length + ' roll dikeluarkan.' : length(lines[0].qty, lines[0].roll.unit) + ' keluar dari ' + pocketRollLabel(lines[0].roll) + '.'
     save({ ...current, issues: [...current.issues, ...issues] }, message)
     setChecked(ids => ids.filter(id => !issues.some(issue => issue.roll === id)))
     setDetailId(lines.length === 1 ? lines[0].roll.id : null)
@@ -168,17 +172,17 @@ export default function PocketFabric() {
                 const group = name ? matched.filter(row => row.roll.name === name) : matched
                 return <button key={name} type="button" aria-pressed={name === activeMaterial} className={name === activeMaterial ? 'active' : ''}
                   onClick={() => setMaterial(name)}><span className="wh-index"><Ruler size={17} aria-hidden="true"/></span>
-                  <div><strong>{name || 'Semua kain kantong'}</strong><small>{group.length} roll</small></div><b>{sumLengths(group, row => row.left)}</b>
+                  <div><strong>{name || 'Semua kain kantong'}</strong><small>{group.filter(row => row.left > 0).length} roll bersaldo</small></div><b>{sumLengths(group, row => row.left)}</b>
                 </button>
               })}
             </div>
           </aside>
           <div className="wh-detail">
-            <header className="wh-detail-head"><div><span>STOK PER ROLL</span><h2>{activeMaterial || 'Semua kain kantong'}</h2><p>{visible.filter(row => row.left > 0).length} dari {visible.length} roll masih bersaldo</p></div></header>
+            <header className="wh-detail-head"><div><span>STOK PER ROLL</span><h2>{activeMaterial || 'Semua kain kantong'}</h2><p>{scoped.filter(row => row.left > 0).length} dari {scoped.length} roll masih bersaldo</p></div></header>
             <dl className="pocket-stock-totals" aria-label="Ringkasan panjang kain kantong">
-              <div className="pocket-incoming"><dt>Panjang masuk</dt><dd>{sumLengths(visible, row => row.incoming)}</dd></div>
-              <div className="pocket-spent"><dt>Terpakai</dt><dd>{sumLengths(visible, row => row.incoming - row.left)}</dd></div>
-              <div className="pocket-remaining"><dt>Sisa gudang</dt><dd>{sumLengths(visible, row => row.left)}</dd></div>
+              <div className="pocket-incoming"><dt>Panjang masuk</dt><dd>{sumLengths(scoped, row => row.incoming)}</dd></div>
+              <div className="pocket-spent"><dt>Terpakai</dt><dd>{sumLengths(scoped, row => row.incoming - row.left)}</dd></div>
+              <div className="pocket-remaining"><dt>Sisa gudang</dt><dd>{sumLengths(scoped, row => row.left)}</dd></div>
             </dl>
             <div className="wh-roll-head pocket-roll-head">
               <strong>Roll di gudang</strong>
@@ -187,7 +191,7 @@ export default function PocketFabric() {
             <ul className="wh-roll-list pocket-stock-list" aria-label="Stok per roll">
               {visible.map(({ roll, incoming, left }) => <li key={roll.id} className="pocket-stock-row">
                 <article>
-                  <header><div className="wh-roll-id"><i><Ruler aria-hidden="true"/></i><div><strong>{roll.name}</strong><small className="record-code">{roll.id} · {roll.receipt} · {roll.date}</small></div></div>
+                  <header><div className="wh-roll-id"><i><Ruler aria-hidden="true"/></i><div><strong>{roll.name}</strong><small className="record-code">{pocketRollLabel(roll)} · {roll.receipt} · {roll.date}</small></div></div>
                     <label className="pocket-check"><input type="checkbox" aria-label={'Pilih roll ' + roll.id} disabled={left <= 0} checked={checked.includes(roll.id)}
                       onChange={e => setChecked(ids => e.target.checked ? [...ids, roll.id] : ids.filter(id => id !== roll.id))}/><span>Pilih</span></label>
                   </header>
@@ -205,7 +209,7 @@ export default function PocketFabric() {
                   </footer>
                 </article>
                 {detail?.id === roll.id && <section className="wh-roll-ledger" aria-label={'Mutasi roll ' + roll.id}>
-                  <h3>Mutasi roll · {roll.id}</h3>
+                  <h3>Mutasi roll · {pocketRollLabel(roll)}</h3>
                   <div className="wh-register-row">
                     <span><strong>Masuk · {length(incoming, roll.unit)}</strong><small>{roll.date} · {roll.receipt}</small></span>
                     <a href={receiptPath + '&surat=' + encodeURIComponent(roll.receipt)}>Lihat penerimaan</a>
@@ -217,9 +221,11 @@ export default function PocketFabric() {
                 </section>}
               </li>)}
             </ul>
-            {!visible.length && <p className="pocket-empty">Tidak ada roll yang cocok dengan pencarian.</p>}
+            {!visible.length && (onlyAvailable && scoped.length > 0
+              ? <div className="pocket-empty"><p>Semua roll di daftar ini sudah habis.</p><button type="button" className="soft-btn" onClick={() => setOnlyAvailable(false)}>Lihat roll habis</button></div>
+              : <p className="pocket-empty">Tidak ada roll yang cocok dengan pencarian.</p>)}
             {selected.length > 0 && <div className="pocket-bulk">
-              <p><strong>{selected.length} roll dipilih</strong><small>{selected.map(roll => roll.id).join(', ')}</small></p>
+              <p><strong>{selected.length} roll dipilih</strong><small>{selected.map(pocketRollLabel).join(', ')}</small></p>
               <button type="button" className="soft-btn" onClick={() => openUsage({ rolls: selected, whole: true })}>Pakai seluruh sisa · {selected.length} roll</button>
               <button type="button" className="primary-btn" onClick={() => openUsage({ rolls: selected, whole: false })}>Atur pemakaian <ArrowRight size={16} aria-hidden="true"/></button>
             </div>}
@@ -232,10 +238,12 @@ export default function PocketFabric() {
         <summary><ClipboardList size={16} aria-hidden="true"/>Riwayat pemakaian <span>{book.issues.length}</span></summary>
         {book.issues.length === 0 && <p>Belum ada pemakaian.</p>}
         {[...book.issues].reverse().map(issue => {
-          const unit = issue.unit ?? rolls.find(r => r.id === issue.roll)?.unit
-            ?? readReceipts().flatMap(r => r.rolls).find(r => r.id === issue.roll)?.unit ?? 'yd'
+          const roll = rolls.find(r => r.id === issue.roll)
+          const previous = roll ?? readReceipts().flatMap(r => r.rolls).find(r => r.id === issue.roll)
+          const unit = issue.unit ?? previous?.unit ?? 'yd'
           return <div className="wh-register-row" key={issue.id}>
-            <span><strong className="pocket-quantity">{length(issue.qty, unit)} keluar</strong><small>{issue.roll} · {issue.date} · {issue.id} · {rupiah(issue.cents)} · {issue.reason}</small></span>
+            <span><strong className="pocket-quantity">{length(issue.qty, unit)} keluar</strong><small>{previous ? `${pocketRollLabel(previous)} · ${previous.receipt}` : issue.roll} · {issue.date} · {issue.id} · {rupiah(issue.cents)} · {issue.reason}</small></span>
+            {roll && <a href={'/gudang/kain-kantong/?roll=' + encodeURIComponent(roll.id)}>Buka mutasi roll</a>}
             {issue.reversal ? <span>Dibalik · {issue.reversal}</span> : <button type="button" className="soft-btn" onClick={() => openReverse({ kind: 'issue', id: issue.id })}>Balikkan pemakaian</button>}
           </div>
         })}
@@ -325,7 +333,7 @@ function PocketUsageForm({ selection, book, onClose, onConfirm }: {
     catch (failure) { setError((failure as Error).message) }
   }
 
-  const title = whole ? `Pakai seluruh sisa · ${rolls.length} roll` : rolls.length > 1 ? `Atur pemakaian · ${rolls.length} roll` : 'Pakai roll ' + first.id
+  const title = whole ? `Pakai seluruh sisa · ${rolls.length} roll` : rolls.length > 1 ? `Atur pemakaian · ${rolls.length} roll` : 'Pakai ' + (first.sequence ? pocketRollLabel(first) : 'roll ' + first.id)
   return <ReasonDialog title={title} onClose={onClose} closeLabel="Kembali" className="pocket-usage-modal">
     <form className="pocket-dialog-form pocket-usage-form" onSubmit={submit} noValidate>
       <div className="wh-fields pocket-usage-meta">
@@ -336,7 +344,7 @@ function PocketUsageForm({ selection, book, onClose, onConfirm }: {
         <h3>Panjang yang dipakai per roll</h3>
         <div className="pocket-usage-rows">
           {rows.map(({ roll, left, draft, line, invalid }, index) => <article key={roll.id} className="pocket-usage-row">
-            <header className="wh-roll-id"><i><Ruler aria-hidden="true"/></i><div><strong>{roll.name}</strong><small className="record-code">{roll.id} · {roll.location}</small></div></header>
+            <header className="wh-roll-id"><i><Ruler aria-hidden="true"/></i><div><strong>{roll.name}</strong><small className="record-code">{pocketRollLabel(roll)} · {roll.receipt} · {roll.location}</small></div></header>
             <div className="pocket-usage-before"><small>Sebelum</small><strong>{length(left, roll.unit)}</strong></div>
             {!whole ? <div className="wh-fields pocket-usage-inputs">
               <label>Cara mencatat<select value={draft.mode} onChange={e => updateDraft(index, { mode: e.target.value as UsageMode, amount: '' })}>
@@ -354,7 +362,7 @@ function PocketUsageForm({ selection, book, onClose, onConfirm }: {
       {error && <p className="wh-feedback" role="alert">{error}</p>}
       {ready && <div className="pocket-review" aria-label="Ringkasan pemakaian">
         {lines.map(({ roll, qty, left, cents }) => <div key={roll.id} className="wh-register-row">
-          <span><strong className="pocket-quantity">Keluar {length(qty, roll.unit)}</strong><small>{roll.id} · Sisa gudang {length(left, roll.unit)}</small></span>
+          <span><strong className="pocket-quantity">Keluar {length(qty, roll.unit)}</strong><small>{pocketRollLabel(roll)} · Sisa gudang {length(left, roll.unit)}</small></span>
           <strong>{rupiah(cents)}</strong>
         </div>)}
         <div className="pocket-total"><span><small>Total keluar</small><strong>{sumLengths(lines, line => line.qty)}</strong></span>

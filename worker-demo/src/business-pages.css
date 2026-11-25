@@ -27,3 +27,90 @@
 .owner-period-disclosure {padding:12px 16px; margin-block:12px}
 .owner-period-disclosure summary {cursor:pointer;font-weight:700}
 .owner-period-disclosure[open] summary {margin-bottom:12px}
+
+.biz-invoice-register { container-type: inline-size; }
+.biz-invoice-register .biz-all-invoice-table > :is(div, button) {
+  min-width: 0;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr) minmax(0, 1.2fr) repeat(3, minmax(0, .74fr)) minmax(0, .83fr);
+  gap: 8px;
+}
+.biz-invoice-register .biz-all-invoice-table > button > * { min-width: 0; overflow-wrap: anywhere; }
+.biz-invoice-register .biz-all-invoice-table .invoice-register-row [data-label='Toko'] { text-align: left; }
+.biz-all-invoice-table [data-label='Status'] .biz-pill { display: inline-block; white-space: normal; line-height: 1.2; letter-spacing: .035em; }
+.biz-all-invoice-table .unposted [data-label='Status'] .biz-pill { background: var(--warning-bg); color: var(--amber); }
+.biz-all-invoice-table .invoice-goods-cell > .piece-total { font-size: 1rem; }
+.biz-all-invoice-table .invoice-sku-preview { display: flex; align-items: center; gap: 4px; min-width: 0; margin-top: 5px; }
+.invoice-sku-preview > span {
+  padding: 2px 5px;
+  border-radius: 5px;
+  background: var(--accent-bg);
+  color: var(--text);
+  font-size: .73rem;
+  line-height: 1.45;
+  white-space: nowrap;
+}
+.invoice-sku-chip { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.invoice-sku-preview .invoice-sku-more { flex: none; background: var(--panel-3); color: var(--soft); }
+.invoice-register-empty { padding: 12px 14px; color: var(--soft); }
+.invoice-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  color: var(--soft);
+  padding: 9px 12px;
+  font-size: .84rem;
+}
+.invoice-pagination button { display: inline-flex; align-items: center; justify-content: center; gap: 4px; min-height: 38px; }
+.invoice-goods { min-width: 0; }
+.invoice-goods > header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 9px; }
+.invoice-goods > header :is(h3, p) { margin: 0; }
+.invoice-goods > header p { margin-top: 4px; color: var(--soft); }
+.invoice-goods > header .biz-search { min-width: 0; flex: 0 1 230px; }
+.invoice-goods > header .biz-search input { font-size: 1rem; }
+.invoice-goods-table { max-height: min(42dvh, 360px); overflow: auto; border: 1px solid var(--line-strong); border-radius: 9px; }
+.invoice-goods-table table { table-layout: fixed; font-variant-numeric: tabular-nums; }
+.invoice-goods-table thead th { position: sticky; top: 0; z-index: 1; background: var(--panel-3); }
+.invoice-goods-table thead th:first-child { width: 43%; }
+.invoice-goods-table thead th:nth-child(2) { width: 25%; }
+.invoice-goods-table :is(th, td) { overflow-wrap: anywhere; }
+.invoice-goods-table :is(th, td):last-child { text-align: right; }
+.invoice-goods-table tbody tr:nth-child(even) { background: var(--panel-2); }
+.invoice-goods-table tbody th small { display: block; font-weight: 400; margin-top: 3px; color: var(--soft); }
+.invoice-goods > details { margin-top: 9px; }
+
+@container (max-width: 735px) {
+  .biz-invoice-register .biz-all-invoice-table { padding: 8px; }
+  .biz-invoice-register .biz-all-invoice-table > div:first-child { display: none; }
+  .biz-invoice-register .biz-all-invoice-table > .invoice-register-row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas: 'invoice status' 'buyer goods' 'gross returns' 'net net';
+    align-items: start;
+    margin-bottom: 8px;
+    padding: 10px;
+    border: 1px solid var(--line-strong);
+    border-radius: 10px;
+  }
+  .biz-invoice-register .biz-all-invoice-table > button > * { text-align: left; }
+  .biz-invoice-register .biz-all-invoice-table > button > [data-label]::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 3px;
+    color: var(--soft);
+    font-size: .74rem;
+    font-weight: 650;
+  }
+  .biz-invoice-register .biz-all-invoice-table [data-label='Invoice'] { grid-area: invoice; }
+  .biz-invoice-register .biz-all-invoice-table [data-label='Status'] { grid-area: status; text-align: right; border: 0; padding: 0; }
+  .biz-invoice-register .biz-all-invoice-table [data-label='Toko'] { grid-area: buyer; }
+  .biz-invoice-register .biz-all-invoice-table [data-label='Barang'] { grid-area: goods; }
+  .biz-invoice-register .biz-all-invoice-table [data-label='Total'] { grid-area: gross; }
+  .biz-invoice-register .biz-all-invoice-table [data-label='Retur'] { grid-area: returns; }
+  .biz-invoice-register .biz-all-invoice-table [data-label='Net'] { grid-area: net; border-top: 1px solid var(--line); padding-top: 7px; }
+}
+@media (max-width: 480px) {
+  .invoice-pagination { padding-inline: 6px; }
+  .invoice-pagination button { padding-inline: 6px; }
+  .invoice-goods-table :is(th, td) { padding: 7px 5px; font-size: .85rem; }
+}

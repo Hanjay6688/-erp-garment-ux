@@ -3,7 +3,7 @@
   "candidate_branch": "pre-cp5/cutting-persistence-pickup-wip-r1-20260903",
   "source_base_sha": "8bfac13b91ea1be92111139e2fddcabccf9ae19a",
   "source_base_tree": "a9b193010266bb686c57709865a992769a835855",
-  "generation_parent_sha": "03463d7fb7f3496ac030f1ef480eaa0bdd14cded",
+  "generation_parent_sha": "6b3768d673681755501926330a8c04ad673919d6",
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
@@ -636,16 +636,16 @@
       "sha256": "8dcafcf1ead9dec38713f7a75f317eed63de1bf64a666e0e354c540e913a7ab4"
     },
     "tests/browser/cp8-worker.spec.ts": {
-      "bytes": 75646,
-      "sha256": "76fa2ed021d11bb3bd6a80f3f254b294de33ef2655a703247eae810651f61d1f"
+      "bytes": 82782,
+      "sha256": "516544f4f4c2e8a9c5c9cc5aad9ca5d0fb9f1745eac34a4444101c017abbec39"
     },
     "tests/fg-quantity.test.ts": {
       "bytes": 1251,
       "sha256": "7a7ff7b2a744eda4011d1a08949d52a8000aa2c0923c2ff993c64183b37aba33"
     },
     "tests/warehouse-sku-roll.test.ts": {
-      "bytes": 5520,
-      "sha256": "8d93f0ac84e8773eb4b77c5861ab8157e895f4aaa8cbaaa8ec0045c6c4d9d1b0"
+      "bytes": 6165,
+      "sha256": "6b44bf5b0b275f870102e4534c011b966357503cf0855a91e6120fc696e06f30"
     },
     "tests/worker-accessory-price.test.ts": {
       "bytes": 3467,
@@ -1228,8 +1228,8 @@
       "sha256": "c79523e17e37bc3d05ef1f13503ab5a25a8c61044665778c60ae80a6b3b13582"
     },
     "worker-demo/src/SalesPages.tsx": {
-      "bytes": 54209,
-      "sha256": "0c1752d6411e3f7e85abde9b09170eaa0e82bc9dda876c5a92fb4a38c70b248f"
+      "bytes": 59972,
+      "sha256": "1abd9e5ed5613d1f0818447bf8b99bea34604ed69c9fbb9442b1441d9fe64c15"
     },
     "worker-demo/src/SalesPaymentCorrectionPanel.tsx": {
       "bytes": 11507,
@@ -1452,8 +1452,8 @@
       "sha256": "fe0877f3535af0d3175deeb403b097e35a13c39d23380ebc4e674a06187445ef"
     },
     "worker-demo/src/business-pages.css": {
-      "bytes": 41849,
-      "sha256": "221b81e10f6962c91e70fc9727316c9a1bf841b6a26f001bec501ef32518016c"
+      "bytes": 46574,
+      "sha256": "0ee59215b077836f877467c51c686f87aab5495f21a64a5aa3360eeb83e237b6"
     },
     "worker-demo/src/components/AppIcon.tsx": {
       "bytes": 1335,
@@ -1660,20 +1660,24 @@
       "sha256": "f7a454f304d2694e7058c096937955f7f9a5f0251f3d53718bcb32b46b421676"
     },
     "worker-demo/src/demo/PocketFabric.tsx": {
-      "bytes": 25151,
-      "sha256": "865720b3ac06b39f1dbb5ca79bc2a23d51d593e732c983e554ee6918b1b27262"
+      "bytes": 26003,
+      "sha256": "2da9f9fcc330b71642c4382069d706f0aae2920e7f68d8c1481c9641520d743d"
     },
     "worker-demo/src/demo/PocketReceiptForm.tsx": {
-      "bytes": 13840,
-      "sha256": "e1456c755ba83f1e915b928b44eea2dacee8433e4a0c9ba57aa9c9adfd8b86da"
+      "bytes": 15766,
+      "sha256": "5ed27d4de776f1cff07d0dd3d60b125a9aa14c981b58f550976f3d4bb4b0c5a3"
     },
     "worker-demo/src/demo/PostedFgDetail.tsx": {
       "bytes": 4835,
       "sha256": "239341d4112112f7404e0e8b23349f2f5969b27cf45176cc09891b1dd911a782"
     },
     "worker-demo/src/demo/ProcurementPage.tsx": {
-      "bytes": 11178,
-      "sha256": "a73b502c620343e910f26c192826b770db3e60f970d3a8a98fb9961420498f15"
+      "bytes": 10561,
+      "sha256": "46fb1c10e601d5930b9cfa9c49d8be6e807c864d9914ce45220d9826e3267cf5"
+    },
+    "worker-demo/src/demo/ReceiptRollRows.tsx": {
+      "bytes": 1794,
+      "sha256": "4b0011ce81f46e4edc7d649272a79d4beedb69ec71b12256edbbcc50f922a4ea"
     },
     "worker-demo/src/demo/RecordFinder.tsx": {
       "bytes": 3870,
@@ -1808,12 +1812,12 @@
       "sha256": "c724275cccd63351c485be7e766094bda13091f9ea54dcc5a7d986cdaf57912a"
     },
     "worker-demo/src/demo/pocketFabric.css": {
-      "bytes": 12338,
-      "sha256": "059e5605e12fca6acf01e66c5a9dc44fb3a18adcf075176a31578f26692d8731"
+      "bytes": 13002,
+      "sha256": "761908cbe6eda856649c9b170a8b36f0e579f16445e7129ce9d9ed733499838a"
     },
     "worker-demo/src/demo/pocketReceipts.ts": {
-      "bytes": 4520,
-      "sha256": "94efb6e4b0f99bda8db9cd4713ca87d4cdedfdc123b56f8d7308056dbe01b5ac"
+      "bytes": 4827,
+      "sha256": "b385a92ac24e4bf8276bc50b8f5fec2328ff1d41b511b4d223d7fc661b8db78b"
     },
     "worker-demo/src/demo/pocketUsage.ts": {
       "bytes": 4370,
