@@ -13,6 +13,7 @@ from uuid import uuid4
 
 import psycopg
 from psycopg import errors, sql
+from psycopg.types.json import Jsonb
 
 
 PROFILE = Path(__file__).resolve().with_name("cp7_global_nonpo_envelope")
@@ -73,10 +74,63 @@ def profile():
     return tables, plan['tables'], sorted(native['functions'])
 
 
+AUTHORITY = """
+    WITH pinned AS (SELECT key AS signature, value AS pin FROM jsonb_each(%s::jsonb)),
+    observed AS (
+        SELECT e.signature, p.oid IS NOT NULL AS present,
+               p.oid IS NOT NULL
+                 AND encode(sha256(convert_to(p.prosrc,'UTF8')),'hex')=e.pin->>'prosrc_sha256'
+                 AND p.provolatile::text=e.pin->>'volatility'
+                 AND p.prosecdef=(e.pin->>'security_definer')::boolean
+                 AND owner.rolname=e.pin->>'owner' AND l.lanname=e.pin->>'language'
+                 AND to_jsonb(p.proconfig)=e.pin->'config'
+                 AND p.prorettype::regtype::text=e.pin->>'return_type'
+                 AND p.proretset=(e.pin->>'returns_set')::boolean
+                 AND NOT p.proisstrict AND NOT p.proleakproof AND p.proparallel='u'
+                 AS matches_release_source,
+               jsonb_build_array(p.oid, n.oid,
+                   encode(sha256(convert_to(pg_get_functiondef(p.oid),'UTF8')),'hex'),
+                   p.proowner, p.proacl, n.nspowner, n.nspacl, p.provolatile, p.prosecdef,
+                   p.proleakproof, p.proisstrict, p.proparallel, p.proconfig, owner.rolsuper,
+                   owner.rolcreaterole, owner.rolcanlogin, owner.rolbypassrls) AS identity
+          FROM pinned e LEFT JOIN pg_proc p ON p.oid=to_regprocedure(e.signature)
+          LEFT JOIN pg_namespace n ON n.oid=p.pronamespace
+          LEFT JOIN pg_language l ON l.oid=p.prolang LEFT JOIN pg_roles owner ON owner.oid=p.proowner
+    )
+    SELECT jsonb_build_object(
+        'expected', count(*), 'present', count(*) FILTER (WHERE present),
+        'matches_known_source', count(*) FILTER (WHERE matches_release_source),
+        'observed_source_differs', coalesce(jsonb_agg(signature ORDER BY signature COLLATE "C")
+                         FILTER (WHERE present AND matches_release_source IS NOT TRUE),'[]'::jsonb),
+        'target_fingerprint', encode(sha256(convert_to(
+            jsonb_agg(jsonb_build_array(signature,identity) ORDER BY signature COLLATE "C")::text,
+            'UTF8')),'hex')
+    ) FROM observed
+"""
+
+
+def read_authority(db, expected):
+    # pg_get_functiondef and regtype rendering depend on search_path.
+    with db.transaction():
+        path = db.execute("SELECT current_setting('search_path')").fetchone()[0]
+        db.execute("SET LOCAL search_path = ''")
+        result = db.execute(AUTHORITY, (Jsonb(expected),)).fetchone()[0]
+        db.execute("SELECT set_config('search_path',%s,true)", (path,))
+        return result
+
+
+def expected_functions():
+    data = json.loads((PROFILE / 'graph_helpers/AUTHORITY.json').read_bytes())
+    require(len(data['known_functions']) == 19, "Unexpected downstream Global source profile")
+    return data['known_functions']
+
+
 def inventory(dsn):
     with psycopg.connect(dsn) as db:
         db.read_only = True
-        return db.execute(INVENTORY, profile()).fetchone()[0]
+        result = db.execute(INVENTORY, profile()).fetchone()[0]
+        result['downstream_routines'] = read_authority(db, expected_functions())
+        return result
 
 
 def admitted_connection(dsn):
@@ -120,11 +174,13 @@ def verify_blocked(db, operation):
         raise RuntimeError("A conflicting operation was admitted")
 
 
-def check_release(db, release):
+def check_release(db, release, pins, fingerprint):
     sql_check = sql.SQL("SELECT version FROM {} WHERE id=1 FOR SHARE NOWAIT").format(release)
     row = db.execute(sql_check).fetchone()
     if row != (1,):
         raise ValueError("Stale or unavailable ERP release")
+    if read_authority(db, pins)['target_fingerprint'] != fingerprint:
+        raise ValueError("Unexpected ERP routine definition, owner or privileges")
 
 
 def run(dsn):
@@ -136,6 +192,8 @@ def run(dsn):
                        EXISTS(SELECT FROM auth.users), EXISTS(SELECT FROM erp.app_users)
             """).fetchone() == (138, True, False, False), "Expected the restored, unused BF base")
             tables = target_tables(correction)
+            pins = expected_functions()
+            fingerprint = read_authority(correction, pins)['target_fingerprint']
         schema = sql.Identifier('qualification_' + uuid4().hex)
         release = sql.SQL('{}.release').format(schema)
         with correction.transaction():
@@ -146,10 +204,10 @@ def run(dsn):
         try:
             exclusive = sql.SQL('SELECT version FROM {} WHERE id=1 FOR UPDATE NOWAIT').format(release)
             with correction.transaction():
-                check_release(correction, release)
+                check_release(correction, release, pins, fingerprint)
                 # An ordinary second reader can proceed. An exclusive migration must retry.
                 with migration.transaction():
-                    check_release(migration, release)
+                    check_release(migration, release, pins, fingerprint)
                 verify_blocked(migration, lambda: migration.execute(exclusive))
                 for names in tables:
                     target = sql.Identifier(*names)
@@ -157,13 +215,21 @@ def run(dsn):
                     # ROW EXCLUSIVE is the table-level lock an INSERT/UPDATE/DELETE takes.
                     verify_blocked(migration, lambda: migration.execute(
                         sql.SQL('LOCK TABLE {} IN ROW EXCLUSIVE MODE NOWAIT').format(target)))
+                check_release(correction, release, pins, fingerprint)
+                try:
+                    check_release(correction, release, pins, '')
+                except ValueError as exc:
+                    require(str(exc) == "Unexpected ERP routine definition, owner or privileges",
+                            "Expected refusal of the mismatched release fingerprint")
+                else:
+                    raise RuntimeError("A mismatched routine or privilege fingerprint was admitted")
             with migration.transaction():
                 migration.execute(exclusive)
                 migration.execute(sql.SQL("UPDATE {} SET version=2 WHERE id=1").format(release))
-                verify_blocked(correction, lambda: check_release(correction, release))
+                verify_blocked(correction, lambda: check_release(correction, release, pins, fingerprint))
             with correction.transaction():
                 try:
-                    check_release(correction, release)
+                    check_release(correction, release, pins, fingerprint)
                 except ValueError as exc:
                     require(str(exc) == "Stale or unavailable ERP release", "Unexpected refusal")
                 else:
@@ -176,6 +242,7 @@ def run(dsn):
                 'target': 'local_bf', 'shared_readers': 2, 'migration_during_correction': 'retry',
                 'correction_during_migration': 'retry', 'old_release_after_commit': 'refused',
                 'existing_erp_relations_locked_and_released': len(tables),
+                'changed_expected_routine_or_rights_fingerprint': 'refused',
                 'missing_parent_relations': sorted(ABSENT_ON_BF),
                 'global_installer_or_runtime_admitted': False, 'production_go': False,
             }
