@@ -1,0 +1,42 @@
+name: Pemasang PostgreSQL Enteng Uji
+on:
+  push:
+    branches: ['writer-a/enteng-uji-restore-public-20261126']
+    paths:
+      - '.github/workflows/enteng-uji-restore-public.yml'
+      - 'qualification/enteng-uji-public/**'
+permissions:
+  contents: read
+jobs:
+  check:
+    if: github.repository == 'Hanjay6688/-erp-garment-ux' && github.ref == 'refs/heads/writer-a/enteng-uji-restore-public-20261126' && github.actor == 'Hanjay6688'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          sparse-checkout: qualification/enteng-uji-public
+      - name: Periksa pemasang dengan data sintetis
+        run: |
+          psql --version
+          python3 qualification/enteng-uji-public/test_runner.py
+  restore:
+    needs: check
+    if: github.event.head_commit.message == 'Jalankan pemulihan Enteng Uji'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    environment: enteng-uji-restore
+    concurrency:
+      group: enteng-uji-postgres
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          sparse-checkout: qualification/enteng-uji-public
+      - name: Pulihkan dan baca ulang tanda terima
+        env:
+          ENTENG_UJI_DATABASE_URL: ${{ secrets.ENTENG_UJI_DATABASE_URL }}
+          ENTENG_UJI_BOX_DOWNLOADS: ${{ secrets.ENTENG_UJI_BOX_DOWNLOADS }}
+        run: python3 qualification/enteng-uji-public/from_box.py --apply
