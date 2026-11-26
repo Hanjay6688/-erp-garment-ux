@@ -1,0 +1,112 @@
+name: Uji templat Excel ERP
+
+on:
+  push:
+    branches: ["writer-a/enteng-uji-build-check-20261126"]
+    paths:
+      - ".github/workflows/enteng-uji-excel-check.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  excel:
+    if: github.repository == 'Hanjay6688/-erp-garment-ux' && github.ref == 'refs/heads/writer-a/enteng-uji-build-check-20261126'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: "24"
+      - name: Siapkan dependensi
+        run: npm ci
+      - name: Uji konversi workbook sintetis
+        run: |
+          cat > tests/enteng-migration-workbook-check.test.mjs <<'TEST'
+          // @vitest-environment jsdom
+          import { readFileSync } from 'node:fs'
+          import JSZip from 'jszip'
+          import { expect, test } from 'vitest'
+          import { convertWorkbook, pack } from '../worker-demo/src/migrationWorkbook.mjs'
+          import { parseInitialImportCsv } from '../worker-demo/src/initialImport.ts'
+          import tabs from '../worker-demo/src/migrationTabNames.json'
+          
+          const templateDir = 'worker-demo/public/migrasi/'
+          const emptyWorkbook = readFileSync(templateDir + 'Template_Migrasi_ERP_CP8.xlsx')
+          const sample = readFileSync(templateDir + 'Contoh_Migrasi_Sintetis.xlsx')
+          const convert = input => convertWorkbook(input, tabs, JSZip)
+          
+          async function changeCustomerSheet(edit) {
+            const zip = await JSZip.loadAsync(sample)
+            const path = 'xl/worksheets/sheet7.xml'
+            const original = await zip.file(path).async('string')
+            const xml = new DOMParser().parseFromString(original, 'application/xml')
+            const rows = Array.from(xml.getElementsByTagNameNS('*', 'row'))
+            const first = rows.find(row => row.getAttribute('r') === '2')
+            edit(xml, first, rows)
+            zip.file(path, new XMLSerializer().serializeToString(xml))
+            return zip.generateAsync({ type: 'nodebuffer' })
+          }
+          
+          test('the blank workbook validates all 34 mapped input tabs', async () => {
+            expect(Object.keys(tabs)).toHaveLength(34)
+            expect(await convert(emptyWorkbook)).toEqual({ files: [], errors: [], errorCount: 0 })
+          })
+          
+          test('sample workbook yields nine data rows and preserves textual codes and size ranges', async () => {
+            const result = await convert(sample)
+            expect(result.errors).toEqual([])
+            expect(result.errorCount).toBe(0)
+            expect(Object.fromEntries(result.files.map(file => [file.key, file.rows]))).toEqual({
+              BRAND: 1, SIZE: 3, MODEL: 1, PRODUCT: 3, CUSTOMER: 1,
+            })
+            const products = parseInitialImportCsv(result.files.find(file => file.key === 'PRODUCT').csv, 'PRODUCT')
+            expect(products.map(row => [row.payload.sku, row.payload.size_code])).toEqual([
+              ['00001', '28-30'], ['00002', '31-33'], ['00003', '34-36'],
+            ])
+            const customers = parseInitialImportCsv(result.files.find(file => file.key === 'CUSTOMER').csv, 'CUSTOMER')
+            expect(customers.map(row => [row.payload.customer_code, row.payload.phone])).toEqual([['00017', '081200000000']])
+          })
+          
+          test('repeat conversion produces the same CSV payload and row provenance', async () => {
+            const result = await convert(sample)
+            expect(await convert(sample)).toEqual(result)
+            const zip = await JSZip.loadAsync(await pack(result, JSZip))
+            const provenance = JSON.parse(await zip.file('baris-asal.json').async('string'))
+            expect(provenance.PRODUCT).toEqual({ tab: 'Produk SKU', baris_excel_dalam_urutan_csv: [2, 3, 4] })
+            expect(await zip.file('PRODUCT.csv').async('string')).toBe(result.files.find(file => file.key === 'PRODUCT').csv)
+          })
+          
+          test('numeric customer codes stop staging instead of losing leading zeros', async () => {
+            const broken = await changeCustomerSheet((xml, row) => {
+              const code = Array.from(row.getElementsByTagNameNS('*', 'c')).find(cell => cell.getAttribute('r') === 'A2')
+              code.setAttribute('t', 'n')
+              const number = xml.createElementNS(code.namespaceURI, 'v')
+              number.textContent = '17'
+              code.replaceChildren(number)
+            })
+            const result = await convert(broken)
+            expect(result.files).toEqual([])
+            expect(result.errors.join('\n')).toMatch(/Toko.*A2.*tersimpan sebagai angka/)
+          })
+          
+          test('detected duplicate rows prevent the workbook from being staged', async () => {
+            const broken = await changeCustomerSheet((xml, first, rows) => {
+              const duplicate = first.cloneNode(true)
+              duplicate.setAttribute('r', '3')
+              for (const cell of duplicate.getElementsByTagNameNS('*', 'c')) {
+                cell.setAttribute('r', cell.getAttribute('r').replace(/\d+$/, '3'))
+              }
+              const second = rows.find(row => row.getAttribute('r') === '3')
+              if (second) second.replaceWith(duplicate)
+              else first.after(duplicate)
+            })
+            const result = await convert(broken)
+            expect(result.files).toEqual([])
+            expect(result.errors.join('\n')).toMatch(/Toko.*baris 3 sama persis dengan baris 2/)
+          })
+          TEST
+          npx --no-install vitest run tests/enteng-migration-workbook-check.test.mjs
