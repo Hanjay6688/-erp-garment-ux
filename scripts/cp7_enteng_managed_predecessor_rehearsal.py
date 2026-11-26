@@ -185,6 +185,24 @@ def close_installation_roles(conn, before):
     return len(names)
 
 
+def grant_bounds_verification(conn):
+    """Allow the installer to read the immutable analysis limits after it drops memberships."""
+    signature = 'cp7_analysis_stage.bounds()'
+    row = conn.execute("""
+        select p.prosrc, p.proowner::regrole::text, p.provolatile, p.prosecdef,
+               p.prorettype::regtype::text, l.lanname, p.proconfig
+          from pg_proc p join pg_language l on l.oid=p.prolang
+         where p.oid=to_regprocedure(%s)
+    """, (signature,)).fetchone()
+    if (not row or identity.digest(row[0])!='aced99fa879da9258a6af894fb0e87789aaeb5a51b5d419fa3bb77cb1bea0bbe'
+            or row[1:]!=('cp7_capture','i',False,'jsonb','sql',['search_path=""','TimeZone=UTC'])):
+        raise ValueError('Unrecognized analysis limits routine')
+    conn.execute('grant execute on function cp7_analysis_stage.bounds() to postgres')
+    for role in identity.CALLER_ROLES:
+        if conn.execute("select has_function_privilege(%s,%s,'EXECUTE')", (role,signature)).fetchone()[0]:
+            raise ValueError('Unexpected operator access to private analysis limits')
+
+
 def apply(conn):
     if conn.info.transaction_status!=TransactionStatus.INTRANS:
         raise ValueError('An explicit release transaction is required')
@@ -209,6 +227,7 @@ def apply(conn):
             else:
                 conn.execute(statement)
         result = identity.apply(conn)
+        grant_bounds_verification(conn)
         grant_guard_reads(conn)
         closed = close_installation_roles(conn, original_memberships)
         return {'statements': len(parts), 'ownership_scopes': len(plan), 'identity': result,
