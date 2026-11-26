@@ -1,0 +1,466 @@
+name: Uji transaksi runner pemulihan Enteng Uji
+on:
+  push:
+    branches: ['writer-a/enteng-uji-build-check-20261126']
+    paths:
+      - '.github/workflows/enteng-uji-runner-synthetic.yml'
+permissions:
+  contents: read
+jobs:
+  smoke:
+    if: github.repository == 'Hanjay6688/-erp-garment-ux' && github.ref == 'refs/heads/writer-a/enteng-uji-build-check-20261126'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_PASSWORD: only-synthetic
+        ports:
+          - 54324:5432
+        options: --health-cmd "pg_isready -U postgres" --health-interval 5s --health-timeout 4s --health-retries 12
+    steps:
+      - name: Uji checkpoint, TLS, pencegahan duplikat dan rollback
+        env:
+          ENTENG_FIXTURE_POSTGRES: "1"
+        run: |
+          python3 --version
+          psql --version
+          cat > restore.py <<'SOURCE_PY'
+          #!/usr/bin/env python3
+          """Resume the reviewed CP6 recovery packages in Enteng Uji over PostgreSQL."""
+          
+          import argparse
+          import csv
+          import hashlib
+          import io
+          import json
+          import os
+          from dataclasses import dataclass
+          from pathlib import Path
+          import re
+          import shutil
+          import subprocess
+          import sys
+          from urllib.parse import parse_qs, unquote, urlsplit
+          
+          
+          PROJECT_REF = "syntheticentengtestx"
+          POSTGRES_VERSION = 170012
+          DATABASE_URL_VARIABLE = "ENTENG_UJI_DATABASE_URL"
+          CERTIFICATES = Path("/etc/ssl/certs/ca-certificates.crt")
+          BOX_HISTORY_DIGEST = "0000000000000000000000000000000000000000000000000000000000000000"
+          LAST_BOX_HISTORY_VERSION = "20260904232442"
+          
+          PINNED_FILES = {
+              "base/source-manifest.json": "0000000000000000000000000000000000000000000000000000000000000000",
+              "base/verify-platform-history.sql": "0000000000000000000000000000000000000000000000000000000000000000",
+              "base/verify-rows.sql": "0000000000000000000000000000000000000000000000000000000000000000",
+              "base/verify-sequences.sql": "0000000000000000000000000000000000000000000000000000000000000000",
+              "base/verify-catalog.sql": "0000000000000000000000000000000000000000000000000000000000000000",
+              "base/expected-rows.json": "0000000000000000000000000000000000000000000000000000000000000000",
+              "base/expected-sequences.json": "0000000000000000000000000000000000000000000000000000000000000000",
+              "base/expected-groups.json": "0000000000000000000000000000000000000000000000000000000000000000",
+              "early/MANIFEST.json": "0000000000000000000000000000000000000000000000000000000000000000",
+          }
+          
+          LEDGER = "supabase_migrations.schema_migrations"
+          LEDGER_DIGEST = """
+          SELECT encode(sha256(convert_to(
+            coalesce(jsonb_agg(to_jsonb(m) ORDER BY version COLLATE "C")::text,'[]'),
+            'UTF8'
+          )), 'hex') FROM supabase_migrations.schema_migrations AS m
+          """
+          
+          
+          class RestoreError(RuntimeError):
+              pass
+          
+          
+          @dataclass(frozen=True)
+          class Step:
+              name: str
+              digest: str
+              sql: str
+          
+          
+          def verified_file(root, path, digest, size=None):
+              try:
+                  data = (root / path).read_bytes()
+              except OSError:
+                  raise RestoreError(f"Berkas paket tidak bisa dibaca: {path}") from None
+              if (size is not None and len(data) != size) or hashlib.sha256(data).hexdigest() != digest:
+                  raise RestoreError(f"Ukuran atau checksum berubah: {path}")
+              return data.decode("utf-8")
+          
+          
+          def load_packages(root, through):
+              files = {
+                  path: verified_file(root, path, digest)
+                  for path, digest in PINNED_FILES.items()
+                  if not (through == "baseline" and path.startswith("early/"))
+              }
+              manifest = json.loads(files["base/source-manifest.json"])
+              steps = [
+                  Step(
+                      f"enteng_uji_restore_cp6_{part:02}",
+                      item["sha256"],
+                      verified_file(root, "base/" + item["file"], item["sha256"], item["bytes"]),
+                  )
+                  for part, item in enumerate(manifest, start=1)
+              ]
+              if through == "an":
+                  steps.extend(
+                      Step(
+                          item["name"],
+                          item["sha256"],
+                          verified_file(root, "early/" + item["file"], item["sha256"], item["bytes"]),
+                      )
+                      for item in json.loads(files["early/MANIFEST.json"])
+                  )
+              if len(steps) != (6 if through == "baseline" else 50):
+                  raise RestoreError("Jumlah langkah tidak cocok dengan paket yang diuji")
+              if any(not re.fullmatch(r"[a-z0-9_]+", step.name) for step in steps):
+                  raise RestoreError("Nama langkah pemasangan tidak sah")
+              source_header = files["base/verify-platform-history.sql"].splitlines()[0]
+              source_versions = re.findall(r"\('(\d{14})'\)", source_header)
+              if len(set(source_versions)) != 70:
+                  raise RestoreError("Daftar riwayat Enteng di Box tidak lengkap")
+              return files, steps, source_versions
+          
+          
+          def connect_environment(raw, ca_file):
+              if not raw:
+                  raise RestoreError(f"Pasang {DATABASE_URL_VARIABLE} di penyimpanan rahasia runner")
+              try:
+                  url = urlsplit(raw)
+                  username = unquote(url.username or "")
+                  password = unquote(url.password or "")
+                  host = url.hostname or ""
+                  port = url.port or 5432
+                  query = parse_qs(url.query, keep_blank_values=True, strict_parsing=True)
+              except ValueError:
+                  raise RestoreError("Alamat PostgreSQL Enteng Uji tidak valid") from None
+          
+              direct = (host == f"db.{PROJECT_REF}.supabase.co" and username == "postgres")
+              pooler = (
+                  re.fullmatch(r"aws-[0-9]+-ap-southeast-1\.pooler\.supabase\.com", host)
+                  and username == f"postgres.{PROJECT_REF}"
+              )
+              if (
+                  url.scheme not in {"postgres", "postgresql"}
+                  or not (direct or pooler)
+                  or port != 5432
+                  or url.path != "/postgres"
+                  or not password
+                  or url.fragment
+                  or query not in ({}, {"sslmode": ["require"]}, {"sslmode": ["verify-full"]})
+              ):
+                  raise RestoreError("Runner hanya menerima Enteng Uji lewat PostgreSQL atau Session pooler")
+              if not ca_file.is_file():
+                  raise RestoreError("Berkas CA TLS tidak tersedia untuk memverifikasi host Supabase")
+              env = {
+                  key: val for key, val in os.environ.items()
+                  if not key.startswith("PG") and key != DATABASE_URL_VARIABLE
+              }
+              env.update(
+                  PGHOST=host,
+                  PGPORT="5432",
+                  PGUSER=username,
+                  PGDATABASE="postgres",
+                  PGPASSWORD=password,
+                  PGSSLMODE="verify-full",
+                  PGSSLROOTCERT=str(ca_file.resolve()),
+                  PGCONNECT_TIMEOUT="12",
+                  PGOPTIONS="-c TimeZone=UTC",
+                  PGCLIENTENCODING="UTF8",
+                  PGAPPNAME="enteng-uji-cp6-restore",
+              )
+              return env
+          
+          
+          def psql(env, sql, *, as_csv=False):
+              binary = shutil.which("psql")
+              if binary is None:
+                  raise RestoreError("Klien psql diperlukan di runner")
+              output_option = "--csv" if as_csv else "--no-align"
+              command = [
+                  binary, "-X", "-w", "-q", "-t", output_option,
+                  "--set=ON_ERROR_STOP=1", "--set=VERBOSITY=sqlstate", "-f", "-",
+              ]
+              try:
+                  result = subprocess.run(
+                      command, env=env, input=sql, encoding="utf-8",
+                      stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=420, check=False,
+                  )
+              except subprocess.TimeoutExpired:
+                  raise RestoreError("Sesi PostgreSQL melebihi waktu. Periksa riwayat sebelum mengulang") from None
+              if result.returncode != 0:
+                  sqlstate = re.search(r"ERROR:\s+([A-Z0-9]{5})\b", result.stderr)
+                  if sqlstate:
+                      raise RestoreError(f"PostgreSQL menolak perintah. SQLSTATE {sqlstate[1]}")
+                  if "password authentication failed" in result.stderr:
+                      raise RestoreError("Autentikasi PostgreSQL Enteng Uji gagal")
+                  if "certificate" in result.stderr:
+                      raise RestoreError("Verifikasi sertifikat PostgreSQL Enteng Uji gagal")
+                  raise RestoreError(f"Koneksi atau perintah psql gagal (kode {result.returncode})")
+              return result.stdout
+          
+          
+          def quote(value):
+              return "'" + value.replace("'", "''") + "'"
+          
+          
+          def read_state(env, source_versions):
+              versions = ",".join(map(quote, source_versions))
+              return json.loads(psql(env, f"""
+          SELECT jsonb_build_object(
+            'database', current_database(),
+            'server', current_setting('server_version_num')::int,
+            'standby', pg_is_in_recovery(),
+            'fingerprint', ({LEDGER_DIGEST}),
+            'box_digest', (SELECT encode(sha256(convert_to(
+              coalesce(jsonb_agg(to_jsonb(m) ORDER BY to_jsonb(m)::text COLLATE "C")::text,'[]'),
+              'UTF8'
+            )), 'hex') FROM {LEDGER} AS m WHERE version IN ({versions})),
+            'entries', (SELECT coalesce(jsonb_agg(
+              jsonb_build_object(
+                'version', version,
+                'name', name,
+                'size', cardinality(statements),
+                'body', CASE WHEN cardinality(statements)=1
+                  THEN encode(sha256(convert_to(statements[1],'UTF8')),'hex') END
+              ) ORDER BY version COLLATE "C"),'[]')
+              FROM {LEDGER})
+          );
+          """))
+          
+          
+          def next_step(state, steps, archive_versions):
+              if state["database"] != "postgres" or state["standby"] or state["server"] != POSTGRES_VERSION:
+                  raise RestoreError("Database atau versi PostgreSQL berbeda dari Enteng Uji yang diuji")
+              if not re.fullmatch(r"[a-f0-9]{64}", state["fingerprint"]):
+                  raise RestoreError("Sidik jari riwayat tidak valid")
+          
+              entries = state["entries"]
+              archive = [row for row in entries if row["version"] in archive_versions]
+              restored = [row for row in entries if row["version"] not in archive_versions]
+              expected = steps[:len(restored)]
+              if (
+                  not restored
+                  or len(restored) > len(steps)
+                  or any(
+                      row["name"] != step.name
+                      or row["size"] != 1
+                      or row["body"] != step.digest
+                      or not re.fullmatch(r"\d{14}", row["version"])
+                      or row["version"] <= LAST_BOX_HISTORY_VERSION
+                      for row, step in zip(restored, expected)
+                  )
+              ):
+                  raise RestoreError("Riwayat Enteng Uji menyimpang dari urutan dan checksum paket")
+          
+              completed = len(restored)
+              if (completed <= 6 and archive) or (
+                  completed >= 10 and (len(archive) != 70 or state["box_digest"] != BOX_HISTORY_DIGEST)
+              ):
+                  raise RestoreError("Riwayat asli dari Box tidak cocok dengan tahap pemulihan")
+              return completed
+          
+          
+          def apply_step(env, step, state):
+              marker = f"$sql_{step.digest[:20]}$"
+              if marker in step.sql:
+                  raise RestoreError("Pemisah tanda terima bertabrakan dengan isi SQL")
+              psql(env, f"""
+          BEGIN;
+          SET LOCAL lock_timeout = '10s';
+          LOCK TABLE {LEDGER} IN SHARE ROW EXCLUSIVE MODE;
+          DO $guard$
+          BEGIN
+            IF ({LEDGER_DIGEST}) IS DISTINCT FROM '{state["fingerprint"]}' THEN
+              RAISE EXCEPTION 'Riwayat berubah sejak pemeriksaan awal';
+            END IF;
+          END
+          $guard$;
+          {step.sql}
+          INSERT INTO {LEDGER} (version, name, statements)
+          SELECT to_char(greatest(
+            clock_timestamp() AT TIME ZONE 'UTC',
+            coalesce((SELECT to_timestamp(max(version),'YYYYMMDDHH24MISS')
+                                AT TIME ZONE current_setting('TimeZone') FROM {LEDGER}),
+                     '2000-01-01'::timestamp) + interval '1 second'
+          ), 'YYYYMMDDHH24MISS'), {quote(step.name)}, ARRAY[{marker}{step.sql}{marker}];
+          COMMIT;
+          """)
+          
+          
+          def verify_baseline(env, files):
+              def rows(name):
+                  sql = files[f"base/verify-{name}.sql"]
+                  return list(csv.reader(io.StringIO(psql(env, f"BEGIN READ ONLY;\n{sql}\nCOMMIT;\n", as_csv=True))))
+          
+              expected_rows = json.loads(files["base/expected-rows.json"])
+              by_relation = {r["relation"]: (str(r["rows"]), r["sha256"]) for r in expected_rows}
+              actual = {relation: (count, digest) for relation, count, digest in rows("rows")}
+              if actual != by_relation:
+                  raise RestoreError("Isi tabel CP6 berbeda dari backup Box")
+              expected_seq = {
+                  r["relation"]: (r["last_value"], "t" if r["is_called"] else "f")
+                  for r in json.loads(files["base/expected-sequences.json"])
+              }
+              if {relation: (last, called) for relation, last, called in rows("sequences")} != expected_seq:
+                  raise RestoreError("Nomor urut CP6 berbeda dari backup Box")
+              expected_groups = json.loads(files["base/expected-groups.json"])
+              if {kind: {"n": int(count), "digest": digest} for kind, count, digest in rows("catalog")} != expected_groups:
+                  raise RestoreError("Struktur atau izin CP6 berbeda dari backup Box")
+              print(json.dumps({"baseline_checked": True, "tables": len(actual), "rows": sum(r["rows"] for r in expected_rows),
+                                "sequences": len(expected_seq), "catalog_groups": len(expected_groups)}), flush=True)
+          
+          
+          def main():
+              parser = argparse.ArgumentParser(description=__doc__)
+              parser.add_argument("packages", type=Path)
+              parser.add_argument("--through", choices=("baseline", "an"), default="an")
+              parser.add_argument("--ca-file", type=Path, default=CERTIFICATES)
+              action = parser.add_mutually_exclusive_group()
+              action.add_argument("--files-only", action="store_true")
+              action.add_argument("--apply", action="store_true")
+              args = parser.parse_args()
+              try:
+                  files, steps, archive_versions = load_packages(args.packages, args.through)
+                  print(json.dumps({"verified_files": len(steps), "through": args.through}), flush=True)
+                  if args.files_only:
+                      return 0
+                  env = connect_environment(os.environ.get(DATABASE_URL_VARIABLE), args.ca_file)
+                  state = read_state(env, archive_versions)
+                  completed = next_step(state, steps, archive_versions)
+                  print(json.dumps({"completed": completed, "next": steps[completed].name if completed < len(steps) else None}), flush=True)
+                  if completed == 6:
+                      verify_baseline(env, files)
+                  if args.apply:
+                      for step in steps[completed:]:
+                          apply_step(env, step, state)
+                          state = read_state(env, archive_versions)
+                          completed += 1
+                          if next_step(state, steps, archive_versions) != completed:
+                              raise RestoreError("Pembacaan ulang belum menemukan satu tanda terima baru")
+                          print(json.dumps({"applied": step.name, "completed": completed}), flush=True)
+                          if completed == 6:
+                              verify_baseline(env, files)
+                  return 0
+              except (RestoreError, OSError, UnicodeError, ValueError, KeyError) as error:
+                  print(f"Pemasangan berhenti: {error if isinstance(error, RestoreError) else type(error).__name__}", file=sys.stderr)
+                  return 1
+          
+          
+          if __name__ == "__main__":
+              raise SystemExit(main())
+          SOURCE_PY
+          cat > test_restore.py <<'TEST_PY'
+          """Synthetic checks for target selection and transactional receipts."""
+          
+          import csv
+          from hashlib import sha256
+          import io
+          import os
+          from pathlib import Path
+          import sys
+          import unittest
+          
+          import restore
+          
+          
+          def step(index, sql):
+              return restore.Step(f"enteng_uji_restore_cp6_{index:02}", sha256(sql.encode()).hexdigest(), sql)
+          
+          
+          class TargetTest(unittest.TestCase):
+              def test_production_and_transaction_pooler_are_rejected(self):
+                  certificate = Path("/etc/ssl/certs/ca-certificates.crt")
+                  for url in (
+                      "postgresql://postgres:dummy@db.other-project.supabase.co:5432/postgres",
+                      f"postgresql://postgres.{restore.PROJECT_REF}:dummy@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres",
+                      "postgresql://postgres.other-project:dummy@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres",
+                      f"postgresql://postgres:dummy@db.{restore.PROJECT_REF}.supabase.co:5432/postgres?host=localhost",
+                  ):
+                      with self.subTest(url=url), self.assertRaises(restore.RestoreError):
+                          restore.connect_environment(url, certificate)
+          
+              def test_session_pooler_pins_project_and_tls(self):
+                  certificate = Path("/etc/ssl/certs/ca-certificates.crt")
+                  url = f"postgresql://postgres.{restore.PROJECT_REF}:local%26only@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres"
+                  env = restore.connect_environment(url, certificate)
+                  self.assertEqual(env["PGUSER"], f"postgres.{restore.PROJECT_REF}")
+                  self.assertEqual(env["PGPASSWORD"], "local&only")
+                  self.assertEqual(env["PGSSLMODE"], "verify-full")
+          
+          
+          @unittest.skipUnless(os.environ.get("ENTENG_FIXTURE_POSTGRES") == "1", "Synthetic PostgreSQL not enabled")
+          class TransactionTest(unittest.TestCase):
+              def test_checkpoint_and_receipt_failure_roll_back(self):
+                  env = {
+                      k: v for k, v in os.environ.items()
+                      if not k.startswith("PG") and k != restore.DATABASE_URL_VARIABLE
+                  }
+                  env.update(PGHOST="127.0.0.1", PGPORT="54324", PGUSER="postgres",
+                             PGPASSWORD="only-synthetic", PGDATABASE="postgres", PGSSLMODE="disable",
+                             PGOPTIONS="-c TimeZone=UTC")
+                  approved = step(1, "CREATE TABLE IF NOT EXISTS erp.demo (quantity int);")
+                  next_part = step(2, "INSERT INTO erp.demo VALUES (12);\n")
+                  trial = step(3, "INSERT INTO erp.demo VALUES (99);\n")
+                  stages = [approved, next_part, trial]
+                  archive_versions = ["20260904232442"]
+          
+                  restore.psql(env, """
+          CREATE SCHEMA supabase_migrations;
+          CREATE TABLE supabase_migrations.schema_migrations(
+            version text PRIMARY KEY,
+            name text NOT NULL,
+            statements text[] NOT NULL
+          );
+          CREATE SCHEMA erp;
+          CREATE TABLE erp.demo (quantity int);
+          INSERT INTO supabase_migrations.schema_migrations VALUES
+            ('20261125193826', 'enteng_uji_restore_cp6_01',
+             ARRAY['CREATE TABLE IF NOT EXISTS erp.demo (quantity int);']);
+          """)
+                  before = restore.read_state(env, archive_versions)
+                  saved_version = restore.POSTGRES_VERSION
+                  restore.POSTGRES_VERSION = before["server"]
+                  self.addCleanup(setattr, restore, "POSTGRES_VERSION", saved_version)
+                  self.assertEqual(restore.next_step(before, stages, archive_versions), 1)
+                  restore.apply_step(env, next_part, before)
+                  after = restore.read_state(env, archive_versions)
+                  self.assertEqual(restore.next_step(after, stages, archive_versions), 2)
+                  self.assertEqual(after["entries"][-1]["body"], next_part.digest)
+                  self.assertEqual(restore.psql(env, "SELECT count(*), sum(quantity) FROM erp.demo;").strip(), "1|12")
+          
+                  with self.assertRaises(restore.RestoreError):
+                      restore.apply_step(env, next_part, before)
+                  self.assertEqual(restore.read_state(env, archive_versions), after)
+                  self.assertEqual(restore.psql(env, "SELECT count(*), sum(quantity) FROM erp.demo;").strip(), "1|12")
+          
+                  restore.psql(env, """
+          CREATE FUNCTION supabase_migrations.refuse_trial() RETURNS trigger LANGUAGE plpgsql AS $$
+          BEGIN
+            IF NEW.name = 'enteng_uji_restore_cp6_03' THEN
+              RAISE EXCEPTION 'synthetic receipt failure';
+            END IF;
+            RETURN NEW;
+          END $$;
+          CREATE TRIGGER refuse_trial BEFORE INSERT ON supabase_migrations.schema_migrations
+            FOR EACH ROW EXECUTE FUNCTION supabase_migrations.refuse_trial();
+          """)
+                  with self.assertRaises(restore.RestoreError):
+                      restore.apply_step(env, trial, after)
+                  self.assertEqual(restore.read_state(env, archive_versions), after)
+                  self.assertEqual(restore.psql(env, "SELECT count(*), sum(quantity) FROM erp.demo;").strip(), "1|12")
+                  psql_csv = restore.psql(env, "SELECT 'erp.demo', 12, true;", as_csv=True)
+                  self.assertEqual(list(csv.reader(io.StringIO(psql_csv))), [["erp.demo", "12", "t"]])
+          
+          
+          if __name__ == "__main__":
+              unittest.main(verbosity=2)
+          TEST_PY
+          python3 test_restore.py
