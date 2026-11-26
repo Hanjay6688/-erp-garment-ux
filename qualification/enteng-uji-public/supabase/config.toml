@@ -1,0 +1,11 @@
+# Check the direct GitHub integration before enabling SQL changes.
+project_id = "enteng-uji"
+
+[db]
+major_version = 17
+
+[db.migrations]
+enabled = false
+
+[db.seed]
+enabled = false
