@@ -119,6 +119,72 @@ def execute_scoped(conn, statement, schema, role):
         raise ValueError('Schema privileges changed after ownership operation in ' + schema)
 
 
+ROLE_SET_SHA256 = 'fdffa7ac004450b04982811b35aa4e8dfa7f1451bd8602c2d89bdb9cf4a5b283'
+
+
+def memberships(conn):
+    return set(conn.execute("""
+        select roleid::regrole::text, grantor::regrole::text, admin_option, inherit_option, set_option
+          from pg_auth_members where member='postgres'::regrole
+    """).fetchall())
+
+
+# The Native internal guard checks only these application context fields. Its
+# owner has ordinary database privileges after the installation roles close.
+CONTEXT_TABLES = {
+    'cp7_material': 'cp7_material_write',
+    'cp7_payroll': 'cp7_nota_write',
+    'cp7_supplier_return': 'cp7_return_write',
+}
+CONTEXT_COLUMNS = ('backend_pid','transaction_id','actor','action','permission_key')
+
+
+def grant_guard_reads(conn):
+    row = conn.execute("""
+        select prosrc, proowner='postgres'::regrole and prosecdef from pg_proc
+         where oid='erp.require_internal()'::regprocedure
+    """).fetchone()
+    if not row or not row[1] or identity.digest(row[0])!='35396480c31180cb342ec9f995149fa68917d84d0f158a96fa2af7146de064c7':
+        raise ValueError('Unexpected Native ERP internal guard')
+    columns = sql.SQL(', ').join(map(sql.Identifier, CONTEXT_COLUMNS))
+    for schema, owner in CONTEXT_TABLES.items():
+        table = sql.Identifier(schema,'execution_context')
+        shape = conn.execute("""
+            select c.relowner::regrole::text,c.relrowsecurity,
+                array(select a.attname::text from pg_attribute a where a.attrelid=c.oid
+                      and a.attnum>0 and not a.attisdropped order by a.attnum)
+              from pg_class c join pg_namespace n on n.oid=c.relnamespace
+             where n.nspname=%s and c.relname='execution_context' and c.relkind='r'
+        """, (schema,)).fetchone()
+        if shape!=(owner,True,list(CONTEXT_COLUMNS)) or schema+'.execution_context' not in row[0]:
+            raise ValueError('Unexpected private ERP context in ' + schema)
+        conn.execute(sql.SQL('grant usage on schema {} to postgres').format(sql.Identifier(schema)))
+        conn.execute(sql.SQL('grant select ({}) on table {} to postgres').format(columns,table))
+
+
+def close_installation_roles(conn, before):
+    current = memberships(conn)
+    added = current - before
+    temporary = {r for r in added if r[1:] == ('postgres', False, True, True)}
+    admin = {r for r in added if r[1]!='postgres' and r[2:] == (True, False, False)}
+    names = sorted(r[0] for r in temporary)
+    if (not before <= current or added != temporary | admin or len(admin)!=55 or len(names)!=55
+            or names!=sorted(r[0] for r in admin)
+            or sha256('\n'.join(names).encode()).hexdigest()!=ROLE_SET_SHA256):
+        raise ValueError('Memberships created by the reviewed installation differ')
+    for name in names:
+        conn.execute(sql.SQL('revoke {} from postgres granted by postgres restrict').format(sql.Identifier(name)))
+    if memberships(conn)!=before | admin:
+        raise ValueError('Unexpected membership changes after temporary rights were removed')
+    remaining = conn.execute("""
+        select count(*) from unnest(%s::text[]) r
+         where pg_has_role(current_user,r,'USAGE') or pg_has_role(current_user,r,'SET')
+    """, (names,)).fetchone()[0]
+    if remaining:
+        raise ValueError('Installer can still inherit or assume a temporary application role')
+    return len(names)
+
+
 def apply(conn):
     if conn.info.transaction_status!=TransactionStatus.INTRANS:
         raise ValueError('An explicit release transaction is required')
@@ -131,6 +197,7 @@ def apply(conn):
         """).fetchone()
         if state!=('postgres', False, 138, 'v2.6.20bf', True, True):
             raise ValueError('This rehearsal starts from the fresh Enteng BF predecessor')
+        original_memberships = memberships(conn)
         parts = statements()
         plan = {index: (schema, role) for (schema, role), positions in SCOPES.items() for index in positions}
         if len(plan)!=81 or sum(map(len, SCOPES.values()))!=81:
@@ -142,7 +209,10 @@ def apply(conn):
             else:
                 conn.execute(statement)
         result = identity.apply(conn)
+        grant_guard_reads(conn)
+        closed = close_installation_roles(conn, original_memberships)
         return {'statements': len(parts), 'ownership_scopes': len(plan), 'identity': result,
+                'temporary_role_memberships_closed': closed,
                 'full_cp7_qualified': False}
 
 
