@@ -4,7 +4,9 @@ Running this module prints a rollback-only SQL transaction for the restored BF
 test database. It does not connect to a database. The production installer has
 its own package identity and admission.
 """
+import argparse
 from hashlib import sha256
+import json
 import re
 
 import cp7_wip_bundle
@@ -91,5 +93,38 @@ def rehearsal():
     return checked('BEGIN;\n' + body() + '\nROLLBACK;\n' + READBACK, REHEARSAL_SHA256)
 
 
+def predecessor_manifest():
+    """Bind this single change to the original full predecessor from the repo root."""
+    import cp7_full_owning_install as original
+
+    canonical = original.source_manifest()
+    expected = 'e7701eaada592cfd74a8555cf4cdcb7df8d180448213d3bbf5698c3bfa025127'
+    if canonical['predecessor_sql_sha256'] != expected:
+        raise ValueError("Unexpected full predecessor")
+    text = original.f03.procurement.bundle() + '\n' + original.predecessor_extension()
+    checked(text, expected)
+    foundation = checked(cp7_wip_bundle.bundle(), SOURCE_SHA256)
+    if not text.startswith(foundation) or text.count(foundation) != 1:
+        raise ValueError("The qualified WIP foundation must occur exactly once at the start")
+    rest = text[len(foundation):]
+    managed = body() + rest
+    managed_digest = 'c4c54061dea165a968b3db6b07870cd0a1ea9a9b5b5768789cbff12175c4f11f'
+    checked(managed, managed_digest)
+    return {
+        'canonical_predecessor_sha256': expected,
+        'managed_predecessor_sha256': managed_digest,
+        'managed_predecessor_bytes': len(managed.encode()),
+        'unchanged_tail_sha256': sha256(rest.encode()).hexdigest(),
+        'managed_wip_body_sha256': BODY_SHA256,
+        'qualified_full_installation': False,
+    }
+
+
 if __name__ == '__main__':
-    print(rehearsal(), end='')
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--predecessor-manifest', action='store_true',
+                        help='Report the source identity of the complete predecessor with this WIP change')
+    if parser.parse_args().predecessor_manifest:
+        print(json.dumps(predecessor_manifest(), indent=2))
+    else:
+        print(rehearsal(), end='')
