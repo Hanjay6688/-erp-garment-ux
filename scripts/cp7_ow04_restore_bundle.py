@@ -38,10 +38,20 @@ def _acl(column, owner, kind):
     return "(select coalesce(jsonb_agg(jsonb_build_array(case when a.grantee=0 then 'PUBLIC'else pg_get_userbyid(a.grantee)end,pg_get_userbyid(a.grantor),a.privilege_type,a.is_grantable)order by a.grantee::regrole::text,a.grantor::regrole::text,a.privilege_type,a.is_grantable),'[]'::jsonb)from aclexplode(coalesce("+column+",acldefault('"+kind+"',"+owner+")))a)"
 
 
+# PostgreSQL 17.12 adds an internal attribute version and can refresh it for
+# every column when a table is rewritten. Portable snapshots keep every DDL
+# option, in order, and omit only this engine-generated value.
+_ATTRIBUTE_OPTIONS = """case when exists(
+    select from unnest(a.attoptions) o(value) where value ~ '^pg_attver=[0-9]+$'
+    ) then nullif(array(select value from unnest(a.attoptions) with ordinality o(value, position)
+      where value !~ '^pg_attver=[0-9]+$' order by position), '{}'::text[])
+    else a.attoptions end"""
+
+
 QUERIES = {
  'schemas': "select n.nspname,jsonb_build_array(pg_get_userbyid(n.nspowner),"+_acl('n.nspacl','n.nspowner','n')+")from pg_namespace n where "+NAMESPACE,
  'relations': "select n.nspname||'.'||c.relname,jsonb_build_array(pg_get_userbyid(c.relowner),c.relkind,c.relpersistence,c.relrowsecurity,c.relforcerowsecurity,c.relispartition,c.relreplident,c.reloptions,c.relispopulated,case when c.relkind in('v','m')then pg_get_viewdef(c.oid,false)else null end,pg_get_partkeydef(c.oid),pg_get_expr(c.relpartbound,c.oid),case when c.relkind='S'then "+_acl('c.relacl','c.relowner','s')+"else "+_acl('c.relacl','c.relowner','r')+"end)from pg_class c join pg_namespace n on n.oid=c.relnamespace where "+NAMESPACE,
- 'columns': "select n.nspname||'.'||c.relname||':'||a.attname,jsonb_build_array(a.attname,row_number()over(partition by c.oid order by a.attnum),format_type(a.atttypid,a.atttypmod),a.attnotnull,a.attidentity,a.attgenerated,a.attstorage,a.attcompression,a.attstattarget,a.attoptions,a.attfdwoptions,a.attcollation::regcollation::text,a.attacl::text[],pg_get_expr(d.adbin,d.adrelid))from pg_attribute a join pg_class c on c.oid=a.attrelid join pg_namespace n on n.oid=c.relnamespace left join pg_attrdef d on d.adrelid=a.attrelid and d.adnum=a.attnum where a.attnum>0 and not a.attisdropped and "+NAMESPACE,
+ 'columns': "select n.nspname||'.'||c.relname||':'||a.attname,jsonb_build_array(a.attname,row_number()over(partition by c.oid order by a.attnum),format_type(a.atttypid,a.atttypmod),a.attnotnull,a.attidentity,a.attgenerated,a.attstorage,a.attcompression,a.attstattarget,"+_ATTRIBUTE_OPTIONS+",a.attfdwoptions,a.attcollation::regcollation::text,a.attacl::text[],pg_get_expr(d.adbin,d.adrelid))from pg_attribute a join pg_class c on c.oid=a.attrelid join pg_namespace n on n.oid=c.relnamespace left join pg_attrdef d on d.adrelid=a.attrelid and d.adnum=a.attnum where a.attnum>0 and not a.attisdropped and "+NAMESPACE,
  'constraints': "select n.nspname||'.'||coalesce(c.relname,t.typname)||':'||k.conname,jsonb_build_array(k.contype,k.condeferrable,k.condeferred,k.convalidated,k.conislocal,k.coninhcount,k.connoinherit,(select pn.nspname||'.'||pc.relname||':'||pk.conname from pg_constraint pk join pg_class pc on pc.oid=pk.conrelid join pg_namespace pn on pn.oid=pc.relnamespace where pk.oid=k.conparentid),case when k.conindid=0 then null else k.conindid::regclass::text end,c.oid::regclass::text,pg_get_constraintdef(k.oid,false))from pg_constraint k join pg_namespace n on n.oid=k.connamespace left join pg_class c on c.oid=k.conrelid left join pg_type t on t.oid=k.contypid where "+NAMESPACE,
  'indexes': "select n.nspname||'.'||c.relname,jsonb_build_array(pg_get_indexdef(i.indexrelid),i.indisvalid,i.indisready,i.indislive,i.indisclustered,i.indisreplident)from pg_index i join pg_class c on c.oid=i.indexrelid join pg_namespace n on n.oid=c.relnamespace where "+NAMESPACE,
  # CASE must stay text: PostgreSQL name would truncate a long RI identity to63 bytes.
