@@ -68,9 +68,13 @@ METADATA = """
       from pg_proc where oid=to_regprocedure(%s)
 """
 ROUTINE = """
-    select n.nspname, r.rolname, p.prosecdef, p.prosrc, pg_get_functiondef(p.oid)
+    select n.nspname, r.rolname, p.prosecdef, p.prosrc, pg_get_functiondef(p.oid),p.oid
       from pg_proc p join pg_roles r on r.oid=p.proowner
-      join pg_namespace n on n.oid=p.pronamespace where p.oid=to_regprocedure(%s)
+      join pg_namespace n on n.oid=p.pronamespace
+      cross join (select %s::text as signature) target
+     where n.nspname=split_part(target.signature,'.',1)
+       and p.proname=split_part(split_part(target.signature,'.',2),'(',1)
+       and n.nspname||'.'||p.proname||'('||replace(oidvectortypes(p.proargtypes),' ','')||')'=target.signature
 """
 
 
@@ -145,15 +149,15 @@ def apply(conn):
     for signature, (owner, source_hash) in PINS.items():
         row = conn.execute(ROUTINE, (signature,)).fetchone()
         require(row and row[1:3]==(owner, signature not in INVOKERS), 'Unexpected routine or owner: ' + signature)
-        schema, _, _, source, ddl = row
+        schema, _, _, source, ddl, function_id = row
         require(schema==signature.split('.')[0], 'Unexpected schema: ' + signature)
         validate_role(conn, owner)
         if signature in INVOKERS:
             for role in CALLER_ROLES:
                 exposed = conn.execute("""
                     select has_schema_privilege(%s,%s,'USAGE')
-                       and has_function_privilege(%s,to_regprocedure(%s),'EXECUTE')
-                """, (role, schema, role, signature)).fetchone()[0]
+                       and has_function_privilege(%s,%s::oid,'EXECUTE')
+                """, (role, schema, role, function_id)).fetchone()[0]
                 require(not exposed, 'Private invoker reaches operator role: ' + signature)
         original = PRIVATE_CALL.sub(lambda m: 'auth.' + m[1].lower() + '()', source)
         require(digest(original)==source_hash, 'Routine source differs: ' + signature)
