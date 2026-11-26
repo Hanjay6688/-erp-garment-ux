@@ -1,0 +1,203 @@
+name: Periksa build sintetis Cloudflare Enteng Uji
+
+on:
+  push:
+    branches: ["writer-a/enteng-uji-build-check-20261126"]
+    paths:
+      - ".github/workflows/enteng-uji-build-check.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  build-synthetic:
+    if: github.repository == 'Hanjay6688/-erp-garment-ux' && github.ref == 'refs/heads/writer-a/enteng-uji-build-check-20261126'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: "24"
+      - name: Terapkan perubahan konfigurasi sintetis
+        run: |
+          cat > "$RUNNER_TEMP/enteng-uji-build-check.patch" <<'PATCH'
+          diff --git a/scripts/assert-uat-auth-env.mjs b/scripts/assert-uat-auth-env.mjs
+          index 7786124..62a6c27 100644
+          --- a/scripts/assert-uat-auth-env.mjs
+          +++ b/scripts/assert-uat-auth-env.mjs
+          @@ -4,8 +4,8 @@ import { resolve } from 'node:path'
+           import { assertNoForbiddenBuildSecrets } from './build-preflight.mjs'
+           
+           export const UAT_AUTH_RUNTIME_MODE = 'UAT_AUTH_SIMULATION'
+          -export const ERP_ENTENG_UAT_URL = 'https://siimvrusnzxexizpyoib.supabase.co'
+          -export const ERP_ENTENG_PUBLISHABLE_KEY_SHA256 = '4a393f01d18cf637ca1e38967790d4c76a2478d687335b6cb948a1bff8a017cf'
+          +export const ERP_ENTENG_UAT_URL = 'https://syntheticentengtestx.supabase.co'
+          +export const ERP_ENTENG_PUBLISHABLE_KEY_SHA256 = 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+           
+           const mockKeyFlag = 'ERP_UAT_AUTH_ALLOW_MOCK_KEY'
+           
+          @@ -57,7 +57,7 @@ export function assertUatAuthBuildEnvironment(environment = process.env) {
+           
+             const supabaseUrl = environmentValue(environment, 'VITE_SUPABASE_URL')
+             if (supabaseUrl !== ERP_ENTENG_UAT_URL) {
+          -    fail('UAT_TARGET_INVALID', 'UAT Auth build target must be the exact ERP Enteng HTTPS endpoint.')
+          +    fail('UAT_TARGET_INVALID', 'UAT Auth build target must be the exact Enteng Uji HTTPS endpoint.')
+             }
+           
+             const legacyAnonKey = environmentValue(environment, 'VITE_SUPABASE_ANON_KEY')
+          @@ -95,7 +95,7 @@ export function assertUatAuthBuildEnvironment(environment = process.env) {
+             if (!usesPinnedKey && !usesExplicitMockKey) {
+               fail(
+                 'UAT_PUBLISHABLE_KEY_IDENTITY_MISMATCH',
+          -      'UAT Auth build requires the reviewed ERP Enteng publishable-key identity.',
+          +      'UAT Auth build requires the reviewed Enteng Uji publishable-key identity.',
+               )
+             }
+           
+          @@ -122,5 +122,5 @@ if (invokedDirectly) {
+             const result = releaseCheck
+               ? assertUatAuthReleaseEnvironment()
+               : assertUatAuthBuildEnvironment()
+          -  console.log(`UAT Auth build environment passed: fixed mode, fixed ERP Enteng target, ${result.keyIdentity} browser-key identity (value not printed).`)
+          +  console.log(`UAT Auth build environment passed: fixed mode, fixed Enteng Uji target, ${result.keyIdentity} browser-key identity (value not printed).`)
+           }
+          diff --git a/scripts/assert-uat-auth-target.mjs b/scripts/assert-uat-auth-target.mjs
+          index edec69a..7ce358c 100644
+          --- a/scripts/assert-uat-auth-target.mjs
+          +++ b/scripts/assert-uat-auth-target.mjs
+          @@ -2,9 +2,8 @@ import { existsSync, readFileSync } from 'node:fs'
+           import { dirname, resolve } from 'node:path'
+           import { pathToFileURL } from 'node:url'
+           
+          -export const PRODUCTION_WORKER_NAME = 'erp-garment-ux'
+           export const UAT_AUTH_ENVIRONMENT = 'uat-auth'
+          -export const UAT_AUTH_WORKER_NAME = 'erp-garment-ux-uat-auth'
+          +export const UAT_AUTH_WORKER_NAME = 'erp-garment-ux-enteng-uji-build-check'
+           
+           export class UatAuthTargetError extends Error {
+             constructor(code, message) {
+          @@ -33,8 +32,8 @@ export function assertUatAuthWranglerTarget(configPath = 'wrangler.jsonc') {
+               fail('UAT_WRANGLER_CONFIG_INVALID', 'Wrangler configuration must be readable strict JSONC without ambiguous comments.')
+             }
+           
+          -  if (config.name !== PRODUCTION_WORKER_NAME) {
+          -    fail('PRODUCTION_WORKER_NAME_DRIFT', 'Canonical Worker name drifted; refusing to infer a UAT target.')
+          +  if (config.name !== UAT_AUTH_WORKER_NAME) {
+          +    fail('UAT_DEFAULT_WORKER_INVALID', 'The default target must also be the dedicated Enteng Uji Worker.')
+             }
+           
+             const uat = config.env?.[UAT_AUTH_ENVIRONMENT]
+          diff --git a/scripts/test-uat-auth-assertions.mjs b/scripts/test-uat-auth-assertions.mjs
+          index f7649fe..c1199d1 100644
+          --- a/scripts/test-uat-auth-assertions.mjs
+          +++ b/scripts/test-uat-auth-assertions.mjs
+          @@ -25,9 +25,9 @@ const validEnvironment = Object.freeze({
+           })
+           
+           assert.equal(UAT_AUTH_RUNTIME_MODE, 'UAT_AUTH_SIMULATION')
+          -assert.equal(ERP_ENTENG_UAT_URL, 'https://siimvrusnzxexizpyoib.supabase.co')
+          -assert.equal(ERP_ENTENG_PUBLISHABLE_KEY_SHA256, '4a393f01d18cf637ca1e38967790d4c76a2478d687335b6cb948a1bff8a017cf')
+          -assert.equal(UAT_AUTH_WORKER_NAME, 'erp-garment-ux-uat-auth')
+          +assert.equal(ERP_ENTENG_UAT_URL, 'https://syntheticentengtestx.supabase.co')
+          +assert.equal(ERP_ENTENG_PUBLISHABLE_KEY_SHA256, 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff')
+          +assert.equal(UAT_AUTH_WORKER_NAME, 'erp-garment-ux-enteng-uji-build-check')
+           assert.equal(assertUatAuthWranglerAction(['deploy']), 'deploy')
+           assert.equal(assertUatAuthWranglerAction(['preview']), 'preview')
+           expectFailure(
+          @@ -94,6 +94,10 @@ expectFailure(
+             () => assertUatAuthBuildEnvironment({ ...validEnvironment, VITE_SUPABASE_URL: 'https://example.supabase.co' }),
+             'UAT_TARGET_INVALID',
+           )
+          +expectFailure(
+          +  () => assertUatAuthBuildEnvironment({ ...validEnvironment, VITE_SUPABASE_URL: 'https://siimvrusnzxexizpyoib.supabase.co' }),
+          +  'UAT_TARGET_INVALID',
+          +)
+           expectFailure(
+             () => assertUatAuthBuildEnvironment({ ...validEnvironment, VITE_SUPABASE_ANON_KEY: 'legacy-key-must-not-print' }),
+             'UAT_LEGACY_ANON_KEY_FORBIDDEN',
+          @@ -179,6 +183,12 @@ try {
+             rmSync(resolve(redirectDirectory, 'config.json'))
+             const unexpectedEnvironmentConfig = JSON.parse(readFileSync(resolve('wrangler.jsonc'), 'utf8'))
+             unexpectedEnvironmentConfig.env['uat-auth'].assets = { directory: './other-dist/' }
+          +  const productionDefault = { ...unexpectedEnvironmentConfig, name: 'erp-garment-ux' }
+          +  writeFileSync(redirectedConfig, JSON.stringify(productionDefault))
+          +  expectFailure(
+          +    () => assertUatAuthWranglerTarget(redirectedConfig),
+          +    'UAT_DEFAULT_WORKER_INVALID',
+          +  )
+             writeFileSync(redirectedConfig, JSON.stringify(unexpectedEnvironmentConfig))
+             expectFailure(
+               () => assertUatAuthWranglerTarget(redirectedConfig),
+          diff --git a/worker-demo/src/config/runtime.ts b/worker-demo/src/config/runtime.ts
+          index e515cbf..ddc9eae 100644
+          --- a/worker-demo/src/config/runtime.ts
+          +++ b/worker-demo/src/config/runtime.ts
+          @@ -1,4 +1,5 @@
+          -export const ERP_ENTENG_UAT_PROJECT_REF = 'siimvrusnzxexizpyoib' as const
+          +export const ERP_ENTENG_UAT_PROJECT_REF = 'syntheticentengtestx' as const
+          +const ERP_ENTENG_PRODUCTION_PROJECT_REF = 'siimvrusnzxexizpyoib' as const
+           export const ERP_GARMENT_PRODUCTION_PROJECT_REF = 'vlxdhpkjeevubjxexnfo' as const
+           
+           export type RuntimeMode = 'DEMO_SIMULATION' | 'UAT_AUTH_SIMULATION' | 'DISPOSABLE_TEST'
+          @@ -141,17 +142,17 @@ function validateUatUrl(rawUrl: string) {
+             }
+           
+             const expectedHost = `${ERP_ENTENG_UAT_PROJECT_REF}.supabase.co`
+          -  const productionHost = `${ERP_GARMENT_PRODUCTION_PROJECT_REF}.supabase.co`
+          -  if (url.hostname === productionHost) {
+          +  if (url.hostname === `${ERP_ENTENG_PRODUCTION_PROJECT_REF}.supabase.co`
+          +    || url.hostname === `${ERP_GARMENT_PRODUCTION_PROJECT_REF}.supabase.co`) {
+               throw new RuntimeConfigError(
+                 'PRODUCTION_TARGET_FORBIDDEN',
+          -      'Mode UAT tidak boleh mengarah ke proyek produksi ERP-Garment.',
+          +      'Mode UAT tidak boleh mengarah ke Supabase produksi.',
+               )
+             }
+             if (url.hostname !== expectedHost) {
+               throw new RuntimeConfigError(
+                 'UAT_PROJECT_REF_MISMATCH',
+          -      `Mode UAT hanya boleh mengarah ke ERP Enteng (${ERP_ENTENG_UAT_PROJECT_REF}).`,
+          +      `Mode UAT hanya boleh mengarah ke Enteng Uji (${ERP_ENTENG_UAT_PROJECT_REF}).`,
+               )
+             }
+           
+          diff --git a/wrangler.jsonc b/wrangler.jsonc
+          index ae6a9bd..81c2019 100644
+          --- a/wrangler.jsonc
+          +++ b/wrangler.jsonc
+          @@ -1,10 +1,10 @@
+           {
+             "$schema": "./node_modules/wrangler/config-schema.json",
+          -  "name": "erp-garment-ux",
+          +  "name": "erp-garment-ux-enteng-uji-build-check",
+             "compatibility_date": "2026-08-27",
+             "env": {
+               "uat-auth": {
+          -      "name": "erp-garment-ux-uat-auth",
+          +      "name": "erp-garment-ux-enteng-uji-build-check",
+                 "workers_dev": true,
+                 "preview_urls": true
+               }
+          PATCH
+          git apply --check "$RUNNER_TEMP/enteng-uji-build-check.patch"
+          git apply "$RUNNER_TEMP/enteng-uji-build-check.patch"
+          git diff --check
+      - name: Siapkan dependensi
+        run: npm ci
+      - name: Uji target dan build browser
+        env:
+          VITE_ERP_RUNTIME_MODE: UAT_AUTH_SIMULATION
+          VITE_SUPABASE_URL: https://syntheticentengtestx.supabase.co
+          VITE_SUPABASE_PUBLISHABLE_KEY: sb_publishable_mock_12345678901234567890
+          ERP_UAT_AUTH_ALLOW_MOCK_KEY: "1"
+        run: |
+          npm run check:uat-auth-target
+          npm run test:uat-auth-deploy
+          npm run build:uat-auth
+      - name: Periksa konfigurasi Wrangler tanpa memasang
+        env:
+          WRANGLER_SEND_METRICS: "false"
+        run: npx --no-install wrangler deploy --env uat-auth --dry-run --outdir "$RUNNER_TEMP/wrangler-dry-run"
