@@ -1,0 +1,19 @@
+{
+  "counts_delta": {
+    "columns": 43,
+    "constraints": 20,
+    "functions": 9,
+    "indexes": 5,
+    "relations": 7,
+    "schemas": 1,
+    "triggers": 6,
+    "type_implementation": 4,
+    "types": 4
+  },
+  "migrations": 162,
+  "name": "enteng_uji_nota_koreksi_harga_retur_dibalik",
+  "previous_source": "da2e72763ab50d9d823a2c194a14ba13212d8c71f2121db0643b769076633aec",
+  "prior": "enteng_uji_identitas_gudang_keuangan",
+  "profiles": 10,
+  "statements_sha256": "f28eac51b1919793836f7da84374e5ce9ec3f4f2ebe22bc9c97bd6666a2a3006"
+}
