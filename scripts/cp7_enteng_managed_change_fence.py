@@ -8,6 +8,7 @@ and catalogue checks are outside this rehearsal.
 """
 
 import argparse
+from contextlib import contextmanager
 from hashlib import sha256
 
 SCHEMA = 'cp7_global_release_guard'
@@ -84,6 +85,22 @@ $ddl_writer$;
 revoke all on all functions in schema {SCHEMA} from public,anon,authenticated,service_role;
 select {SCHEMA}.assert_ddl_fence();
 """
+
+
+@contextmanager
+def release_transaction(cur):
+    """Take the release lock before any DDL, including changes to roles."""
+    from psycopg.pq import TransactionStatus
+
+    if cur.connection.info.transaction_status != TransactionStatus.INTRANS:
+        raise ValueError('An explicit release transaction is required')
+    with cur.connection.transaction():
+        actor = cur.execute("select session_user,current_user,rolsuper from pg_roles where rolname=current_user").fetchone()
+        if actor != ('postgres', 'postgres', False):
+            raise ValueError('Managed postgres release identity required')
+        cur.execute(f'select {SCHEMA}.enter_release()')
+        yield
+        cur.execute(f'select {SCHEMA}.assert_ddl_fence()')
 
 
 def hosted_rehearsal():

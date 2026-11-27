@@ -9,7 +9,7 @@ import argparse
 from hashlib import sha256
 import json
 
-from cp7_global_nonpo_envelope import catalog_bridge
+from cp7_global_nonpo_envelope import catalog_bridge, catalogue_profile, semantic_routes
 
 
 CATALOGUE_CALL = ' catalogs_:=cp7_global_catalog_fence.lock_v1();'
@@ -25,7 +25,9 @@ def only_once(text, before, after):
 
 
 def derive():
-    native, audit = catalog_bridge.derive()
+    _, audit = catalog_bridge.derive()
+    routes, _ = semantic_routes.derive()
+    native = routes['lock']
     catalogue = audit['route']['after']
     first_statement = catalogue.index(CATALOGUE_CALL)
     managed_catalogue = only_once(catalogue[first_statement:], CATALOGUE_CALL, MANAGED_CALL)
@@ -43,15 +45,36 @@ def derive():
     if restored != native or 'supabase_admin' in result:
         raise ValueError('CP7_GLOBAL_MANAGED_LOCK_CHANGED_UNDECLARED_SOURCE')
     receipt = {
-        'canonical_bridge_sha256': sha256(native.encode()).hexdigest(),
+        'canonical_lock_sha256': sha256(native.encode()).hexdigest(),
         'managed_lock_sha256': sha256(result.encode()).hexdigest(),
         'changed_routes': ['catalogue_interlock', 'application_relation_lock', 'returned_lock_mode'],
         'original_full_catalogue_and_native_authority_comparisons_preserved': True,
+        'semantic_native_authority_hash_preserved_across_restore': True,
         'requires_reviewed_release_procedure': True,
         'requires_exact_final_parent': True,
         'runtime_approved': False,
     }
     return result, receipt
+
+
+def capture_catalogue(cur):
+    """Read the same 25 live groups as the canonical SQL fingerprint."""
+    from cp7_ow04_restore_bundle import QUERIES, _ATTRIBUTE_OPTIONS
+    from cp7_global_nonpo_envelope.composition import metadata_context
+
+    if len(QUERIES) != 22 or set(QUERIES) & set(catalogue_profile.EXTRA):
+        raise ValueError('CP7_GLOBAL_MANAGED_CATALOGUE_GROUPS_CHANGED')
+    queries = QUERIES | catalogue_profile.EXTRA
+    # The restore checker ignores the engine's column rewrite counters. The
+    # live Global fingerprint retains them along with the other raw options.
+    queries['columns'] = only_once(queries['columns'], _ATTRIBUTE_OPTIONS, 'a.attoptions')
+    with metadata_context(cur):
+        return {
+            name: [list(row) for row in cur.execute(
+                'select k,v from (' + query + ')q(k,v) order by k collate "C",v::text collate "C"'
+            ).fetchall()]
+            for name, query in sorted(queries.items())
+        }
 
 
 if __name__ == '__main__':
