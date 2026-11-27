@@ -14,6 +14,14 @@ from hashlib import sha256
 SCHEMA = 'cp7_global_release_guard'
 TRIGGER = 'cp7_global_release_ddl'
 LOCK_KEY = '274831, 47409'
+MIGRATION_NAME = 'enteng_uji_cp7_managed_release_guard'
+MIGRATION_STATEMENT_SHA256 = '1fc71e109592c02fda9e2ce762dffdc94a1a07cc0d8cc48a6c939962550e784e'
+GUARD_DIGESTS = {
+    'assert_ddl_fence()': ('109fff51d98d3ccc52f05ac4d1f4b041', 'dd7b82e6226fc5964c102d70c5e8d3205049d78191742a177412d10ee1aa2257'),
+    'enter_correction()': ('d89ec2a5c28870ed585f1e10029b86ca', '7ce472d1d19cacccdac88ea6d181242b6a7bf7334f6d61b7b34aa0637aca5041'),
+    'enter_release()': ('2048499353509b6f0055f76f03358c32', 'be6d0d2542c1105bce3021d788138b15f0f10e6a1724ab3065b9ddef22114dc4'),
+    'lock_ddl()': ('863d3cde64df185ce26b17cc9e9589cc', 'b681118747634af02f4a3dd28711e3e75f14e54964bb6699a6c753c49549e1ad'),
+}
 EVENT_BODY = f"""
 begin
  if not pg_catalog.pg_try_advisory_xact_lock({LOCK_KEY}) then
@@ -101,6 +109,41 @@ def release_transaction(cur):
         cur.execute(f'select {SCHEMA}.enter_release()')
         yield
         cur.execute(f'select {SCHEMA}.assert_ddl_fence()')
+
+
+def verified_on_baseline(conn, migration_count):
+    """Recognize the reviewed guard as the sole extra migration after CP6 BF."""
+    schema, trigger = conn.execute("""
+        select to_regnamespace(%s) is not null,
+               exists(select from pg_event_trigger where evtname=%s)
+    """, (SCHEMA, TRIGGER)).fetchone()
+    if migration_count == 138 and not schema and not trigger:
+        return False
+    if migration_count != 139 or not schema or not trigger:
+        raise ValueError('Unexpected guard or migration count on the Enteng BF baseline')
+    statement_hashes = conn.execute("""
+        select encode(sha256(convert_to(array_to_json(statements)::text,'UTF8')),'hex')
+          from supabase_migrations.schema_migrations where name=%s
+    """, (MIGRATION_NAME,)).fetchall()
+    if statement_hashes != [(MIGRATION_STATEMENT_SHA256,)]:
+        raise ValueError('The deployed Enteng guard migration differs from the reviewed SQL')
+    path = conn.execute('show search_path').fetchone()[0]
+    conn.execute("set local search_path=''")
+    functions = conn.execute("""
+        select p.oid::regprocedure::text,md5(pg_get_functiondef(p.oid)),
+               encode(sha256(convert_to(pg_get_functiondef(p.oid),'UTF8')),'hex'),p.proowner::regrole::text,
+               (select jsonb_agg(jsonb_build_array(a.grantee::regrole::text,a.privilege_type,a.is_grantable)
+                                 order by a.grantee,a.privilege_type,a.is_grantable)
+                from aclexplode(coalesce(p.proacl,acldefault('f',p.proowner))) a)
+          from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname=%s order by 1
+    """, (SCHEMA,)).fetchall()
+    conn.execute("select set_config('search_path',%s,true)", (path,))
+    expected = [(f'{SCHEMA}.{name}', *digests, 'postgres', [['postgres', 'EXECUTE', False]])
+                for name, digests in sorted(GUARD_DIGESTS.items())]
+    if functions != expected:
+        raise ValueError('The deployed guard functions or their private ACLs differ from the reviewed migration')
+    conn.execute(f'select {SCHEMA}.assert_ddl_fence()')
+    return True
 
 
 def hosted_rehearsal():

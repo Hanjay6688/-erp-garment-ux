@@ -5,6 +5,7 @@ settings and rolls back. apply() is the substep tested on disposable clones.
 The remaining CP7 installer, Global gate, and migration history are separate.
 """
 
+from contextlib import nullcontext
 from hashlib import sha256
 import json
 
@@ -14,6 +15,7 @@ from psycopg.pq import TransactionStatus
 from pglast import split
 
 import cp7_enteng_managed_identity as identity
+import cp7_enteng_managed_change_fence as fence
 import cp7_enteng_managed_wip_foundation as wip
 import cp7_full_owning_install as original
 
@@ -213,26 +215,32 @@ def apply(conn):
                    to_regnamespace('cp7_request_context') is null, to_regrole('cp7_capture') is null
               from pg_roles r where r.rolname=current_user
         """).fetchone()
-        if state!=('postgres', False, 138, 'v2.6.20bf', True, True):
+        if state[:2] != ('postgres', False) or state[3:] != ('v2.6.20bf', True, True):
             raise ValueError('This rehearsal starts from the fresh Enteng BF predecessor')
-        original_memberships = memberships(conn)
-        parts = statements()
-        plan = {index: (schema, role) for (schema, role), positions in SCOPES.items() for index in positions}
-        if len(plan)!=81 or sum(map(len, SCOPES.values()))!=81:
-            raise ValueError('Managed transfer plan is incomplete')
-        conn.execute(wip.body(), prepare=False)
-        for index, statement in enumerate(parts, start=1):
-            if index in plan:
-                execute_scoped(conn, statement, *plan[index])
-            else:
-                conn.execute(statement)
-        result = identity.apply(conn)
-        grant_bounds_verification(conn)
-        grant_guard_reads(conn)
-        closed = close_installation_roles(conn, original_memberships)
-        return {'statements': len(parts), 'ownership_scopes': len(plan), 'identity': result,
-                'temporary_role_memberships_closed': closed,
-                'full_cp7_qualified': False}
+        guarded = fence.verified_on_baseline(conn, state[2])
+        with conn.cursor() as cur, (fence.release_transaction(cur) if guarded else nullcontext()):
+            return install_predecessor(conn, guarded)
+
+
+def install_predecessor(conn, guarded):
+    original_memberships = memberships(conn)
+    parts = statements()
+    plan = {index: (schema, role) for (schema, role), positions in SCOPES.items() for index in positions}
+    if len(plan)!=81 or sum(map(len, SCOPES.values()))!=81:
+        raise ValueError('Managed transfer plan is incomplete')
+    conn.execute(wip.body(), prepare=False)
+    for index, statement in enumerate(parts, start=1):
+        if index in plan:
+            execute_scoped(conn, statement, *plan[index])
+        else:
+            conn.execute(statement)
+    result = identity.apply(conn)
+    grant_bounds_verification(conn)
+    grant_guard_reads(conn)
+    closed = close_installation_roles(conn, original_memberships)
+    return {'statements': len(parts), 'ownership_scopes': len(plan), 'identity': result,
+            'temporary_role_memberships_closed': closed, 'release_guard_locked': guarded,
+            'full_cp7_qualified': False}
 
 
 if __name__ == '__main__':
