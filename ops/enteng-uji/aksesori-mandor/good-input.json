@@ -1,0 +1,21 @@
+{
+  "counts_delta": {
+    "columns": 40,
+    "constraints": 21,
+    "functions": 18,
+    "indexes": 11,
+    "memberships": 1,
+    "relations": 14,
+    "roles": 1,
+    "schemas": 1,
+    "triggers": 36,
+    "type_implementation": 6,
+    "types": 6
+  },
+  "migrations": 159,
+  "name": "enteng_uji_aksesori_mandor_qc_good",
+  "previous_source": "8c009f822274f08ab13f29c5b92ccefec8f51b6ba0c76d5a1fa3410be47bcb0b",
+  "prior": "enteng_uji_planner_review_schedule",
+  "profiles": 7,
+  "statements_sha256": "40e8c40185d2ad4f08afdb3797e36358cc356f67a51e60c9f4794cedcc05cbd1"
+}
