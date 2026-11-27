@@ -10,7 +10,7 @@ def render(*,profile,prior,name,previous_source,migrations,profiles,counts_delta
         raise ValueError('An exact reviewed Uji profile and predecessor source are required')
     if not all(re.fullmatch(r'enteng_uji_[a-z0-9_]+',s) for s in (prior,name)):
         raise ValueError('Expected Enteng Uji migration names')
-    if not isinstance(migrations,int) or not isinstance(profiles,int) or not counts_delta or not all(
+    if not isinstance(migrations,int) or not isinstance(profiles,int) or not isinstance(counts_delta,dict) or not all(
         isinstance(n,int) and re.fullmatch('[a-z_]+',k) for k,n in counts_delta.items()):
         raise ValueError('Expected qualified catalogue group counts')
     if '$business_inner$' in statements or '$business_release$' in statements:
