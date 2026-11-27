@@ -1,3 +1,4 @@
+import NumberEntry from '../../../src/components/NumberEntry'
 import { useState, type FormEvent } from 'react'
 import { Banknote, FilePenLine, WalletCards } from 'lucide-react'
 import { cashAccounts } from '../financeData'
@@ -80,7 +81,7 @@ export function LaundrySettlement({delivery,bill,deliveries,update}:{delivery:La
         {form.kind==='USE'&&<label>Penyelesaian<select value={form.targetIndex} onChange={event=>patch({targetIndex:event.target.value,amount:''})}>
           <option value="">Terima uang dari vendor</option>{targets.map((row,index)=><option value={String(index+1)} key={row.delivery+row.bill}>Potong {row.bill} · {rupiah(row.remaining)}</option>)}</select></label>}
         <div className="demo-operation-fields">
-          <label>{form.kind==='CORRECT'?'Tarif aktual pengganti (Rp/pcs)':'Nominal (Rp)'}<input inputMode="decimal" required value={form.amount} onChange={event=>patch({amount:event.target.value})}/>
+          <label>{form.kind==='CORRECT'?'Tarif aktual pengganti (Rp/pcs)':'Nominal (Rp)'}<NumberEntry rupiahDraft inputMode="decimal" required value={form.amount} onValueChange={rawInput =>patch({amount:rawInput})}/>
             <small>{form.kind==='CORRECT'?`Tarif asal ${amountText(originalRate)} / pcs`:`Batas ${rupiah(form.kind==='PAY'?remaining:Math.min(balance,target?.remaining??balance))}`}</small></label>
           <label>Tanggal<input type="date" required min={bill.day} max={lastWarehouseDay()} value={form.day} onChange={event=>patch({day:event.target.value})}/></label>
         </div>

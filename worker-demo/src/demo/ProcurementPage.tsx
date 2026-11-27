@@ -1,10 +1,11 @@
+import NumberEntry from '../../../src/components/NumberEntry'
 import {Boxes, ClipboardList, Coins, FileText, History, Ruler} from 'lucide-react'
 import {archiveDocumentFor, archiveSource, fabricIdentity} from './fabricArchive'
 import {FabricReceiptRegister, FabricReceiptSource} from './FabricReceiptSource'
 import './receiving.css'
 import PocketReceiptForm from './PocketReceiptForm'
 import { Icon } from '../components/AppIcon'
-import { cleanMoneyInput, formatMoneyInput } from '../moneyInput'
+import { cleanMoneyInput } from '../moneyInput'
 import { Field } from './controls'
 import { formatQuantity, money, parseDecimal } from './format'
 import { ReceiptRollRows } from './ReceiptRollRows'
@@ -161,16 +162,16 @@ export function ProcurementPage() {
           </div>
           <div className="roll-entry-head"><div className="receiving-band"><i><Ruler aria-hidden="true"/></i><h3>Rincian gulung</h3></div><button className="soft-btn add-roll" onClick={addRoll}><Icon name="plus"/> Tambah roll</button></div>
           <div className="fabric-generate-rolls">
-            <label>Jumlah roll<input className="erp-input" value={rollCount??String(rolls.length)} inputMode="numeric"
-              onChange={e=>setRollCount(e.target.value.replace(/\D/g,'').slice(0,3))}
+            <label>Jumlah roll<NumberEntry className="erp-input" value={rollCount??String(rolls.length)} inputMode="numeric"
+              onValueChange={rawInput =>setRollCount(rawInput.replace(/\D/g,'').slice(0,3))}
               onKeyDown={e=>{if(e.key==='Enter'){e.preventDefault();generateRows()}}}/></label>
             <button type="button" className="soft-btn" onClick={generateRows}>Buat baris roll</button>
           </div>
           <ReceiptRollRows rows={rolls.map(roll => ({ key: roll.id, length: roll.yards }))} unit={fabricUom} byNumber
             onChange={(index, value) => updateRoll(rolls[index].id, value)} onRemove={index => removeRoll(rolls[index].id)}/>
-          <div className="benchmark-entry"><div><Icon name="cost"/><span><strong>Harga benchmark / {fabricUnitName}</strong><small>Dipakai sementara sampai kasbon aktual datang.</small></span></div><div className="money-input"><span>Rp</span><input inputMode="numeric" value={formatMoneyInput(benchmarkPrice)} onChange={(event)=>setBenchmarkPrice(cleanMoneyInput(event.target.value))}/></div></div>
+          <div className="benchmark-entry"><div><Icon name="cost"/><span><strong>Harga benchmark / {fabricUnitName}</strong><small>Dipakai sementara sampai kasbon aktual datang.</small></span></div><div className="money-input"><span>Rp</span><NumberEntry inputMode="numeric" value={benchmarkPrice} onValueChange={rawInput =>setBenchmarkPrice(cleanMoneyInput(rawInput))}/></div></div>
         </>:<>
-          <div className="accessory-entry-grid"><Field label="Jumlah diterima"><div className="qty-unit-input"><input aria-label="Jumlah diterima" inputMode="numeric" value={accessory.qty} onChange={event=>setAccessory({...accessory,qty:cleanMoneyInput(event.target.value)})}/><span>pcs</span></div></Field><Field label="Harga benchmark / pcs"><div className="money-input"><span>Rp</span><input inputMode="numeric" value={formatMoneyInput(accessory.rate)} onChange={event=>setAccessory({...accessory,rate:cleanMoneyInput(event.target.value)})}/></div></Field></div>
+          <div className="accessory-entry-grid"><Field label="Jumlah diterima"><div className="qty-unit-input"><NumberEntry aria-label="Jumlah diterima" inputMode="numeric" value={accessory.qty} onValueChange={rawInput =>setAccessory({...accessory,qty:cleanMoneyInput(rawInput)})}/><span>pcs</span></div></Field><Field label="Harga benchmark / pcs"><div className="money-input"><span>Rp</span><NumberEntry inputMode="numeric" value={accessory.rate} onValueChange={rawInput =>setAccessory({...accessory,rate:cleanMoneyInput(rawInput)})}/></div></Field></div>
         </>}
         {receiptError&&!receiptPreview&&!accessoryPreview&&<p role="alert" className="wh-feedback">{receiptError}</p>}
         {receiptNotice&&<p role="status" className="wh-feedback">{receiptNotice}{mode==='fabric'&&postedNumber&&<a className="receipt-confirm-link" href={receiptDocumentPath(postedNumber)}>Buka penerimaan <Icon name="arrow"/></a>}</p>}

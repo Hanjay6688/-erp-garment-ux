@@ -1,3 +1,4 @@
+import NumberEntry from '../../../src/components/NumberEntry'
 import type { ReactNode } from 'react'
 import type { LucideIcon } from 'lucide-react'
 
@@ -13,8 +14,8 @@ export function CountAmount({ label, unit, value, onChange, invalid = false, row
   label: string; unit: string; value: string; onChange: (value: string) => void; invalid?: boolean; row?: number
 }) {
   return <span className="count-amount" data-invalid={invalid || undefined}>
-    <input aria-label={label} aria-invalid={invalid || undefined} inputMode={unit === 'pcs' ? 'numeric' : 'decimal'}
-      data-grid-row={row} data-grid-col={row === undefined ? undefined : 0} autoComplete="off" value={value} placeholder="—" onChange={event => onChange(event.target.value)}
+    <NumberEntry integerError="Masukkan jumlah pcs bulat." aria-label={label} aria-invalid={invalid || undefined} inputMode={unit === 'pcs' ? 'numeric' : 'decimal'}
+      data-grid-row={row} data-grid-col={row === undefined ? undefined : 0} autoComplete="off" value={value} placeholder="—" onValueChange={rawInput => onChange(rawInput)}
       onFocus={event => event.currentTarget.select()}/>
     <span aria-hidden="true">{unit}</span>
   </span>

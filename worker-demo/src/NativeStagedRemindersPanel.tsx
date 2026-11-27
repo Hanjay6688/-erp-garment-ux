@@ -1,3 +1,4 @@
+import NumberEntry from '../../src/components/NumberEntry'
 import {useCallback,useEffect,useMemo,useRef,useState} from 'react'
 import {useAuth} from './auth/AuthProvider'
 import {getUatSupabaseClient} from './lib/supabase'
@@ -132,9 +133,9 @@ function Reminders({staged,blocked:outer,scope,actor}:Props&{scope:string;actor:
    <label>Alasan<input aria-label="Alasan tujuan pratinjau" value={bReason} maxLength={1000} disabled={blocked} onChange={e=>setBReason(e.target.value)}/></label>
    <button disabled={blocked||Boolean(pending)} onClick={saveBinding}>Simpan tujuan pratinjau lokal</button>
    <label>Aturan pengingat<select aria-label="Aturan pengaturan pengingat" value={pRule} disabled={blocked} onChange={e=>{const r=e.target.value as ReminderRule;setPRule(r);setPUnit(r==='AR_DUE'||r==='AP_DUE'?'DAY':r==='PRODUCTION_GAP'?'PCS':'')}}>{ws.allowedRules.map(r=><option key={r} value={r}>{ruleLabel(r)}</option>)}</select></label>
-   <label>Batas minimal<input aria-label="Batas pengingat" value={pValue} disabled={blocked} onChange={e=>setPValue(e.target.value.trim())}/></label>
+   <label>Batas minimal<NumberEntry inputMode="decimal" aria-label="Batas pengingat" value={pValue} disabled={blocked} onValueChange={rawInput =>setPValue(rawInput.trim())}/></label>
    <label>Satuan<input aria-label="Satuan batas pengingat" value={pUnit} disabled={blocked||pRule==='PRODUCTION_GAP'||pRule==='AR_DUE'||pRule==='AP_DUE'} onChange={e=>setPUnit(e.target.value.trim())}/></label>
-   <label>Jeda antar pengingat (menit)<input aria-label="Jeda pengingat" value={pCooldown} disabled={blocked} onChange={e=>setPCooldown(e.target.value.trim())}/></label>
+   <label>Jeda antar pengingat (menit)<NumberEntry inputMode="numeric" aria-label="Jeda pengingat" value={pCooldown} disabled={blocked} onValueChange={rawInput =>setPCooldown(rawInput.trim())}/></label>
    <label>Alasan<input aria-label="Alasan pengaturan pengingat" value={pReason} maxLength={1000} disabled={blocked} onChange={e=>setPReason(e.target.value)}/></label>
    <button disabled={blocked||Boolean(pending)} onClick={savePolicy}>Simpan pengaturan pengingat</button>
   </details>:null}

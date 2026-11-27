@@ -1,3 +1,4 @@
+import NumberEntry from '../../src/components/NumberEntry'
 import RecordTable from './RecordTable'
 import { useState } from 'react'
 import type { PocketOpening, PocketOpeningUsage } from './pocketOpening'
@@ -15,7 +16,7 @@ export default function BePocketHistory({ data, locked, canCorrect, onCorrect }:
     </tr>)}</tbody></RecordTable>
     {selected && <div className="initial-import-toolbar"><p>Koreksi nilai sumber {selected.document_number}/{selected.line_number}. Pembagian aktif dan HPP turunannya dihitung ulang; jumlah stok tetap.</p>
       {stale && <p role="alert">Nilai sumber berubah. Pilih ulang dokumennya.</p>}
-      <label>Nilai yang benar<input aria-label="Nilai sumber kain kantong" inputMode="decimal" disabled={locked} value={amount} onChange={e=>setAmount(e.target.value)}/></label>
+      <label>Nilai yang benar<NumberEntry aria-label="Nilai sumber kain kantong" inputMode="decimal" disabled={locked} value={amount} onValueChange={rawInput =>setAmount(rawInput)}/></label>
       <label>Tanggal koreksi<input aria-label="Tanggal koreksi kain kantong" type="date" disabled={locked} value={date} onChange={e=>setDate(e.target.value)}/></label>
       <label>Alasan koreksi<input aria-label="Alasan koreksi kain kantong" maxLength={1000} disabled={locked} value={reason} onChange={e=>setReason(e.target.value)}/></label>
       <button type="button" disabled={locked || !valid} onClick={()=>{if(valid)onCorrect({usage_id:selected.id,expected_amount:selected.amount,amount:amount.replace(',','.'),economic_date:date,reason:reason.trim()})}}>Sahkan koreksi nilai</button>

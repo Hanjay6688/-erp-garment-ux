@@ -1,3 +1,4 @@
+import NumberEntry from '../../../src/components/NumberEntry'
 import { useState } from 'react'
 import { ArrowLeftRight, ClipboardCheck, PackageOpen, Plus, ScanLine, Search, Wrench, X } from 'lucide-react'
 import { browseMatchPieces } from '../browseMatch'
@@ -71,7 +72,7 @@ export function AccessoryService() {
           const fields=(values:Partial<typeof row>)=>revise({lines:draft.lines.map(line=>line.id===row.id?{...line,...values}:line)})
           return <section className="demo-ops-card" key={row.id}><div className="demo-operation-fields">
             <label>Aksesori {index+1}<select aria-label={'Aksesori '+(index+1)} required value={row.code} onChange={event=>fields({code:event.target.value})}><option value="">Pilih aksesori</option>{items.map(item=><option key={item.code} value={item.code}>{item.name} · {qtyText(accessoryStockAt(item,source,session))}</option>)}</select></label>
-            <label>Jumlah {index+1} (pcs)<input className="demo-qty" required inputMode="numeric" value={row.qty} onChange={event=>fields({qty:digits(event.target.value)})}/></label>
+            <label>Jumlah {index+1} (pcs)<NumberEntry className="demo-qty" required inputMode="numeric" value={row.qty} onValueChange={rawInput =>fields({qty:digits(rawInput)})}/></label>
           </div>{draft.action==='USE'&&<label>Pekerjaan atau tujuan {index+1}<input required maxLength={130} value={row.job} placeholder="Contoh RET-0045 · pasang kancing" onChange={event=>fields({job:event.target.value})}/></label>}
           {draft.lines.length>1&&<div><button type="button" className="soft-btn" onClick={()=>revise({lines:draft.lines.filter(item=>item.id!==row.id)})}><X size={15}/> Lepas baris</button></div>}</section>
         })}
@@ -84,7 +85,7 @@ export function AccessoryService() {
       <form className="demo-operation-form" onSubmit={event=>{event.preventDefault();save(()=>changeSession(live=>postCustody(live,{...custody,qty:Number(custody.qty)})),'Titipan pelanggan tersimpan.')}}>
         <div className="demo-operation-fields"><label>Pemilik<input required maxLength={130} value={custody.customer} onChange={event=>setCustody({...custody,customer:event.target.value})}/></label>
           <label>Barang<input required maxLength={150} value={custody.item} onChange={event=>setCustody({...custody,item:event.target.value})}/></label>
-          <label>Jumlah titipan (pcs)<input required inputMode="numeric" value={custody.qty} onChange={event=>setCustody({...custody,qty:digits(event.target.value)})}/></label>
+          <label>Jumlah titipan (pcs)<NumberEntry required inputMode="numeric" value={custody.qty} onValueChange={rawInput =>setCustody({...custody,qty:digits(rawInput)})}/></label>
           <label>Tanggal terima<input type="date" required max={lastWarehouseDay()} value={custody.day} onChange={event=>setCustody({...custody,day:event.target.value})}/></label></div>
         <label>Referensi pekerjaan<input required maxLength={130} value={custody.job} onChange={event=>setCustody({...custody,job:event.target.value})}/></label>
         {error&&<p role="alert">{error}</p>}<footer><button className="primary-btn">Simpan titipan</button></footer>
@@ -153,8 +154,8 @@ export function AccessorySalvage() {
           const link=links.find(row=>row.id===event.target.value)
           setIntake({...intake,conversion:link?.id??'',holder:link?.holder||intake.holder,expected:link?.left==null?'':String(link.left)})
         }}><option value="">Penerimaan mandiri</option>{links.map(link=><option key={link.id} value={link.id}>{link.label}{link.left===null?'':' · '+qtyText(link.left)} · {link.day}</option>)}</select></label>}
-        <div className="demo-operation-fields"><label>Jumlah fisik diterima (pcs)<input required inputMode="numeric" value={intake.qty} onChange={event=>setIntake({...intake,qty:digits(event.target.value)})}/></label>
-          <label>Total diharapkan (opsional)<input inputMode="numeric" placeholder="Sama dengan jumlah diterima" value={intake.expected} onChange={event=>setIntake({...intake,expected:digits(event.target.value)})}/></label></div>
+        <div className="demo-operation-fields"><label>Jumlah fisik diterima (pcs)<NumberEntry required inputMode="numeric" value={intake.qty} onValueChange={rawInput =>setIntake({...intake,qty:digits(rawInput)})}/></label>
+          <label>Total diharapkan (opsional)<NumberEntry inputMode="numeric" placeholder="Sama dengan jumlah diterima" value={intake.expected} onValueChange={rawInput =>setIntake({...intake,expected:digits(rawInput)})}/></label></div>
         <div className="demo-operation-fields"><label>Diterima dari<input required maxLength={130} value={intake.holder} onChange={event=>setIntake({...intake,holder:event.target.value})}/></label>
           <label>Tanggal fisik<input required type="date" max={lastWarehouseDay()} value={intake.day} onChange={event=>setIntake({...intake,day:event.target.value})}/></label></div>
         <label>Referensi asal atau servis (opsional)<input maxLength={140} value={intake.reference} onChange={event=>setIntake({...intake,reference:event.target.value})}/></label>
@@ -167,10 +168,10 @@ export function AccessorySalvage() {
         save(()=>changeSession(live=>action.mode==='check'?inspectSalvage(live,action.doc.id,{id,day,good:Number(good),damaged:Number(damaged),note:note.trim()}):receiveSalvage(live,action.doc.id,{id,day,qty:Number(qty)})),
           action.mode==='check'?'Pemeriksaan tersimpan. Jumlah layak masuk stok.':'Penerimaan susulan tersimpan.')
       }}><p>{action.doc.name} · {action.doc.id}</p>
-        {action.mode==='check'?<><div className="demo-operation-fields"><label>Layak pakai (pcs)<input inputMode="numeric" value={action.good} onChange={event=>setAction({...action,good:digits(event.target.value)})}/></label>
-          <label>Rusak (pcs)<input inputMode="numeric" value={action.damaged} onChange={event=>setAction({...action,damaged:digits(event.target.value)})}/></label></div>
+        {action.mode==='check'?<><div className="demo-operation-fields"><label>Layak pakai (pcs)<NumberEntry inputMode="numeric" value={action.good} onValueChange={rawInput =>setAction({...action,good:digits(rawInput)})}/></label>
+          <label>Rusak (pcs)<NumberEntry inputMode="numeric" value={action.damaged} onValueChange={rawInput =>setAction({...action,damaged:digits(rawInput)})}/></label></div>
           <label>Hasil pemeriksaan<textarea required minLength={4} maxLength={400} value={action.note} onChange={event=>setAction({...action,note:event.target.value})}/></label></>
-          :<label>Jumlah fisik susulan (pcs)<input required inputMode="numeric" value={action.qty} onChange={event=>setAction({...action,qty:digits(event.target.value)})}/></label>}
+          :<label>Jumlah fisik susulan (pcs)<NumberEntry required inputMode="numeric" value={action.qty} onValueChange={rawInput =>setAction({...action,qty:digits(rawInput)})}/></label>}
         <label>Tanggal fisik<input required type="date" min={action.doc.day} max={lastWarehouseDay()} value={action.day} onChange={event=>setAction({...action,day:event.target.value})}/></label>
         {error&&<p role="alert">{error}</p>}<footer><button className="primary-btn">{action.mode==='check'?'Simpan hasil pemeriksaan':'Simpan susulan'}</button></footer>
       </form></ReasonDialog>}

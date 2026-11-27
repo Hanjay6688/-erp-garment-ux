@@ -1,3 +1,4 @@
+import NumberEntry from '../../src/components/NumberEntry'
 import {useCallback,useEffect,useMemo,useRef,useState} from 'react'
 import {useAuth} from './auth/AuthProvider'
 import {getUatSupabaseClient} from './lib/supabase'
@@ -48,9 +49,9 @@ function Workspace({onClose}:Props){
     :<p>Paket keputusan owner 8 Okt 2026: {ws.decided.windowDays} hari, minimal {ws.decided.minGroups} grup selesai dan {ws.decided.minCutPcs} PCS potong, batas bawah 90%. Berlaku setelah disimpan.</p>}
    <form onSubmit={e=>{e.preventDefault();void save()}}><fieldset disabled={busy||pending||!ws.manageAllowed}><legend>{ws.current?'Ubah kebijakan (versi baru)':'Simpan kebijakan'}</legend>
     <label>Status<select aria-label="Status kebijakan yield" value={state} onChange={e=>setState(e.target.value as YieldPolicyState)}><option value="ACTIVE">Aktif</option><option value="PAUSED">Jeda</option></select></label>
-    <label>Jendela histori (hari)<input aria-label="Jendela histori hari" inputMode="numeric" value={windowDays} onChange={e=>setWindowDays(e.target.value)} required/></label>
-    <label>Minimal grup selesai<input aria-label="Minimal grup selesai" inputMode="numeric" value={minGroups} onChange={e=>setMinGroups(e.target.value)} required/></label>
-    <label>Minimal PCS potong<input aria-label="Minimal PCS potong" inputMode="numeric" value={minCutPcs} onChange={e=>setMinCutPcs(e.target.value)} required/></label>
+    <label>Jendela histori (hari)<NumberEntry aria-label="Jendela histori hari" inputMode="numeric" value={windowDays} onValueChange={rawInput =>setWindowDays(rawInput)} required/></label>
+    <label>Minimal grup selesai<NumberEntry aria-label="Minimal grup selesai" inputMode="numeric" value={minGroups} onValueChange={rawInput =>setMinGroups(rawInput)} required/></label>
+    <label>Minimal PCS potong<NumberEntry aria-label="Minimal PCS potong" inputMode="numeric" value={minCutPcs} onValueChange={rawInput =>setMinCutPcs(rawInput)} required/></label>
     <p>Tingkat keyakinan: 90% satu sisi (tetap).</p>
     <label>Alasan<textarea aria-label="Alasan kebijakan yield" maxLength={1000} value={reason} onChange={e=>setReason(e.target.value)} required/></label>
     <button>Simpan kebijakan yield</button></fieldset></form>

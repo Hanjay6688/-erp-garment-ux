@@ -1,3 +1,4 @@
+import NumberEntry from './components/NumberEntry'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   AlertTriangle, ArchiveX, Check, ChevronRight, CircleDollarSign, Clock3,
@@ -125,7 +126,7 @@ function CreateManualBs({ workspace, canSubmit, onClose, onAction }: {
       <label><span>NOMOR BS · OPSIONAL</span><input value={number} onChange={(event) => setNumber(event.target.value)} placeholder="Otomatis bila kosong"/></label>
       <label><span>REFERENSI LEGACY · WAJIB</span><input value={legacyReference} onChange={(event) => setLegacyReference(event.target.value)} placeholder="Nota / buku / foto fisik"/></label>
       <label><span>PRODUK · OPSIONAL</span><select value={productId} onChange={(event) => setProductId(event.target.value)}><option value="">Belum dapat diidentifikasi</option>{workspace.lookups.products.map((item) => <option value={item.id} key={item.id}>{item.sku} · {item.name}</option>)}</select></label>
-      <label><span>QTY PCS</span><input inputMode="numeric" value={quantity} onChange={(event) => setQuantity(cleanBsQuantity(event.target.value, 999_999))}/></label>
+      <label><span>QTY PCS</span><NumberEntry inputMode="numeric" value={quantity} onValueChange={rawInput => setQuantity(cleanBsQuantity(rawInput, 999_999))}/></label>
       <label><span>WAKTU FISIK DITEMUKAN</span><input type="datetime-local" value={physicalAt} onChange={(event) => setPhysicalAt(event.target.value)}/></label>
       <label className="wide"><span>ALASAN PENCATATAN · WAJIB</span><input value={reason} onChange={(event) => setReason(event.target.value)} placeholder="Mengapa baru dicatat sekarang?"/></label>
       <label className="wide"><span>CATATAN KONDISI</span><textarea value={notes} onChange={(event) => setNotes(event.target.value)} placeholder="Kondisi barang dan lokasi fisik"/></label>
@@ -140,7 +141,7 @@ function CreateManualBs({ workspace, canSubmit, onClose, onAction }: {
           else delete next[item.id]
           return next
         })
-      }}/><span><strong>{item.code}</strong>{item.name}</span></label>{selected ? <label className="component-before"><span>SUDAH SELESAI</span><input aria-label={`Qty ${item.name} sudah selesai sebelum BS`} inputMode="numeric" value={completedBefore[item.id] ?? '0'} onChange={(event) => setCompletedBefore((current) => ({ ...current, [item.id]: cleanBsQuantity(event.target.value, qty(quantity)) }))}/><small>/ {qty(quantity)} pcs</small></label> : null}</div>
+      }}/><span><strong>{item.code}</strong>{item.name}</span></label>{selected ? <label className="component-before"><span>SUDAH SELESAI</span><NumberEntry aria-label={`Qty ${item.name} sudah selesai sebelum BS`} inputMode="numeric" value={completedBefore[item.id] ?? '0'} onValueChange={rawInput => setCompletedBefore((current) => ({ ...current, [item.id]: cleanBsQuantity(rawInput, qty(quantity)) }))}/><small>/ {qty(quantity)} pcs</small></label> : null}</div>
     })}</fieldset>
     <footer><button onClick={onClose}>Batal</button><button className="primary" disabled={!canSubmit || !valid} onClick={async () => {
       const ok = await onAction('CREATE_MANUAL_BS', {
@@ -188,8 +189,8 @@ function CreateClaim({ workspace, canSubmit, onClose, onAction }: {
           ? workspace.lookups.laundry_receipt_sources[0]?.id ?? ''
           : workspace.lookups.laundry_sources.find((item) => item.qty_claimable_pcs > 0)?.id ?? '')
       }}><option>STUCK</option><option>MISSING</option><option>DAMAGE</option></select></label>
-      <label><span>QTY CLAIM · MAKS {maxQuantity}</span><input inputMode="numeric" value={quantity} onChange={(event) => setQuantity(cleanBsQuantity(event.target.value, maxQuantity))}/></label>
-      <label><span>NILAI KOMPENSASI</span><input inputMode="numeric" value={compensation} onChange={(event) => setCompensation(cleanBsQuantity(event.target.value, 999_999_999))}/></label>
+      <label><span>QTY CLAIM · MAKS {maxQuantity}</span><NumberEntry inputMode="numeric" value={quantity} onValueChange={rawInput => setQuantity(cleanBsQuantity(rawInput, maxQuantity))}/></label>
+      <label><span>NILAI KOMPENSASI</span><NumberEntry inputMode="numeric" value={compensation} onValueChange={rawInput => setCompensation(cleanBsQuantity(rawInput, 999_999_999))}/></label>
       <label><span>WAKTU DIBUKA</span><input type="datetime-local" value={openedAt} onChange={(event) => setOpenedAt(event.target.value)}/></label>
       <label className="wide"><span>ALASAN / BUKTI · WAJIB</span><textarea value={reason} onChange={(event) => setReason(event.target.value)} placeholder="Jelaskan kekurangan, kerusakan, atau barang tertahan"/></label>
     </div>
@@ -238,7 +239,7 @@ function ClassificationPanel({ row, workspace, canCreate, onAction }: {
           else delete next[item.id]
           return next
         })
-      }}/><span><strong>{item.code}</strong>{item.name}</span></label>{selected ? <label className="component-before"><span>SUDAH SELESAI</span><input aria-label={`Qty ${item.name} sudah selesai sebelum BS`} inputMode="numeric" value={completedBefore[item.id] ?? '0'} onChange={(event) => setCompletedBefore((current) => ({ ...current, [item.id]: cleanBsQuantity(event.target.value, row.qty_pcs) }))}/><small>/ {row.qty_pcs} pcs</small></label> : null}</div>
+      }}/><span><strong>{item.code}</strong>{item.name}</span></label>{selected ? <label className="component-before"><span>SUDAH SELESAI</span><NumberEntry aria-label={`Qty ${item.name} sudah selesai sebelum BS`} inputMode="numeric" value={completedBefore[item.id] ?? '0'} onValueChange={rawInput => setCompletedBefore((current) => ({ ...current, [item.id]: cleanBsQuantity(rawInput, row.qty_pcs) }))}/><small>/ {row.qty_pcs} pcs</small></label> : null}</div>
     })}</fieldset>
     <button className="cbsr-submit" disabled={!canCreate || row.status === 'ON_HOLD' || row.is_closed || !validOwner || reason.trim().length < 4} onClick={() => void onAction('CLASSIFY_BS', {
       bs_case_id: row.id, cause_source: cause,
@@ -271,8 +272,8 @@ function ReworkCompletion({ order, workspace, canCreate, canPost, canReverse, ow
   if (order.status === 'COMPLETED' && order.cost_posted) return <div className="cbsr-rework-complete"><PackageCheck/><span><strong>{order.qty_good_returned} Good · {order.qty_bs_returned} BS</strong><small>Biaya posted {order.good_fg_lot_id ? '· lot FG terbentuk' : '· tanpa Good FG'}</small></span><button disabled={!canReverse || !ownerAdmin || reason.trim().length < 4} onClick={() => void onAction('REVERSE_REWORK_COMPLETION', { rework_order_id: order.id, change_reason: reason.trim() }, order.row_version)}><Undo2/> Reverse</button><input value={reason} onChange={(event) => setReason(event.target.value)} placeholder="Alasan reversal Owner/Admin"/></div>
   if (order.status === 'CANCELLED') return <div className="cbsr-muted">Order dibatalkan; histori tetap dipertahankan.</div>
   return <div className="cbsr-completion-form"><header><span>HASIL KUMULATIF · {previousReturned} MASUK · {order.qty_sent - previousReturned} BELUM KEMBALI</span><strong>{order.rework_number}</strong></header><div>
-    <label><span>GOOD KUMULATIF</span><input inputMode="numeric" value={good} onChange={(event) => setGood(cleanBsQuantity(event.target.value, order.qty_sent))}/></label>
-    <label><span>BS KUMULATIF</span><input inputMode="numeric" value={bad} onChange={(event) => setBad(cleanBsQuantity(event.target.value, order.qty_sent))}/></label>
+    <label><span>GOOD KUMULATIF</span><NumberEntry inputMode="numeric" value={good} onValueChange={rawInput => setGood(cleanBsQuantity(rawInput, order.qty_sent))}/></label>
+    <label><span>BS KUMULATIF</span><NumberEntry inputMode="numeric" value={bad} onValueChange={rawInput => setBad(cleanBsQuantity(rawInput, order.qty_sent))}/></label>
     <label><span>WAKTU SELESAI</span><input type="datetime-local" value={completedAt} onChange={(event) => setCompletedAt(event.target.value)}/></label>
     <label><span>GUDANG GOOD FG</span><select value={locationId} disabled={qty(good) === 0} onChange={(event) => setLocationId(event.target.value)}><option value="">Pilih lokasi…</option>{workspace.lookups.fg_locations.map((item) => <option value={item.id} key={item.id}>{item.code} · {item.name}</option>)}</select></label>
     <label className="wide"><span>ALASAN HASIL FISIK</span><input value={reason} onChange={(event) => setReason(event.target.value)} placeholder="Barang yang benar-benar kembali dan hasil pemeriksaannya"/></label>
@@ -329,7 +330,7 @@ function BsActionPanel({ row, workspace, canCreate, canPost, canReverse, ownerAd
     {(route === 'REWORK' || route === 'REWASH') ? <div className="cbsr-route-form"><div className="cbsr-form-grid compact">
       <label><span>NOMOR ORDER · WAJIB</span><input value={number} onChange={(event) => setNumber(event.target.value)} placeholder={route === 'REWORK' ? `RW-${row.number}` : `RWL-${row.number}`}/></label>
       <label><span>{route === 'REWORK' ? 'MANDOR REWORK' : 'VENDOR REWASH'}</span><select value={partyId} onChange={(event) => setPartyId(event.target.value)}><option value="">Pilih…</option>{(route === 'REWORK' ? workspace.lookups.contractors : workspace.lookups.vendors).map((item) => <option value={item.id} key={item.id}>{item.code} · {item.name}</option>)}</select></label>
-      <label><span>QTY DIKIRIM</span><input inputMode="numeric" value={quantity} onChange={(event) => setQuantity(cleanBsQuantity(event.target.value, row.available_qty))}/></label>
+      <label><span>QTY DIKIRIM</span><NumberEntry inputMode="numeric" value={quantity} onValueChange={rawInput => setQuantity(cleanBsQuantity(rawInput, row.available_qty))}/></label>
       <label><span>WAKTU FISIK</span><input type="datetime-local" value={physicalAt} onChange={(event) => setPhysicalAt(event.target.value)}/></label>
       <label><span>GUDANG FG BILA GOOD</span><select value={locationId} onChange={(event) => setLocationId(event.target.value)}><option value="">Pilih saat completion</option>{workspace.lookups.fg_locations.map((item) => <option value={item.id} key={item.id}>{item.code} · {item.name}</option>)}</select></label>
       <label className="wide"><span>CATATAN / ALASAN</span><textarea value={reason} onChange={(event) => setReason(event.target.value)} placeholder="Kerusakan dan instruksi fisik"/></label>
@@ -347,8 +348,8 @@ function BsActionPanel({ row, workspace, canCreate, canPost, canReverse, ownerAd
     }, null)}><Wrench/> Buat order {route === 'REWORK' ? 'rework' : 'rewash'}</button></div> : null}
     {(route === 'DISPOSITION' || route === 'COMPENSATION') ? <div className="cbsr-route-form"><div className="cbsr-form-grid compact">
       {route === 'DISPOSITION' ? <label><span>DISPOSITION</span><select value={resolutionType} onChange={(event) => setResolutionType(event.target.value)}><option>SCRAP</option><option>WRITE_OFF</option><option>OTHER</option></select></label> : <label><span>CLAIM SETTLED · SALDO TERSEDIA</span><select value={claimId} onChange={(event) => { setClaimId(event.target.value); setQuantity(''); setCompensation('0') }}><option value="">Pilih claim…</option>{settledClaims.map((item) => <option value={item.id} key={item.id}>{item.number} · {item.vendor_name} · {item.available_qty} pcs / {money(item.available_amount)}</option>)}</select>{settledClaims.length === 0 ? <small className="cbsr-field-warning">Klasifikasikan vendor penanggung jawab dan settle claim bernilai positif yang masih bersaldo.</small> : null}</label>}
-      <label><span>QTY{selectedClaim ? ` · MAKS ${Math.min(row.available_qty, selectedClaim.available_qty)}` : ''}</span><input inputMode="numeric" value={quantity} onChange={(event) => setQuantity(cleanBsQuantity(event.target.value, route === 'COMPENSATION' ? Math.min(row.available_qty, selectedClaim?.available_qty ?? 0) : row.available_qty))}/></label>
-      {route === 'COMPENSATION' ? <label><span>NILAI DIPAKAI · MAKS {money(selectedClaim?.available_amount ?? 0)}</span><input inputMode="numeric" value={compensation} onChange={(event) => setCompensation(cleanBsQuantity(event.target.value, Math.floor(selectedClaim?.available_amount ?? 0)))}/></label> : null}
+      <label><span>QTY{selectedClaim ? ` · MAKS ${Math.min(row.available_qty, selectedClaim.available_qty)}` : ''}</span><NumberEntry inputMode="numeric" value={quantity} onValueChange={rawInput => setQuantity(cleanBsQuantity(rawInput, route === 'COMPENSATION' ? Math.min(row.available_qty, selectedClaim?.available_qty ?? 0) : row.available_qty))}/></label>
+      {route === 'COMPENSATION' ? <label><span>NILAI DIPAKAI · MAKS {money(selectedClaim?.available_amount ?? 0)}</span><NumberEntry inputMode="numeric" value={compensation} onValueChange={rawInput => setCompensation(cleanBsQuantity(rawInput, Math.floor(selectedClaim?.available_amount ?? 0)))}/></label> : null}
       <label><span>WAKTU FISIK</span><input type="datetime-local" value={physicalAt} onChange={(event) => setPhysicalAt(event.target.value)}/></label>
       <label className="wide"><span>ALASAN · WAJIB</span><textarea value={reason} onChange={(event) => setReason(event.target.value)}/></label>
     </div><button className="cbsr-submit danger" disabled={!canPost || !canStart || sendQty <= 0 || !physicalAt || reason.trim().length < 4 || route === 'COMPENSATION' && (!selectedClaim || sendQty > selectedClaim.available_qty || qty(compensation) <= 0 || qty(compensation) > selectedClaim.available_amount)} onClick={() => void onAction('DISPOSE_BS', {

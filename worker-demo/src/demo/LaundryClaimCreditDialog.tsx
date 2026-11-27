@@ -1,3 +1,4 @@
+import NumberEntry from '../../../src/components/NumberEntry'
 import { useState } from 'react'
 import { WalletCards } from 'lucide-react'
 import { readRupiahInput } from '../moneyInput'
@@ -64,8 +65,8 @@ export function LaundryClaimCreditDialog({deliveries,delivery,bill,update,onClos
         {choices.map((row,index)=><article className="invoice-source-card" key={row.claim.id}>
           <div><strong>{row.claim.qty} pcs · {row.claim.type}</strong><small>{row.delivery.id} · {creditDay(row.claim)} · Sisa {claimMoney(row.remaining)}</small>
             <span>{row.claim.reason}</span></div>
-          <label>Nominal potongan kredit {index+1} (Rp)<input inputMode="decimal" value={amounts[row.claim.id]??''}
-            placeholder="0" onChange={event=>{setAmounts(current=>({...current,[row.claim.id]:event.target.value}));setError('')}}/></label>
+          <label>Nominal potongan kredit {index+1} (Rp)<NumberEntry rupiahDraft inputMode="decimal" value={amounts[row.claim.id]??''}
+            placeholder="0" onValueChange={rawInput =>{setAmounts(current=>({...current,[row.claim.id]:rawInput}));setError('')}}/></label>
         </article>)}
         {!choices.length&&<p className="invoice-list-empty">Belum ada kredit siap dipakai.</p>}
       </div>

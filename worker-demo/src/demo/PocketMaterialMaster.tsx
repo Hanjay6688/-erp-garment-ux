@@ -1,3 +1,4 @@
+import NumberEntry from '../../../src/components/NumberEntry'
 import { useState } from 'react'
 import { ArrowLeft, ArrowRight, Factory, History, Layers3, Pencil, Plus, Search, Tag, Truck } from 'lucide-react'
 import { browseMatch } from '../browseMatch'
@@ -82,7 +83,7 @@ export default function PocketMaterialMaster() {
           <p>Isi satuan yang biasa dipakai. Tagihan final bisa memakai harga aktual.</p>
           <div className="pocket-editor-grid">
             {units.map(unit => <label key={unit.code}>Harga acuan per {unit.name.toLowerCase()} (Rp)
-              <input inputMode="decimal" value={prices[unit.code]} placeholder="Contoh 12.500" onChange={e => setPrices({ ...prices, [unit.code]: e.target.value })}/>
+              <NumberEntry rupiahDraft inputMode="decimal" value={prices[unit.code]} placeholder="Contoh 12.500" onValueChange={rawInput => setPrices({ ...prices, [unit.code]: rawInput })}/>
             </label>)}
           </div>
         </fieldset>

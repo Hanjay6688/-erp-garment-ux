@@ -1,3 +1,4 @@
+import NumberEntry from '../../src/components/NumberEntry'
 import { BrowsePane } from './components/BrowsePane'
 import { useMemo, useState } from 'react'
 import {
@@ -109,7 +110,7 @@ function SettingsPage({onNavigate}:{onNavigate:OperationsAdminProps['onNavigate'
         </div>
         <div className="settings-fields">
           <label><span>TIMEZONE BISNIS</span><select value={settings.timezone} disabled={!editing} onChange={(event)=>setSettings((current)=>({...current,timezone:event.target.value}))}><option>Asia/Jakarta</option></select><small>Tanggal fisik dan waktu sistem tetap disimpan terpisah.</small></label>
-          <label><span>FAKTOR ½ HARI</span><input value={settings.halfDay} disabled={!editing} onChange={(event)=>setSettings((current)=>({...current,halfDay:event.target.value}))}/><small>1 hari + ½ hari = 1,5 unit bayar.</small></label>
+          <label><span>FAKTOR ½ HARI</span><NumberEntry inputMode="decimal" value={settings.halfDay} disabled={!editing} onValueChange={rawInput =>setSettings((current)=>({...current,halfDay:rawInput}))}/><small>1 hari + ½ hari = 1,5 unit bayar.</small></label>
           <label><span>RITME TUTUP BUKU</span><select value={settings.closeCadence} disabled={!editing} onChange={(event)=>setSettings((current)=>({...current,closeCadence:event.target.value}))}><option>Bulanan · akhir bulan</option><option>Custom fiscal period</option></select><small>Laporan harian tetap tersedia sebelum close.</small></label>
         </div>
         {editing&&<section className="settings-version-form"><label><span>BERLAKU MULAI</span><input type="date" value={effectiveDate} onChange={(event)=>setEffectiveDate(event.target.value)}/></label><label className="reason"><span>ALASAN PERUBAHAN · WAJIB</span><input value={reason} onChange={(event)=>setReason(event.target.value)} placeholder="Contoh: kebijakan operasional September..."/></label><button className="primary-btn" disabled={!reason.trim()} onClick={saveVersion}><Save/> Simpan contoh versi</button></section>}

@@ -1,3 +1,4 @@
+import NumberEntry from '../../src/components/NumberEntry'
 import {useCallback,useEffect,useId,useRef,useState} from 'react'
 import {normalizeClientError} from './lib/clientError'
 import {formatCp6WibDateTime} from './cp6BusinessTime'
@@ -72,7 +73,7 @@ export default function NativeProductAnalogChoicePanel({client,context,candidate
   <fieldset disabled={locked||!workspace}>
    <legend>Pemeriksaan pilihan</legend>
    <label htmlFor={selectId}>Produk pembanding</label><select id={selectId} value={candidates?.rows.some(r=>r.key===selected)?selected:''} onChange={e=>{setSelected(e.target.value);setReviewed(false)}}><option value="">Pilih setelah memeriksa kandidat</option>{candidates?.rows.map(r=><option key={r.key} value={r.key}>{r.sku} · {r.name}</option>)}</select>
-   <label htmlFor={selectId+'-scale'}>Skala terhadap produk pembanding</label><input id={selectId+'-scale'} inputMode="decimal" value={scale} onChange={e=>{setScale(e.target.value);setReviewed(false)}}/>
+   <label htmlFor={selectId+'-scale'}>Skala terhadap produk pembanding</label><NumberEntry id={selectId+'-scale'} inputMode="decimal" value={scale} onValueChange={rawInput =>{setScale(rawInput);setReviewed(false)}}/>
    <p>Skala 1 berarti sama, 0.5 berarti setengah. Isi skala sesuai pemeriksaan Anda.</p>
    <label htmlFor={selectId+'-reason'}>Alasan kesamaan atau pencabutan</label><textarea id={selectId+'-reason'} value={reason} onChange={e=>{setReason(e.target.value);setReviewed(false)}}/>
    <label className="native-analog-review"><input type="checkbox" checked={reviewed} onChange={e=>setReviewed(e.target.checked)}/>Saya telah memeriksa kesesuaian ukuran, model, kain, pola, dan riwayat penjualan serta alasan perubahan ini.</label>

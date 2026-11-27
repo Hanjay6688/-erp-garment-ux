@@ -1,3 +1,4 @@
+import NumberEntry from '../../src/components/NumberEntry'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useAuth } from './auth/AuthProvider'
 import { isConnectedRuntime } from './config/runtime'
@@ -104,13 +105,13 @@ function CorrectionWorkspace({ purchaseId, receiptRevision, onReceiptUpdated }: 
           {lines.map((l, n) => <section className="cproc-line" key={l.key}>
             <h3>Barang {n + 1}: {l.materialName}</h3>
             <div className="cproc-grid"><MaterialChoice client={client} value={{ id: l.materialId, name: l.materialName }} disabled={locked} onChange={m => change(l.key, old => ({ ...old, materialId: m.id, materialName: m.name, unitCode: m.unit_code ?? old.unitCode }))}/>
-              <label>{l.priceState === 'FINAL' ? 'Harga' : 'Harga perkiraan saat terima'} per {l.unitCode}<input aria-label={`Harga benar barang ${n + 1}`} inputMode="decimal" value={l.price} onChange={e => change(l.key, old => ({ ...old, price: e.target.value }))}/></label></div>
+              <label>{l.priceState === 'FINAL' ? 'Harga' : 'Harga perkiraan saat terima'} per {l.unitCode}<NumberEntry aria-label={`Harga benar barang ${n + 1}`} inputMode="decimal" value={l.price} onValueChange={rawInput => change(l.key, old => ({ ...old, price: rawInput }))}/></label></div>
             {l.materialType === 'FABRIC' ? <div className="cproc-rolls"><h4>Roll yang benar</h4>{l.rolls.map((r, ri) => <div className="cproc-inline" key={r.key}>
               <label>Nomor roll{r.replaces && r.number.trim() !== data.lines.flatMap(x => x.rolls).find(x => x.roll_id === r.replaces)?.roll_number ? ` · tadinya ${data.lines.flatMap(x => x.rolls).find(x => x.roll_id === r.replaces)?.roll_number}` : ''}<input aria-label={`Nomor roll benar ${n + 1}.${ri + 1}`} maxLength={80} value={r.number} onChange={e => change(l.key, old => ({ ...old, rolls: old.rolls.map(x => x.key === r.key ? { ...x, number: e.target.value } : x) }))}/></label>
-              <label>Jumlah ({l.unitCode}){r.locked ? ` · sudah terpakai ${numberText(r.minQty)}` : ''}<input aria-label={`Jumlah roll benar ${n + 1}.${ri + 1}`} inputMode="decimal" value={r.qty} onChange={e => change(l.key, old => ({ ...old, rolls: old.rolls.map(x => x.key === r.key ? { ...x, qty: e.target.value } : x) }))}/></label>
+              <label>Jumlah ({l.unitCode}){r.locked ? ` · sudah terpakai ${numberText(r.minQty)}` : ''}<NumberEntry aria-label={`Jumlah roll benar ${n + 1}.${ri + 1}`} inputMode="decimal" value={r.qty} onValueChange={rawInput => change(l.key, old => ({ ...old, rolls: old.rolls.map(x => x.key === r.key ? { ...x, qty: rawInput } : x) }))}/></label>
               <button type="button" disabled={r.locked} title={r.locked ? 'Roll ini sudah terpakai sehingga tidak bisa dihapus' : undefined} onClick={() => change(l.key, old => ({ ...old, rolls: old.rolls.filter(x => x.key !== r.key) }))}>Hapus roll {ri + 1}</button></div>)}
               <button type="button" onClick={() => change(l.key, old => ({ ...old, rolls: [...old.rolls, { key: crypto.randomUUID(), replaces: null, number: '', qty: '', minQty: '0', locked: false }] }))}>Tambah roll yang terlewat</button></div>
-              : <label>Jumlah benar ({l.unitCode}){Number(l.minQty) > 0 ? ` · sudah keluar ${numberText(l.minQty)}` : ''}<input aria-label={`Jumlah benar barang ${n + 1}`} inputMode="decimal" value={l.qty} onChange={e => change(l.key, old => ({ ...old, qty: e.target.value }))}/></label>}
+              : <label>Jumlah benar ({l.unitCode}){Number(l.minQty) > 0 ? ` · sudah keluar ${numberText(l.minQty)}` : ''}<NumberEntry aria-label={`Jumlah benar barang ${n + 1}`} inputMode="decimal" value={l.qty} onValueChange={rawInput => change(l.key, old => ({ ...old, qty: rawInput }))}/></label>}
           </section>)}
           {invoices.length ? <section className="cproc-line" aria-label="Invoice supplier yang ikut dibetulkan"><h3>Invoice supplier</h3>
             <p className="cproc-help">Harga final dan jumlah ditagih mengikuti invoice yang benar. HPP, nilai stok, dan utang dihitung ulang sejak tanggal invoice. Bila periode itu sudah ditutup, jurnalnya tetap bertanggal ekonomi asal dengan tanggal pengakuan hari ini.</p>
@@ -121,15 +122,15 @@ function CorrectionWorkspace({ purchaseId, receiptRevision, onReceiptUpdated }: 
                 <label>Jatuh tempo<input aria-label={`Jatuh tempo invoice benar ${vi + 1}`} type="date" value={v.head.dueDate} onChange={e => changeHead(v.replaces, 'dueDate', e.target.value)}/></label></div> : null}
               {data.invoices.find(x => x.invoice_id === v.replaces)?.other_receipts.length ? <p className="cproc-help">Invoice ini juga mencakup {data.invoices.find(x => x.invoice_id === v.replaces)!.other_receipts.map(o => o.purchase_number).join(', ')}. Baris penerimaan itu ikut dicatat ulang apa adanya, dan pembayarannya dipindah utuh dengan tanggal aslinya.</p> : null}
               {v.lines.map((x, li) => <div className="cproc-inline" key={x.replaces}><span>{lines.find(l => l.replaces === x.itemId)?.materialName ?? 'Barang'}</span>
-                <label>Jumlah ditagih<input aria-label={`Jumlah ditagih invoice ${vi + 1}.${li + 1}`} inputMode="decimal" value={x.qty} onChange={e => changeInvoice(v.replaces, x.replaces, 'qty', e.target.value)}/></label>
-                <label>Harga final<input aria-label={`Harga final invoice ${vi + 1}.${li + 1}`} inputMode="decimal" value={x.price} onChange={e => changeInvoice(v.replaces, x.replaces, 'price', e.target.value)}/></label>
-                <label>Diskon (Rp)<input aria-label={`Diskon invoice ${vi + 1}.${li + 1}`} inputMode="decimal" value={x.discount} onChange={e => changeInvoice(v.replaces, x.replaces, 'discount', e.target.value)}/></label></div>)}</div>)}
+                <label>Jumlah ditagih<NumberEntry aria-label={`Jumlah ditagih invoice ${vi + 1}.${li + 1}`} inputMode="decimal" value={x.qty} onValueChange={rawInput => changeInvoice(v.replaces, x.replaces, 'qty', rawInput)}/></label>
+                <label>Harga final<NumberEntry aria-label={`Harga final invoice ${vi + 1}.${li + 1}`} inputMode="decimal" value={x.price} onValueChange={rawInput => changeInvoice(v.replaces, x.replaces, 'price', rawInput)}/></label>
+                <label>Diskon (Rp)<NumberEntry aria-label={`Diskon invoice ${vi + 1}.${li + 1}`} inputMode="decimal" value={x.discount} onValueChange={rawInput => changeInvoice(v.replaces, x.replaces, 'discount', rawInput)}/></label></div>)}</div>)}
           </section> : null}
           {excess && excess !== '0.00' ? <section className="cproc-line" aria-label="Kredit kelebihan bayar"><h3>Kelebihan bayar Rp{numberText(excess)}</h3>
             <p className="cproc-help">Sudah dibayar lebih dari total yang benar. Kelebihannya jadi kredit supplier (retur bayangan: barang tidak pernah diterima) dan dipotong ke nota lain dari supplier yang sama, dengan tanggal dan kas pembayaran aslinya. Tidak ada uang yang berpindah hari ini.</p>
             {data.credit_targets.length ? data.credit_targets.map((t, ti) => <div className="cproc-inline" key={t.purchase_id}><span>{t.purchase_number} · {formatCp6WibDateTime(t.physical_at)} · sisa utang Rp{numberText(t.remaining)}</span>
-              <label>Potong kredit (Rp)<input aria-label={`Kredit ke nota ${ti + 1}`} inputMode="decimal" value={credits.find(c => c.purchaseId === t.purchase_id)?.amount ?? ''}
-                onChange={e => { const amount = e.target.value; setChecked(false); setCredits(cs => [...cs.filter(c => c.purchaseId !== t.purchase_id), { purchaseId: t.purchase_id, amount }]) }}/></label></div>)
+              <label>Potong kredit (Rp)<NumberEntry aria-label={`Kredit ke nota ${ti + 1}`} inputMode="decimal" value={credits.find(c => c.purchaseId === t.purchase_id)?.amount ?? ''}
+                onValueChange={rawInput => { const amount = rawInput; setChecked(false); setCredits(cs => [...cs.filter(c => c.purchaseId !== t.purchase_id), { purchaseId: t.purchase_id, amount }]) }}/></label></div>)
               : <p role="alert">Belum ada nota lain dari supplier ini yang masih punya sisa utang. Simpan pembetulan setelah nota berikutnya dicatat.</p>}
           </section> : null}
           {header ? <section className="cproc-line" aria-label="Data surat jalan"><h3>Data penerimaan</h3>

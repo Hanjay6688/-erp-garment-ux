@@ -1,3 +1,4 @@
+import NumberEntry, { pastedPieceCounts } from '../../../src/components/NumberEntry'
 import { BrowsePane } from '../components/BrowsePane'
 import {browseMatch} from '../browseMatch'
 import { Icon } from '../components/AppIcon'
@@ -265,7 +266,11 @@ export function CuttingRollPage() {
     const clipboard=event.clipboardData.getData('text').replace(/\r/g,'').replace(/\n+$/,'')
     if(!clipboard)return
     event.preventDefault()
-    const pastedRows=clipboard.split('\n').map((line)=>line.split('\t'))
+    const pastedRows = pastedPieceCounts(clipboard)
+    if (!pastedRows) {
+      setSizeNotice('Isi setiap sel dengan pcs bulat, misalnya 1.250. Periksa angka yang ditempel.')
+      return
+    }
     setAllocations((current)=>{
       const next={...current}
       pastedRows.forEach((cells,rowOffset)=>{
@@ -275,8 +280,7 @@ export function CuttingRollPage() {
         cells.forEach((cell,columnOffset)=>{
           const slotIndex=startSlot+columnOffset
           if(slotIndex>=sizeSlots.length)return
-          const normalized=cell.trim().replace(/[^0-9]/g,'').replace(/^0+(?=\d)/,'')
-          row[slotIndex]=normalized===''?0:Math.max(0,Math.round(Number(normalized)||0))
+          row[slotIndex]=cell
         })
         next[roll.id]=row
       })
@@ -455,7 +459,7 @@ export function CuttingRollPage() {
       <div className="roll-issue-list" data-keyboard-grid>{rollUsageRows.map(({roll,input,used,balance,valid,partial},index)=><article className={`${valid?'':'invalid'} ${partial?'partial':''}`} key={roll.id}>
         <div className="roll-issue-identity"><span>{String(index+1).padStart(2,'0')}</span><div><strong>{roll.id} · {roll.material}</strong><small>{roll.supplier} · masuk {roll.receivedAt}</small></div></div>
         <div className="roll-issue-number"><small>STOCK ON HAND</small><strong>{formatQuantity(roll.yards,2)} yd</strong></div>
-        <label className="roll-used-input"><span>USED FOR CUTTING</span><div><input data-grid-row={index} data-grid-col={0} inputMode="decimal" value={input} placeholder="0" aria-invalid={!valid} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>updateRollYardUsage(roll.id,event.target.value)}/><b>yd</b></div></label>
+        <label className="roll-used-input"><span>USED FOR CUTTING</span><div><NumberEntry data-grid-row={index} data-grid-col={0} inputMode="decimal" value={input} placeholder="0" aria-invalid={!valid} onFocus={(event)=>event.currentTarget.select()} onValueChange={rawInput =>updateRollYardUsage(roll.id,rawInput)}/><b>yd</b></div></label>
         <div className="roll-issue-number remaining"><small>REMAINING</small><strong>{valid?formatQuantity(balance,2):'—'} yd</strong></div>
         <div className="roll-issue-state"><em className={!valid?'error':partial?'split':'whole'}>{!valid?'INVALID':partial?'SPLIT':'WHOLE ROLL'}</em><button type="button" disabled={valid&&!partial&&used===roll.yards} onClick={()=>useFullRoll(roll)}>Use full roll</button></div>
       </article>)}{selectedRolls.length===0&&<div className="allocation-empty"><Icon name="ruler"/><strong>Belum ada roll dipilih</strong><small>Pilih roll pada Browse Roll di atas.</small></div>}</div>
@@ -508,7 +512,7 @@ export function CuttingRollPage() {
             const isColumnSource=columnFillRange?.source===slotIndex
             const isColumnPreview=Boolean(columnFillRange&&slotIndex!==columnFillRange.source&&slotIndex>=Math.min(columnFillRange.source,columnFillRange.target)&&slotIndex<=Math.max(columnFillRange.source,columnFillRange.target))
             const drawingCopy=slot.image?`, gambar ${slot.image}`:''
-            return <label className={`${isColumnSource?'column-fill-source':''} ${isColumnPreview?'column-fill-preview':''}`} key={slot.key}><span>{slot.size}{slot.image&&<small>{slot.image}</small>}</span><input data-cutting-row={index} data-cutting-slot={slotIndex} aria-label={`Roll ${roll.sequence}, size ${slot.size}${drawingCopy}`} inputMode="numeric" type="text" pattern="[0-9]*" value={row[slotIndex]??0} onFocus={(event)=>{if((row[slotIndex]??0)===0)event.currentTarget.select()}} onClick={(event)=>{if((row[slotIndex]??0)===0)event.currentTarget.select()}} onKeyDown={(event)=>handleAllocationKey(event,index,slotIndex)} onPaste={(event)=>pasteAllocationGrid(event,index,slotIndex)} onChange={(event)=>updateAllocation(roll,slotIndex,event.target.value)}/></label>
+            return <label className={`${isColumnSource?'column-fill-source':''} ${isColumnPreview?'column-fill-preview':''}`} key={slot.key}><span>{slot.size}{slot.image&&<small>{slot.image}</small>}</span><NumberEntry data-cutting-row={index} data-cutting-slot={slotIndex} aria-label={`Roll ${roll.sequence}, size ${slot.size}${drawingCopy}`} inputMode="numeric" type="text" pattern="[0-9]*" value={row[slotIndex]??0} onFocus={(event)=>{if((row[slotIndex]??0)===0)event.currentTarget.select()}} onClick={(event)=>{if((row[slotIndex]??0)===0)event.currentTarget.select()}} onKeyDown={(event)=>handleAllocationKey(event,index,slotIndex)} onPaste={(event)=>pasteAllocationGrid(event,index,slotIndex)} onValueChange={rawInput =>updateAllocation(roll,slotIndex,rawInput)}/></label>
           })}</div>
           <div className="allocation-row-total"><span>TOTAL ROLL</span><strong className="piece-total">{rowTotal} pcs</strong><small>{dozenPieces(rowTotal)}</small></div>
           <button type="button" tabIndex={-1} className="row-fill-handle" aria-label={`Salin isi Roll ${roll.sequence} ke baris atas atau bawah`} title="Klik: salin ke baris terdekat · tarik: isi ke atas atau bawah" onPointerDown={(event)=>beginRowFill(event,index)} onPointerMove={moveRowFill} onPointerUp={finishRowFill} onPointerCancel={cancelRowFill} onClick={()=>clickRowFill(index)}><Icon name="drag"/><span/></button>

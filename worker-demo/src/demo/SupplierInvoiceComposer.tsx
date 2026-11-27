@@ -1,3 +1,4 @@
+import NumberEntry from '../../../src/components/NumberEntry'
 import { useState } from 'react'
 import { ArrowRight, Check, Plus, X } from 'lucide-react'
 import { browseMatchPieces } from '../browseMatch'
@@ -52,9 +53,9 @@ export function SupplierInvoiceComposer({group,party,rows,previous,onSave,...des
         return <article className="invoice-source-card" key={line.sourceId}><header className="demo-ops-header">
           <div><strong>{source?.source.name??'Periksa sumber kontrabon'}</strong><small>{source?.source.number??line.sourceId}</small></div>
           <button className="soft-btn invoice-remove" type="button" aria-label={'Lepas '+(source?.source.number??line.sourceId)} onClick={()=>change({lines:draft.lines.filter(row=>row!==line)})}><X size={15}/> Lepas</button></header>
-          <div className="demo-operation-fields"><label>Jumlah ditagih ({source?.source.unit??'unit'})<input required inputMode="decimal" value={line.qty} onChange={event=>edit({qty:event.target.value})}/>
+          <div className="demo-operation-fields"><label>Jumlah ditagih ({source?.source.unit??'unit'})<NumberEntry required inputMode="decimal" value={line.qty} onValueChange={rawInput =>edit({qty:rawInput})}/>
             {source&&<small>Tersedia {source.qty.toLocaleString('id-ID')} {source.source.unit}</small>}</label>
-            <label>Harga aktual (Rp per unit)<input required inputMode="decimal" value={line.rate} onChange={event=>edit({rate:event.target.value})}/></label></div>
+            <label>Harga aktual (Rp per unit)<NumberEntry rupiahDraft required inputMode="decimal" value={line.rate} onValueChange={rawInput =>edit({rate:rawInput})}/></label></div>
         </article>
       })}
     </>} review={review&&<span>{review.number} · {review.lines.length} kasbon siap diposting</span>}

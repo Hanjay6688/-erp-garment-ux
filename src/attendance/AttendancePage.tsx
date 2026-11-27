@@ -1,3 +1,4 @@
+import NumberEntry from '../components/NumberEntry'
 import { useMemo, useState, type FormEvent } from 'react'
 import {
   AlertTriangle,
@@ -20,7 +21,7 @@ import {
   X,
   XCircle,
 } from 'lucide-react'
-import { cleanMoneyInput, formatMoneyInput } from '../moneyInput'
+import { cleanMoneyInput } from '../moneyInput'
 import {
   addRateVersion,
   applyBulkAttendance,
@@ -640,7 +641,7 @@ export default function AttendancePage({onNavigate}: AttendancePageProps) {
         <div className="attendance2-editor-grid">
           <label><span>NAMA / PANGGILAN</span><input value={workerEditor.name} onChange={(event) => setWorkerEditor({...workerEditor, name: event.target.value})}/></label>
           <label><span>JENIS PEKERJAAN</span><input value={workerEditor.jobDescription} onChange={(event) => setWorkerEditor({...workerEditor, jobDescription: event.target.value})} placeholder="Contoh: Jahit badan"/></label>
-          {!workerEditor.workerId ? <><label><span>TANGGAL MULAI</span><input type="date" value={workerEditor.startDate} onChange={(event) => setWorkerEditor({...workerEditor, startDate: event.target.value})}/></label><label><span>TANGGAL BERHENTI · OPSIONAL</span><input type="date" value={workerEditor.endDate} onChange={(event) => setWorkerEditor({...workerEditor, endDate: event.target.value})}/></label><label><span>RATE HARIAN AWAL</span><input inputMode="numeric" value={formatMoneyInput(workerEditor.dailyRate)} onChange={(event) => setWorkerEditor({...workerEditor, dailyRate: cleanMoneyInput(event.target.value)})} placeholder="125.000"/></label><label><span>RATE BERLAKU MULAI</span><input type="date" value={workerEditor.effectiveFrom} onChange={(event) => setWorkerEditor({...workerEditor, effectiveFrom: event.target.value})}/></label></> : null}
+          {!workerEditor.workerId ? <><label><span>TANGGAL MULAI</span><input type="date" value={workerEditor.startDate} onChange={(event) => setWorkerEditor({...workerEditor, startDate: event.target.value})}/></label><label><span>TANGGAL BERHENTI · OPSIONAL</span><input type="date" value={workerEditor.endDate} onChange={(event) => setWorkerEditor({...workerEditor, endDate: event.target.value})}/></label><label><span>RATE HARIAN AWAL</span><NumberEntry inputMode="numeric" value={workerEditor.dailyRate} onValueChange={rawInput => setWorkerEditor({...workerEditor, dailyRate: cleanMoneyInput(rawInput)})} placeholder="125.000"/></label><label><span>RATE BERLAKU MULAI</span><input type="date" value={workerEditor.effectiveFrom} onChange={(event) => setWorkerEditor({...workerEditor, effectiveFrom: event.target.value})}/></label></> : null}
           <label className="wide"><span>CATATAN OPSIONAL</span><input value={workerEditor.notes} onChange={(event) => setWorkerEditor({...workerEditor, notes: event.target.value})}/></label>
           <label className="wide"><span>ALASAN PERUBAHAN · WAJIB</span><input value={workerEditor.changeReason} onChange={(event) => setWorkerEditor({...workerEditor, changeReason: event.target.value})} placeholder="Contoh: pekerja baru / berhenti / koreksi nama..."/></label>
         </div>
@@ -651,7 +652,7 @@ export default function AttendancePage({onNavigate}: AttendancePageProps) {
       {rateEditor ? <form className="attendance2-editor attendance2-rate-editor" onSubmit={saveRate}>
         <header><div><span>VERSI RATE BARU</span><strong>{workers.find((worker) => worker.id === rateEditor.workerId)?.name} · {rateEditor.workerId}</strong></div><button type="button" aria-label="Tutup form" onClick={() => {setRateEditor(null); setFormError('')}}><X/></button></header>
         <div className="attendance2-editor-grid">
-          <label><span>RATE HARIAN BARU</span><input inputMode="numeric" value={formatMoneyInput(rateEditor.dailyRate)} onChange={(event) => setRateEditor({...rateEditor, dailyRate: cleanMoneyInput(event.target.value)})}/></label>
+          <label><span>RATE HARIAN BARU</span><NumberEntry inputMode="numeric" value={rateEditor.dailyRate} onValueChange={rawInput => setRateEditor({...rateEditor, dailyRate: cleanMoneyInput(rawInput)})}/></label>
           <label><span>BERLAKU MULAI</span><input type="date" value={rateEditor.effectiveFrom} onChange={(event) => setRateEditor({...rateEditor, effectiveFrom: event.target.value})}/></label>
           <label className="wide"><span>ALASAN · WAJIB</span><input value={rateEditor.reason} onChange={(event) => setRateEditor({...rateEditor, reason: event.target.value})} placeholder="Rate lama tidak akan ditimpa"/></label>
         </div>

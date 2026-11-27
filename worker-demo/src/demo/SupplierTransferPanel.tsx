@@ -1,3 +1,4 @@
+import NumberEntry from '../../../src/components/NumberEntry'
 import { useState } from 'react'
 import { Banknote, FilePenLine, Undo2 } from 'lucide-react'
 import { cashAccounts, type Payable } from '../financeData'
@@ -43,7 +44,7 @@ export function SupplierTransferPanel({doc,transfers,onSaved}:{doc:Payable;trans
           allocations:[{number:doc.number,cents:amount}],replaces:draft.original?.id},amount,draft.reason));setDraft(null)}
         catch(failure){setError((failure as Error).message)}
       }}><p>{doc.party} · invoice <strong>{doc.number}</strong></p><div className="demo-operation-fields">
-        <label>Nominal pembayaran (Rp)<input required inputMode="decimal" value={draft.amount} onChange={event=>setDraft({...draft,amount:event.target.value})}/><small>Maksimum {amountText(limit/100)}</small></label>
+        <label>Nominal pembayaran (Rp)<NumberEntry rupiahDraft required inputMode="decimal" value={draft.amount} onValueChange={rawInput =>setDraft({...draft,amount:rawInput})}/><small>Maksimum {amountText(limit/100)}</small></label>
         <label>Tanggal pembayaran<input type="date" required max={lastWarehouseDay()} value={draft.day} onChange={event=>setDraft({...draft,day:event.target.value})}/></label>
         <label>Rekening keluar<select required value={draft.account} onChange={event=>setDraft({...draft,account:event.target.value})}>
           <option value="">Pilih rekening</option>{cashAccounts.map(row=><option key={row.code}>{row.name}</option>)}</select></label>

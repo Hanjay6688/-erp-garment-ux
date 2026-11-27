@@ -1,3 +1,4 @@
+import NumberEntry from '../../src/components/NumberEntry'
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { useAuth } from './auth/AuthProvider'
 import { isConnectedRuntime } from './config/runtime'
@@ -222,8 +223,8 @@ function Row({ r, windowDays, level, canManage, locked, writing, draft, note, on
     {canManage && draft ? <form className="cfr-manual" onSubmit={e => { e.preventDefault(); onSave(false) }}>
       <fieldset disabled={locked}><legend>Angka manual</legend>
         <p>Angka manual menggantikan titik pesan ulang untuk barang ini sampai dihapus.{r.projection ? ' Target jumlah produksi tetap mengikuti rencana.' : ''} Isi 0 bila barang ini tidak perlu diingatkan.</p>
-        <label>Titik pesan ulang manual (pcs)<input type="number" inputMode="numeric" min={0} max={MANUAL_POINT_MAX} step={1} aria-label="Titik pesan ulang manual (pcs)"
-          value={draft.qty} onChange={e => onDraft({ qty: e.target.value })}/></label>
+        <label>Titik pesan ulang manual (pcs)<NumberEntry type="number" inputMode="numeric" min={0} max={MANUAL_POINT_MAX} step={1} aria-label="Titik pesan ulang manual (pcs)"
+          value={draft.qty} onValueChange={rawInput => onDraft({ qty: rawInput })}/></label>
         <label>Alasan<input aria-label="Alasan angka manual" maxLength={REASON_MAX} value={draft.reason} onChange={e => onDraft({ reason: e.target.value })}/></label>
         {problem ? <p className="cfr-problem">{problem}</p> : null}
         <div className="cfr-actions">
@@ -268,8 +269,8 @@ function Settings({ data, draft, base, locked, note, onDraft, onSave }: {
       <div className="cfr-grid">
         <label>Tingkat layanan<select aria-label="Tingkat layanan" value={draft.serviceLevel} onChange={e => onDraft({ serviceLevel: e.target.value as ServiceLevel })}>
           {serviceLevels.map(l => <option key={l} value={l}>{servicePercent(l)}% ({levelHint[l]})</option>)}</select></label>
-        <label>Jumlah hari penjualan yang dibaca<input type="number" inputMode="numeric" min={WINDOW_MIN} max={WINDOW_MAX} step={1} aria-label="Jumlah hari penjualan"
-          value={draft.windowDays} onChange={e => onDraft({ windowDays: e.target.value })}/></label>
+        <label>Jumlah hari penjualan yang dibaca<NumberEntry type="number" inputMode="numeric" min={WINDOW_MIN} max={WINDOW_MAX} step={1} aria-label="Jumlah hari penjualan"
+          value={draft.windowDays} onValueChange={rawInput => onDraft({ windowDays: rawInput })}/></label>
         <label className="cfr-wide">Alasan perubahan<input aria-label="Alasan perubahan pengaturan rumus" maxLength={REASON_MAX} value={draft.reason}
           onChange={e => onDraft({ reason: e.target.value })}/></label>
       </div>

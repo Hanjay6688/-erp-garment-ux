@@ -1,3 +1,4 @@
+import NumberEntry from '../../src/components/NumberEntry'
 import RecordTable from './RecordTable'
 import {useCallback,useEffect,useRef,useState} from 'react'
 import {normalizeClientError} from './lib/clientError'
@@ -83,7 +84,7 @@ export default function NativeScopedModelPanel({client,scope,actor,query,disable
   {row&&history?<div><h4>{row.sku} · {row.productName}</h4><p>{history.history.state==='UNCHANGED'?'Sumber sesuai saat diperiksa.':'Arsip: sumber produk telah berubah. Ambil riwayat baru.'} Diketahui {formatCp6WibDateTime(history.history.capturedAt)}; diperiksa {formatCp6WibDateTime(history.checkedAt)}.</p>
    <p>Stok fisik {number(row.physical)} PCS; pesanan terbuka {number(row.reserved)} PCS; tersedia {number(row.available)} PCS. Penjualan tercatat {number(row.gross)} PCS; retur {number(row.returns)} PCS.</p>
    <p>{row.availableDays} hari tersedia, {row.stockoutDays} hari stok habis, {row.unknownDays} hari belum diketahui.</p>
-   <form onSubmit={e=>{e.preventDefault();void save('model')}}><label>Hari ramalan produk<input aria-label="Hari ramalan produk" type="number" min="1" max="90" step="1" required value={horizon} disabled={blocked} onChange={e=>{setModel(null);setHorizon(e.target.value)}}/></label><button disabled={blocked||history.history.state!=='UNCHANGED'||!/^([1-9]|[1-8][0-9]|90)$/.test(horizon)}>Simpan evaluasi produk</button></form>
+   <form onSubmit={e=>{e.preventDefault();void save('model')}}><label>Hari ramalan produk<NumberEntry aria-label="Hari ramalan produk" type="number" min="1" max="90" step="1" required value={horizon} disabled={blocked} onValueChange={rawInput =>{setModel(null);setHorizon(rawInput)}}/></label><button disabled={blocked||history.history.state!=='UNCHANGED'||!/^([1-9]|[1-8][0-9]|90)$/.test(horizon)}>Simpan evaluasi produk</button></form>
   </div>:null}
   {model?<div><h4>{model.sku} · {model.name}</h4><p>{model.eligibleNow?'Model memenuhi syarat saat diperiksa.':'Gunakan metode dasar; model pembanding belum layak dipakai saat ini.'} {reasons[model.reason]??'Periksa kecukupan riwayat dan kebijakan yang berlaku.'}</p>
    <p>{model.policy?`Kebijakan revisi ${model.policy.policy.revision}, dicatat ${formatCp6WibDateTime(model.registryAt)}.`:'Belum ada kebijakan penggunaan model pada riwayat ini.'} {model.admittedAtCapture?'Model memenuhi syarat ketika evaluasi disimpan.':'Model belum memenuhi syarat ketika evaluasi disimpan.'}</p>

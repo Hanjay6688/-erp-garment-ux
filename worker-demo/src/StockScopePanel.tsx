@@ -1,3 +1,4 @@
+import NumberEntry from '../../src/components/NumberEntry'
 import {useEffect,useRef,useState} from 'react'
 import {useAuth} from './auth/AuthProvider'
 import {getUatSupabaseClient} from './lib/supabase'
@@ -56,7 +57,7 @@ function StockWorkspace(){
   {reading&&<p role="status">Membaca stok dan versi aturan…</p>}
   {selected&&<>{ws?.observations.map(o=><p key={o.location??'*'}>{o.location?(ws.locations.find(l=>l.id===o.location)?.name??o.location):'Seluruh gudang'} · {o.stock} {o.unit} · {o.location&&!o.monitored?'simulasi gudang, belum dipantau · ':''}{o.at_or_below===true?'mencapai ambang pengingat · ':o.at_or_below===false&&o.enabled?'di atas ambang · ':''}{o.scope_kind?`${scopes[o.scope_kind]??nativeScopes[o.scope_kind]??o.scope_kind}${o.revision?' versi '+o.revision:''} · ${o.enabled?'ambang '+(o.threshold??'belum diatur'):'dimatikan'}`:'belum ada aturan tetap'}</p>)}
   {ws?.manage&&<><label>Cakupan aturan <select value={kind} onChange={e=>setKind(e.target.value)}>{Object.entries(scopes).filter(([k])=>k!=='CATEGORY'||selected.category).map(([k,t])=><option key={k} value={k}>{k==='CATEGORY'&&domain==='FG'?'Kelompok model':t}</option>)}</select></label>
-  <label>Ambang ({selected.unit}) <input inputMode="decimal" value={limit} onChange={e=>setLimit(e.target.value.replace(',','.'))}/></label>
+  <label>Ambang ({selected.unit}) <NumberEntry inputMode="decimal" value={limit} onValueChange={rawInput =>setLimit(rawInput.replace(',','.'))}/></label>
   <label><input type="checkbox" checked={enabled} onChange={e=>setEnabled(e.target.checked)}/>Aktif</label>
   <label>Alasan perubahan <input value={reason} maxLength={500} onChange={e=>setReason(e.target.value)}/></label>
   <button type="button" disabled={!reason.trim()||reading||kind==='ITEM_LOCATION'&&!location} onClick={()=>void save()}>Simpan versi aturan stok</button></>}

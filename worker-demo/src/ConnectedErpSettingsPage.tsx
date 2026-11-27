@@ -1,3 +1,4 @@
+import NumberEntry from '../../src/components/NumberEntry'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useAuth } from './auth/AuthProvider'
 import { hasPermission } from './auth/accessCatalog'
@@ -195,8 +196,8 @@ function Editor({ family, policy, names, choices, locked, onClose, onSubmit }: {
   const account = (k: string, label: string, types: string[]) => select(k, label, accounts(types).map(a => [a.id, `${a.code} · ${a.name}`]), 'Pilih akun')
   const check = (k: string, label: string) => <label key={k} className="cset-check"><input type="checkbox" aria-label={label} checked={Boolean(pick[k])} disabled={locked}
     onChange={e => toggle(k, e.target.checked)}/>{label}</label>
-  const input = (k: string, label: string, extra: { inputMode?: 'decimal'; upper?: boolean } = {}) => <label key={k}>{label}<input aria-label={label} inputMode={extra.inputMode}
-    disabled={locked} value={f[k] ?? ''} onChange={e => set({ [k]: extra.upper ? e.target.value.toUpperCase() : e.target.value })}/></label>
+  const input = (k: string, label: string, extra: { inputMode?: 'decimal'; upper?: boolean } = {}) => <label key={k}>{label}<NumberEntry aria-label={label} inputMode={extra.inputMode}
+    disabled={locked} value={f[k] ?? ''} onValueChange={rawInput => set({ [k]: extra.upper ? rawInput.toUpperCase() : rawInput })}/></label>
   const fields = () => {
     switch (key) {
       case 'ACC-DEC01': return <p className="cset-help">Kedua garis waktu nyata: barang kembali lebih dulu lalu diperiksa kemudian, atau kembali dan diperiksa sekarang.</p>

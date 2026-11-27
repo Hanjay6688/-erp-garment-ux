@@ -1,3 +1,4 @@
+import NumberEntry from '../../src/components/NumberEntry'
 import RecordTable from './RecordTable'
 // BD (LAU-05b, LAU-DEC01..06, ALL-W05): laundry prices, priced deliveries, unknown prices, vendor invoices and opening
 // uninvoiced laundry work, on the Laundry page. BD writes and the BE redye-price facade use one request id
@@ -169,7 +170,7 @@ function Master({ data, vendor, locked, send }: { data: LaundryBdWorkspace; vend
   const components = data.components.filter(c => c.vendor_id === vendor), packages = data.packages.filter(p => p.vendor_id === vendor)
   const from = wibTimestamp(f.from ?? '')
   const can = data.can_manage_master && !locked && Boolean(reason.trim())
-  const field = (k: string, label: string, type = 'text') => <label key={k}>{label}<input aria-label={label} type={type} value={f[k] ?? ''} disabled={locked} onChange={e => set({ [k]: e.target.value })}/></label>
+  const field = (k: string, label: string, type = 'text') => <label key={k}>{label}<NumberEntry inputMode={type === 'number' ? 'decimal' : undefined} aria-label={label} type={type === 'number' ? 'text' : type} value={f[k] ?? ''} disabled={locked} onValueChange={rawInput => set({ [k]: rawInput })}/></label>
   return <section className="initial-import-table" aria-label="Harga vendor">
     <h3>{v.code} · {v.name}</h3>
     <p>Cara harga {v.pricing_mode} · satuan {v.pricing_unit}{v.minimum_charge !== null ? ` · minimum ${rupiah(v.minimum_charge)}` : ''} · versi ketentuan {v.terms_version}</p>
@@ -178,7 +179,7 @@ function Master({ data, vendor, locked, send }: { data: LaundryBdWorkspace; vend
     <div className="initial-import-toolbar">
       <label>Cara harga<select aria-label="Cara harga vendor" value={f.mode} disabled={locked} onChange={e => set({ mode: e.target.value })}><option value="RATE">Tarif per proses</option><option value="PACKAGE">Paket</option><option value="COMPONENTS">Komponen</option></select></label>
       <label>Satuan<select aria-label="Satuan harga vendor" value={f.unit} disabled={locked} onChange={e => set({ unit: e.target.value })}><option value="PCS">Per PCS</option><option value="BATCH">Borongan per batch</option></select></label>
-      {field('minimum', 'Minimum charge (kosong = tidak ada)')}
+      {field('minimum', 'Minimum charge (kosong = tidak ada)', 'number')}
       <button type="button" disabled={!can || (Boolean(f.minimum?.trim()) && !moneyInput(f.minimum))} onClick={() => send('SAVE_VENDOR_TERMS', { vendor_id: vendor, pricing_mode: f.mode,
         pricing_unit: f.unit, minimum_charge: f.minimum?.trim() ? normalizeMoney(f.minimum) : null, expected_version: v.terms_version, reason: reason.trim() })}>Simpan ketentuan</button></div>
     <h4>Komponen</h4>
@@ -191,7 +192,7 @@ function Master({ data, vendor, locked, send }: { data: LaundryBdWorkspace; vend
     <div className="initial-import-toolbar"><label>Komponen<select aria-label="Komponen harga" value={f.component_id ?? ''} disabled={locked} onChange={e => set({ component_id: e.target.value })}>
       <option value="">Pilih…</option>{components.map(c => <option key={c.id} value={c.id}>{c.code}</option>)}</select></label>
       <label>Status harga<select aria-label="Status harga komponen" value={f.rate_status ?? 'KNOWN'} disabled={locked} onChange={e => set({ rate_status: e.target.value })}>{BD_RATE_STATUSES.map(s => <option key={s} value={s}>{BD_RATE_LABEL[s]}</option>)}</select></label>
-      {(f.rate_status ?? 'KNOWN') === 'KNOWN' && field('component_rate', 'Harga per PCS')}
+      {(f.rate_status ?? 'KNOWN') === 'KNOWN' && field('component_rate', 'Harga per PCS', 'number')}
       <button type="button" disabled={!can || !f.component_id || !from || ((f.rate_status ?? 'KNOWN') === 'KNOWN' && !moneyInput(f.component_rate ?? ''))} onClick={() => from &&
         send('SAVE_COMPONENT_RATE', { component_id: f.component_id, rate_status: f.rate_status ?? 'KNOWN', effective_from: from, reason: reason.trim(),
           ...((f.rate_status ?? 'KNOWN') === 'KNOWN' ? { rate_per_pcs: normalizeMoney(f.component_rate) } : f.rate_status === 'UNKNOWN' ? {} : { rate_per_pcs: '0.00' }) })}>Simpan versi harga komponen</button></div>
@@ -204,14 +205,14 @@ function Master({ data, vendor, locked, send }: { data: LaundryBdWorkspace; vend
       <button type="button" disabled={!can || !f.package_code?.trim() || !f.package_name?.trim() || !pkgComponents.length} onClick={() => send('SAVE_PACKAGE', { vendor_id: vendor,
         package_code: f.package_code.trim(), package_name: f.package_name.trim(), component_ids: pkgComponents, is_active: true, reason: reason.trim() })}>Tambah paket</button></div>
     <div className="initial-import-toolbar"><label>Paket<select aria-label="Paket harga" value={f.package_id ?? ''} disabled={locked} onChange={e => set({ package_id: e.target.value })}>
-      <option value="">Pilih…</option>{packages.map(p => <option key={p.id} value={p.id}>{p.code}</option>)}</select></label>{field('package_rate', 'Harga paket per PCS')}
+      <option value="">Pilih…</option>{packages.map(p => <option key={p.id} value={p.id}>{p.code}</option>)}</select></label>{field('package_rate', 'Harga paket per PCS', 'number')}
       <button type="button" disabled={!can || !f.package_id || !from || !moneyInput(f.package_rate ?? '')} onClick={() => from && send('SAVE_PACKAGE_RATE', { package_id: f.package_id,
         rate_per_pcs: normalizeMoney(f.package_rate), effective_from: from, reason: reason.trim() })}>Simpan versi harga paket</button></div>
     <h4>Tarif proses</h4>
     <RecordTable><thead><tr><th>Proses</th><th>Tarif</th><th>Berlaku</th></tr></thead><tbody>{data.process_rates.filter(r => r.vendor_id === vendor).map(r => <tr key={r.id}>
       <td>{data.processes.find(p => p.id === r.wash_process_id)?.name ?? r.wash_process_id}</td><td>{rupiah(r.rate)}</td><td>{r.from} – {r.to ?? 'sekarang'}</td></tr>)}</tbody></RecordTable>
     <div className="initial-import-toolbar"><label>Proses<select aria-label="Proses tarif" value={f.process_id ?? ''} disabled={locked} onChange={e => set({ process_id: e.target.value })}>
-      <option value="">Pilih…</option>{data.processes.map(p => <option key={p.id} value={p.id}>{p.code} · {p.name}</option>)}</select></label>{field('process_rate', 'Tarif per PCS')}
+      <option value="">Pilih…</option>{data.processes.map(p => <option key={p.id} value={p.id}>{p.code} · {p.name}</option>)}</select></label>{field('process_rate', 'Tarif per PCS', 'number')}
       <button type="button" disabled={!can || !f.process_id || !from || !moneyInput(f.process_rate ?? '')} onClick={() => from && send('SAVE_PROCESS_RATE', { vendor_id: vendor,
         wash_process_id: f.process_id, rate_per_pcs: normalizeMoney(f.process_rate), effective_from: from, reason: reason.trim() })}>Simpan versi tarif proses</button></div>
     <p>Tarif khusus per model, ukuran, atau warna mengikuti LAU-DEC05; tercatat {data.scoped_rates.filter(r => r.vendor_id === vendor).length} tarif khusus untuk vendor ini.</p>
@@ -305,10 +306,10 @@ function PricedSend({ data, laundry, vendor, locked, send }: { data: LaundryBdWo
       <label>Warna<input aria-label="Warna kirim berharga" value={color} disabled={locked} onChange={e => { setColor(e.target.value); setConfirmed(false) }}/></label>
       <label>Waktu keluar (WIB)<input aria-label="Waktu kirim berharga" type="datetime-local" value={at} disabled={locked} onChange={e => { setAt(e.target.value); setConfirmed(false) }}/></label>
       <Reason value={reason} set={v => { setReason(v); setConfirmed(false) }} locked={locked} label="Bukti serah terima"/></div>
-    {batch && <div className="initial-import-toolbar">{batch.sizes.map(s => <label key={s.size_id}>Ukuran {s.size_code} (bisa {s.available_qty_pcs})<input aria-label={`Qty kirim berharga ${s.size_code}`}
-      inputMode="numeric" value={qty[s.size_id] ?? ''} disabled={locked} onChange={e => { setQty(x => ({ ...x, [s.size_id]: e.target.value })); setConfirmed(false) }}/></label>)}</div>}
+    {batch && <div className="initial-import-toolbar">{batch.sizes.map(s => <label key={s.size_id}>Ukuran {s.size_code} (bisa {s.available_qty_pcs})<NumberEntry aria-label={`Qty kirim berharga ${s.size_code}`}
+      inputMode="numeric" value={qty[s.size_id] ?? ''} disabled={locked} onValueChange={rawInput => { setQty(x => ({ ...x, [s.size_id]: rawInput })); setConfirmed(false) }}/></label>)}</div>}
     <div className="initial-import-toolbar">
-      {unit === 'BATCH' && <label>Harga borongan batch<input aria-label="Harga borongan" value={lump} disabled={locked} onChange={e => { setLump(e.target.value); setConfirmed(false) }}/></label>}
+      {unit === 'BATCH' && <label>Harga borongan batch<NumberEntry inputMode="decimal" aria-label="Harga borongan" value={lump} disabled={locked} onValueChange={rawInput => { setLump(rawInput); setConfirmed(false) }}/></label>}
       {unit === 'PCS' && mode === 'PACKAGE' && <label>Paket<select aria-label="Paket kirim berharga" value={packageId} disabled={locked} onChange={e => { setPackageId(e.target.value); setCovered({}); setScopes({}); setExtraReasons({}); setConfirmed(false) }}>
         <option value="">Pilih…</option>{data.packages.filter(p => p.vendor_id === vendor && p.is_active).map(p => <option key={p.id} value={p.id}>{p.code} · {p.name}</option>)}</select></label>}
       {unit === 'PCS' && (mode === 'COMPONENTS' || (mode === 'PACKAGE' && selectedPackage)) && <fieldset>
@@ -323,8 +324,8 @@ function PricedSend({ data, laundry, vendor, locked, send }: { data: LaundryBdWo
             onChange={e => chooseScope(c.id, e.target.value as 'ALL' | 'PARTIAL')}>
             <option value="ALL">Seluruh kiriman</option><option value="PARTIAL">Sebagian ukuran/jumlah</option></select></label>
           {scopes[c.id] === 'ALL' ? <span role="status">{c.code}: {lines.reduce((n, l) => n + l.qty_sent_pcs, 0)} PCS · seluruh kiriman</span>
-            : <><p>Isi PCS penerima jasa per ukuran. Kosong atau 0 berarti tidak menerima jasa.</p>{(batch?.sizes ?? []).map(s => <label key={s.size_id}>{c.code} · {s.size_code}<input aria-label={`Cakupan ${c.code} ${s.size_code}`} inputMode="numeric"
-            value={covered[`${c.id}:${s.size_id}`] ?? ''} disabled={locked} onChange={e => { setCovered(x => ({ ...x, [`${c.id}:${s.size_id}`]: e.target.value })); setConfirmed(false) }}/></label>)}
+            : <><p>Isi PCS penerima jasa per ukuran. Kosong atau 0 berarti tidak menerima jasa.</p>{(batch?.sizes ?? []).map(s => <label key={s.size_id}>{c.code} · {s.size_code}<NumberEntry aria-label={`Cakupan ${c.code} ${s.size_code}`} inputMode="numeric"
+            value={covered[`${c.id}:${s.size_id}`] ?? ''} disabled={locked} onValueChange={rawInput => { setCovered(x => ({ ...x, [`${c.id}:${s.size_id}`]: rawInput })); setConfirmed(false) }}/></label>)}
           </>}
           {mode === 'PACKAGE' && <Reason label={`Alasan tambahan ${c.code}`} value={extraReasons[c.id] ?? ''} locked={locked}
             set={value => { setExtraReasons(x => ({ ...x, [c.id]: value })); setConfirmed(false) }}/>}</>}
@@ -383,13 +384,13 @@ function Payables({ payables, locked, send }: { payables: BdPayables; locked: bo
       <label>Sumber potongan tagihan<select value={creditId} disabled={locked} onChange={e => setCreditId(e.target.value)}>
         <option value="">Pilih sumber…</option>{usable.map(c => <option key={c.id} value={c.id}>{CREDIT_SOURCE_LABEL[c.kind]} · {creditName(c)} · tersedia {rupiah(c.available)}</option>)}</select></label>
       {credit && <p>{CREDIT_SOURCE_LABEL[credit.kind]} · tersedia {rupiah(credit.available)}{credit.receivable !== undefined && cents(credit.receivable) > 0 && <> · termasuk piutang {rupiah(credit.receivable)}</>}</p>}
-      <label>Nominal potongan tagihan<input value={creditAmount} disabled={locked} onChange={e => setCreditAmount(e.target.value)}/></label>
+      <label>Nominal potongan tagihan<NumberEntry inputMode="decimal" value={creditAmount} disabled={locked} onValueChange={rawInput => setCreditAmount(rawInput)}/></label>
       <button type="button" disabled={!base || !credit || !moneyInput(creditAmount)} onClick={() => doc && credit && send('APPLY_CLAIM_CREDIT', {
         source_kind: credit.kind, source_id: credit.id, target_kind: doc.kind, target_id: doc.id, amount: normalizeMoney(creditAmount), date, reason: reason.trim() })}>Potong tagihan</button></div>
     <div className="initial-import-toolbar">
       <label>Rekening kas<select aria-label="Rekening kas pembayaran" value={cash} disabled={locked} onChange={e => setCash(e.target.value)}>
         <option value="">Pilih rekening…</option>{payables.cash_accounts.map(a => <option key={a.id} value={a.id}>{a.code} · {a.name}</option>)}</select></label>
-      <label>Nominal kas<input aria-label="Nominal bayar kas" value={cashAmount} disabled={locked} onChange={e => setCashAmount(e.target.value)}/></label>
+      <label>Nominal kas<NumberEntry inputMode="decimal" aria-label="Nominal bayar kas" value={cashAmount} disabled={locked} onValueChange={rawInput => setCashAmount(rawInput)}/></label>
       <button type="button" disabled={!base || !cash || !moneyInput(cashAmount)} onClick={() => doc && send('PAY_VENDOR_DOCUMENT', {
         target_kind: doc.kind, target_id: doc.id, amount: normalizeMoney(cashAmount), date, cash_account_id: cash, reason: reason.trim() })}>Bayar kas</button></div>
     {hasReceivable && <VendorRefunds payables={payables} locked={locked} send={send}/>}
@@ -418,7 +419,7 @@ function VendorRefunds({ payables, locked, send }: { payables: BdPayables; locke
         <option value="">Pilih dokumen koreksi…</option>{eligible.map(c => <option key={c.id} value={c.id}>{creditName(c)} · sisa {rupiah(c.receivable!)}</option>)}</select></label>
       <label>Rekening penerima<select aria-label="Rekening penerima pengembalian vendor" value={cash} disabled={locked} onChange={e => setCash(e.target.value)}>
         <option value="">Pilih kas/bank…</option>{payables.cash_accounts.map(c => <option key={c.id} value={c.id}>{c.code} · {c.name}</option>)}</select></label>
-      <label>Nominal diterima<input aria-label="Nominal pengembalian vendor" value={amount} disabled={locked} onChange={e => setAmount(e.target.value)}/></label>
+      <label>Nominal diterima<NumberEntry inputMode="decimal" aria-label="Nominal pengembalian vendor" value={amount} disabled={locked} onValueChange={rawInput => setAmount(rawInput)}/></label>
       <label>Tanggal diterima<input aria-label="Tanggal pengembalian vendor" type="date" value={date} disabled={locked} onChange={e => setDate(e.target.value)}/></label>
       <Reason value={reason} set={setReason} locked={locked} label="Alasan pengembalian vendor"/>
       <button type="button" disabled={!valid} onClick={() => selected && send('RECEIVE_VENDOR_REFUND', {
@@ -447,7 +448,7 @@ function UnknownPrices({ data, locked, send }: { data: LaundryBdWorkspace; locke
         <td>{c.rate_status === 'KNOWN' ? rupiah(c.amount) : BD_RATE_LABEL[c.rate_status]}{c.price_reason ? ` · ${c.price_reason}` : ''}</td>
         <td>{c.rate_status === 'UNKNOWN' && !d.has_invoice && data.can_set_price && <><select aria-label={`Status harga ${c.label}`} disabled={locked} value={resolution[c.id] ?? 'KNOWN'}
           onChange={e => setResolution(x => ({ ...x, [c.id]: e.target.value }))}>{BD_RATE_STATUSES.filter(s => s !== 'UNKNOWN').map(s => <option key={s} value={s}>{BD_RATE_LABEL[s]}</option>)}</select>
-          {(resolution[c.id] ?? 'KNOWN') === 'KNOWN' && <input aria-label={`Harga per PCS ${c.label}`} value={rate[c.id] ?? ''} disabled={locked} onChange={e => setRate(x => ({ ...x, [c.id]: e.target.value }))}/>}
+          {(resolution[c.id] ?? 'KNOWN') === 'KNOWN' && <NumberEntry inputMode="decimal" aria-label={`Harga per PCS ${c.label}`} value={rate[c.id] ?? ''} disabled={locked} onValueChange={rawInput => setRate(x => ({ ...x, [c.id]: rawInput }))}/>}
           <button type="button" disabled={locked || ((resolution[c.id] ?? 'KNOWN') === 'KNOWN' && !moneyInput(rate[c.id] ?? '')) || !reason.trim()} onClick={() => send('SET_CHARGE_PRICE', { charge_line_id: c.id,
             rate_status: resolution[c.id] ?? 'KNOWN', rate_per_pcs: (resolution[c.id] ?? 'KNOWN') === 'KNOWN' ? normalizeMoney(rate[c.id]) : '0.00', reason: reason.trim() })}>Isi harga {c.label}</button></>}</td></tr>))}</tbody></RecordTable>}
     <FailedWashPrices data={data} locked={locked} send={send}/>
@@ -473,7 +474,7 @@ function FailedWashPrices({ data, locked, send }: { data: LaundryBdWorkspace; lo
             : `${BD_RATE_LABEL[x.price_status]} · ${rupiah(x.rate)}/PCS · biaya ${rupiah(x.amount)} · ${x.price_reason} · ${x.priced_by ?? '—'} · ${x.priced_local?.replace('T', ' ')}`}</td>
           <td>{waits(x) && data.can_set_price && <><select aria-label={`Status harga cuci gagal ${x.receipt_number}`} disabled={locked} value={status} onChange={e => setResolution(v => ({ ...v, [x.attempt_id]: e.target.value }))}>
             {BD_RATE_STATUSES.filter(s => s !== 'UNKNOWN').map(s => <option key={s} value={s}>{BD_RATE_LABEL[s]}</option>)}</select>
-            {status === 'KNOWN' && <input aria-label={`Harga per PCS cuci gagal ${x.receipt_number}`} value={typed} disabled={locked} onChange={e => setRate(v => ({ ...v, [x.attempt_id]: e.target.value }))}/>}
+            {status === 'KNOWN' && <NumberEntry inputMode="decimal" aria-label={`Harga per PCS cuci gagal ${x.receipt_number}`} value={typed} disabled={locked} onValueChange={rawInput => setRate(v => ({ ...v, [x.attempt_id]: rawInput }))}/>}
             <button type="button" disabled={locked || reason.trim().length < 4 || (status === 'KNOWN' && (!moneyInput(typed) || Number(normalizeMoney(typed)) <= 0))} onClick={() => send('SET_FAILED_WASH_PRICE', {
               failed_wash_attempt_id: x.attempt_id, rate_status: status, rate_per_pcs: status === 'KNOWN' ? normalizeMoney(typed) : '0.00', reason: reason.trim() })}>Isi harga cuci gagal {x.receipt_number}</button></>}</td></tr> })}</tbody></RecordTable>}
   </section>
@@ -540,7 +541,7 @@ function Invoices({ data, vendor, locked, send, loadMore, canSetRedye }: { data:
       amount: signed(l.amount),
       ...(l.source.startsWith('r:') ? { receipt_line_id: l.source.slice(2) } : l.source.startsWith('d:') ? { rework_service_id: l.source.slice(2) } : { opening_uninvoiced_id: l.source.slice(2) }) })) })
   return <section className="initial-import-table" aria-label="Invoice vendor laundry">
-    {redye.length > 0 && <section aria-label="Jasa celup ulang"><h3>Jasa celup ulang</h3><p>Tarif diikat pada waktu kirim. Invoice mengganti estimasi; selisih mengikuti biaya produk.</p><RecordTable><thead><tr><th>Order / proses</th><th>Hasil</th><th>Tarif per PCS</th><th>Biaya kini</th></tr></thead><tbody>{redye.map(x => <tr key={x.id}><td>{x.number} · {x.process}<br/>{x.status}</td><td>{x.good} GOOD · {x.bs} BS</td><td>{x.price_known ? rupiah(x.rate) : 'Belum diketahui'}{!x.price_known && canSetRedye && x.status !== 'CANCELLED' && <><input aria-label={`Tarif celup ${x.number}`} value={redyeRates[x.id] ?? ''} disabled={locked} onChange={e => setRedyeRates(v => ({ ...v, [x.id]: e.target.value }))}/><button type="button" disabled={locked || !moneyInput(redyeRates[x.id] ?? '') || !reason.trim()} onClick={() => send('SET_REDYE_PRICE', { service_id: x.id, rate: normalizeMoney(redyeRates[x.id]), reason: reason.trim() })}>Isi tarif celup {x.number}</button></>}</td><td>{x.price_known ? rupiah(x.cost) : 'HPP belum final'}</td></tr>)}</tbody></RecordTable><p>Pengisian tarif memakai alasan pada formulir di bawah.</p></section>}
+    {redye.length > 0 && <section aria-label="Jasa celup ulang"><h3>Jasa celup ulang</h3><p>Tarif diikat pada waktu kirim. Invoice mengganti estimasi; selisih mengikuti biaya produk.</p><RecordTable><thead><tr><th>Order / proses</th><th>Hasil</th><th>Tarif per PCS</th><th>Biaya kini</th></tr></thead><tbody>{redye.map(x => <tr key={x.id}><td>{x.number} · {x.process}<br/>{x.status}</td><td>{x.good} GOOD · {x.bs} BS</td><td>{x.price_known ? rupiah(x.rate) : 'Belum diketahui'}{!x.price_known && canSetRedye && x.status !== 'CANCELLED' && <><NumberEntry inputMode="decimal" aria-label={`Tarif celup ${x.number}`} value={redyeRates[x.id] ?? ''} disabled={locked} onValueChange={rawInput => setRedyeRates(v => ({ ...v, [x.id]: rawInput }))}/><button type="button" disabled={locked || !moneyInput(redyeRates[x.id] ?? '') || !reason.trim()} onClick={() => send('SET_REDYE_PRICE', { service_id: x.id, rate: normalizeMoney(redyeRates[x.id]), reason: reason.trim() })}>Isi tarif celup {x.number}</button></>}</td><td>{x.price_known ? rupiah(x.cost) : 'HPP belum final'}</td></tr>)}</tbody></RecordTable><p>Pengisian tarif memakai alasan pada formulir di bawah.</p></section>}
 
     <div className="initial-import-toolbar"><label>Cari invoice yang dimuat<input aria-label="Cari invoice yang dimuat" value={invoiceSearch} onChange={e => setInvoiceSearch(e.target.value)}/></label>
       <span>{invoices.length} invoice dimuat</span>{data.pagination.invoice_next && <button type="button" disabled={locked} onClick={() => loadMore('invoices')}>Muat invoice berikutnya</button>}</div>
@@ -582,8 +583,8 @@ function Invoices({ data, vendor, locked, send, loadMore, canSetRedye }: { data:
             && <option value={l.source}>{sourceLabel(l.source)}</option>}</select></label>
         <label>Kategori<select aria-label={`Kategori baris ${i + 1}`} value={l.category} disabled={locked} onChange={e => setLine(i, { category: e.target.value as Category })}>
           {(Object.keys(CATEGORY_LABEL) as Category[]).map(c => <option key={c} value={c}>{CATEGORY_LABEL[c]}</option>)}</select></label>
-        {l.kind === 'BILL' && <label>Qty<input aria-label={`Qty baris ${i + 1}`} inputMode="numeric" value={l.qty} disabled={locked} onChange={e => setLine(i, { qty: e.target.value })}/></label>}
-        <label>Nominal<input aria-label={`Nominal baris ${i + 1}`} value={l.amount} disabled={locked} onChange={e => setLine(i, { amount: e.target.value })}/></label>
+        {l.kind === 'BILL' && <label>Qty<NumberEntry aria-label={`Qty baris ${i + 1}`} inputMode="numeric" value={l.qty} disabled={locked} onValueChange={rawInput => setLine(i, { qty: rawInput })}/></label>}
+        <label>Nominal<NumberEntry inputMode="decimal" aria-label={`Nominal baris ${i + 1}`} value={l.amount} disabled={locked} onValueChange={rawInput => setLine(i, { amount: rawInput })}/></label>
         <button type="button" disabled={locked} onClick={() => setLines(ls => ls.filter((_, j) => j !== i))}>Hapus baris {i + 1}</button></div>)}
       <div className="initial-import-toolbar"><button type="button" disabled={locked} onClick={() => setLines(ls => [...ls, { key: crypto.randomUUID(), kind: correcting ? 'CORRECTION' : 'BILL', source: '', category: 'GOOD', qty: '', amount: '' }])}>Tambah baris</button>
         <button type="button" disabled={locked || !valid} onClick={() => send('SAVE_INVOICE_DRAFT', payload())}>Simpan draf invoice</button>
@@ -603,8 +604,8 @@ function Opening({ data, locked, send }: { data: LaundryBdWorkspace; locked: boo
     {data.opening_uninvoiced.length === 0 ? <p>Tidak ada laundry saldo awal yang belum ditagih.</p> : <RecordTable><thead><tr><th>Terima lama</th><th>Vendor</th><th>Kategori</th><th>Qty</th><th>Ditagih</th><th>Estimasi</th><th>Dilepas</th><th>Status</th></tr></thead>
       <tbody>{data.opening_uninvoiced.map(u => <tr key={u.id}><td>{u.document_number} · {u.receipt_date}{u.po_number ? ` · ${u.po_number}` : ''}</td><td>{u.vendor_code}</td><td>{CATEGORY_LABEL[u.category]}</td>
         <td>{u.qty}</td><td>{u.billed}</td><td>{u.estimate_status === 'UNKNOWN' ? 'Belum diketahui' : rupiah(u.estimated_amount)}</td><td>{rupiah(u.released)}</td>
-        <td>{u.invoiced ? 'Ditagih penuh' : u.estimate_status === 'UNKNOWN' ? <>{data.can_set_price && u.billed === 0 && <><input aria-label={`Estimasi ${u.document_number}`} value={estimate[u.id] ?? ''} disabled={locked}
-          onChange={e => setEstimate(x => ({ ...x, [u.id]: e.target.value }))}/><button type="button" disabled={locked || !moneyInput(estimate[u.id] ?? '') || !reason.trim()} onClick={() =>
+        <td>{u.invoiced ? 'Ditagih penuh' : u.estimate_status === 'UNKNOWN' ? <>{data.can_set_price && u.billed === 0 && <><NumberEntry inputMode="decimal" aria-label={`Estimasi ${u.document_number}`} value={estimate[u.id] ?? ''} disabled={locked}
+          onValueChange={rawInput => setEstimate(x => ({ ...x, [u.id]: rawInput }))}/><button type="button" disabled={locked || !moneyInput(estimate[u.id] ?? '') || !reason.trim()} onClick={() =>
             send('SET_OPENING_ESTIMATE', { opening_uninvoiced_id: u.id, expected_version: u.row_version, estimated_amount: normalizeMoney(estimate[u.id]), reason: reason.trim() })}>Isi estimasi {u.document_number}</button></>}
           </> : 'Menunggu invoice vendor'}</td></tr>)}</tbody></RecordTable>}
   </section>

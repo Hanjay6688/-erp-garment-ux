@@ -1,3 +1,4 @@
+import NumberEntry from '../../src/components/NumberEntry'
 import {useCallback,useEffect,useId,useRef,useState} from 'react'
 import {normalizeClientError} from './lib/clientError'
 import {formatCp6WibDateTime} from './cp6BusinessTime'
@@ -54,7 +55,7 @@ export default function NativeModelPolicyPanel({client,scope,actor,canManage,onA
   {!canManage||w&&!w.canWrite?<p>Owner atau admin dengan izin mengelola produk diperlukan untuk mengubah kebijakan.</p>:null}
   <fieldset disabled={locked||!w}><legend>Tinjau kebijakan berikutnya</legend>
    {current?<button onClick={useStored}>Isi dari kebijakan tersimpan</button>:null}
-   {fields.map(([key,label,unit])=><label key={key} htmlFor={`${id}-${key}`}>{label} ({unit})<input id={`${id}-${key}`} inputMode={['improvement','bias','tail'].includes(key)?'decimal':'numeric'} value={form[key]} onChange={e=>{setForm({...form,[key]:e.target.value});setReviewed(false)}}/></label>)}
+   {fields.map(([key,label,unit])=><label key={key} htmlFor={`${id}-${key}`}>{label} ({unit})<NumberEntry id={`${id}-${key}`} inputMode={['improvement','bias','tail'].includes(key)?'decimal':'numeric'} value={form[key]} onValueChange={rawInput =>{setForm({...form,[key]:rawInput});setReviewed(false)}}/></label>)}
    <p>Gunakan titik untuk pecahan. Perbaikan kesalahan harus lebih besar dari ambang minimum. Seluruh putaran wajib lengkap; periode uji terakhir terpisah dan tidak memilih model. Rata-rata dasar tetap menjadi pembanding.</p>
    <fieldset><legend>Model pembanding yang diizinkan</legend>{modelMethods.map(m=><label key={m}><input type="checkbox" checked={methods.includes(m)} onChange={e=>{setMethods(modelMethods.filter(x=>x===m?e.target.checked:methods.includes(x)));setReviewed(false)}}/>{methodNames[m]}</label>)}<p>Tidak memilih model berarti belum mengizinkan model pembanding apa pun. Parameter tetap ditetapkan sebelum pengujian; pemulusan sederhana memakai nilai awal dari histori dan tren teredam dimulai dari tren nol.</p></fieldset>
    <label htmlFor={id+'-reason'}>Alasan kebijakan atau pencabutan<textarea id={id+'-reason'} value={reason} onChange={e=>{setReason(e.target.value);setReviewed(false)}}/></label>

@@ -1,3 +1,4 @@
+import NumberEntry from '../../src/components/NumberEntry'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useAuth } from './auth/AuthProvider'
 import { isConnectedRuntime } from './config/runtime'
@@ -111,10 +112,10 @@ export default function WorkRatePanel({ contractorId, contractorVersion = null }
               <label>Komponen<select aria-label={`Komponen ${i + 1}`} value={r.componentId} disabled={!priceable}
                 onChange={e => { const v = e.target.value; setBomRows(rows => rows.map((x, j) => j === i ? { ...x, componentId: v } : x)); setBomChecked(false) }}>
                 <option value="">—</option>{data.catalog.map(k => <option key={k.id} value={k.id}>{k.code} · {k.name}</option>)}</select></label>
-              <label>Urutan<input aria-label={`Urutan ${i + 1}`} inputMode="numeric" value={r.sequenceNo} disabled={!priceable}
-                onChange={e => { const v = e.target.value; setBomRows(rows => rows.map((x, j) => j === i ? { ...x, sequenceNo: v } : x)); setBomChecked(false) }}/></label>
-              <label>Tarif bawaan / pcs<input aria-label={`Tarif bawaan ${i + 1}`} inputMode="decimal" value={r.defaultRate} disabled={!priceable}
-                onChange={e => { const v = e.target.value; setBomRows(rows => rows.map((x, j) => j === i ? { ...x, defaultRate: v } : x)); setBomChecked(false) }}/></label>
+              <label>Urutan<NumberEntry aria-label={`Urutan ${i + 1}`} inputMode="numeric" value={r.sequenceNo} disabled={!priceable}
+                onValueChange={rawInput => { const v = rawInput; setBomRows(rows => rows.map((x, j) => j === i ? { ...x, sequenceNo: v } : x)); setBomChecked(false) }}/></label>
+              <label>Tarif bawaan / pcs<NumberEntry aria-label={`Tarif bawaan ${i + 1}`} inputMode="decimal" value={r.defaultRate} disabled={!priceable}
+                onValueChange={rawInput => { const v = rawInput; setBomRows(rows => rows.map((x, j) => j === i ? { ...x, defaultRate: v } : x)); setBomChecked(false) }}/></label>
               <button type="button" aria-label={`Hapus komponen ${i + 1}`} disabled={!priceable} onClick={() => { setBomRows(rows => rows.filter((_, j) => j !== i)); setBomChecked(false) }}>Hapus</button>
             </div>)}
             <button type="button" disabled={!priceable} onClick={() => { setBomRows(rows => [...rows, { componentId: '', sequenceNo: String((rows.length + 1)), defaultRate: '0' }]); setBomChecked(false) }}>Tambah baris komponen</button>
@@ -163,7 +164,7 @@ function RateRow({ component: c, today, writable, onSave }: { component: RateCom
       {v.lastUse ? ` · dipakai upah sampai ${wibDay(v.lastUse)}` : ' · belum dipakai'}</li>)}</ol> : null}
     {lastUse ? <small>Tarif baru atau penghentian harus mulai sesudah {wibDay(lastUse)} (pemakaian terakhir).</small> : null}
     <div className="cmd-rate-form">
-      <label>Tarif baru / pcs<input aria-label={`Tarif ${c.code}`} inputMode="decimal" value={rate} disabled={!writable} onChange={e => { setRate(e.target.value); setChecked(false) }}/></label>
+      <label>Tarif baru / pcs<NumberEntry aria-label={`Tarif ${c.code}`} inputMode="decimal" value={rate} disabled={!writable} onValueChange={rawInput => { setRate(rawInput); setChecked(false) }}/></label>
       <label>Berlaku mulai (WIB)<input aria-label={`Tarif ${c.code} berlaku mulai`} type="date" value={date} disabled={!writable} onChange={e => { setDate(e.target.value); setChecked(false) }}/></label>
       <label>Alasan<input aria-label={`Alasan tarif ${c.code}`} value={reason} maxLength={1000} disabled={!writable} onChange={e => { setReason(e.target.value); setChecked(false) }}/></label>
       <label className="cmd-check"><input type="checkbox" aria-label={`Tarif ${c.code} sudah diperiksa`} checked={checked} disabled={!writable || reason.trim().length < 5}

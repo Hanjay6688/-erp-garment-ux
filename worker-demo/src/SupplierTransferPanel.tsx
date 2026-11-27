@@ -1,3 +1,4 @@
+import NumberEntry from '../../src/components/NumberEntry'
 import RecordTable from './RecordTable'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useAuth } from './auth/AuthProvider'
@@ -214,8 +215,8 @@ function SupplierTransferWorkspaceView({ supplierId, currentPurchaseId, parentRe
             <tbody>{data.receipts.rows.map(r => {
               const payable = mode === 'CORRECT' ? r.payable_after_release : r.remaining, own = allocations[r.id]
               return <tr key={r.id} data-transfer-receipt-id={r.id}><td>{r.number}<br/><small>diterima {formatCp6WibDateTime(r.physical_at)}</small></td><td>{money(payable)}</td>
-                <td><input aria-label={`Dibayar untuk ${r.number}`} inputMode="decimal" value={own?.amount ?? ''}
-                  onChange={e => e.target.value.trim() === '' ? drop(r.id) : choose(r, e.target.value)}/>
+                <td><NumberEntry aria-label={`Dibayar untuk ${r.number}`} inputMode="decimal" value={own?.amount ?? ''}
+                  onValueChange={rawInput => rawInput.trim() === '' ? drop(r.id) : choose(r, rawInput)}/>
                   <button type="button" onClick={() => choose(r, payable)}>Bayar penuh {r.number}</button></td></tr>
             })}</tbody></RecordTable>
           {!data.receipts.rows.length ? <p>Tidak ada penerimaan dengan sisa utang sesuai pencarian.</p> : null}

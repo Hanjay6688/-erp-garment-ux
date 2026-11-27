@@ -1,3 +1,4 @@
+import NumberEntry from '../../../src/components/NumberEntry'
 import { useState, type FormEvent } from 'react'
 import { Boxes, PackageOpen, Plus, Scissors, Trash2, Undo2 } from 'lucide-react'
 import { accessoryStockAt, amountText, mainAccessories, serviceAccessories, type AccessoryLocation, useAccessoryBook } from './accessoryPricing'
@@ -21,7 +22,7 @@ export function ConversionAccessoryFields({value,onChange,session}:{value:Conver
       <div className="demo-operation-heading"><i><Scissors aria-hidden="true"/></i><div><h3>Aksesori dipakai</h3><p>Keluar dari stok aksesori saat konversi disimpan.</p></div></div>
       {value.used.map((line,index)=><div key={index} className="conversion-accessory-line expected">
         <label>Aksesori pengganti<select value={line.code} onChange={event=>onChange({...value,used:value.used.map((row,i)=>i===index?{...row,code:event.target.value}:row)})}>{options(line.location??mainAccessories)}</select></label>
-        <label>Jumlah dipakai (pcs)<input inputMode="numeric" value={line.qty} onChange={event=>onChange({...value,used:value.used.map((row,i)=>i===index?{...row,qty:event.target.value}:row)})}/></label>
+        <label>Jumlah dipakai (pcs)<NumberEntry inputMode="numeric" value={line.qty} onValueChange={rawInput =>onChange({...value,used:value.used.map((row,i)=>i===index?{...row,qty:rawInput}:row)})}/></label>
         <label>Lokasi stok sumber<select value={line.location??mainAccessories} onChange={event=>onChange({...value,used:value.used.map((row,i)=>i===index?{...row,location:event.target.value as AccessoryLocation}:row)})}>
           {[mainAccessories,serviceAccessories].map(location=><option key={location}>{location}</option>)}</select></label>
         <button type="button" className="soft-btn" aria-label={'Lepas aksesori pengganti '+(index+1)} onClick={()=>onChange({...value,used:value.used.filter((_,i)=>i!==index)})}><Trash2 size={16}/></button>
@@ -32,7 +33,7 @@ export function ConversionAccessoryFields({value,onChange,session}:{value:Conver
       <div className="demo-operation-heading"><i><PackageOpen aria-hidden="true"/></i><div><h3>Aksesori bongkaran</h3><p>Catat perkiraan bila perlu. Penerimaan bisa dilakukan belakangan dari <a href="/gudang/aksesori/?tab=bongkaran">Aksesori → Bongkaran</a>.</p></div></div>
       {value.expected.map((line,index)=><div key={index} className="conversion-accessory-line expected">
         <label>Aksesori yang ditunggu<select value={line.code} onChange={event=>onChange({...value,expected:value.expected.map((row,i)=>i===index?{...row,code:event.target.value}:row)})}>{options()}</select></label>
-        <label>Jumlah ditunggu (pcs)<input inputMode="numeric" value={line.qty} onChange={event=>onChange({...value,expected:value.expected.map((row,i)=>i===index?{...row,qty:event.target.value}:row)})}/></label>
+        <label>Jumlah ditunggu (pcs)<NumberEntry inputMode="numeric" value={line.qty} onValueChange={rawInput =>onChange({...value,expected:value.expected.map((row,i)=>i===index?{...row,qty:rawInput}:row)})}/></label>
         <label>Pemegang bongkaran<input value={line.holder} maxLength={120} onChange={event=>onChange({...value,expected:value.expected.map((row,i)=>i===index?{...row,holder:event.target.value}:row)})}/></label>
         <button type="button" className="soft-btn" aria-label={'Lepas aksesori bongkaran '+(index+1)} onClick={()=>onChange({...value,expected:value.expected.filter((_,i)=>i!==index)})}><Trash2 size={16}/></button>
       </div>)}
@@ -94,8 +95,8 @@ export function ConversionAccessoryHistory({session}:{session:Session}) {
       <form className="demo-operation-form" onSubmit={post}>
         <h3>{receipt.name}</h3>
         <div className="demo-operation-fields">
-          <label>Layak pakai (pcs)<input inputMode="numeric" value={receipt.good} onChange={event=>setReceipt({...receipt,good:event.target.value})}/></label>
-          <label>Rusak (pcs)<input inputMode="numeric" value={receipt.damaged} onChange={event=>setReceipt({...receipt,damaged:event.target.value})}/></label>
+          <label>Layak pakai (pcs)<NumberEntry inputMode="numeric" value={receipt.good} onValueChange={rawInput =>setReceipt({...receipt,good:rawInput})}/></label>
+          <label>Rusak (pcs)<NumberEntry inputMode="numeric" value={receipt.damaged} onValueChange={rawInput =>setReceipt({...receipt,damaged:rawInput})}/></label>
         </div>
         <label>Tanggal kembali<input required type="date" max={lastWarehouseDay()} min={receipt.doc.date} value={receipt.day} onChange={event=>setReceipt({...receipt,day:event.target.value})}/></label>
         <label>Catatan pemeriksaan<textarea required maxLength={400} value={receipt.reason} onChange={event=>setReceipt({...receipt,reason:event.target.value})}/></label>

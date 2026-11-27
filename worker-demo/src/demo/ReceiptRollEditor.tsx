@@ -1,3 +1,4 @@
+import NumberEntry from '../../../src/components/NumberEntry'
 import { useState } from 'react'
 import { Ruler } from 'lucide-react'
 import { formatQuantity } from './format'
@@ -23,7 +24,7 @@ export function ReceiptRollEditor({roll,receipt,unit,onSave,onClose}:{
       <p><strong>{roll.physicalCode??roll.id}</strong> · {receipt}</p>
       <div className="demo-operation-fields">
         <label>Nomor roll fisik<input value={code} required maxLength={90} onChange={event=>setCode(event.target.value)}/></label>
-        <label>Panjang benar ({unit})<input inputMode="decimal" value={length} required onChange={event=>setLength(event.target.value)}/></label>
+        <label>Panjang benar ({unit})<NumberEntry inputMode="decimal" value={length} required onValueChange={rawInput =>setLength(rawInput)}/></label>
       </div>
       <div className="demo-operation-facts"><article><span>Panjang semula → hasil koreksi</span>
         <strong>{formatQuantity(roll.length)} → {Number.isFinite(parsed)?formatQuantity(parsed):'—'} {unit}</strong></article></div>

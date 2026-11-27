@@ -1,3 +1,4 @@
+import NumberEntry from '../../../src/components/NumberEntry'
 import { useState, type FormEvent } from 'react'
 import { ArrowLeft, ArrowRight, ClipboardList, FileText, Layers3, PackageOpen, Plus, ReceiptText, Ruler, Search, Tag } from 'lucide-react'
 import { amountText, fixtureDate } from './accessoryPricing'
@@ -185,9 +186,9 @@ export default function PocketReceiptForm() {
           <button type="button" className="soft-btn add-roll" onClick={() => setRollRows([...draft.rolls, newRoll()])}><Plus size={16} aria-hidden="true"/>Tambah roll</button>
         </div>
         <div className="pocket-roll-count">
-          <label>Jumlah roll<input className="erp-input" inputMode="numeric" enterKeyHint="done" value={rollCountInput ?? draft.rolls.length}
+          <label>Jumlah roll<NumberEntry className="erp-input" inputMode="numeric" enterKeyHint="done" value={rollCountInput ?? draft.rolls.length}
             aria-invalid={Boolean(rollCountError)} aria-describedby={rollCountError ? 'pocket-roll-count-feedback' : undefined}
-            onChange={e => { setRollCountInput(e.target.value.replace(/[^0-9]/g, '')); setRollCountError('') }}
+            onValueChange={rawInput => { setRollCountInput(rawInput.replace(/[^0-9]/g, '')); setRollCountError('') }}
             onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); applyRollCount() } }}/></label>
           <button type="button" className="soft-btn" onClick={applyRollCount}>Buat baris</button>
         </div>
@@ -208,8 +209,8 @@ export default function PocketReceiptForm() {
           <button type="button" className="soft-btn" onClick={() => patch({ rate: String(benchmark).replace('.', ',') })}>Pakai harga acuan</button></div>}
         <div className="wh-fields">
           <label>Harga sementara per {draft.unit} (Rp)
-            <input aria-label="Harga sementara per satuan" aria-describedby="pocket-rate-help" inputMode="decimal"
-              placeholder={benchmark === null ? 'Isi harga per ' + draft.unit : fmt(benchmark)} value={draft.rate} onChange={e => patch({ rate: e.target.value })}/>
+            <NumberEntry rupiahDraft aria-label="Harga sementara per satuan" aria-describedby="pocket-rate-help" inputMode="decimal"
+              placeholder={benchmark === null ? 'Isi harga per ' + draft.unit : fmt(benchmark)} value={draft.rate} onValueChange={rawInput => patch({ rate: rawInput })}/>
             <small id="pocket-rate-help">{benchmark === null ? 'Belum ada acuan untuk satuan ini.' : 'Jika dikosongkan, nilai mengikuti acuan master.'} Tagihan final dicatat setelah diterima.</small>
           </label>
           <label>Alasan penerimaan<input required value={draft.reason} onChange={e => patch({ reason: e.target.value })}/></label>
@@ -280,7 +281,7 @@ export default function PocketReceiptForm() {
           <div className="pocket-editor-grid">
             <label>Nomor tagihan<input required value={bill.number} onChange={e => setBill({ ...bill, number: e.target.value })}/></label>
             <label>Tanggal tagihan<input required type="date" min={bill.receipt.day} max={lastWarehouseDay()} value={bill.day} onChange={e => setBill({ ...bill, day: e.target.value })}/></label>
-            <label>Harga final per {bill.receipt.rolls[0].unit} (Rp)<input required inputMode="decimal" value={bill.rate} onChange={e => setBill({ ...bill, rate: e.target.value })}/></label>
+            <label>Harga final per {bill.receipt.rolls[0].unit} (Rp)<NumberEntry rupiahDraft required inputMode="decimal" value={bill.rate} onValueChange={rawInput => setBill({ ...bill, rate: rawInput })}/></label>
             <p>Harga saat diterima <strong>{rateText(bill.receipt.rolls[0].rate, bill.receipt.rolls[0].unit)}</strong></p>
           </div>
         </fieldset>

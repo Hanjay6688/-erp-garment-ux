@@ -1,3 +1,4 @@
+import NumberEntry from '../../src/components/NumberEntry'
 import {parseSkuPattern} from './SkuPlanningPattern'
 import {useEffect,useMemo,useRef,useState} from 'react'
 import {useAuth} from './auth/AuthProvider'
@@ -95,7 +96,7 @@ function Recipes(props:Props&{project:string;profile:string;actor:string;canWrit
     <label>Bahan kain yang direview<select aria-label="Bahan kain yang direview" value={form.material} onChange={e=>edit({material:e.target.value,rate:''})}><option value="">Pilih bahan kain</option>{data.materials.map(m=><option key={m.id} value={m.id}>{m.sku} · {m.name} · {m.unit}</option>)}</select></label>
     <label>Pola resep kain (opsional)<select aria-label="Pola resep kain" value={form.pattern} onChange={e=>edit({pattern:e.target.value})}><option value="">Pola belum dipilih</option>{data.patterns.map(p=><option key={p.id} value={p.id}>{p.code} · {p.name} · {p.revision}</option>)}</select></label>
     <button type="button" onClick={()=>void useMasterPattern()}>Ambil pola Master SKU</button>
-    <label>Pemakaian kain per PCS<input aria-label="Pemakaian kain per PCS" inputMode="decimal" value={form.rate} maxLength={19} onChange={e=>edit({rate:e.target.value})}/></label><p>Satuan: {data.materials.find(m=>m.id===form.material)?.unit??'pilih bahan terlebih dahulu'} per PCS. Tidak ada angka bawaan.</p>
+    <label>Pemakaian kain per PCS<NumberEntry aria-label="Pemakaian kain per PCS" inputMode="decimal" value={form.rate} maxLength={19} onValueChange={rawInput =>edit({rate:rawInput})}/></label><p>Satuan: {data.materials.find(m=>m.id===form.material)?.unit??'pilih bahan terlebih dahulu'} per PCS. Tidak ada angka bawaan.</p>
     <label>Mulai berlaku resep kain (WIB)<input aria-label="Mulai berlaku resep kain WIB" type="datetime-local" step="1" value={form.from} onChange={e=>edit({from:e.target.value})}/></label>
     <p>Tanggal mulai boleh dimundurkan paling lama satu tahun.</p>
     <label>Akhir berlaku resep kain (WIB, opsional)<input aria-label="Akhir berlaku resep kain WIB" type="datetime-local" step="1" value={form.to} onChange={e=>edit({to:e.target.value})}/></label>

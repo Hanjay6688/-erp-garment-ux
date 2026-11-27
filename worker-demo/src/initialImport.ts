@@ -122,3 +122,21 @@ export async function readInitialImportFile(file: File, entity: InitialImportEnt
 export function initialImportTemplate(entity: InitialImportEntity) {
   return '﻿' + Object.values(catalog[entity].fields).map((label) => `"${label.replaceAll('"', '""')}"`).join(',') + '\r\n'
 }
+
+// Import rows mix Excel identifiers and numeric measures in the same editor.
+const importIntegerFields = new Set([
+  'sort_order', 'line_number', 'po_line_number', 'receipt_line_number', 'sheet_line', 'qty_pcs', 'target_qty_pcs',
+  'control_qty', 'earned_qty', 'paid_before_qty', 'good_qty', 'completed_before_bs_qty', 'qty_performed',
+  'qty_sent_original', 'qty_returned_before_cutover', 'qty_open',
+])
+const importDecimalFields = new Set([
+  'qty', 'opening_qty', 'ordered_qty', 'remaining_qty', 'received_before_cutover_qty', 'cancelled_before_cutover_qty',
+  'carry_qty', 'invoiced_qty', 'target_dozens', 'days', 'amount', 'original_amount', 'settled_before_cutover',
+  'credit_unit_price', 'unit_cost', 'unit_price', 'rate', 'rate_per_pcs', 'paid_before_amount', 'discount_amount',
+  'line_amount', 'estimated_amount', 'control_amount', 'hpp_percent_of_price',
+])
+export function importColumnInputMode(key: string) {
+  if (importIntegerFields.has(key)) return 'numeric'
+  if (importDecimalFields.has(key)) return 'decimal'
+  return undefined
+}

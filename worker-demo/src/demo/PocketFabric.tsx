@@ -1,3 +1,4 @@
+import NumberEntry from '../../../src/components/NumberEntry'
 import { BrowsePane } from '../components/BrowsePane'
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { ArrowDownLeft, ArrowRight, CalendarDays, ClipboardList, Layers3, MapPin, Ruler, Scissors, Search } from 'lucide-react'
@@ -415,7 +416,7 @@ function PocketUsageForm({ selection, book, onClose, onConfirm }: {
                 <option value="keluar">Isi yang dipakai</option><option value="sisa">Isi sisa fisik</option><option value="utuh">Pakai semua sisa</option>
               </select></label>
               {draft.mode !== 'utuh' && <label>{(draft.mode === 'sisa' ? 'Sisa fisik' : 'Keluar') + ' (' + roll.unit + ')'}
-                <input required inputMode="decimal" aria-invalid={Boolean(invalid)} placeholder="0" value={draft.amount} onChange={e => updateDraft(index, { amount: e.target.value })}/>
+                <NumberEntry required inputMode="decimal" aria-invalid={Boolean(invalid)} placeholder="0" value={draft.amount} onValueChange={rawInput => updateDraft(index, { amount: rawInput })}/>
               </label>}
             </div> : <div className="pocket-usage-before"><small>Dipakai</small><strong>Seluruh sisa</strong></div>}
             <div className="pocket-usage-results">

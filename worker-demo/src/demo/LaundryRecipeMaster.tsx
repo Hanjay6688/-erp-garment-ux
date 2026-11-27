@@ -1,3 +1,4 @@
+import NumberEntry from '../../../src/components/NumberEntry'
 import { BrowsePane } from '../components/BrowsePane'
 import { useState, type FormEvent } from 'react'
 import { ArrowLeft, Droplets, Link2, Pencil, Plus, Search, Tag, WashingMachine } from 'lucide-react'
@@ -9,7 +10,7 @@ import { usePlannerSession } from './planner/session'
 import { laundryVendorNames } from './sewingModel'
 import { allSkus } from './skuCatalog'
 import { amountText, fixtureDate } from './accessoryPricing'
-import { cleanMoneyInput, formatMoneyInput } from '../moneyInput'
+import { cleanMoneyInput } from '../moneyInput'
 import { lastWarehouseDay } from './warehouseDay'
 import './warehouseForms.css'
 import './laundryRecipe.css'
@@ -136,8 +137,8 @@ export default function LaundryRecipeMaster() {
         <div className="wh-fields">
           <label>Nama jenis pewarnaan<input required maxLength={100} placeholder="Contoh Tinting Indigo" value={typeDraft.name} onChange={e => setTypeDraft({ ...typeDraft, name: e.target.value })}/></label>
           <label>Catatan proses (opsional)<input maxLength={240} value={typeDraft.note} onChange={e => setTypeDraft({ ...typeDraft, note: e.target.value })}/></label>
-          <label>Harga acuan per pcs (opsional)<input inputMode="numeric" maxLength={20} placeholder="Rp per pcs" value={formatMoneyInput(benchmark)}
-            onChange={e => setBenchmark(cleanMoneyInput(e.target.value))}/><small>Estimasi di surat kirim. Nominal kontrabon diisi dari tagihan aktual.</small></label>
+          <label>Harga acuan per pcs (opsional)<NumberEntry inputMode="numeric" maxLength={20} placeholder="Rp per pcs" value={benchmark}
+            onValueChange={rawInput => setBenchmark(cleanMoneyInput(rawInput))}/><small>Estimasi di surat kirim. Nominal kontrabon diisi dari tagihan aktual.</small></label>
         </div>
         {error && <p className="wh-feedback" role="alert">{error}</p>}
         <button type="submit" className="primary-btn">Simpan jenis pewarnaan</button>

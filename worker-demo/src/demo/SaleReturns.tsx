@@ -1,3 +1,4 @@
+import NumberEntry from '../../../src/components/NumberEntry'
 import { useState } from 'react'
 import { ArrowLeftRight, ArrowRight, Boxes, FileSearch, PackageCheck, ReceiptText, Search, Undo2 } from 'lucide-react'
 import { BrowsePane } from '../components/BrowsePane'
@@ -82,8 +83,8 @@ function ReturnEditor({invoice,returns,onSaved}:{invoice:DemoInvoice;returns:Sal
       <div className="demo-entry-list" aria-label="Alokasi retur per ukuran">{rows.map(row=><article key={row.key}>
         <div><strong>{row.sku} · Ukuran {row.size}</strong><small>Lot {row.lot} · {row.sold} pcs terjual{row.returned>0?' · '+row.returned+' pcs sudah retur':''}</small></div>
         <div><strong>{row.eligible} pcs</strong><small>Masih bisa diretur</small></div>
-        <label>Retur (pcs)<input aria-label={`Retur ${row.sku} ukuran ${row.size}`} className="demo-qty" inputMode="numeric" disabled={!row.eligible}
-          placeholder="0" value={draft.quantities[row.key]??''} onChange={event=>set({quantities:{...draft.quantities,[row.key]:event.target.value.replace(/\D/g,'').slice(0,9)}})}/></label>
+        <label>Retur (pcs)<NumberEntry aria-label={`Retur ${row.sku} ukuran ${row.size}`} className="demo-qty" inputMode="numeric" disabled={!row.eligible}
+          placeholder="0" value={draft.quantities[row.key]??''} onValueChange={rawInput =>set({quantities:{...draft.quantities,[row.key]:rawInput.replace(/\D/g,'').slice(0,9)}})}/></label>
       </article>)}</div>
       {noSource&&<p role="status">Tidak ada alokasi sumber dengan sisa retur yang bisa dicatat dari invoice ini.</p>}
       <label>{original?'Alasan koreksi':'Alasan retur'}<textarea required minLength={4} maxLength={500} value={draft.reason} onChange={event=>set({reason:event.target.value})}/></label>

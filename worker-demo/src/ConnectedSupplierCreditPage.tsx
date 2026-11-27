@@ -1,3 +1,4 @@
+import NumberEntry from '../../src/components/NumberEntry'
 import RecordTable from './RecordTable'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useAuth } from './auth/AuthProvider'
@@ -60,7 +61,7 @@ function Workspace({onLaundry}:{onLaundry:()=>void}){
   </>}
   {draft&&data&&<form className="panel" onSubmit={e=>{e.preventDefault();if(locked||!confirmed||!validAmounts||!balancesValid||original<0n||reason.trim().length<4)return;void run('ALLOCATE',{return_id:draft.return_id,source_purchase_id:draft.source_purchase_id,expected_version:draft.version,reason:reason.trim(),allocations:allocations.map(([purchase_id,v])=>({purchase_id,amount:creditAmount(creditCents(v)!)}))},null,handlers)}}>
    <h2>Alokasi {draft.return_number}</h2><p>Kosongkan semua tujuan untuk mengembalikan kredit ke pembelian asal. Pengalihan dicatat pada hari ini.</p><fieldset disabled={locked}>
-    {data.purchases.filter(p=>p.id!==draft.source_purchase_id).map(p=><label key={p.id}>{p.number} · sisa {skuMoney(p.remaining)}<input aria-label={`Kredit untuk ${p.number}`} inputMode="decimal" value={amounts[p.id]??''} onChange={e=>{setAmounts(x=>({...x,[p.id]:e.target.value}));setConfirmed(false)}}/></label>)}
+    {data.purchases.filter(p=>p.id!==draft.source_purchase_id).map(p=><label key={p.id}>{p.number} · sisa {skuMoney(p.remaining)}<NumberEntry aria-label={`Kredit untuk ${p.number}`} inputMode="decimal" value={amounts[p.id]??''} onValueChange={rawInput =>{setAmounts(x=>({...x,[p.id]:rawInput}));setConfirmed(false)}}/></label>)}
     <p>Bagian kredit untuk {draft.purchase_number}: {original<0n?'Melebihi kredit retur':skuMoney(creditAmount(original))}.</p>
     <h3>Sisa utang setelah alokasi</h3>{projected.map(p=><p key={p.number}>{p.number}: {p.affected&&p.remaining<0n?'Alokasi melebihi sisa utang sesudah pembayaran':skuMoney(creditAmount(p.remaining))}.</p>)}
     <label>Alasan pengalihan<input aria-label="Alasan pengalihan kredit" maxLength={1000} value={reason} onChange={e=>{setReason(e.target.value);setConfirmed(false)}}/></label>

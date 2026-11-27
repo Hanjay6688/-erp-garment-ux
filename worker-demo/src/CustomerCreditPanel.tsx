@@ -1,3 +1,4 @@
+import NumberEntry from '../../src/components/NumberEntry'
 import {useEffect,useMemo,useRef,useState} from 'react'
 import {useAuth} from './auth/AuthProvider'
 import {isConnectedRuntime} from './config/runtime'
@@ -148,7 +149,7 @@ export default function CustomerCreditPanel(props:Props) {
         <option value="">Pilih tindakan</option>{caps?.apply?<option value="APPLY">Pakai untuk invoice lain</option>:null}{caps?.refund?<option value="REFUND">Kembalikan uang</option>:null}{action==='UNDO'?<option value="UNDO">Batalkan transaksi yang dipilih dari riwayat</option>:null}
       </select></label>
       {positive?<><p>Saldo terpilih: {cohortCurrent?`${cohort!.return_number} · ${money(cohort!.available_credit)}`:'pilih saldo dari hasil pemeriksaan.'}</p>
-        <label>Nominal saldo kredit<input aria-label="Nominal saldo kredit" inputMode="decimal" value={amount} onChange={e=>edit(()=>setAmount(e.target.value))}/></label></>:null}
+        <label>Nominal saldo kredit<NumberEntry aria-label="Nominal saldo kredit" inputMode="decimal" value={amount} onValueChange={rawInput =>edit(()=>setAmount(rawInput))}/></label></>:null}
       {action==='UNDO'&&originalCurrent?<p>Pembatalan penuh {money(original!.amount)} untuk {original!.kind==='APPLY'?'pemakaian saldo':'pengembalian uang'} dari retur {original!.return_number}. Nilai dan rekening mengikuti transaksi asli.</p>:null}
       {action==='APPLY'||action==='REFUND'?<section aria-label={action==='APPLY'?'Pilihan invoice tujuan':'Pilihan rekening pengembalian'}>
         <label>{action==='APPLY'?'Cari nomor invoice tujuan':'Cari rekening pengembalian'}<input aria-label={action==='APPLY'?'Cari invoice tujuan kredit':'Cari rekening kredit'} maxLength={120} value={search[action==='APPLY'?'TARGETS':'CASH']} onChange={e=>edit(()=>{
