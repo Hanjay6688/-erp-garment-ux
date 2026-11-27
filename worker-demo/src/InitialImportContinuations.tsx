@@ -1,3 +1,4 @@
+import NumberEntry from '../../src/components/NumberEntry'
 import RecordTable from './RecordTable'
 import { useState } from 'react'
 import type { Json } from './types/database.preconnect'
@@ -43,7 +44,7 @@ export function OpeningBalancesPanel({ bb, cashAccounts, locked, manage }: { bb:
       {op === 'SETTLE' && <label>Rekening kas/bank<select aria-label="Rekening pelunasan" disabled={locked} value={cashId} onChange={e => setCashId(e.target.value)}><option value="">Pilih rekening</option>{cashAccounts.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}</select></label>}
       {op === 'CREDIT' && <label>Nomor nota potongan<input aria-label="Nomor nota potongan" disabled={locked} value={note} onChange={e => setNote(e.target.value)}/></label>}
       {op === 'ALLOCATE_PAYROLL' && <label>Payroll draft<select aria-label="Payroll saldo awal" disabled={locked} value={payroll?.id ?? ''} onChange={e => { setPayrollId(e.target.value); setAmount(selected.payroll_lines.find(l => l.payroll_id === e.target.value)?.amount ?? '') }}><option value="">Pilih payroll mandor ini</option>{payrolls.map(p => <option key={p.id} value={p.id}>{p.payroll_number} · s.d. {p.period_end}</option>)}</select></label>}
-      <label>Nominal<input aria-label="Nominal saldo awal" inputMode="decimal" disabled={locked} value={amount} onChange={e => setAmount(e.target.value)}/></label>
+      <label>Nominal<NumberEntry aria-label="Nominal saldo awal" inputMode="decimal" disabled={locked} value={amount} onValueChange={rawInput => setAmount(rawInput)}/></label>
       {op !== 'ALLOCATE_PAYROLL' && <label>Tanggal<input aria-label="Tanggal pelunasan saldo awal" type="date" disabled={locked} value={date} onChange={e => setDate(e.target.value)}/></label>}
       <label>Alasan / catatan<input aria-label="Alasan pelunasan saldo awal" disabled={locked} value={reason} onChange={e => setReason(e.target.value)}/></label>
       <button type="button" disabled={locked || !valid} onClick={() => send(op === 'ALLOCATE_PAYROLL' && payroll
@@ -74,7 +75,7 @@ export function CustomerCreditsPanel({ bb, cashAccounts, locked, manage }: { bb:
       <label>Tindakan<select aria-label="Tindakan kredit pelanggan" disabled={locked} value={operation} onChange={e => setOperation(e.target.value)}>{['APPLY_OPENING_AR', 'REFUND'].map(v => <option key={v} value={v}>{labels[v]}</option>)}</select></label>
       {operation === 'APPLY_OPENING_AR' ? <label>Piutang lama<select aria-label="Piutang untuk kredit" disabled={locked} value={target?.balance_id ?? ''} onChange={e => setTargetId(e.target.value)}><option value="">Pilih piutang pelanggan ini</option>{selected.open_receivables.map(r => <option key={r.balance_id} value={r.balance_id}>{r.document_number} · sisa {money(r.remaining_amount)}</option>)}</select></label>
         : <label>Rekening<select aria-label="Rekening pengembalian kredit" disabled={locked} value={cash?.id ?? ''} onChange={e => setCashId(e.target.value)}><option value="">Pilih rekening</option>{cashAccounts.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}</select></label>}
-      <label>Nominal<input aria-label="Nominal kredit" inputMode="decimal" disabled={locked} value={amount} onChange={e => setAmount(e.target.value)}/></label>
+      <label>Nominal<NumberEntry aria-label="Nominal kredit" inputMode="decimal" disabled={locked} value={amount} onValueChange={rawInput => setAmount(rawInput)}/></label>
       <label>Tanggal<input aria-label="Tanggal kredit" type="date" disabled={locked} value={date} onChange={e => setDate(e.target.value)}/></label>
       <label>Alasan / catatan<input aria-label="Alasan kredit" disabled={locked} value={reason} onChange={e => setReason(e.target.value)}/></label>
       <button type="button" disabled={locked || !valid} onClick={() => send({ operation, amount:amountText(amount), effective_date:date, ...(operation === 'REFUND' ? { cash_account_id:cashId } : { balance_id:targetId }) })}>{labels[operation]}</button>
@@ -96,7 +97,7 @@ export function ReturnRightsPanel({ bb, locked, manage }: { bb: InitialImportBB;
     <label>Hak retur<select aria-label="Hak retur" disabled={locked} value={selected.id} onChange={e => { setSelectedId(e.target.value); setQty('') }}>{bb.sale_return_rights.map(r => <option key={r.id} value={r.id}>{r.return_number} · {r.customer_code} · invoice {r.invoice_document_number}</option>)}</select></label>
     <p>{selected.product_sku} · {selected.qty_pcs} pcs · sudah diterima {selected.received_pcs} pcs · harga kredit {money(selected.credit_unit_price)} · invoice {selected.invoice_state === 'OPEN' ? 'masih terbuka' : 'lunas sebelum saldo awal'}</p>
     {open > 0 && <div className="initial-import-toolbar">
-      <label>Diterima (pcs)<input aria-label="Jumlah retur diterima" inputMode="numeric" disabled={locked} value={qty} onChange={e => setQty(e.target.value)}/></label>
+      <label>Diterima (pcs)<NumberEntry aria-label="Jumlah retur diterima" inputMode="numeric" disabled={locked} value={qty} onValueChange={rawInput => setQty(rawInput)}/></label>
       <label>Gudang<select aria-label="Gudang retur" disabled={locked} value={locationId} onChange={e => setLocationId(e.target.value)}><option value="">Pilih gudang barang jadi</option>{bb.fg_locations.map(l => <option key={l.id} value={l.id}>{l.code} · {l.name}</option>)}</select></label>
       <label>Tanggal terima<input aria-label="Tanggal retur diterima" type="date" disabled={locked} value={date} onChange={e => setDate(e.target.value)}/></label>
       <label>Catatan pemeriksaan<input aria-label="Catatan retur" disabled={locked} value={reason} onChange={e => setReason(e.target.value)}/></label>
@@ -121,7 +122,7 @@ export function PurchaseCommitmentsPanel({ bb, locked, manage }: { bb: InitialIm
     {selected.drafts.length > 0 && <p>Penerimaan: {selected.drafts.map(d => `${d.purchase_number} (${d.status})`).join(', ')}</p>}
     <div className="initial-import-toolbar">
       <label>Baris<select aria-label="Baris PO dibatalkan" disabled={locked} value={line?.id ?? ''} onChange={e => setLineId(e.target.value)}><option value="">Pilih baris</option>{selected.lines.map(l => <option key={l.id} value={l.id}>{l.line_number} · {l.material_sku} · sisa {l.remaining_qty}</option>)}</select></label>
-      <label>Batalkan jumlah<input aria-label="Jumlah PO dibatalkan" inputMode="decimal" disabled={locked} value={qty} onChange={e => setQty(e.target.value)}/></label>
+      <label>Batalkan jumlah<NumberEntry aria-label="Jumlah PO dibatalkan" inputMode="decimal" disabled={locked} value={qty} onValueChange={rawInput => setQty(rawInput)}/></label>
       <label>Tanggal<input aria-label="Tanggal pembatalan PO" type="date" disabled={locked} value={date} onChange={e => setDate(e.target.value)}/></label>
       <label>Alasan<input aria-label="Alasan PO" disabled={locked} value={reason} onChange={e => setReason(e.target.value)}/></label>
       <button type="button" disabled={locked || !line || !quantityText(qty) || !/[1-9]/.test(qty) || !dateOk(date) || !reason.trim()} onClick={() => { if (line) send({ operation:'CANCEL', line_id:line.id, qty:qty.trim().replace(',', '.'), effective_date:date }) }}>Batalkan sisa</button>
@@ -145,7 +146,7 @@ export function PayrollEntitlementsPanel({ bb, locked, manage }: { bb: InitialIm
     {selected && <div className="initial-import-toolbar">
       <label>Carry<select aria-label="Hak upah carry" disabled={locked} value={selected.id} onChange={e => { setSelectedId(e.target.value); setPayrollId('') }}>{carried.map(e => <option key={e.id} value={e.id}>{e.contractor_name} · {e.document_number}/{e.line_number}</option>)}</select></label>
       <label>Payroll draft<select aria-label="Payroll carry" disabled={locked} value={payroll?.id ?? ''} onChange={e => { setPayrollId(e.target.value); setQty(selected.carry_lines.find(l => l.payroll_id === e.target.value)?.qty ?? '') }}><option value="">Pilih payroll mandor ini</option>{payrolls.map(p => <option key={p.id} value={p.id}>{p.payroll_number} · s.d. {p.period_end}</option>)}</select></label>
-      <label>Jumlah carry<input aria-label="Jumlah carry" inputMode="decimal" disabled={locked} value={qty} onChange={e => setQty(e.target.value)}/></label>
+      <label>Jumlah carry<NumberEntry aria-label="Jumlah carry" inputMode="decimal" disabled={locked} value={qty} onValueChange={rawInput => setQty(rawInput)}/></label>
       <button type="button" disabled={locked || !payroll || !quantityText(qty)} onClick={() => { if (payroll) send({ operation:'ALLOCATE_CARRY', entitlement_id:selected.id, payroll_id:payroll.id, qty:qty.trim().replace(',', '.'), expected_payroll_version:payroll.row_version }) }}>Simpan carry ke payroll</button>
     </div>}
     {selected && selected.carry_lines.length > 0 && <ul>{selected.carry_lines.map(l => <li key={l.payroll_id}>{l.payroll_number} · {l.qty} · {money(l.amount)} · {l.status}{DRAFT_PAYROLL.includes(l.status) && <button type="button" disabled={locked} onClick={() => send({ operation:'ALLOCATE_CARRY', entitlement_id:selected.id, payroll_id:l.payroll_id, qty:'0', expected_payroll_version:l.row_version })}>Lepas carry dari {l.payroll_number}</button>}</li>)}</ul>}

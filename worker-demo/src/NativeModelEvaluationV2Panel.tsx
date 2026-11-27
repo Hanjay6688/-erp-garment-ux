@@ -1,3 +1,4 @@
+import NumberEntry from '../../src/components/NumberEntry'
 import RecordTable from './RecordTable'
 import {useCallback,useEffect,useRef,useState} from 'react'
 import {normalizeClientError} from './lib/clientError'
@@ -46,7 +47,7 @@ export default function NativeModelEvaluationV2Panel({client,scope,actor,history
  const blocked=disabled||busy||Boolean(held.pending||held.error)
  return<section className="native-analysis panel" aria-label="Evaluasi sesuai kebijakan">
   <h3>Bandingkan sesuai kebijakan</h3><p>Gunakan syarat yang sudah tersedia ketika snapshot diambil. Setiap evaluasi disimpan sebagai arsip; kelayakannya diperiksa kembali terhadap data, kebijakan, dan tanggal saat ini.</p>
-  <form onSubmit={e=>{e.preventDefault();void capture()}}><label>Hari ramalan sesuai kebijakan<input aria-label="Hari ramalan sesuai kebijakan" type="number" min="1" max="90" step="1" required value={horizon} disabled={blocked} onChange={e=>{setData(null);setHorizon(e.target.value)}}/></label><button disabled={blocked||!/^([1-9]|[1-8][0-9]|90)$/.test(horizon)}>Simpan evaluasi sesuai kebijakan</button></form>
+  <form onSubmit={e=>{e.preventDefault();void capture()}}><label>Hari ramalan sesuai kebijakan<NumberEntry aria-label="Hari ramalan sesuai kebijakan" type="number" min="1" max="90" step="1" required value={horizon} disabled={blocked} onValueChange={rawInput =>{setData(null);setHorizon(rawInput)}}/></label><button disabled={blocked||!/^([1-9]|[1-8][0-9]|90)$/.test(horizon)}>Simpan evaluasi sesuai kebijakan</button></form>
   {busy?<p role="status">Memeriksa sumber dan kebijakan evaluasi…</p>:null}{error||held.error?<p role="alert">{error||held.error}</p>:null}
   {held.pending?<div role="status"><p>Hasil evaluasi sebelumnya belum dipastikan. Identitas dan isi permintaan yang sama tetap disimpan.</p><button disabled={disabled||busy} onClick={()=>void capture(true)}>Periksa hasil evaluasi yang sama</button></div>:null}
   {data?<div className="native-model-result"><h4>{data.sku} · {data.name}</h4>

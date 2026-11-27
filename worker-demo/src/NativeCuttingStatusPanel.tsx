@@ -1,3 +1,4 @@
+import NumberEntry from '../../src/components/NumberEntry'
 import {useCallback,useEffect,useMemo,useRef,useState} from 'react'
 import {useAuth} from './auth/AuthProvider'
 import {isConnectedRuntime} from './config/runtime'
@@ -131,8 +132,8 @@ function StatusWorkspace({groupId,sourceKey,parentBusy,onAuthorityLost}:Props){
       {canManage?<details><summary>Atur rentang hasil potong pabrik</summary>
         <p>Aturan berlaku untuk seluruh pabrik; pembanding setiap bahan, pola dan ukuran tetap terpisah. Tidak ada angka bawaan yang diaktifkan.</p>
         <fieldset disabled={locked}><div className="ccut-fields">
-          <label>Cakupan rentang riwayat (%)<input inputMode="decimal" value={form.coverage} onChange={e=>edit('coverage',e.target.value)}/></label>
-          <label>Minimum kelompok pembanding<input inputMode="numeric" value={form.minimum} onChange={e=>edit('minimum',e.target.value)}/></label>
+          <label>Cakupan rentang riwayat (%)<NumberEntry inputMode="decimal" value={form.coverage} onValueChange={rawInput =>edit('coverage',rawInput)}/></label>
+          <label>Minimum kelompok pembanding<NumberEntry inputMode="numeric" value={form.minimum} onValueChange={rawInput =>edit('minimum',rawInput)}/></label>
           <label>Keadaan aturan<select value={form.state} onChange={e=>edit('state',e.target.value as 'ACTIVE'|'PAUSED')}><option value="ACTIVE">Aktif</option><option value="PAUSED">Jeda</option></select></label>
           <label>Alasan perubahan<input maxLength={1000} value={form.reason} onChange={e=>edit('reason',e.target.value)}/></label>
         </div><label><input type="checkbox" checked={form.reviewed} onChange={e=>edit('reviewed',e.target.checked)}/> Saya sudah memeriksa cakupan dan minimum riwayat ini.</label>

@@ -43,7 +43,8 @@
     "jszip": "3.10.1",
     "lucide-react": "1.37.0",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "react-number-format": "5.4.4"
   },
   "devDependencies": {
     "@playwright/test": "1.62.1",

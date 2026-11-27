@@ -1,3 +1,4 @@
+import NumberEntry from '../../src/components/NumberEntry'
 import {useCallback,useEffect,useMemo,useRef,useState} from 'react'
 import {useAuth} from './auth/AuthProvider'
 import {isConnectedRuntime} from './config/runtime'
@@ -57,7 +58,7 @@ export default function SalesPaymentCorrectionPanel({source,payment,edit:initial
   </>:null}
   {edit&&canCorrect&&data?.eligible?<form aria-label="Edit pembayaran pelanggan" onSubmit={e=>{e.preventDefault();save()}} onChange={()=>setReview(false)}><fieldset className="cproc-fieldset" disabled={disabled}>
    <p>Pembayaran lama dibalik dan pengganti dicatat dalam satu tindakan. Jika salah satu langkah ditolak, seluruh koreksi dibatalkan. Pengganti mendapat nomor K dengan jejak ke pembayaran asal.</p>
-   <div className="cproc-grid"><label>Nominal diterima<input aria-label="Nominal koreksi pembayaran" inputMode="decimal" value={amount} onChange={e=>setAmount(e.target.value)}/></label><label>Waktu pembayaran · WIB<input aria-label="Waktu koreksi pembayaran WIB" type="datetime-local" value={at} onChange={e=>{setAt(e.target.value);setTimeEdited(true);setRestoredAt(null)}}/></label><label>Metode<select aria-label="Metode koreksi pembayaran" value={method} onChange={e=>setMethod(e.target.value)}><option value="BANK_TRANSFER">Transfer bank</option><option value="CASH">Tunai</option></select></label></div>
+   <div className="cproc-grid"><label>Nominal diterima<NumberEntry aria-label="Nominal koreksi pembayaran" inputMode="decimal" value={amount} onValueChange={rawInput =>setAmount(rawInput)}/></label><label>Waktu pembayaran · WIB<input aria-label="Waktu koreksi pembayaran WIB" type="datetime-local" value={at} onChange={e=>{setAt(e.target.value);setTimeEdited(true);setRestoredAt(null)}}/></label><label>Metode<select aria-label="Metode koreksi pembayaran" value={method} onChange={e=>setMethod(e.target.value)}><option value="BANK_TRANSFER">Transfer bank</option><option value="CASH">Tunai</option></select></label></div>
    {maximum!==null?<p>Batas nominal pengganti {money(capacity!.maximum_amount)} sesuai sumber invoice yang diperiksa.</p>:<p role="alert">Batas koreksi belum tersedia. Muat ulang sumber sebelum melanjutkan.</p>}
    {fixedSource?<p>Saldo retur ikut diperiksa saat nominal pembayaran dikoreksi. Gunakan waktu, rekening, dan metode pembayaran yang sama.</p>:null}
    {fixedSource&&!sourceTermsMatch?<p role="alert">Ubah nominal pembayaran dan pertahankan waktu, rekening, serta metode asal untuk koreksi saldo retur ini.</p>:null}

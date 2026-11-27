@@ -1,3 +1,4 @@
+import NumberEntry from '../../src/components/NumberEntry'
 import { useMemo, useState } from 'react'
 import {
   AlertTriangle, ArrowRight, Check, LockKeyhole, Minus, Plus,
@@ -119,7 +120,7 @@ export default function WipBatchControlLayer({ mode, parent, targetBatchId, onCl
         <button className={operation==='PHYSICAL_RECOUNT'?'active':''} onClick={()=>setOperation('PHYSICAL_RECOUNT')}><RotateCcw/><span><strong>Koreksi hasil fisik</strong><small>Total Batch Produksi dapat berubah</small></span></button>
         <button className={operation==='PARTIAL'?'active':''} onClick={()=>setOperation('PARTIAL')}><Undo2/><span><strong>Kembalikan sebagian</strong><small>Sisa tetap dibagikan ke mandor</small></span></button>
       </div>
-      {operation==='PARTIAL'?<section className="dist-form wip-partial"><fieldset><legend>Jumlah yang tetap di mandor</legend><div className="dist-inputs">{parent.sizeLabels.map((size,i)=>target.sizes[i]>0&&<label key={size}>Ukuran {size}<input type="number" min="0" max={target.sizes[i]} value={retained[i]} onChange={e=>setRetained(retained.map((n,j)=>i===j?Number(e.target.value):n))}/></label>)}</div></fieldset>
+      {operation==='PARTIAL'?<section className="dist-form wip-partial"><fieldset><legend>Jumlah yang tetap di mandor</legend><div className="dist-inputs">{parent.sizeLabels.map((size,i)=>target.sizes[i]>0&&<label key={size}>Ukuran {size}<NumberEntry type="number" min="0" max={target.sizes[i]} value={retained[i]} onValueChange={rawInput =>setRetained(retained.map((n,j)=>i===j?Number(rawInput):n))}/></label>)}</div></fieldset>
         <p>{target.qty-total(retained)} pcs kembali ke Bagi Potongan.</p><label>Arahan mandor (opsional)<input value={mandorNote} onChange={e=>setMandorNote(e.target.value)}/></label></section>:<>
       {!canRedistribute&&<div className="wip-control-hint"><AlertTriangle/><span><strong>Redistribusi belum tersedia untuk Batch Produksi ini.</strong> Hanya satu Batch Distribusi yang masih pre-sewing; batch lain sudah mempunyai bukti jahit. Koreksi fisik tetap dapat dilakukan.</span></div>}
 
@@ -135,7 +136,7 @@ export default function WipBatchControlLayer({ mode, parent, targetBatchId, onCl
           const batchChanged=batch.sizes.some((qty,index)=>qty!==values[index])
           return <article className={`${batch.id===targetBatchId?'focus':''} ${batch.locked?'locked':''}`} key={batch.id}>
             <header><div><span>BATCH {String(batch.number).padStart(2,'0')} · {batch.id}</span><strong>{total(values)} pcs</strong><small>{batch.note}</small></div>{batch.locked?<em><LockKeyhole/> {batch.lockLabel||'Terkunci'}</em>:batchChanged?<em className="changed"><Check/> Berubah</em>:<em>Pre-sewing</em>}</header>
-            <div>{parent.sizeLabels.map((size,sizeIndex)=><label key={size}><span>SIZE {size}</span><div><button disabled={batch.locked} aria-label={`Kurangi ${batch.id} Size ${size}`} onClick={()=>updateQty(batch,sizeIndex,values[sizeIndex]-1)}><Minus/></button><input disabled={batch.locked} inputMode="numeric" value={values[sizeIndex]} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>updateQty(batch,sizeIndex,Number(event.target.value.replace(/\D/g,'')))}/><button disabled={batch.locked} aria-label={`Tambah ${batch.id} Size ${size}`} onClick={()=>updateQty(batch,sizeIndex,values[sizeIndex]+1)}><Plus/></button></div><small>awal {batch.sizes[sizeIndex]}</small></label>)}</div>
+            <div>{parent.sizeLabels.map((size,sizeIndex)=><label key={size}><span>SIZE {size}</span><div><button disabled={batch.locked} aria-label={`Kurangi ${batch.id} Size ${size}`} onClick={()=>updateQty(batch,sizeIndex,values[sizeIndex]-1)}><Minus/></button><NumberEntry disabled={batch.locked} inputMode="numeric" value={values[sizeIndex]} onFocus={(event)=>event.currentTarget.select()} onValueChange={rawInput =>updateQty(batch,sizeIndex,Number(rawInput.replace(/\D/g,'')))}/><button disabled={batch.locked} aria-label={`Tambah ${batch.id} Size ${size}`} onClick={()=>updateQty(batch,sizeIndex,values[sizeIndex]+1)}><Plus/></button></div><small>awal {batch.sizes[sizeIndex]}</small></label>)}</div>
           </article>
         })}</div>
       </section>

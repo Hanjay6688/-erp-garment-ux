@@ -1,3 +1,4 @@
+import NumberEntry from '../../src/components/NumberEntry'
 import RecordTable from './RecordTable'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useAuth } from './auth/AuthProvider'
@@ -209,7 +210,7 @@ function PocketWorkspace() {
       {stale && <p role="alert">Stok roll sudah berubah. Pilih ulang roll dan periksa angka pengurangan sebelum mengesahkan.</p>}
       <div className="initial-import-toolbar">
         <label>Cara mencatat<select aria-label="Cara mencatat" disabled={locked} value={mode} onChange={e => { setMode(e.target.value); setAmount('') }}><option value="REMAINING">Isi sisa roll di gudang</option><option value="USED">Isi jumlah yang dikeluarkan</option></select></label>
-        <label>{mode === 'REMAINING' ? 'Sisa yang masih terlihat' : 'Jumlah keluar'}{selected ? ` (${selected.unit_code})` : ''}<input aria-label="Jumlah kain kantong" inputMode="decimal" disabled={locked} value={amount} onChange={e => setAmount(e.target.value)}/></label>
+        <label>{mode === 'REMAINING' ? 'Sisa yang masih terlihat' : 'Jumlah keluar'}{selected ? ` (${selected.unit_code})` : ''}<NumberEntry aria-label="Jumlah kain kantong" inputMode="decimal" disabled={locked} value={amount} onValueChange={rawInput => setAmount(rawInput)}/></label>
         <label>Tanggal pengurangan<input aria-label="Tanggal pengurangan" type="date" disabled={locked} value={date} onChange={e => setDate(e.target.value)}/></label>
         <label>Catatan<input aria-label="Catatan kain kantong" maxLength={1000} disabled={locked} value={reason} onChange={e => setReason(e.target.value)}/></label>
       </div>

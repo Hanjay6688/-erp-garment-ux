@@ -1,3 +1,4 @@
+import NumberEntry from '../../src/components/NumberEntry'
 import RecordTable from './RecordTable'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useAuth } from './auth/AuthProvider'
@@ -102,7 +103,7 @@ export default function CuttingFabricReturnPanel({ source, parentReady, onCommit
       {current ? <div className="cpick-table-wrap"><RecordTable aria-label="Roll kain kembali"><thead><tr><th>Roll</th><th>Bahan</th><th>Sisa dicatat saat potong</th><th>Kain kembali</th><th>Nilai</th></tr></thead><tbody>{data.rolls.map(r => {
         const value = qty[r.cuttingGroupRollId] ?? '', m = micro(value)
         return <tr key={r.cuttingGroupRollId}><th>{r.rollNumber}</th><td>{r.materialSku}{r.materialName ? ` · ${r.materialName}` : ''}</td><td>{r.qtyReportedRemaining} {r.unitCode ?? ''}</td>
-          <td><input aria-label={`Kain kembali roll ${r.rollNumber}`} inputMode="decimal" value={value} disabled={disabled} onChange={e => { const v = e.target.value; setQty(c => ({ ...c, [r.cuttingGroupRollId]: v })); setReviewed(false) }}/></td>
+          <td><NumberEntry aria-label={`Kain kembali roll ${r.rollNumber}`} inputMode="decimal" value={value} disabled={disabled} onValueChange={rawInput => { const v = rawInput; setQty(c => ({ ...c, [r.cuttingGroupRollId]: v })); setReviewed(false) }}/></td>
           <td>{m !== null && m > 0n ? rupiah(returnValueCents(value, r.unitCost)) : '—'}</td></tr>
       })}</tbody><tfoot><tr><th colSpan={4}>Biaya PO berkurang</th><th>{rupiah(totalCents)}</th></tr></tfoot></RecordTable></div> : null}
       <label>Tanggal & jam kain kembali (WIB)<input type="datetime-local" aria-label="Tanggal dan jam kain kembali" value={returnedAt} disabled={disabled} onChange={e => { setReturnedAt(e.target.value); setReviewed(false) }}/></label>

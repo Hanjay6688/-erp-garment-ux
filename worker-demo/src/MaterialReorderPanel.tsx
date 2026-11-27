@@ -1,3 +1,4 @@
+import NumberEntry from '../../src/components/NumberEntry'
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { useAuth } from './auth/AuthProvider'
 import { isConnectedRuntime } from './config/runtime'
@@ -269,7 +270,7 @@ function Row({ r, type, windowDays, level, canManage, locked, writing, draft, no
     {canManage && !draft ? <button type="button" disabled={locked} onClick={onOpen}>{fabric ? 'Atur lama kirim' : 'Atur batas minimum'}</button> : null}
     {canManage && draft ? <form className="cfr-manual" onSubmit={e => { e.preventDefault(); onSave() }}>
       {fabric ? <fieldset disabled={locked}><legend>Lama kirim</legend>
-        <label>Lama kirim (hari)<input inputMode="decimal" aria-label="Lama kirim (hari)" maxLength={6} value={draft.lead} onChange={e => onDraft({ lead: e.target.value })}/>
+        <label>Lama kirim (hari)<NumberEntry inputMode="decimal" aria-label="Lama kirim (hari)" maxLength={6} value={draft.lead} onValueChange={rawInput => onDraft({ lead: rawInput })}/>
           <small>Berapa hari dari pesan ke supplier sampai kain diterima. Kosong = rumus tidak dihitung.</small></label>
         <label>Aturan kain yang akan dipakai<select aria-label="Aturan kain yang akan dipakai" value={draft.fabricRule??''}
           onChange={e=>onDraft({fabricRule:e.target.value as FabricRule|''})}>
@@ -282,16 +283,16 @@ function Row({ r, type, windowDays, level, canManage, locked, writing, draft, no
           {' '}{draft.fabricRule==='LEGACY_MINIMUM'?'Angka ini akan menjadi minimum yang dipilih. Perubahan referensi sesudahnya tidak mengubah pilihan ini.':draft.fabricRule==='FORMULA'?'Hanya rumus yang akan mengatur pengingat kain ini.':'Mengubah lama kirim mempertahankan aturan dan minimum yang sudah dipilih.'}</p>
         {reason}{check}{actions}
       </fieldset> : <fieldset disabled={locked}><legend>Batas minimum</legend>
-        <label>{moqLabel}<input inputMode="decimal" aria-label={moqLabel} maxLength={18} value={draft.moq} onChange={e => onDraft({ moq: e.target.value })}/>
+        <label>{moqLabel}<NumberEntry inputMode="decimal" aria-label={moqLabel} maxLength={18} value={draft.moq} onValueChange={rawInput => onDraft({ moq: rawInput })}/>
           <small>Jumlah pesan minimal ke supplier. Hanya untuk pesanan, tidak mengubah batas minimum. Kosong boleh.</small></label>
-        <label>Lama kirim dari Cina (hari)<input inputMode="decimal" aria-label="Lama kirim dari Cina (hari)" maxLength={6} value={draft.lead}
-          onChange={e => onDraft({ lead: e.target.value })}/><small>Berapa hari dari pesan sampai aksesori diterima.</small></label>
-        <label>{usageLabel}<input inputMode="decimal" aria-label={usageLabel} maxLength={18} value={draft.usageMonth} onChange={e => onDraft({ usageMonth: e.target.value })}/>
+        <label>Lama kirim dari Cina (hari)<NumberEntry inputMode="decimal" aria-label="Lama kirim dari Cina (hari)" maxLength={6} value={draft.lead}
+          onValueChange={rawInput => onDraft({ lead: rawInput })}/><small>Berapa hari dari pesan sampai aksesori diterima.</small></label>
+        <label>{usageLabel}<NumberEntry inputMode="decimal" aria-label={usageLabel} maxLength={18} value={draft.usageMonth} onValueChange={rawInput => onDraft({ usageMonth: rawInput })}/>
           <small>Perkiraan Bos. Pemakaian nyata dari ERP: {measured} per hari ({formatReorderWhole(windowDays)} hari terakhir), hanya pembanding.</small></label>
-        <label>Cadangan untuk kiriman telat (hari)<input inputMode="decimal" aria-label="Cadangan untuk kiriman telat (hari)" maxLength={6} value={draft.buffer}
-          onChange={e => onDraft({ buffer: e.target.value })}/><small>Tambahan hari kalau kiriman terlambat. 0 boleh.</small></label>
+        <label>Cadangan untuk kiriman telat (hari)<NumberEntry inputMode="decimal" aria-label="Cadangan untuk kiriman telat (hari)" maxLength={6} value={draft.buffer}
+          onValueChange={rawInput => onDraft({ buffer: rawInput })}/><small>Tambahan hari kalau kiriman terlambat. 0 boleh.</small></label>
         <div className="cfr-source" data-cmr="draft-estimate">{accessoryEstimateLines(accessoryNumbersOfDraft(draft), r.unitCode).map(line => <p key={line}>{line}</p>)}</div>
-        <label>{minimumLabel}<input inputMode="decimal" aria-label={minimumLabel} maxLength={18} value={draft.manual} onChange={e => onDraft({ manual: e.target.value })}/>
+        <label>{minimumLabel}<NumberEntry inputMode="decimal" aria-label={minimumLabel} maxLength={18} value={draft.manual} onValueChange={rawInput => onDraft({ manual: rawInput })}/>
           <small>Kalau diketik, angka ini dipakai dan menggantikan hitungan. Kosong = pakai hitungan. 0 = tidak pernah diingatkan.</small></label>
         {reason}{check}{actions}
       </fieldset>}

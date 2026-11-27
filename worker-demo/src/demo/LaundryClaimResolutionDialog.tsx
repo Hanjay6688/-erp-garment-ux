@@ -1,3 +1,4 @@
+import NumberEntry from '../../../src/components/NumberEntry'
 import { useState } from 'react'
 import { ShieldCheck } from 'lucide-react'
 import { laundryDigits, laundryOutstandingSizes, type LaundryClaim, type LaundryClaimResolution, type LaundryDelivery } from './laundryModel'
@@ -33,8 +34,8 @@ export function LaundryClaimResolutionDialog({delivery,claim,used,onClose,onSave
       </select></label>
       {claim.type!=='BS'&&<fieldset className="laundry-claim-sizes"><legend>Ukuran yang diselesaikan</legend>
         <div className="demo-operation-fields">{delivery.sizeLabels.map((size,index)=><label key={size}>Ukuran {size}
-          <input aria-label={'Jumlah selesai ukuran '+size} inputMode="numeric" placeholder="0" disabled={!outside[index]}
-            value={sizes[index]} onChange={event=>setSizes(current=>current.map((item,i)=>i===index?laundryDigits(event.target.value,outside[i]):item))}/>
+          <NumberEntry aria-label={'Jumlah selesai ukuran '+size} inputMode="numeric" placeholder="0" disabled={!outside[index]}
+            value={sizes[index]} onValueChange={rawInput =>setSizes(current=>current.map((item,i)=>i===index?laundryDigits(rawInput,outside[i]):item))}/>
           <small>{outside[index]} pcs masih di luar</small></label>)}</div><strong>{chosen} dari {claim.qty} pcs</strong>
       </fieldset>}
       <div className="demo-operation-facts"><article><span>{kind==='CREDIT'?'Kredit siap dipakai':'Barang pengganti masuk antrean'}</span>

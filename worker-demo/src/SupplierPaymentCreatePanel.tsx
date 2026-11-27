@@ -1,3 +1,4 @@
+import NumberEntry from '../../src/components/NumberEntry'
 import {useCallback,useEffect,useMemo,useRef,useState}from'react'
 import {useAuth}from'./auth/AuthProvider'
 import {isConnectedRuntime}from'./config/runtime'
@@ -61,7 +62,7 @@ export default function SupplierPaymentCreatePanel({source,locked,inputs,current
   </>:null}
   {data?.eligible&&data.can_create&&canCreate?<form aria-label="Pembayaran supplier baru" onSubmit={e=>{e.preventDefault();save()}} onChange={()=>setReview(false)}><fieldset className="cproc-fieldset" disabled={disabled}>
    <p>Pembayaran disahkan langsung: kas/bank berkurang dan sisa utang turun pada tanggal bayar. Bila sisa utang berubah sebelum disahkan, pembayaran ditolak dan formulir dimuat ulang. Nomor pembayaran dibuat server.</p>
-   <div className="cproc-grid"><label>Nominal dibayar<input aria-label="Nominal pembayaran supplier baru" inputMode="decimal" value={amount} onChange={e=>setAmount(e.target.value)}/></label><label>Waktu pembayaran · WIB<input aria-label="Waktu pembayaran supplier baru WIB" type="datetime-local" value={at} onChange={e=>setAt(e.target.value)}/></label></div>
+   <div className="cproc-grid"><label>Nominal dibayar<NumberEntry aria-label="Nominal pembayaran supplier baru" inputMode="decimal" value={amount} onValueChange={rawInput =>setAmount(rawInput)}/></label><label>Waktu pembayaran · WIB<input aria-label="Waktu pembayaran supplier baru WIB" type="datetime-local" value={at} onChange={e=>setAt(e.target.value)}/></label></div>
    {amount&&!validAmount?<p role="alert">Isi nominal positif dengan maksimal dua desimal, paling banyak sisa utang.</p>:null}
    {at&&!validTime?<p role="alert">Waktu pembayaran harus sesudah barang diterima dan tidak di masa depan.</p>:null}
    <label>Cari kas atau rekening<input aria-label="Cari rekening pembayaran supplier baru" maxLength={120} value={search} onChange={e=>setSearch(e.target.value)} onKeyDown={e=>{if(e.key==='Enter'){e.preventDefault();query.current={bank_q:search.trim(),bank_offset:0};void loadRef.current()}}}/></label><button type="button" onClick={()=>{query.current={bank_q:search.trim(),bank_offset:0};void loadRef.current()}}>Cari rekening pembayaran supplier</button>

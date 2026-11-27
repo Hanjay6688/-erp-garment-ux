@@ -1,3 +1,4 @@
+import NumberEntry from '../../src/components/NumberEntry'
 import {useTransactionSource} from './TransactionSourceNavigation'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useAuth } from './auth/AuthProvider'
@@ -122,10 +123,10 @@ function CountPage({initialId}:{initialId:string|null}){
     </div>
     {form.lines.map((entry,index)=>{const line=checkedByKey.get(sourceKey(entry.source)),positive=line&&countPositive(line.qty_signed),label=entry.source.roll_number??`${entry.source.material_name} ${entry.source.material_sku}`;return <article className="cproc-item cmat-count-input" key={sourceKey(entry.source)}>
      <h3>{label} · {entry.source.material_sku}</h3>
-     <label>Jumlah fisik ({entry.source.unit_code})<input aria-label={form.lines.length===1?'Jumlah fisik bahan':`Jumlah fisik ${label}`} inputMode="decimal" required value={entry.qty} onChange={e=>updateLine(index,{qty:e.target.value})}/></label>
+     <label>Jumlah fisik ({entry.source.unit_code})<NumberEntry aria-label={form.lines.length===1?'Jumlah fisik bahan':`Jumlah fisik ${label}`} inputMode="decimal" required value={entry.qty} onValueChange={rawInput =>updateLine(index,{qty:rawInput})}/></label>
      {form.lines.length>1?<button type="button" aria-label={`Lepas ${label} dari pemeriksaan`} onClick={()=>{setPreview(null);setForm({...form,lines:form.lines.filter((_,i)=>i!==index)})}}>Lepas barang</button>:null}
      {line?<div className="cproc-review"><p>Saldo pada waktu hitung <strong>{numberText(line.system_qty)} {entry.source.unit_code}</strong></p><p>Jumlah fisik <strong>{numberText(line.physical_qty)} {entry.source.unit_code}</strong> · selisih <strong>{numberText(line.qty_signed)} {entry.source.unit_code}</strong></p>
-      {positive?(finance?<label>Harga satuan barang ditemukan (Rp)<input aria-label={form.lines.length===1?'Harga satuan hasil hitung':`Harga satuan hasil hitung ${label}`} inputMode="decimal" value={entry.cost} onChange={e=>updateLine(index,{cost:e.target.value})}/>{ambiguousThousands(entry.cost)?<span role="alert">{thousandsWarning('Harga',entry.cost)}</span>:null}</label>:<p role="alert">Barang tambahan memerlukan harga dari petugas yang memiliki hak nilai persediaan.</p>):null}
+      {positive?(finance?<label>Harga satuan barang ditemukan (Rp)<NumberEntry aria-label={form.lines.length===1?'Harga satuan hasil hitung':`Harga satuan hasil hitung ${label}`} inputMode="decimal" value={entry.cost} onValueChange={rawInput =>updateLine(index,{cost:rawInput})}/>{ambiguousThousands(entry.cost)?<span role="alert">{thousandsWarning('Harga',entry.cost)}</span>:null}</label>:<p role="alert">Barang tambahan memerlukan harga dari petugas yang memiliki hak nilai persediaan.</p>):null}
       {!countNonzero(line.qty_signed)?<p>Jumlah sudah sesuai. Hasil hitung tetap disimpan tanpa mutasi penyesuaian.</p>:null}
      </div>:null}
     </article>})}

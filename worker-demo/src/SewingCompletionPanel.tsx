@@ -1,3 +1,4 @@
+import NumberEntry from '../../src/components/NumberEntry'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useAuth } from './auth/AuthProvider'
 import { hasPermission } from './auth/accessCatalog'
@@ -145,9 +146,9 @@ export default function SewingCompletionPanel({ groupId, groupNumber, groupVersi
             {changed && r && n
               ? <span>Tarif lama PO: {perPcsText(r)} · Tarif baru: {perPcsText(n)}</span>
               : <span>{r ? `Upah per pcs: ${perPcsText(r)}` : 'Tarif per pcs: belum diketahui untuk waktu itu.'}</span>}
-            <label className="cwip-sewing-qty"><span>SELESAI DIJAHIT</span><span><input aria-label={`Jumlah selesai dijahit ${groupNumber} SKU ${k.sku}`} inputMode="numeric"
+            <label className="cwip-sewing-qty"><span>SELESAI DIJAHIT</span><span><NumberEntry aria-label={`Jumlah selesai dijahit ${groupNumber} SKU ${k.sku}`} inputMode="numeric"
               value={waveQty[k.skuId] ?? ''} disabled={locked || k.maxQty === 0} onFocus={e => e.currentTarget.select()}
-              onChange={e => { const v = e.target.value.replace(/[^0-9]/g, ''); setWaveQty(q => ({ ...q, [k.skuId]: v })); setReviewed(false) }}/><b>/ {k.maxQty} pcs</b></span></label>
+              onValueChange={rawInput => { const v = rawInput.replace(/[^0-9]/g, ''); setWaveQty(q => ({ ...q, [k.skuId]: v })); setReviewed(false) }}/><b>/ {k.maxQty} pcs</b></span></label>
           </li>
         })}</ul>
       </> : null}
@@ -160,8 +161,8 @@ export default function SewingCompletionPanel({ groupId, groupNumber, groupVersi
           : dated ? `Upah mandor per pcs pada waktu jahit yang diisi (tarif yang berlaku saat itu; dikunci untuk PO ini saat pertama kali disimpan): ${perPcsText(rates)}.`
           : physicalIso === null ? 'Isi waktu selesai jahit untuk melihat tarif yang berlaku saat itu.'
           : 'Belum ada tarif lengkap untuk mandor ini pada waktu jahit itu. Isi komponen kerja model dan tarifnya di Master Data → Mandor → Tarif upah mandor, atau periksa waktunya.'}</p>
-        <label className="cwip-sewing-qty"><span>SELESAI DIJAHIT</span><span><input aria-label={`Jumlah selesai dijahit ${groupNumber}`} inputMode="numeric" value={qty} disabled={locked}
-          onFocus={e => e.currentTarget.select()} onChange={e => { setQty(e.target.value.replace(/[^0-9]/g, '')); setReviewed(false) }}/><b>/ {data.maxQty} pcs</b></span></label></>}
+        <label className="cwip-sewing-qty"><span>SELESAI DIJAHIT</span><span><NumberEntry aria-label={`Jumlah selesai dijahit ${groupNumber}`} inputMode="numeric" value={qty} disabled={locked}
+          onFocus={e => e.currentTarget.select()} onValueChange={rawInput => { setQty(rawInput.replace(/[^0-9]/g, '')); setReviewed(false) }}/><b>/ {data.maxQty} pcs</b></span></label></>}
         <label>Waktu selesai jahit (WIB)<input type="datetime-local" aria-label={`Waktu selesai jahit ${groupNumber}`} value={at} disabled={locked} onChange={e => { setAt(e.target.value); setChoice(null); setReviewed(false) }}/></label>
         {decision?.kind === 'ASK' ? <fieldset className="cwip-sewing-rate-choice" aria-label={`Pilih tarif ${groupNumber}`}>
           <legend>Tarif untuk catatan ini (wajib dipilih)</legend>

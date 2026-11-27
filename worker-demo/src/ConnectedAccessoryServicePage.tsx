@@ -1,3 +1,4 @@
+import NumberEntry from '../../src/components/NumberEntry'
 import RecordTable from './RecordTable'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useAuth } from './auth/AuthProvider'
@@ -251,8 +252,8 @@ function RecordForm({ data, locked, canStock, send, search }: { data: AccessoryS
     <option value="">Pilih barang</option>{lots.filter(filter).map(l => <option key={l.id} value={l.id}>{lotLabel(l)}</option>)}</select></label>
   const choice = (key: string, label: string, options: [string, string][]) => <label>{label}<select aria-label={label} disabled={locked} value={f[key] ?? ''} onChange={e => set({ [key]: e.target.value })}>
     <option value="">Pilih</option>{options.map(([v, t]) => <option key={v} value={v}>{t}</option>)}</select></label>
-  const input = (key: string, label: string, mode: 'numeric' | 'decimal' | 'text' = 'text') => <label>{label}<input aria-label={label} inputMode={mode} maxLength={200}
-    disabled={locked} value={f[key] ?? ''} onChange={e => set({ [key]: e.target.value })}/></label>
+  const input = (key: string, label: string, mode: 'numeric' | 'decimal' | 'text' = 'text') => <label>{label}<NumberEntry aria-label={label} inputMode={mode} maxLength={200}
+    disabled={locked} value={f[key] ?? ''} onValueChange={rawInput => set({ [key]: rawInput })}/></label>
   return <section className="panel initial-import-advances" aria-label="Catat transaksi aksesori">
     <h2>Catat transaksi</h2>
     <label>Jenis transaksi<select aria-label="Jenis transaksi aksesori" disabled={locked} value={action} onChange={e => { setAction(e.target.value as ServiceAction); setF({ reason: f.reason ?? '' }); setLines([emptyLine()]); setReview(false) }}>
@@ -299,7 +300,7 @@ function RecordForm({ data, locked, canStock, send, search }: { data: AccessoryS
       <tbody>{lines.map((l, i) => <tr key={i}>
         <td><select aria-label={`Aksesori baris ${i + 1}`} disabled={locked} value={l.material_id} onChange={e => setLine(i, { material_id: e.target.value })}>
           <option value="">Pilih aksesori</option>{[...materials.entries()].map(([id, name]) => <option key={id} value={id}>{name}</option>)}</select></td>
-        <td><input aria-label={`Jumlah baris ${i + 1}`} inputMode="numeric" disabled={locked} value={l.qty} onChange={e => setLine(i, { qty: e.target.value })}/></td>
+        <td><NumberEntry aria-label={`Jumlah baris ${i + 1}`} inputMode="numeric" disabled={locked} value={l.qty} onValueChange={rawInput => setLine(i, { qty: rawInput })}/></td>
         {action === 'INTERNAL_USE' && <>
           <td><input aria-label={`Waktu pakai baris ${i + 1}`} type="datetime-local" step="1" disabled={locked} value={l.at} onChange={e => setLine(i, { at: e.target.value })}/></td>
           <td><select aria-label={`Tujuan baris ${i + 1}`} disabled={locked} value={l.purpose} onChange={e => setLine(i, { purpose: e.target.value as Purpose })}>
@@ -431,7 +432,7 @@ function Settings({ data, locked, send }: { data: AccessoryServiceWorkspace; loc
         {key === 'ACC-DEC06' && <>{accountSelect('gain_account_id', 'Akun pembulatan naik', ['REVENUE', 'EXPENSE'])}{accountSelect('loss_account_id', 'Akun pembulatan turun', ['REVENUE', 'EXPENSE'])}</>}
         {key === 'ACC-DEC07' && <><label>Persetujuan owner<select aria-label="Persetujuan owner biaya aksesori" disabled={locked} value={fields.approval_mode ?? ''} onChange={e => set({ approval_mode: e.target.value })}>
             <option value="">Pilih</option><option value="NONE">Tanpa persetujuan owner (sementara)</option><option value="ABOVE">Perlu persetujuan di atas batas nilai</option></select></label>
-          {fields.approval_mode === 'ABOVE' && <label>Persetujuan owner di atas nilai (Rp)<input aria-label="Batas persetujuan owner" inputMode="decimal" disabled={locked} value={fields.owner_approval_above ?? ''} onChange={e => set({ owner_approval_above: e.target.value })}/></label>}
+          {fields.approval_mode === 'ABOVE' && <label>Persetujuan owner di atas nilai (Rp)<NumberEntry aria-label="Batas persetujuan owner" inputMode="decimal" disabled={locked} value={fields.owner_approval_above ?? ''} onValueChange={rawInput => set({ owner_approval_above: rawInput })}/></label>}
           <label>Petugas area {'{lokasi: [pengguna]}'}<input aria-label="Petugas area" disabled={locked} value={fields.zone_users ?? ''} onChange={e => set({ zone_users: e.target.value })}/></label>
           <p>Pengguna: {(data.users ?? []).map(u => `${u.name} (${u.id})`).join(', ') || '—'}</p></>}
         {key === 'ERP-DEC02' && <label>Kategori gratis mandor Special<select aria-label="Kategori gratis" multiple disabled={locked}

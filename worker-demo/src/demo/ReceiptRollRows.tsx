@@ -1,3 +1,4 @@
+import NumberEntry from '../../../src/components/NumberEntry'
 import { useId } from 'react'
 import { Icon } from '../components/AppIcon'
 import { formatQuantity, parseDecimal } from './format'
@@ -23,9 +24,9 @@ export function ReceiptRollRows({ rows, unit, onChange, onRemove, byNumber = fal
       return <div className="roll-entry-row" key={row.key}>
         <span className="roll-number">{String(index + 1).padStart(2, '0')}</span>
         <div><label htmlFor={id}>{byNumber ? `Panjang (${unit})` : unitLabel + ' pada gulung'}</label>
-          <div className="yard-input"><input id={id} aria-label={byNumber ? `Panjang roll ${index + 1}` : undefined}
+          <div className="yard-input"><NumberEntry id={id} aria-label={byNumber ? `Panjang roll ${index + 1}` : undefined}
             data-grid-row={index} data-grid-col={0} inputMode="decimal" value={row.length} placeholder="0"
-            onChange={event => onChange(index, event.target.value)}/><span>{unit}</span></div></div>
+            onValueChange={rawInput => onChange(index, rawInput)}/><span>{unit}</span></div></div>
         <small>{length > 0 ? `${formatQuantity(length, byNumber ? 6 : undefined)} ${unitName} siap diterima` : row.length.trim() && byNumber ? 'Periksa panjang' : 'Belum diisi'}</small>
         <button type="button" className="remove-roll" aria-label={`Hapus roll ${index + 1}`} disabled={rows.length === 1}
           onClick={() => onRemove(index)}><Icon name="trash"/></button>

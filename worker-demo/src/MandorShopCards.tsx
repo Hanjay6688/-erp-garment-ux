@@ -1,3 +1,4 @@
+import NumberEntry from '../../src/components/NumberEntry'
 import { useEffect, useId, useRef, useState } from 'react'
 import { formatCp6WibDateTime } from './cp6BusinessTime'
 import { normalizeClientError } from './lib/clientError'
@@ -96,8 +97,8 @@ export default function MandorShopCards(props: MandorShopCardsProps) {
       <h3>{form.action === 'RELEASE' ? 'Lepas' : 'Pasang'} nota {selected.number}</h3>
       <p>{props.payrollNumber} · {data?.period_start} sampai {data?.period_end}</p>
       <fieldset disabled={!writable}>
-        {form.action === 'RESERVE' ? <><label>Nominal potongan<input aria-label="Nominal potongan belanja" inputMode="decimal" maxLength={21} value={form.amount}
-          onChange={event => setForm({ ...form, amount: event.target.value, reviewed: false })}/></label>
+        {form.action === 'RESERVE' ? <><label>Nominal potongan<NumberEntry aria-label="Nominal potongan belanja" inputMode="decimal" maxLength={21} value={form.amount}
+          onValueChange={rawInput => setForm({ ...form, amount: rawInput, reviewed: false })}/></label>
           {cents !== null && cents > 0n && cents <= free && cents <= net ? <p>Perkiraan upah bersih setelah dipasang: <strong>{money(mandorShopAmount(net - cents))}</strong></p>
             : <p role="alert">Isi nominal positif, paling banyak sisa yang belum dipasang dan kapasitas payroll.</p>}</>
           : assigned ? <p>Potongan {money(assigned.amount)} dilepas dari payroll ini.</p> : null}

@@ -1,3 +1,4 @@
+import NumberEntry from '../../../src/components/NumberEntry'
 import { useState, type FormEvent } from 'react'
 import { ArrowRight, FilePlus2, ReceiptText, ShieldCheck, Undo2, WalletCards } from 'lucide-react'
 import { readRupiahInput } from '../moneyInput'
@@ -85,9 +86,9 @@ export function LaundryClaims({delivery,deliveries,update}:{delivery:LaundryDeli
           {stuck>0&&(['STUCK','MISSING'] as const).map(type=><option key={type} value={type}>{labels[type]}</option>)}
         </select></label>
         <div className="demo-operation-fields">
-          <label>Jumlah diklaim (pcs)<input required inputMode="numeric" value={draft.qty} onChange={event=>setDraft({...draft,qty:event.target.value})}/>
+          <label>Jumlah diklaim (pcs)<NumberEntry required inputMode="numeric" value={draft.qty} onValueChange={rawInput =>setDraft({...draft,qty:rawInput})}/>
             <small>{draft.type==='BS'?'Termasuk BS yang baru ditemukan di QC akhir.':`${stuck} pcs masih bisa diklaim`}</small></label>
-          <label>Nilai kompensasi (Rp)<input required={draft.type==='BS'} inputMode="decimal" placeholder="Contoh 15.000" value={draft.amount} onChange={event=>setDraft({...draft,amount:event.target.value})}/>{draft.type!=='BS'&&<small>Boleh kosong untuk penggantian barang.</small>}</label>
+          <label>Nilai kompensasi (Rp)<NumberEntry rupiahDraft required={draft.type==='BS'} inputMode="decimal" placeholder="Contoh 15.000" value={draft.amount} onValueChange={rawInput =>setDraft({...draft,amount:rawInput})}/>{draft.type!=='BS'&&<small>Boleh kosong untuk penggantian barang.</small>}</label>
         </div>
         <label>Tanggal klaim<input required type="date" max={lastWarehouseDay()} value={draft.day} onChange={event=>setDraft({...draft,day:event.target.value})}/></label>
         <label>Alasan dan kesepakatan dengan laundry<textarea required value={draft.reason} maxLength={500} onChange={event=>setDraft({...draft,reason:event.target.value})}/></label>

@@ -1,3 +1,4 @@
+import NumberEntry from '../../../src/components/NumberEntry'
 import { useState, type FormEvent } from 'react'
 import { RotateCcw } from 'lucide-react'
 import { readRupiahInput } from '../moneyInput'
@@ -48,11 +49,11 @@ export function FailedWashPanel({delivery,onRecord,onPrice}:{delivery:LaundryDel
         <p>{delivery.vendor} · <strong>{remaining} pcs</strong> masih di surat kirim {delivery.id}</p>
         <label>Posisi fisik<select value={form.custody} onChange={event=>setForm({...form,custody:event.target.value as Entry['custody']})}>
           <option value="STAY">Masih di laundry, bisa cuci ulang</option><option value="RETURN">Seluruh sisa kembali ke Jahit tanpa diproses</option></select></label>
-        <div className="demo-operation-fields"><label>Jumlah cuci gagal (pcs)<input required inputMode="numeric" disabled={form.custody==='RETURN'} value={form.custody==='RETURN'?remaining:form.qty} onChange={event=>setForm({...form,qty:event.target.value.replace(/\D/g,'').slice(0,9)})}/></label>
+        <div className="demo-operation-fields"><label>Jumlah cuci gagal (pcs)<NumberEntry required inputMode="numeric" disabled={form.custody==='RETURN'} value={form.custody==='RETURN'?remaining:form.qty} onValueChange={rawInput =>setForm({...form,qty:rawInput.replace(/\D/g,'').slice(0,9)})}/></label>
           <label>Waktu fisik (WIB)<input required type="datetime-local" min={earliest} max={lastWarehouseDay()+'T23:59'} value={form.at} onChange={event=>setForm({...form,at:event.target.value})}/></label></div>
         <label>Tarif percobaan<select value={form.pricing} onChange={event=>setForm({...form,pricing:event.target.value as Entry['pricing']})}>
           <option value="PENDING">Harga belum diketahui</option><option value="ZERO">Gratis sesuai kesepakatan (Rp0)</option><option value="ACTUAL">Isi harga aktual</option></select></label>
-        {form.pricing==='ACTUAL'&&<label>Harga aktual (Rp/pcs)<input required inputMode="decimal" value={form.rate} onChange={event=>setForm({...form,rate:event.target.value})}/></label>}
+        {form.pricing==='ACTUAL'&&<label>Harga aktual (Rp/pcs)<NumberEntry rupiahDraft required inputMode="decimal" value={form.rate} onValueChange={rawInput =>setForm({...form,rate:rawInput})}/></label>}
         <label>Alasan dan kesepakatan<textarea required minLength={4} maxLength={400} value={form.reason} onChange={event=>setForm({...form,reason:event.target.value})}/></label>
         {error&&<p role="alert">{error}</p>}
         <footer><button className="primary-btn">Simpan cuci gagal</button></footer>
@@ -68,7 +69,7 @@ export function FailedWashPanel({delivery,onRecord,onPrice}:{delivery:LaundryDel
         }
         onPrice(price.id,rate,price.day);setPrice(null)
       }}><div className="demo-operation-fields">
-        <label>Tarif aktual (Rp/pcs)<input required inputMode="decimal" value={price.raw} onChange={event=>setPrice({...price,raw:event.target.value})}/></label>
+        <label>Tarif aktual (Rp/pcs)<NumberEntry rupiahDraft required inputMode="decimal" value={price.raw} onValueChange={rawInput =>setPrice({...price,raw:rawInput})}/></label>
         <label>Tanggal tarif<input required type="date" max={lastWarehouseDay()} value={price.day} onChange={event=>setPrice({...price,day:event.target.value})}/></label>
       </div><p>Masukkan 0 jika vendor menyepakati cuci ulang gratis.</p>{error&&<p role="alert">{error}</p>}<footer><button className="primary-btn">Simpan tarif aktual</button></footer></form>
     </ReasonDialog>}

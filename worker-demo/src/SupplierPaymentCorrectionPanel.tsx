@@ -1,3 +1,4 @@
+import NumberEntry from '../../src/components/NumberEntry'
 import {useCallback,useEffect,useMemo,useRef,useState}from'react'
 import {useAuth}from'./auth/AuthProvider'
 import {isConnectedRuntime}from'./config/runtime'
@@ -66,7 +67,7 @@ export default function SupplierPaymentCorrectionPanel({source,payment,initialEd
   </>:null}
   {edit&&canCorrect&&data?.eligible?<form aria-label="Edit pembayaran supplier" onSubmit={e=>{e.preventDefault();save()}} onChange={()=>setReview(false)}><fieldset className="cproc-fieldset" disabled={disabled}>
    <p>Pembayaran lama dibalik dan pengganti dicatat dalam satu tindakan. Jika salah satu langkah ditolak, seluruh koreksi dibatalkan. Nomor pengganti dibuat server dengan jejak ke pembayaran asal.</p>
-   <div className="cproc-grid"><label>Nominal dibayar<input aria-label="Nominal koreksi pembayaran supplier" inputMode="decimal" value={amount} onChange={e=>setAmount(e.target.value)}/></label><label>Waktu pembayaran · WIB<input aria-label="Waktu koreksi pembayaran supplier WIB" type="datetime-local" value={at} onChange={e=>{setAt(e.target.value);setTimeEdited(true);setRestoredAt(null)}}/></label></div>{physical&&!validTime?<p role="alert">Waktu pembayaran tidak boleh di masa depan.</p>:null}
+   <div className="cproc-grid"><label>Nominal dibayar<NumberEntry aria-label="Nominal koreksi pembayaran supplier" inputMode="decimal" value={amount} onValueChange={rawInput =>setAmount(rawInput)}/></label><label>Waktu pembayaran · WIB<input aria-label="Waktu koreksi pembayaran supplier WIB" type="datetime-local" value={at} onChange={e=>{setAt(e.target.value);setTimeEdited(true);setRestoredAt(null)}}/></label></div>{physical&&!validTime?<p role="alert">Waktu pembayaran tidak boleh di masa depan.</p>:null}
    {maximum!==null?<p>Batas nominal pengganti {money((maximum<0n?'-':'')+((maximum<0n?-maximum:maximum)/100n).toString()+'.'+((maximum<0n?-maximum:maximum)%100n).toString().padStart(2,'0'))} sesuai pembayaran yang diganti dan sisa utang.</p>:null}
    {amount&&!validAmount?<p role="alert">Isi nominal positif dengan maksimal dua desimal, sesuai batas pengganti.</p>:null}
    <label>Cari kas atau rekening<input aria-label="Cari rekening koreksi supplier" maxLength={120} value={search} onChange={e=>setSearch(e.target.value)} onKeyDown={e=>{if(e.key==='Enter'){e.preventDefault();query.current={bank_q:search.trim(),bank_offset:0};void loadRef.current()}}}/></label><button type="button" onClick={()=>{query.current={bank_q:search.trim(),bank_offset:0};void loadRef.current()}}>Cari rekening koreksi supplier</button>

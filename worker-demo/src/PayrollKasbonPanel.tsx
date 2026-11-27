@@ -1,3 +1,4 @@
+import NumberEntry from '../../src/components/NumberEntry'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useAuth } from './auth/AuthProvider'
 import { isConnectedRuntime } from './config/runtime'
@@ -130,7 +131,7 @@ export default function PayrollKasbonPanel({ contractorId, payrollId, parentRead
       {form ? <section className="cpay-action" aria-label="Periksa kasbon">
         <h3>{form.action === 'GIVE' ? 'Beri kasbon tunai' : form.action === 'ALLOCATE' ? `Potong kasbon ${form.kasbon?.number} dari payroll ${draft?.payroll_number}` : `Batalkan kasbon ${form.kasbon?.number}`}</h3>
         <fieldset disabled={locked}>
-          {form.action !== 'CANCEL' ? <label>{form.action === 'GIVE' ? 'Nominal kasbon' : 'Nominal dipotong (0 untuk melepas)'}<input aria-label="Nominal kasbon" inputMode="decimal" value={amount} onChange={e => { setAmount(e.target.value); setReviewed(false) }} /></label> : null}
+          {form.action !== 'CANCEL' ? <label>{form.action === 'GIVE' ? 'Nominal kasbon' : 'Nominal dipotong (0 untuk melepas)'}<NumberEntry aria-label="Nominal kasbon" inputMode="decimal" value={amount} onValueChange={rawInput => { setAmount(rawInput); setReviewed(false) }} /></label> : null}
           {form.action === 'ALLOCATE' && draft ? <p>Pendapatan payroll {rupiah(draft.earnings)} · potongan sekarang {rupiah(draft.deduction_total)} · gaji bersih {rupiah(draft.net_payable)}.</p> : null}
           {form.action === 'GIVE' ? <>
             <label>Tanggal kasbon · WIB<input aria-label="Tanggal kasbon" type="date" min={data.open_from} max={data.today} value={date} onChange={e => { setDate(e.target.value); setReviewed(false) }} /></label>

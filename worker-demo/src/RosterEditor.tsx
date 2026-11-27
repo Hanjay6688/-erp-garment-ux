@@ -1,6 +1,7 @@
+import NumberEntry from '../../src/components/NumberEntry'
 import {useState} from 'react'
 import {cp6WibDateTimeInput} from './cp6BusinessTime'
-import {formatReceiptDecimal} from './procurementContract'
+import {formatReceiptDecimal,thousandsWarning} from './procurementContract'
 import type {AttendanceRead,AttendanceWorker,RosterAction} from './attendanceContract'
 import type {Json} from './types/database.preconnect'
 export default function RosterEditor({action,source,worker,disabled,cancel,submit}:{action:RosterAction;source:AttendanceRead;worker:AttendanceWorker|null;disabled:boolean;cancel:()=>void;submit:(document:Json)=>void}){
@@ -24,8 +25,8 @@ export default function RosterEditor({action,source,worker,disabled,cancel,submi
    {!active?<label>Tanggal terakhir bekerja<input aria-label="Tanggal berhenti pekerja" type="date" min={joined} max={today} value={left} onChange={e=>setLeft(e.target.value)}/></label>:null}
    {reactivating?<label>Tanggal bekerja kembali<input aria-label="Tanggal kembali pekerja" type="date" max={today} value={restart} onChange={e=>setRestart(e.target.value)}/></label>:null}
   </div>:null}
-  {create||rateOnly?<div className="catt-fields"><label>{create?'Tarif harian awal · Rp':'Tarif harian baru · Rp'}<input aria-label="Tarif harian pekerja" inputMode="decimal" value={rate} placeholder="Contoh: 75000" onChange={e=>setRate(e.target.value)}/></label><label>Berlaku mulai tanggal<input aria-label="Tarif berlaku mulai" type="date" max={create?joined:undefined} value={effective} onChange={e=>setEffective(e.target.value)}/></label></div>:null}
-  {rate&&thousandsLike?<p role="alert">Tarif {rate.trim()} akan terbaca sebagai desimal, bukan ribuan. Tulis tanpa titik atau koma, misalnya {rate.trim().replace(/[.,]/,'')}.</p>:rate&&!validRate?<p role="alert">Isi tarif dengan angka tanpa pemisah ribuan. Desimal boleh memakai koma atau titik, paling banyak enam angka.</p>:null}
+  {create||rateOnly?<div className="catt-fields"><label>{create?'Tarif harian awal · Rp':'Tarif harian baru · Rp'}<NumberEntry aria-label="Tarif harian pekerja" inputMode="decimal" value={rate} placeholder="Contoh: 75000" onValueChange={rawInput =>setRate(rawInput)}/></label><label>Berlaku mulai tanggal<input aria-label="Tarif berlaku mulai" type="date" max={create?joined:undefined} value={effective} onChange={e=>setEffective(e.target.value)}/></label></div>:null}
+  {rate&&thousandsLike?<p role="alert">{thousandsWarning('Tarif',rate)}</p>:rate&&!validRate?<p role="alert">Gunakan koma untuk desimal, paling banyak enam angka. Titik ribuan muncul otomatis.</p>:null}
   {!rateOnly?<label>Catatan · opsional<textarea aria-label="Catatan pekerja" value={notes} maxLength={2000} onChange={e=>setNotes(e.target.value)}/></label>:null}
   <label>Alasan perubahan<textarea aria-label="Alasan perubahan pekerja" value={reason} maxLength={1000} onChange={e=>setReason(e.target.value)}/></label>
   <div className="catt-review">{create||rateOnly?<p>{validRate?<><strong>Rp{formatReceiptDecimal(exactRate)} / hari</strong> · mulai {effective||'pilih tanggal'}</>:'Isi tarif awal secara sengaja, termasuk jika nilainya nol.'}</p>:<p>{active?reactivating?`Bekerja kembali mulai ${restart}.`:'Data pekerja aktif akan diperbarui.':`Berhenti setelah ${left}.`}</p>}<p>Riwayat tarif dan masa kerja sebelumnya tetap tercatat.</p></div>

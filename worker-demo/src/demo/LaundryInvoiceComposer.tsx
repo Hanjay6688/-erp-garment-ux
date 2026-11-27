@@ -1,3 +1,4 @@
+import NumberEntry from '../../../src/components/NumberEntry'
 import { useEffect, useState } from 'react'
 import { ArrowRight, Check, Plus, ReceiptText, Waves, X } from 'lucide-react'
 import { PayableInvoiceDesk, useInvoiceWork, type DeskList } from './PayableInvoiceDesk'
@@ -76,8 +77,8 @@ export function LaundryContractComposer({vendor,deliveries,update,onClose,onSave
                   <header className="demo-ops-header"><div><strong>{source?unbilledLaundryPieces(deliveries,source)+' pcs tersedia':'Sumber perlu diperiksa'}</strong><span>{source?.model}</span><small>{line.delivery}</small></div>
                     <button type="button" className="soft-btn invoice-remove" aria-label={'Lepas '+line.delivery} onClick={()=>change({lines:draft.lines.filter(row=>row!==line)})}><X aria-hidden="true"/> Lepas</button></header>
                   <div className="demo-operation-fields">
-                    <label>Qty ditagih (pcs)<input inputMode="numeric" required value={line.qty} onChange={event=>edit(line.delivery,{qty:event.target.value.replace(/\D/g,'').slice(0,9)})}/></label>
-                    <label>Harga aktual (Rp/pcs)<input inputMode="decimal" required value={line.rate} onChange={event=>edit(line.delivery,{rate:event.target.value})}/></label>
+                    <label>Qty ditagih (pcs)<NumberEntry inputMode="numeric" required value={line.qty} onValueChange={rawInput =>edit(line.delivery,{qty:rawInput.replace(/\D/g,'').slice(0,9)})}/></label>
+                    <label>Harga aktual (Rp/pcs)<NumberEntry rupiahDraft inputMode="decimal" required value={line.rate} onValueChange={rawInput =>edit(line.delivery,{rate:rawInput})}/></label>
                     <label className="invoice-line-service">Jenis layanan<select required value={line.process} onChange={event=>edit(line.delivery,{process:event.target.value})}><option value="">Pilih layanan</option>{laundryProcesses.map(service=><option key={service}>{service}</option>)}</select></label>
                   </div>
                 </article>

@@ -1,3 +1,4 @@
+import NumberEntry from '../../src/components/NumberEntry'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useAuth } from './auth/AuthProvider'
 import { isConnectedRuntime } from './config/runtime'
@@ -318,7 +319,7 @@ function NumberField({ label, name, hint, value, min, max, disabled, onChange }:
   label: string; name: string; hint: string; value: string; min: number; max: number; disabled: boolean; onChange: (value: string) => void
 }) {
   return <label className="cwa-field"><span>{label}</span>
-    <input type="number" inputMode="numeric" aria-label={name} min={min} max={max} step={1} value={value} disabled={disabled} onChange={e => onChange(e.target.value)}/>
+    <NumberEntry type="number" inputMode="numeric" aria-label={name} min={min} max={max} step={1} value={value} disabled={disabled} onValueChange={rawInput => onChange(rawInput)}/>
     <small>{hint}</small></label>
 }
 

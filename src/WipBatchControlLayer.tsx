@@ -1,3 +1,4 @@
+import NumberEntry from './components/NumberEntry'
 import { useMemo, useState } from 'react'
 import {
   AlertTriangle, ArrowRight, Check, LockKeyhole, Minus, Plus,
@@ -128,7 +129,7 @@ export default function WipBatchControlLayer({ mode, parent, targetBatchId, onCl
           const batchChanged=batch.sizes.some((qty,index)=>qty!==values[index])
           return <article className={`${batch.id===targetBatchId?'focus':''} ${batch.locked?'locked':''}`} key={batch.id}>
             <header><div><span>BATCH {String(batch.number).padStart(2,'0')} · {batch.id}</span><strong>{total(values)} pcs</strong><small>{batch.note}</small></div>{batch.locked?<em><LockKeyhole/> {batch.lockLabel||'Terkunci'}</em>:batchChanged?<em className="changed"><Check/> Berubah</em>:<em>Pre-sewing</em>}</header>
-            <div>{parent.sizeLabels.map((size,sizeIndex)=><label key={size}><span>SIZE {size}</span><div><button disabled={batch.locked} aria-label={`Kurangi ${batch.id} Size ${size}`} onClick={()=>updateQty(batch,sizeIndex,values[sizeIndex]-1)}><Minus/></button><input disabled={batch.locked} inputMode="numeric" value={values[sizeIndex]} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>updateQty(batch,sizeIndex,Number(event.target.value.replace(/\D/g,'')))}/><button disabled={batch.locked} aria-label={`Tambah ${batch.id} Size ${size}`} onClick={()=>updateQty(batch,sizeIndex,values[sizeIndex]+1)}><Plus/></button></div><small>awal {batch.sizes[sizeIndex]}</small></label>)}</div>
+            <div>{parent.sizeLabels.map((size,sizeIndex)=><label key={size}><span>SIZE {size}</span><div><button disabled={batch.locked} aria-label={`Kurangi ${batch.id} Size ${size}`} onClick={()=>updateQty(batch,sizeIndex,values[sizeIndex]-1)}><Minus/></button><NumberEntry disabled={batch.locked} inputMode="numeric" value={values[sizeIndex]} onFocus={(event)=>event.currentTarget.select()} onValueChange={rawInput =>updateQty(batch,sizeIndex,Number(rawInput.replace(/\D/g,'')))}/><button disabled={batch.locked} aria-label={`Tambah ${batch.id} Size ${size}`} onClick={()=>updateQty(batch,sizeIndex,values[sizeIndex]+1)}><Plus/></button></div><small>awal {batch.sizes[sizeIndex]}</small></label>)}</div>
           </article>
         })}</div>
       </section>

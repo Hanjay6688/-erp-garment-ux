@@ -1,3 +1,4 @@
+import NumberEntry from '../../../src/components/NumberEntry'
 import { useState } from 'react'
 import { PackageOpen, Undo2 } from 'lucide-react'
 import { amountText } from './accessoryPricing'
@@ -34,8 +35,8 @@ export function IssueReturnPanel({doc}:{doc:IssueDocument}) {
         try{postIssueReturn(doc.number,draft.id,draft.day,draft.reason,draft.quantities);setDraft(null)}catch(failure){setError((failure as Error).message)}
       }}><p>{doc.mandor} · {doc.number} · Isi jumlah yang sudah diterima dalam kondisi layak pakai.</p>
         <div className="demo-entry-list">{rows.map(row=><article key={row.id}><div><strong>{row.item}</strong><small>{row.qty} {row.unit} di nota</small></div>
-          <div><strong>{row.remaining} {row.unit}</strong><small>Sisa dapat diretur</small></div><label>Jumlah kembali<input aria-label={'Retur '+row.item} className="demo-qty" inputMode="numeric" placeholder="0"
-            disabled={!row.remaining||row.sellingPrice===null} value={draft.quantities[row.id]??''} onChange={event=>setDraft({...draft,quantities:{...draft.quantities,[row.id]:event.target.value.replace(/\D/g,'').slice(0,9)}})}/></label></article>)}</div>
+          <div><strong>{row.remaining} {row.unit}</strong><small>Sisa dapat diretur</small></div><label>Jumlah kembali<NumberEntry aria-label={'Retur '+row.item} className="demo-qty" inputMode="numeric" placeholder="0"
+            disabled={!row.remaining||row.sellingPrice===null} value={draft.quantities[row.id]??''} onValueChange={rawInput =>setDraft({...draft,quantities:{...draft.quantities,[row.id]:rawInput.replace(/\D/g,'').slice(0,9)}})}/></label></article>)}</div>
         <div className="demo-operation-facts"><article><span>Nilai retur</span><strong>{amountText(quote.value)}</strong></article>
           <article><span>Potong tagihan nota</span><strong>{amountText(quote.chargeReduction)}</strong></article><article><span>Kredit ke payroll</span><strong>{amountText(quote.credit)}</strong></article></div>
         <label>Tanggal fisik<input type="date" required min={doc.issuedOn} max={lastWarehouseDay()} value={draft.day} onChange={event=>setDraft({...draft,day:event.target.value})}/></label>

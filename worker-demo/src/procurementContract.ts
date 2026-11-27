@@ -106,7 +106,11 @@ export function receiptDecimal(raw: string, positive = false) {
 }
 /** "16.000" or "16,000" in a rupiah field would be read as 16 with three decimals. Refuse it rather than guess. */
 export const ambiguousThousands = (raw: string) => /^[1-9][0-9]{0,2}[.,][0-9]{3}$/.test(raw.trim())
-export const thousandsWarning = (label: string, raw: string) => `${label} ${raw.trim()} akan terbaca sebagai desimal, bukan ribuan. Tulis tanpa titik atau koma, misalnya ${raw.trim().replace(/[.,]/, '')}.`
+export function thousandsWarning(label: string, raw: string) {
+  const fraction = raw.trim().replace('.', ',')
+  const integer = fraction.replace(',', '')
+  return `${label} perlu dikonfirmasi. Untuk Rp${formatReceiptDecimal(integer)}, ketik ${integer}. Untuk pecahan Rp${fraction}, ketik ${fraction}0.`
+}
 /** A rupiah price or amount: the receipt decimal, except a value that looks like thousands. */
 export function moneyDecimal(raw: string) { return ambiguousThousands(raw) ? null : receiptDecimal(raw) }
 export function formatReceiptDecimal(v: string) {

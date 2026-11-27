@@ -1,3 +1,4 @@
+import NumberEntry from '../../src/components/NumberEntry'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useAuth } from './auth/AuthProvider'
 import { isConnectedRuntime } from './config/runtime'
@@ -190,8 +191,8 @@ function MasterPanel({ kind, onSelected }: { kind: MasterKind; onSelected?: (id:
                   {f.options?.(data, selected?.entity ?? null).map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
                 </select>
                   : f.type === 'textarea' ? <textarea aria-label={f.label} value={String(value)} maxLength={f.max} disabled={!writable || locked} onChange={e => set(e.target.value)}/>
-                  : <input aria-label={f.label} type={f.type === 'date' ? 'date' : 'text'} inputMode={f.type === 'decimal' ? 'decimal' : undefined}
-                    value={String(value)} maxLength={f.max} disabled={!writable || locked} onChange={e => set(e.target.value)}/>}</>}
+                  : <NumberEntry aria-label={f.label} type={f.type === 'date' ? 'date' : 'text'} inputMode={f.type === 'decimal' ? 'decimal' : undefined}
+                    value={String(value)} maxLength={f.max} disabled={!writable || locked} onValueChange={rawInput => set(rawInput)}/>}</>}
               {locked && f.key === 'code' && selected?.used ? <small>Kode tetap karena sudah dipakai transaksi.</small>
                 : locked ? <small>Nama dan kode bahan dibetulkan lewat "Benerin nama bahan".</small> : f.help ? <small>{f.help}</small> : null}
             </label>
@@ -231,8 +232,8 @@ function MasterPanel({ kind, onSelected }: { kind: MasterKind; onSelected?: (id:
               <option value="">Semua mandor (harga umum)</option>
               {(Array.isArray(data.options.mandors) ? data.options.mandors as Record<string, unknown>[] : []).map(m => <option key={String(m.id)} value={String(m.id)}>{String(m.code)} · {String(m.name)}</option>)}
             </select></label> : null}
-            <label>{mode === 'SET_BENCHMARK' ? `Harga acuan per ${String(selected.entity.unit)}` : price.contractor_id ? 'Harga khusus (boleh kosong)' : 'Harga normal kategori'}<input aria-label={mode === 'SET_BENCHMARK' ? 'Harga acuan' : 'Harga ke mandor'} inputMode="decimal" value={price.price} disabled={!writable}
-              onChange={e => { setPrice(p => ({ ...p, price: e.target.value })); setReviewed(false) }}/></label>
+            <label>{mode === 'SET_BENCHMARK' ? `Harga acuan per ${String(selected.entity.unit)}` : price.contractor_id ? 'Harga khusus (boleh kosong)' : 'Harga normal kategori'}<NumberEntry aria-label={mode === 'SET_BENCHMARK' ? 'Harga acuan' : 'Harga ke mandor'} inputMode="decimal" value={price.price} disabled={!writable}
+              onValueChange={rawInput => { setPrice(p => ({ ...p, price: rawInput })); setReviewed(false) }}/></label>
             {mode === 'SET_MANDOR_PRICE' ? <label>Satuan harga<select aria-label="Satuan harga ke mandor" value={price.uom} disabled={!writable}
               onChange={e => { setPrice(p => ({ ...p, uom: e.target.value })); setReviewed(false) }}>
               {(Array.isArray(data.options.uoms) ? data.options.uoms as Record<string, unknown>[] : []).map(u => <option key={String(u.code)} value={String(u.code)}>{String(u.code)}</option>)}

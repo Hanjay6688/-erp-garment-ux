@@ -1,3 +1,4 @@
+import NumberEntry from '../../src/components/NumberEntry'
 import RecordTable from './RecordTable'
 import {useEffect, useMemo, useRef, useState} from 'react'
 import {useAuth} from './auth/AuthProvider'
@@ -170,10 +171,10 @@ function Workspace({groupId,sourceKey,parentBusy,onAuthorityLost}:Props) {
         <legend>Aturan belajar untuk kejadian baru</legend>
         <p>Aturan baru memakai potongan sesudah aturan dicatat. Tiap kelompok minimal 3 kejadian. Target tinggi memerlukan lebih banyak kejadian kalibrasi.</p>
         <div className="ccut-fields">
-          <label>Target cakupan (antara 0 dan 1)<input inputMode="decimal" value={form.coverage} onChange={ev=>edit('coverage',ev.target.value)}/></label>
-          <label>Jumlah kejadian belajar<input inputMode="numeric" value={form.train} onChange={ev=>edit('train',ev.target.value)}/></label>
-          <label>Jumlah kejadian kalibrasi<input inputMode="numeric" value={form.calibration} onChange={ev=>edit('calibration',ev.target.value)}/></label>
-          <label>Jumlah kejadian pemeriksaan terpisah<input inputMode="numeric" value={form.holdout} onChange={ev=>edit('holdout',ev.target.value)}/></label>
+          <label>Target cakupan (antara 0 dan 1)<NumberEntry inputMode="decimal" value={form.coverage} onValueChange={rawInput =>edit('coverage',rawInput)}/></label>
+          <label>Jumlah kejadian belajar<NumberEntry inputMode="numeric" value={form.train} onValueChange={rawInput =>edit('train',rawInput)}/></label>
+          <label>Jumlah kejadian kalibrasi<NumberEntry inputMode="numeric" value={form.calibration} onValueChange={rawInput =>edit('calibration',rawInput)}/></label>
+          <label>Jumlah kejadian pemeriksaan terpisah<NumberEntry inputMode="numeric" value={form.holdout} onValueChange={rawInput =>edit('holdout',rawInput)}/></label>
         </div>
         <label><input type="checkbox" checked={form.reviewed} onChange={ev=>setForm(f=>({...f,reviewed:ev.target.checked}))}/> Saya sudah memeriksa aturan belajar ini.</label>
         <button type="button" disabled={!form.reviewed} onClick={()=>void act('POLICY')}>Catat aturan belajar potong</button>
