@@ -1,0 +1,29 @@
+name: Writer A Afui15 archive verification
+
+on:
+  push:
+    branches: [writer-a/afui15-evidence-20261127]
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Verify retained ZIP and original manifests
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python3 scripts/cp7_verify_retained_afui_archive.py
+          "$RUNNER_TEMP/afui15.zip" "$RUNNER_TEMP/afui15-archive-verification.json"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: afui15-archive-verification
+          path: ${{ runner.temp }}/afui15-archive-verification.json
+          if-no-files-found: error
