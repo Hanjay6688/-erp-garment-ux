@@ -1,0 +1,20 @@
+{
+  "counts_delta": {
+    "columns": 31,
+    "constraints": 12,
+    "functions": 12,
+    "indexes": 8,
+    "policies": 3,
+    "relations": 11,
+    "schemas": 1,
+    "triggers": 11,
+    "type_implementation": 6,
+    "types": 6
+  },
+  "migrations": 155,
+  "name": "enteng_uji_laundry_vendor_receivable",
+  "previous_source": "f011690eb698ceabd183a19459eba2386613710b5d0f584ba79e992b708ea53b",
+  "prior": "enteng_uji_cp7_procurement_operator_context",
+  "profiles": 3,
+  "statements_sha256": "e3931312b7fd47e14ef0f3810bc4553af5aec1fa6141854db9f384453c21842e"
+}
