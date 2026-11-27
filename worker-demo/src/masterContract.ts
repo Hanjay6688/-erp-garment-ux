@@ -152,7 +152,7 @@ export function formProblems(kind: MasterKind, form: MasterForm, creating: boole
     if (!s) { if (!f.optional) out.push(`${f.label} wajib diisi.`); continue }
     if (f.max && s.length > f.max) out.push(`${f.label} paling panjang ${f.max} huruf.`)
     if (f.key === 'code' && creating && !/^[A-Za-z0-9][A-Za-z0-9._/-]*$/.test(s)) out.push('Kode hanya huruf, angka, titik, garis miring, garis bawah atau tanda minus, tanpa spasi.')
-    if (f.type === 'decimal' && (!decimal.test(s) || (['width_cm', 'gsm'].includes(f.key) && Number(s) <= 0))) out.push(`${f.label} harus angka${['width_cm', 'gsm'].includes(f.key) ? ' lebih dari 0' : ''} (pakai titik untuk desimal).`)
+    if (f.type === 'decimal' && (!decimal.test(s) || (['width_cm', 'gsm'].includes(f.key) && Number(s) <= 0))) out.push(`${f.label} harus angka${['width_cm', 'gsm'].includes(f.key) ? ' lebih dari 0' : ''} (gunakan koma untuk desimal, misalnya 125,5).`)
     if (f.type === 'date' && !isoDayText.test(s)) out.push(`${f.label} harus tanggal.`)
   }
   if (kind === 'MANDOR' && creating && !(typeof form.policy_from === 'string' && form.policy_from.trim())) out.push('Tanggal mulai berlaku absensi/Special wajib diisi untuk mandor baru.')

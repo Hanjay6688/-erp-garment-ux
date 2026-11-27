@@ -840,8 +840,8 @@
       "sha256": "d0e06706a94c4daa9dd1a28d931f49c2be7d49d0cdd222d5ab87c967a6d2103d"
     },
     "worker-demo/src/ConnectedInitialImportPage.tsx": {
-      "bytes": 50178,
-      "sha256": "d14a98a5b140da2464f663bac1c0f1d0a91e153a005ad44b5d120494ad2cb47e"
+      "bytes": 50211,
+      "sha256": "ff3a86b1c237d99df98928b2694ec18aae6c9b37ec56be33aca3edc522fab68d"
     },
     "worker-demo/src/ConnectedJournalPage.tsx": {
       "bytes": 10854,
@@ -1264,8 +1264,8 @@
       "sha256": "f02d37907ab01476ad32369ae891b7e963ea4b1928093a89049f65148349eaca"
     },
     "worker-demo/src/RosterEditor.tsx": {
-      "bytes": 6104,
-      "sha256": "29dc81a92ac3bda25370cace0498b1e45414b31802f300c125e9d978dc833f93"
+      "bytes": 5992,
+      "sha256": "d9c9ab29976cd8f551081472aacf970493907c8e2a2f0f1b4fbd3038de61e6f8"
     },
     "worker-demo/src/SalesChainReversalPanel.tsx": {
       "bytes": 5946,
@@ -2364,8 +2364,8 @@
       "sha256": "bdf599ffae354c21c1630993d1e681eeba3f96fb24f0ffffce59ad65fea3a480"
     },
     "worker-demo/src/masterContract.ts": {
-      "bytes": 23410,
-      "sha256": "f5a5ca8f5f21b637091ed909e0abb2379ee2ea30f83991023db49e035f0ef277"
+      "bytes": 23427,
+      "sha256": "8431e3ba18d5d0429f269b8de8ce678266b5c65a5e6fca6a0117e036570c9c28"
     },
     "worker-demo/src/material-master.css": {
       "bytes": 16488,
@@ -2696,8 +2696,8 @@
       "sha256": "142939a9dfbf8d40d9d35655c9a5a69e1b116ce0ae1595ac40b6d7e326d00c5a"
     },
     "worker-demo/src/procurementContract.ts": {
-      "bytes": 12345,
-      "sha256": "20725f45d011ce7de22f5bd37b77a04cd187e020be5e22c16e75ff864e1d458d"
+      "bytes": 12445,
+      "sha256": "48fc1d48fc11f2a2318d6798231fc616b1c0bc0cd0182ac62a204d67b7ab62f4"
     },
     "worker-demo/src/productCatalog.ts": {
       "bytes": 1713,
@@ -2828,8 +2828,8 @@
       "sha256": "da3d8927cc77ccdeac9c097dcc1ce99f3dfaa0f406d8c14eb3538dae6681b601"
     },
     "worker-demo/src/skuMaster.ts": {
-      "bytes": 8020,
-      "sha256": "fe9e09e94f2c8fc6dd2862b68ba47e6b85e82414f75636e01ab406e76065869f"
+      "bytes": 8028,
+      "sha256": "aab8739bd581f860fc2a9bc824b160d05682de1338c5fe8eb6a148f4f6adb044"
     },
     "worker-demo/src/stock-adjustment.css": {
       "bytes": 8069,

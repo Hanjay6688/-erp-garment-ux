@@ -60,7 +60,7 @@ export function validateSkuPairResult(value: unknown, request: string, payload: 
 /** Exact text conversion; no floating-point rounding or removal of an ambiguous separator. */
 function moneyText(value: string | number): string {
   const text=String(value).trim().replace(',', '.')
-  if (!/^\d+(?:\.\d{1,2})?$/.test(text)) throw new Error('Nominal harus angka tanpa pemisah ribuan, maksimal dua desimal.')
+  if (!/^\d+(?:\.\d{1,2})?$/.test(text)) throw new Error('Isi nominal dengan maksimal dua angka setelah koma, misalnya 12.500,75.')
   const [whole,fraction='']=text.split('.')
   return `${whole.replace(/^0+(?=\d)/,'')}.${fraction.padEnd(2,'0')}`
 }
