@@ -48,7 +48,7 @@ def reference_profile(cur, catalogue):
 
 
 def render(prerequisite, prerequisite_sha, count, before, after, statements):
-    require((prerequisite,count) in ((OW04,147),(CONSUMER,148),(CORRECTIONS,149)),
+    require((prerequisite,count) in ((OW04,147),(CONSUMER,148),(CORRECTIONS,149),(ATTENDANCE,150)),
             'Unexpected managed Enteng Uji release sequence')
     require(len(prerequisite_sha)==64 and len(before)>10 and set(before)<=set(CATALOGUE_GROUPS)
             and len(after)>10 and set(after)<=set(CATALOGUE_GROUPS), 'Incomplete credit application catalogue')

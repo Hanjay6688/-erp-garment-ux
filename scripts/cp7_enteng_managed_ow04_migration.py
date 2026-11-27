@@ -72,18 +72,18 @@ PORTABLE_PROJECTION = r"""select jsonb_build_object(
  ) as catalogue from capture"""
 
 
-def catalogue_digest_query(capture_query):
-    return "with capture(c) as (" + capture_query.strip().removesuffix(';') + "), portable as (" + PORTABLE_PROJECTION + """
+def catalogue_digest_query(capture_query, projection=PORTABLE_PROJECTION):
+    return "with capture(c) as (" + capture_query.strip().removesuffix(';') + "), portable as (" + projection + """
  ) select encode(sha256(convert_to(c::text,'UTF8')),'hex') as raw_sha256,
           encode(sha256(convert_to(catalogue::text,'UTF8')),'hex') as portable_sha256
       from capture,portable"""
 
 
-def digest_snapshot(cur, snapshot):
-    return cur.execute(catalogue_digest_query('select %s::jsonb'), (json.dumps(snapshot),)).fetchone()
+def digest_snapshot(cur, snapshot, projection=PORTABLE_PROJECTION):
+    return cur.execute(catalogue_digest_query('select %s::jsonb', projection), (json.dumps(snapshot),)).fetchone()
 
 
-def seal_with_local_oid(statement, raw_sha, portable_sha, capture_sql):
+def seal_with_local_oid(statement, raw_sha, portable_sha, capture_sql, projection=PORTABLE_PROJECTION):
     require(bool(re.fullmatch(r'[0-9a-f]{64}', raw_sha)) and bool(re.fullmatch(r'[0-9a-f]{64}', portable_sha)),
             'Invalid staged catalogue fingerprint')
     require(statement.count(raw_sha) == 1 and statement.endswith('end $ow04_source_trigger_runtime$'),
@@ -95,7 +95,7 @@ declare raw_now text;portable_now text; saved_path text:=current_setting('search
 begin
   perform set_config('search_path','',true);
   select raw_sha256,portable_sha256 into strict raw_now,portable_now
-    from ({catalogue_digest_query(capture_sql)}) parsed;
+    from ({catalogue_digest_query(capture_sql, projection)}) parsed;
   if portable_now is distinct from '{portable_sha}' then
     raise exception 'OW04 source-validated trigger metadata differs from the tested stage';
   end if;
