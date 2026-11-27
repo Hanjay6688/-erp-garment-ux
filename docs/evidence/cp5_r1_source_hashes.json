@@ -560,8 +560,8 @@
       "sha256": "5f34e723c21937f85d37740b0153b5c4c1eae5666cbabfb3eca67fc8b9d37f58"
     },
     "src/components/NumberEntry.tsx": {
-      "bytes": 7263,
-      "sha256": "14a25e9e0bc42909a77a30947f4518bdec745b57a85df0cdda58eb32ee2c8891"
+      "bytes": 8498,
+      "sha256": "24d8a577ac99f9f0d74da9d5f817c3264a540c476a6d5b986e27c94664dc9852"
     },
     "src/components/RuntimeIdentity.tsx": {
       "bytes": 1911,

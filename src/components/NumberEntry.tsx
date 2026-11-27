@@ -63,7 +63,7 @@ export default function NumberEntry(props: Props) {
 function GroupedEntry({ value, onValueChange, inputMode, type, signed = false, rupiahDraft = false,
   integerError = 'Masukkan bilangan bulat.', maxLength, min, max, step, pattern, onPaste, onKeyDown, onBlur, ...props }: Props) {
   const input = useRef<HTMLInputElement>(null)
-  const selectAllRequested = useRef(false)
+  const keyboardSelection = useRef<{ text: string; start: number; end: number } | null>(null)
   const hintId = useId()
   const [message, setMessage] = useState('')
   const [editing, setEditing] = useState<string | null>(null)
@@ -83,6 +83,19 @@ function GroupedEntry({ value, onValueChange, inputMode, type, signed = false, r
     onValueChange(rupiahDraft ? next.replace('.', ',') : next)
   }
 
+  function restoreKeyboardSelection(field: HTMLInputElement) {
+    const selection = keyboardSelection.current
+    if (selection?.text === field.value) field.setSelectionRange(selection.start, selection.end)
+  }
+
+  function rememberKeyboardSelection(field: HTMLInputElement, start: number, end = start) {
+    const selection = { text: field.value, start, end }
+    keyboardSelection.current = selection
+    requestAnimationFrame(() => {
+      if (keyboardSelection.current === selection && document.activeElement === field) restoreKeyboardSelection(field)
+    })
+  }
+
   return <><NumericFormat {...props} type="text" getInputRef={input} value={raw} valueIsNumericString
     inputMode={decimal ? 'decimal' : 'numeric'} thousandSeparator="." decimalSeparator="," allowedDecimalSeparators={decimalKeys}
     allowNegative={signed} pattern={pattern === '[0-9]*' ? '[0-9.]*' : pattern}
@@ -97,22 +110,37 @@ function GroupedEntry({ value, onValueChange, inputMode, type, signed = false, r
     onValueChange={(values, info) => { if (info.source === 'event') change(values.value) }}
     onKeyDownCapture={event => {
       props.onKeyDownCapture?.(event)
-      if (event.defaultPrevented) return
-      const shortcut = event.ctrlKey || event.metaKey
       const key = event.key.toLowerCase()
+      if (event.defaultPrevented || ['control', 'meta', 'shift', 'alt'].includes(key)) return
+      const field = event.currentTarget
+      // A formatter may restore the mobile caret on the next tick. Keep the
+      // operator's more recent navigation until the following key or paste.
+      restoreKeyboardSelection(field)
+      const shortcut = event.ctrlKey || event.metaKey
+      if (shortcut && key === 'v') return
+      keyboardSelection.current = null
+      const end = field.value.length
       if (shortcut && key === 'a') {
-        selectAllRequested.current = true
-      } else if (selectAllRequested.current && !['control', 'meta', 'shift', 'alt'].includes(key)) {
-        // The formatter also restores the mobile caret after a keystroke.
-        // Preserve a subsequent explicit Select All until its edit is applied.
-        event.currentTarget.select()
-        selectAllRequested.current = shortcut && key === 'v'
+        rememberKeyboardSelection(field, 0, end)
+        return
       }
+      if (shortcut || event.altKey || event.shiftKey) return
+      const startAt = field.selectionStart ?? end
+      const endAt = field.selectionEnd ?? end
+      let position: number
+      switch (key) {
+        case 'home': position = 0; break
+        case 'end': position = end; break
+        case 'arrowleft': position = startAt === endAt ? Math.max(0, startAt - 1) : startAt; break
+        case 'arrowright': position = startAt === endAt ? Math.min(end, endAt + 1) : endAt; break
+        default: return
+      }
+      rememberKeyboardSelection(field, position)
     }}
-    onPointerDownCapture={event => { selectAllRequested.current = false; props.onPointerDownCapture?.(event) }}
+    onPointerDownCapture={event => { keyboardSelection.current = null; props.onPointerDownCapture?.(event) }}
     onPasteCapture={event => {
-      if (selectAllRequested.current) event.currentTarget.select()
-      selectAllRequested.current = false
+      restoreKeyboardSelection(event.currentTarget)
+      keyboardSelection.current = null
       props.onPasteCapture?.(event)
     }}
     onPaste={event => {
@@ -144,6 +172,6 @@ function GroupedEntry({ value, onValueChange, inputMode, type, signed = false, r
         }
       }
     }}
-    onBlur={event => { selectAllRequested.current = false; setEditing(null); setMessage(''); onBlur?.(event) }}
+    onBlur={event => { keyboardSelection.current = null; setEditing(null); setMessage(''); onBlur?.(event) }}
   />{message && <small id={hintId} role="alert">{message}</small>}</>
 }
