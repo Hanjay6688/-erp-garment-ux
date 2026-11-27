@@ -26,6 +26,8 @@ PINS = {
         'cp7_installment_read', '3e1c27f5ef6a186d521470f4a6088cd00188f9f3a6a09e1d48b5d2472c0c6fe9'),
     'cp7_misc.access_now()': (
         'cp7_misc_read', 'b7f9874d04b701b2c406872e76c0fc3d5bfd24c3363bd939c7b2eedab747f944'),
+    'cp7_payment_correction.command(jsonb,uuid,text)': (
+        'cp7_sales_write', 'cfc6c08433119c7522ed16e82401998af59523d49895997de0351c4976a0b1c8'),
     'cp7_period.access_now()': (
         'cp7_period_read', 'ec19c318e2e3624daa8d8b385f8d48997a0c18d8090f2cc788a11f77f0a0128e'),
     'cp7_period.command(text,jsonb,uuid)': (
@@ -56,6 +58,7 @@ PINS = {
         'cp7_capture', '5216f1ab6a2a9e12eca60f6e415cb18947ae6104e3ecb8625678100eb17d546f'),
 }
 INVOKERS = {
+    'cp7_payment_correction.command(jsonb,uuid,text)',
     'cp7_period.access_now()',
     'cp7_period.command(text,jsonb,uuid)',
     'cp7_sales.access_now()',
@@ -147,6 +150,7 @@ def apply(conn):
             == ('postgres', False), 'Expected the ordinary postgres project role')
     validate_context(conn)
     for public_name, role in (
+        ('public.erp_cp7_correct_sales_payment_v1(jsonb,uuid,text)', 'cp7_sales_write'),
         ('public.erp_cp7_get_period_control_v1(date)', 'cp7_period_read'),
         ('public.erp_cp7_save_period_control_v1(text,jsonb,uuid)', 'cp7_period_write'),
         ('public.erp_cp7_save_sale_v1(text,jsonb,uuid,text)', 'cp7_sales_write'),

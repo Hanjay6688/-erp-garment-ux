@@ -182,9 +182,9 @@ def sources():
     return {name:digest((HERE/name).read_text())for name in names}
 
 
-def consumer_trigger_manifest():
+def consumer_trigger_manifest(*, managed_identity=False):
     """Exactly seven SOURCE-declared new parent ERP FKs, not a live adoption."""
-    manifest=deepcopy(triggers.declarations(REPO))
+    manifest=deepcopy(owning._trigger_manifest(triggers,managed_identity))
     phase=deepcopy(manifest['phases']['OW04_COMPOSED_NATIVE_EMPTY'])
     source='scripts/cp7_customer_credit/consumer/02_operation_facts.sql'
     added=trigger_builder.fk_extract((REPO/source).read_text(),source)
@@ -243,8 +243,33 @@ def new_function_names():
     return names
 
 
-def install(cur):
-    """Caller-owned SINGLE transaction; no fallback, partial install or commit."""
+def install(cur, *, managed_identity=False):
+    """Execute inside the caller's transaction."""
+    if not managed_identity:
+        return _install(cur, False)
+    from psycopg.pq import TransactionStatus
+    from cp7_enteng_managed_credit import installer_memberships, verify_closed
+
+    if cur.connection.info.transaction_status != TransactionStatus.INTRANS:
+        raise ValueError('OW04_CONSUMER_MANAGED_EXPLICIT_TRANSACTION_REQUIRED')
+    with cur.connection.transaction():
+        verify_closed(cur)
+        before = installer_memberships(cur)
+        owners = ('cp7_credit_write','cp7_sales_read')
+        expected = {(owner,'postgres',False,True,True) for owner in owners}
+        cur.execute('grant cp7_credit_write,cp7_sales_read to postgres with inherit true, set true granted by postgres')
+        if installer_memberships(cur)!=before | expected:
+            raise ValueError('OW04_CONSUMER_MANAGED_ROLE_SCOPE_CHANGED')
+        state = _install(cur, True)
+        cur.execute('revoke cp7_credit_write,cp7_sales_read from postgres granted by postgres restrict')
+        if installer_memberships(cur)!=before:
+            raise ValueError('OW04_CONSUMER_MANAGED_ROLE_SCOPE_REMAINS')
+        verify_closed(cur)
+        verify(cur,state)
+        return state
+
+
+def _install(cur, managed_identity):
     for table in TABLES:
         if cur.execute('select to_regclass(%s)is not null',('cp7_credit.'+table,)).fetchone()[0]:
             raise ValueError('OW04_CONSUMER_ALREADY_INSTALLED')
@@ -253,7 +278,7 @@ def install(cur):
     definitions=derive(captures)
     # The original raw census must pass before adding even one declared FK.
     cur.execute('select cp7_credit.assert_source_native_trigger_census_v1()')
-    trigger_manifest=consumer_trigger_manifest()
+    trigger_manifest=consumer_trigger_manifest(managed_identity=managed_identity)
     trigger_before=owning._source_trigger_capture(cur,triggers)
     triggers.validate_source(trigger_before,trigger_manifest,'OW04_COMPOSED_NATIVE_EMPTY')
     runtime_before=capture(cur,'cp7_credit.assert_source_native_trigger_census_v1()')
@@ -270,6 +295,12 @@ def install(cur):
         text,n=re.subn(r'do \$not_an_installer\$begin\s*raise exception \'OW04_CONSUMER_REQUIRES_COMPLETE_OWNING_COMPOSITION\';\s*end \$not_an_installer\$;','',text)
         if n!=1:
             raise ValueError('OW04_CONSUMER_CLOSED_BARRIER_CHANGED: '+name)
+        if managed_identity and name=='06_access_and_requests.sql':
+            from cp7_enteng_managed_credit import private_identity
+
+            if source_manifest[name]!='9ce2c69378fb032a650a7d6c63e6ee43bf3a59713256e80724673276764def1f':
+                raise ValueError('OW04_CONSUMER_MANAGED_IDENTITY_SOURCE_CHANGED')
+            text=private_identity(text,'cp7_credit.consumer_command_v1',7)
         cur.execute(text)
     for schema in ('public','cp7_credit'):
         cur.execute('revoke create on schema '+schema+' from cp7_credit_write')
@@ -324,6 +355,8 @@ def install(cur):
         catalog_before=catalog_before,catalog_after=catalog_after,new_functions=new_functions,schema_before=schema_before,
         table_catalog=table_catalog(cur),
         formal_CP7C_started=False,Native_cases_added=0,feature_complete=False,production_go=False)
+    if managed_identity:
+        state['managed_identity'] = True
     verify(cur,state)
     return state
 
