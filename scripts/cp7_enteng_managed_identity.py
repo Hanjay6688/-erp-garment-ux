@@ -26,6 +26,10 @@ PINS = {
         'cp7_installment_read', '3e1c27f5ef6a186d521470f4a6088cd00188f9f3a6a09e1d48b5d2472c0c6fe9'),
     'cp7_misc.access_now()': (
         'cp7_misc_read', 'b7f9874d04b701b2c406872e76c0fc3d5bfd24c3363bd939c7b2eedab747f944'),
+    'cp7_period.access_now()': (
+        'cp7_period_read', 'ec19c318e2e3624daa8d8b385f8d48997a0c18d8090f2cc788a11f77f0a0128e'),
+    'cp7_period.command(text,jsonb,uuid)': (
+        'cp7_period_write', '305ca9f9c6f440079adabb9046117cb585b58143a6ee82bb3cdb7e0f782c0052'),
     'cp7_reminder_native.accessory_target_now(uuid,text,text,integer)': (
         'cp7_capture', '6700d84d973b2f34340e945fde0fa3492579dfe74004023683106aa04f337c15'),
     'cp7_reminder_native.original_authority(uuid)': (
@@ -52,10 +56,14 @@ PINS = {
         'cp7_capture', '5216f1ab6a2a9e12eca60f6e415cb18947ae6104e3ecb8625678100eb17d546f'),
 }
 INVOKERS = {
+    'cp7_period.access_now()',
+    'cp7_period.command(text,jsonb,uuid)',
     'cp7_sales.access_now()',
     'cp7_sales.command(text,jsonb,uuid,text)',
     'cp7_sales.command_allowed(text)',
 }
+# command() calls access_now() as the same writer role.
+INVOKER_ACCESSORS = {'cp7_period.command(text,jsonb,uuid)': {'jwt'}}
 CALLER_ROLES = ('anon', 'authenticated', 'service_role')
 ACCESSORS = {
     'uid': ('uuid', '9ab5ea099e74ec09e83b1505c51a3647791195aed7c742dcc3f257dfc7d2f300'),
@@ -139,12 +147,14 @@ def apply(conn):
             == ('postgres', False), 'Expected the ordinary postgres project role')
     validate_context(conn)
     for public_name, role in (
+        ('public.erp_cp7_get_period_control_v1(date)', 'cp7_period_read'),
+        ('public.erp_cp7_save_period_control_v1(text,jsonb,uuid)', 'cp7_period_write'),
         ('public.erp_cp7_save_sale_v1(text,jsonb,uuid,text)', 'cp7_sales_write'),
         ('public.erp_cp7_get_sales_v1(jsonb)', 'cp7_sales_read'),
     ):
         row = conn.execute('select pg_get_userbyid(proowner),prosecdef from pg_proc where oid=to_regprocedure(%s)',
                            (public_name,)).fetchone()
-        require(row == (role, True), 'Unexpected sales entry point: ' + public_name)
+        require(row == (role, True), 'Unexpected application entry point: ' + public_name)
     changed_count = 0
     for signature, (owner, source_hash) in PINS.items():
         row = conn.execute(ROUTINE, (signature,)).fetchone()
@@ -163,7 +173,8 @@ def apply(conn):
         require(digest(original)==source_hash, 'Routine source differs: ' + signature)
         target = IDENTITY_CALL.sub(lambda m: 'cp7_request_context.' + m[1].lower() + '()', original)
         require(source in (original, target) and original!=target, 'Partially changed routine: ' + signature)
-        for accessor in sorted(set(IDENTITY_CALL.findall(original))):
+        accessors = set(IDENTITY_CALL.findall(original)) | INVOKER_ACCESSORS.get(signature, set())
+        for accessor in sorted(accessors):
             grants = conn.execute("""
                 select has_schema_privilege(%s,'cp7_request_context','USAGE'),
                        has_function_privilege(%s,to_regprocedure(%s),'EXECUTE')

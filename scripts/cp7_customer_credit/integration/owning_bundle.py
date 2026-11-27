@@ -171,7 +171,7 @@ def _private_inventory(cur):
     return {'schemas':schemas,'domains':domains,'functions':functions,'tables':tables}
 
 
-def source_files(native_empty=False):
+def source_files(native_empty=False, *, managed_identity=False):
     names = SQL_FILES + ('integration/source_command_transform.py',
                          'integration/source_triggers/trigger_guard.py',
                          'integration/source_triggers/capture.sql',
@@ -184,7 +184,12 @@ def source_files(native_empty=False):
                   'native-empty/04_exact_overlays.sql','native-empty/OVERLAY_MANIFEST.json',
                   'native-empty/SOURCE_PINS.json','native-empty/EXPECTED.json',
                   'native-empty/cp7_ow04_native_empty_cases.py','integration/native_empty_bundle.py')
-    return {name: digest((ROOT / name).read_text()) for name in names}
+    result = {name: digest((ROOT / name).read_text()) for name in names}
+    if managed_identity:
+        for name in ('cp7_enteng_managed_credit.py','cp7_enteng_credit_triggers.py','cp7_enteng_managed_identity.py'):
+            path = REPO / 'scripts' / name
+            result['scripts/'+name] = digest(path.read_text())
+    return result
 
 
 def _actual_sql(name):
@@ -292,8 +297,27 @@ def _source_trigger_install_phase(cur, state, guard, manifest, phase):
         proof=guard.validate_source(actual,manifest,phase))
 
 
-def install(cur, predecessor_verify, predecessor_functions, *, native_empty=False):
-    """Execute in caller's SINGLE transaction; no commit and no partial mode."""
+def _trigger_manifest(guard, managed_identity):
+    if managed_identity:
+        from cp7_enteng_credit_triggers import declarations
+        return declarations(guard, REPO)
+    return guard.declarations(REPO)
+
+
+def install(cur, predecessor_verify, predecessor_functions, *, native_empty=False, managed_identity=False):
+    """Execute in the caller's transaction and verify the completed installation."""
+    if not managed_identity:
+        return _install(cur, predecessor_verify, predecessor_functions, native_empty)
+    from cp7_enteng_managed_credit import InstallScope
+    scope = InstallScope(cur)
+    with cur.connection.transaction():
+        state = _install(cur, predecessor_verify, predecessor_functions, native_empty, scope)
+        verify(cur,state)
+        return state
+
+
+def _install(cur, predecessor_verify, predecessor_functions, native_empty, scope=None):
+    managed_identity = scope is not None
     for schema in NEW_SCHEMAS:
         if cur.execute('select to_regnamespace(%s)is not null',(schema,)).fetchone()[0]:
             raise ValueError('OW04_NEW_SCHEMA_ALREADY_EXISTS: '+schema)
@@ -302,7 +326,7 @@ def install(cur, predecessor_verify, predecessor_functions, *, native_empty=Fals
     refunds = load('ow04_integrated_refund_plan', ROOT / 'refund/02_native_refund_transform.py')
     approval, receipt = _predecessor_approval(cur, assembly, predecessor_verify, predecessor_functions)
     trigger_guard=load('ow04_integrated_source_trigger_guard',ROOT/'integration/source_triggers/trigger_guard.py')
-    trigger_manifest=trigger_guard.declarations(REPO)
+    trigger_manifest=_trigger_manifest(trigger_guard, managed_identity)
     trigger_before=_source_trigger_capture(cur,trigger_guard)
     trigger_guard.validate_source(trigger_before,trigger_manifest,'VERIFIED_PREDECESSOR')
     payment_link_before = _payment_link_metadata(cur)
@@ -340,7 +364,10 @@ def install(cur, predecessor_verify, predecessor_functions, *, native_empty=Fals
     approved = refunds.native.Approved(**{**{k: v for k, v in assembly._fingerprint(poster).items() if k != 'body_sha256'},
         'acl':tuple(poster['acl'] or ()), 'config':tuple(poster['config'] or ())})
     refund_sql, refund_proof = refunds.derive_initial_refund_post(cap, approved)
-    expected_sources = source_files(native_empty=native_empty)
+    expected_sources = source_files(native_empty=native_empty, managed_identity=managed_identity)
+    if scope:
+        from cp7_enteng_managed_credit import adapt_sql
+        scope.open()
     for name in SQL_FILES:
         if digest((ROOT / name).read_text()) != expected_sources[name]:
             raise ValueError('OW04_SOURCE_CHANGED_DURING_COMPOSITION')
@@ -350,7 +377,8 @@ def install(cur, predecessor_verify, predecessor_functions, *, native_empty=Fals
             cur.execute(refusal_guards['no_ambient'], prepare=False)
             cur.execute(refusal_guards['only_own_return'], prepare=False)
             cur.execute(refusal_guards['only_own_source'], prepare=False)
-        cur.execute(_actual_sql(name), prepare=False)
+        raw = _actual_sql(name)
+        cur.execute(adapt_sql(name,raw) if scope else raw, prepare=False)
     cur.execute("create function cp7_credit.return_causal_book_floor(p_return uuid)returns date "
         "language sql volatile security definer set search_path=''as $$ "
         "select ow04_source_proposal.return_causal_book_floor(p_return)$$;", prepare=False)
@@ -377,6 +405,8 @@ def install(cur, predecessor_verify, predecessor_functions, *, native_empty=Fals
         view_canonical_sha256=digest(view_installed['definition']),
         context_proof=context_proof, refund_proof=refund_proof,
         source_sha256=expected_sources,native_empty_requested=native_empty)
+    if managed_identity:
+        state['managed_identity'] = True
     state['payment_link_before'] = payment_link_before
     state['opening_trigger_before'] = opening_trigger_before
     state['opening_diagnostic_before'] = opening_diagnostic_before
@@ -396,11 +426,14 @@ def install(cur, predecessor_verify, predecessor_functions, *, native_empty=Fals
         _source_trigger_install_phase(cur,state,trigger_guard,trigger_manifest,'OW04_COMPOSED_NATIVE_EMPTY')
         state['private_inventory'] = _private_inventory(cur)
         verify(cur, state)
+    if scope:
+        state['managed_installation'] = scope.close()
     return state
 
 
 def verify(cur, state):
-    if source_files(native_empty=state['native_empty_requested'])!=state['source_sha256']:
+    managed_identity = state.get('managed_identity', False)
+    if source_files(native_empty=state['native_empty_requested'], managed_identity=managed_identity)!=state['source_sha256']:
         raise ValueError('OW04_QUALIFIED_SOURCE_FILES_CHANGED')
     assembly = load('ow04_integrated_native_plan', ROOT / 'integration/derive_plan.py')
     proof = assembly.verify_installed(cur, state['plan'], state['approval'])
@@ -409,7 +442,7 @@ def verify(cur, state):
     with _postgres_reader(cur):
         context_verification = contexts.verify(cur, REPO, state['context_proof']['typed_census'])
     trigger_guard=load('ow04_verify_source_trigger_guard',ROOT/'integration/source_triggers/trigger_guard.py')
-    trigger_manifest=trigger_guard.declarations(REPO)
+    trigger_manifest=_trigger_manifest(trigger_guard, state.get('managed_identity', False))
     trigger_proof=trigger_guard.verify_unchanged(_source_trigger_capture(cur,trigger_guard),
         state['source_triggers']['installed'],trigger_manifest,state['source_triggers']['phase'])
     private_inventory = _private_inventory(cur)
@@ -455,6 +488,9 @@ def verify(cur, state):
     if 'native_empty' in state:
         empty = load('ow04_integrated_native_empty_verify', ROOT / 'integration/native_empty_bundle.py')
         empty_proof = empty.verify(cur,state['native_empty'])
+    if state.get('managed_installation'):
+        from cp7_enteng_managed_credit import verify_closed
+        verify_closed(cur)
     return {'classification':'INTERNAL_WRITER_NATIVE_CANDIDATE_VERIFICATION','native':proof,
             'legacy_composition':legacy,'context_inventory':context_verification,
             'private_inventory_sha256':digest(canonical(private_inventory)),
@@ -472,7 +508,7 @@ def uninstall(cur, state):
     for schema in NEW_SCHEMAS: cur.execute('drop schema ' + schema + ' cascade')
     for role in NEW_ROLES: cur.execute('drop owned by ' + role + ' cascade;drop role ' + role, prepare=False)
     trigger_guard=load('ow04_uninstall_source_trigger_guard',ROOT/'integration/source_triggers/trigger_guard.py')
-    trigger_manifest=trigger_guard.declarations(REPO)
+    trigger_manifest=_trigger_manifest(trigger_guard, state.get('managed_identity', False))
     restored_triggers=_source_trigger_capture(cur,trigger_guard)
     trigger_guard.expected_transition(state['source_triggers']['installed'],restored_triggers,trigger_manifest,
         state['source_triggers']['phase'],'VERIFIED_PREDECESSOR')
