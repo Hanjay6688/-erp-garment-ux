@@ -13,21 +13,22 @@
 <body>
   <main>
     <p class="project">ERP Enteng Uji</p>
-    <h1>Atur kata sandi</h1>
+    <h1 id="title">Atur kata sandi</h1>
     <form id="request" hidden>
-      <p>Kami akan mengirim tautan ke email akun ERP lu. Buka tautannya di browser yang sama.</p>
+      <p>Masukkan email yang terdaftar di ERP Enteng Uji. Kami akan mengirim tautan untuk membuat sandi baru.</p>
       <label>Email akun ERP<input required name="email" type="email" autocomplete="email" maxlength="254"></label>
       <button>Kirim tautan ke email</button>
     </form>
     <form id="change" hidden>
-      <p id="identity"></p>
+      <p>Sandi baru ini untuk <strong id="identity"></strong>.</p>
       <label>Kata sandi ERP baru<input required name="password" type="password" autocomplete="new-password" minlength="12" maxlength="128" aria-describedby="policy"></label>
       <small id="policy">Gunakan 12–128 karakter, termasuk huruf besar, huruf kecil, angka, dan simbol, tanpa spasi.</small>
       <label>Ulangi kata sandi<input required name="repeat" type="password" autocomplete="new-password"></label>
       <button>Simpan kata sandi</button>
     </form>
     <p id="status" role="status" aria-live="polite"></p>
-    <a href="/">Kembali ke login ERP</a>
+    <p id="again" hidden><a href="./">Minta tautan baru</a></p>
+    <a href="/">Masuk ke ERP Enteng Uji</a>
   </main>
 </body>
 </html>
