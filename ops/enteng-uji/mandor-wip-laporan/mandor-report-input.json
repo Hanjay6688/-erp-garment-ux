@@ -1,0 +1,24 @@
+{
+  "counts_delta": {
+    "columns": 32,
+    "constraints": 4,
+    "functions": 16,
+    "indexes": 4,
+    "memberships": 1,
+    "policies": 3,
+    "relations": 8,
+    "roles": 1,
+    "schemas": 2,
+    "sequence_ownership": 1,
+    "sequences": 1,
+    "triggers": 2,
+    "type_implementation": 6,
+    "types": 6
+  },
+  "migrations": 160,
+  "name": "enteng_uji_koreksi_mandor_laporan_aksesori",
+  "previous_source": "40e8c40185d2ad4f08afdb3797e36358cc356f67a51e60c9f4794cedcc05cbd1",
+  "prior": "enteng_uji_aksesori_mandor_qc_good",
+  "profiles": 8,
+  "statements_sha256": "7c2e3d3d9145c223c425387ee73e9163b63332e60575dac980bbbd07c45b8834"
+}
