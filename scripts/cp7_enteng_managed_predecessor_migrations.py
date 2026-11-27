@@ -23,6 +23,9 @@ ROLE_DECLARATION = re.compile(r'create role (cp7_[a-z0-9_]+) nologin', re.I)
 MAX_BYTES = 800_000
 REPAIRS = Path(__file__).with_name('cp7_enteng_managed_predecessor_repairs.sql')
 REPAIR_SHA256 = 'e5ce111238890ca30632f6203e7ff3eaf8dbf4f3aa0967729bbecd714cc4eee0'
+ANALYSIS_ORIGINAL = 'cp7_analysis_native.build('
+ANALYSIS_FINAL = 'cp7_analysis_native.build_operational('
+ANALYSIS_RENAME = 'alter function cp7_analysis_native.build(jsonb,jsonb,uuid,jsonb)rename to build_operational'
 
 
 def sql_hash(body):
@@ -112,8 +115,22 @@ end $predecessor_after$;
 """
 
 
+def final_analysis_name(statements):
+    # This routine is new in the analysis section. Create it under its final
+    # name and leave the later wrapper and its callers unchanged.
+    direct = list(statements)
+    if (not direct[2683].startswith('create function ' + ANALYSIS_ORIGINAL)
+            or direct[2700] != 'alter function cp7_analysis_native.build(jsonb,jsonb,uuid,jsonb)owner to cp7_capture'
+            or direct[2727] != ANALYSIS_RENAME):
+        raise ValueError('The original analysis creation, ownership or rename statements changed')
+    for index in (2683, 2700):
+        direct[index] = direct[index].replace(ANALYSIS_ORIGINAL, ANALYSIS_FINAL, 1)
+    direct[2727] = None
+    return direct
+
+
 def section_sources():
-    statements = prelude.statements()
+    statements = final_analysis_name(prelude.statements())
     scopes = {index: key for key, positions in prelude.SCOPES.items() for index in positions}
     if len(scopes) != 81 or PARTS[-1][1] != len(statements):
         raise ValueError('Reviewed predecessor scope or boundaries changed')
@@ -121,12 +138,14 @@ def section_sources():
     start = 0
     for name, end in PARTS:
         section = statements[start:end]
-        new_roles = tuple(sorted(match[1] for statement in section if (match := ROLE_DECLARATION.match(statement))))
+        new_roles = tuple(sorted(match[1] for statement in section
+                                 if statement is not None and (match := ROLE_DECLARATION.match(statement))))
         all_roles = tuple(sorted((*prior, *new_roles)))
         sql = []
         for index, statement in enumerate(section, start + 1):
             scope = scopes.get(index)
-            sql.append(scoped_statement(statement, *scope) if scope else statement + ';')
+            if statement is not None:
+                sql.append(scoped_statement(statement, *scope) if scope else statement + ';')
         yield name, prior, all_roles, '\n'.join(sql) + '\n'
         prior = all_roles
         start = end
@@ -141,6 +160,14 @@ def migrations(repair_sql):
     history = [(foundation.MIGRATION_NAME, sql_hash(foundation.migration()))]
     for part, prior, roles, source in section_sources():
         suffix = ''
+        if part == 'analysis':
+            source = """do $new_analysis_only$
+begin
+  if to_regnamespace('cp7_analysis_native') is not null or to_regnamespace('cp7_analysis_stage') is not null then
+    raise exception 'The analysis schemas must be new in this migration';
+  end if;
+end $new_analysis_only$;
+""" + source
         if part == PARTS[-1][0]:
             suffix = repair_sql + '\n' + foundation.facade_grant(True)
         name = 'enteng_uji_cp7_managed_' + part
