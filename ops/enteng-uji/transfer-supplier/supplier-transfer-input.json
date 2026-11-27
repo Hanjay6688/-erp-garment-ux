@@ -1,0 +1,20 @@
+{
+  "counts_delta": {
+    "columns": 48,
+    "constraints": 23,
+    "functions": 20,
+    "indexes": 9,
+    "policies": 5,
+    "relations": 14,
+    "schemas": 1,
+    "triggers": 22,
+    "type_implementation": 10,
+    "types": 10
+  },
+  "migrations": 157,
+  "name": "enteng_uji_supplier_payment_transfer",
+  "previous_source": "4f3240d8f25578eab0eb929e3c554eadd87f04167fd37bf8ffe9574c08c0b2c0",
+  "prior": "enteng_uji_laundry_failed_wash_pending",
+  "profiles": 5,
+  "statements_sha256": "10fbddacd9e872411d24d8210ba9df295c691fbe8fb31aa39157122586483814"
+}
