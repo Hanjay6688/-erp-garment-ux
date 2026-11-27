@@ -16,6 +16,7 @@ from pglast import split
 
 import cp7_enteng_managed_identity as identity
 import cp7_enteng_managed_change_fence as fence
+import cp7_enteng_managed_foundation_stage as foundation
 import cp7_enteng_managed_wip_foundation as wip
 import cp7_full_owning_install as original
 
@@ -170,8 +171,10 @@ def close_installation_roles(conn, before):
     temporary = {r for r in added if r[1:] == ('postgres', False, True, True)}
     admin = {r for r in added if r[1]!='postgres' and r[2:] == (True, False, False)}
     names = sorted(r[0] for r in temporary)
-    if (not before <= current or added != temporary | admin or len(admin)!=55 or len(names)!=55
-            or names!=sorted(r[0] for r in admin)
+    prior_admin = {r for r in before if r[0] in foundation.ROLES and r[1]!='postgres'
+                   and r[2:] == (True, False, False)}
+    if (not before <= current or added != temporary | admin or len(admin | prior_admin)!=55 or len(names)!=55
+            or names!=sorted(r[0] for r in admin | prior_admin)
             or sha256('\n'.join(names).encode()).hexdigest()!=ROLE_SET_SHA256):
         raise ValueError('Memberships created by the reviewed installation differ')
     for name in names:
@@ -215,20 +218,24 @@ def apply(conn):
                    to_regnamespace('cp7_request_context') is null, to_regrole('cp7_capture') is null
               from pg_roles r where r.rolname=current_user
         """).fetchone()
-        if state[:2] != ('postgres', False) or state[3:] != ('v2.6.20bf', True, True):
-            raise ValueError('This rehearsal starts from the fresh Enteng BF predecessor')
-        guarded = fence.verified_on_baseline(conn, state[2])
+        staged = state[2:] == (140, 'v2.6.20bf', False, False)
+        if state[:2] != ('postgres', False) or (not staged and state[3:] != ('v2.6.20bf', True, True)):
+            raise ValueError('Expected the fresh Enteng BF predecessor or its closed foundation')
+        guarded = fence.verified_on_baseline(conn, state[2] - int(staged))
         with conn.cursor() as cur, (fence.release_transaction(cur) if guarded else nullcontext()):
-            return install_predecessor(conn, guarded)
+            return install_predecessor(conn, guarded, staged=staged)
 
 
-def install_predecessor(conn, guarded):
+def install_predecessor(conn, guarded, *, staged=False):
     original_memberships = memberships(conn)
     parts = statements()
     plan = {index: (schema, role) for (schema, role), positions in SCOPES.items() for index in positions}
     if len(plan)!=81 or sum(map(len, SCOPES.values()))!=81:
         raise ValueError('Managed transfer plan is incomplete')
-    conn.execute(wip.body(), prepare=False)
+    if staged:
+        foundation.reopen(conn)
+    else:
+        conn.execute(wip.body(), prepare=False)
     for index, statement in enumerate(parts, start=1):
         if index in plan:
             execute_scoped(conn, statement, *plan[index])
