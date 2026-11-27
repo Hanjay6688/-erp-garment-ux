@@ -1,0 +1,20 @@
+{
+  "counts_delta": {
+    "columns": 16,
+    "constraints": 6,
+    "functions": 6,
+    "indexes": 4,
+    "policies": 1,
+    "relations": 5,
+    "schemas": 1,
+    "triggers": 1,
+    "type_implementation": 2,
+    "types": 2
+  },
+  "migrations": 156,
+  "name": "enteng_uji_laundry_failed_wash_pending",
+  "previous_source": "e3931312b7fd47e14ef0f3810bc4553af5aec1fa6141854db9f384453c21842e",
+  "prior": "enteng_uji_laundry_vendor_receivable",
+  "profiles": 4,
+  "statements_sha256": "4f3240d8f25578eab0eb929e3c554eadd87f04167fd37bf8ffe9574c08c0b2c0"
+}
