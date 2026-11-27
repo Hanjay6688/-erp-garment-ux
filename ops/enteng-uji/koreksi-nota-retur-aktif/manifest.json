@@ -1,0 +1,19 @@
+{
+  "counts_delta": {
+    "columns": 37,
+    "constraints": 9,
+    "functions": 13,
+    "indexes": 7,
+    "relations": 9,
+    "schemas": 1,
+    "triggers": 7,
+    "type_implementation": 4,
+    "types": 4
+  },
+  "migrations": 163,
+  "name": "enteng_uji_koreksi_nota_retur_aktif",
+  "previous_source": "f28eac51b1919793836f7da84374e5ce9ec3f4f2ebe22bc9c97bd6666a2a3006",
+  "prior": "enteng_uji_nota_koreksi_harga_retur_dibalik",
+  "profiles": 11,
+  "statements_sha256": "a1661171ec23509e294068cf631c0798b953711a480417ae4f9cfbab4fbff7f4"
+}
