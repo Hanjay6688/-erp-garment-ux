@@ -9,6 +9,7 @@ from cp7_ow04_restore_bundle import QUERIES
 CONSUMER = 'enteng_uji_cp7_managed_credit_consumer'
 CORRECTIONS = 'enteng_uji_cp7_managed_credit_corrections'
 ATTENDANCE = 'enteng_uji_cp7_managed_attendance'
+MANDOR = 'enteng_uji_cp7_managed_mandor_shop'
 OW04 = 'enteng_uji_cp7_managed_ow04'
 OW04_SHA256 = '351d48d3ef4adf58812bd0cebd31ff2267cf8d478a90cd782d410f898ae9bc0f'
 IMMUTABLE_CENSUS = 'cp7_credit.assert_source_native_trigger_census_v1()'
@@ -48,7 +49,7 @@ def reference_profile(cur, catalogue):
 
 
 def render(prerequisite, prerequisite_sha, count, before, after, statements):
-    require((prerequisite,count) in ((OW04,147),(CONSUMER,148),(CORRECTIONS,149),(ATTENDANCE,150)),
+    require((prerequisite,count) in ((OW04,147),(CONSUMER,148),(CORRECTIONS,149),(ATTENDANCE,150),(MANDOR,151)),
             'Unexpected managed Enteng Uji release sequence')
     require(len(prerequisite_sha)==64 and len(before)>10 and set(before)<=set(CATALOGUE_GROUPS)
             and len(after)>10 and set(after)<=set(CATALOGUE_GROUPS), 'Incomplete credit application catalogue')
