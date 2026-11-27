@@ -10,6 +10,7 @@ CONSUMER = 'enteng_uji_cp7_managed_credit_consumer'
 CORRECTIONS = 'enteng_uji_cp7_managed_credit_corrections'
 ATTENDANCE = 'enteng_uji_cp7_managed_attendance'
 MANDOR = 'enteng_uji_cp7_managed_mandor_shop'
+WORKFLOWS = 'enteng_uji_cp7_managed_wip_laundry'
 OW04 = 'enteng_uji_cp7_managed_ow04'
 OW04_SHA256 = '351d48d3ef4adf58812bd0cebd31ff2267cf8d478a90cd782d410f898ae9bc0f'
 IMMUTABLE_CENSUS = 'cp7_credit.assert_source_native_trigger_census_v1()'
@@ -49,18 +50,19 @@ def reference_profile(cur, catalogue):
 
 
 def render(prerequisite, prerequisite_sha, count, before, after, statements):
-    require((prerequisite,count) in ((OW04,147),(CONSUMER,148),(CORRECTIONS,149),(ATTENDANCE,150),(MANDOR,151)),
+    require((prerequisite,count) in ((OW04,147),(CONSUMER,148),(CORRECTIONS,149),(ATTENDANCE,150),(MANDOR,151),(WORKFLOWS,152)),
             'Unexpected managed Enteng Uji release sequence')
     require(len(prerequisite_sha)==64 and len(before)>10 and set(before)<=set(CATALOGUE_GROUPS)
             and len(after)>10 and set(after)<=set(CATALOGUE_GROUPS), 'Incomplete credit application catalogue')
     profile = live_profile_sql()
+    version = 'cp8-wip-batch-v1' if prerequisite==WORKFLOWS else 'v2.6.20bf'
     # Pin the original snapshot once more after taking the release lock.
     begin = f"""do $enteng_credit_before$
 declare prior_path text:=current_setting('search_path');prior_zone text:=current_setting('TimeZone');profile jsonb;
 begin
   if current_user<>'postgres' or session_user<>'postgres' or current_setting('is_superuser')<>'off'
      or (select version from erp.schema_migrations order by installed_at desc,version desc limit 1)
-           is distinct from 'v2.6.20bf'
+           is distinct from '{version}'
      or (select count(*) from supabase_migrations.schema_migrations)<>{count}
      or exists(select from auth.users) or exists(select from auth.sessions)
      or (select encode(sha256(convert_to(statements[1],'UTF8')),'hex')
