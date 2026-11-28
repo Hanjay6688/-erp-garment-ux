@@ -74,7 +74,7 @@
 .ux-rapih :is(select, textarea, input, button) { font-family: inherit; }
 
 /* @generated ux-rapih-mirror:start — do not edit by hand; run `npm run gen:ux-rapih` */
-/* 7066 declarations mirrored, 4627 normalised (type scale / visible borders / text contrast). */
+/* 7112 declarations mirrored, 4637 normalised (type scale / visible borders / text contrast). */
 /* cutting-pattern-picker.css */
 .ux-rapih .cutting-pattern-picker{border:1px solid rgba(124,141,255,0.28)}
 .ux-rapih .cutting-pattern-picker>header span{color:#9ca8ff;font-size:var(--fs-xs);font-weight:700}
@@ -1927,6 +1927,37 @@
 .ux-rapih .wip-roll-token-body > .wip-roll-token-code{color:#8a95a7;font-size:var(--fs-xs);font-weight:700;line-height:1.4}
 .ux-rapih .wip-roll-token-actions .roll-batch-quick select{font-size:var(--fs-xs);line-height:1.4}
 .ux-rapih .wip-roll-token-actions .wip-roll-split-btn strong{font-size:var(--fs-xs)}
+/* components/dashboard/dashboard-masthead.css */
+.ux-rapih .summary-mode{border:1px solid var(--line)}
+.ux-rapih .summary-mode > button,.ux-rapih .atelier-toolbar > button{border:1px solid transparent;font:inherit;font-size:.875rem;font-weight:700;line-height:1.4}
+.ux-rapih .summary-mode > button{color:var(--muted)}
+.ux-rapih .summary-mode > button[aria-pressed="true"]{color:var(--text);border-color:var(--control-border, var(--line))}
+.ux-rapih .summary-mode > button:hover{color:var(--text)}
+.ux-rapih .summary-cover[data-view="pixel"] .summary-cover-layout{border:1px solid #49575d}
+.ux-rapih .summary-cover[data-view="pixel"] .hero-copy .eyebrow{color:#a6cebd;font-size:.75rem}
+.ux-rapih .summary-cover[data-view="pixel"] .hero-copy .eyebrow > span{color:#bbcacd}
+.ux-rapih .summary-cover[data-view="pixel"] .hero-copy h1{color:#fbefdb;font-size:clamp(27px, 3.1cqi, 43px)!important;line-height:1.4!important;font-weight:700}
+.ux-rapih .summary-cover[data-view="pixel"] .hero-copy p{color:#c3cfce}
+.ux-rapih .summary-cover[data-view="pixel"] .summary-mode{border-color:#5a6975}
+.ux-rapih .summary-cover[data-view="pixel"] .summary-mode > button{color:#c5cecd}
+.ux-rapih .summary-cover[data-view="pixel"] .summary-mode > button[aria-pressed="true"]{border-color:#ebc28b;color:#382d2e}
+.ux-rapih .atelier-scene{border-left:1px solid #5a6876}
+.ux-rapih .atelier-toolbar{color:#eadfc9}
+.ux-rapih .atelier-toolbar > span{font-size:.875rem;font-weight:700}
+.ux-rapih .atelier-toolbar > span > svg{color:#e3b97e}
+.ux-rapih .atelier-toolbar > button{border-color:#4c5b68;color:#e3e7e1;font-size:.8rem}
+.ux-rapih .atelier-viewport{border-top:1px solid #323a4d}
+.ux-rapih .summary-cover[data-view="pixel"] ~ .kpi-grid > .kpi-card{border-top:2px solid #a89977}
+.ux-rapih .summary-cover[data-view="pixel"] ~ .kpi-grid > .kpi-card:nth-child(2){border-top-color:#77a49b}
+.ux-rapih .summary-cover[data-view="pixel"] ~ .kpi-grid > .kpi-card:nth-child(3){border-top-color:#c29172}
+.ux-rapih .summary-cover[data-view="pixel"] ~ .kpi-grid > .kpi-card:nth-child(4){border-top-color:#a69bb2}
+.ux-rapih .summary-cover[data-view="pixel"] ~ .kpi-grid .kpi-orb{color:transparent;font-size:0rem}
+@container (max-width: 740px){.ux-rapih .atelier-scene{border-left:0;border-top:1px solid #5a6876}}
+@container (max-width: 470px){.ux-rapih .summary-cover[data-view="pixel"] .hero-copy .eyebrow > span{font-size:.7rem}}
+@container (max-width: 470px){.ux-rapih .summary-cover[data-view="pixel"] .hero-copy h1{font-size:1.7rem!important}}
+@media (max-width: 600px){.ux-rapih .summary-cover[data-view="pixel"] ~ .kpi-grid .kpi-label{font-size:.75rem}}
+@media (max-width: 600px){.ux-rapih .summary-cover[data-view="pixel"] ~ .kpi-grid .kpi-value{font-size:clamp(19px, 5.3vw, 26px)!important;line-height:1.4!important}}
+@media (max-width: 600px){.ux-rapih .summary-cover[data-view="pixel"] ~ .kpi-grid .kpi-note{line-height:1.4!important}}
 /* business-pages.css */
 .ux-rapih .biz-hero>div:first-child>span,.ux-rapih .biz-catalog header span,.ux-rapih .biz-invoice-draft>header span,.ux-rapih .biz-history-block>header span,.ux-rapih .biz-master-detail>aside>header span,.ux-rapih .biz-detail-head>div>span,.ux-rapih .biz-ledger>header span,.ux-rapih .biz-performance header span,.ux-rapih .biz-finance-alerts header span,.ux-rapih .biz-action-grid>header span,.ux-rapih .biz-misc-form>header span,.ux-rapih .biz-misc-preview>span,.ux-rapih .biz-report-sheet>header span,.ux-rapih .biz-close-gate>header span{color:#91a0ff;font-size:var(--fs-xs);font-weight:700}
 .ux-rapih .biz-hero h1{font-size:clamp(32px,3.2vw,47px)}
