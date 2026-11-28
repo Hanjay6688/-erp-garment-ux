@@ -3,7 +3,7 @@
   "candidate_branch": "pre-cp5/cutting-persistence-pickup-wip-r1-20260903",
   "source_base_sha": "8bfac13b91ea1be92111139e2fddcabccf9ae19a",
   "source_base_tree": "a9b193010266bb686c57709865a992769a835855",
-  "generation_parent_sha": "5c13abb7d0f87a9ee4854508f6b4766b18b64b63",
+  "generation_parent_sha": "bc2e66e8e48fe801adfe13e07d61d3c6da8393a2",
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
@@ -356,8 +356,8 @@
       "sha256": "9effe9acdf5de935093d7cd71a164a9c04b074133aa9267a8ae4488ebd69482a"
     },
     "playwright.worker-demo.config.ts": {
-      "bytes": 459,
-      "sha256": "cedb62906591c28c867bf140774025a7de3298d48a98229665adaeea0b92e0d9"
+      "bytes": 488,
+      "sha256": "fb516559d60c4abc195a73dd0b26d96b84758d86c201ad970f99aed8b7ccfc80"
     },
     "qualification/cp7c-box-cloud/README.md": {
       "bytes": 4289,
@@ -420,8 +420,8 @@
       "sha256": "9f06b969b41e8aecc74dccdf248002b43d5a9f30e3452221fddf8f1381333b88"
     },
     "src/App.tsx": {
-      "bytes": 218111,
-      "sha256": "7f7dad4decd96c1ef078191618d483a9cf791c36c37edf0a7eab3211b134f58b"
+      "bytes": 218276,
+      "sha256": "5307c4ded2e792b97fadf25e99a824d1e52ac819f3ea22be01989f560fdbceb4"
     },
     "src/BsReworkPage.test.tsx": {
       "bytes": 9099,
@@ -567,6 +567,30 @@
       "bytes": 1911,
       "sha256": "b0b385c531368dbc83e343838f9f2363f2e13e9869cca0615f51c5f10ac4a65a"
     },
+    "src/components/dashboard/DashboardMasthead.tsx": {
+      "bytes": 4021,
+      "sha256": "1b76987576730304f076d2df2e93305401f6c65d23721a3f97fd1f4587dcf452"
+    },
+    "src/components/dashboard/art/benches.png": {
+      "bytes": 1392,
+      "sha256": "e4247faf2a02afcd080e47ae10fb43336949ac83d1f66618db04f31709f1131f"
+    },
+    "src/components/dashboard/art/crew.png": {
+      "bytes": 2154,
+      "sha256": "1521eefac0772d3fd6ac7e2f0edac03d9b7c073539adf8cbf1b3674ccf8b9473"
+    },
+    "src/components/dashboard/art/metrics.png": {
+      "bytes": 847,
+      "sha256": "f9d731e7e705d2234a711f84fc6c3289cd423d491a37335203ec63068c5ca0b4"
+    },
+    "src/components/dashboard/art/workshop.png": {
+      "bytes": 4965,
+      "sha256": "54c994175de7e4e0edebbbd01a44e1d0ca624979c344b77628519e145884d1ef"
+    },
+    "src/components/dashboard/dashboard-masthead.css": {
+      "bytes": 8605,
+      "sha256": "a018a54a02927b53d04b6d403369bd0e9a31971e23f642284d1fa95cffdc876a"
+    },
     "src/config/runtime.test.ts": {
       "bytes": 3794,
       "sha256": "128abc0a4bbce319e9b4d7c92b14f39759f72b8f81bec98f0404c22c6600ace7"
@@ -612,8 +636,8 @@
       "sha256": "bed30f7318bfa111c0176a97b3b91819d89439ea0d43fe8b094d5670e33019ca"
     },
     "src/ux-rapih.css": {
-      "bytes": 354601,
-      "sha256": "660220948af7c970be6673af408d5e85d9ef667af98ce9c4818eba8ca964dd0d"
+      "bytes": 357512,
+      "sha256": "60bf2b0659e3c78755a792c117547eae997c8cbb20c20f93b909d37c29eb7175"
     },
     "src/uxTampilan.test.ts": {
       "bytes": 1555,
@@ -687,6 +711,10 @@
       "bytes": 172514,
       "sha256": "240978716b3c5084b76f95589b7ac35c4a800060c2e3dca74313891ad4f1bcd8"
     },
+    "tests/browser/dashboard-pixel.spec.ts": {
+      "bytes": 3392,
+      "sha256": "1a040395a34c2c877ae56cb52525fbd43e5558957a21970c2a5e4b13f0ba68fb"
+    },
     "tests/fg-quantity.test.ts": {
       "bytes": 1251,
       "sha256": "7a7ff7b2a744eda4011d1a08949d52a8000aa2c0923c2ff993c64183b37aba33"
@@ -736,8 +764,8 @@
       "sha256": "22b1e53c801e6d3415b981cec34ce0245b95e49d3fc95e6ff834f415ed25613a"
     },
     "worker-demo/src/App.tsx": {
-      "bytes": 55741,
-      "sha256": "1a29ecf37a5f29b1787b6a98aa441dc916f2133eb5b227d0b8f50dd54344dad6"
+      "bytes": 55831,
+      "sha256": "355d49180a2368aa4e9769de121ac2cccda854ce395a833b4233f2e7392b22a8"
     },
     "worker-demo/src/AttendanceEntryEditor.tsx": {
       "bytes": 12723,
@@ -1208,8 +1236,8 @@
       "sha256": "b46eff256f90c91116e2df4c95cf73305908e36451f84b3af9240dc6f1187018"
     },
     "worker-demo/src/OwnerDashboard.tsx": {
-      "bytes": 6103,
-      "sha256": "6e76696407c6565a78f2feaed5804def3ffe1f63bb8e29f5c1dbf6322a3ae873"
+      "bytes": 6252,
+      "sha256": "73e9b9c6f98ae035dc3a6d714c7957023d38c93f00f355fe39872b66855bbab3"
     },
     "worker-demo/src/PatternPage.tsx": {
       "bytes": 12719,

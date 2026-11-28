@@ -38,7 +38,6 @@ import type { BusinessMasterView } from './MasterDataPages'
 import type { MaterialMasterView } from './MaterialMasterPages'
 import MobilePrimaryNavigation from './MobilePrimaryNavigation'
 import type { OperationsAdminView } from './OperationsAdminPages'
-import { OwnerDashboard } from './OwnerDashboard'
 import type { QcFinalResult } from './QcFinalPage'
 import { demoReminderKey, initialReminders, readDemoReminders } from './reminders'
 import type { ReminderItem } from './reminders'
@@ -60,6 +59,7 @@ export { MandorWipPage } from './demo/MandorWipPage'
 export { SewingWipPage } from './demo/SewingWipPage'
 export { MovementBookRow } from './demo/StockPages'
 
+const OwnerDashboard = lazy(() => import('./OwnerDashboard'))
 const SalesPages = lazy(() => import('./SalesPages'))
 const ConnectedSalesPage = lazy(() => import('./ConnectedSalesPage'))
 const ConnectedFinanceReportPage = lazy(() => import('./ConnectedFinanceReportPage'))
@@ -511,14 +511,14 @@ function ErpApp() {
       </section>}
       <div className="page-wrap" data-keyboard-scope onKeyDown={handleErgonomicKeyboard}>
         {!(demoAccess || isPageAllowed(accessBundle, page)) ? <AccessDenied permission={PAGE_PERMISSION_BY_ID[page] ?? 'route.unowned'} roleName={identity.status === 'AUTHORIZED' ? identity.profile.roleName : 'Tidak diketahui'} /> : isScreenHidden(runtime.mode, page) ? <ScreenNotConnected label={SCREEN_ACTIVATION[page]?.label ?? title}/> : <>
-        {page === 'dashboard' && <OwnerDashboard
+        {page === 'dashboard' && <Suspense fallback={<WorkspaceFallback label="Ringkasan bisnis"/>}><OwnerDashboard
           connected={runtime.mode !== 'DEMO_SIMULATION'}
           connectedMenus={connectedSections(runtime.mode).filter(section => section !== 'Dashboard' && section !== 'Pengaturan & Audit')}
           reminders={reminders}
           onOpenSales={() => setPage('sales-invoice')}
           onOpenReminders={() => setPage('admin-reminders')}
           onToggleReminder={(id)=>setReminders((current)=>current.map((item)=>item.id===id?{...item,status:item.status==='OPEN'?'DONE':'OPEN',completedAt:item.status==='OPEN'?'Sesi ini':undefined}:item))}
-        />}
+        /></Suspense>}
         {isSalesView(page) && <Suspense fallback={<WorkspaceFallback label="Penjualan"/>}>{page==='sales-history'&&runtime.mode!=='DEMO_SIMULATION'?<ConnectedCustomerHistoryPage/>:runtime.mode!=='DEMO_SIMULATION'&&(page==='sales-invoice'||page==='sales-allocation'||page==='sales-payments'||page==='sales-returns')?<ConnectedSalesPage view={page} initialSaleId={page==='sales-invoice'&&invoiceSourceScope!==null&&invoiceSource?.scope===invoiceSourceScope?invoiceSource.saleId:null}/>:<SalesPages view={page} onNavigate={(next)=>setPage(next)} />}</Suspense>}
         {isFinanceView(page) && <Suspense fallback={<WorkspaceFallback label="Keuangan"/>}>{page === 'finance-overview' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedFinanceOverviewPage onNavigate={(next)=>setPage(next)}/> : page === 'finance-reports' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedFinanceReportPage tab={reportTab} onTab={setReportTab}/> : page === 'finance-cash' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedCashLedgerPage/> : page === 'finance-journal' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedJournalPage/> : page === 'finance-ar' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedReceivablesPage onOpenInvoice={(saleId)=>{if(invoiceSourceScope!==null){setSourceEpoch(value=>value+1);setInvoiceSource({saleId,scope:invoiceSourceScope});setPageState('sales-invoice')}}}/> : page === 'finance-ap' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedSupplierCreditPage onLaundry={()=>setPage('laundry')}/> : page === 'finance-payroll' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedPayrollPage/> : <FinancePages view={page} laundry={laundryDeliveries} updateLaundry={setLaundryDeliveries} onNavigate={(next)=>setPage(next)} onSalesPayment={()=>setPage('sales-payments')} onAttendance={()=>setPage('operations-attendance')} onOpenFg={()=>{setNotaOrigin('PAYROLL');setNotaFocus(null);setPage('fg-handoff')}} />}</Suspense>}
         {page === 'stock-card' && (runtime.mode === 'DEMO_SIMULATION' ? <Suspense fallback={<WorkspaceFallback label="Ringkasan Barang Jadi"/>}><WarehousePages view="fg-summary" onNavigate={setPage}/></Suspense> : <Suspense fallback={<WorkspaceFallback label="Kartu stok FG"/>}><ConnectedFgStockPage purpose="CARD" onOpenMaster={()=>setPage('master-products')}/></Suspense>)}
